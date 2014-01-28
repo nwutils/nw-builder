@@ -1,0 +1,32 @@
+{
+  "name": "node-webkit-builder",
+  "version": "0.0.0",
+  "description": "node-webkit-builder ===================",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mllrsohn/node-webkit-builder.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mllrsohn/node-webkit-builder/issues"
+  },
+  "homepage": "https://github.com/mllrsohn/node-webkit-builder",
+  "devDependencies": {
+    "tape": "~2.3.2",
+    "nock": "~0.27.1"
+  },
+  "dependencies": {
+    "request": "~2.33.0",
+    "lodash": "~2.4.1",
+    "bluebird": "~1.0.0",
+    "temp": "~0.6.0",
+    "tar": "~0.1.19",
+    "plist": "~0.4.3",
+    "nock": "~0.27.2"
+  }
+}
