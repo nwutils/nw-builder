@@ -35,13 +35,29 @@ test('editPlist', function (t) {
 });
 
 test('getFileList', function (t) {
-    t.plan(2);
-    var expected = [ { src: 'test/fixtures/nwapp', dest: 'test/fixtures/nwapp' }, { src: 'test/fixtures/nwapp/images', dest: 'images' }, { src: 'test/fixtures/nwapp/images/imagefile', dest: 'images/imagefile' }, { src: 'test/fixtures/nwapp/javascript', dest: 'javascript' }, { src: 'test/fixtures/nwapp/javascript/bower_packages', dest: 'javascript/bower_packages' }, { src: 'test/fixtures/nwapp/javascript/bower_packages/simple', dest: 'javascript/bower_packages/simple' }, { src: 'test/fixtures/nwapp/javascript/bower_packages/simple/package.json', dest: 'javascript/bower_packages/simple/package.json' }, { src: 'test/fixtures/nwapp/javascript/jsfile', dest: 'javascript/jsfile' }, { src: 'test/fixtures/nwapp/node_modules', dest: 'node_modules' }, { src: 'test/fixtures/nwapp/node_modules/package', dest: 'node_modules/package' }, { src: 'test/fixtures/nwapp/node_modules/package/package.json', dest: 'node_modules/package/package.json' }, { src: 'test/fixtures/nwapp/package.json', dest: 'package.json' } ];
+    t.plan(5);
 
     utils.getFileList('./test/fixtures/nwapp/**').then(function(data) {
         t.equal(data.json, 'test/fixtures/nwapp/package.json', 'figure out the right json');
+        var expected = [ { src: 'test/fixtures/nwapp', dest: 'test/fixtures/nwapp' }, { src: 'test/fixtures/nwapp/images', dest: 'images' }, { src: 'test/fixtures/nwapp/images/imagefile', dest: 'images/imagefile' }, { src: 'test/fixtures/nwapp/javascript', dest: 'javascript' }, { src: 'test/fixtures/nwapp/javascript/bower_packages', dest: 'javascript/bower_packages' }, { src: 'test/fixtures/nwapp/javascript/bower_packages/simple', dest: 'javascript/bower_packages/simple' }, { src: 'test/fixtures/nwapp/javascript/bower_packages/simple/package.json', dest: 'javascript/bower_packages/simple/package.json' }, { src: 'test/fixtures/nwapp/javascript/jsfile', dest: 'javascript/jsfile' }, { src: 'test/fixtures/nwapp/node_modules', dest: 'node_modules' }, { src: 'test/fixtures/nwapp/node_modules/package', dest: 'node_modules/package' }, { src: 'test/fixtures/nwapp/node_modules/package/package.json', dest: 'node_modules/package/package.json' }, { src: 'test/fixtures/nwapp/package.json', dest: 'package.json' } ];
         t.deepEqual(data.files, expected);
     });
+
+    utils.getFileList('./test/fixtures/nwapp/images/**').then(function(data) {
+    }, function (error) {
+        t.equal(error, 'Could not find a package.json in your src folder', 'throw an error if there is no package json');
+    });
+
+    utils.getFileList('./test/fixtures/nwapp/images/*.js').then(function(data) {
+    }, function (error) {
+        t.equal(error, 'No files matching');
+    });
+
+    utils.getFileList(['./test/fixtures/nwapp/**/*', '!./test/fixtures/nwapp/node_modules/**/*',  '!./test/fixtures/nwapp/javascript/**/*']).then(function(data) {
+        var expected = [ { src: 'test/fixtures/nwapp/images', dest: 'images' }, { src: 'test/fixtures/nwapp/images/imagefile', dest: 'images/imagefile' }, { src: 'test/fixtures/nwapp/javascript', dest: 'javascript' }, { src: 'test/fixtures/nwapp/node_modules', dest: 'node_modules' }, { src: 'test/fixtures/nwapp/package.json', dest: 'package.json' } ]
+        t.deepEqual(data.files, expected);
+    });
+
 });
 
 

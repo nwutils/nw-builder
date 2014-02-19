@@ -1,3 +1,8 @@
+// var Glob = require("glob").Glob
+// var mg = new Glob(['test/fixtures/nwapp/**/*']);
+// mg.on('end', function (matches) {
+//     console.log(matches);
+// })
 
 /*
 var utils = {
