@@ -17,16 +17,18 @@
   },
   "homepage": "https://github.com/mllrsohn/node-webkit-builder",
   "devDependencies": {
-    "tape": "~2.3.2",
-    "nock": "~0.27.1"
+    "tape": "~2.4.2",
+    "nock": "~0.27.2"
   },
   "dependencies": {
-    "request": "~2.33.0",
+    "request": "~2.34.0",
     "lodash": "~2.4.1",
-    "bluebird": "~1.0.0",
+    "bluebird": "~1.0.5",
     "temp": "~0.6.0",
     "tar": "~0.1.19",
     "plist": "~0.4.3",
-    "nock": "~0.27.2"
+    "nock": "~0.27.2",
+    "decompress-zip": "0.0.4",
+    "glob": "~3.2.8"
   }
 }

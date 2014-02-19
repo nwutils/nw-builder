@@ -34,5 +34,14 @@ test('editPlist', function (t) {
 
 });
 
+test('getFileList', function (t) {
+    t.plan(2);
+    var expected = [ { src: 'test/fixtures/nwapp', dest: 'test/fixtures/nwapp' }, { src: 'test/fixtures/nwapp/images', dest: 'images' }, { src: 'test/fixtures/nwapp/images/imagefile', dest: 'images/imagefile' }, { src: 'test/fixtures/nwapp/javascript', dest: 'javascript' }, { src: 'test/fixtures/nwapp/javascript/bower_packages', dest: 'javascript/bower_packages' }, { src: 'test/fixtures/nwapp/javascript/bower_packages/simple', dest: 'javascript/bower_packages/simple' }, { src: 'test/fixtures/nwapp/javascript/bower_packages/simple/package.json', dest: 'javascript/bower_packages/simple/package.json' }, { src: 'test/fixtures/nwapp/javascript/jsfile', dest: 'javascript/jsfile' }, { src: 'test/fixtures/nwapp/node_modules', dest: 'node_modules' }, { src: 'test/fixtures/nwapp/node_modules/package', dest: 'node_modules/package' }, { src: 'test/fixtures/nwapp/node_modules/package/package.json', dest: 'node_modules/package/package.json' }, { src: 'test/fixtures/nwapp/package.json', dest: 'package.json' } ];
+
+    utils.getFileList('./test/fixtures/nwapp/**').then(function(data) {
+        t.equal(data.json, 'test/fixtures/nwapp/package.json', 'figure out the right json');
+        t.deepEqual(data.files, expected);
+    });
+});
 
 
