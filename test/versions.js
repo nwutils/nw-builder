@@ -1,5 +1,6 @@
 var test = require('tape'),
-    nock = require('nock');
+    nock = require('nock'),
+    _ = require('lodash');
 
 
 var versions = require('./../lib/versions');
@@ -17,161 +18,20 @@ test('getVersions', function (t) {
 });
 
 test('matchVersions', function (t) {
-    t.plan(1);
+    t.plan(3);
     var expected = {
-        '0.3.3': {
-            win: 'v0.3.3/node-webkit-v0.3.3-win-ia32.zip',
-            osx: 'v0.3.3/node-webkit-v0.3.3-osx-ia32.zip',
-            linux32: 'v0.3.3/node-webkit-v0.3.3-linux-x64.tar.gz',
-            linux64: 'v0.3.3/node-webkit-v0.3.3-linux-ia32.tar.gz'
-        },
-        '0.3.4': {
-            win: 'v0.3.4/node-webkit-v0.3.4-win-ia32.zip',
-            osx: 'v0.3.4/node-webkit-v0.3.4-osx-ia32.zip',
-            linux32: 'v0.3.4/node-webkit-v0.3.4-linux-x64.tar.gz',
-            linux64: 'v0.3.4/node-webkit-v0.3.4-linux-ia32.tar.gz'
-        },
-        '0.3.5': {
-            win: 'v0.3.5/node-webkit-v0.3.5-win-ia32.zip',
-            osx: 'v0.3.5/node-webkit-v0.3.5-osx-ia32.zip',
-            linux32: 'v0.3.5/node-webkit-v0.3.5-linux-x64.tar.gz',
-            linux64: 'v0.3.5/node-webkit-v0.3.5-linux-ia32.tar.gz'
-        },
-        '0.3.6': {
-            win: 'v0.3.6/node-webkit-v0.3.6-win-ia32.zip',
-            osx: 'v0.3.6/node-webkit-v0.3.6-osx-ia32.zip',
-            linux32: 'v0.3.6/node-webkit-v0.3.6-linux-x64.tar.gz',
-            linux64: 'v0.3.6/node-webkit-v0.3.6-linux-ia32.tar.gz'
-        },
-        '0.3.7': {
-            win: 'v0.3.7/node-webkit-v0.3.7-win-ia32.zip',
-            osx: 'v0.3.7/node-webkit-v0.3.7-osx-ia32.zip',
-            linux32: 'v0.3.7/node-webkit-v0.3.7-linux-x64.tar.gz',
-            linux64: 'v0.3.7/node-webkit-v0.3.7-linux-ia32.tar.gz'
-        },
-        '0.4.0': {
-            win: 'v0.4.0/node-webkit-v0.4.0-win-ia32.zip',
-            osx: 'v0.4.0/node-webkit-v0.4.0-osx-ia32.zip',
-            linux32: 'v0.4.0/node-webkit-v0.4.0-linux-x64.tar.gz',
-            linux64: 'v0.4.0/node-webkit-v0.4.0-linux-ia32.tar.gz'
-        },
-        '0.4.1': {
-            win: 'v0.4.1/node-webkit-v0.4.1-win-ia32.zip',
-            osx: 'v0.4.1/node-webkit-v0.4.1-osx-ia32.zip',
-            linux32: 'v0.4.1/node-webkit-v0.4.1-linux-x64.tar.gz',
-            linux64: 'v0.4.1/node-webkit-v0.4.1-linux-ia32.tar.gz'
-        },
-        '0.4.2': {
-            win: 'v0.4.2/node-webkit-v0.4.2-win-ia32.zip',
-            osx: 'v0.4.2/node-webkit-v0.4.2-osx-ia32.zip',
-            linux32: 'v0.4.2/node-webkit-v0.4.2-linux-x64.tar.gz',
-            linux64: 'v0.4.2/node-webkit-v0.4.2-linux-ia32.tar.gz'
-        },
-        '0.5.0': {
-            win: 'v0.5.0/node-webkit-v0.5.0-win-ia32.zip',
-            osx: 'v0.5.0/node-webkit-v0.5.0-osx-ia32.zip',
-            linux32: 'v0.5.0/node-webkit-v0.5.0-linux-x64.tar.gz',
-            linux64: 'v0.5.0/node-webkit-v0.5.0-linux-ia32.tar.gz'
-        },
-        '0.5.1': {
-            win: 'v0.5.1/node-webkit-v0.5.1-win-ia32.zip',
-            osx: 'v0.5.1/node-webkit-v0.5.1-osx-ia32.zip',
-            linux32: 'v0.5.1/node-webkit-v0.5.1-linux-x64.tar.gz',
-            linux64: 'v0.5.1/node-webkit-v0.5.1-linux-ia32.tar.gz'
-        },
-        '0.6.0': {
-            win: 'v0.6.0/node-webkit-v0.6.0-win-ia32.zip',
-            osx: 'v0.6.0/node-webkit-v0.6.0-osx-ia32.zip',
-            linux32: 'v0.6.0/node-webkit-v0.6.0-linux-x64.tar.gz',
-            linux64: 'v0.6.0/node-webkit-v0.6.0-linux-ia32.tar.gz'
-        },
-        '0.6.1': {
-            win: 'v0.6.1/node-webkit-v0.6.1-win-ia32.zip',
-            osx: 'v0.6.1/node-webkit-v0.6.1-osx-ia32.zip',
-            linux32: 'v0.6.1/node-webkit-v0.6.1-linux-x64.tar.gz',
-            linux64: 'v0.6.1/node-webkit-v0.6.1-linux-ia32.tar.gz'
-        },
-        '0.6.2': {
-            win: 'v0.6.2/node-webkit-v0.6.2-win-ia32.zip',
-            osx: 'v0.6.2/node-webkit-v0.6.2-osx-ia32.zip',
-            linux32: 'v0.6.2/node-webkit-v0.6.2-linux-x64.tar.gz',
-            linux64: 'v0.6.2/node-webkit-v0.6.2-linux-ia32.tar.gz'
-        },
-        '0.6.3': {
-            win: 'v0.6.3/node-webkit-v0.6.3-win-ia32.zip',
-            osx: 'v0.6.3/node-webkit-v0.6.3-osx-ia32.zip',
-            linux32: 'v0.6.3/node-webkit-v0.6.3-linux-x64.tar.gz',
-            linux64: 'v0.6.3/node-webkit-v0.6.3-linux-ia32.tar.gz'
-        },
-        '0.7.0': {
-            win: 'v0.7.0/node-webkit-v0.7.0-win-ia32.zip',
-            osx: 'v0.7.0/node-webkit-v0.7.0-osx-ia32.zip',
-            linux32: 'v0.7.0/node-webkit-v0.7.0-linux-x64.tar.gz',
-            linux64: 'v0.7.0/node-webkit-v0.7.0-linux-ia32.tar.gz'
-        },
-        '0.7.1': {
-            win: 'v0.7.1/node-webkit-v0.7.1-win-ia32.zip',
-            osx: 'v0.7.1/node-webkit-v0.7.1-osx-ia32.zip',
-            linux32: 'v0.7.1/node-webkit-v0.7.1-linux-x64.tar.gz',
-            linux64: 'v0.7.1/node-webkit-v0.7.1-linux-ia32.tar.gz'
-        },
-        '0.7.2': {
-            win: 'v0.7.2/node-webkit-v0.7.2-win-ia32.zip',
-            osx: 'v0.7.2/node-webkit-v0.7.2-osx-ia32.zip',
-            linux32: 'v0.7.2/node-webkit-v0.7.2-linux-x64.tar.gz',
-            linux64: 'v0.7.2/node-webkit-v0.7.2-linux-ia32.tar.gz'
-        },
-        '0.7.3': {
-            win: 'v0.7.3/node-webkit-v0.7.3-win-ia32.zip',
-            osx: 'v0.7.3/node-webkit-v0.7.3-osx-ia32.zip',
-            linux32: 'v0.7.3/node-webkit-v0.7.3-linux-x64.tar.gz',
-            linux64: 'v0.7.3/node-webkit-v0.7.3-linux-ia32.tar.gz'
-        },
-        '0.7.4': {
-            win: 'v0.7.4/node-webkit-v0.7.4-win-ia32.zip',
-            osx: 'v0.7.4/node-webkit-v0.7.4-osx-ia32.zip',
-            linux32: 'v0.7.4/node-webkit-v0.7.4-linux-x64.tar.gz',
-            linux64: 'v0.7.4/node-webkit-v0.7.4-linux-ia32.tar.gz'
-        },
-        '0.7.5': {
-            win: 'v0.7.5/node-webkit-v0.7.5-win-ia32.zip',
-            osx: 'v0.7.5/node-webkit-v0.7.5-osx-ia32.zip',
-            linux32: 'v0.7.5/node-webkit-v0.7.5-linux-x64.tar.gz',
-            linux64: 'v0.7.5/node-webkit-v0.7.5-linux-ia32.tar.gz'
-        },
-        '0.8.0': {
-            win: 'v0.8.0/node-webkit-v0.8.0-win-ia32.zip',
-            osx: 'v0.8.0/node-webkit-v0.8.0-osx-ia32.zip',
-            linux32: 'v0.8.0/node-webkit-v0.8.0-linux-x64.tar.gz',
-            linux64: 'v0.8.0/node-webkit-v0.8.0-linux-ia32.tar.gz'
-        },
-        '0.8.1': {
-            win: 'v0.8.1/node-webkit-v0.8.1-win-ia32.zip',
-            osx: 'v0.8.1/node-webkit-v0.8.1-osx-ia32.zip',
-            linux32: 'v0.8.1/node-webkit-v0.8.1-linux-x64.tar.gz',
-            linux64: 'v0.8.1/node-webkit-v0.8.1-linux-ia32.tar.gz'
-        },
-        '0.8.2': {
-            win: 'v0.8.2/node-webkit-v0.8.2-win-ia32.zip',
-            osx: 'v0.8.2/node-webkit-v0.8.2-osx-ia32.zip',
-            linux32: 'v0.8.2/node-webkit-v0.8.2-linux-x64.tar.gz',
-            linux64: 'v0.8.2/node-webkit-v0.8.2-linux-ia32.tar.gz'
-        },
-        '0.8.3': {
-            win: 'v0.8.3/node-webkit-v0.8.3-win-ia32.zip',
-            osx: 'v0.8.3/node-webkit-v0.8.3-osx-ia32.zip',
-            linux32: 'v0.8.3/node-webkit-v0.8.3-linux-x64.tar.gz',
-            linux64: 'v0.8.3/node-webkit-v0.8.3-linux-ia32.tar.gz'
-        },
-        '0.8.4': {
-            win: 'v0.8.4/node-webkit-v0.8.4-win-ia32.zip',
-            osx: 'v0.8.4/node-webkit-v0.8.4-osx-ia32.zip',
-            linux32: 'v0.8.4/node-webkit-v0.8.4-linux-x64.tar.gz',
-            linux64: 'v0.8.4/node-webkit-v0.8.4-linux-ia32.tar.gz'
-        }
+        win: 'v0.8.4/node-webkit-v0.8.4-win-ia32.zip',
+        osx: 'v0.8.4/node-webkit-v0.8.4-osx-ia32.zip',
+        linux32: 'v0.8.4/node-webkit-v0.8.4-linux-x64.tar.gz',
+        linux64: 'v0.8.4/node-webkit-v0.8.4-linux-ia32.tar.gz'
     };
 
     var actual = versions.matchVersions(xmlFixture);
-    t.deepEqual(actual, expected);
+    var latest = _.findWhere(actual, {'version': '0.8.4'});
+    var first = _.first(actual);
+
+    t.equal(actual.length, 25, 'match all version');
+    t.equal(first.version, '0.3.3');
+    t.deepEqual(latest.plattforms, expected);
 
 });

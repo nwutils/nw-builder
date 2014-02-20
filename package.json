@@ -29,6 +29,7 @@
     "plist": "~0.4.3",
     "nock": "~0.27.2",
     "decompress-zip": "0.0.4",
-    "simple-glob": "~0.1.0"
+    "simple-glob": "~0.1.0",
+    "inherits": "~2.0.1"
   }
 }

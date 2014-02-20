@@ -1,3 +1,26 @@
+var NwBuilder = require('./lib');
+
+var nw = new NwBuilder({
+        files: '/**/',
+        appName: false,
+        appVerson: false,
+        plattforms: 'win',
+        version: 'lastest',
+        buildDir: './build',
+        cacheDir: './cache',
+        downloadUrl: 'https://s3.amazonaws.com/node-webkit/',
+        buildType: 'default', // timestamped
+        forceDownload: false,
+        macCredits: false,
+        macIcns: false,
+        macZip: false,
+        macPlist: false
+});
+
+nw.build(function (err, status) {
+    // body...
+});
+
 // var Glob = require("glob").Glob
 // var mg = new Glob(['test/fixtures/nwapp/**/*']);
 // mg.on('end', function (matches) {
