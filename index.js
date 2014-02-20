@@ -1,20 +1,11 @@
 var NwBuilder = require('./lib');
 
 var nw = new NwBuilder({
-        files: '/**/',
-        appName: false,
-        appVerson: false,
-        plattforms: 'win',
-        version: 'lastest',
-        buildDir: './build',
-        cacheDir: './cache',
-        downloadUrl: 'https://s3.amazonaws.com/node-webkit/',
-        buildType: 'default', // timestamped
-        forceDownload: false,
-        macCredits: false,
-        macIcns: false,
-        macZip: false,
-        macPlist: false
+    files: './test/fixtures/nwapp/**'
+});
+
+nw.on('log', function (msg) {
+    console.log(msg);
 });
 
 nw.build(function (err, status) {

@@ -21,6 +21,32 @@ test('Throw plattforms', function (t) {
 });
 
 
+test('Should check if we have some files', function (t) {
+    t.plan(2);
+
+    var x = new NwBuilder({
+        files: './test/fixtures/nwapp/**/*',
+    });
+
+    x.checkFiles().then(function (data) {
+        t.equal(x._json, 'test/fixtures/nwapp/package.json');
+        t.equal(x._files.length, 11);
+    });
+});
+
+test('Should check if we have some files: rejection', function (t) {
+    t.plan(1);
+
+    var x = new NwBuilder({
+        files: './test/fixtures/nwapp/images/**',
+    });
+
+    x.checkFiles().catch(function (error) {
+        t.equal(error, 'Could not find a package.json in your src folder');
+    });
+
+});
+
 
 test('Should check the version', function (t) {
     t.plan(2);
@@ -31,7 +57,7 @@ test('Should check the version', function (t) {
         downloadUrl: 'https://amazon.s3.nw.com/xml'
     });
 
-    x.checkFiles().then(function (data) {
+    x.checkVersions().then(function (data) {
         t.equal(x._version.version, '0.8.4');
     });
 
@@ -40,3 +66,4 @@ test('Should check the version', function (t) {
     });
 
 });
+
