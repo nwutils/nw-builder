@@ -6,16 +6,18 @@ var utils = require('./../lib/utils');
 
 test('getPackageInfo invalid', function (t) {
     t.plan(1);
-    t.throws(function() {
-        utils.getPackageInfo('./test/fixtures/invalid.json');
-    }, 'throw error on invalid json');
+    utils.getPackageInfo('./test/fixtures/invalid.json').catch(function (error) {
+        t.ok(error);
+    });
 });
 
 test('getPackageInfo valid', function (t) {
     t.plan(2);
-    var pkg = utils.getPackageInfo('./test/fixtures/nwapp/package.json');
-    t.equal(pkg.name, 'nw-demo', 'get package name');
-    t.equal(pkg.version, '0.1.0', 'get package version');
+    var pkg = utils.getPackageInfo('./test/fixtures/nwapp/package.json').then(function (pkg) {
+        t.equal(pkg.name, 'nw-demo', 'get package name');
+        t.equal(pkg.version, '0.1.0', 'get package version');
+    });
+
 });
 
 test('editPlist', function (t) {
@@ -38,6 +40,7 @@ test('getFileList', function (t) {
     t.plan(5);
 
     utils.getFileList('./test/fixtures/nwapp/**').then(function(data) {
+        console.log(data.json);
         t.equal(data.json, 'test/fixtures/nwapp/package.json', 'figure out the right json');
         var expected = [ { src: 'test/fixtures/nwapp', dest: 'test/fixtures/nwapp' }, { src: 'test/fixtures/nwapp/images', dest: 'images' }, { src: 'test/fixtures/nwapp/images/imagefile', dest: 'images/imagefile' }, { src: 'test/fixtures/nwapp/javascript', dest: 'javascript' }, { src: 'test/fixtures/nwapp/javascript/bower_packages', dest: 'javascript/bower_packages' }, { src: 'test/fixtures/nwapp/javascript/bower_packages/simple', dest: 'javascript/bower_packages/simple' }, { src: 'test/fixtures/nwapp/javascript/bower_packages/simple/package.json', dest: 'javascript/bower_packages/simple/package.json' }, { src: 'test/fixtures/nwapp/javascript/jsfile', dest: 'javascript/jsfile' }, { src: 'test/fixtures/nwapp/node_modules', dest: 'node_modules' }, { src: 'test/fixtures/nwapp/node_modules/package', dest: 'node_modules/package' }, { src: 'test/fixtures/nwapp/node_modules/package/package.json', dest: 'node_modules/package/package.json' }, { src: 'test/fixtures/nwapp/package.json', dest: 'package.json' } ];
         t.deepEqual(data.files, expected);

@@ -8,9 +8,10 @@ nw.on('log', function (msg) {
     console.log(msg);
 });
 
-nw.build(function (err, status) {
-    // body...
-});
+nw.build().catch(function (error) {
+    console.log(error);
+})
+
 
 // var Glob = require("glob").Glob
 // var mg = new Glob(['test/fixtures/nwapp/**/*']);

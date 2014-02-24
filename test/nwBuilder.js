@@ -29,7 +29,7 @@ test('Should check if we have some files', function (t) {
     });
 
     x.checkFiles().then(function (data) {
-        t.equal(x._json, 'test/fixtures/nwapp/package.json');
+        t.deepEqual(x._appPkg, {"name":"nw-demo","version":"0.1.0"});
         t.equal(x._files.length, 11);
     });
 });
