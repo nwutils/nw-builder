@@ -1,7 +1,7 @@
 var NwBuilder = require('./lib');
 
 var nw = new NwBuilder({
-    files: './test/fixtures/nwapp/**'
+    files: './test/fixtures/nwapp/**/*'
 });
 
 nw.on('log', function (msg) {

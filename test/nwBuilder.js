@@ -30,7 +30,7 @@ test('Should check if we have some files', function (t) {
 
     x.checkFiles().then(function (data) {
         t.deepEqual(x._appPkg, {"name":"nw-demo","version":"0.1.0"});
-        t.equal(x._files.length, 11);
+        t.equal(x._files.length, 5);
     });
 });
 
@@ -66,4 +66,32 @@ test('Should check the version', function (t) {
     });
 
 });
+
+
+test('Should not zip mac apps by default', function (t) {
+    t.plan(1);
+
+    var x = new NwBuilder({ files: './test/fixtures/nwapp/**/*', plattforms: 'osx' });
+    x.zipAppFiles().then(function () {
+        t.notOk(x._needsZip);
+    });
+
+});
+
+
+test('Should zip the app files if macZip is true or the plattform is win, linux32 or linux64', function (t) {
+    t.plan(2);
+
+    var x = new NwBuilder({ files: './test/fixtures/nwapp/**/*' });
+    x.zipAppFiles().then(function () {
+        t.ok(x._needsZip);
+    });
+
+    var y = new NwBuilder({ files: './test/fixtures/nwapp/**/*', plattforms: 'osx', macZip:true });
+    y.zipAppFiles().then(function () {
+        t.ok(y._needsZip);
+    });
+
+});
+
 

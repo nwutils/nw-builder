@@ -2,7 +2,9 @@ var test = require('tape');
 var temp = require('temp');
 var fs = require('fs');
 var utils = require('./../lib/utils');
-
+var DecompressZip = require('decompress-zip');
+var _ = require('lodash');
+var EventEmitter = require('events').EventEmitter;
 
 test('getPackageInfo invalid', function (t) {
     t.plan(1);
@@ -40,9 +42,23 @@ test('getFileList', function (t) {
     t.plan(5);
 
     utils.getFileList('./test/fixtures/nwapp/**').then(function(data) {
-        console.log(data.json);
         t.equal(data.json, 'test/fixtures/nwapp/package.json', 'figure out the right json');
-        var expected = [ { src: 'test/fixtures/nwapp', dest: 'test/fixtures/nwapp' }, { src: 'test/fixtures/nwapp/images', dest: 'images' }, { src: 'test/fixtures/nwapp/images/imagefile', dest: 'images/imagefile' }, { src: 'test/fixtures/nwapp/javascript', dest: 'javascript' }, { src: 'test/fixtures/nwapp/javascript/bower_packages', dest: 'javascript/bower_packages' }, { src: 'test/fixtures/nwapp/javascript/bower_packages/simple', dest: 'javascript/bower_packages/simple' }, { src: 'test/fixtures/nwapp/javascript/bower_packages/simple/package.json', dest: 'javascript/bower_packages/simple/package.json' }, { src: 'test/fixtures/nwapp/javascript/jsfile', dest: 'javascript/jsfile' }, { src: 'test/fixtures/nwapp/node_modules', dest: 'node_modules' }, { src: 'test/fixtures/nwapp/node_modules/package', dest: 'node_modules/package' }, { src: 'test/fixtures/nwapp/node_modules/package/package.json', dest: 'node_modules/package/package.json' }, { src: 'test/fixtures/nwapp/package.json', dest: 'package.json' } ];
+        var expected = [{
+            "src": "test/fixtures/nwapp/images/imagefile.img",
+            "dest": "images/imagefile.img"
+        }, {
+            "src": "test/fixtures/nwapp/javascript/bower_packages/simple/package.json",
+            "dest": "javascript/bower_packages/simple/package.json"
+        }, {
+            "src": "test/fixtures/nwapp/javascript/jsfile.js",
+            "dest": "javascript/jsfile.js"
+        }, {
+            "src": "test/fixtures/nwapp/node_modules/package/package.json",
+            "dest": "node_modules/package/package.json"
+        }, {
+            "src": "test/fixtures/nwapp/package.json",
+            "dest": "package.json"
+        }];
         t.deepEqual(data.files, expected);
     });
 
@@ -57,10 +73,49 @@ test('getFileList', function (t) {
     });
 
     utils.getFileList(['./test/fixtures/nwapp/**/*', '!./test/fixtures/nwapp/node_modules/**/*',  '!./test/fixtures/nwapp/javascript/**/*']).then(function(data) {
-        var expected = [ { src: 'test/fixtures/nwapp/images', dest: 'images' }, { src: 'test/fixtures/nwapp/images/imagefile', dest: 'images/imagefile' }, { src: 'test/fixtures/nwapp/javascript', dest: 'javascript' }, { src: 'test/fixtures/nwapp/node_modules', dest: 'node_modules' }, { src: 'test/fixtures/nwapp/package.json', dest: 'package.json' } ]
+        var expected = [{
+            "src": "test/fixtures/nwapp/images/imagefile.img",
+            "dest": "images/imagefile.img"
+        }, {
+            "src": "test/fixtures/nwapp/package.json",
+            "dest": "package.json"
+        }];
         t.deepEqual(data.files, expected);
     });
 
 });
 
+test('should zip the app and create the app.nw file + log it', function (t) {
+    t.plan(6);
 
+    var files = [{
+        "src": "test/fixtures/nwapp/images/imagefile.img",
+        "dest": "images/imagefile.img"
+    }, {
+        "src": "test/fixtures/nwapp/javascript/bower_packages/simple/package.json",
+        "dest": "javascript/bower_packages/simple/package.json"
+    }, {
+        "src": "test/fixtures/nwapp/javascript/jsfile.js",
+        "dest": "javascript/jsfile.js"
+    }, {
+        "src": "test/fixtures/nwapp/node_modules/package/package.json",
+        "dest": "node_modules/package/package.json"
+    }, {
+        "src": "test/fixtures/nwapp/package.json",
+        "dest": "package.json"
+    }], expected = _.pluck(files, 'dest');
+
+    var _evt = new EventEmitter();
+    _evt.on('log', function (logging) {
+        t.ok(logging, 'LOG: ' + logging);
+    });
+
+    utils.generateZipFile(files, _evt).then(function(nwfile) {
+        var unzipper = new DecompressZip(nwfile);
+        unzipper.on('list', function (files) {
+            t.deepEqual(expected, files);
+        });
+        unzipper.list();
+    });
+
+});
