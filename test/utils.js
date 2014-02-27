@@ -47,6 +47,9 @@ test('getFileList', function (t) {
             "src": "test/fixtures/nwapp/images/imagefile.img",
             "dest": "images/imagefile.img"
         }, {
+            "src": "test/fixtures/nwapp/index.html",
+            "dest": "index.html"
+        }, {
             "src": "test/fixtures/nwapp/javascript/bower_packages/simple/package.json",
             "dest": "javascript/bower_packages/simple/package.json"
         }, {
@@ -76,6 +79,9 @@ test('getFileList', function (t) {
         var expected = [{
             "src": "test/fixtures/nwapp/images/imagefile.img",
             "dest": "images/imagefile.img"
+        }, {
+            "src": "test/fixtures/nwapp/index.html",
+            "dest": "index.html"
         }, {
             "src": "test/fixtures/nwapp/package.json",
             "dest": "package.json"
