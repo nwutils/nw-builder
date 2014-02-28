@@ -26,14 +26,16 @@ test('editPlist', function (t) {
     t.plan(1);
     temp.open('plstest', function(err, info) {
         utils.editPlist('./test/fixtures/Info.plist', info.path, {
-            app_name: 'TestApp',
-            app_version: '1.3.3.7',
+            appName: 'TestApp',
+            appVersion: '1.3.3.7',
             copyright: '(c) by me'
+        }).then(function () {
+            var acctual = fs.readFileSync(info.path);
+            var expected = fs.readFileSync('./test/expected/Info.plist');
+            t.equal(acctual.toString(), expected.toString(), 'generate and write a valid plist file');
+            t.end();
         });
-        var acctual = fs.readFileSync(info.path);
-        var expected = fs.readFileSync('./test/expected/Info.plist');
-        t.equal(acctual.toString(), expected.toString(), 'generate and write a valid plist file');
-        t.end();
+
     });
 
 });
@@ -122,6 +124,24 @@ test('should zip the app and create the app.nw file + log it', function (t) {
             t.deepEqual(expected, files);
         });
         unzipper.list();
+    });
+
+});
+
+test('mergeFiles', function (t) {
+    t.plan(2);
+
+    var releasefile = temp.openSync();
+    fs.writeFileSync(releasefile.path, 'A');
+
+    var zipFile = temp.openSync();
+    fs.writeFileSync(zipFile.path, 'B');
+
+    utils.mergeFiles(releasefile.path, zipFile.path, '0755').then(function() {
+        var contents = fs.readFileSync(releasefile.path);
+        var stats = fs.lstatSync(releasefile.path);
+        t.equal(contents.toString(), 'AB', 'merge two files');
+        t.equal(stats.mode.toString(8), '100755', 'fix the permission');
     });
 
 });

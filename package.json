@@ -32,6 +32,7 @@
     "simple-glob": "~0.1.0",
     "inherits": "~2.0.1",
     "fs-extra": "~0.8.1",
-    "archiver": "~0.6.1"
+    "archiver": "~0.6.1",
+    "nw-gyp": "~0.12.2"
   }
 }
