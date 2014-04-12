@@ -54,7 +54,7 @@ test('Should check the version', function (t) {
     nock(baseUrl).get('/xml').reply(200, xmlFixture);
     var x = new NwBuilder({
         files: '**',
-        downloadUrl: 'https://amazon.s3.nw.com/xml'
+        versionsUrl: 'https://amazon.s3.nw.com/xml'
     });
 
     x.checkVersions().then(function (data) {
