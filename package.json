@@ -1,7 +1,7 @@
 {
   "name": "node-webkit-builder",
   "version": "0.0.1",
-  "description": "node-webkit-builder ===================",
+  "description": "node-webkit-builder",
   "main": "index.js",
   "scripts": {
     "test": "tape test/*.js"
