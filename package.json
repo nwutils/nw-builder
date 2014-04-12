@@ -10,7 +10,10 @@
     "type": "git",
     "url": "git://github.com/mllrsohn/node-webkit-builder.git"
   },
-  "author": "",
+  "bin": {
+    "nwbuild": "./bin/nwbuild"
+  },
+  "author": "Steffen Müller",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mllrsohn/node-webkit-builder/issues"
@@ -32,6 +35,8 @@
     "inherits": "~2.0.1",
     "fs-extra": "~0.8.1",
     "archiver": "~0.8.1",
-    "tar-fs": "^0.3.2"
+    "tar-fs": "^0.3.2",
+    "optimist": "^0.6.1",
+    "update-notifier": "^0.1.8"
   }
 }
