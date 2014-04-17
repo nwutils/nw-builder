@@ -13,11 +13,11 @@ test('Throw files', function (t) {
     }, 'Check for files');
 });
 
-test('Throw plattforms', function (t) {
+test('Throw platforms', function (t) {
     t.plan(1);
     t.throws(function () {
-        new NwBuilder({'plattforms':null});
-    }, 'Check for plattforms');
+        new NwBuilder({'platforms':null});
+    }, 'Check for platforms');
 });
 
 
@@ -71,7 +71,7 @@ test('Should check the version', function (t) {
 test('Should not zip mac apps by default', function (t) {
     t.plan(1);
 
-    var x = new NwBuilder({ files: './test/fixtures/nwapp/**/*', plattforms: 'osx' });
+    var x = new NwBuilder({ files: './test/fixtures/nwapp/**/*', platforms: 'osx' });
     x.zipAppFiles().then(function () {
         t.notOk(x._needsZip);
     });

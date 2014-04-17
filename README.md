@@ -28,7 +28,7 @@ Yes, there is also a [Grunt Plugin](https://github.com/mllrsohn/grunt-node-webki
 Usage: nwbuild [options] [path]
 
 Options:
-  -p, --plattforms     Plattforms to build, comma-sperated, can be: win,osx,linux32,linux64  [default: "osx,win"]
+  -p, --platforms      Platforms to build, comma-sperated, can be: win,osx,linux32,linux64   [default: "osx,win"]
   -v, --version        The nw version, eg. 0.8.4                                             [default: "latest"]
   -o, --buildDir       The build folder                                                      [default: "./build"]
   -f, --forceDownload  Force download of node-webkit                                         [default: false]
@@ -43,7 +43,7 @@ Or use the module:
 var NwBuilder = require('node-webkit-builder');
 var nw = new NwBuilder({
     files: './path/to/nwfiles/**/**', // use the glob format
-    plattforms: ['win','osx']
+    platforms: ['win','osx']
 });
 
 // Log stuff you you want
@@ -78,11 +78,11 @@ Default value: `'lastest'`
 
 The version of node-webkit you want to use. Per default it looks up the lastest version. [Here is a list](https://github.com/rogerwang/node-webkit/wiki/Downloads-of-old-versions) of all available releases
 
-#### options.plattforms
+#### options.platforms
 Type: `Array`  
 Default value: `['win' ,'osx']`
 
-The Plattforms you want to build. Can be `['win','osx', 'linux32', 'linux64']`
+The platforms you want to build. Can be `['win','osx', 'linux32', 'linux64']`
 
 #### options.appName
 Type: `String`  
