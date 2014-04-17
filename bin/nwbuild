@@ -55,6 +55,7 @@ if (notifier.update) {
 var files = argv._[0];
 if(!files) {
     console.error('Please specify the path to the node-webkit app you want to build');
+    optimist.showHelp();
     process.exit(0);
 }
 
