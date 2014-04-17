@@ -1,3 +1,6 @@
+.idea
+*.iml
+
 lib-cov
 *.seed
 *.log

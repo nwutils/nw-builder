@@ -32,6 +32,6 @@ test('matchVersions', function (t) {
 
     t.equal(actual.length, 25, 'match all version');
     t.equal(first.version, '0.3.3');
-    t.deepEqual(latest.plattforms, expected);
+    t.deepEqual(latest.platforms, expected);
 
 });
