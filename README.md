@@ -10,12 +10,12 @@
 
 ##### Local
 ```shell
-npm install node-webkit-builder --save-dev
+npm install --save-dev node-webkit-builder
 ```
 
 ##### Global
 ```shell
-npm install node-webkit-builder --g
+npm install -g node-webkit-builder
 ```
 
 ##### Grunt and Gulp Plugins
