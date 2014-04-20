@@ -164,6 +164,7 @@ WINDOWS ONLY: The path to your ICO icon file. If your don't provide your own it 
 - Test it on Linux and Windows
 
 ## Release History
+- 2014-04-20    Added run option, bug fixes
 - 2014-04-13    Preview Release
 ## License
 
