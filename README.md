@@ -57,7 +57,7 @@ nw.build().then(function () {
 });
 
 // And supports callbacks
-nw.build(funtion(err) {
+nw.build(function(err) {
     if(err) console.log(err);
 })
 
@@ -149,6 +149,12 @@ Type: `String`
 Default value: `false`  
 
 MAC ONLY: if you supply a string to a Plist file it will use it. Otherwise it will generate something usefull from your package.json
+
+#### options.winIco
+Type: `String`  
+Default value: `null`  
+
+WINDOWS ONLY: The path to your ICO icon file. If your don't provide your own it will use the one provided by node-webkit
 
 
 ## To Do:
