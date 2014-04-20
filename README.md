@@ -30,12 +30,15 @@ Usage: nwbuild [options] [path]
 Options:
   -p, --platforms      Platforms to build, comma-sperated, can be: win,osx,linux32,linux64   [default: "osx,win"]
   -v, --version        The nw version, eg. 0.8.4                                             [default: "latest"]
+  -r, --run            Runs node-webkit for the current plattform                            [default: false]  
   -o, --buildDir       The build folder                                                      [default: "./build"]
   -f, --forceDownload  Force download of node-webkit                                         [default: false]
   -c, --checkVersions  Disables checking versions, usefull when working offline              [default: true]
   --quite              Disables logging                                                      [default: false]
 
 ```
+#### Run node-webkit
+During development you can run node-webkit with `nwbuild -r path/to/your/younwapp/`
 
 Or use the module:
 
