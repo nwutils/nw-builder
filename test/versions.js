@@ -20,12 +20,11 @@ test('getVersions', function (t) {
 test('matchVersions', function (t) {
     t.plan(3);
     var expected = {
-        win: 'v0.8.4/node-webkit-v0.8.4-win-ia32.zip',
+        linux32: 'v0.8.4/node-webkit-v0.8.4-linux-ia32.tar.gz',
+        linux64: 'v0.8.4/node-webkit-v0.8.4-linux-x64.tar.gz',
         osx: 'v0.8.4/node-webkit-v0.8.4-osx-ia32.zip',
-        linux32: 'v0.8.4/node-webkit-v0.8.4-linux-x64.tar.gz',
-        linux64: 'v0.8.4/node-webkit-v0.8.4-linux-ia32.tar.gz'
+        win: 'v0.8.4/node-webkit-v0.8.4-win-ia32.zip'
     };
-
     var actual = versions.matchVersions(xmlFixture);
     var latest = _.findWhere(actual, {'version': '0.8.4'});
     var first = _.first(actual);
