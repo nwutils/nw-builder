@@ -49,7 +49,7 @@ var nw = new NwBuilder({
     platforms: ['win','osx']
 });
 
-// Log stuff you you want
+// Log stuff you want
 nw.on('log',  console.log);
 
 // Build retruns a promise
