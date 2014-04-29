@@ -34,6 +34,20 @@ test('Should check if we have some files', function (t) {
     });
 });
 
+
+test('Should take the option name if provided', function (t) {
+    t.plan(2);
+
+    var x = new NwBuilder({
+        files: './test/fixtures/nwapp/**/*',
+        appName: 'somename'
+    });
+
+    x.checkFiles().then(function (data) {
+        t.equal(x.options.appName, 'somename');
+    });
+});
+
 test('Should check if we have some files: rejection', function (t) {
     t.plan(1);
 
@@ -64,6 +78,8 @@ test('Should check the version', function (t) {
     });
 
 });
+
+
 
 
 test('Should not zip mac apps by default', function (t) {
