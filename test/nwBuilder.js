@@ -36,7 +36,7 @@ test('Should check if we have some files', function (t) {
 
 
 test('Should take the option name if provided', function (t) {
-    t.plan(2);
+    t.plan(1);
 
     var x = new NwBuilder({
         files: './test/fixtures/nwapp/**/*',
