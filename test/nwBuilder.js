@@ -50,19 +50,17 @@ test('Should check if we have some files: rejection', function (t) {
 
 test('Should check the version', function (t) {
     t.plan(2);
-    var baseUrl = 'https://amazon.s3.nw.com';
-    nock(baseUrl).get('/xml').reply(200, xmlFixture);
+
     var x = new NwBuilder({
-        files: '**',
-        versionsUrl: 'https://amazon.s3.nw.com/xml'
+        files: '**'
     });
 
     x.checkVersions().then(function (data) {
-        t.equal(x._version.version, '0.8.4');
+        t.equal(x._version.version, '0.9.2');
     });
 
     x.on('log', function (message) {
-       t.equal(message, 'Using v0.8.4', 'should log version');
+       t.equal(message, 'Using v0.9.2', 'should log version');
     });
 
 });
