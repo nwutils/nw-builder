@@ -1,6 +1,7 @@
 var test = require('tape');
 var temp = require('temp');
-var fs = require('fs');
+var fs   = require('fs');
+var path = require('path');
 var utils = require('./../lib/utils');
 var DecompressZip = require('decompress-zip');
 var _ = require('lodash');
@@ -30,9 +31,9 @@ test('editPlist', function (t) {
             appVersion: '1.3.3.7',
             copyright: '(c) by me'
         }).then(function () {
-            var acctual = fs.readFileSync(info.path);
-            var expected = fs.readFileSync('./test/expected/Info.plist');
-            t.equal(acctual.toString(), expected.toString(), 'generate and write a valid plist file');
+            var actual   = fs.readFileSync(info.path).toString().replace(/\r|\n/gm, '');
+            var expected = fs.readFileSync('./test/expected/Info.plist').toString().replace(/\r|\n/gm, '');
+            t.equal(actual, expected, 'generate and write a valid plist file');
             t.end();
         });
 
@@ -44,25 +45,25 @@ test('getFileList', function (t) {
     t.plan(5);
 
     utils.getFileList('./test/fixtures/nwapp/**').then(function(data) {
-        t.equal(data.json, 'test/fixtures/nwapp/package.json', 'figure out the right json');
+        t.equal(data.json, path.normalize('test/fixtures/nwapp/package.json'), 'figure out the right json');
         var expected = [{
-            "src": "test/fixtures/nwapp/images/imagefile.img",
-            "dest": "images/imagefile.img"
+            "src" : path.normalize("test/fixtures/nwapp/images/imagefile.img"),
+            "dest": path.normalize("images/imagefile.img")
         }, {
-            "src": "test/fixtures/nwapp/index.html",
-            "dest": "index.html"
+            "src" : path.normalize("test/fixtures/nwapp/index.html"),
+            "dest": path.normalize("index.html")
         }, {
-            "src": "test/fixtures/nwapp/javascript/bower_packages/simple/package.json",
-            "dest": "javascript/bower_packages/simple/package.json"
+            "src" : path.normalize("test/fixtures/nwapp/javascript/bower_packages/simple/package.json"),
+            "dest": path.normalize("javascript/bower_packages/simple/package.json")
         }, {
-            "src": "test/fixtures/nwapp/javascript/jsfile.js",
-            "dest": "javascript/jsfile.js"
+            "src" : path.normalize("test/fixtures/nwapp/javascript/jsfile.js"),
+            "dest": path.normalize("javascript/jsfile.js")
         }, {
-            "src": "test/fixtures/nwapp/node_modules/package/package.json",
-            "dest": "node_modules/package/package.json"
+            "src" : path.normalize("test/fixtures/nwapp/node_modules/package/package.json"),
+            "dest": path.normalize("node_modules/package/package.json")
         }, {
-            "src": "test/fixtures/nwapp/package.json",
-            "dest": "package.json"
+            "src" : path.normalize("test/fixtures/nwapp/package.json"),
+            "dest": path.normalize("package.json")
         }];
         t.deepEqual(data.files, expected);
     });
@@ -79,14 +80,14 @@ test('getFileList', function (t) {
 
     utils.getFileList(['./test/fixtures/nwapp/**/*', '!./test/fixtures/nwapp/node_modules/**/*',  '!./test/fixtures/nwapp/javascript/**/*']).then(function(data) {
         var expected = [{
-            "src": "test/fixtures/nwapp/images/imagefile.img",
-            "dest": "images/imagefile.img"
+            "src" : path.normalize("test/fixtures/nwapp/images/imagefile.img"),
+            "dest": path.normalize("images/imagefile.img")
         }, {
-            "src": "test/fixtures/nwapp/index.html",
-            "dest": "index.html"
+            "src" : path.normalize("test/fixtures/nwapp/index.html"),
+            "dest": path.normalize("index.html")
         }, {
-            "src": "test/fixtures/nwapp/package.json",
-            "dest": "package.json"
+            "src" : path.normalize("test/fixtures/nwapp/package.json"),
+            "dest": path.normalize("package.json")
         }];
         t.deepEqual(data.files, expected);
     });
@@ -97,20 +98,20 @@ test('should zip the app and create the app.nw file + log it', function (t) {
     t.plan(6);
 
     var files = [{
-        "src": "test/fixtures/nwapp/images/imagefile.img",
-        "dest": "images/imagefile.img"
+        "src" : path.normalize("test/fixtures/nwapp/images/imagefile.img"),
+        "dest": path.normalize("images/imagefile.img")
     }, {
-        "src": "test/fixtures/nwapp/javascript/bower_packages/simple/package.json",
-        "dest": "javascript/bower_packages/simple/package.json"
+        "src" : path.normalize("test/fixtures/nwapp/javascript/bower_packages/simple/package.json"),
+        "dest": path.normalize("javascript/bower_packages/simple/package.json")
     }, {
-        "src": "test/fixtures/nwapp/javascript/jsfile.js",
-        "dest": "javascript/jsfile.js"
+        "src" : path.normalize("test/fixtures/nwapp/javascript/jsfile.js"),
+        "dest": path.normalize("javascript/jsfile.js")
     }, {
-        "src": "test/fixtures/nwapp/node_modules/package/package.json",
-        "dest": "node_modules/package/package.json"
+        "src" : path.normalize("test/fixtures/nwapp/node_modules/package/package.json"),
+        "dest": path.normalize("node_modules/package/package.json")
     }, {
-        "src": "test/fixtures/nwapp/package.json",
-        "dest": "package.json"
+        "src" : path.normalize("test/fixtures/nwapp/package.json"),
+        "dest": path.normalize("package.json")
     }], expected = _.pluck(files, 'dest');
 
     var _evt = new EventEmitter();
@@ -139,9 +140,9 @@ test('mergeFiles', function (t) {
 
     utils.mergeFiles(releasefile.path, zipFile.path, '0755').then(function() {
         var contents = fs.readFileSync(releasefile.path);
-        var stats = fs.lstatSync(releasefile.path);
+        var stats    = fs.lstatSync(releasefile.path);
         t.equal(contents.toString(), 'AB', 'merge two files');
-        t.equal(stats.mode.toString(8), '100755', 'fix the permission');
+        t.equal(stats.mode.toString(8), '100755', 'fix the permission'); // DOES NOT WORK ON WINDOWS
     });
 
 });
