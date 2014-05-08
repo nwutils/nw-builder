@@ -43,9 +43,13 @@ During development you can run node-webkit with `nwbuild -r path/to/your/younwap
 Or use the module:
 
 ```js
-var NwBuilder = require('node-webkit-builder');
+var path = require('path'),
+    NwBuilder = require('node-webkit-builder');
 var nw = new NwBuilder({
-    files: './path/to/nwfiles/**/**', // use the glob format
+    files: [
+      './path/to/nwfiles/**/**', // use the glob format
+      { src: path.resolve(__dirname, '../path/to/node_modules/package/**/*'), dest: 'node_modules/package' }
+    ],
     platforms: ['win','osx']
 });
 
