@@ -68,7 +68,7 @@ nw.build(function(err) {
 
 ### Options
 
-#### options.files *Required* 
+#### options.files *Required*
 Type: `String`  
 Default value: `null`  
 
@@ -112,10 +112,15 @@ Default value: `./cache`
 This is where the cached node-webkit downloads are
 
 #### options.buildType
-Type: `String`  
+Type: `String` or `function`
 Default value: `default`  
 
-How you want to save your build. You can choose from `default` which is `timestamped`. There is also ``versioned`
+How you want to save your build.
+
+* `default` [appName]
+* `versioned` [appName] -v[appVersion]
+* `timestamped` [appName] - [timestamp];
+* A function with options as scope (e.g `function () {return this.appVersion;}` )
 
 #### options.forceDownload
 Type: `Boolean`  
