@@ -1,6 +1,6 @@
 {
   "name": "node-webkit-builder",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "node-webkit-builder",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,9 @@
   "bin": {
     "nwbuild": "./bin/nwbuild"
   },
-  "author": "Steffen Müller",
+  "author": {
+    "name": "Steffen Müller"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mllrsohn/node-webkit-builder/issues"
@@ -21,20 +23,20 @@
   "homepage": "https://github.com/mllrsohn/node-webkit-builder",
   "devDependencies": {
     "tape": "^2.12.3",
-    "nock": "~0.27.3"
+    "nock": "^0.32.3"
   },
   "dependencies": {
     "request": "~2.34.0",
     "lodash": "~2.4.1",
     "bluebird": "~1.2.2",
     "temp": "~0.7.0",
-    "plist": "~0.4.3",
-    "nock": "~0.27.3",
-    "decompress-zip": "0.0.6",
+    "plist": "^1.0.0",
+    "nock": "^0.32.3",
+    "decompress-zip": "^0.0.7",
     "simple-glob": "~0.1.0",
     "inherits": "~2.0.1",
-    "fs-extra": "~0.8.1",
-    "archiver": "~0.8.1",
+    "fs-extra": "^0.9.1",
+    "archiver": "^0.10.0",
     "tar-fs": "^0.3.2",
     "optimist": "^0.6.1",
     "update-notifier": "^0.1.8",
