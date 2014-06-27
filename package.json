@@ -22,8 +22,9 @@
   },
   "homepage": "https://github.com/mllrsohn/node-webkit-builder",
   "devDependencies": {
-    "tape": "^2.12.3",
-    "nock": "^0.32.3"
+    "nock": "^0.32.3",
+    "semver": "^2.3.1",
+    "tape": "^2.12.3"
   },
   "dependencies": {
     "request": "~2.34.0",
