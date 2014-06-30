@@ -23,7 +23,6 @@
   "homepage": "https://github.com/mllrsohn/node-webkit-builder",
   "devDependencies": {
     "nock": "^0.32.3",
-    "semver": "^2.3.1",
     "tape": "^2.12.3"
   },
   "dependencies": {
@@ -41,6 +40,7 @@
     "tar-fs": "^0.3.2",
     "optimist": "^0.6.1",
     "update-notifier": "^0.1.8",
-    "rcedit": "0.2.0"
+    "rcedit": "0.2.0",
+    "semver": "^2.3.1"
   }
 }
