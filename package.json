@@ -41,6 +41,7 @@
     "tar-fs": "^0.3.2",
     "optimist": "^0.6.1",
     "update-notifier": "^0.1.8",
-    "rcedit": "0.2.0"
+    "rcedit": "0.2.0",
+    "npm": "^1.4.20"
   }
 }
