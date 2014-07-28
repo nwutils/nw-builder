@@ -32,7 +32,6 @@
     "bluebird": "~1.2.2",
     "temp": "~0.7.0",
     "plist": "^1.0.0",
-    "nock": "^0.32.3",
     "decompress-zip": "^0.0.7",
     "simple-glob": "~0.1.0",
     "inherits": "~2.0.1",
