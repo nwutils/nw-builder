@@ -32,15 +32,17 @@
     "bluebird": "~1.2.2",
     "temp": "~0.7.0",
     "plist": "^1.0.0",
-    "decompress-zip": "^0.0.7",
+    "decompress-zip": "0.0.8",
     "simple-glob": "~0.1.0",
     "inherits": "~2.0.1",
-    "fs-extra": "^0.9.1",
+    "fs-extra": "^0.10.0",
     "archiver": "^0.10.0",
     "tar-fs": "^0.3.2",
     "optimist": "^0.6.1",
     "update-notifier": "^0.1.8",
     "rcedit": "0.2.0",
-    "npm": "^1.4.20"
+    "npm": "^1.4.20",
+    "ncp": "^0.6.0",
+    "rimraf": "^2.2.8"
   }
 }
