@@ -23,10 +23,10 @@
   "homepage": "https://github.com/mllrsohn/node-webkit-builder",
   "devDependencies": {
     "nock": "^0.32.3",
-    "semver": "^2.3.1",
     "tape": "^2.12.3"
   },
   "dependencies": {
+    "semver": "^2.3.1",
     "request": "~2.34.0",
     "lodash": "~2.4.1",
     "bluebird": "~1.2.2",
