@@ -9,6 +9,7 @@ var test = require('tape'),
 var downloader = require('./../lib/downloader');
 var fixturesCache = './test/fixtures/cache/v0.8.3';
 var fixturesZip = './test/fixtures/test.zip';
+var fixturesZipStrip = './test/fixtures/test-strip.zip';
 var fixturesTar = './test/fixtures/test.tar.gz';
 
 test('checkCache', function (t) {
@@ -22,6 +23,23 @@ test('downloadAndUnpack: zip', function (t) {
     nock('https://amazon.s3.nw.com').get('/test.zip').replyWithFile(200, fixturesZip);
     temp.mkdir('tmpcache', function(err, dirPath) {
         downloader.downloadAndUnpack(dirPath, 'https://amazon.s3.nw.com/test.zip').then(function (files) {
+            files.forEach(function (file) {
+                t.ok(fs.existsSync(path.join(dirPath, file.path)), file.path + ' unpacked');
+            });
+
+            t.ok(fs.statSync(path.join(dirPath, 'file1')).mode.toString(8) == 100444, '444 file permission');
+            t.ok(fs.statSync(path.join(dirPath, 'file2')).mode.toString(8) == 100666, '666 file permission');
+            t.ok(fs.statSync(path.join(dirPath, 'file3')).mode.toString(8) == 100644, '644 file permission'); // DOES NOT WORK ON WINDOWS
+
+        });
+    });
+});
+
+test('downloadAndUnpack: zip+strip', function (t) {
+    t.plan(6);
+    nock('https://amazon.s3.nw.com').get('/test-strip.zip').replyWithFile(200, fixturesZipStrip);
+    temp.mkdir('tmpcache', function(err, dirPath) {
+        downloader.downloadAndUnpack(dirPath, 'https://amazon.s3.nw.com/test-strip.zip').then(function (files) {
             files.forEach(function (file) {
                 t.ok(fs.existsSync(path.join(dirPath, file.path)), file.path + ' unpacked');
             });
