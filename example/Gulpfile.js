@@ -5,8 +5,9 @@ var gutil = require('gulp-util');
 gulp.task('nw', function () {
 
     var nw = new NwBuilder({
-        version: '0.9.2',
-        files: [ './nwapp/**']
+        version: '0.10.0',
+        files: './nwapp/**',
+        platforms: ['win', 'osx', 'linux32', 'linux64']
     });
 
     // Log stuff you want
@@ -19,3 +20,5 @@ gulp.task('nw', function () {
         gutil.log('node-webkit-builder', err);
     });
 });
+
+gulp.task('default', ['nw']);
