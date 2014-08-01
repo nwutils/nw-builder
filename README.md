@@ -162,7 +162,7 @@ MAC ONLY: if you supply a string to a Plist file it will use it. Otherwise it wi
 Type: `String`  
 Default value: `null`  
 
-WINDOWS ONLY: The path to your ICO icon file. If your don't provide your own it will use the one provided by node-webkit
+WINDOWS ONLY: The path to your ICO icon file. If your don't provide your own it will use the one provided by node-webkit. If you are building on MAC or LINUX you must have [Wine](http://winehq.org) installed to use this option.
 
 
 ## To Do:
