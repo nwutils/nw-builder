@@ -7,6 +7,8 @@ gulp.task('nw', function () {
     var nw = new NwBuilder({
         version: '0.10.0',
         files: './nwapp/**',
+        macIcns: './icons/icon.icns',
+        winIco: './icons/icon.ico',
         platforms: ['win', 'osx', 'linux32', 'linux64']
     });
 
