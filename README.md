@@ -33,7 +33,6 @@ Options:
   -r, --run            Runs node-webkit for the current plattform                            [default: false]  
   -o, --buildDir       The build folder                                                      [default: "./build"]
   -f, --forceDownload  Force download of node-webkit                                         [default: false]
-  -c, --checkVersions  Disables checking versions, usefull when working offline              [default: true]
   --quite              Disables logging                                                      [default: false]
 
 ```
@@ -127,12 +126,6 @@ Type: `Boolean`
 Default value: `false`  
 
 This will delete everything in your `build_dir` directory, including the cached downloaded prebuilt binaries
-
-#### options.checkVersions
-Type: `Boolean`  
-Default Value: `true`  
-
-Checks for the lastest node-webkit Version. Usefull when you have a cached version and want to work offline
 
 #### options.macCredits
 Type: `String`  

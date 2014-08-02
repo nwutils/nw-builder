@@ -68,3 +68,15 @@ test('downloadAndUnpack: tar', function (t) {
         });
     });
 });
+
+test('Should throw an error if you try to download a file that is not available', function (t) {
+    t.plan(2);
+    nock('https://doesnot.com').get('/exist.zip').reply(404);
+    downloader.downloadAndUnpack('/', 'https://doesnot.com/exist.zip').catch(function (err) {
+        t.equal(err.statusCode, 404, err.msg);
+    });
+    nock('https://doesnot.com').get('/exist.tar').reply(404);
+    downloader.downloadAndUnpack('/', 'https://doesnot.com/exist.tar').catch(function (err) {
+        t.equal(err.statusCode, 404, err.msg);
+    });
+});    

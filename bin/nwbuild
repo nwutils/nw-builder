@@ -32,11 +32,6 @@ var argv = optimist
     .boolean('f')
 
 
-    .alias('c', 'checkVersions')
-    .default('c', true)
-    .describe('c', 'Disables checking versions, usefull when working offline')
-    .boolean('c')
-
     .default('quite', false)
     .describe('quite', 'Disables logging')
     .boolean('quite')
@@ -70,8 +65,7 @@ var options = {
     version: argv.version,
     cacheDir: path.resolve(__dirname, '..', 'cache'),
     buildDir: path.resolve(process.cwd(), argv.buildDir),
-    forceDownload: argv.forceDownload,
-    checkVersions: argv.checkVersions
+    forceDownload: argv.forceDownload
 };
 
 // Check Plattform, if we are in run mode

@@ -62,26 +62,37 @@ test('Should check if we have some files: rejection', function (t) {
 
 });
 
-
-test('Should check the version', function (t) {
+test('Should find latest version', function (t) {
     t.plan(2);
 
     var x = new NwBuilder({
-        files: '**'
+        files: '**',
+        version: 'latest'
     });
 
-    x.checkVersions().then(function (data) {
-      t.equal(!!semver.valid(x._version.version), true);
+    x.resolveLatestVersion().then(function (data) {
+    	t.ok(semver.valid(x.options.version), 'Version: ' + x.options.version);
     });
 
     x.on('log', function (message) {
-       t.equal(/Using v.*/.test(message), true, 'should log version');
+    	t.equal(/Latest Version: v*/.test(message), true, 'should log version');
     });
 
 });
 
+test('Should not accept an invalid version', function (t) {
+    t.plan(1);
 
+    var x = new NwBuilder({
+        files: '**',
+        version: '1.blah.0'
+    });
 
+    x.checkVersion().catch(function(err) {
+      	t.ok(err);
+    });
+
+});
 
 test('Should not zip mac apps by default', function (t) {
     t.plan(1);

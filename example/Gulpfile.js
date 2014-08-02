@@ -5,7 +5,7 @@ var gutil = require('gulp-util');
 gulp.task('nw', function () {
 
     var nw = new NwBuilder({
-        version: '0.10.0',
+        version: 'latest',
         files: './nwapp/**',
         macIcns: './icons/icon.icns',
         winIco: './icons/icon.ico',
