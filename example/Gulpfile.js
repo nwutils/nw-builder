@@ -8,8 +8,7 @@ gulp.task('nw', function () {
         version: 'latest',
         files: './nwapp/**',
         macIcns: './icons/icon.icns',
-        winIco: './icons/icon.ico',
-        platforms: ['win', 'osx', 'linux32', 'linux64']
+        platforms: ['win', 'osx']
     });
 
     // Log stuff you want
