@@ -1,7 +1,6 @@
-## NOTE: This is a preview version
-
 # node-webkit-builder [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][depstat-image]][depstat-url]
 
+[![NPM](https://nodei.co/npm/node-webkit-builder.png?downloads=true)](https://nodei.co/npm/node-webkit-builder/)
 
 > Let's you build your [node-webkit](https://github.com/rogerwang/node-webkit) apps for mac, win and linux via cli. It will download the prebuilt binaries for a newest version, unpacks it, creates a release folder, create the app.nw file for a specified directory and copys the app.nw file where it belongs.
 
