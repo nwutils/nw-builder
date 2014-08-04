@@ -1,6 +1,6 @@
 {
   "name": "node-webkit-builder",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "node-webkit-builder",
   "main": "index.js",
   "scripts": {
