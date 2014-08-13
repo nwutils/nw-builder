@@ -3,6 +3,7 @@ var optimist = require('optimist');
 var updateNotifier = require('update-notifier');
 var NwBuilder = require('./../lib');
 var path = require('path');
+var detectCurrentPlatform = require('../lib/detectCurrentPlatform.js')
 
 var argv = optimist
     .usage('Usage: nwbuild [options] [path]')
@@ -68,25 +69,11 @@ var options = {
     forceDownload: argv.forceDownload
 };
 
-// Check Plattform, if we are in run mode
+// Check Platform, if we are in run mode
 if(argv.r) {
-    switch(process.platform) {
-        case 'darwin':
-            options.platforms = ['osx'];
-        break;
-
-        case 'win32':
-            options.platforms = ['win'];
-        break;
-
-        case 'linux':
-            options.platforms = [(process.arch === 'x64' ? 'linux64' : 'linux32')];
-        break;
-        default:
-            console.log('Unable to run app - plattform is not supported');
-            process.exit(0);
-        break;
-    }
+    var currentPlatform = detectCurrentPlatform()
+    options.platforms = [ currentPlatform ];
+    options.currentPlatform = currentPlatform;
 }
 
 
