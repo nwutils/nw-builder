@@ -2,7 +2,7 @@
 
 [![NPM](https://nodei.co/npm/node-webkit-builder.png?downloads=true)](https://nodei.co/npm/node-webkit-builder/)
 
-> Let's you build your [node-webkit](https://github.com/rogerwang/node-webkit) apps for mac, win and linux via cli. It will download the prebuilt binaries for a newest version, unpacks it, creates a release folder, create the app.nw file for a specified directory and copys the app.nw file where it belongs.
+> Lets you build your [node-webkit](https://github.com/rogerwang/node-webkit) apps for mac, win and linux via cli. It will download the prebuilt binaries for a newest version, unpacks it, creates a release folder, create the app.nw file for a specified directory and copies the app.nw file where it belongs.
 
 
 ### Installation
@@ -29,10 +29,10 @@ Usage: nwbuild [options] [path]
 Options:
   -p, --platforms      Platforms to build, comma-sperated, can be: win,osx,linux32,linux64   [default: "osx,win"]
   -v, --version        The nw version, eg. 0.8.4                                             [default: "latest"]
-  -r, --run            Runs node-webkit for the current plattform                            [default: false]  
+  -r, --run            Runs node-webkit for the current platform                            [default: false]  
   -o, --buildDir       The build folder                                                      [default: "./build"]
   -f, --forceDownload  Force download of node-webkit                                         [default: false]
-  --quite              Disables logging                                                      [default: false]
+  --quiet              Disables logging                                                      [default: false]
 
 ```
 #### Run node-webkit
@@ -81,9 +81,9 @@ The version of node-webkit you want to use. Per default it looks up the lastest 
 
 #### options.platforms
 Type: `Array`  
-Default value: `['win' ,'osx']`
+Default value: `['win', 'osx']`
 
-The platforms you want to build. Can be `['win','osx', 'linux32', 'linux64']`
+The platforms you want to build. Can be `['win', 'osx', 'linux32', 'linux64']`
 
 #### options.appName
 Type: `String`  
