@@ -17,7 +17,7 @@ var argv = optimist
 
     .alias('r', 'run')
     .default('r', false)
-    .describe('r', 'Runs node-webkit for the current plattform')
+    .describe('r', 'Runs node-webkit for the current platform')
     .boolean('r')
 
 
@@ -32,9 +32,9 @@ var argv = optimist
     .boolean('f')
 
 
-    .default('quite', false)
-    .describe('quite', 'Disables logging')
-    .boolean('quite')
+    .default('quiet', false)
+    .describe('quiet', 'Disables logging')
+    .boolean('quiet')
 
     .argv;
 
@@ -68,7 +68,7 @@ var options = {
     forceDownload: argv.forceDownload
 };
 
-// Check Plattform, if we are in run mode
+// Check platform, if we are in run mode
 if(argv.r) {
     switch(process.platform) {
         case 'darwin':
@@ -83,7 +83,7 @@ if(argv.r) {
             options.platforms = [(process.arch === 'x64' ? 'linux64' : 'linux32')];
         break;
         default:
-            console.log('Unable to run app - plattform is not supported');
+            console.log('Unable to run app - platform is not supported');
             process.exit(0);
         break;
     }
@@ -94,7 +94,7 @@ if(argv.r) {
 var nw = new NwBuilder(options);
 
 // Logging
-if(!argv.quite) {
+if(!(argv.quiet || argv.quite)) {
     nw.on('log',  console.log);
 }
 
