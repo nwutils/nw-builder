@@ -7,8 +7,8 @@
   "window": {
     "title": "node-webkit demo",
     "icon": "link.png",
-    "toolbar": true,
-    "frame": false,
+    "toolbar": false,
+    "frame": true,
     "width": 800,
     "height": 500,
     "position": "center",
