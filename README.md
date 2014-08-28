@@ -50,7 +50,7 @@ var nw = new NwBuilder({
 // Log stuff you want
 nw.on('log',  console.log);
 
-// Build retruns a promise
+// Build returns a promise
 nw.build().then(function () {
    console.log('all done!');
 }).catch(function (error) {
