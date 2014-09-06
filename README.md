@@ -2,7 +2,7 @@
 
 [![NPM](https://nodei.co/npm/node-webkit-builder.png?downloads=true)](https://nodei.co/npm/node-webkit-builder/)
 
-> Let's you build your [node-webkit](https://github.com/rogerwang/node-webkit) apps for mac, win and linux via cli. It will download the prebuilt binaries for a newest version, unpacks it, creates a release folder, create the app.nw file for a specified directory and copys the app.nw file where it belongs.
+> Lets you build your [node-webkit](https://github.com/rogerwang/node-webkit) apps for mac, win and linux via cli. It will download the prebuilt binaries for a newest version, unpacks it, creates a release folder, create the app.nw file for a specified directory and copies the app.nw file where it belongs.
 
 
 ### Installation
@@ -29,10 +29,10 @@ Usage: nwbuild [options] [path]
 Options:
   -p, --platforms      Platforms to build, comma-sperated, can be: win,osx,linux32,linux64   [default: "osx,win"]
   -v, --version        The nw version, eg. 0.8.4                                             [default: "latest"]
-  -r, --run            Runs node-webkit for the current plattform                            [default: false]  
+  -r, --run            Runs node-webkit for the current platform                            [default: false]  
   -o, --buildDir       The build folder                                                      [default: "./build"]
   -f, --forceDownload  Force download of node-webkit                                         [default: false]
-  --quite              Disables logging                                                      [default: false]
+  --quiet              Disables logging                                                      [default: false]
 
 ```
 #### Run node-webkit
@@ -50,7 +50,7 @@ var nw = new NwBuilder({
 // Log stuff you want
 nw.on('log',  console.log);
 
-// Build retruns a promise
+// Build returns a promise
 nw.build().then(function () {
    console.log('all done!');
 }).catch(function (error) {
@@ -81,9 +81,9 @@ The version of node-webkit you want to use. Per default it looks up the lastest 
 
 #### options.platforms
 Type: `Array`  
-Default value: `['win' ,'osx']`
+Default value: `['win', 'osx']`
 
-The platforms you want to build. Can be `['win','osx', 'linux32', 'linux64']`
+The platforms you want to build. Can be `['win', 'osx', 'linux32', 'linux64']`
 
 #### options.appName
 Type: `String`  
@@ -161,6 +161,7 @@ WINDOWS ONLY: The path to your ICO icon file. If your don't provide your own it 
 - Test it on Linux and Windows
 
 ## Release History
+- 2014-08-19    `0.1.2` adds a progress bar to downloads, fixes downloading through a proxy, fixed winIco, bug fixes
 - 2014-08-01    `0.1.0` use app filename for generated executables, optimized version checking, (known issue: `winIco` on windows)
 - 2014-07-31    `0.0.4` fixed compatibility with nodewebkit 0.10.0
 - 2014-04-20    Added run option, bug fixes

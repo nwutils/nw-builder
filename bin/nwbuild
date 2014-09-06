@@ -18,7 +18,7 @@ var argv = optimist
 
     .alias('r', 'run')
     .default('r', false)
-    .describe('r', 'Runs node-webkit for the current plattform')
+    .describe('r', 'Runs node-webkit for the current platform')
     .boolean('r')
 
 
@@ -33,9 +33,9 @@ var argv = optimist
     .boolean('f')
 
 
-    .default('quite', false)
-    .describe('quite', 'Disables logging')
-    .boolean('quite')
+    .default('quiet', false)
+    .describe('quiet', 'Disables logging')
+    .boolean('quiet')
 
     .argv;
 
@@ -81,7 +81,7 @@ if(argv.r) {
 var nw = new NwBuilder(options);
 
 // Logging
-if(!argv.quite) {
+if(!(argv.quiet || argv.quite)) {
     nw.on('log',  console.log);
 }
 

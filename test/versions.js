@@ -4,19 +4,41 @@ var test = require('tape'),
 
 var versions = require('./../lib/versions');
 
-// test('getVersions', function (t) {
-//     t.plan(1);
+var fixturesVersionsHtml = './test/fixtures/testVersions.html';
+var dlUrl = 'http://dl.node-webkit.org';
+var expectedVersions = ['0.10.2','0.10.1','0.10.0','0.10.0-rc1','0.9.3'];
 
-//     var expected = {
-//         linux32: 'v0.8.4/node-webkit-v0.8.4-linux-ia32.tar.gz',
-//         linux64: 'v0.8.4/node-webkit-v0.8.4-linux-x64.tar.gz',
-//         osx: 'v0.8.4/node-webkit-v0.8.4-osx-ia32.zip',
-//         win: 'v0.8.4/node-webkit-v0.8.4-win-ia32.zip'
-//     };
+test('getLatestVersion', function (t) {
+    t.plan(1);
 
-//     versions.getVersions().then(function(result) {
-//         var actual = _.findWhere(result, {'version': '0.8.4'});
-//         t.deepEqual(actual.platforms, expected);
-//     })
+    nock(dlUrl).get('/').replyWithFile(200, fixturesVersionsHtml);
+    versions.getLatestVersion(dlUrl).then(function(result){
+        t.equal(result, expectedVersions[0]);
+    });
+});
 
-// });
+test('getVersions', function (t) {
+    t.plan(1);
+
+    nock(dlUrl).get('/').replyWithFile(200, fixturesVersionsHtml);
+    versions.getVersions(dlUrl).then(function(result){
+        t.deepEqual(result, expectedVersions);
+    });
+});
+
+
+test('getVersionNames', function (t) {
+    t.plan(2);
+
+    var v = '0.8.4';
+    var expected = {
+        linux32: 'v'+v+'/node-webkit-v'+v+'-linux-ia32.tar.gz',
+        linux64: 'v'+v+'/node-webkit-v'+v+'-linux-x64.tar.gz',
+        osx: 'v'+v+'/node-webkit-v'+v+'-osx-ia32.zip',
+        win: 'v'+v+'/node-webkit-v'+v+'-win-ia32.zip'
+    };
+
+    var names = versions.getVersionNames(v);
+    t.equal( names.version, v );
+    t.deepEqual(names.platforms, expected);
+});
