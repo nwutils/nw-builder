@@ -74,10 +74,10 @@ The path to your node webkit app. It supports [simple-glob](https://github.com/j
 
 
 #### options.version
-Type: `String`  
-Default value: `'lastest'`  
+Type: `String`
+Default value: `'latest'`
 
-The version of node-webkit you want to use. Per default it looks up the lastest version. [Here is a list](https://github.com/rogerwang/node-webkit/wiki/Downloads-of-old-versions) of all available releases
+The version of node-webkit you want to use. Per default it looks up the latest version. [Here is a list](https://github.com/rogerwang/node-webkit/wiki/Downloads-of-old-versions) of all available releases
 
 #### options.platforms
 Type: `Array`  
