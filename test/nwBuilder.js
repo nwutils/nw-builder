@@ -97,7 +97,7 @@ test('Should not accept an invalid version', function (t) {
 test('Should not zip mac apps by default', function (t) {
     t.plan(1);
 
-    var x = new NwBuilder({ files: './test/fixtures/nwapp/**/*', platforms: 'osx' });
+    var x = new NwBuilder({ files: './test/fixtures/nwapp/**/*', platforms: ['osx'] });
     x.zipAppFiles().then(function () {
         t.notOk(x._needsZip);
     });
