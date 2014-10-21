@@ -156,6 +156,64 @@ Default value: `null`
 
 WINDOWS ONLY: The path to your ICO icon file. If your don't provide your own it will use the one provided by node-webkit. If you are building on MAC or LINUX you must have [Wine](http://winehq.org) installed to use this option.
 
+### Manifest Options
+
+#### platformOverrides
+
+Allows you to specify platform-specific manifest values. Example manifest:
+
+```json
+{
+    "name": "nw-demo",
+    "version": "0.1.0",
+    "main": "index.html",
+    "window": {
+        "frame": false,
+        "toolbar": false
+    },
+    "platformOverrides": {
+        "win": {
+            "window": {
+                "frame": true
+            }
+        },
+        "osx": {/*
+            ...
+        */},
+        "linux32": {/*
+            ...
+        */},
+        "linux64": {/*
+            ...
+        */},
+    }
+
+```
+
+The platform-specific options will override the others only when building that platform only and the `platformOverrides` property will be removed.
+
+For example, when building for Windows, the manifest generated and put into the end app (from the manifest above) would be:
+
+```json
+{
+    "name": "nw-demo",
+    "version": "0.1.0",
+    "main": "index.html",
+    "window": {
+        "frame": true,
+        "toolbar": false
+    }
+}
+```
+
+## Troubleshooting
+
+### OSX ulimit
+
+Darwin (OS X kernel) has a low limit for file descriptors (256 per process) by default, so you might get an `EMFILE` error or an error mentioning "too many open files" if youtry to open more file descriptors than this.
+
+To get around it, run `ulimit -n 1024` (or add it to your `~/.bash_profile`). For more information, see [henvic/osx-ulimit](https://github.com/henvic/osx-ulimit).
+
 ## Troubleshooting
 
 ### OSX ulimit
