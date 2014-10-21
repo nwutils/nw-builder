@@ -171,10 +171,10 @@ WINDOWS ONLY: The path to your ICO icon file. If your don't provide your own it 
 [MIT License](http://en.wikipedia.org/wiki/MIT_License)
 
 [npm-url]: https://npmjs.org/package/node-webkit-builder
-[npm-image]: https://badge.fury.io/js/node-webkit-builder.png
+[npm-image]: http://img.shields.io/npm/v/node-webkit-builder.svg?style=flat
 
 [travis-url]: http://travis-ci.org/mllrsohn/node-webkit-builder
-[travis-image]: https://secure.travis-ci.org/mllrsohn/node-webkit-builder.png?branch=master
+[travis-image]: http://img.shields.io/travis/mllrsohn/node-webkit-builder/master.svg?style=flat
 
 [depstat-url]: https://david-dm.org/mllrsohn/node-webkit-builder
-[depstat-image]: https://david-dm.org/mllrsohn/node-webkit-builder.png
+[depstat-image]: https://david-dm.org/mllrsohn/node-webkit-builder.svg?style=flat
