@@ -1,0 +1,39 @@
+{
+    "name": "nw-demo",
+    "version": "0.1.0",
+    "main": "index.html",
+    "window": {
+        "frame": false,
+        "toolbar": false
+    },
+    "x": ["y"],
+    "abc": [],
+    "def": {},
+    "platformOverrides": {
+        "win": {
+            "window": {
+                "frame": true
+            },
+            "x": ["z"],
+            "abc": [1],
+            "def": {"x":1}
+        },
+        "osx": {
+            "main": "other.html",
+            "x": ["y", "z"],
+            "abc": 2
+        },
+        "linux32": {
+            "main": "another.html",
+            "window": {
+                "frame": true
+            },
+            "frame": false,
+            "x": {}
+        },
+        "linux64": {
+            "window": {},
+            "x": []
+        }
+    }
+}
