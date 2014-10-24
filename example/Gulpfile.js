@@ -8,6 +8,7 @@ gulp.task('nw', function () {
         version: 'latest',
         files: './nwapp/**',
         macIcns: './icons/icon.icns',
+        macPlist: {mac_bundle_id: 'myPkg'},
         platforms: ['win', 'osx']
     });
 
