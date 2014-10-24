@@ -23,7 +23,7 @@
   "homepage": "https://github.com/mllrsohn/node-webkit-builder",
   "devDependencies": {
     "nock": "^0.32.3",
-    "tape": "~3.0.1",
+    "tape": "^2.12.3",
     "colortape": "0.0.4",
     "redtape": "~1.0.0"
   },
