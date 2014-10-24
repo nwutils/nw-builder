@@ -157,6 +157,10 @@ Default value: `null`
 WINDOWS ONLY: The path to your ICO icon file. If your don't provide your own it will use the one provided by node-webkit. If you are building on MAC or LINUX you must have [Wine](http://winehq.org) installed to use this option.
 
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## To Do:
 - Test it on Linux and Windows
 
