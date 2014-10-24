@@ -209,6 +209,10 @@ For example, when building for Windows, the manifest generated and put into the 
 See [#85](https://github.com/mllrsohn/node-webkit-builder/issues/85) for more information. If you need this during development too, see [platform-overrides](http://github.com/adam-lynch/platform-overrides) and [gulp-platform-overrides](http://github.com/adam-lynch/gulp-platform-overrides).
 
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## To Do:
 - Test it on Linux and Windows
 
