@@ -145,10 +145,10 @@ Default value: `false`
 MAC ONLY: Use a `app.nw` folder instead of `ZIP` file, this significantly improves the startup speed of applications on `mac`, since no decompressing is needed. Builds on other platforms will still use `ZIP` files.
 
 #### options.macPlist
-Type: `String`  
+Type: `String` or `Object`  
 Default value: `false`  
 
-MAC ONLY: if you supply a string to a Plist file it will use it. Otherwise it will generate something usefull from your package.json
+MAC ONLY: Pass a string containing the path to your own plist file. If a string isn't passed, a plist file will be generated from your package.json. Pass an object to overwrite or add properties to the generated plist file.
 
 #### options.winIco
 Type: `String`  
