@@ -24,7 +24,8 @@
   "devDependencies": {
     "nock": "^0.32.3",
     "tape": "~3.0.1",
-    "colortape": "0.0.4"
+    "colortape": "0.0.4",
+    "redtape": "~1.0.0"
   },
   "dependencies": {
     "archiver": "^0.10.0",
@@ -45,6 +46,7 @@
     "tar-fs": "^0.3.2",
     "temp": "~0.7.0",
     "update-notifier": "^0.1.8",
-    "winresourcer": "^0.9.0"
+    "winresourcer": "^0.9.0",
+    "platform-overrides": "~0.3.0"
   }
 }

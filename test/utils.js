@@ -1,4 +1,5 @@
 var test = require('tape');
+var testSetup = require('redtape');
 var temp = require('temp');
 var fs   = require('fs');
 var path = require('path');
@@ -6,6 +7,7 @@ var utils = require('./../lib/utils');
 var DecompressZip = require('decompress-zip');
 var _ = require('lodash');
 var EventEmitter = require('events').EventEmitter;
+var del = require('rimraf');
 
 test('getPackageInfo invalid', function (t) {
     t.plan(1);
@@ -125,6 +127,42 @@ test('should zip the app and create the app.nw file + log it', function (t) {
             t.deepEqual(expected, files);
         });
         unzipper.list();
+    });
+
+});
+
+testSetup({
+    afterEach: function(done){
+        del('./test/temp/platform-specific-unzipped', done);
+    }
+})('should zip but use platform-specific manifest with overrides in package.json', function (t) {
+    t.plan(3);
+
+    var files = [{
+        "src" : path.normalize("test/fixtures/nwapp/images/imagefile.img"),
+        "dest": path.normalize("images/imagefile.img")
+    }, {
+        "src" : path.normalize("test/fixtures/nwapp/package.json"),
+        "dest": path.normalize("package.json")
+    }], expectedPackage = "{hello: 'world'}";
+
+    var _evt = new EventEmitter();
+    _evt.on('log', function (logging) {
+        t.ok(logging, 'LOG: ' + logging);
+    });
+
+    utils.generateZipFile(files, _evt, expectedPackage).then(function(nwfile) {
+        var unzipper = new DecompressZip(nwfile),
+            unzipDestination = 'test/temp/platform-specific-unzipped';
+
+        unzipper.on('extract', function (log) {
+            t.equal(fs.readFileSync(path.join(unzipDestination, 'package.json')).toString(), expectedPackage);
+            t.end();
+        });
+
+        unzipper.extract({
+            path: unzipDestination
+        });
     });
 
 });

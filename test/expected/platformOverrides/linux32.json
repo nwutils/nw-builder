@@ -1,0 +1,13 @@
+{
+    "name": "nw-demo",
+    "version": "0.1.0",
+    "main": "another.html",
+    "window": {
+        "frame": true,
+        "toolbar": false
+    },
+    "frame": false,
+    "x": {},
+    "abc": [],
+    "def": {}
+}
