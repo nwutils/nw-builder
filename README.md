@@ -29,7 +29,7 @@ Usage: nwbuild [options] [path]
 Options:
   -p, --platforms      Platforms to build, comma-sperated, can be: win,osx,linux32,linux64   [default: "osx,win"]
   -v, --version        The nw version, eg. 0.8.4                                             [default: "latest"]
-  -r, --run            Runs node-webkit for the current platform                            [default: false]  
+  -r, --run            Runs node-webkit for the current platform                             [default: false]  
   -o, --buildDir       The build folder                                                      [default: "./build"]
   -f, --forceDownload  Force download of node-webkit                                         [default: false]
   --quiet              Disables logging                                                      [default: false]
@@ -60,7 +60,7 @@ nw.build().then(function () {
 // And supports callbacks
 nw.build(function(err) {
     if(err) console.log(err);
-})
+});
 
 ```
 
@@ -109,7 +109,7 @@ Default value: `./cache`
 
 This is where the cached node-webkit downloads are
 
-#### options.buildType
+#### options.buildNamingScheme (depricating options.buildType)
 Type: `String` or `function`
 Default value: `default`  
 

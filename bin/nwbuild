@@ -3,7 +3,7 @@ var optimist = require('optimist');
 var updateNotifier = require('update-notifier');
 var NwBuilder = require('./../lib');
 var path = require('path');
-var detectCurrentPlatform = require('../lib/detectCurrentPlatform.js')
+var detectCurrentPlatform = require('../lib/detectCurrentPlatform.js');
 
 var argv = optimist
     .usage('Usage: nwbuild [options] [path]')
@@ -31,6 +31,39 @@ var argv = optimist
     .default('f', false)
     .describe('f', 'Force download of node-webkit')
     .boolean('f')
+
+
+
+
+    .describe('appName', 'The Name of your node-webkit app')
+    .default('appName', false)
+    
+    .describe('appVersion', 'The version of your node-webkit app')
+    .default('appVersion', false)
+    
+    .describe('cacheDir', 'The directory to store cached node-webkit downloads')
+    .default('cacheDir', false)
+    
+    .describe('buildNamingScheme', 'How you want to name your builds, one of "default", "versioned", "timestamped"')
+    .default('buildNamingScheme', 'default')
+    
+    .describe('macCredits', 'MAC ONLY: The path to your credits.html file')
+    .default('macCredits', false)
+    
+    .describe('macIcns', 'MAC ONLY: The path to your ICNS icon file')
+    .default('macIcns', false)
+    
+    .describe('macZip', 'MAC ONLY: Use a app.nw folder instead of ZIP file')
+    .default('macZip', false)
+    .boolean('macZip')
+    
+    .describe('macPlist', 'MAC ONLY: if you supply a string to a Plist file it will use it')
+    .default('macPlist', false)
+    
+    .describe('winIco', 'WINDOWS ONLY: The path to your ICO icon file (requires Windows/Wine)')
+    .default('winIco', null)
+
+
 
 
     .default('quiet', false)
@@ -69,13 +102,19 @@ var options = {
     forceDownload: argv.forceDownload
 };
 
+// Additional CLI options that correspond directly to API options
+for(var k in argv){
+    if(!options[k]){
+        options[k] = argv[k];
+    }
+}
+
 // Check Platform, if we are in run mode
 if(argv.r) {
-    var currentPlatform = detectCurrentPlatform()
+    var currentPlatform = detectCurrentPlatform();
     options.platforms = [ currentPlatform ];
     options.currentPlatform = currentPlatform;
 }
-
 
 // Build App
 var nw = new NwBuilder(options);
