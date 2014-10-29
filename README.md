@@ -29,7 +29,7 @@ Usage: nwbuild [options] [path]
 Options:
   -p, --platforms      Platforms to build, comma-sperated, can be: win,osx,linux32,linux64   [default: "osx,win"]
   -v, --version        The nw version, eg. 0.8.4                                             [default: "latest"]
-  -r, --run            Runs node-webkit for the current platform                            [default: false]  
+  -r, --run            Runs node-webkit for the current platform                             [default: false]  
   -o, --buildDir       The build folder                                                      [default: "./build"]
   -f, --forceDownload  Force download of node-webkit                                         [default: false]
   --quiet              Disables logging                                                      [default: false]
@@ -67,7 +67,7 @@ nw.build(function(err) {
 ### Options
 
 #### options.files *Required*
-Type: `String`  
+Type: `String` or `Array` 
 Default value: `null`  
 
 The path to your node webkit app. It supports [simple-glob](https://github.com/jedmao/simple-glob) so you can do stuff like `['foo/*.js', '!foo/bar.js', 'foo/bar.js']`.
