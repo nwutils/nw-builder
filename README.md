@@ -231,6 +231,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 - Test it on Linux and Windows
 
 ## Release History
+- 2014-10-30    `0.2.0` adds support for platform-specific manifest overrides (see [#94](https://github.com/mllrsohn/node-webkit-builder/pull/94))
 - 2014-08-19    `0.1.2` adds a progress bar to downloads, fixes downloading through a proxy, fixed winIco, bug fixes
 - 2014-08-01    `0.1.0` use app filename for generated executables, optimized version checking, (known issue: `winIco` on windows)
 - 2014-07-31    `0.0.4` fixed compatibility with nodewebkit 0.10.0
