@@ -177,7 +177,7 @@ Allows you to specify platform-specific manifest values. Example manifest:
                 "frame": true
             }
         },
-        "osx": *
+        "osx": {
             ...
         },
         "linux32": {
