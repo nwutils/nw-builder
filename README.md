@@ -177,15 +177,15 @@ Allows you to specify platform-specific manifest values. Example manifest:
                 "frame": true
             }
         },
-        "osx": {/*
+        "osx": *
             ...
-        */},
-        "linux32": {/*
+        },
+        "linux32": {
             ...
-        */},
-        "linux64": {/*
+        },
+        "linux64": {
             ...
-        */},
+        },
     }
 
 ```
@@ -206,13 +206,7 @@ For example, when building for Windows, the manifest generated and put into the 
 }
 ```
 
-## Troubleshooting
-
-### OSX ulimit
-
-Darwin (OS X kernel) has a low limit for file descriptors (256 per process) by default, so you might get an `EMFILE` error or an error mentioning "too many open files" if youtry to open more file descriptors than this.
-
-To get around it, run `ulimit -n 1024` (or add it to your `~/.bash_profile`). For more information, see [henvic/osx-ulimit](https://github.com/henvic/osx-ulimit).
+See [#85](https://github.com/mllrsohn/node-webkit-builder/issues/85) and [#94](https://github.com/mllrsohn/node-webkit-builder/pulls/94) for more information. If you need this during development too, see [platform-overrides](http://github.com/adam-lynch/platform-overrides) and [gulp-platform-overrides](http://github.com/adam-lynch/gulp-platform-overrides). There is no Grunt plugin, [yet](https://github.com/new).
 
 ## Troubleshooting
 
@@ -221,7 +215,6 @@ To get around it, run `ulimit -n 1024` (or add it to your `~/.bash_profile`). Fo
 Darwin (OS X kernel) has a low limit for file descriptors (256 per process) by default, so you might get an `EMFILE` error or an error mentioning "too many open files" if youtry to open more file descriptors than this.
 
 To get around it, run `ulimit -n 1024` (or add it to your `~/.bash_profile`). For more information, see [henvic/osx-ulimit](https://github.com/henvic/osx-ulimit).
-
 
 ## Contributing
 
