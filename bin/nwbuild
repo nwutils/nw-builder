@@ -3,7 +3,7 @@ var optimist = require('optimist');
 var updateNotifier = require('update-notifier');
 var NwBuilder = require('./../lib');
 var path = require('path');
-var detectCurrentPlatform = require('../lib/detectCurrentPlatform.js')
+var detectCurrentPlatform = require('../lib/detectCurrentPlatform.js');
 
 var argv = optimist
     .usage('Usage: nwbuild [options] [path]')
@@ -55,7 +55,7 @@ if (notifier.update) {
 
 // Error if there are no files
 var files = argv._[0];
-if(!files) {
+if (!files) {
     optimist.showHelp();
     process.exit(0);
 }
@@ -70,8 +70,8 @@ var options = {
 };
 
 // Check Platform, if we are in run mode
-if(argv.r) {
-    var currentPlatform = detectCurrentPlatform()
+if (argv.r) {
+    var currentPlatform = detectCurrentPlatform();
     options.platforms = [ currentPlatform ];
     options.currentPlatform = currentPlatform;
 }
@@ -81,10 +81,10 @@ if(argv.r) {
 var nw = new NwBuilder(options);
 
 // Logging
-if(!(argv.quiet || argv.quite)) {
+if (!(argv.quiet || argv.quite)) {
     nw.on('log',  console.log);
 }
-console.log('>', options.files);
+
 // Build or run the app
 var np = (argv.r ? nw.run() : nw.build());
 np.then(function() {
