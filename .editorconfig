@@ -4,7 +4,8 @@
 root = true
 
 [*]
-charset = "utf8"
+charset = utf-8
+end_of_line = lf
 
 
 [*.js]
