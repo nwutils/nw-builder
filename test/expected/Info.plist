@@ -5,7 +5,7 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>en</string>
     <key>CFBundleDisplayName</key>
-    <string>TestApp</string>
+    <string>My cool TestApp</string>
     <key>CFBundleDocumentTypes</key>
     <array/>
     <key>CFBundleExecutable</key>
@@ -38,5 +38,10 @@
     <array/>
     <key>NSHumanReadableCopyright</key>
     <string>(c) by me</string>
+    <key>LSEnvironment</key>
+    <dict>
+      <key>PATH</key>
+      <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    </dict>
   </dict>
 </plist>

@@ -28,11 +28,19 @@ test('getPackageInfo valid', function (t) {
 test('editPlist', function (t) {
     t.plan(1);
     temp.open('plstest', function(err, info) {
-        utils.editPlist('./test/fixtures/Info.plist', info.path, {
-            appName: 'TestApp',
-            appVersion: '1.3.3.7',
-            copyright: '(c) by me'
-        }).then(function () {
+        utils.editPlist('./test/fixtures/Info.plist', info.path, utils.getPlistOptions(
+            {
+                name: 'TestApp',
+                version: '1.3.3.7',
+                copyright: '(c) by me'
+            },
+            {
+                CFBundleDisplayName: "My cool TestApp",
+                LSEnvironment: {
+                    PATH: '/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin'
+                }
+            }
+        )).then(function () {
             var actual   = fs.readFileSync(info.path).toString().replace(/\r|\n/gm, '');
             var expected = fs.readFileSync('./test/expected/Info.plist').toString().replace(/\r|\n/gm, '');
             t.equal(actual, expected, 'generate and write a valid plist file');
