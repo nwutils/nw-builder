@@ -31,7 +31,7 @@
     "archiver": "^0.10.0",
     "bluebird": "~1.2.2",
     "decompress-zip": "0.0.8",
-    "fs-extra": "git://github.com/adam-lynch/node-fs-extra#graceful-fs",
+    "fs-extra": "git://github.com/adam-lynch/node-fs-extra#graceful-ncp",
     "inherits": "~2.0.1",
     "lodash": "~2.4.1",
     "optimist": "^0.6.1",
