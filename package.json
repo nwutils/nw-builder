@@ -47,6 +47,6 @@
     "temp": "~0.7.0",
     "update-notifier": "^0.1.8",
     "winresourcer": "^0.9.0",
-    "platform-overrides": "~0.3.0"
+    "platform-overrides": "~1.0.0"
   }
 }

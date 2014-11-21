@@ -9,8 +9,8 @@ var argv = optimist
     .usage('Usage: nwbuild [options] [path]')
 
     .alias('p', 'platforms')
-    .default('p', 'osx,win')
-    .describe('p', 'Platforms to build, comma-sperated, can be: win,osx,linux32,linux64')
+    .default('p', 'osx32,osx64,win32,win64')
+    .describe('p', 'Platforms to build, comma-sperated, can be: win32,win64,osx32,osx64,linux32,linux64')
 
     .alias('v', 'version')
     .default('v', 'latest')

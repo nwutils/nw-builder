@@ -34,8 +34,11 @@ test('getVersionNames', function (t) {
     var expected = {
         linux32: 'v'+v+'/node-webkit-v'+v+'-linux-ia32.tar.gz',
         linux64: 'v'+v+'/node-webkit-v'+v+'-linux-x64.tar.gz',
-        osx: 'v'+v+'/node-webkit-v'+v+'-osx-ia32.zip',
-        win: 'v'+v+'/node-webkit-v'+v+'-win-ia32.zip'
+        osx32: 'v'+v+'/node-webkit-v'+v+'-osx-ia32.zip',
+        osx64: 'v'+v+'/node-webkit-v'+v+'-osx-x64.zip',
+        win32: 'v'+v+'/node-webkit-v'+v+'-win-ia32.zip',
+        win64: 'v'+v+'/node-webkit-v'+v+'-win-x64.zip',
+
     };
 
     var names = versions.getVersionNames(v);
