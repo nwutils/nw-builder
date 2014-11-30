@@ -132,7 +132,7 @@ test('should zip the app and create the app.nw file + log it', function (t) {
     utils.generateZipFile(files, _evt).then(function(nwfile) {
         var unzipper = new DecompressZip(nwfile);
         unzipper.on('list', function (files) {
-            t.deepEqual(expected, files);
+            t.deepEqual(files, expected);
         });
         unzipper.list();
     });
