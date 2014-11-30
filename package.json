@@ -28,7 +28,7 @@
     "redtape": "~1.0.0"
   },
   "dependencies": {
-    "archiver": "^0.10.0",
+    "archiver": "^0.13.0",
     "bluebird": "~1.2.2",
     "decompress-zip": "0.0.8",
     "fs-extra": "^0.10.0",
