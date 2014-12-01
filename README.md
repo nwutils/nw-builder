@@ -47,7 +47,8 @@ var nw = new NwBuilder({
     platforms: ['win','osx']
 });
 
-// Log stuff you want
+//Log stuff you want
+
 nw.on('log',  console.log);
 
 // Build returns a promise
@@ -56,8 +57,11 @@ nw.build().then(function () {
 }).catch(function (error) {
     console.error(error);
 });
+```
 
-// And supports callbacks
+`build` also supports callbacks:
+
+```javascript
 nw.build(function(err) {
     if(err) console.log(err);
 })
