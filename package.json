@@ -4,7 +4,7 @@
   "description": "node-webkit-builder",
   "main": "index.js",
   "scripts": {
-    "test": "tape test/*.js"
+    "test": "colortape test/*.js"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,8 @@
   "devDependencies": {
     "nock": "^0.32.3",
     "tape": "~3.0.1",
-    "redtape": "~1.0.0"
+    "redtape": "~1.0.0",
+    "colortape": "~0.1.0"
   },
   "dependencies": {
     "archiver": "^0.13.0",
