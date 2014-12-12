@@ -9,7 +9,7 @@ gulp.task('nw', function () {
         files: './nwapp/**',
         macIcns: './icons/icon.icns',
         macPlist: {mac_bundle_id: 'myPkg'},
-        platforms: ['win', 'osx']
+        platforms: ['win32', 'win64', 'osx32', 'osx64']
     });
 
     // Log stuff you want

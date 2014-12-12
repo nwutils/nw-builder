@@ -27,7 +27,7 @@ Yes, there is also a [Grunt Plugin](https://github.com/mllrsohn/grunt-node-webki
 Usage: nwbuild [options] [path]
 
 Options:
-  -p, --platforms      Platforms to build, comma-sperated, can be: win,osx,linux32,linux64   [default: "osx,win"]
+  -p, --platforms      Platforms to build, comma-sperated, can be: win32,win64,osx32,osx64,linux32,linux64   ['osx32', 'osx64', 'win32', 'win64']
   -v, --version        The nw version, eg. 0.8.4                                             [default: "latest"]
   -r, --run            Runs node-webkit for the current platform                            [default: false]  
   -o, --buildDir       The build folder                                                      [default: "./build"]
@@ -44,7 +44,7 @@ Or use the module:
 var NwBuilder = require('node-webkit-builder');
 var nw = new NwBuilder({
     files: './path/to/nwfiles/**/**', // use the glob format
-    platforms: ['win','osx']
+    platforms: ['osx32', 'osx64', 'win32', 'win64']
 });
 
 //Log stuff you want
@@ -85,9 +85,11 @@ The version of node-webkit you want to use. Per default it looks up the latest v
 
 #### options.platforms
 Type: `Array`  
-Default value: `['win', 'osx']`
+Default value: `['osx32', 'osx64', 'win32', 'win64']`
 
-The platforms you want to build. Can be `['win', 'osx', 'linux32', 'linux64']`
+The platforms you want to build. Can be `['win32', 'win64', 'osx32', 'osx64', 'linux32', 'linux64']`
+
+The values `['win', 'osx', 'linux']` can also be used and will build both the 32 and 64 bit versions of the specified platforms.
 
 #### options.appName
 Type: `String`  
@@ -178,10 +180,30 @@ Allows you to specify platform-specific manifest values. Example manifest:
     "platformOverrides": {
         "win": {
             "window": {
+                "toolbar": true
+            }
+        },
+        "win32": {
+            "window": {
+                "frame": true
+                "toolbar": false
+            }
+        },
+        "win64": {
+            "window": {
                 "frame": true
             }
         },
         "osx": {
+            ...
+        },
+        "osx32": {
+            ...
+        },
+        "osx64": {
+            ...
+        },
+        "linux": {
             ...
         },
         "linux32": {
@@ -209,6 +231,8 @@ For example, when building for Windows, the manifest generated and put into the 
     }
 }
 ```
+
+Additionally, when specifying multiple version of the same platform such as "win", "win32", and "win64", changes will be applied such that "win" applies to both "win32" and "win64", while "win32" and "win64" apply only to the specified version. Also note that "win32" and "win64" can further override changes made in "win".
 
 See [#85](https://github.com/mllrsohn/node-webkit-builder/issues/85) and [#94](https://github.com/mllrsohn/node-webkit-builder/pull/94) for more information. If you need this during development too, see [platform-overrides](http://github.com/adam-lynch/platform-overrides) and [gulp-platform-overrides](http://github.com/adam-lynch/gulp-platform-overrides). There is no Grunt plugin, [yet](https://github.com/new).
 

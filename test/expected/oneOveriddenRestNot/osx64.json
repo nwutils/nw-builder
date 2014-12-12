@@ -5,8 +5,5 @@
     "window": {
         "frame": true,
         "toolbar": false
-    },
-    "x": ["z"],
-    "abc": [1],
-    "def": {"x":1}
+    }
 }
