@@ -2,8 +2,8 @@
   "name": "example",
   "version": "0.0.0",
   "devDependencies": {
-    "gulp": "^3.6.2",
-    "node-webkit-builder": "^0.0.3"
+    "gulp": "^3.x",
+    "node-webkit-builder": "^0.x"
   },
   "dependencies": {
     "gulp-util": "^2.2.14"

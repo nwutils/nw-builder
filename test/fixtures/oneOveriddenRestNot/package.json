@@ -7,7 +7,7 @@
         "toolbar": false
     },
     "platformOverrides": {
-        "osx": {
+        "osx32": {
             "window": {
                 "frame": true
             }

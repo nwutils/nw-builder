@@ -1,10 +1,10 @@
 {
   "name": "node-webkit-builder",
-  "version": "0.3.0",
+  "version": "0.4.1",
   "description": "node-webkit-builder",
   "main": "index.js",
   "scripts": {
-    "test": "tape test/*.js | colortape"
+    "test": "colortape test/*.js"
   },
   "repository": {
     "type": "git",
@@ -24,11 +24,11 @@
   "devDependencies": {
     "nock": "^0.32.3",
     "tape": "~3.0.1",
-    "colortape": "0.0.4",
-    "redtape": "~1.0.0"
+    "redtape": "~1.0.0",
+    "colortape": "~0.1.0"
   },
   "dependencies": {
-    "archiver": "^0.10.0",
+    "archiver": "^0.13.0",
     "bluebird": "~1.2.2",
     "decompress-zip": "0.0.8",
     "inherits": "~2.0.1",
