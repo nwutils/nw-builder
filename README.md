@@ -249,6 +249,7 @@ To get around it, run `ulimit -n 1024` (or add it to your `~/.bash_profile`). Fo
 See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Release History
+- 2014-12-12    `1.0.0` 64-bit support, improved platform-overrides and no more EMFILE errors.
 - 2014-12-07    `0.4.0` macPlist CFBundleIdentifier is generated from `package.json` (see [#131](https://github.com/mllrsohn/node-webkit-builder/pull/131))
 - 2014-11-14    `0.3.0` macPlist option improvements (see [#96](https://github.com/mllrsohn/node-webkit-builder/pull/96))
 - 2014-10-30    `0.2.0` adds support for platform-specific manifest overrides (see [#94](https://github.com/mllrsohn/node-webkit-builder/pull/94))
