@@ -1,6 +1,6 @@
 {
   "name": "node-webkit-builder",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "node-webkit-builder",
   "main": "index.js",
   "scripts": {
@@ -45,7 +45,7 @@
     "temp": "~0.7.0",
     "update-notifier": "^0.1.8",
     "winresourcer": "^0.9.0",
-    "platform-overrides": "~1.0.0",
+    "platform-overrides": "~1.0.1",
     "graceful-ncp": "0.0.1",
     "graceful-fs-extra": "~1.0.2"
   }
