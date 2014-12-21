@@ -8,6 +8,9 @@ var DecompressZip = require('decompress-zip');
 var _ = require('lodash');
 var EventEmitter = require('events').EventEmitter;
 var del = require('rimraf');
+var Promise = require('bluebird');
+var tempFile = Promise.promisify(temp.open);
+var tempFileCleanup = Promise.promisify(temp.cleanup);
 
 test('getPackageInfo invalid', function (t) {
     t.plan(1);
@@ -25,28 +28,49 @@ test('getPackageInfo valid', function (t) {
 
 });
 
-test('editPlist', function (t) {
-    t.plan(1);
-    temp.open('plstest', function(err, info) {
-        utils.editPlist('./test/fixtures/Info.plist', info.path, utils.getPlistOptions(
+test('generate and write a valid plist file', function (t) {
+    t.plan(2);
+    var tests = [];
+
+    // custom properties
+    tests.push(tempFile('plist-1').then(function (info) {
+        var options = utils.getPlistOptions(
             {
                 name: 'TestApp',
                 version: '1.3.3.7',
                 copyright: '(c) by me'
             },
             {
-                CFBundleDisplayName: "My cool TestApp",
+                CFBundleDisplayName: 'My cool TestApp',
                 LSEnvironment: {
                     PATH: '/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin'
                 }
             }
-        )).then(function () {
+        );
+        return utils.editPlist('./test/fixtures/osx-plist/Info.plist', info.path, options).then(function () {
             var actual   = fs.readFileSync(info.path).toString().replace(/\r|\n/gm, '');
-            var expected = fs.readFileSync('./test/expected/Info.plist').toString().replace(/\r|\n/gm, '');
-            t.equal(actual, expected, 'generate and write a valid plist file');
-            t.end();
+            var expected = fs.readFileSync('./test/expected/osx-plist/1.plist').toString().replace(/\r|\n/gm, '');
+            t.equal(actual, expected, 'with custom properties');
         });
+    }));
 
+    // without copyright information
+    tests.push(tempFile('plist-2').then(function (info) {
+        var options = utils.getPlistOptions(
+            {
+                name: 'TestApp',
+                version: '1.3.3.7'
+            }
+        );
+        return utils.editPlist('./test/fixtures/osx-plist/Info.plist', info.path, options).then(function () {
+            var actual   = fs.readFileSync(info.path).toString().replace(/\r|\n/gm, '');
+            var expected = fs.readFileSync('./test/expected/osx-plist/2.plist').toString().replace(/\r|\n/gm, '');
+            t.equal(actual, expected, 'without copyright information');
+        });
+    }));
+
+    Promise.all(tests).then(tempFileCleanup).then(function () {
+        t.end();
     });
 
 });
