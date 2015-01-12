@@ -185,7 +185,7 @@ Allows you to specify platform-specific manifest values. Example manifest:
         },
         "win32": {
             "window": {
-                "frame": true
+                "frame": true,
                 "toolbar": false
             }
         },
