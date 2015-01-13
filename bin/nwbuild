@@ -4,6 +4,7 @@ var updateNotifier = require('update-notifier');
 var NwBuilder = require('./../lib');
 var path = require('path');
 var detectCurrentPlatform = require('../lib/detectCurrentPlatform.js')
+var defaultCache = path.resolve(__dirname, '..', 'cache')
 
 var argv = optimist
     .usage('Usage: nwbuild [options] [path]')
@@ -26,6 +27,9 @@ var argv = optimist
     .default('o', './build')
     .describe('o', 'The build folder')
 
+    .alias('c', 'cache')
+    .default('c', defaultCache)
+    .describe('c', 'node-webkit download folder')
 
     .alias('f', 'forceDownload')
     .default('f', false)
@@ -64,7 +68,7 @@ var options = {
     files: path.resolve(process.cwd(), files) + '/**/*',
     platforms: argv.platforms.split(','),
     version: argv.version,
-    cacheDir: path.resolve(__dirname, '..', 'cache'),
+    cacheDir: argv.cache,
     buildDir: path.resolve(process.cwd(), argv.buildDir),
     forceDownload: argv.forceDownload
 };
