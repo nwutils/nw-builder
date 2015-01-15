@@ -45,3 +45,75 @@ test('getVersionNames', function (t) {
     t.equal( names.version, v );
     t.deepEqual(names.platforms, expected);
 });
+
+test('getVersionNames for 0.12.0-alpha1', function (t) {
+    t.plan(2);
+
+    var v = '0.12.0-alpha1';
+    var expected = {
+        linux32: 'v'+v+'/nwjs-v'+v+'-linux-ia32.tar.gz',
+        linux64: 'v'+v+'/nwjs-v'+v+'-linux-x64.tar.gz',
+        osx32: 'v'+v+'/nwjs-v'+v+'-osx-ia32.zip',
+        osx64: 'v'+v+'/nwjs-v'+v+'-osx-x64.zip',
+        win32: 'v'+v+'/nwjs-v'+v+'-win-ia32.zip',
+        win64: 'v'+v+'/nwjs-v'+v+'-win-x64.zip',
+    };
+
+    var names = versions.getVersionNames(v);
+    t.equal( names.version, v );
+    t.deepEqual(names.platforms, expected);
+});
+
+test('getVersionNames for 0.12.0-alpha2', function (t) {
+    t.plan(2);
+
+    var v = '0.12.0-alpha2';
+    var expected = {
+        linux32: 'v'+v+'/nwjs-v'+v+'-linux-ia32.tar.gz',
+        linux64: 'v'+v+'/nwjs-v'+v+'-linux-x64.tar.gz',
+        osx32: 'v'+v+'/nwjs-v'+v+'-osx-ia32.zip',
+        osx64: 'v'+v+'/nwjs-v'+v+'-osx-x64.zip',
+        win32: 'v'+v+'/nwjs-v'+v+'-win-ia32.zip',
+        win64: 'v'+v+'/nwjs-v'+v+'-win-x64.zip',
+    };
+
+    var names = versions.getVersionNames(v);
+    t.equal( names.version, v );
+    t.deepEqual(names.platforms, expected);
+});
+
+test('getVersionNames for 0.12.0', function (t) {
+    t.plan(2);
+
+    var v = '0.12.0';
+    var expected = {
+        linux32: 'v'+v+'/nwjs-v'+v+'-linux-ia32.tar.gz',
+        linux64: 'v'+v+'/nwjs-v'+v+'-linux-x64.tar.gz',
+        osx32: 'v'+v+'/nwjs-v'+v+'-osx-ia32.zip',
+        osx64: 'v'+v+'/nwjs-v'+v+'-osx-x64.zip',
+        win32: 'v'+v+'/nwjs-v'+v+'-win-ia32.zip',
+        win64: 'v'+v+'/nwjs-v'+v+'-win-x64.zip',
+    };
+
+    var names = versions.getVersionNames(v);
+    t.equal( names.version, v );
+    t.deepEqual(names.platforms, expected);
+});
+
+test('getVersionNames for 1.0.0-alpha1', function (t) {
+    t.plan(2);
+
+    var v = '1.0.0-alpha1';
+    var expected = {
+        linux32: 'v'+v+'/nwjs-v'+v+'-linux-ia32.tar.gz',
+        linux64: 'v'+v+'/nwjs-v'+v+'-linux-x64.tar.gz',
+        osx32: 'v'+v+'/nwjs-v'+v+'-osx-ia32.zip',
+        osx64: 'v'+v+'/nwjs-v'+v+'-osx-x64.zip',
+        win32: 'v'+v+'/nwjs-v'+v+'-win-ia32.zip',
+        win64: 'v'+v+'/nwjs-v'+v+'-win-x64.zip',
+    };
+
+    var names = versions.getVersionNames(v);
+    t.equal( names.version, v );
+    t.deepEqual(names.platforms, expected);
+});
