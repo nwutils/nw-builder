@@ -4,6 +4,8 @@
 
 > Lets you build your [node-webkit](https://github.com/rogerwang/node-webkit) apps for mac, win and linux via cli. It will download the prebuilt binaries for a newest version, unpacks it, creates a release folder, create the app.nw file for a specified directory and copies the app.nw file where it belongs.
 
+## Warning: NW.js 0.12.0-alpha1 is currently unsupported
+node-webkit was [recently renamed](https://groups.google.com/forum/#!msg/nwjs-general/V1FhvfaFIzQ/720xKVd0jNkJ) to NW.js and we are currently working to support it. Follow [#157](https://github.com/mllrsohn/node-webkit-builder/issues/157) for updates.
 
 ### Installation
 
