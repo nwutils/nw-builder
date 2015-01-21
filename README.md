@@ -249,6 +249,7 @@ To get around it, run `ulimit -n 1024` (or add it to your `~/.bash_profile`). Fo
 See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Release History
+- 2015-01-21    `1.0.7` fixed about screen when copyright is not supplied
 - 2015-01-15    `1.0.6` fixed downloads for nw.js version 0.12.0-alpha1
 - 2015-01-15    `1.0.5` fixed downloads for node-webkit versions < 0.12.0-alpha
 - 2014-12-12    `1.0.0` 64-bit support, improved platform-overrides and no more EMFILE errors.
