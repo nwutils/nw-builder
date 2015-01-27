@@ -78,7 +78,7 @@ test('generate and write a valid plist file', function (t) {
 test('getFileList', function (t) {
     t.plan(5);
 
-    utils.getFileList('./test/fixtures/nwapp/**').then(function(data) {
+    utils.getFileList([], './test/fixtures/nwapp/**').then(function(data) {
         t.equal(data.json, path.normalize('test/fixtures/nwapp/package.json'), 'figure out the right json');
         var expected = [{
             "src" : path.normalize("test/fixtures/nwapp/images/imagefile.img"),
@@ -102,17 +102,17 @@ test('getFileList', function (t) {
         t.deepEqual(data.files, expected);
     });
 
-    utils.getFileList('./test/fixtures/nwapp/images/**').then(function(data) {
+    utils.getFileList([], './test/fixtures/nwapp/images/**').then(function(data) {
     }, function (error) {
         t.equal(error, 'Could not find a package.json in your src folder', 'throw an error if there is no package json');
     });
 
-    utils.getFileList('./test/fixtures/nwapp/images/*.js').then(function(data) {
+    utils.getFileList([], './test/fixtures/nwapp/images/*.js').then(function(data) {
     }, function (error) {
         t.equal(error, 'No files matching');
     });
 
-    utils.getFileList(['./test/fixtures/nwapp/**/*', '!./test/fixtures/nwapp/node_modules/**/*',  '!./test/fixtures/nwapp/javascript/**/*']).then(function(data) {
+    utils.getFileList([], ['./test/fixtures/nwapp/**/*', '!./test/fixtures/nwapp/node_modules/**/*',  '!./test/fixtures/nwapp/javascript/**/*']).then(function(data) {
         var expected = [{
             "src" : path.normalize("test/fixtures/nwapp/images/imagefile.img"),
             "dest": path.normalize("images/imagefile.img")
