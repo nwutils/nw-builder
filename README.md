@@ -249,6 +249,7 @@ To get around it, run `ulimit -n 1024` (or add it to your `~/.bash_profile`). Fo
 See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Release History
+- 2015-01-29    `1.0.8` fixed EMFILE errors (see [#147](https://github.com/mllrsohn/node-webkit-builder/issues/147) [#148](https://github.com/mllrsohn/node-webkit-builder/pull/148))
 - 2015-01-21    `1.0.7` fixed about screen when copyright is not supplied
 - 2015-01-15    `1.0.6` fixed downloads for nw.js version 0.12.0-alpha1
 - 2015-01-15    `1.0.5` fixed downloads for node-webkit versions < 0.12.0-alpha
