@@ -4,7 +4,9 @@
   "description": "node-webkit-builder",
   "main": "index.js",
   "scripts": {
-    "test": "colortape test/*.js"
+    "test": "colortape test/*.js",
+    "eol": "node -e \"fs=require('fs'); eol=require('eol'); fs.writeFileSync('bin/nwbuild', eol.lf(fs.readFileSync('bin/nwbuild').toString()))\"",
+    "publish": "npm run eol && mversion patch -m && npm publish"
   },
   "repository": {
     "type": "git",
@@ -22,21 +24,26 @@
   },
   "homepage": "https://github.com/mllrsohn/node-webkit-builder",
   "devDependencies": {
+    "colortape": "~0.1.0",
+    "eol": "^0.2.0",
+    "mversion": "^1.9.0",
     "nock": "^0.32.3",
-    "tape": "~3.0.1",
     "redtape": "~1.0.0",
-    "colortape": "~0.1.0"
+    "tape": "~3.0.1"
   },
   "dependencies": {
     "archiver": "^0.13.0",
     "bluebird": "~1.2.2",
     "decompress-zip": "0.0.8",
+    "graceful-fs-extra": "~1.0.2",
+    "graceful-ncp": "0.0.1",
     "inherits": "~2.0.1",
     "lodash": "~2.4.1",
     "optimist": "^0.6.1",
-    "rcedit": "0.2.0",
+    "platform-overrides": "~1.0.1",
     "plist": "^1.0.0",
     "progress": "~1.1.7",
+    "rcedit": "0.2.0",
     "request": "~2.40.0",
     "rimraf": "^2.2.8",
     "semver": "^2.3.1",
@@ -44,9 +51,6 @@
     "tar-fs": "^0.3.2",
     "temp": "~0.7.0",
     "update-notifier": "^0.1.8",
-    "winresourcer": "^0.9.0",
-    "platform-overrides": "~1.0.1",
-    "graceful-ncp": "0.0.1",
-    "graceful-fs-extra": "~1.0.2"
+    "winresourcer": "^0.9.0"
   }
 }
