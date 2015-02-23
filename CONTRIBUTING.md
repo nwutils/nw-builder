@@ -11,3 +11,9 @@ This project has a [.editorconifg](.editorconfig) file. Go to [EditorConfig.org]
 2. `npm test`
 
 Note: some permission assertions always fail on Windows for now (:frowning:, I know)
+
+## Publishing
+
+Before publishing a new version, do the following:
+
+1. Run `node build`
