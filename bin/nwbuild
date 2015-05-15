@@ -64,6 +64,8 @@ var options = {
     files: path.resolve(process.cwd(), files) + '/**/*',
     platforms: argv.platforms.split(','),
     version: argv.version,
+    macIcns: argv.macIcns || false,
+    winIco: argv.winIco || false,
     cacheDir: path.resolve(__dirname, '..', 'cache'),
     buildDir: path.resolve(process.cwd(), argv.buildDir),
     forceDownload: argv.forceDownload
