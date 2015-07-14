@@ -5,14 +5,14 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>node-webkit</string>
+	<string>nwjs</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
 			<string>nw.icns</string>
 			<key>CFBundleTypeName</key>
-			<string>node-webkit App</string>
+			<string>NW.js App</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSHandlerRank</key>
@@ -36,7 +36,7 @@
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
-	<string>node-webkit</string>
+	<string>nwjs</string>
 	<key>CFBundleIconFile</key>
 	<string>nw.icns</string>
 	<key>CFBundleIdentifier</key>
@@ -44,7 +44,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>node-webkit</string>
+	<string>nwjs</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -69,23 +69,23 @@
 				<string>com.pkware.zip-archive</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>node-webkit App</string>
+			<string>NW.js App</string>
 			<key>UTTypeIconFile</key>
 			<string>nw.icns</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.intel.nw.app</string>
 			<key>UTTypeReferenceURL</key>
-			<string>https://github.com/rogerwang/node-webkit/wiki/How-to-package-and-distribute-your-apps</string>
+			<string>https://github.com/nwjs/nw.js/wiki/How-to-package-and-distribute-your-apps</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>com.apple.ostype</key>
-				<string>node-webkit</string>
+				<string>nwjs</string>
 				<key>public.filename-extension</key>
 				<array>
 					<string>nw</string>
 				</array>
 				<key>public.mime-type</key>
-				<string>application/x-node-webkit-app</string>
+				<string>application/x-nwjs-app</string>
 			</dict>
 		</dict>
 	</array>

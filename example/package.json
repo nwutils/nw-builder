@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "devDependencies": {
     "gulp": "^3.x",
-    "node-webkit-builder": "^1.x"
+    "nw-builder": "^2.x"
   },
   "dependencies": {
     "gulp-util": "^2.2.14"

@@ -1,11 +1,11 @@
 {
   "main": "index.html",
   "name": "nw-demo",
-  "description": "demo app of node-webkit",
+  "description": "demo app of NW.js",
   "version": "0.1.0",
-  "keywords": [ "demo", "node-webkit" ],
+  "keywords": [ "demo", "NW.js" ],
   "window": {
-    "title": "node-webkit demo",
+    "title": "NW.js demo",
     "icon": "link.png",
     "toolbar": false,
     "frame": true,
