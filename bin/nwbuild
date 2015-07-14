@@ -18,7 +18,7 @@ var argv = optimist
 
     .alias('r', 'run')
     .default('r', false)
-    .describe('r', 'Runs node-webkit for the current platform')
+    .describe('r', 'Runs NW.js for the current platform')
     .boolean('r')
 
 
@@ -29,7 +29,7 @@ var argv = optimist
 
     .alias('f', 'forceDownload')
     .default('f', false)
-    .describe('f', 'Force download of node-webkit')
+    .describe('f', 'Force download of NW.js')
     .boolean('f')
 
 

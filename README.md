@@ -2,7 +2,7 @@
 
 [![NPM](https://nodei.co/npm/nw-builder.png?downloads=true)](https://nodei.co/npm/nw-builder/)
 
-> Lets you build your [node-webkit](https://github.com/rogerwang/node-webkit) apps for mac, win and linux via cli. It will download the prebuilt binaries for a newest version, unpacks it, creates a release folder, create the app.nw file for a specified directory and copies the app.nw file where it belongs.
+> Lets you build your [NW.js](https://github.com/nwjs/nw.js) apps for mac, win and linux via cli. It will download the prebuilt binaries for a newest version, unpacks it, creates a release folder, create the app.nw file for a specified directory and copies the app.nw file where it belongs.
 
 
 ### Installation
@@ -29,14 +29,14 @@ Usage: nwbuild [options] [path]
 Options:
   -p, --platforms      Platforms to build, comma-sperated, can be: win32,win64,osx32,osx64,linux32,linux64   ['osx32', 'osx64', 'win32', 'win64']
   -v, --version        The nw version, eg. 0.8.4                                             [default: "latest"]
-  -r, --run            Runs node-webkit for the current platform                            [default: false]  
+  -r, --run            Runs NW.js for the current platform                                   [default: false]
   -o, --buildDir       The build folder                                                      [default: "./build"]
-  -f, --forceDownload  Force download of node-webkit                                         [default: false]
+  -f, --forceDownload  Force download of NW.js                                               [default: false]
   --quiet              Disables logging                                                      [default: false]
 
 ```
-#### Run node-webkit
-During development you can run node-webkit with `nwbuild -r path/to/your/younwapp/`
+#### Run NW.js
+During development you can run NW.js with `nwbuild -r path/to/your/younwapp/`
 
 Or use the module:
 
@@ -81,7 +81,7 @@ The path to your node webkit app. It supports [simple-glob](https://github.com/j
 Type: `String`
 Default value: `'latest'`
 
-The version of node-webkit you want to use. Per default it looks up the latest version. [Here is a list](https://github.com/rogerwang/node-webkit/wiki/Downloads-of-old-versions) of all available releases
+The version of NW.js you want to use. Per default it looks up the latest version. [Here is a list](https://github.com/nwjs/nw.js/wiki/Downloads-of-old-versions) of all available releases
 
 #### options.platforms
 Type: `Array`  
@@ -95,13 +95,13 @@ The values `['win', 'osx', 'linux']` can also be used and will build both the 32
 Type: `String`  
 Default value: `false`  
 
-The Name of your node-webkit app. If this value is set to null, it will autodetect the `name` form your projects package.json. This will be used to generate a plist file for mac.
+The Name of your NW.js app. If this value is set to null, it will autodetect the `name` form your projects package.json. This will be used to generate a plist file for mac.
 
 #### options.appVersion
 Type: `String`  
 Default value: `false`  
 
-The version of your node-webkit app. If this value is set to null, it will autodetect the `version` form your projects package.json. This will be used to generate a plist file for mac.
+The version of your NW.js app. If this value is set to null, it will autodetect the `version` form your projects package.json. This will be used to generate a plist file for mac.
 
 #### options.buildDir
 Type: `String`  
@@ -113,7 +113,7 @@ This is where the releases are saved.
 Type: `String`  
 Default value: `./cache`  
 
-This is where the cached node-webkit downloads are
+This is where the cached NW.js downloads are
 
 #### options.buildType
 Type: `String` or `function`
@@ -136,13 +136,13 @@ This will delete everything in your `build_dir` directory, including the cached 
 Type: `String`  
 Default value: `false`  
 
-MAC ONLY: The path to your credits.html file. If your don't provide your own it will use the one provided by node-webkit
+MAC ONLY: The path to your credits.html file. If your don't provide your own it will use the one provided by NW.js
 
 #### options.macIcns
 Type: `String`  
 Default value: `false`  
 
-MAC ONLY: The path to your ICNS icon file. If your don't provide your own it will use the one provided by node-webkit
+MAC ONLY: The path to your ICNS icon file. If your don't provide your own it will use the one provided by NW.js
 
 #### options.macZip
 Type: `Boolean`  
@@ -160,7 +160,7 @@ MAC ONLY: Pass a string containing the path to your own plist file. If a string 
 Type: `String`  
 Default value: `null`  
 
-WINDOWS ONLY: The path to your ICO icon file. If your don't provide your own it will use the one provided by node-webkit. If you are building on MAC or LINUX you must have [Wine](http://winehq.org) installed to use this option.
+WINDOWS ONLY: The path to your ICO icon file. If your don't provide your own it will use the one provided by NW.js. If you are building on MAC or LINUX you must have [Wine](http://winehq.org) installed to use this option.
 
 ### Manifest Options
 
@@ -253,7 +253,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 - 2015-01-29    `1.0.8` fixed EMFILE errors (see [#147](https://github.com/mllrsohn/nw-builder/issues/147) [#148](https://github.com/mllrsohn/nw-builder/pull/148))
 - 2015-01-21    `1.0.7` fixed about screen when copyright is not supplied
 - 2015-01-15    `1.0.6` fixed downloads for nw.js version 0.12.0-alpha1
-- 2015-01-15    `1.0.5` fixed downloads for node-webkit versions < 0.12.0-alpha
+- 2015-01-15    `1.0.5` fixed downloads for NW.js versions < 0.12.0-alpha
 - 2014-12-12    `1.0.0` 64-bit support, improved platform-overrides and no more EMFILE errors.
 - 2014-12-07    `0.4.0` macPlist CFBundleIdentifier is generated from `package.json` (see [#131](https://github.com/mllrsohn/nw-builder/pull/131))
 - 2014-11-14    `0.3.0` macPlist option improvements (see [#96](https://github.com/mllrsohn/nw-builder/pull/96))
