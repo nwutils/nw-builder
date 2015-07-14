@@ -18,7 +18,7 @@ npm install nw-builder -g
 ```
 
 ##### Grunt and Gulp Plugins
-Yes, there is also a [Grunt Plugin](https://github.com/mllrsohn/grunt-nw-builder). For Gulp, just use the module :)
+Yes, there is also a [Grunt Plugin](https://github.com/mllrsohn/grunt-node-webkit-builder). For Gulp, just use the module :)
 
 
 ## Usage
