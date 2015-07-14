@@ -21,6 +21,12 @@
     "url": "https://github.com/mllrsohn/nw-builder/issues"
   },
   "homepage": "https://github.com/mllrsohn/nw-builder",
+  "keywords": [
+    "NW.js",
+    "node-webkit",
+    "desktop",
+    "application"
+  ],
   "devDependencies": {
     "nock": "^0.32.3",
     "tape": "~3.0.1",
