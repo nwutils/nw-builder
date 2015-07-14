@@ -12,7 +12,7 @@ test('getLatestVersion', function (t) {
     t.plan(1);
 
     nock(dlUrl).get('/').replyWithFile(200, fixturesVersionsHtml);
-    nock(dlUrl).head('/v0.10.2/node-webkit-v0.10.2-win-x64.zip')
+    nock(dlUrl).head('/v0.10.2/node-webkit-v0.10.2-win-ia32.zip')
         .replyWithFile(200, fixturesVersionsHtml); // needs to reply with *any* content
     versions.getLatestVersion(dlUrl).then(function(result){
         t.equal(result, expectedVersions[0]);
@@ -24,7 +24,7 @@ test('getVersions', function (t) {
 
     nock(dlUrl).get('/').replyWithFile(200, fixturesVersionsHtml);
     expectedVersions.forEach(function(expectedVersion){
-        nock(dlUrl).head('/v' + expectedVersion + '/node-webkit-v' + expectedVersion + '-win-x64.zip')
+        nock(dlUrl).head('/v' + expectedVersion + '/node-webkit-v' + expectedVersion + '-win-ia32.zip')
             .replyWithFile(200, fixturesVersionsHtml); // needs to reply with *any* content
     });
     versions.getVersions(dlUrl).then(function(result){
