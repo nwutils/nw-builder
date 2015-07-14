@@ -13,7 +13,7 @@
     <key>CFBundleIconFile</key>
     <string>nw.icns</string>
     <key>CFBundleIdentifier</key>
-    <string>com.node-webkit-builder.testapp</string>
+    <string>com.nw-builder.testapp</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>

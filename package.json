@@ -1,14 +1,14 @@
 {
-  "name": "node-webkit-builder",
+  "name": "nw-builder",
   "version": "1.0.13",
-  "description": "node-webkit-builder",
+  "description": "nw-builder",
   "main": "index.js",
   "scripts": {
     "test": "colortape test/*.js"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/mllrsohn/node-webkit-builder.git"
+    "url": "git://github.com/mllrsohn/nw-builder.git"
   },
   "bin": {
     "nwbuild": "./bin/nwbuild"
@@ -18,9 +18,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mllrsohn/node-webkit-builder/issues"
+    "url": "https://github.com/mllrsohn/nw-builder/issues"
   },
-  "homepage": "https://github.com/mllrsohn/node-webkit-builder",
+  "homepage": "https://github.com/mllrsohn/nw-builder",
   "devDependencies": {
     "nock": "^0.32.3",
     "tape": "~3.0.1",
