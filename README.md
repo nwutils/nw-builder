@@ -32,6 +32,7 @@ Options:
   -r, --run            Runs NW.js for the current platform                                   [default: false]
   -o, --buildDir       The build folder                                                      [default: "./build"]
   -f, --forceDownload  Force download of NW.js                                               [default: false]
+  --cacheDir           The cache folder
   --quiet              Disables logging                                                      [default: false]
 
 ```
