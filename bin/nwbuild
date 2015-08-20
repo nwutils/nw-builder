@@ -32,6 +32,7 @@ var argv = optimist
     .describe('f', 'Force download of NW.js')
     .boolean('f')
 
+    .describe('cacheDir', 'The cache folder')
 
     .default('quiet', false)
     .describe('quiet', 'Disables logging')
@@ -66,7 +67,7 @@ var options = {
     version: argv.version,
     macIcns: argv.macIcns || false,
     winIco: argv.winIco || false,
-    cacheDir: path.resolve(__dirname, '..', 'cache'),
+    cacheDir: argv.cacheDir ? path.resolve(process.cwd(), argv.cacheDir) : path.resolve(__dirname, '..', 'cache'),
     buildDir: path.resolve(process.cwd(), argv.buildDir),
     forceDownload: argv.forceDownload
 };
