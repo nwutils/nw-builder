@@ -162,6 +162,12 @@ Default value: `null`
 
 WINDOWS ONLY: The path to your ICO icon file. If your don't provide your own it will use the one provided by NW.js. If you are building on MAC or LINUX you must have [Wine](http://winehq.org) installed to use this option.
 
+#### options.mergeZip
+Type: `Boolean`
+Default value: `true`
+
+WINDOWS AND LINUX ONLY: Merge the source file package with the Node Webkit executable.
+
 ### Manifest Options
 
 #### platformOverrides
