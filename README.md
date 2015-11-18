@@ -150,6 +150,12 @@ Default value: `false`
 
 MAC ONLY: Use a `app.nw` folder instead of `ZIP` file, this significantly improves the startup speed of applications on `mac`, since no decompressing is needed. Builds on other platforms will still use `ZIP` files.
 
+#### options.winZip
+Type: `Boolean`  
+Default value: `false`  
+
+Windows ONLY: Same as `macZip` prevent asset compressing, this may cause startup very slowly on windows.
+
 #### options.macPlist
 Type: `String` or `Object`  
 Default value: `false`  
