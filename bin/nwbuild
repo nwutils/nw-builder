@@ -3,7 +3,7 @@ var optimist = require('optimist');
 var updateNotifier = require('update-notifier');
 var NwBuilder = require('./../lib');
 var path = require('path');
-var detectCurrentPlatform = require('../lib/detectCurrentPlatform.js')
+var detectCurrentPlatform = require('../lib/detectCurrentPlatform.js');
 
 var argv = optimist
     .usage('Usage: nwbuild [options] [path]')
@@ -73,7 +73,7 @@ var options = {
 
 // Check Platform, if we are in run mode
 if(argv.r) {
-    var currentPlatform = detectCurrentPlatform()
+    var currentPlatform = detectCurrentPlatform();
     options.platforms = [ currentPlatform ];
     options.currentPlatform = currentPlatform;
 }
