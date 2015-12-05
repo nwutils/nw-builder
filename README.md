@@ -95,7 +95,7 @@ The values `['win', 'osx', 'linux']` can also be used and will build both the 32
 Type: `String`  
 Default value: `false`  
 
-The Name of your NW.js app. If this value is set to null, it will autodetect the `name` form your projects package.json. This will be used to generate a plist file for mac.
+The Name of your NW.js app. If this value is set to null, it will autodetect the `name` from your projects package.json. This will be used to generate a plist file for mac.
 
 #### options.appVersion
 Type: `String`  
