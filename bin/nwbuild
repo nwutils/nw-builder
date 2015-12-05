@@ -37,6 +37,14 @@ var argv = optimist
     .describe('quiet', 'Disables logging')
     .boolean('quiet')
 
+    .default('cacheDir', './cache')
+    .describe('cacheDir', 'Where the base nwjs will be cached.')
+
+    .default('downloadUrl', 'http://dl.nwjs.io/')
+
+    .default('buildType', 'default')
+    .describe('How the app will be created. Can be default,timestamped,versioned')
+
     .argv;
 
 // Howto Help
@@ -66,9 +74,11 @@ var options = {
     version: argv.version,
     macIcns: argv.macIcns || false,
     winIco: argv.winIco || false,
-    cacheDir: path.resolve(__dirname, '..', 'cache'),
+    cacheDir: argv.cacheDir || path.resolve(__dirname, '..', 'cache'),
     buildDir: path.resolve(process.cwd(), argv.buildDir),
-    forceDownload: argv.forceDownload
+    forceDownload: argv.forceDownload,
+    downloadUrl: argv.downloadUrl,
+    buildType: argv.buildType
 };
 
 // Check Platform, if we are in run mode
