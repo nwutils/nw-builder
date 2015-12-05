@@ -18,7 +18,7 @@ npm install nw-builder -g
 ```
 
 ##### Grunt and Gulp Plugins
-Yes, there is also a [Grunt Plugin](https://github.com/mllrsohn/grunt-nw-builder). For Gulp, just use the module :)
+Yes, there is also a [Grunt Plugin](https://github.com/nwjs/grunt-nw-builder). For Gulp, just use the module :)
 
 
 ## Usage
@@ -160,7 +160,7 @@ MAC ONLY: Pass a string containing the path to your own plist file. If a string 
 Type: `String`  
 Default value: `null`  
 
-WINDOWS ONLY: The path to your ICO icon file. If your don't provide your own it will use the one provided by NW.js. If you are building on MAC or LINUX you must have [Wine](http://winehq.org) installed to use this option.
+WINDOWS ONLY: The path to your ICO icon file. If your don't provide your own it will use the one provided by NW.js. If you are building on MAC or LINUX you must have [Wine](https://www.winehq.org/) installed to use this option.
 
 ### Manifest Options
 
@@ -234,7 +234,7 @@ For example, when building for Windows, the manifest generated and put into the 
 
 Additionally, when specifying multiple version of the same platform such as "win", "win32", and "win64", changes will be applied such that "win" applies to both "win32" and "win64", while "win32" and "win64" apply only to the specified version. Also note that "win32" and "win64" can further override changes made in "win".
 
-See [#85](https://github.com/mllrsohn/nw-builder/issues/85) and [#94](https://github.com/mllrsohn/nw-builder/pull/94) for more information. If you need this during development too, see [platform-overrides](http://github.com/adam-lynch/platform-overrides) and [gulp-platform-overrides](http://github.com/adam-lynch/gulp-platform-overrides). There is no Grunt plugin, [yet](https://github.com/new).
+See [#85](https://github.com/nwjs/nw-builder/issues/85) and [#94](https://github.com/nwjs/nw-builder/pull/94) for more information. If you need this during development too, see [platform-overrides](https://github.com/adam-lynch/platform-overrides) and [gulp-platform-overrides](https://github.com/adam-lynch/gulp-platform-overrides). There is no Grunt plugin, [yet](https://github.com/new).
 
 ## Troubleshooting
 
@@ -249,15 +249,15 @@ To get around it, run `ulimit -n 1024` (or add it to your `~/.bash_profile`). Fo
 See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Release History
-- 2015-05-05    `1.0.12` when using latest NW.js version, it's first validated that it's not an alpha version (fixes [#222](https://github.com/mllrsohn/nw-builder/issues/222)). Plus a fix for the `winIco` & `macIcns` command line options
-- 2015-01-29    `1.0.8` fixed EMFILE errors (see [#147](https://github.com/mllrsohn/nw-builder/issues/147) [#148](https://github.com/mllrsohn/nw-builder/pull/148))
+- 2015-05-05    `1.0.12` when using latest NW.js version, it's first validated that it's not an alpha version (fixes [#222](https://github.com/nwjs/nw-builder/issues/222)). Plus a fix for the `winIco` & `macIcns` command line options
+- 2015-01-29    `1.0.8` fixed EMFILE errors (see [#147](https://github.com/nwjs/nw-builder/issues/147) [#148](https://github.com/nwjs/nw-builder/pull/148))
 - 2015-01-21    `1.0.7` fixed about screen when copyright is not supplied
 - 2015-01-15    `1.0.6` fixed downloads for nw.js version 0.12.0-alpha1
 - 2015-01-15    `1.0.5` fixed downloads for NW.js versions < 0.12.0-alpha
 - 2014-12-12    `1.0.0` 64-bit support, improved platform-overrides and no more EMFILE errors.
-- 2014-12-07    `0.4.0` macPlist CFBundleIdentifier is generated from `package.json` (see [#131](https://github.com/mllrsohn/nw-builder/pull/131))
-- 2014-11-14    `0.3.0` macPlist option improvements (see [#96](https://github.com/mllrsohn/nw-builder/pull/96))
-- 2014-10-30    `0.2.0` adds support for platform-specific manifest overrides (see [#94](https://github.com/mllrsohn/nw-builder/pull/94))
+- 2014-12-07    `0.4.0` macPlist CFBundleIdentifier is generated from `package.json` (see [#131](https://github.com/nwjs/nw-builder/pull/131))
+- 2014-11-14    `0.3.0` macPlist option improvements (see [#96](https://github.com/nwjs/nw-builder/pull/96))
+- 2014-10-30    `0.2.0` adds support for platform-specific manifest overrides (see [#94](https://github.com/nwjs/nw-builder/pull/94))
 - 2014-08-19    `0.1.2` adds a progress bar to downloads, fixes downloading through a proxy, fixed winIco, bug fixes
 - 2014-08-01    `0.1.0` use app filename for generated executables, optimized version checking, (known issue: `winIco` on windows)
 - 2014-07-31    `0.0.4` fixed compatibility with nodewebkit 0.10.0
@@ -265,13 +265,13 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 - 2014-04-13    Preview Release
 ## License
 
-[MIT License](http://en.wikipedia.org/wiki/MIT_License)
+[MIT License](https://en.wikipedia.org/wiki/MIT_License)
 
-[npm-url]: https://npmjs.org/package/nw-builder
-[npm-image]: http://img.shields.io/npm/v/nw-builder.svg?style=flat
+[npm-url]: https://www.npmjs.com/package/nw-builder
+[npm-image]: https://img.shields.io/npm/v/nw-builder.svg?style=flat
 
-[travis-url]: http://travis-ci.org/mllrsohn/nw-builder
-[travis-image]: http://img.shields.io/travis/mllrsohn/nw-builder/master.svg?style=flat
+[travis-url]: https://travis-ci.org/mllrsohn/nw-builder
+[travis-image]: https://img.shields.io/travis/mllrsohn/nw-builder/master.svg?style=flat
 
 [depstat-url]: https://david-dm.org/mllrsohn/nw-builder
 [depstat-image]: https://david-dm.org/mllrsohn/nw-builder.svg?style=flat
