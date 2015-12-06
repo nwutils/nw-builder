@@ -250,6 +250,7 @@ To get around it, run `ulimit -n 1024` (or add it to your `~/.bash_profile`). Fo
 See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Release History
+- 2015-12-06    `2.1.0` added `cacheDir` command-line option, fix for no info being passed back, etc.
 - 2015-06-28    `2.0.2` put upper bound to semver check for windows.
 - 2015-06-14    `2.0.1` safer validation of versions.
 - 2015-06-14    `2.0.0` changed to nw-builder, etc.
