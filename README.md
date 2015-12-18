@@ -147,9 +147,9 @@ MAC ONLY: The path to your ICNS icon file. If your don't provide your own it wil
 
 #### options.macZip
 Type: `Boolean`  
-Default value: `false`  
+Default value: `null`
 
-MAC ONLY: Use a `app.nw` folder instead of `ZIP` file, this significantly improves the startup speed of applications on `mac`, since no decompressing is needed. Builds on other platforms will still use `ZIP` files.
+MAC ONLY: Use a `app.nw` folder instead of `ZIP` file, this significantly improves the startup speed of applications on `mac`, since no decompressing is needed. Builds on other platforms will still use `ZIP` files. The default behaviour of node-webkit-builder is to not use `ZIP` files on the `mac` platform. In case of the `mac` platform the option `macZip` can override the option `zip`.
 
 #### options.macPlist
 Type: `String` or `Object`  
@@ -159,9 +159,15 @@ MAC ONLY: Pass a string containing the path to your own plist file. If a string 
 
 #### options.winIco
 Type: `String`  
-Default value: `null`  
+Default value: `null`
 
 WINDOWS ONLY: The path to your ICO icon file. If your don't provide your own it will use the one provided by NW.js. If you are building on MAC or LINUX you must have [Wine](https://www.winehq.org/) installed to use this option.
+
+#### options.zip
+Type: `Boolean`
+Default value: `null`
+
+WINDOW ONLY: Instead of zipping the application and merging it into the executable the application content is placed next to the application. The default behaviour is platform specific. In case of `windows` and `linux` the application is zipped and merged into the executable. In case of the `mac` platform the application is not zipped.
 
 ### Manifest Options
 
