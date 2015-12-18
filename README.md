@@ -149,7 +149,7 @@ MAC ONLY: The path to your ICNS icon file. If your don't provide your own it wil
 Type: `Boolean`
 Default value: `null`
 
-WINDOW ONLY: Instead of zipping the application and merging it into the executable the application content is placed next to the application. The default behaviour is platform specific. In case of `windows` and `linux` the application is zipped and merged into the executable. In case of the `mac` platform the application is not zipped.
+WINDOW ONLY: Instead of zipping the application and merging it into the executable the application content is placed next to the application (which speed up the startup time for large apps). The default behaviour is platform specific. For `windows` and `linux`, the application is zipped and merged into the executable. For `mac`, the application is not zipped.
 
 #### options.macPlist
 Type: `String` or `Object`  
