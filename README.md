@@ -162,7 +162,7 @@ MAC ONLY: Pass a string containing the path to your own plist file. If a string 
 Type: `Object`  
 Default value: `{}`  
 
-MAC ONLY: Pass an object where keys are laungauge abbreviations and values are the strings containing path to the localization file. If passed, these files will replace plistInfo.strings files for each passed language.
+MAC ONLY: Pass an object where keys are language abbreviations and values are the strings containing path to the localization file. If passed, these files will replace plistInfo.strings files for each passed language.
 
 #### options.winIco
 Type: `String`  
