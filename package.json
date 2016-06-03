@@ -1,6 +1,6 @@
 {
   "name": "cws-nw-builder",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "cws-nw-builder",
   "main": "index.js",
   "scripts": {
