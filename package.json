@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/mllrsohn/node-webkit-builder.git"
+    "url": "git://github.com/joshterrill/nw-builder.git"
   },
   "bin": {
     "nwbuild": "./bin/nwbuild"
@@ -18,9 +18,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mllrsohn/node-webkit-builder/issues"
+    "url": "https://github.com/joshterrill/nw-builder/issues"
   },
-  "homepage": "https://github.com/mllrsohn/node-webkit-builder",
+  "homepage": "https://github.com/joshterrill/nw-builder",
   "devDependencies": {
     "nock": "^0.32.3",
     "tape": "~3.0.1",
