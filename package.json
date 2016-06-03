@@ -1,7 +1,7 @@
 {
-  "name": "node-webkit-builder",
-  "version": "1.0.12",
-  "description": "node-webkit-builder",
+  "name": "cws-nw-builder",
+  "version": "1.0.0",
+  "description": "cws-nw-builder",
   "main": "index.js",
   "scripts": {
     "test": "colortape test/*.js"
