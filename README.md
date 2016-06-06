@@ -283,8 +283,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 [npm-url]: https://www.npmjs.com/package/nw-builder
 [npm-image]: https://img.shields.io/npm/v/nw-builder.svg?style=flat
 
-[travis-url]: https://travis-ci.org/mllrsohn/nw-builder
-[travis-image]: https://img.shields.io/travis/mllrsohn/nw-builder/master.svg?style=flat
+[travis-url]: https://travis-ci.org/nwjs/nw-builder
+[travis-image]: https://img.shields.io/travis/nwjs/nw-builder/master.svg?style=flat
 
-[depstat-url]: https://david-dm.org/mllrsohn/nw-builder
-[depstat-image]: https://david-dm.org/mllrsohn/nw-builder.svg?style=flat
+[depstat-url]: https://david-dm.org/nwjs/nw-builder
+[depstat-image]: https://david-dm.org/nwjs/nw-builder.svg?style=flat
