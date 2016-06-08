@@ -9,6 +9,7 @@ var _ = require('lodash');
 var EventEmitter = require('events').EventEmitter;
 var del = require('rimraf');
 var Promise = require('bluebird');
+var isWindows = process.platform === 'win32';
 var tempFile = Promise.promisify(temp.open);
 var tempFileCleanup = Promise.promisify(temp.cleanup);
 
@@ -200,7 +201,7 @@ testSetup({
 });
 
 test('mergeFiles', function (t) {
-    t.plan(2);
+    t.plan(isWindows ? 1 : 2);
 
     var releasefile = temp.openSync();
     fs.writeFileSync(releasefile.path, 'A');
@@ -212,7 +213,10 @@ test('mergeFiles', function (t) {
         var contents = fs.readFileSync(releasefile.path);
         var stats    = fs.lstatSync(releasefile.path);
         t.equal(contents.toString(), 'AB', 'merge two files');
-        t.equal(stats.mode.toString(8), '100755', 'fix the permission'); // DOES NOT WORK ON WINDOWS
+
+        if(!isWindows) {
+            t.equal(stats.mode.toString(8), '100755', 'fix the permission'); // DOES NOT WORK ON WINDOWS
+        }
     });
 
 });

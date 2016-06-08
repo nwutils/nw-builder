@@ -28,11 +28,11 @@
     "application"
   ],
   "devDependencies": {
-    "nock": "^0.32.3",
-    "tape": "~3.0.1",
-    "redtape": "~1.0.0",
     "colortape": "~0.1.0",
-    "eol": "~0.2.0"
+    "eol": "~0.2.0",
+    "nock": "^0.32.3",
+    "redtape": "~1.0.0",
+    "tape": "^4.5.1"
   },
   "dependencies": {
     "archiver": "^0.13.0",

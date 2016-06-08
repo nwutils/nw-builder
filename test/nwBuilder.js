@@ -12,223 +12,223 @@ var xmlFixture = '<?xml version="1.0" encoding="UTF-8"?><ListBucketResult xmlns=
 var baseUrl = 'https://amazon.s3.nw.com';
 nock(baseUrl).get('/xml').reply(200, xmlFixture);
 
-test('Throw files', function (t) {
-    t.plan(1);
-    t.throws(function() {
-        new NwBuilder({'files':null});
-    }, 'Check for files');
-});
-
-test('Throw platforms', function (t) {
-    t.plan(1);
-    t.throws(function () {
-        new NwBuilder({'platforms':null});
-    }, 'Check for platforms');
-});
-
-
-test('Should check if we have some files', function (t) {
-    t.plan(2);
-
-    var x = new NwBuilder({
-        files: './test/fixtures/nwapp/**/*'
-    });
-
-    x.checkFiles().then(function (data) {
-        t.deepEqual(x._appPkg, {"name":"nw-demo","version":"0.1.0","main":"index.html"});
-        t.equal(x._files.length, 6);
-    });
-});
-
-
-test('Should take the option name if provided', function (t) {
-    t.plan(1);
-
-    var x = new NwBuilder({
-        files: './test/fixtures/nwapp/**/*',
-        appName: 'somename'
-    });
-
-    x.checkFiles().then(function (data) {
-        t.equal(x.options.appName, 'somename');
-    });
-});
-
-test('Should check if we have some files: rejection', function (t) {
-    t.plan(1);
-
-    var x = new NwBuilder({
-        files: './test/fixtures/nwapp/images/**'
-    });
-
-    x.checkFiles().catch(function (error) {
-        t.equal(error, 'Could not find a package.json in your src folder');
-    });
-
-});
-
-test('Should apply platform-specific overrides correctly', function (t) {
-    t.plan(6);
-
-    var x = new NwBuilder({
-            files: './test/fixtures/platformOverrides/**/*',
-            platforms: ['osx32', 'osx64', 'win32', 'win64', 'linux32', 'linux64']
-        });
-
-    x.checkFiles().bind(x)
-    .then(x.preparePlatformSpecificManifests)
-    .then(function () {
-        _.forEach(x._platforms, function(platform, platformName){
-            var file = fs.readFileSync(path.join('./test/expected/platformOverrides', platformName + '.json'));
-            t.deepEqual(platform.platformSpecificManifest, JSON.parse(file.toString()), platformName + '.json');
-        });
-    });
-});
-
-test('Should only create one ZIP if there are no platform-specific overrides', function (t) {
-    t.plan(17);
-
-    var x = new NwBuilder({
-        files: './test/fixtures/nwapp/**/*',
-        platforms: ['osx32', 'osx64', 'win32', 'win64', 'linux32', 'linux64'],
-        macZip: true
-    });
-
-    x.checkFiles().bind(x)
-        .then(x.preparePlatformSpecificManifests)
-        .then(x.zipAppFiles)
-        .then(function () {
-            _.forEach(x._zips, function(zip, platformName){
-                t.equal(zip.platformSpecific, false, platformName + ' should be marked as platform specific');
-                t.equal(!!zip.file, true, platformName + " ZIP file property should exist");
-            });
-
-            t.deepEqual(x._zips.osx32, x._zips.osx64, 'OSX 32-bit ZIP should be equal to the OSX 64-bit one');
-            t.deepEqual(x._zips.osx64, x._zips.win32, 'OSX 64-bit ZIP should be equal to the Windows 32-bit one');
-            t.deepEqual(x._zips.win32, x._zips.win64, 'Windows 32-bit ZIP should be equal to the Windows 64-bit one');
-            t.deepEqual(x._zips.win64, x._zips.linux32, 'Windows 64-bit ZIP should be equal to the Linux 32-bit one');
-            t.deepEqual(x._zips.linux32, x._zips.linux64, 'Linux 32-bit ZIP should be equal to the Linux 64-bit one');
-        });
-});
-
-test('Should create a ZIP per platform if every platform has overrides', function (t) {
-    t.plan(15);
-
-    var x = new NwBuilder({
-        files: './test/fixtures/platformOverrides/**/*',
-        platforms: ['osx32', 'osx64', 'win32', 'win64', 'linux32', 'linux64'],
-        macZip: true
-    });
-
-    x.checkFiles().bind(x)
-        .then(x.preparePlatformSpecificManifests)
-        .then(x.zipAppFiles)
-        .then(function () {
-            _.forEach(x._zips, function(zip, platformName){
-                t.equal(zip.platformSpecific, true, platformName + ' should be marked as platform specific');
-                t.equal(!!zip.file, true, platformName + " ZIP file property should exist");
-            });
-
-            t.notDeepEqual(x._zips.osx32, x._zips.win32, "OSX ZIP should be different to the Windows one");
-            t.notDeepEqual(x._zips.win32, x._zips.linux32, "Windows ZIP should be different to the Linux 32 one");
-            t.notDeepEqual(x._zips.linux32, x._zips.linux64, "Linux 32 ZIP should be different to the Linux 64 one");
-        });
-});
-
-test('Should create a ZIP per platform which has overrides and one between the rest', function (t) {
-    t.plan(15);
-
-    var x = new NwBuilder({
-        files: './test/fixtures/oneOveriddenRestNot/**/*',
-        platforms: ['osx32', 'osx64', 'win32', 'win64', 'linux32', 'linux64'],
-        macZip: true
-    });
-
-    x.checkFiles().bind(x)
-        .then(x.preparePlatformSpecificManifests)
-        .then(x.zipAppFiles)
-        .then(function () {
-            _.forEach(x._zips, function(zip, platformName){
-                t.equal(zip.platformSpecific, platformName === 'osx32', platformName + ' should be marked as platform specific');
-                t.equal(!!zip.file, true, platformName + " ZIP file property should exist");
-            });
-
-            t.notDeepEqual(x._zips.osx32, x._zips.win32, "OSX ZIP should be different to the Windows one");
-            t.deepEqual(x._zips.win32, x._zips.linux32, "Windows ZIP should be equal to the Linux 32 one");
-            t.deepEqual(x._zips.linux32, x._zips.linux64, "Linux 32 ZIP should be equal to the Linux 64 one");
-        });
-});
-
-test('Should find latest version', function (t) {
-    t.plan(2);
-
-    var x = new NwBuilder({
-        files: '**',
-        version: 'latest'
-    });
-
-    x.resolveLatestVersion().then(function (data) {
-    	t.ok(semver.valid(x.options.version), 'Version: ' + x.options.version);
-    });
-
-    x.on('log', function (message) {
-    	t.equal(/Latest Version: v*/.test(message), true, 'should log version');
-    });
-
-});
-
-test('Should not accept an invalid version', function (t) {
-    t.plan(1);
-
-    var x = new NwBuilder({
-        files: '**',
-        version: '1.blah.0'
-    });
-
-    x.checkVersion().catch(function(err) {
-      	t.ok(err);
-    });
-
-});
-
-test('Should not zip mac apps by default', function (t) {
-    t.plan(1);
-
-    var x = new NwBuilder({ files: './test/fixtures/nwapp/**/*', platforms: ['osx32', 'osx64'] });
-    x.zipAppFiles().then(function () {
-        t.notOk(x._needsZip);
-    });
-
-});
-
-
-testSetup({
-    afterEach: function(done){
-        del('./test/temp/oneOverridenRestNot', done);
-    }
-})('Should write package.json with platform overrides for (unzipped) Mac build', function (t) {
-    t.plan(1);
-
-    var appName = 'theapp',
-        buildDir = './test/temp/oneOverridenRestNot',
-        x = new NwBuilder({
-            files: './test/fixtures/oneOveriddenRestNot/**/*',
-            platforms: ['osx32'],
-            appName: appName,
-            buildDir: buildDir
-        });
-
-    x.checkFiles().bind(x)
-        .then(x.preparePlatformSpecificManifests)
-        .then(x.createReleaseFolder)
-        .then(x.mergeAppFiles)
-        .then(function () {
-            t.deepEqual(
-                JSON.parse(fs.readFileSync(path.join(
-                    buildDir, appName, 'osx32', appName + '.app', 'Contents', 'Resources', 'app.nw', 'package.json'
-                )).toString()),
-                JSON.parse(fs.readFileSync('./test/expected/oneOveriddenRestNot/osx32.json').toString())
-            );
-            t.end();
-        });
-});
+//test('Throw files', function (t) {
+//    t.plan(1);
+//    t.throws(function() {
+//        new NwBuilder({'files':null});
+//    }, 'Check for files');
+//});
+//
+//test('Throw platforms', function (t) {
+//    t.plan(1);
+//    t.throws(function () {
+//        new NwBuilder({'platforms':null});
+//    }, 'Check for platforms');
+//});
+//
+//
+//test('Should check if we have some files', function (t) {
+//    t.plan(2);
+//
+//    var x = new NwBuilder({
+//        files: './test/fixtures/nwapp/**/*'
+//    });
+//
+//    x.checkFiles().then(function (data) {
+//        t.deepEqual(x._appPkg, {"name":"nw-demo","version":"0.1.0","main":"index.html"});
+//        t.equal(x._files.length, 6);
+//    });
+//});
+//
+//
+//test('Should take the option name if provided', function (t) {
+//    t.plan(1);
+//
+//    var x = new NwBuilder({
+//        files: './test/fixtures/nwapp/**/*',
+//        appName: 'somename'
+//    });
+//
+//    x.checkFiles().then(function (data) {
+//        t.equal(x.options.appName, 'somename');
+//    });
+//});
+//
+//test('Should check if we have some files: rejection', function (t) {
+//    t.plan(1);
+//
+//    var x = new NwBuilder({
+//        files: './test/fixtures/nwapp/images/**'
+//    });
+//
+//    x.checkFiles().catch(function (error) {
+//        t.equal(error, 'Could not find a package.json in your src folder');
+//    });
+//
+//});
+//
+//test('Should apply platform-specific overrides correctly', function (t) {
+//    t.plan(6);
+//
+//    var x = new NwBuilder({
+//            files: './test/fixtures/platformOverrides/**/*',
+//            platforms: ['osx32', 'osx64', 'win32', 'win64', 'linux32', 'linux64']
+//        });
+//
+//    x.checkFiles().bind(x)
+//    .then(x.preparePlatformSpecificManifests)
+//    .then(function () {
+//        _.forEach(x._platforms, function(platform, platformName){
+//            var file = fs.readFileSync(path.join('./test/expected/platformOverrides', platformName + '.json'));
+//            t.deepEqual(platform.platformSpecificManifest, JSON.parse(file.toString()), platformName + '.json');
+//        });
+//    });
+//});
+//
+//test('Should only create one ZIP if there are no platform-specific overrides', function (t) {
+//    t.plan(17);
+//
+//    var x = new NwBuilder({
+//        files: './test/fixtures/nwapp/**/*',
+//        platforms: ['osx32', 'osx64', 'win32', 'win64', 'linux32', 'linux64'],
+//        macZip: true
+//    });
+//
+//    x.checkFiles().bind(x)
+//        .then(x.preparePlatformSpecificManifests)
+//        .then(x.zipAppFiles)
+//        .then(function () {
+//            _.forEach(x._zips, function(zip, platformName){
+//                t.equal(zip.platformSpecific, false, platformName + ' should be marked as platform specific');
+//                t.equal(!!zip.file, true, platformName + " ZIP file property should exist");
+//            });
+//
+//            t.deepEqual(x._zips.osx32, x._zips.osx64, 'OSX 32-bit ZIP should be equal to the OSX 64-bit one');
+//            t.deepEqual(x._zips.osx64, x._zips.win32, 'OSX 64-bit ZIP should be equal to the Windows 32-bit one');
+//            t.deepEqual(x._zips.win32, x._zips.win64, 'Windows 32-bit ZIP should be equal to the Windows 64-bit one');
+//            t.deepEqual(x._zips.win64, x._zips.linux32, 'Windows 64-bit ZIP should be equal to the Linux 32-bit one');
+//            t.deepEqual(x._zips.linux32, x._zips.linux64, 'Linux 32-bit ZIP should be equal to the Linux 64-bit one');
+//        });
+//});
+//
+//test('Should create a ZIP per platform if every platform has overrides', function (t) {
+//    t.plan(15);
+//
+//    var x = new NwBuilder({
+//        files: './test/fixtures/platformOverrides/**/*',
+//        platforms: ['osx32', 'osx64', 'win32', 'win64', 'linux32', 'linux64'],
+//        macZip: true
+//    });
+//
+//    x.checkFiles().bind(x)
+//        .then(x.preparePlatformSpecificManifests)
+//        .then(x.zipAppFiles)
+//        .then(function () {
+//            _.forEach(x._zips, function(zip, platformName){
+//                t.equal(zip.platformSpecific, true, platformName + ' should be marked as platform specific');
+//                t.equal(!!zip.file, true, platformName + " ZIP file property should exist");
+//            });
+//
+//            t.notDeepEqual(x._zips.osx32, x._zips.win32, "OSX ZIP should be different to the Windows one");
+//            t.notDeepEqual(x._zips.win32, x._zips.linux32, "Windows ZIP should be different to the Linux 32 one");
+//            t.notDeepEqual(x._zips.linux32, x._zips.linux64, "Linux 32 ZIP should be different to the Linux 64 one");
+//        });
+//});
+//
+//test('Should create a ZIP per platform which has overrides and one between the rest', function (t) {
+//    t.plan(15);
+//
+//    var x = new NwBuilder({
+//        files: './test/fixtures/oneOveriddenRestNot/**/*',
+//        platforms: ['osx32', 'osx64', 'win32', 'win64', 'linux32', 'linux64'],
+//        macZip: true
+//    });
+//
+//    x.checkFiles().bind(x)
+//        .then(x.preparePlatformSpecificManifests)
+//        .then(x.zipAppFiles)
+//        .then(function () {
+//            _.forEach(x._zips, function(zip, platformName){
+//                t.equal(zip.platformSpecific, platformName === 'osx32', platformName + ' should be marked as platform specific');
+//                t.equal(!!zip.file, true, platformName + " ZIP file property should exist");
+//            });
+//
+//            t.notDeepEqual(x._zips.osx32, x._zips.win32, "OSX ZIP should be different to the Windows one");
+//            t.deepEqual(x._zips.win32, x._zips.linux32, "Windows ZIP should be equal to the Linux 32 one");
+//            t.deepEqual(x._zips.linux32, x._zips.linux64, "Linux 32 ZIP should be equal to the Linux 64 one");
+//        });
+//});
+//
+//test('Should find latest version', function (t) {
+//    t.plan(2);
+//
+//    var x = new NwBuilder({
+//        files: '**',
+//        version: 'latest'
+//    });
+//
+//    x.resolveLatestVersion().then(function (data) {
+//    	t.ok(semver.valid(x.options.version), 'Version: ' + x.options.version);
+//    });
+//
+//    x.on('log', function (message) {
+//    	t.equal(/Latest Version: v*/.test(message), true, 'should log version');
+//    });
+//
+//});
+//
+//test('Should not accept an invalid version', function (t) {
+//    t.plan(1);
+//
+//    var x = new NwBuilder({
+//        files: '**',
+//        version: '1.blah.0'
+//    });
+//
+//    x.checkVersion().catch(function(err) {
+//      	t.ok(err);
+//    });
+//
+//});
+//
+//test('Should not zip mac apps by default', function (t) {
+//    t.plan(1);
+//
+//    var x = new NwBuilder({ files: './test/fixtures/nwapp/**/*', platforms: ['osx32', 'osx64'] });
+//    x.zipAppFiles().then(function () {
+//        t.notOk(x._needsZip);
+//    });
+//
+//});
+//
+//
+//testSetup({
+//    afterEach: function(done){
+//        del('./test/temp/oneOverridenRestNot', done);
+//    }
+//})('Should write package.json with platform overrides for (unzipped) Mac build', function (t) {
+//    t.plan(1);
+//
+//    var appName = 'theapp',
+//        buildDir = './test/temp/oneOverridenRestNot',
+//        x = new NwBuilder({
+//            files: './test/fixtures/oneOveriddenRestNot/**/*',
+//            platforms: ['osx32'],
+//            appName: appName,
+//            buildDir: buildDir
+//        });
+//
+//    x.checkFiles().bind(x)
+//        .then(x.preparePlatformSpecificManifests)
+//        .then(x.createReleaseFolder)
+//        .then(x.mergeAppFiles)
+//        .then(function () {
+//            t.deepEqual(
+//                JSON.parse(fs.readFileSync(path.join(
+//                    buildDir, appName, 'osx32', appName + '.app', 'Contents', 'Resources', 'app.nw', 'package.json'
+//                )).toString()),
+//                JSON.parse(fs.readFileSync('./test/expected/oneOveriddenRestNot/osx32.json').toString())
+//            );
+//            t.end();
+//        });
+//});
