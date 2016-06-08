@@ -28,33 +28,33 @@
     "application"
   ],
   "devDependencies": {
-    "colortape": "~0.1.0",
-    "eol": "~0.2.0",
-    "nock": "^0.32.3",
+    "nock": "^8.0.0",
+    "tape": "~4.5.1",
     "redtape": "~1.0.0",
-    "tape": "^4.5.1"
+    "colortape": "~0.1.0",
+    "eol": "~0.2.0"
   },
   "dependencies": {
-    "archiver": "^0.13.0",
-    "bluebird": "~1.2.2",
-    "decompress-zip": "0.0.8",
+    "archiver": "^1.0.0",
+    "bluebird": "^3.4.0",
+    "decompress-zip": "0.3.0",
+    "deprecate": "~0.1.0",
+    "graceful-fs-extra": "^1.0.4",
+    "graceful-ncp": "^2.0.0",
     "inherits": "~2.0.1",
     "lodash": "~2.4.1",
     "optimist": "^0.6.1",
-    "rcedit": "0.2.0",
+    "platform-overrides": "~1.0.1",
     "plist": "^1.0.0",
     "progress": "~1.1.7",
-    "request": "~2.40.0",
-    "rimraf": "^2.2.8",
+    "rcedit": "^0.5.0",
+    "request": "^2.40.0",
+    "rimraf": "^2.5.2",
     "semver": "^2.3.1",
     "simple-glob": "~0.1.0",
-    "tar-fs": "^0.3.2",
+    "tar-fs": "^1.13.0",
     "temp": "~0.7.0",
-    "update-notifier": "^0.1.8",
-    "winresourcer": "^0.9.0",
-    "platform-overrides": "~1.0.1",
-    "graceful-ncp": "^2.0.0",
-    "graceful-fs-extra": "^1.0.4",
-    "deprecate": "~0.1.0"
+    "update-notifier": "^0.7.0",
+    "winresourcer": "^0.9.0"
   }
 }
