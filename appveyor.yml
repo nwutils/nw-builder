@@ -28,7 +28,7 @@ test_script:
   - cmd: npm test
 
 # Don't actually build.
-build: on
+build: off
 
 # Set build version format here instead of in the admin panel.
 version: "{build}"
