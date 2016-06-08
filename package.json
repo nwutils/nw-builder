@@ -40,7 +40,7 @@
     "decompress-zip": "0.3.0",
     "deprecate": "~0.1.0",
     "graceful-fs-extra": "^1.0.4",
-    "graceful-ncp": "^2.0.0",
+    "graceful-ncp": "^3.0.0",
     "inherits": "~2.0.1",
     "lodash": "~2.4.1",
     "optimist": "^0.6.1",
