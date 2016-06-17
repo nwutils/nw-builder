@@ -1,0 +1,23 @@
+
+{
+  "latest": "v0.16.0-beta1",
+  "stable": "v0.15.2",
+  "lts": "v0.14.6",
+  "versions": [
+    {
+      "version": "v0.15.2",
+      "files": ["win-x64", "win-ia32", "linux-x64", "linux-ia32", "osx-x64"],
+      "flavors": ["normal", "sdk"]
+    },
+    {
+      "version": "v0.13.2",
+      "files": ["win-x64", "linux-ia32", "osx-x64"],
+      "flavors": ["normal", "sdk", "nacl"]
+    },
+    {
+      "version": "v0.12.3",
+      "files": ["win-x64", "win-ia32", "linux-x64", "linux-ia32", "osx-x64", "osx-ia32"],
+      "flavors": ["normal", "macappstore"]
+    }
+  ]
+}
