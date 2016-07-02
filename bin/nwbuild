@@ -93,6 +93,8 @@ var np = (argv.r ? nw.run() : nw.build());
 np.then(function() {
     process.exit(0);
 }).catch (function(error) {
-    if (error) console.error(error);
-    process.exit(1);
+    if (error) {
+        console.error(error);
+        process.exit(1);§
+    }
 });
