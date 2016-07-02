@@ -1,4 +1,4 @@
-var NwBuilder = require('../');
+var NwBuilder = require('nw-builder');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 
