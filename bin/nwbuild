@@ -95,6 +95,6 @@ np.then(function() {
 }).catch (function(error) {
     if (error) {
         console.error(error);
-        process.exit(1);§
+        process.exit(1);
     }
 });
