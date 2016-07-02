@@ -4,122 +4,293 @@ var test = require('tape'),
 
 var versions = require('./../lib/versions');
 
-var fixturesVersionsHtml = './test/fixtures/testVersions.html';
-var dlUrl = 'http://dl.node-webkit.org';
-var expectedVersions = ['0.10.2','0.10.1','0.10.0','0.10.0-rc1','0.9.3'];
+var root = 'http://nwjs.io';
+var dlUrl = 'http://dl.nwjs.io/';
+var expectedLegacyVersions = ['0.10.2','0.10.0-rc1','0.9.3'];
 
 test('getLatestVersion', function (t) {
-    t.plan(1);
+    t.plan(3);
 
-    nock(dlUrl).get('/').replyWithFile(200, fixturesVersionsHtml);
-    nock(dlUrl).head('/v0.10.2/node-webkit-v0.10.2-win-ia32.zip')
-        .replyWithFile(200, fixturesVersionsHtml); // needs to reply with *any* content
-    versions.getLatestVersion(dlUrl).then(function(result){
-        t.equal(result, expectedVersions[0]);
+    nock(root).get('/versions.json').replyWithFile(200, './test/fixtures/manifest/versions.json');
+    nock(root).get('/versions.json').replyWithFile(200, './test/fixtures/manifest/versions.json');
+
+    versions.getLatestVersion('http://dl.nwjs.io/').then(function(result){
+        t.equal(result.version, '0.15.2');
+        t.equal(result.name, 'nwjs');
+        t.deepEqual(result.platforms, {
+            linux32: 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-linux-ia32.tar.gz',
+            linux64: 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-linux-x64.tar.gz',
+            osx64: 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-osx-x64.zip',
+            win32: 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-win-ia32.zip',
+            win64: 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-win-x64.zip'
+        });
     });
 });
 
 test('getVersions', function (t) {
+    t.plan(6);
+
+    nock(root).get('/versions.json').replyWithFile(200, './test/fixtures/manifest/versions.json');
+    nock(dlUrl).get('/').replyWithFile(200, './test/fixtures/testVersions.html');
+    expectedLegacyVersions.forEach(function(expectedVersion){
+        nock(dlUrl).head('/v' + expectedVersion + '/node-webkit-v' + expectedVersion + '-win-ia32.zip')
+            .replyWithFile(200, './test/fixtures/testVersions.html'); // needs to reply with *any* content
+    });
+
+    versions.getVersions('http://dl.nwjs.io/').then(function(result){
+        var expectedVersions = [
+            {
+                version: '0.15.2',
+                name: 'nwjs',
+                platforms: {
+                    linux32: 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-linux-ia32.tar.gz',
+                    linux64: 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-linux-x64.tar.gz',
+                    osx64: 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-osx-x64.zip',
+                    win32: 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-win-ia32.zip',
+                    win64: 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-win-x64.zip'
+                },
+                isLegacy: false
+            },
+            {
+                version: '0.13.2',
+                name: 'nwjs',
+                platforms: {
+                    linux32: 'http://dl.nwjs.io/v0.13.2/nwjs-sdk-v0.13.2-linux-ia32.tar.gz',
+                    osx64: 'http://dl.nwjs.io/v0.13.2/nwjs-sdk-v0.13.2-osx-x64.zip',
+                    win64: 'http://dl.nwjs.io/v0.13.2/nwjs-sdk-v0.13.2-win-x64.zip'
+                },
+                isLegacy: false
+            },
+            {
+                version: '0.12.3',
+                name: 'nwjs',
+                platforms: {
+                    linux32: 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-linux-ia32.tar.gz',
+                    linux64: 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-linux-x64.tar.gz',
+                    osx32: 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-osx-ia32.zip',
+                    osx64: 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-osx-x64.zip',
+                    win32: 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-win-ia32.zip',
+                    win64: 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-win-x64.zip'
+                },
+                isLegacy: false
+            },
+            {
+                version: '0.10.2',
+                name: 'node-webkit',
+                platforms: {
+                    linux32: 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-linux-ia32.tar.gz',
+                    linux64: 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-linux-x64.tar.gz',
+                    osx32: 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-osx-ia32.zip',
+                    osx64: 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-osx-x64.zip',
+                    win32: 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-win-ia32.zip',
+                    win64: 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-win-x64.zip'
+                },
+                isLegacy: true
+            },
+            {
+                version: '0.10.0-rc1',
+                name: 'node-webkit',
+                platforms: {
+                    linux32: 'http://dl.nwjs.io/v0.10.0-rc1/node-webkit-v0.10.0-rc1-linux-ia32.tar.gz',
+                    linux64: 'http://dl.nwjs.io/v0.10.0-rc1/node-webkit-v0.10.0-rc1-linux-x64.tar.gz',
+                    osx32: 'http://dl.nwjs.io/v0.10.0-rc1/node-webkit-v0.10.0-rc1-osx-ia32.zip',
+                    osx64: 'http://dl.nwjs.io/v0.10.0-rc1/node-webkit-v0.10.0-rc1-osx-x64.zip',
+                    win32: 'http://dl.nwjs.io/v0.10.0-rc1/node-webkit-v0.10.0-rc1-win-ia32.zip',
+                    win64: 'http://dl.nwjs.io/v0.10.0-rc1/node-webkit-v0.10.0-rc1-win-x64.zip'
+                },
+                isLegacy: true
+            },
+            {
+                version: '0.9.3',
+                name: 'node-webkit',
+                platforms: {
+                    linux32: 'http://dl.nwjs.io/v0.9.3/node-webkit-v0.9.3-linux-ia32.tar.gz',
+                    linux64: 'http://dl.nwjs.io/v0.9.3/node-webkit-v0.9.3-linux-x64.tar.gz',
+                    osx32: 'http://dl.nwjs.io/v0.9.3/node-webkit-v0.9.3-osx-ia32.zip',
+                    osx64: 'http://dl.nwjs.io/v0.9.3/node-webkit-v0.9.3-osx-x64.zip',
+                    win32: 'http://dl.nwjs.io/v0.9.3/node-webkit-v0.9.3-win-ia32.zip',
+                    win64: 'http://dl.nwjs.io/v0.9.3/node-webkit-v0.9.3-win-x64.zip'
+                },
+                isLegacy: true
+            }
+        ];
+
+        for(var i = 0; i < expectedVersions.length; i++){
+            t.deepEqual(result[i], expectedVersions[i]);
+        }
+    })
+    .catch(function(err){
+        console.error(err.stack);
+        t.fail(err);
+    });
+});
+
+test('getVersions (custom download URL)', function (t) {
+    t.plan(6);
+
+    nock(root).get('/versions.json').replyWithFile(200, './test/fixtures/manifest/versions.json');
+    nock('http://abc.xyz/').get('/').replyWithFile(200, './test/fixtures/testVersions.html');
+    expectedLegacyVersions.forEach(function(expectedVersion){
+        nock('http://abc.xyz/').head('/v' + expectedVersion + '/node-webkit-v' + expectedVersion + '-win-ia32.zip')
+            .replyWithFile(200, './test/fixtures/testVersions.html'); // needs to reply with *any* content
+    });
+
+    versions.getVersions('http://abc.xyz/').then(function(result){
+        var expectedVersions = [
+            {
+                version: '0.15.2',
+                name: 'nwjs',
+                platforms: {
+                    linux32: 'http://abc.xyz/v0.15.2/nwjs-sdk-v0.15.2-linux-ia32.tar.gz',
+                    linux64: 'http://abc.xyz/v0.15.2/nwjs-sdk-v0.15.2-linux-x64.tar.gz',
+                    osx64: 'http://abc.xyz/v0.15.2/nwjs-sdk-v0.15.2-osx-x64.zip',
+                    win32: 'http://abc.xyz/v0.15.2/nwjs-sdk-v0.15.2-win-ia32.zip',
+                    win64: 'http://abc.xyz/v0.15.2/nwjs-sdk-v0.15.2-win-x64.zip'
+                },
+                isLegacy: false
+            },
+            {
+                version: '0.13.2',
+                name: 'nwjs',
+                platforms: {
+                    linux32: 'http://abc.xyz/v0.13.2/nwjs-sdk-v0.13.2-linux-ia32.tar.gz',
+                    osx64: 'http://abc.xyz/v0.13.2/nwjs-sdk-v0.13.2-osx-x64.zip',
+                    win64: 'http://abc.xyz/v0.13.2/nwjs-sdk-v0.13.2-win-x64.zip'
+                },
+                isLegacy: false
+            },
+            {
+                version: '0.12.3',
+                name: 'nwjs',
+                platforms: {
+                    linux32: 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-linux-ia32.tar.gz',
+                    linux64: 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-linux-x64.tar.gz',
+                    osx32: 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-osx-ia32.zip',
+                    osx64: 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-osx-x64.zip',
+                    win32: 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-win-ia32.zip',
+                    win64: 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-win-x64.zip'
+                },
+                isLegacy: false
+            },
+            {
+                version: '0.10.2',
+                name: 'node-webkit',
+                platforms: {
+                    linux32: 'http://abc.xyz/v0.10.2/node-webkit-v0.10.2-linux-ia32.tar.gz',
+                    linux64: 'http://abc.xyz/v0.10.2/node-webkit-v0.10.2-linux-x64.tar.gz',
+                    osx32: 'http://abc.xyz/v0.10.2/node-webkit-v0.10.2-osx-ia32.zip',
+                    osx64: 'http://abc.xyz/v0.10.2/node-webkit-v0.10.2-osx-x64.zip',
+                    win32: 'http://abc.xyz/v0.10.2/node-webkit-v0.10.2-win-ia32.zip',
+                    win64: 'http://abc.xyz/v0.10.2/node-webkit-v0.10.2-win-x64.zip'
+                },
+                isLegacy: true
+            },
+            {
+                version: '0.10.0-rc1',
+                name: 'node-webkit',
+                platforms: {
+                    linux32: 'http://abc.xyz/v0.10.0-rc1/node-webkit-v0.10.0-rc1-linux-ia32.tar.gz',
+                    linux64: 'http://abc.xyz/v0.10.0-rc1/node-webkit-v0.10.0-rc1-linux-x64.tar.gz',
+                    osx32: 'http://abc.xyz/v0.10.0-rc1/node-webkit-v0.10.0-rc1-osx-ia32.zip',
+                    osx64: 'http://abc.xyz/v0.10.0-rc1/node-webkit-v0.10.0-rc1-osx-x64.zip',
+                    win32: 'http://abc.xyz/v0.10.0-rc1/node-webkit-v0.10.0-rc1-win-ia32.zip',
+                    win64: 'http://abc.xyz/v0.10.0-rc1/node-webkit-v0.10.0-rc1-win-x64.zip'
+                },
+                isLegacy: true
+            },
+            {
+                version: '0.9.3',
+                name: 'node-webkit',
+                platforms: {
+                    linux32: 'http://abc.xyz/v0.9.3/node-webkit-v0.9.3-linux-ia32.tar.gz',
+                    linux64: 'http://abc.xyz/v0.9.3/node-webkit-v0.9.3-linux-x64.tar.gz',
+                    osx32: 'http://abc.xyz/v0.9.3/node-webkit-v0.9.3-osx-ia32.zip',
+                    osx64: 'http://abc.xyz/v0.9.3/node-webkit-v0.9.3-osx-x64.zip',
+                    win32: 'http://abc.xyz/v0.9.3/node-webkit-v0.9.3-win-ia32.zip',
+                    win64: 'http://abc.xyz/v0.9.3/node-webkit-v0.9.3-win-x64.zip'
+                },
+                isLegacy: true
+            }
+        ];
+
+        for(var i = 0; i < expectedVersions.length; i++){
+            t.deepEqual(result[i], expectedVersions[i]);
+        }
+    })
+    .catch(function(err){
+        console.error(err.stack);
+        t.fail(err);
+    });
+});
+
+test('getVersion', function (t) {
+    t.plan(3);
+
+    nock(root).get('/versions.json').replyWithFile(200, './test/fixtures/manifest/versions.json');
+    versions.getVersion({
+        desiredVersion: '0.13.2',
+        downloadUrl: 'http://dl.nwjs.io/'
+    }).then(function(result){
+        t.equal(result.version, '0.13.2');
+        t.equal(result.name, 'nwjs');
+        t.deepEqual(result.platforms, {
+            linux32: 'http://dl.nwjs.io/v0.13.2/nwjs-sdk-v0.13.2-linux-ia32.tar.gz',
+            osx64: 'http://dl.nwjs.io/v0.13.2/nwjs-sdk-v0.13.2-osx-x64.zip',
+            win64: 'http://dl.nwjs.io/v0.13.2/nwjs-sdk-v0.13.2-win-x64.zip'
+        });
+    });
+});
+
+test('getVersion should fail for non-existent version', function (t) {
     t.plan(1);
 
-    nock(dlUrl).get('/').replyWithFile(200, fixturesVersionsHtml);
-    expectedVersions.forEach(function(expectedVersion){
-        nock(dlUrl).head('/v' + expectedVersion + '/node-webkit-v' + expectedVersion + '-win-ia32.zip')
-            .replyWithFile(200, fixturesVersionsHtml); // needs to reply with *any* content
+    nock(root).get('/versions.json').replyWithFile(200, './test/fixtures/manifest/versions.json');
+    versions.getVersion({
+        desiredVersion:'0.13.3',
+        downloadUrl: 'http://dl.nwjs.io/'
+    }).then(function(){
+        t.fail("Shouldn't go in here")
+    })
+        .catch(function(){
+            t.ok('Should fail');
+        });
+});
+
+test('getVersion (legacy)', function (t) {
+    t.plan(3);
+
+    nock(dlUrl).get('/').replyWithFile(200, './test/fixtures/testVersions.html');
+    nock(dlUrl).head('/v0.10.2/node-webkit-v0.10.2-win-ia32.zip')
+        .replyWithFile(200, './test/fixtures/testVersions.html'); // needs to reply with *any* content
+
+    versions.getVersion({
+        desiredVersion: '0.10.2',
+        downloadUrl:'http://dl.nwjs.io/'
+    }).then(function(result){
+        t.equal(result.version, '0.10.2');
+        t.equal(result.name, 'node-webkit');
+        t.deepEqual(result.platforms, {
+            linux32: 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-linux-ia32.tar.gz',
+            linux64: 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-linux-x64.tar.gz',
+            osx32: 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-osx-ia32.zip',
+            osx64: 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-osx-x64.zip',
+            win32: 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-win-ia32.zip',
+            win64: 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-win-x64.zip'
+        });
     });
-    versions.getVersions(dlUrl).then(function(result){
-        t.deepEqual(result, expectedVersions);
-    });
 });
 
+test('getVersion (legacy) should fail for non-existent version', function (t) {
+    t.plan(1);
 
-test('getVersionNames', function (t) {
-    t.plan(2);
-
-    var v = '0.8.4';
-    var expected = {
-        linux32: 'v'+v+'/node-webkit-v'+v+'-linux-ia32.tar.gz',
-        linux64: 'v'+v+'/node-webkit-v'+v+'-linux-x64.tar.gz',
-        osx32: 'v'+v+'/node-webkit-v'+v+'-osx-ia32.zip',
-        osx64: 'v'+v+'/node-webkit-v'+v+'-osx-x64.zip',
-        win32: 'v'+v+'/node-webkit-v'+v+'-win-ia32.zip',
-        win64: 'v'+v+'/node-webkit-v'+v+'-win-x64.zip',
-
-    };
-
-    var names = versions.getVersionNames(v);
-    t.equal( names.version, v );
-    t.deepEqual(names.platforms, expected);
-});
-
-test('getVersionNames for 0.12.0-alpha1', function (t) {
-    t.plan(2);
-
-    var v = '0.12.0-alpha1';
-    var expected = {
-        linux32: 'v'+v+'/nwjs-v'+v+'-linux-ia32.tar.gz',
-        linux64: 'v'+v+'/nwjs-v'+v+'-linux-x64.tar.gz',
-        osx32: 'v'+v+'/nwjs-v'+v+'-osx-ia32.zip',
-        osx64: 'v'+v+'/nwjs-v'+v+'-osx-x64.zip',
-        win32: 'v'+v+'/nwjs-v'+v+'-win-ia32.zip',
-        win64: 'v'+v+'/nwjs-v'+v+'-win-x64.zip',
-    };
-
-    var names = versions.getVersionNames(v);
-    t.equal( names.version, v );
-    t.deepEqual(names.platforms, expected);
-});
-
-test('getVersionNames for 0.12.0-alpha2', function (t) {
-    t.plan(2);
-
-    var v = '0.12.0-alpha2';
-    var expected = {
-        linux32: 'v'+v+'/nwjs-v'+v+'-linux-ia32.tar.gz',
-        linux64: 'v'+v+'/nwjs-v'+v+'-linux-x64.tar.gz',
-        osx32: 'v'+v+'/nwjs-v'+v+'-osx-ia32.zip',
-        osx64: 'v'+v+'/nwjs-v'+v+'-osx-x64.zip',
-        win32: 'v'+v+'/nwjs-v'+v+'-win-ia32.zip',
-        win64: 'v'+v+'/nwjs-v'+v+'-win-x64.zip',
-    };
-
-    var names = versions.getVersionNames(v);
-    t.equal( names.version, v );
-    t.deepEqual(names.platforms, expected);
-});
-
-test('getVersionNames for 0.12.0', function (t) {
-    t.plan(2);
-
-    var v = '0.12.0';
-    var expected = {
-        linux32: 'v'+v+'/nwjs-v'+v+'-linux-ia32.tar.gz',
-        linux64: 'v'+v+'/nwjs-v'+v+'-linux-x64.tar.gz',
-        osx32: 'v'+v+'/nwjs-v'+v+'-osx-ia32.zip',
-        osx64: 'v'+v+'/nwjs-v'+v+'-osx-x64.zip',
-        win32: 'v'+v+'/nwjs-v'+v+'-win-ia32.zip',
-        win64: 'v'+v+'/nwjs-v'+v+'-win-x64.zip',
-    };
-
-    var names = versions.getVersionNames(v);
-    t.equal( names.version, v );
-    t.deepEqual(names.platforms, expected);
-});
-
-test('getVersionNames for 1.0.0-alpha1', function (t) {
-    t.plan(2);
-
-    var v = '1.0.0-alpha1';
-    var expected = {
-        linux32: 'v'+v+'/nwjs-v'+v+'-linux-ia32.tar.gz',
-        linux64: 'v'+v+'/nwjs-v'+v+'-linux-x64.tar.gz',
-        osx32: 'v'+v+'/nwjs-v'+v+'-osx-ia32.zip',
-        osx64: 'v'+v+'/nwjs-v'+v+'-osx-x64.zip',
-        win32: 'v'+v+'/nwjs-v'+v+'-win-ia32.zip',
-        win64: 'v'+v+'/nwjs-v'+v+'-win-x64.zip',
-    };
-
-    var names = versions.getVersionNames(v);
-    t.equal( names.version, v );
-    t.deepEqual(names.platforms, expected);
+    nock(dlUrl).get('/').replyWithFile(200, './test/fixtures/testVersions.html');
+    versions.getVersion({
+        desiredVersion: '0.10.1',
+        downloadUrl: 'http://dl.nwjs.io/'
+    }).then(function(){
+        t.fail("shouldn't go in here");
+    })
+        .catch(function(){
+            t.ok('Should fail');
+        });
 });

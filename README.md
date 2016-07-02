@@ -45,8 +45,8 @@ Or use the module:
 var NwBuilder = require('nw-builder');
 var nw = new NwBuilder({
     files: './path/to/nwfiles/**/**', // use the glob format
-    platforms: ['osx32', 'osx64', 'win32', 'win64'],
-    version: '0.12.3'
+    platforms: ['osx32', 'win32', 'win64'],
+    version: '0.14.6'
 });
 
 //Log stuff you want
@@ -257,6 +257,7 @@ To get around it, run `ulimit -n 1024` (or add it to your `~/.bash_profile`). Fo
 See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Release History
+- 2016-07-02    `2.2.1` supports newer NW.js versions (via http://nwjs.io/versions.json), plus other fixes.
 - 2015-12-18    `2.2.0` added `zip` option.
 - 2015-12-06    `2.1.0` added `cacheDir` command-line option, fix for no info being passed back, etc.
 - 2015-06-28    `2.0.2` put upper bound to semver check for windows.
