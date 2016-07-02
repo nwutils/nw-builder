@@ -28,7 +28,7 @@ test('getLatestVersion', function (t) {
 });
 
 test('getVersions', function (t) {
-    t.plan(5);
+    t.plan(6);
 
     nock(root).get('/versions.json').replyWithFile(200, './test/fixtures/manifest/versions.json');
     nock(dlUrl).get('/').replyWithFile(200, './test/fixtures/testVersions.html');
@@ -58,6 +58,19 @@ test('getVersions', function (t) {
                     linux32: 'http://dl.nwjs.io/v0.13.2/nwjs-sdk-v0.13.2-linux-ia32.tar.gz',
                     osx64: 'http://dl.nwjs.io/v0.13.2/nwjs-sdk-v0.13.2-osx-x64.zip',
                     win64: 'http://dl.nwjs.io/v0.13.2/nwjs-sdk-v0.13.2-win-x64.zip'
+                },
+                isLegacy: false
+            },
+            {
+                version: '0.12.3',
+                name: 'nwjs',
+                platforms: {
+                    linux32: 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-linux-ia32.tar.gz',
+                    linux64: 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-linux-x64.tar.gz',
+                    osx32: 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-osx-ia32.zip',
+                    osx64: 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-osx-x64.zip',
+                    win32: 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-win-ia32.zip',
+                    win64: 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-win-x64.zip'
                 },
                 isLegacy: false
             },
@@ -113,7 +126,7 @@ test('getVersions', function (t) {
 });
 
 test('getVersions (custom download URL)', function (t) {
-    t.plan(5);
+    t.plan(6);
 
     nock(root).get('/versions.json').replyWithFile(200, './test/fixtures/manifest/versions.json');
     nock('http://abc.xyz/').get('/').replyWithFile(200, './test/fixtures/testVersions.html');
@@ -143,6 +156,19 @@ test('getVersions (custom download URL)', function (t) {
                     linux32: 'http://abc.xyz/v0.13.2/nwjs-sdk-v0.13.2-linux-ia32.tar.gz',
                     osx64: 'http://abc.xyz/v0.13.2/nwjs-sdk-v0.13.2-osx-x64.zip',
                     win64: 'http://abc.xyz/v0.13.2/nwjs-sdk-v0.13.2-win-x64.zip'
+                },
+                isLegacy: false
+            },
+            {
+                version: '0.12.3',
+                name: 'nwjs',
+                platforms: {
+                    linux32: 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-linux-ia32.tar.gz',
+                    linux64: 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-linux-x64.tar.gz',
+                    osx32: 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-osx-ia32.zip',
+                    osx64: 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-osx-x64.zip',
+                    win32: 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-win-ia32.zip',
+                    win64: 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-win-x64.zip'
                 },
                 isLegacy: false
             },
