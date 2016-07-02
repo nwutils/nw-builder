@@ -45,8 +45,8 @@ Or use the module:
 var NwBuilder = require('nw-builder');
 var nw = new NwBuilder({
     files: './path/to/nwfiles/**/**', // use the glob format
-    platforms: ['osx32', 'osx64', 'win32', 'win64'],
-    version: '0.12.3'
+    platforms: ['osx32', 'win32', 'win64'],
+    version: '0.14.6'
 });
 
 //Log stuff you want
