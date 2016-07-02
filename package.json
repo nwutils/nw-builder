@@ -16,6 +16,13 @@
   "author": {
     "name": "Steffen Müller"
   },
+  "contributors": [{
+    "name": "Adam Lynch",
+    "email": "contact@adamlynch.com"
+  }],
+  "engines": {
+    "node": ">= 4.0.0"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mllrsohn/nw-builder/issues"
