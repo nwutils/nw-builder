@@ -85,6 +85,14 @@ Default value: `'latest'`
 
 The version of NW.js you want to use. Per default it looks up the latest version. [Here is a list](https://github.com/nwjs/nw.js/wiki/Downloads-of-old-versions) of all available releases
 
+#### options.flavor
+Type: `String`
+Default value: `'sdk'`
+
+The flavor of NW.js you want to use. Per default it will be `sdk`. [Here is a list](https://github.com/nwjs/nw.js/wiki/Build-Flavors) of all flavor available.
+
+The value `sdk` is most used for development whereas `normal` for production.
+
 #### options.platforms
 Type: `Array`  
 Default value: `['osx32', 'osx64', 'win32', 'win64']`
