@@ -257,6 +257,7 @@ To get around it, run `ulimit -n 1024` (or add it to your `~/.bash_profile`). Fo
 See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Release History
+- 2016-08-14    `2.2.7` fix for macIcns option when using NW.js 0.12.3
 - 2016-07-31    `2.2.6` fix for OS X caching
 - 2016-07-03    `2.2.5` fix for update-notifier usage in bin
 - 2016-07-03    `2.2.4` fix for syntax error in CLI
