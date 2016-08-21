@@ -48,7 +48,7 @@ if (argv.h || argv.help) {
 
 // Update notification
 var notifier = updateNotifier({
-    packagePath: './../package.json'
+    pkg: require('./../package.json')
 });
 if (notifier.update) {
     notifier.notify();

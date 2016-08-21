@@ -85,14 +85,6 @@ Default value: `'latest'`
 
 The version of NW.js you want to use. Per default it looks up the latest version. [Here is a list](https://github.com/nwjs/nw.js/wiki/Downloads-of-old-versions) of all available releases
 
-#### options.flavor
-Type: `String`
-Default value: `'sdk'`
-
-The flavor of NW.js you want to use. Per default it will be `sdk`. [Here is a list](https://github.com/nwjs/nw.js/wiki/Build-Flavors) of all flavor available.
-
-The value `sdk` is most used for development whereas `normal` for production.
-
 #### options.platforms
 Type: `Array`  
 Default value: `['osx32', 'osx64', 'win32', 'win64']`
@@ -265,6 +257,9 @@ To get around it, run `ulimit -n 1024` (or add it to your `~/.bash_profile`). Fo
 See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Release History
+- 2016-08-14    `2.2.7` fix for macIcns option when using NW.js 0.12.3
+- 2016-07-31    `2.2.6` fix for OS X caching
+- 2016-07-03    `2.2.5` fix for update-notifier usage in bin
 - 2016-07-03    `2.2.4` fix for syntax error in CLI
 - 2016-07-02    `2.2.3` a few small fixes for the run option and more
 - 2016-07-02    `2.2.2` fix for cache check of some legacy versions

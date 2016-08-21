@@ -18,11 +18,16 @@ test('getLatestVersion', function (t) {
         t.equal(result.version, '0.15.2');
         t.equal(result.name, 'nwjs');
         t.deepEqual(result.platforms, {
-            linux32: 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-linux-ia32.tar.gz',
-            linux64: 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-linux-x64.tar.gz',
-            osx64: 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-osx-x64.zip',
-            win32: 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-win-ia32.zip',
-            win64: 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-win-x64.zip'
+			'linux32-normal': 'http://dl.nwjs.io/v0.15.2/nwjs-v0.15.2-linux-ia32.tar.gz',
+            "linux32-sdk": 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-linux-ia32.tar.gz',
+			'linux64-normal': 'http://dl.nwjs.io/v0.15.2/nwjs-v0.15.2-linux-x64.tar.gz',
+            "linux64-sdk": 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-linux-x64.tar.gz',
+			'osx64-normal': 'http://dl.nwjs.io/v0.15.2/nwjs-v0.15.2-osx-x64.zip',
+            "osx64-sdk": 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-osx-x64.zip',
+			'win32-normal': 'http://dl.nwjs.io/v0.15.2/nwjs-v0.15.2-win-ia32.zip',
+            "win32-sdk": 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-win-ia32.zip',
+			'win64-normal': 'http://dl.nwjs.io/v0.15.2/nwjs-v0.15.2-win-x64.zip',
+            "win64-sdk": 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-win-x64.zip'
         });
     });
 });
@@ -43,11 +48,16 @@ test('getVersions', function (t) {
                 version: '0.15.2',
                 name: 'nwjs',
                 platforms: {
-                    linux32: 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-linux-ia32.tar.gz',
-                    linux64: 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-linux-x64.tar.gz',
-                    osx64: 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-osx-x64.zip',
-                    win32: 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-win-ia32.zip',
-                    win64: 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-win-x64.zip'
+                    'linux32-normal': 'http://dl.nwjs.io/v0.15.2/nwjs-v0.15.2-linux-ia32.tar.gz',
+                    'linux32-sdk': 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-linux-ia32.tar.gz',
+                    'linux64-normal': 'http://dl.nwjs.io/v0.15.2/nwjs-v0.15.2-linux-x64.tar.gz',
+                    'linux64-sdk': 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-linux-x64.tar.gz',
+                    'osx64-normal': 'http://dl.nwjs.io/v0.15.2/nwjs-v0.15.2-osx-x64.zip',
+                    'osx64-sdk': 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-osx-x64.zip',
+                    'win32-normal': 'http://dl.nwjs.io/v0.15.2/nwjs-v0.15.2-win-ia32.zip',
+                    'win32-sdk': 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-win-ia32.zip',
+                    'win64-normal': 'http://dl.nwjs.io/v0.15.2/nwjs-v0.15.2-win-x64.zip',
+                    'win64-sdk': 'http://dl.nwjs.io/v0.15.2/nwjs-sdk-v0.15.2-win-x64.zip'
                 },
                 isLegacy: false
             },
@@ -55,35 +65,34 @@ test('getVersions', function (t) {
                 version: '0.13.2',
                 name: 'nwjs',
                 platforms: {
-                    linux32: 'http://dl.nwjs.io/v0.13.2/nwjs-sdk-v0.13.2-linux-ia32.tar.gz',
-                    osx64: 'http://dl.nwjs.io/v0.13.2/nwjs-sdk-v0.13.2-osx-x64.zip',
-                    win64: 'http://dl.nwjs.io/v0.13.2/nwjs-sdk-v0.13.2-win-x64.zip'
+                    'linux32-nacl': 'http://dl.nwjs.io/v0.13.2/nwjs-nacl-v0.13.2-linux-ia32.tar.gz',
+                    'linux32-normal': 'http://dl.nwjs.io/v0.13.2/nwjs-v0.13.2-linux-ia32.tar.gz',
+                    'linux32-sdk': 'http://dl.nwjs.io/v0.13.2/nwjs-sdk-v0.13.2-linux-ia32.tar.gz',
+                    'osx64-nacl': 'http://dl.nwjs.io/v0.13.2/nwjs-nacl-v0.13.2-osx-x64.zip',
+                    'osx64-normal': 'http://dl.nwjs.io/v0.13.2/nwjs-v0.13.2-osx-x64.zip',
+                    'osx64-sdk': 'http://dl.nwjs.io/v0.13.2/nwjs-sdk-v0.13.2-osx-x64.zip',
+                    'win64-nacl': 'http://dl.nwjs.io/v0.13.2/nwjs-nacl-v0.13.2-win-x64.zip',
+                    'win64-normal': 'http://dl.nwjs.io/v0.13.2/nwjs-v0.13.2-win-x64.zip',
+                    'win64-sdk': 'http://dl.nwjs.io/v0.13.2/nwjs-sdk-v0.13.2-win-x64.zip'
                 },
                 isLegacy: false
             },
             {
                 version: '0.12.3',
                 name: 'nwjs',
-                platforms: {
-                    linux32: 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-linux-ia32.tar.gz',
-                    linux64: 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-linux-x64.tar.gz',
-                    osx32: 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-osx-ia32.zip',
-                    osx64: 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-osx-x64.zip',
-                    win32: 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-win-ia32.zip',
-                    win64: 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-win-x64.zip'
-                },
+                platforms:  { 'linux32-macappstore': 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-linux-ia32.tar.gz', 'linux32-normal': 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-linux-ia32.tar.gz', 'linux64-macappstore': 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-linux-x64.tar.gz', 'linux64-normal': 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-linux-x64.tar.gz', 'osx32-macappstore': 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-osx-ia32.zip', 'osx32-normal': 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-osx-ia32.zip', 'osx64-macappstore': 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-osx-x64.zip', 'osx64-normal': 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-osx-x64.zip', 'win32-macappstore': 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-win-ia32.zip', 'win32-normal': 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-win-ia32.zip', 'win64-macappstore': 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-win-x64.zip', 'win64-normal': 'http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-win-x64.zip' },
                 isLegacy: false
             },
             {
                 version: '0.10.2',
                 name: 'node-webkit',
                 platforms: {
-                    linux32: 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-linux-ia32.tar.gz',
-                    linux64: 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-linux-x64.tar.gz',
-                    osx32: 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-osx-ia32.zip',
-                    osx64: 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-osx-x64.zip',
-                    win32: 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-win-ia32.zip',
-                    win64: 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-win-x64.zip'
+                    'linux32-sdk': 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-linux-ia32.tar.gz',
+                    'linux64-sdk': 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-linux-x64.tar.gz',
+                    'osx32-sdk': 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-osx-ia32.zip',
+                    'osx64-sdk': 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-osx-x64.zip',
+                    'win32-sdk': 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-win-ia32.zip',
+                    'win64-sdk': 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-win-x64.zip'
                 },
                 isLegacy: true
             },
@@ -91,26 +100,19 @@ test('getVersions', function (t) {
                 version: '0.10.0-rc1',
                 name: 'node-webkit',
                 platforms: {
-                    linux32: 'http://dl.nwjs.io/v0.10.0-rc1/node-webkit-v0.10.0-rc1-linux-ia32.tar.gz',
-                    linux64: 'http://dl.nwjs.io/v0.10.0-rc1/node-webkit-v0.10.0-rc1-linux-x64.tar.gz',
-                    osx32: 'http://dl.nwjs.io/v0.10.0-rc1/node-webkit-v0.10.0-rc1-osx-ia32.zip',
-                    osx64: 'http://dl.nwjs.io/v0.10.0-rc1/node-webkit-v0.10.0-rc1-osx-x64.zip',
-                    win32: 'http://dl.nwjs.io/v0.10.0-rc1/node-webkit-v0.10.0-rc1-win-ia32.zip',
-                    win64: 'http://dl.nwjs.io/v0.10.0-rc1/node-webkit-v0.10.0-rc1-win-x64.zip'
+                    'linux32-sdk': 'http://dl.nwjs.io/v0.10.0-rc1/node-webkit-v0.10.0-rc1-linux-ia32.tar.gz',
+                    'linux64-sdk': 'http://dl.nwjs.io/v0.10.0-rc1/node-webkit-v0.10.0-rc1-linux-x64.tar.gz',
+                    'osx32-sdk': 'http://dl.nwjs.io/v0.10.0-rc1/node-webkit-v0.10.0-rc1-osx-ia32.zip',
+                    'osx64-sdk': 'http://dl.nwjs.io/v0.10.0-rc1/node-webkit-v0.10.0-rc1-osx-x64.zip',
+                    'win32-sdk': 'http://dl.nwjs.io/v0.10.0-rc1/node-webkit-v0.10.0-rc1-win-ia32.zip',
+                    'win64-sdk': 'http://dl.nwjs.io/v0.10.0-rc1/node-webkit-v0.10.0-rc1-win-x64.zip'
                 },
                 isLegacy: true
             },
             {
                 version: '0.9.3',
                 name: 'node-webkit',
-                platforms: {
-                    linux32: 'http://dl.nwjs.io/v0.9.3/node-webkit-v0.9.3-linux-ia32.tar.gz',
-                    linux64: 'http://dl.nwjs.io/v0.9.3/node-webkit-v0.9.3-linux-x64.tar.gz',
-                    osx32: 'http://dl.nwjs.io/v0.9.3/node-webkit-v0.9.3-osx-ia32.zip',
-                    osx64: 'http://dl.nwjs.io/v0.9.3/node-webkit-v0.9.3-osx-x64.zip',
-                    win32: 'http://dl.nwjs.io/v0.9.3/node-webkit-v0.9.3-win-ia32.zip',
-                    win64: 'http://dl.nwjs.io/v0.9.3/node-webkit-v0.9.3-win-x64.zip'
-                },
+                platforms: { 'linux32-sdk': 'http://dl.nwjs.io/v0.9.3/node-webkit-v0.9.3-linux-ia32.tar.gz', 'linux64-sdk': 'http://dl.nwjs.io/v0.9.3/node-webkit-v0.9.3-linux-x64.tar.gz', 'osx32-sdk': 'http://dl.nwjs.io/v0.9.3/node-webkit-v0.9.3-osx-ia32.zip', 'osx64-sdk': 'http://dl.nwjs.io/v0.9.3/node-webkit-v0.9.3-osx-x64.zip', 'win32-sdk': 'http://dl.nwjs.io/v0.9.3/node-webkit-v0.9.3-win-ia32.zip', 'win64-sdk': 'http://dl.nwjs.io/v0.9.3/node-webkit-v0.9.3-win-x64.zip' },
                 isLegacy: true
             }
         ];
@@ -124,6 +126,7 @@ test('getVersions', function (t) {
         t.fail(err);
     });
 });
+
 
 test('getVersions (custom download URL)', function (t) {
     t.plan(6);
@@ -141,11 +144,16 @@ test('getVersions (custom download URL)', function (t) {
                 version: '0.15.2',
                 name: 'nwjs',
                 platforms: {
-                    linux32: 'http://abc.xyz/v0.15.2/nwjs-sdk-v0.15.2-linux-ia32.tar.gz',
-                    linux64: 'http://abc.xyz/v0.15.2/nwjs-sdk-v0.15.2-linux-x64.tar.gz',
-                    osx64: 'http://abc.xyz/v0.15.2/nwjs-sdk-v0.15.2-osx-x64.zip',
-                    win32: 'http://abc.xyz/v0.15.2/nwjs-sdk-v0.15.2-win-ia32.zip',
-                    win64: 'http://abc.xyz/v0.15.2/nwjs-sdk-v0.15.2-win-x64.zip'
+                    'linux32-normal': 'http://abc.xyz/v0.15.2/nwjs-v0.15.2-linux-ia32.tar.gz',
+                    'linux32-sdk': 'http://abc.xyz/v0.15.2/nwjs-sdk-v0.15.2-linux-ia32.tar.gz',
+                    'linux64-normal': 'http://abc.xyz/v0.15.2/nwjs-v0.15.2-linux-x64.tar.gz',
+                    'linux64-sdk': 'http://abc.xyz/v0.15.2/nwjs-sdk-v0.15.2-linux-x64.tar.gz',
+                    'osx64-normal': 'http://abc.xyz/v0.15.2/nwjs-v0.15.2-osx-x64.zip',
+                    'osx64-sdk': 'http://abc.xyz/v0.15.2/nwjs-sdk-v0.15.2-osx-x64.zip',
+                    'win32-normal': 'http://abc.xyz/v0.15.2/nwjs-v0.15.2-win-ia32.zip',
+                    'win32-sdk': 'http://abc.xyz/v0.15.2/nwjs-sdk-v0.15.2-win-ia32.zip',
+                    'win64-normal': 'http://abc.xyz/v0.15.2/nwjs-v0.15.2-win-x64.zip',
+                    'win64-sdk': 'http://abc.xyz/v0.15.2/nwjs-sdk-v0.15.2-win-x64.zip'
                 },
                 isLegacy: false
             },
@@ -153,22 +161,35 @@ test('getVersions (custom download URL)', function (t) {
                 version: '0.13.2',
                 name: 'nwjs',
                 platforms: {
-                    linux32: 'http://abc.xyz/v0.13.2/nwjs-sdk-v0.13.2-linux-ia32.tar.gz',
-                    osx64: 'http://abc.xyz/v0.13.2/nwjs-sdk-v0.13.2-osx-x64.zip',
-                    win64: 'http://abc.xyz/v0.13.2/nwjs-sdk-v0.13.2-win-x64.zip'
+                    'linux32-nacl': 'http://abc.xyz/v0.13.2/nwjs-nacl-v0.13.2-linux-ia32.tar.gz',
+                    'linux32-normal': 'http://abc.xyz/v0.13.2/nwjs-v0.13.2-linux-ia32.tar.gz',
+                    'linux32-sdk': 'http://abc.xyz/v0.13.2/nwjs-sdk-v0.13.2-linux-ia32.tar.gz',
+                    'osx64-nacl': 'http://abc.xyz/v0.13.2/nwjs-nacl-v0.13.2-osx-x64.zip',
+                    'osx64-normal': 'http://abc.xyz/v0.13.2/nwjs-v0.13.2-osx-x64.zip',
+                    'osx64-sdk': 'http://abc.xyz/v0.13.2/nwjs-sdk-v0.13.2-osx-x64.zip',
+                    'win64-nacl': 'http://abc.xyz/v0.13.2/nwjs-nacl-v0.13.2-win-x64.zip',
+                    'win64-normal': 'http://abc.xyz/v0.13.2/nwjs-v0.13.2-win-x64.zip',
+                    'win64-sdk': 'http://abc.xyz/v0.13.2/nwjs-sdk-v0.13.2-win-x64.zip'
                 },
+
                 isLegacy: false
             },
             {
                 version: '0.12.3',
                 name: 'nwjs',
                 platforms: {
-                    linux32: 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-linux-ia32.tar.gz',
-                    linux64: 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-linux-x64.tar.gz',
-                    osx32: 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-osx-ia32.zip',
-                    osx64: 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-osx-x64.zip',
-                    win32: 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-win-ia32.zip',
-                    win64: 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-win-x64.zip'
+                    'linux32-macappstore': 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-linux-ia32.tar.gz',
+                    'linux32-normal': 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-linux-ia32.tar.gz',
+                    'linux64-macappstore': 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-linux-x64.tar.gz',
+                    'linux64-normal': 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-linux-x64.tar.gz',
+                    'osx32-macappstore': 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-osx-ia32.zip',
+                    'osx32-normal': 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-osx-ia32.zip',
+                    'osx64-macappstore': 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-osx-x64.zip',
+                    'osx64-normal': 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-osx-x64.zip',
+                    'win32-macappstore': 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-win-ia32.zip',
+                    'win32-normal': 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-win-ia32.zip',
+                    'win64-macappstore': 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-win-x64.zip',
+                    'win64-normal': 'http://abc.xyz/v0.12.3/nwjs-v0.12.3-win-x64.zip'
                 },
                 isLegacy: false
             },
@@ -176,12 +197,12 @@ test('getVersions (custom download URL)', function (t) {
                 version: '0.10.2',
                 name: 'node-webkit',
                 platforms: {
-                    linux32: 'http://abc.xyz/v0.10.2/node-webkit-v0.10.2-linux-ia32.tar.gz',
-                    linux64: 'http://abc.xyz/v0.10.2/node-webkit-v0.10.2-linux-x64.tar.gz',
-                    osx32: 'http://abc.xyz/v0.10.2/node-webkit-v0.10.2-osx-ia32.zip',
-                    osx64: 'http://abc.xyz/v0.10.2/node-webkit-v0.10.2-osx-x64.zip',
-                    win32: 'http://abc.xyz/v0.10.2/node-webkit-v0.10.2-win-ia32.zip',
-                    win64: 'http://abc.xyz/v0.10.2/node-webkit-v0.10.2-win-x64.zip'
+                    'linux32-sdk': 'http://abc.xyz/v0.10.2/node-webkit-v0.10.2-linux-ia32.tar.gz',
+                    'linux64-sdk': 'http://abc.xyz/v0.10.2/node-webkit-v0.10.2-linux-x64.tar.gz',
+                    'osx32-sdk': 'http://abc.xyz/v0.10.2/node-webkit-v0.10.2-osx-ia32.zip',
+                    'osx64-sdk': 'http://abc.xyz/v0.10.2/node-webkit-v0.10.2-osx-x64.zip',
+                    'win32-sdk': 'http://abc.xyz/v0.10.2/node-webkit-v0.10.2-win-ia32.zip',
+                    'win64-sdk': 'http://abc.xyz/v0.10.2/node-webkit-v0.10.2-win-x64.zip'
                 },
                 isLegacy: true
             },
@@ -189,12 +210,12 @@ test('getVersions (custom download URL)', function (t) {
                 version: '0.10.0-rc1',
                 name: 'node-webkit',
                 platforms: {
-                    linux32: 'http://abc.xyz/v0.10.0-rc1/node-webkit-v0.10.0-rc1-linux-ia32.tar.gz',
-                    linux64: 'http://abc.xyz/v0.10.0-rc1/node-webkit-v0.10.0-rc1-linux-x64.tar.gz',
-                    osx32: 'http://abc.xyz/v0.10.0-rc1/node-webkit-v0.10.0-rc1-osx-ia32.zip',
-                    osx64: 'http://abc.xyz/v0.10.0-rc1/node-webkit-v0.10.0-rc1-osx-x64.zip',
-                    win32: 'http://abc.xyz/v0.10.0-rc1/node-webkit-v0.10.0-rc1-win-ia32.zip',
-                    win64: 'http://abc.xyz/v0.10.0-rc1/node-webkit-v0.10.0-rc1-win-x64.zip'
+                    'linux32-sdk': 'http://abc.xyz/v0.10.0-rc1/node-webkit-v0.10.0-rc1-linux-ia32.tar.gz',
+                    'linux64-sdk': 'http://abc.xyz/v0.10.0-rc1/node-webkit-v0.10.0-rc1-linux-x64.tar.gz',
+                    'osx32-sdk': 'http://abc.xyz/v0.10.0-rc1/node-webkit-v0.10.0-rc1-osx-ia32.zip',
+                    'osx64-sdk': 'http://abc.xyz/v0.10.0-rc1/node-webkit-v0.10.0-rc1-osx-x64.zip',
+                    'win32-sdk': 'http://abc.xyz/v0.10.0-rc1/node-webkit-v0.10.0-rc1-win-ia32.zip',
+                    'win64-sdk': 'http://abc.xyz/v0.10.0-rc1/node-webkit-v0.10.0-rc1-win-x64.zip'
                 },
                 isLegacy: true
             },
@@ -202,15 +223,15 @@ test('getVersions (custom download URL)', function (t) {
                 version: '0.9.3',
                 name: 'node-webkit',
                 platforms: {
-                    linux32: 'http://abc.xyz/v0.9.3/node-webkit-v0.9.3-linux-ia32.tar.gz',
-                    linux64: 'http://abc.xyz/v0.9.3/node-webkit-v0.9.3-linux-x64.tar.gz',
-                    osx32: 'http://abc.xyz/v0.9.3/node-webkit-v0.9.3-osx-ia32.zip',
-                    osx64: 'http://abc.xyz/v0.9.3/node-webkit-v0.9.3-osx-x64.zip',
-                    win32: 'http://abc.xyz/v0.9.3/node-webkit-v0.9.3-win-ia32.zip',
-                    win64: 'http://abc.xyz/v0.9.3/node-webkit-v0.9.3-win-x64.zip'
+                    'linux32-sdk': 'http://abc.xyz/v0.9.3/node-webkit-v0.9.3-linux-ia32.tar.gz',
+                    'linux64-sdk': 'http://abc.xyz/v0.9.3/node-webkit-v0.9.3-linux-x64.tar.gz',
+                    'osx32-sdk': 'http://abc.xyz/v0.9.3/node-webkit-v0.9.3-osx-ia32.zip',
+                    'osx64-sdk': 'http://abc.xyz/v0.9.3/node-webkit-v0.9.3-osx-x64.zip',
+                    'win32-sdk': 'http://abc.xyz/v0.9.3/node-webkit-v0.9.3-win-ia32.zip',
+                    'win64-sdk': 'http://abc.xyz/v0.9.3/node-webkit-v0.9.3-win-x64.zip'
                 },
                 isLegacy: true
-            }
+            },
         ];
 
         for(var i = 0; i < expectedVersions.length; i++){
@@ -234,9 +255,15 @@ test('getVersion', function (t) {
         t.equal(result.version, '0.13.2');
         t.equal(result.name, 'nwjs');
         t.deepEqual(result.platforms, {
-            linux32: 'http://dl.nwjs.io/v0.13.2/nwjs-sdk-v0.13.2-linux-ia32.tar.gz',
-            osx64: 'http://dl.nwjs.io/v0.13.2/nwjs-sdk-v0.13.2-osx-x64.zip',
-            win64: 'http://dl.nwjs.io/v0.13.2/nwjs-sdk-v0.13.2-win-x64.zip'
+            'linux32-nacl': 'http://dl.nwjs.io/v0.13.2/nwjs-nacl-v0.13.2-linux-ia32.tar.gz',
+            'linux32-normal': 'http://dl.nwjs.io/v0.13.2/nwjs-v0.13.2-linux-ia32.tar.gz',
+            'linux32-sdk': 'http://dl.nwjs.io/v0.13.2/nwjs-sdk-v0.13.2-linux-ia32.tar.gz',
+            'osx64-nacl': 'http://dl.nwjs.io/v0.13.2/nwjs-nacl-v0.13.2-osx-x64.zip',
+            'osx64-normal': 'http://dl.nwjs.io/v0.13.2/nwjs-v0.13.2-osx-x64.zip',
+            'osx64-sdk': 'http://dl.nwjs.io/v0.13.2/nwjs-sdk-v0.13.2-osx-x64.zip',
+            'win64-nacl': 'http://dl.nwjs.io/v0.13.2/nwjs-nacl-v0.13.2-win-x64.zip',
+            'win64-normal': 'http://dl.nwjs.io/v0.13.2/nwjs-v0.13.2-win-x64.zip',
+            'win64-sdk': 'http://dl.nwjs.io/v0.13.2/nwjs-sdk-v0.13.2-win-x64.zip'
         });
     });
 });
@@ -265,17 +292,19 @@ test('getVersion (legacy)', function (t) {
 
     versions.getVersion({
         desiredVersion: '0.10.2',
-        downloadUrl:'http://dl.nwjs.io/'
+        downloadUrl:'http://dl.nwjs.io/',
+				flavor:'sdk'
+
     }).then(function(result){
         t.equal(result.version, '0.10.2');
         t.equal(result.name, 'node-webkit');
         t.deepEqual(result.platforms, {
-            linux32: 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-linux-ia32.tar.gz',
-            linux64: 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-linux-x64.tar.gz',
-            osx32: 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-osx-ia32.zip',
-            osx64: 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-osx-x64.zip',
-            win32: 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-win-ia32.zip',
-            win64: 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-win-x64.zip'
+            'linux32-sdk': 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-linux-ia32.tar.gz',
+            'linux64-sdk': 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-linux-x64.tar.gz',
+            'osx32-sdk': 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-osx-ia32.zip',
+            'osx64-sdk': 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-osx-x64.zip',
+            'win32-sdk': 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-win-ia32.zip',
+            'win64-sdk': 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-win-x64.zip'
         });
     });
 });
