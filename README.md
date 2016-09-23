@@ -260,6 +260,20 @@ Darwin (OS X kernel) has a low limit for file descriptors (256 per process) by d
 
 To get around it, run `ulimit -n 1024` (or add it to your `~/.bash_profile`). For more information, see [henvic/osx-ulimit](https://github.com/henvic/osx-ulimit).
 
+## Team
+
+**Current**
+
+- Adam Lynch ([@adam-lynch](https://github.com/adam-lynch))
+- Rémy Boulanouar ([@dbIK](https://github.com/DblK))
+- You? :smile:. We're open to contributions (to the code, documentation, or anything else) and or additional maintainers.
+
+**Past**
+
+- Steffen Müller ([@steffenmllr](https://github.com/steffenmllr))
+- Gabe Paez ([@gabepaez](https://github.com/gabepaez))
+- Andy Trevorah ([@trevorah](https://github.com/trevorah))
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
