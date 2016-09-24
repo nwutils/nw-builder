@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 var optimist = require('optimist');
 var updateNotifier = require('update-notifier');
 var NwBuilder = require('./../lib');
@@ -130,7 +129,7 @@ if (notifier.update) {
 
 // Error if there are no files
 var files = argv._[0];
-if (!files) {
+if(!files) {
     optimist.showHelp();
     process.exit(1);
 }
@@ -156,9 +155,9 @@ options.cacheDir = argv.cacheDir ? path.resolve(process.cwd(), argv.cacheDir) : 
 options.buildDir = path.resolve(process.cwd(), argv.buildDir);
 
 // Check Platform, if we are in run mode
-if (argv.r) {
+if(argv.r) {
     var currentPlatform = detectCurrentPlatform();
-    options.platforms = [currentPlatform];
+    options.platforms = [ currentPlatform ];
     options.currentPlatform = currentPlatform;
 }
 
@@ -170,15 +169,15 @@ console.log(options);
 var nw = new NwBuilder(options);
 
 // Logging
-if (!(argv.quiet || argv.quite)) {
-    nw.on('log', console.log);
+if(!(argv.quiet || argv.quite)) {
+    nw.on('log',  console.log);
 }
 
 // Build or run the app
 var np = (argv.r ? nw.run() : nw.build());
 np.then(function() {
     process.exit(0);
-}).catch(function(error) {
+}).catch (function(error) {
     if (error) {
         console.error(error);
         process.exit(1);
