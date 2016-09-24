@@ -162,7 +162,7 @@ if(argv.r) {
 }
 
 // Test
-console.log(options);
+// console.log(options);
 
 
 // Build App
