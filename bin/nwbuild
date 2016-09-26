@@ -63,6 +63,7 @@ if(!files) {
 
 var options = {
     files: path.resolve(process.cwd(), files) + '/**/*',
+    flavor: argv.flavor || 'sdk',
     platforms: argv.platforms.split(','),
     version: argv.version,
     macIcns: argv.macIcns || false,
