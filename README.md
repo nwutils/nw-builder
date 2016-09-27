@@ -270,7 +270,7 @@ To get around it, run `ulimit -n 1024` (or add it to your `~/.bash_profile`). Fo
 
 **Past**
 
-- Steffen Müller ([@steffenmllr](https://github.com/steffenmllr))
+- Steffen Müller ([@steffenmllr](https://github.com/steffenmllr)) (Creator)
 - Gabe Paez ([@gabepaez](https://github.com/gabepaez))
 - Andy Trevorah ([@trevorah](https://github.com/trevorah))
 
