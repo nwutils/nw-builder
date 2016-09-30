@@ -36,7 +36,7 @@
   ],
   "devDependencies": {
     "nock": "^8.0.0",
-    "tape": "~4.5.1",
+    "tape": "~4.6.1",
     "redtape": "~1.0.0",
     "eol": "~0.2.0"
   },
