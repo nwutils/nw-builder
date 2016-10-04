@@ -5,11 +5,11 @@ var gutil = require('gulp-util');
 gulp.task('nw', function () {
 
     var nw = new NwBuilder({
-        version: '0.11.0',
+        version: '0.14.6',
         files: './nwapp/**',
         macIcns: './icons/icon.icns',
         macPlist: {mac_bundle_id: 'myPkg'},
-        platforms: ['win32', 'win64', 'osx32', 'osx64']
+        platforms: ['win32', 'win64', 'osx64']
     });
 
     // Log stuff you want

@@ -162,6 +162,9 @@ test('Should create a ZIP per platform which has overrides and one between the r
 test('Should find latest version', function (t) {
     t.plan(2);
 
+    nock('http://nwjs.io').get('/versions.json').replyWithFile(200, './test/fixtures/manifest/versions.json');
+    nock('http://nwjs.io').get('/versions.json').replyWithFile(200, './test/fixtures/manifest/versions.json');
+
     var x = new NwBuilder({
         files: '**',
         version: 'latest'

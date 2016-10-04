@@ -20,3 +20,5 @@ cache
 tmp/
 test/temp/
 .DS_Store
+
+example/build
