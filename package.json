@@ -48,7 +48,7 @@
     "graceful-fs-extra": "^2.0.0",
     "graceful-ncp": "^3.0.0",
     "inherits": "~2.0.1",
-    "lodash": "~2.4.1",
+    "lodash": "~4.16.4",
     "optimist": "^0.6.1",
     "platform-overrides": "~1.0.1",
     "plist": "^1.0.0",
