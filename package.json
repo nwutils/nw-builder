@@ -4,7 +4,7 @@
   "description": "nw-builder",
   "main": "index.js",
   "scripts": {
-    "test": "tape test/*.js"
+    "test": "tape test/versions.js"
   },
   "repository": {
     "type": "git",
@@ -16,10 +16,12 @@
   "author": {
     "name": "Steffen Müller"
   },
-  "contributors": [{
-    "name": "Adam Lynch",
-    "email": "contact@adamlynch.com"
-  }],
+  "contributors": [
+    {
+      "name": "Adam Lynch",
+      "email": "contact@adamlynch.com"
+    }
+  ],
   "engines": {
     "node": ">= 4.0.0"
   },
@@ -35,10 +37,11 @@
     "application"
   ],
   "devDependencies": {
+    "eol": "~0.3.0",
     "nock": "^8.0.0",
-    "tape": "~4.6.0",
     "redtape": "~1.0.0",
-    "eol": "~0.3.0"
+    "tap-spec": "^4.1.1",
+    "tape": "~4.6.0"
   },
   "dependencies": {
     "archiver": "^1.0.0",
@@ -60,9 +63,8 @@
     "semver": "^5.3.0",
     "simple-glob": "~0.1.0",
     "tar-fs": "^1.13.0",
-    "temp": "~0.8.3",
+    "temp": "~0.7.0",
     "update-notifier": "^1.0.2",
     "winresourcer": "^0.9.0"
   }
 }
-
