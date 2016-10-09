@@ -279,6 +279,7 @@ To get around it, run `ulimit -n 1024` (or add it to your `~/.bash_profile`). Fo
 See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Release History
+- 2016-10-09    `3.1.1` Fix for flavor feature when using CLI.
 - 2016-09-14    `3.1.0` Ability to select any flavor of NW.js, not just `sdk`.
 - 2016-08-28    `3.0.0` bumping graceful-fs-extra dependency to 2.0.0.
 - 2016-08-14    `2.2.7` fix for macIcns option when using NW.js 0.12.3

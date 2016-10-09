@@ -1,10 +1,10 @@
 {
   "name": "nw-builder",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "nw-builder",
   "main": "index.js",
   "scripts": {
-    "test": "tape test/versions.js"
+    "test": "tape test/*.js"
   },
   "repository": {
     "type": "git",
@@ -39,9 +39,9 @@
   "devDependencies": {
     "eol": "~0.3.0",
     "nock": "^8.0.0",
+    "tape": "~4.6.2",
     "redtape": "~1.0.0",
-    "tap-spec": "^4.1.1",
-    "tape": "~4.6.0"
+    "tap-spec": "^4.1.1"
   },
   "dependencies": {
     "archiver": "^1.0.0",
@@ -60,7 +60,7 @@
     "recursive-readdir-sync": "^1.0.6",
     "request": "~2.75.0",
     "rimraf": "^2.5.2",
-    "semver": "^2.3.1",
+    "semver": "^2.3.2",
     "simple-glob": "~0.1.0",
     "tar-fs": "^1.13.0",
     "temp": "~0.7.0",
@@ -68,3 +68,4 @@
     "winresourcer": "^0.9.0"
   }
 }
+
