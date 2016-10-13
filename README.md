@@ -265,7 +265,7 @@ To get around it, run `ulimit -n 1024` (or add it to your `~/.bash_profile`). Fo
 **Current**
 
 - Adam Lynch ([@adam-lynch](https://github.com/adam-lynch))
-- Rémy Boulanouar ([@dbIK](https://github.com/DblK))
+- Rémy Boulanouar ([@DblK](https://github.com/DblK))
 - You? :smile:. We're open to contributions (to the code, documentation, or anything else) and or additional maintainers.
 
 **Past**
