@@ -160,6 +160,14 @@ Default value: `null`
 
 WINDOW ONLY: Instead of zipping the application and merging it into the executable the application content is placed next to the application (which speed up the startup time for large apps). The default behaviour is platform specific. For `windows` and `linux`, the application is zipped and merged into the executable. For `mac`, the application is not zipped.
 
+#### options.zipOptions
+Type: `Object`
+Default value: `null`
+
+Allows to configure the underling zip library parameters, like store or compression ratio.
+
+See [archiver](http://archiverjs.com/docs/global.html#ZipOptions) documentation for detailed description of properties.
+
 #### options.macPlist
 Type: `String` or `Object`  
 Default value: `false`  
