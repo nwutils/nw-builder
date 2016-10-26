@@ -21,7 +21,7 @@ npm install nw-builder -g
 Yes, there is also a [Grunt Plugin](https://github.com/nwjs/grunt-nw-builder). For Gulp, just use the module :)
 
 
-## Usage
+## CLI Usage
 
 ```shell
 Usage: nwbuild [options] [path]
@@ -39,7 +39,7 @@ Options:
 #### Run NW.js
 During development you can run NW.js with `nwbuild -r path/to/your/younwapp/`
 
-Or use the module:
+## Module Usage
 
 ```js
 var NwBuilder = require('nw-builder');
@@ -49,11 +49,9 @@ var nw = new NwBuilder({
     version: '0.14.6'
 });
 
-//Log stuff you want
-
+// Log stuff you want
 nw.on('log',  console.log);
 
-// Build returns a promise
 nw.build().then(function () {
    console.log('all done!');
 }).catch(function (error) {
@@ -61,13 +59,23 @@ nw.build().then(function () {
 });
 ```
 
-`build` also supports callbacks:
+During development you can run NW.js with `run`:
 
-```javascript
+```js
+nw.run().then(function () {
+   console.log('all done!');
+}).catch(function (error) {
+    console.error(error);
+});
+```
+
+`build` and `run` also supports callbacks:
+
+```js
 nw.build(function(err) {
-    if(err) console.log(err);
-})
-
+    if(err) return console.error(err);
+    console.log('all done!');
+});
 ```
 
 ### Options
@@ -80,14 +88,14 @@ The path to your node webkit app. It supports [simple-glob](https://github.com/j
 
 
 #### options.version
-Type: `String`
-Default value: `'latest'`
+Type: `String`  
+Default value: `'latest'`  
 
 The version of NW.js you want to use. Per default it looks up the latest version. [Here is a list](https://github.com/nwjs/nw.js/wiki/Downloads-of-old-versions) of all available releases
 
 #### options.flavor
-Type: `String`
-Default value: `'sdk'`
+Type: `String`  
+Default value: `'sdk'`  
 
 The flavor of NW.js you want to use. Per default it will be `sdk`. [Here is a list](https://github.com/nwjs/nw.js/wiki/Build-Flavors) of all flavor available.
 
@@ -95,7 +103,7 @@ The value `sdk` is most used for development whereas `normal` for production.
 
 #### options.platforms
 Type: `Array`  
-Default value: `['osx32', 'osx64', 'win32', 'win64']`
+Default value: `['osx32', 'osx64', 'win32', 'win64']`  
 
 The platforms you want to build. Can be `['win32', 'win64', 'osx32', 'osx64', 'linux32', 'linux64']`
 
@@ -157,14 +165,14 @@ Default value: `false`
 MAC ONLY: The path to your ICNS icon file. If your don't provide your own it will use the one provided by NW.js
 
 #### options.zip
-Type: `Boolean`
-Default value: `null`
+Type: `Boolean`  
+Default value: `null`  
 
 WINDOW ONLY: Instead of zipping the application and merging it into the executable the application content is placed next to the application (which speed up the startup time for large apps). The default behaviour is platform specific. For `windows` and `linux`, the application is zipped and merged into the executable. For `mac`, the application is not zipped.
 
 #### options.zipOptions
-Type: `Object`
-Default value: `null`
+Type: `Object`  
+Default value: `null`  
 
 Allows to configure the underling zip library parameters, like store or compression ratio.
 
@@ -178,13 +186,13 @@ MAC ONLY: Pass a string containing the path to your own plist file. If a string 
 
 #### options.winIco
 Type: `String`  
-Default value: `null`
+Default value: `null`  
 
 WINDOWS ONLY: The path to your ICO icon file. If your don't provide your own it will use the one provided by NW.js. If you are building on MAC or LINUX you must have [Wine](https://www.winehq.org/) installed to use this option.
 
 #### options.macZip (DEPRECATED)
-Type: `Boolean`
-Default value: `null`
+Type: `Boolean`  
+Default value: `null`  
 
 MAC ONLY: Use a `app.nw` folder instead of `ZIP` file, this significantly improves the startup speed of applications on `mac`, since no decompressing is needed. Builds on other platforms will still use `ZIP` files. The default behaviour of node-webkit-builder is to not use `ZIP` files on the `mac` platform. In case of the `mac` platform the option `macZip` can override the option `zip`.
 
