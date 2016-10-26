@@ -101,6 +101,8 @@ The platforms you want to build. Can be `['win32', 'win64', 'osx32', 'osx64', 'l
 
 The values `['win', 'osx', 'linux']` can also be used and will build both the 32 and 64 bit versions of the specified platforms.
 
+Be aware that the osx32 version can only be built with legacy version of nwjs. Since > 0.12.0, only 64 bits for osx works.
+
 #### options.appName
 Type: `String`  
 Default value: `false`  
