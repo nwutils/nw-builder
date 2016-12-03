@@ -5,40 +5,113 @@ var NwBuilder = require('./../lib');
 var path = require('path');
 var detectCurrentPlatform = require('../lib/detectCurrentPlatform.js');
 
-var argv = optimist
-    .usage('Usage: nwbuild [options] [path]')
+var defaultOptions = NwBuilder.defaultOptions;
+var shortNames = {};
+var ignoreOptions = {
+    // deprecated
+    'macZip': true,
+    // can't custom
+    'files': true,
+    'currentPlatform': true,
+};
 
-    .alias('p', 'platforms')
-    .default('p', 'osx32,osx64,win32,win64')
-    .describe('p', 'Platforms to build, comma-sperated, can be: win32,win64,osx32,osx64,linux32,linux64')
+var optionsDetail = {
+    'platforms': {
+        shortName: 'p',
+        default: 'osx32,osx64,win32,win64',
+        describe: 'Platforms to build, comma-sperated, can be: win32,win64,osx32,osx64,linux32,linux64',
+    },
+    'run': {
+        shortName: 'r',
+        default: false,
+        describe: 'Runs NW.js for the current platform',
+        type: 'boolean'
+    },
+    'quiet': {
+        default: false,
+        describe: 'Disables logging',
+    },
 
-    .alias('v', 'version')
-    .default('v', 'latest')
-    .describe('v', 'The nw version, eg. 0.8.4')
+    // The options for NwBuilder.
+    // The default value is defined in NwBuilder.defaultOptions.
+    // Just config shortName & describe in this file.
+    'version': {
+        shortName: 'v',
+        describe: 'The nw version, eg. 0.8.4',
+    },
+    'appName': {
+        describe: 'The Name of your NW.js app',
+    },
+    'appVersion': {
+        describe: 'The version of your NW.js app',
+    },
+    'buildDir': {
+        shortName: 'o',
+        describe: 'The build folder',
+    },
+    'forceDownload': {
+        shortName: 'f',
+        describe: 'Force download of NW.js',
+    },
+    'flavor': {
+        describe: 'The flavor of NW.js you want to use',
+    },
+    'cacheDir': {
+        describe: 'The cache folder',
+    },
+    'macIcns': {
+        describe: 'The path to your ICNS icon file (Mac only)',
+    },
+    'winIco': {
+        describe: 'The path to your ICO icon file (Windows only)',
+    },
+};
 
-    .alias('r', 'run')
-    .default('r', false)
-    .describe('r', 'Runs NW.js for the current platform')
-    .boolean('r')
+for (var name in defaultOptions) {
+    if (ignoreOptions[name]) {
+        continue;
+    }
+    var defaultValue = defaultOptions[name];
+    var detail = optionsDetail[name];
 
+    if (!(name in optionsDetail)) {
+        detail = optionsDetail[name] = {};
+    }
+    if (!('default' in detail)) {
+        detail['default'] = defaultValue;
+    }
+    if (!('type' in detail)) {
+        if (typeof detail['default'] == 'boolean') {
+            detail['type'] = 'boolean';
+        }
+    }
+}
+// Test
+// console.log(optionsDetail);
 
-    .alias('o', 'buildDir')
-    .default('o', './build')
-    .describe('o', 'The build folder')
+var argv = optimist.usage('Usage: nwbuild [options] [path]');
 
+for (var name in optionsDetail) {
+    var detail = optionsDetail[name];
+    if (detail.shortName) {
+        shortNames[detail.shortName] = true;
+        argv.alias(name, detail.shortName);
+    }
+    if ('default' in detail) {
+        argv.default(name, detail['default']);
+    }
+    if ('describe' in detail) {
+        argv.describe(name, detail['describe']);
+    }
+    if (detail.type == 'boolean') {
+        argv.boolean(name);
+    }
+}
 
-    .alias('f', 'forceDownload')
-    .default('f', false)
-    .describe('f', 'Force download of NW.js')
-    .boolean('f')
+argv = argv.argv;
+// Test
+// console.log(argv);
 
-    .describe('cacheDir', 'The cache folder')
-
-    .default('quiet', false)
-    .describe('quiet', 'Disables logging')
-    .boolean('quiet')
-
-    .argv;
 
 // Howto Help
 if (argv.h || argv.help) {
@@ -61,17 +134,26 @@ if(!files) {
     process.exit(1);
 }
 
-var options = {
-    files: path.resolve(process.cwd(), files) + '/**/*',
-    flavor: argv.flavor || 'sdk',
-    platforms: argv.platforms.split(','),
-    version: argv.version,
-    macIcns: argv.macIcns || false,
-    winIco: argv.winIco || false,
-    cacheDir: argv.cacheDir ? path.resolve(process.cwd(), argv.cacheDir) : path.resolve(__dirname, '..', 'cache'),
-    buildDir: path.resolve(process.cwd(), argv.buildDir),
-    forceDownload: argv.forceDownload
-};
+// Test
+// files = files || '.';
+
+var options = {};
+
+for (var key in argv) {
+    if (ignoreOptions[name]) {
+        continue;
+    }
+    // ignore special key of optimist and shortNames in argv.
+    if (key !== '_' && key !== '$0' && !shortNames[key]) {
+        options[key] = argv[key];
+    }
+}
+
+options.files = path.resolve(process.cwd(), files) + '/**/*';
+options.platforms = argv.platforms.split(',');
+options.cacheDir = argv.cacheDir ? path.resolve(process.cwd(), argv.cacheDir) : path.resolve(__dirname, '..', 'cache');
+options.buildDir = path.resolve(process.cwd(), argv.buildDir);
+options.forceDownload = argv.forceDownload;
 
 // Check Platform, if we are in run mode
 if(argv.r) {
@@ -79,6 +161,9 @@ if(argv.r) {
     options.platforms = [ currentPlatform ];
     options.currentPlatform = currentPlatform;
 }
+
+// Test
+// console.log(options);
 
 
 // Build App
