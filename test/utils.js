@@ -147,7 +147,7 @@ test('should zip the app and create the app.nw file + log it', function (t) {
     }, {
         "src" : path.normalize("test/fixtures/nwapp/package.json"),
         "dest": path.normalize("package.json")
-    }], expected = _.pluck(files, 'dest').sort();
+    }], expected = _.map(files, 'dest').sort();
 
     var _evt = new EventEmitter();
     _evt.on('log', function (logging) {

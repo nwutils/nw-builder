@@ -2,7 +2,7 @@
 
 [![NPM](https://nodei.co/npm/nw-builder.png?downloads=true)](https://nodei.co/npm/nw-builder/)
 
-> Lets you build your [NW.js](https://github.com/nwjs/nw.js) apps for mac, win and linux via cli. It will download the prebuilt binaries for a newest version, unpacks it, creates a release folder, create the app.nw file for a specified directory and copies the app.nw file where it belongs.
+> Build your [NW.js](https://github.com/nwjs/nw.js) apps for Mac, Win and Linux programmatically or via CLI.
 
 
 ### Installation
@@ -101,6 +101,8 @@ The platforms you want to build. Can be `['win32', 'win64', 'osx32', 'osx64', 'l
 
 The values `['win', 'osx', 'linux']` can also be used and will build both the 32 and 64 bit versions of the specified platforms.
 
+Be aware that the osx32 version can only be built with legacy version of nwjs. Since > 0.12.0, only 64 bits for osx works.
+
 #### options.appName
 Type: `String`  
 Default value: `false`  
@@ -159,6 +161,14 @@ Type: `Boolean`
 Default value: `null`
 
 WINDOW ONLY: Instead of zipping the application and merging it into the executable the application content is placed next to the application (which speed up the startup time for large apps). The default behaviour is platform specific. For `windows` and `linux`, the application is zipped and merged into the executable. For `mac`, the application is not zipped.
+
+#### options.zipOptions
+Type: `Object`
+Default value: `null`
+
+Allows to configure the underling zip library parameters, like store or compression ratio.
+
+See [archiver](http://archiverjs.com/docs/global.html#ZipOptions) documentation for detailed description of properties.
 
 #### options.macPlist
 Type: `String` or `Object`  
@@ -265,12 +275,12 @@ To get around it, run `ulimit -n 1024` (or add it to your `~/.bash_profile`). Fo
 **Current**
 
 - Adam Lynch ([@adam-lynch](https://github.com/adam-lynch))
-- Rémy Boulanouar ([@dbIK](https://github.com/DblK))
+- Rémy Boulanouar ([@DblK](https://github.com/DblK))
 - You? :smile:. We're open to contributions (to the code, documentation, or anything else) and or additional maintainers.
 
 **Past**
 
-- Steffen Müller ([@steffenmllr](https://github.com/steffenmllr))
+- Steffen Müller ([@steffenmllr](https://github.com/steffenmllr)) (Creator)
 - Gabe Paez ([@gabepaez](https://github.com/gabepaez))
 - Andy Trevorah ([@trevorah](https://github.com/trevorah))
 
@@ -279,6 +289,8 @@ To get around it, run `ulimit -n 1024` (or add it to your `~/.bash_profile`). Fo
 See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Release History
+- 2016-10-09    `3.1.2` Fix for passing array as files option when running app (plus some security fixes).
+- 2016-10-09    `3.1.1` Fix for flavor feature when using CLI.
 - 2016-09-14    `3.1.0` Ability to select any flavor of NW.js, not just `sdk`.
 - 2016-08-28    `3.0.0` bumping graceful-fs-extra dependency to 2.0.0.
 - 2016-08-14    `2.2.7` fix for macIcns option when using NW.js 0.12.3

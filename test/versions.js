@@ -293,8 +293,7 @@ test('getVersion (legacy)', function (t) {
     versions.getVersion({
         desiredVersion: '0.10.2',
         downloadUrl:'http://dl.nwjs.io/',
-				flavor:'sdk'
-
+        flavor:'sdk'
     }).then(function(result){
         t.equal(result.version, '0.10.2');
         t.equal(result.name, 'node-webkit');
@@ -306,6 +305,9 @@ test('getVersion (legacy)', function (t) {
             'win32-sdk': 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-win-ia32.zip',
             'win64-sdk': 'http://dl.nwjs.io/v0.10.2/node-webkit-v0.10.2-win-x64.zip'
         });
+    })
+    .catch(function(err){
+        t.end(err);
     });
 });
 
