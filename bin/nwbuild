@@ -9,61 +9,61 @@ var defaultOptions = NwBuilder.defaultOptions;
 var shortNames = {};
 var ignoreOptions = {
     // deprecated
-    "macZip": true,
+    'macZip': true,
     // can't custom
-    "files": true,
-    "currentPlatform": true,
+    'files': true,
+    'currentPlatform': true,
 };
 
 var optionsDetail = {
-    "platforms": {
-        shortName: "p",
-        default: "osx32,osx64,win32,win64",
-        describe: "Platforms to build, comma-sperated, can be: win32,win64,osx32,osx64,linux32,linux64",
+    'platforms': {
+        shortName: 'p',
+        default: 'osx32,osx64,win32,win64',
+        describe: 'Platforms to build, comma-sperated, can be: win32,win64,osx32,osx64,linux32,linux64',
     },
-    "run": {
-        shortName: "r",
+    'run': {
+        shortName: 'r',
         default: false,
-        describe: "Runs NW.js for the current platform",
-        type: "boolean"
+        describe: 'Runs NW.js for the current platform',
+        type: 'boolean'
     },
-    "quiet": {
+    'quiet': {
         default: false,
-        describe: "Disables logging",
+        describe: 'Disables logging',
     },
 
     // The options for NwBuilder.
     // The default value is defined in NwBuilder.defaultOptions.
     // Just config shortName & describe in this file.
-    "version": {
-        shortName: "v",
-        describe: "The nw version, eg. 0.8.4",
+    'version': {
+        shortName: 'v',
+        describe: 'The nw version, eg. 0.8.4',
     },
-    "appName": {
-        describe: "The Name of your NW.js app",
+    'appName': {
+        describe: 'The Name of your NW.js app',
     },
-    "appVersion": {
-        describe: "The version of your NW.js app",
+    'appVersion': {
+        describe: 'The version of your NW.js app',
     },
-    "buildDir": {
-        shortName: "o",
-        describe: "The build folder",
+    'buildDir': {
+        shortName: 'o',
+        describe: 'The build folder',
     },
-    "forceDownload": {
-        shortName: "f",
-        describe: "Force download of NW.js",
+    'forceDownload': {
+        shortName: 'f',
+        describe: 'Force download of NW.js',
     },
-    "flavor": {
-        describe: "The flavor of NW.js you want to use",
+    'flavor': {
+        describe: 'The flavor of NW.js you want to use',
     },
-    "cacheDir": {
-        describe: "The cache folder",
+    'cacheDir': {
+        describe: 'The cache folder',
     },
-    "macIcns": {
-        describe: "The path to your ICNS icon file (Mac only)",
+    'macIcns': {
+        describe: 'The path to your ICNS icon file (Mac only)',
     },
-    "winIco": {
-        describe: "The path to your ICO icon file (Windows only)",
+    'winIco': {
+        describe: 'The path to your ICO icon file (Windows only)',
     },
 };
 
@@ -77,12 +77,12 @@ for (var name in defaultOptions) {
     if (!(name in optionsDetail)) {
         detail = optionsDetail[name] = {};
     }
-    if (!("default" in detail)) {
-        detail["default"] = defaultValue;
+    if (!('default' in detail)) {
+        detail['default'] = defaultValue;
     }
-    if (!("type" in detail)) {
-        if (typeof detail["default"] == "boolean") {
-            detail["type"] = "boolean";
+    if (!('type' in detail)) {
+        if (typeof detail['default'] == 'boolean') {
+            detail['type'] = 'boolean';
         }
     }
 }
@@ -97,13 +97,13 @@ for (var name in optionsDetail) {
         shortNames[detail.shortName] = true;
         argv.alias(name, detail.shortName);
     }
-    if ("default" in detail) {
-        argv.default(name, detail["default"]);
+    if ('default' in detail) {
+        argv.default(name, detail['default']);
     }
-    if ("describe" in detail) {
-        argv.describe(name, detail["describe"]);
+    if ('describe' in detail) {
+        argv.describe(name, detail['describe']);
     }
-    if (detail.type == "boolean") {
+    if (detail.type == 'boolean') {
         argv.boolean(name);
     }
 }
@@ -133,9 +133,9 @@ if(!files) {
     optimist.showHelp();
     process.exit(1);
 }
-// Test
-// files = files || ".";
 
+// Test
+// files = files || '.';
 
 var options = {};
 
@@ -144,7 +144,7 @@ for (var key in argv) {
         continue;
     }
     // ignore special key of optimist and shortNames in argv.
-    if (key !== "_" && key !== "$0" && !shortNames[key]) {
+    if (key !== '_' && key !== '$0' && !shortNames[key]) {
         options[key] = argv[key];
     }
 }
@@ -153,6 +153,7 @@ options.files = path.resolve(process.cwd(), files) + '/**/*';
 options.platforms = argv.platforms.split(',');
 options.cacheDir = argv.cacheDir ? path.resolve(process.cwd(), argv.cacheDir) : path.resolve(__dirname, '..', 'cache');
 options.buildDir = path.resolve(process.cwd(), argv.buildDir);
+options.forceDownload = argv.forceDownload;
 
 // Check Platform, if we are in run mode
 if(argv.r) {
