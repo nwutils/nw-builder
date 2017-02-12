@@ -14,7 +14,7 @@ test('getLatestVersion', function (t) {
     nock(root).get('/versions.json').replyWithFile(200, './test/fixtures/manifest/versions.json');
     nock(root).get('/versions.json').replyWithFile(200, './test/fixtures/manifest/versions.json');
 
-    versions.getLatestVersion('http://dl.nwjs.io/').then(function(result){
+    versions.getLatestVersion('http://dl.nwjs.io/', root + '/versions.json').then(function(result){
         t.equal(result.version, '0.15.2');
         t.equal(result.name, 'nwjs');
         t.deepEqual(result.platforms, {
@@ -42,7 +42,7 @@ test('getVersions', function (t) {
             .replyWithFile(200, './test/fixtures/testVersions.html'); // needs to reply with *any* content
     });
 
-    versions.getVersions('http://dl.nwjs.io/').then(function(result){
+    versions.getVersions(dlUrl, root + '/versions.json').then(function(result){
         var expectedVersions = [
             {
                 version: '0.15.2',
@@ -138,7 +138,7 @@ test('getVersions (custom download URL)', function (t) {
             .replyWithFile(200, './test/fixtures/testVersions.html'); // needs to reply with *any* content
     });
 
-    versions.getVersions('http://abc.xyz/').then(function(result){
+    versions.getVersions('http://abc.xyz/', root + '/versions.json').then(function(result){
         var expectedVersions = [
             {
                 version: '0.15.2',
@@ -250,7 +250,8 @@ test('getVersion', function (t) {
     nock(root).get('/versions.json').replyWithFile(200, './test/fixtures/manifest/versions.json');
     versions.getVersion({
         desiredVersion: '0.13.2',
-        downloadUrl: 'http://dl.nwjs.io/'
+        downloadUrl: 'http://dl.nwjs.io/',
+        manifestUrl: root + '/versions.json'
     }).then(function(result){
         t.equal(result.version, '0.13.2');
         t.equal(result.name, 'nwjs');
@@ -274,7 +275,8 @@ test('getVersion should fail for non-existent version', function (t) {
     nock(root).get('/versions.json').replyWithFile(200, './test/fixtures/manifest/versions.json');
     versions.getVersion({
         desiredVersion:'0.13.3',
-        downloadUrl: 'http://dl.nwjs.io/'
+        downloadUrl: 'http://dl.nwjs.io/',
+        manifestUrl: root + '/versions.json'
     }).then(function(){
         t.fail("Shouldn't go in here")
     })
@@ -325,3 +327,4 @@ test('getVersion (legacy) should fail for non-existent version', function (t) {
             t.ok('Should fail');
         });
 });
+
