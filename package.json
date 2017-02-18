@@ -37,7 +37,7 @@
     "application"
   ],
   "devDependencies": {
-    "eol": "~0.6.0",
+    "eol": "~0.7.0",
     "nock": "^9.0.5",
     "tape": "~4.6.2",
     "redtape": "~1.0.0",
