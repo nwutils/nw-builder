@@ -58,7 +58,7 @@
     "progress": "~1.1.7",
     "rcedit": "^0.7.0",
     "recursive-readdir-sync": "^1.0.6",
-    "request": "~2.79.0",
+    "request": "~2.81.0",
     "rimraf": "^2.5.2",
     "semver": "^2.3.2",
     "simple-glob": "~0.1.0",
