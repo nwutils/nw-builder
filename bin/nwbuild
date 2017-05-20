@@ -73,10 +73,12 @@ var options = {
     forceDownload: argv.forceDownload
 };
 
-// Check Platform, if we are in run mode
+// If we are in run mode
 if(argv.r) {
     var currentPlatform = detectCurrentPlatform();
-    options.platforms = [ currentPlatform ];
+    if(!options.platforms){
+        options.platforms = [ currentPlatform ];
+    }
     options.currentPlatform = currentPlatform;
 }
 
