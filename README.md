@@ -289,7 +289,8 @@ To get around it, run `ulimit -n 1024` (or add it to your `~/.bash_profile`). Fo
 See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Release History
-- 2017-05-16    `3.2.1` Fix: NW.js 0.22.0+ apps didn't open
+- 2017-05-20    `3.2.2` Fix: when using the `nwbuild` in run mode, the `-p` option was ignored and the current platform was always used. 
+- 2017-05-16    `3.2.1` Fix: NW.js 0.22.0+ apps didn't open.
 - 2017-02-12    `3.2.0` Defaults to HTTPS now, added `manifestUrl` option, and bumped some dependencies.
 - 2016-10-09    `3.1.2` Fix for passing array as files option when running app (plus some security fixes).
 - 2016-10-09    `3.1.1` Fix for flavor feature when using CLI.
