@@ -57,7 +57,7 @@
     "platform-overrides": "~1.0.1",
     "plist": "^2.0.1",
     "progress": "~1.1.7",
-    "rcedit": "^0.7.0",
+    "rcedit": "^0.8.0",
     "recursive-readdir-sync": "^1.0.6",
     "request": "~2.79.0",
     "rimraf": "^2.5.2",
