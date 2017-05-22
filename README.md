@@ -289,6 +289,7 @@ To get around it, run `ulimit -n 1024` (or add it to your `~/.bash_profile`). Fo
 See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Release History
+- 2017-05-22    `3.2.3` Fix for caching when a version is specified (thanks @piwonesien for the help).
 - 2017-05-20    `3.2.2` Fix: when using the `nwbuild` in run mode, the `-p` option was ignored and the current platform was always used. 
 - 2017-05-16    `3.2.1` Fix: NW.js 0.22.0+ apps didn't open.
 - 2017-02-12    `3.2.0` Defaults to HTTPS now, added `manifestUrl` option, and bumped some dependencies.
