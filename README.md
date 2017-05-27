@@ -27,7 +27,7 @@ Yes, there is also a [Grunt Plugin](https://github.com/nwjs/grunt-nw-builder). F
 Usage: nwbuild [options] [path]
 
 Options:
-  -p, --platforms      Platforms to build, comma-sperated, can be: win32,win64,osx32,osx64,linux32,linux64   ['osx32', 'osx64', 'win32', 'win64']
+  -p, --platforms      Platforms to build, comma-sperated, can be: win32,win64,osx32,osx64,linux32,linux64   ['osx64', 'win32', 'win64']
   -v, --version        The nw version, eg. 0.8.4                                             [default: "latest"]
   -r, --run            Runs NW.js for the current platform                                   [default: false]
   -o, --buildDir       The build folder                                                      [default: "./build"]
@@ -45,7 +45,7 @@ Or use the module:
 var NwBuilder = require('nw-builder');
 var nw = new NwBuilder({
     files: './path/to/nwfiles/**/**', // use the glob format
-    platforms: ['osx32', 'win32', 'win64'],
+    platforms: ['osx64', 'win32', 'win64'],
     version: '0.14.6'
 });
 
@@ -95,7 +95,7 @@ The value `sdk` is most used for development whereas `normal` for production.
 
 #### options.platforms
 Type: `Array`  
-Default value: `['osx32', 'osx64', 'win32', 'win64']`
+Default value: `['osx64', 'win32', 'win64']`
 
 The platforms you want to build. Can be `['win32', 'win64', 'osx32', 'osx64', 'linux32', 'linux64']`
 
