@@ -11,7 +11,17 @@ var del = require('rimraf');
 var Promise = require('bluebird');
 var isWindows = process.platform === 'win32';
 var tempFile = Promise.promisify(temp.open);
-var tempFileCleanup = Promise.promisify(temp.cleanup);
+
+var tempFileCleanup = function(){
+    return new Promise(function(resolve, reject){
+        temp.cleanup(function(err, result){
+            if(err){
+                return reject(err);
+            }
+            resolve(result);
+        });
+    });
+};
 
 test('getPackageInfo invalid', function (t) {
     t.plan(1);
