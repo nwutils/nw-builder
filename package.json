@@ -66,7 +66,7 @@
     "semver": "^2.3.2",
     "simple-glob": "~0.1.0",
     "tar-fs": "^1.13.0",
-    "temp": "~0.7.0",
+    "temp": "github:adam-lynch/node-temp#remove_tmpdir_dep",
     "update-notifier": "^1.0.3",
     "winresourcer": "^0.9.0"
   }
