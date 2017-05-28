@@ -290,7 +290,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Release History
 
-See [CHANGELOG.md](CHANGELOG.md) or [Releases](releases).
+See [CHANGELOG.md](CHANGELOG.md) or [Releases](https://github.com/nwjs-community/nw-builder/blob/develop/releases).
 
 ## License
 
