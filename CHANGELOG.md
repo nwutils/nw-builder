@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- If using the package programmatically and its out of date, a message will be shown (this was always the case for the CLI).
+- If using the package programmatically and it's out of date, a message will be shown (this was always the case for the CLI).
 
 ### Changed
 
