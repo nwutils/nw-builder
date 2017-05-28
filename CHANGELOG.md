@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - If using the package programmatically and it's out of date, a message will be shown (this was always the case for the CLI).
+- There is now a README in every directory (with at least a single sentence summarizing the directory) to help with onboarding contributors.
 
 ### Changed
 

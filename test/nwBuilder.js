@@ -36,7 +36,7 @@ test('Should check if we have some files', function (t) {
 
     x.checkFiles().then(function (data) {
         t.deepEqual(x._appPkg, {"name":"nw-demo","version":"0.1.0","main":"index.html"});
-        t.equal(x._files.length, 6);
+        t.equal(x._files.length, 7);
     });
 });
 
