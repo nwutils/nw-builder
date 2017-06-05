@@ -8,9 +8,9 @@ var DecompressZip = require('decompress-zip');
 var _ = require('lodash');
 var EventEmitter = require('events').EventEmitter;
 var del = require('rimraf');
-var Promise = require('bluebird');
+var thenify = require('thenify');
 var isWindows = process.platform === 'win32';
-var tempFile = Promise.promisify(temp.open);
+var tempFile = thenify(temp.open);
 
 var tempFileCleanup = function(){
     return new Promise(function(resolve, reject){

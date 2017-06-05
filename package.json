@@ -1,6 +1,6 @@
 {
   "name": "nw-builder",
-  "version": "3.4.0",
+  "version": "3.4.1",
   "description": "nw-builder",
   "main": "index.js",
   "scripts": {
@@ -46,7 +46,6 @@
   },
   "dependencies": {
     "archiver": "^1.3.0",
-    "bluebird": "^3.4.0",
     "boxen": "^1.1.0",
     "chalk": "^1.1.3",
     "deprecate": "~1.0.0",
@@ -67,6 +66,7 @@
     "simple-glob": "~0.1.0",
     "tar-fs": "^1.13.0",
     "temp": "github:adam-lynch/node-temp#remove_tmpdir_dep",
+    "thenify": "^3.3.0",
     "update-notifier": "^1.0.3",
     "winresourcer": "^0.9.0"
   }

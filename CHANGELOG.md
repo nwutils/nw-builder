@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file and in the [
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.4.1] - 2017-06-05
+
+### Removed
+
+- The `bluebird` dependency. We're now using native promises instead.
+
+
 ## [3.4.0] - 2017-05-28
 
 ### Added
