@@ -176,6 +176,24 @@ Default value: `false`
 
 MAC ONLY: Pass a string containing the path to your own plist file. If a string isn't passed, a plist file will be generated from your package.json. Pass an object to overwrite or add properties to the generated plist file.
 
+
+#### options.winVersionString
+Type: `Object`
+Default value: `{}`
+
+WINDOWS ONLY: Some descriptors of the executable. If your don't provide your own `FileDescription`, it will default to `options.appName`. If you are building on MAC or LINUX you must have [Wine](https://www.winehq.org/) installed to use this option.
+
+See [the MSDN docs](https://msdn.microsoft.com/en-us/library/windows/desktop/aa381058.aspx#string-name) for more options than the basic list below,
+
+```
+winVersionString: {
+  'CompanyName': 'Some Company',
+  'FileDescription': 'Process Name',
+  'ProductName': 'Some Product',
+  'LegalCopyright': 'Copyright 2017',
+}
+```
+
 #### options.winIco
 Type: `String`  
 Default value: `null`
@@ -304,5 +322,3 @@ See [CHANGELOG.md](CHANGELOG.md) or [Releases](https://github.com/nwjs-community
 
 [depstat-url]: https://david-dm.org/nwjs/nw-builder
 [depstat-image]: https://david-dm.org/nwjs/nw-builder.svg?style=flat
-
-
