@@ -36,7 +36,7 @@ test('Should check if we have some files', function (t) {
 
     x.checkFiles().then(function (data) {
         t.deepEqual(x._appPkg, {"name":"nw-demo","version":"0.1.0","main":"index.html"});
-        t.equal(x._files.length, 6);
+        t.equal(x._files.length, 7);
     });
 });
 
@@ -75,8 +75,8 @@ test('Should apply platform-specific overrides correctly', function (t) {
             platforms: ['osx32', 'osx64', 'win32', 'win64', 'linux32', 'linux64']
         });
 
-    x.checkFiles().bind(x)
-    .then(x.preparePlatformSpecificManifests)
+    x.checkFiles()
+    .then(x.preparePlatformSpecificManifests.bind(x))
     .then(function () {
         _.forEach(x._platforms, function(platform, platformName){
             var file = fs.readFileSync(path.join('./test/expected/platformOverrides', platformName + '.json'));
@@ -94,9 +94,9 @@ test('Should only create one ZIP if there are no platform-specific overrides', f
         macZip: true
     });
 
-    x.checkFiles().bind(x)
-        .then(x.preparePlatformSpecificManifests)
-        .then(x.zipAppFiles)
+    x.checkFiles()
+        .then(x.preparePlatformSpecificManifests.bind(x))
+        .then(x.zipAppFiles.bind(x))
         .then(function () {
             _.forEach(x._zips, function(zip, platformName){
                 t.equal(zip.platformSpecific, false, platformName + ' should be marked as platform specific');
@@ -120,9 +120,9 @@ test('Should create a ZIP per platform if every platform has overrides', functio
         macZip: true
     });
 
-    x.checkFiles().bind(x)
-        .then(x.preparePlatformSpecificManifests)
-        .then(x.zipAppFiles)
+    x.checkFiles()
+        .then(x.preparePlatformSpecificManifests.bind(x))
+        .then(x.zipAppFiles.bind(x))
         .then(function () {
             _.forEach(x._zips, function(zip, platformName){
                 t.equal(zip.platformSpecific, true, platformName + ' should be marked as platform specific');
@@ -144,9 +144,9 @@ test('Should create a ZIP per platform which has overrides and one between the r
         macZip: true
     });
 
-    x.checkFiles().bind(x)
-        .then(x.preparePlatformSpecificManifests)
-        .then(x.zipAppFiles)
+    x.checkFiles()
+        .then(x.preparePlatformSpecificManifests.bind(x))
+        .then(x.zipAppFiles.bind(x))
         .then(function () {
             _.forEach(x._zips, function(zip, platformName){
                 t.equal(zip.platformSpecific, platformName === 'osx32', platformName + ' should be marked as platform specific');
@@ -198,7 +198,7 @@ test('Should not zip mac apps by default', function (t) {
     t.plan(1);
 
     var x = new NwBuilder({ files: './test/fixtures/nwapp/**/*', platforms: ['osx32', 'osx64'] });
-    x.zipAppFiles().then(function () {
+    x.zipAppFiles.call(x).then(function () {
         t.notOk(x._needsZip);
     });
 
@@ -221,10 +221,10 @@ testSetup({
             buildDir: buildDir
         });
 
-    x.checkFiles().bind(x)
-        .then(x.preparePlatformSpecificManifests)
-        .then(x.createReleaseFolder)
-        .then(x.mergeAppFiles)
+    x.checkFiles()
+        .then(x.preparePlatformSpecificManifests.bind(x))
+        .then(x.createReleaseFolder.bind(x))
+        .then(x.mergeAppFiles.bind(x))
         .then(function () {
             t.deepEqual(
                 JSON.parse(fs.readFileSync(path.join(

@@ -20,5 +20,6 @@ cache
 tmp/
 test/temp/
 .DS_Store
+package-lock.json
 
 example/build

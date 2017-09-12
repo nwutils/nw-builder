@@ -8,10 +8,20 @@ var DecompressZip = require('decompress-zip');
 var _ = require('lodash');
 var EventEmitter = require('events').EventEmitter;
 var del = require('rimraf');
-var Promise = require('bluebird');
+var thenify = require('thenify');
 var isWindows = process.platform === 'win32';
-var tempFile = Promise.promisify(temp.open);
-var tempFileCleanup = Promise.promisify(temp.cleanup);
+var tempFile = thenify(temp.open);
+
+var tempFileCleanup = function(){
+    return new Promise(function(resolve, reject){
+        temp.cleanup(function(err, result){
+            if(err){
+                return reject(err);
+            }
+            resolve(result);
+        });
+    });
+};
 
 test('getPackageInfo invalid', function (t) {
     t.plan(1);
@@ -79,7 +89,7 @@ test('generate and write a valid plist file', function (t) {
 test('getFileList', function (t) {
     t.plan(5);
 
-    utils.getFileList('./test/fixtures/nwapp/**').then(function(data) {
+    utils.getFileList(['./test/fixtures/nwapp/**', '!./test/fixtures/nwapp/README.md']).then(function(data) {
         t.equal(data.json, path.normalize('test/fixtures/nwapp/package.json'), 'figure out the right json');
         var expected = [{
             "src" : path.normalize("test/fixtures/nwapp/images/imagefile.img"),
@@ -113,7 +123,7 @@ test('getFileList', function (t) {
         t.equal(error, 'No files matching');
     });
 
-    utils.getFileList(['./test/fixtures/nwapp/**/*', '!./test/fixtures/nwapp/node_modules/**/*',  '!./test/fixtures/nwapp/javascript/**/*']).then(function(data) {
+    utils.getFileList(['./test/fixtures/nwapp/**/*', '!./test/fixtures/nwapp/node_modules/**/*',  '!./test/fixtures/nwapp/javascript/**/*', '!./test/fixtures/nwapp/README.md']).then(function(data) {
         var expected = [{
             "src" : path.normalize("test/fixtures/nwapp/images/imagefile.img"),
             "dest": path.normalize("images/imagefile.img")

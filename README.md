@@ -27,7 +27,7 @@ Yes, there is also a [Grunt Plugin](https://github.com/nwjs/grunt-nw-builder). F
 Usage: nwbuild [options] [path]
 
 Options:
-  -p, --platforms      Platforms to build, comma-sperated, can be: win32,win64,osx32,osx64,linux32,linux64   ['osx32', 'osx64', 'win32', 'win64']
+  -p, --platforms      Platforms to build, comma-sperated, can be: win32,win64,osx32,osx64,linux32,linux64   ['osx64', 'win32', 'win64']
   -v, --version        The nw version, eg. 0.8.4                                             [default: "latest"]
   -r, --run            Runs NW.js for the current platform                                   [default: false]
   -o, --buildDir       The build folder                                                      [default: "./build"]
@@ -45,7 +45,7 @@ During development you can run NW.js with `nwbuild -r path/to/your/younwapp/`
 var NwBuilder = require('nw-builder');
 var nw = new NwBuilder({
     files: './path/to/nwfiles/**/**', // use the glob format
-    platforms: ['osx32', 'win32', 'win64'],
+    platforms: ['osx64', 'win32', 'win64'],
     version: '0.14.6'
 });
 
@@ -103,7 +103,7 @@ The value `sdk` is most used for development whereas `normal` for production.
 
 #### options.platforms
 Type: `Array`  
-Default value: `['osx32', 'osx64', 'win32', 'win64']`  
+Default value: `['osx64', 'win32', 'win64']`  
 
 The platforms you want to build. Can be `['win32', 'win64', 'osx32', 'osx64', 'linux32', 'linux64']`
 
@@ -297,36 +297,9 @@ To get around it, run `ulimit -n 1024` (or add it to your `~/.bash_profile`). Fo
 See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Release History
-- 2016-10-09    `3.1.2` Fix for passing array as files option when running app (plus some security fixes).
-- 2016-10-09    `3.1.1` Fix for flavor feature when using CLI.
-- 2016-09-14    `3.1.0` Ability to select any flavor of NW.js, not just `sdk`.
-- 2016-08-28    `3.0.0` bumping graceful-fs-extra dependency to 2.0.0.
-- 2016-08-14    `2.2.7` fix for macIcns option when using NW.js 0.12.3
-- 2016-07-31    `2.2.6` fix for OS X caching
-- 2016-07-03    `2.2.5` fix for update-notifier usage in bin
-- 2016-07-03    `2.2.4` fix for syntax error in CLI
-- 2016-07-02    `2.2.3` a few small fixes for the run option and more
-- 2016-07-02    `2.2.2` fix for cache check of some legacy versions
-- 2016-07-02    `2.2.1` supports newer NW.js versions (via http://nwjs.io/versions.json), plus other fixes.
-- 2015-12-18    `2.2.0` added `zip` option.
-- 2015-12-06    `2.1.0` added `cacheDir` command-line option, fix for no info being passed back, etc.
-- 2015-06-28    `2.0.2` put upper bound to semver check for windows.
-- 2015-06-14    `2.0.1` safer validation of versions.
-- 2015-06-14    `2.0.0` changed to nw-builder, etc.
-- 2015-05-05    `1.0.12` when using latest NW.js version, it's first validated that it's not an alpha version (fixes [#222](https://github.com/nwjs/nw-builder/issues/222)). Plus a fix for the `winIco` & `macIcns` command line options
-- 2015-01-29    `1.0.8` fixed EMFILE errors (see [#147](https://github.com/nwjs/nw-builder/issues/147) [#148](https://github.com/nwjs/nw-builder/pull/148))
-- 2015-01-21    `1.0.7` fixed about screen when copyright is not supplied
-- 2015-01-15    `1.0.6` fixed downloads for nw.js version 0.12.0-alpha1
-- 2015-01-15    `1.0.5` fixed downloads for NW.js versions < 0.12.0-alpha
-- 2014-12-12    `1.0.0` 64-bit support, improved platform-overrides and no more EMFILE errors.
-- 2014-12-07    `0.4.0` macPlist CFBundleIdentifier is generated from `package.json` (see [#131](https://github.com/nwjs/nw-builder/pull/131))
-- 2014-11-14    `0.3.0` macPlist option improvements (see [#96](https://github.com/nwjs/nw-builder/pull/96))
-- 2014-10-30    `0.2.0` adds support for platform-specific manifest overrides (see [#94](https://github.com/nwjs/nw-builder/pull/94))
-- 2014-08-19    `0.1.2` adds a progress bar to downloads, fixes downloading through a proxy, fixed winIco, bug fixes
-- 2014-08-01    `0.1.0` use app filename for generated executables, optimized version checking, (known issue: `winIco` on windows)
-- 2014-07-31    `0.0.4` fixed compatibility with nodewebkit 0.10.0
-- 2014-04-20    Added run option, bug fixes
-- 2014-04-13    Preview Release
+
+See [CHANGELOG.md](CHANGELOG.md) or [Releases](https://github.com/nwjs-community/nw-builder/blob/develop/releases).
+
 ## License
 
 [MIT License](https://en.wikipedia.org/wiki/MIT_License)
