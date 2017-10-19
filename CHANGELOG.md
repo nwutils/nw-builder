@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file and in the [
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [3.5.0] - 2017-10-19
+## [3.5.1] - 2017-10-19
 
 ## Added
 
