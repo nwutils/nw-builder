@@ -5,16 +5,18 @@ var NwBuilder = require('./../lib');
 var path = require('path');
 var detectCurrentPlatform = require('../lib/detectCurrentPlatform.js');
 
+var currentPlatform = detectCurrentPlatform();
+
 var argv = optimist
-    .usage('Usage: nwbuild [options] [path]')
+    .usage('Usage:\n  nwbuild [options] [path] [-- <args>]')
 
     .alias('p', 'platforms')
-    .default('p', 'osx32,osx64,win32,win64')
-    .describe('p', 'Platforms to build, comma-sperated, can be: win32,win64,osx32,osx64,linux32,linux64')
+    .default('p', currentPlatform)
+    .describe('p', 'Platforms to build, comma-sperated, can be: \n  win32, win64, osx32, osx64, linux32, linux64 or \nwin, osx, linux')
 
     .alias('v', 'version')
     .default('v', 'latest')
-    .describe('v', 'The nw version, eg. 0.8.4')
+    .describe('v', 'The NW.js version, eg. 0.8.4')
 
     .alias('r', 'run')
     .default('r', false)
@@ -38,6 +40,10 @@ var argv = optimist
     .describe('quiet', 'Disables logging')
     .boolean('quiet')
 
+    .describe(' <args>', 'Pass custom arguments to the NW.js instance \n(-r, --run mode only)')
+
+    .wrap(100)
+
     .argv;
 
 // Howto Help
@@ -56,26 +62,21 @@ if(!files) {
 var options = {
     files: path.resolve(process.cwd(), files) + '/**/*',
     flavor: argv.flavor || 'sdk',
-    platforms: argv.platforms.split(','),
+    platforms: argv.platforms ? argv.platforms.split(',') : [currentPlatform],
+    currentPlatform: currentPlatform,
     version: argv.version,
     macIcns: argv.macIcns || false,
     winIco: argv.winIco || false,
     cacheDir: argv.cacheDir ? path.resolve(process.cwd(), argv.cacheDir) : path.resolve(__dirname, '..', 'cache'),
     buildDir: path.resolve(process.cwd(), argv.buildDir),
-    forceDownload: argv.forceDownload
+    forceDownload: argv.forceDownload,
+    // get all argv arguments after --
+    argv: process.argv.slice(process.argv.findIndex(function firstDash(el) {
+        return el === '--'
+    }) + 1)
 };
 
-// If we are in run mode
-if(argv.r) {
-    var currentPlatform = detectCurrentPlatform();
-    if(!options.platforms){
-        options.platforms = [ currentPlatform ];
-    }
-    options.currentPlatform = currentPlatform;
-}
-
-
-// Build App
+// Initialize Builder
 var nw = new NwBuilder(options);
 
 // Logging
@@ -83,7 +84,7 @@ if(!(argv.quiet || argv.quite)) {
     nw.on('log',  console.log);
 }
 
-// Build or run the app
+// Build or Run the app
 var np = (argv.r ? nw.run() : nw.build());
 np.then(function() {
     process.exit(0);
