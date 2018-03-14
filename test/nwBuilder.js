@@ -91,7 +91,7 @@ test('Should only create one ZIP if there are no platform-specific overrides', f
     var x = new NwBuilder({
         files: './test/fixtures/nwapp/**/*',
         platforms: ['osx32', 'osx64', 'win32', 'win64', 'linux32', 'linux64'],
-        macZip: true
+        zip: true
     });
 
     x.checkFiles()
@@ -117,7 +117,7 @@ test('Should create a ZIP per platform if every platform has overrides', functio
     var x = new NwBuilder({
         files: './test/fixtures/platformOverrides/**/*',
         platforms: ['osx32', 'osx64', 'win32', 'win64', 'linux32', 'linux64'],
-        macZip: true
+        zip: true
     });
 
     x.checkFiles()
@@ -141,7 +141,7 @@ test('Should create a ZIP per platform which has overrides and one between the r
     var x = new NwBuilder({
         files: './test/fixtures/oneOveriddenRestNot/**/*',
         platforms: ['osx32', 'osx64', 'win32', 'win64', 'linux32', 'linux64'],
-        macZip: true
+        zip: true
     });
 
     x.checkFiles()
