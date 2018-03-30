@@ -42,7 +42,7 @@ Options:
 ```
 
 #### Run NW.js
-During development you can run NW.js with `nwbuild -r path/to/your/younwapp/ -- <args>`
+During development you can run NW.js with `nwbuild -r path/to/your/younwapp/ -- <args>`.
 
 ## Module Usage
 
@@ -139,11 +139,11 @@ This is where the releases are saved.
 Type: `String`  
 Default value: `./cache`  
 
-This is where the cached NW.js downloads are
+This is where the cached NW.js downloads are.
 
 #### options.buildType
 Type: `String` or `function`
-Default value: `default 
+Default value: `default` 
 
 How you want to save your build.
 
@@ -156,7 +156,7 @@ How you want to save your build.
 Type: `Boolean`  
 Default value: `false`  
 
-This will delete everything in your `build_dir` directory, including the cached downloaded prebuilt binaries
+This will delete everything in your `build_dir` directory, including the cached downloaded prebuilt binaries.
 
 #### options.argv
 Type: `String`
