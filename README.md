@@ -52,7 +52,7 @@ var nw = new NwBuilder({
     files: './path/to/nwfiles/**/**', // use the glob format
     platforms: ['osx64', 'win32', 'win64', 'linux32', 'linux64'],
     version: 'latest',
-    argv: '[<nwjs_arg>, ... ]' // see nwjs docs for possible <nwjs_arg> values
+    argv: ['<nwjs_arg>', ... ] // see nwjs docs for possible <nwjs_arg> values
 });
 
 // Log stuff you want
@@ -94,7 +94,7 @@ The path to your node webkit app. It supports [simple-glob](https://github.com/j
 
 
 #### options.version
-Type: `Array``String`  
+Type: `String`  
 Default value: `'latest'`  
 
 The version of NW.js you want to use. Per default it looks up the latest version. [Here is a list](https://github.com/nwjs/nw.js/wiki/Downloads-of-old-versions) of all available releases
