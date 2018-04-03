@@ -52,7 +52,7 @@ var nw = new NwBuilder({
     files: './path/to/nwfiles/**/**', // use the glob format
     platforms: ['osx64', 'win32', 'win64', 'linux32', 'linux64'],
     version: 'latest',
-    argv: '-- <args>' // see nwjs docs for possible <args>
+    argv: '[<nwjs_arg>, ... ]' // see nwjs docs for possible <nwjs_arg> values
 });
 
 // Log stuff you want
@@ -94,7 +94,7 @@ The path to your node webkit app. It supports [simple-glob](https://github.com/j
 
 
 #### options.version
-Type: `String`  
+Type: `Array``String`  
 Default value: `'latest'`  
 
 The version of NW.js you want to use. Per default it looks up the latest version. [Here is a list](https://github.com/nwjs/nw.js/wiki/Downloads-of-old-versions) of all available releases
@@ -108,7 +108,8 @@ The flavor of NW.js you want to use. Per default it will be `sdk`. [Here is a li
 The value `sdk` is most used for development whereas `normal` for production.
 
 #### options.platforms
-Type: `Array`  
+Type `(CLI)`: `String` (comma separated values) 
+Type `(API)`: `Array` of `String`
 Default value: [`<current OS>`]  
 
 The platforms you want to build. Can be `['win32', 'win64', 'osx32', 'osx64', 'linux32', 'linux64']`
@@ -159,8 +160,9 @@ Default value: `false`
 This will delete everything in your `build_dir` directory, including the cached downloaded prebuilt binaries.
 
 #### options.argv
-Type: `String`
-Default Value: undefined
+Type `(CLI)`: `String` (comma separated values) 
+Type `(API)`: `Array` of `String`
+Default Value: []
 
 Pass Command Line Options when you run an NW.js instance. Ignored in case of build. 
 
