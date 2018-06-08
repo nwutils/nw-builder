@@ -78,7 +78,7 @@ if(argv.r) {
 // Set default target platforms here
 // Remove osx32 from default, nwjs didn't support osx32 yet
 if (!options.platforms) {
-    options.platforms = ['osx64', 'win32', 'win63']
+    options.platforms = ['osx64', 'win32', 'win64']
 }
 
 // Build App
