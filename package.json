@@ -1,6 +1,6 @@
 {
   "name": "nw-builder",
-  "version": "3.5.3",
+  "version": "3.5.4",
   "description": "nw-builder",
   "main": "index.js",
   "scripts": {
