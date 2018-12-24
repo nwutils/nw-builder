@@ -23,16 +23,17 @@ var argv = optimist
     .describe('r', 'Runs NW.js for the current platform')
     .boolean('r')
 
-
     .alias('o', 'buildDir')
     .default('o', './build')
     .describe('o', 'The build folder')
-
 
     .alias('f', 'forceDownload')
     .default('f', false)
     .describe('f', 'Force download of NW.js')
     .boolean('f')
+
+    .alias('n', 'name')
+    .describe('n', 'The Name of your NW.js app.')
 
     .describe('cacheDir', 'The cache folder')
 
@@ -60,6 +61,7 @@ if(!files) {
 }
 
 var options = {
+    appName: argv.name,
     files: path.resolve(process.cwd(), files) + '/**/*',
     flavor: argv.flavor || 'sdk',
     platforms: argv.platforms ? argv.platforms.split(',') : [currentPlatform],
