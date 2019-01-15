@@ -5,13 +5,19 @@ All notable changes to this project will be documented in this file and in the [
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.5.7]
+
+### Security
+
+- Source platform overrides module into the project instead of it being an extenal dependency. This helped us get rid of a vulnerable lodash version. See https://github.com/nwjs-community/nw-builder/issues/500
+
 ## [3.5.1] - 2017-10-19
 
-## Added
+### Added
 
 - Add option.winVersionString for accurate process name. See https://github.com/nwjs-community/nw-builder/pull/459.
 
-## Fixed
+### Fixed
 
 - Small platform overrides fix. See https://github.com/nwjs-community/nw-builder/pull/477/files.
 
