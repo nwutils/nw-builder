@@ -70,4 +70,8 @@
     "update-notifier": "^2.4.0",
     "winresourcer": "^0.9.0"
   }
+
+,"_resolved": "https://registry.npmjs.org/nw-builder/-/nw-builder-3.5.7.tgz"
+,"_integrity": "sha512-7LTQu8oom56xdDeyoUygZytxvyWuh+pw4nY4eFMGUd7/m/eOdAs/6UZjav6CbjnyIg8n4FtwnjCXXLsFI6Ooug=="
+,"_from": "nw-builder@3.5.7"
 }
