@@ -1,4 +1,4 @@
-This directory contains CLI command handlers. 
+This directory contains CLI command handlers.
 
 ---
 
