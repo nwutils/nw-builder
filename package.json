@@ -47,6 +47,7 @@
   "dependencies": {
     "archiver": "^2.1.1",
     "boxen": "^1.1.0",
+    "bson": "^4.0.4",
     "chalk": "^2.3.2",
     "deprecate": "~1.0.0",
     "extract-zip": "^1.6.5",
