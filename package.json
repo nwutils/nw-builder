@@ -23,7 +23,7 @@
     }
   ],
   "engines": {
-    "node": ">= 4.0.0"
+    "node": ">= 6.0.0"
   },
   "license": "MIT",
   "bugs": {
@@ -49,6 +49,7 @@
     "boxen": "^1.1.0",
     "bson": "^4.0.4",
     "chalk": "^2.3.2",
+    "crypto-js": "^4.0.0",
     "deprecate": "~1.0.0",
     "extract-zip": "^1.6.5",
     "graceful-fs-extra": "^2.0.0",
@@ -56,6 +57,7 @@
     "inherits": "~2.0.1",
     "lazy-req": "^2.0.0",
     "lodash": "~4.17.4",
+    "lz-string": "^1.4.4",
     "optimist": "^0.6.1",
     "plist": "^3.0.1",
     "progress": "~2.0.0",
@@ -69,6 +71,8 @@
     "temp": "github:adam-lynch/node-temp#remove_tmpdir_dep",
     "thenify": "^3.3.0",
     "update-notifier": "^2.4.0",
-    "winresourcer": "^0.9.0"
+    "winresourcer": "^0.9.0",
+    "xhr2": "^0.2.0",
+    "xmlhttprequest": "^1.8.0"
   }
 }
