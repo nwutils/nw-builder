@@ -1,16 +1,16 @@
 #!/usr/bin/env node
-var optimist = require('optimist');
 var updateNotifier = require('update-notifier');
 var NwBuilder = require('./../lib');
 var path = require('path');
 var detectCurrentPlatform = require('../lib/detectCurrentPlatform.js');
 
-var argv = optimist
-    .usage('Usage: nwbuild [options] [path]')
+var argv = require('yargs')
+    .command('$0 <path>')
 
     .alias('p', 'platforms')
     .describe('p', 'Platforms to build, comma-sperated, can be: win32,win64,osx32,osx64,linux32,linux64')
 
+    .version(false)
     .alias('v', 'version')
     .default('v', 'latest')
     .describe('v', 'The nw version, eg. 0.8.4')
@@ -38,24 +38,15 @@ var argv = optimist
     .describe('quiet', 'Disables logging')
     .boolean('quiet')
 
+    // Howto Help
+    .help('h')
+    .alias('h', 'help')
+
     .argv;
-
-// Howto Help
-if (argv.h || argv.help) {
-    optimist.showHelp();
-    process.exit(0);
-}
-
-// Error if there are no files
-var files = argv._[0];
-if(!files) {
-    optimist.showHelp();
-    process.exit(1);
-}
 
 var options = {
     appName: argv.name,
-    files: path.resolve(process.cwd(), files) + '/**/*',
+    files: path.resolve(process.cwd(), argv.path) + '/**/*',
     flavor: argv.flavor || 'sdk',
     platforms: argv.platforms ? argv.platforms.split(',') : null,
     version: argv.version,
