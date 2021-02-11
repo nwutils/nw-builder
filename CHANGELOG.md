@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file and in the [
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.6.1]
+
+### Added
+
+- Option to remove Quarantine for macOS.
+
 ## [3.5.7]
 
 ### Security

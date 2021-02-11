@@ -38,6 +38,11 @@ var argv = optimist
     .describe('quiet', 'Disables logging')
     .boolean('quiet')
 
+    .alias('q', 'quarantine')
+    .describe('q', 'Remove quarantine from Info.plist. Applicable for macOS only')
+    .default('q', false)
+    .boolean('q')
+
     .argv;
 
 // Howto Help
@@ -63,7 +68,8 @@ var options = {
     winIco: argv.winIco || false,
     cacheDir: argv.cacheDir ? path.resolve(process.cwd(), argv.cacheDir) : path.resolve(__dirname, '..', 'cache'),
     buildDir: path.resolve(process.cwd(), argv.buildDir),
-    forceDownload: argv.forceDownload
+    forceDownload: argv.forceDownload,
+    removeQuarantine: argv.quarantine
 };
 
 // If we are in run mode
