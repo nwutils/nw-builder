@@ -1,7 +1,7 @@
 var test = require('tape');
 var testSetup = require('redtape');
 var temp = require('temp');
-var fs   = require('fs');
+var fs = require('fs');
 var path = require('path');
 var utils = require('./../lib/utils');
 var DecompressZip = require('decompress-zip');
@@ -12,10 +12,10 @@ var thenify = require('thenify');
 var isWindows = process.platform === 'win32';
 var tempFile = thenify(temp.open);
 
-var tempFileCleanup = function(){
-    return new Promise(function(resolve, reject){
-        temp.cleanup(function(err, result){
-            if(err){
+var tempFileCleanup = function () {
+    return new Promise(function (resolve, reject) {
+        temp.cleanup(function (err, result) {
+            if (err) {
                 return reject(err);
             }
             resolve(result);
@@ -59,7 +59,7 @@ test('generate and write a valid plist file', function (t) {
             }
         );
         return utils.editPlist('./test/fixtures/osx-plist/Info.plist', info.path, options).then(function () {
-            var actual   = fs.readFileSync(info.path).toString().replace(/\r|\n/gm, '');
+            var actual = fs.readFileSync(info.path).toString().replace(/\r|\n/gm, '');
             var expected = fs.readFileSync('./test/expected/osx-plist/1.plist').toString().replace(/\r|\n/gm, '');
             t.equal(actual, expected, 'with custom properties');
         });
@@ -74,7 +74,7 @@ test('generate and write a valid plist file', function (t) {
             }
         );
         return utils.editPlist('./test/fixtures/osx-plist/Info.plist', info.path, options).then(function () {
-            var actual   = fs.readFileSync(info.path).toString().replace(/\r|\n/gm, '');
+            var actual = fs.readFileSync(info.path).toString().replace(/\r|\n/gm, '');
             var expected = fs.readFileSync('./test/expected/osx-plist/2.plist').toString().replace(/\r|\n/gm, '');
             t.equal(actual, expected, 'without copyright information');
         });
@@ -89,49 +89,49 @@ test('generate and write a valid plist file', function (t) {
 test('getFileList', function (t) {
     t.plan(5);
 
-    utils.getFileList(['./test/fixtures/nwapp/**', '!./test/fixtures/nwapp/README.md']).then(function(data) {
+    utils.getFileList(['./test/fixtures/nwapp/**', '!./test/fixtures/nwapp/README.md']).then(function (data) {
         t.equal(data.json, path.normalize('test/fixtures/nwapp/package.json'), 'figure out the right json');
         var expected = [{
-            "src" : path.normalize("test/fixtures/nwapp/images/imagefile.img"),
+            "src": path.normalize("test/fixtures/nwapp/images/imagefile.img"),
             "dest": path.normalize("images/imagefile.img")
         }, {
-            "src" : path.normalize("test/fixtures/nwapp/index.html"),
+            "src": path.normalize("test/fixtures/nwapp/index.html"),
             "dest": path.normalize("index.html")
         }, {
-            "src" : path.normalize("test/fixtures/nwapp/javascript/bower_packages/simple/package.json"),
+            "src": path.normalize("test/fixtures/nwapp/javascript/bower_packages/simple/package.json"),
             "dest": path.normalize("javascript/bower_packages/simple/package.json")
         }, {
-            "src" : path.normalize("test/fixtures/nwapp/javascript/jsfile.js"),
+            "src": path.normalize("test/fixtures/nwapp/javascript/jsfile.js"),
             "dest": path.normalize("javascript/jsfile.js")
         }, {
-            "src" : path.normalize("test/fixtures/nwapp/node_modules/package/package.json"),
+            "src": path.normalize("test/fixtures/nwapp/node_modules/package/package.json"),
             "dest": path.normalize("node_modules/package/package.json")
         }, {
-            "src" : path.normalize("test/fixtures/nwapp/package.json"),
+            "src": path.normalize("test/fixtures/nwapp/package.json"),
             "dest": path.normalize("package.json")
         }];
         t.deepEqual(data.files, expected);
     });
 
-    utils.getFileList('./test/fixtures/nwapp/images/**').then(function(data) {
+    utils.getFileList('./test/fixtures/nwapp/images/**').then(function (data) {
     }, function (error) {
         t.equal(error, 'Could not find a package.json in your src folder', 'throw an error if there is no package json');
     });
 
-    utils.getFileList('./test/fixtures/nwapp/images/*.js').then(function(data) {
+    utils.getFileList('./test/fixtures/nwapp/images/*.js').then(function (data) {
     }, function (error) {
         t.equal(error, 'No files matching');
     });
 
-    utils.getFileList(['./test/fixtures/nwapp/**/*', '!./test/fixtures/nwapp/node_modules/**/*',  '!./test/fixtures/nwapp/javascript/**/*', '!./test/fixtures/nwapp/README.md']).then(function(data) {
+    utils.getFileList(['./test/fixtures/nwapp/**/*', '!./test/fixtures/nwapp/node_modules/**/*', '!./test/fixtures/nwapp/javascript/**/*', '!./test/fixtures/nwapp/README.md']).then(function (data) {
         var expected = [{
-            "src" : path.normalize("test/fixtures/nwapp/images/imagefile.img"),
+            "src": path.normalize("test/fixtures/nwapp/images/imagefile.img"),
             "dest": path.normalize("images/imagefile.img")
         }, {
-            "src" : path.normalize("test/fixtures/nwapp/index.html"),
+            "src": path.normalize("test/fixtures/nwapp/index.html"),
             "dest": path.normalize("index.html")
         }, {
-            "src" : path.normalize("test/fixtures/nwapp/package.json"),
+            "src": path.normalize("test/fixtures/nwapp/package.json"),
             "dest": path.normalize("package.json")
         }];
         t.deepEqual(data.files, expected);
@@ -143,19 +143,19 @@ test('should zip the app and create the app.nw file + log it', function (t) {
     t.plan(6);
 
     var files = [{
-        "src" : path.normalize("test/fixtures/nwapp/images/imagefile.img"),
+        "src": path.normalize("test/fixtures/nwapp/images/imagefile.img"),
         "dest": path.normalize("images/imagefile.img")
     }, {
-        "src" : path.normalize("test/fixtures/nwapp/javascript/bower_packages/simple/package.json"),
+        "src": path.normalize("test/fixtures/nwapp/javascript/bower_packages/simple/package.json"),
         "dest": path.normalize("javascript/bower_packages/simple/package.json")
     }, {
-        "src" : path.normalize("test/fixtures/nwapp/javascript/jsfile.js"),
+        "src": path.normalize("test/fixtures/nwapp/javascript/jsfile.js"),
         "dest": path.normalize("javascript/jsfile.js")
     }, {
-        "src" : path.normalize("test/fixtures/nwapp/node_modules/package/package.json"),
+        "src": path.normalize("test/fixtures/nwapp/node_modules/package/package.json"),
         "dest": path.normalize("node_modules/package/package.json")
     }, {
-        "src" : path.normalize("test/fixtures/nwapp/package.json"),
+        "src": path.normalize("test/fixtures/nwapp/package.json"),
         "dest": path.normalize("package.json")
     }], expected = _.map(files, 'dest').sort();
 
@@ -164,7 +164,7 @@ test('should zip the app and create the app.nw file + log it', function (t) {
         t.ok(logging, 'LOG: ' + logging);
     });
 
-    utils.generateZipFile(files, _evt).then(function(nwfile) {
+    utils.generateZipFile(files, _evt).then(function (nwfile) {
         var unzipper = new DecompressZip(nwfile);
         unzipper.on('list', function (files) {
             t.deepEqual(files.sort(), expected);
@@ -175,17 +175,20 @@ test('should zip the app and create the app.nw file + log it', function (t) {
 });
 
 testSetup({
-    afterEach: function(done){
+    afterEach: function (done) {
         del('./test/temp/platform-specific-unzipped', done);
     }
 })('should zip but use platform-specific manifest with overrides in package.json', function (t) {
     t.plan(3);
 
     var files = [{
-        "src" : path.normalize("test/fixtures/nwapp/images/imagefile.img"),
+        "src": path.normalize("test/fixtures/nwapp/images/imagefile.img"),
         "dest": path.normalize("images/imagefile.img")
     }, {
-        "src" : path.normalize("test/fixtures/nwapp/package.json"),
+        "src": path.normalize("test/fixtures/nwapp/javascript/jsfile.js"),
+        "dest": path.normalize("jsfile.js")
+    }, {
+        "src": path.normalize("test/fixtures/nwapp/package.json"),
         "dest": path.normalize("package.json")
     }], expectedPackage = "{hello: 'world'}";
 
@@ -194,7 +197,7 @@ testSetup({
         t.ok(logging, 'LOG: ' + logging);
     });
 
-    utils.generateZipFile(files, _evt, expectedPackage).then(function(nwfile) {
+    utils.generateZipFile(files, _evt, expectedPackage).then(function (nwfile) {
         var unzipper = new DecompressZip(nwfile),
             unzipDestination = 'test/temp/platform-specific-unzipped';
 
@@ -219,12 +222,12 @@ test('mergeFiles', function (t) {
     var zipFile = temp.openSync();
     fs.writeFileSync(zipFile.path, 'B');
 
-    utils.mergeFiles(releasefile.path, zipFile.path, '0755').then(function() {
+    utils.mergeFiles(releasefile.path, zipFile.path, '0755').then(function () {
         var contents = fs.readFileSync(releasefile.path);
-        var stats    = fs.lstatSync(releasefile.path);
+        var stats = fs.lstatSync(releasefile.path);
         t.equal(contents.toString(), 'AB', 'merge two files');
 
-        if(!isWindows) {
+        if (!isWindows) {
             t.equal(stats.mode.toString(8), '100755', 'fix the permission'); // DOES NOT WORK ON WINDOWS
         }
     });
