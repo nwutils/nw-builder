@@ -15,6 +15,11 @@ var argv = require('yargs')
     .default('v', 'latest')
     .describe('v', 'The nw version, eg. 0.8.4')
 
+    .alias('t', 'flavor')
+    .default('t', 'sdk')
+    .describe('t', 'Variant of NWJS')
+
+
     .alias('r', 'run')
     .default('r', false)
     .describe('r', 'Runs NW.js for the current platform')
@@ -58,10 +63,10 @@ var options = {
 };
 
 // If we are in run mode
-if(argv.r) {
+if (argv.r) {
     var currentPlatform = detectCurrentPlatform();
-    if(!options.platforms){
-        options.platforms = [ currentPlatform ];
+    if (!options.platforms) {
+        options.platforms = [currentPlatform];
     }
     options.currentPlatform = currentPlatform;
 }
@@ -76,15 +81,15 @@ if (!options.platforms) {
 var nw = new NwBuilder(options);
 
 // Logging
-if(!(argv.quiet || argv.quite)) {
-    nw.on('log',  console.log);
+if (!(argv.quiet || argv.quite)) {
+    nw.on('log', console.log);
 }
 
 // Build or run the app
 var np = (argv.r ? nw.run() : nw.build());
-np.then(function() {
+np.then(function () {
     process.exit(0);
-}).catch (function(error) {
+}).catch(function (error) {
     if (error) {
         console.error(error);
         process.exit(1);
