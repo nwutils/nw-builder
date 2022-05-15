@@ -6,7 +6,7 @@ var test = require('tape'),
 
     temp.track();
 
-var downloader = require('./../lib/downloader');
+var downloader = require('./../src/downloader');
 var fixturesCache = './test/fixtures/cache/v0.8.3';
 var fixturesZip = './test/fixtures/test.zip';
 var fixturesZipStrip = './test/fixtures/test-strip.zip';

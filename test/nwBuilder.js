@@ -1,6 +1,6 @@
 var test = require('tape');
 var testSetup = require('redtape');
-var NwBuilder = require('./../lib');
+var NwBuilder = require('./../src');
 var semver = require('semver');
 var nock = require('nock');
 var fs = require('fs');

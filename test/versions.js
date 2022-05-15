@@ -2,7 +2,7 @@ var test = require('tape'),
     nock = require('nock'),
     _ = require('lodash');
 
-var versions = require('./../lib/versions');
+var versions = require('./../src/versions');
 
 var root = 'http://nwjs.io';
 var dlUrl = 'http://dl.nwjs.io/';
@@ -327,4 +327,3 @@ test('getVersion (legacy) should fail for non-existent version', function (t) {
             t.ok('Should fail');
         });
 });
-

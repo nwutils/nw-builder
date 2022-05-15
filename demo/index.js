@@ -1,4 +1,4 @@
-const NW = require('../lib');
+const NW = require('../src');
 
 const nw = new NW({
     files: './**',

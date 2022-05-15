@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 var optimist = require('optimist');
 var updateNotifier = require('update-notifier');
-var NwBuilder = require('./../lib');
+var NwBuilder = require('./../src');
 var path = require('path');
-var detectCurrentPlatform = require('../lib/detectCurrentPlatform.js');
+var detectCurrentPlatform = require('../src/detectCurrentPlatform.js');
 
 var argv = optimist
     .usage('Usage: nwbuild [options] [path]')
