@@ -4,7 +4,8 @@
   "description": "Build NW.js applications for Mac, Windows and Linux.",
   "main": "index.js",
   "scripts": {
-    "test": "tape test/*.js"
+    "test": "tape test/*.js",
+    "demo": "node demo/index.js"
   },
   "repository": {
     "type": "git",

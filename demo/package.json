@@ -1,11 +1,10 @@
 {
-  "main": "index.html",
-  "name": "nw-demo",
-  "description": "demo app of NW.js",
+  "name": "demo",
   "version": "0.1.0",
-  "keywords": [ "demo", "NW.js" ],
+  "description": "Demo NW.js application",
+  "main": "index.html",
   "window": {
-    "title": "NW.js demo",
+    "title": "Demo",
     "icon": "link.png",
     "toolbar": false,
     "frame": true,
@@ -19,8 +18,5 @@
   },
   "webkit": {
     "plugin": true
-  },
-  "dependencies": {
-    "deck":"latest"
   }
 }
