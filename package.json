@@ -1,14 +1,14 @@
 {
   "name": "nw-builder",
   "version": "3.5.7",
-  "description": "nw-builder",
+  "description": "Build NW.js applications for Mac, Windows and Linux.",
   "main": "index.js",
   "scripts": {
     "test": "tape test/*.js"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/mllrsohn/nw-builder.git"
+    "url": "git://https://github.com/nwjs-community/nw-builder.git"
   },
   "bin": {
     "nwbuild": "./bin/nwbuild"
@@ -27,9 +27,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mllrsohn/nw-builder/issues"
+    "url": "https://github.com/nwjs-community/nw-builder/issues"
   },
-  "homepage": "https://github.com/mllrsohn/nw-builder",
+  "homepage": "https://github.com/nwjs-community/nw-builder",
   "keywords": [
     "NW.js",
     "node-webkit",
@@ -37,37 +37,37 @@
     "application"
   ],
   "devDependencies": {
-    "decompress-zip": "0.3.1",
-    "eol": "^0.9.0",
-    "nock": "^9.0.5",
-    "redtape": "~1.0.0",
-    "tap-spec": "^4.1.1",
-    "tape": "~4.9.0"
+    "decompress-zip": "0.3.3",
+    "eol": "0.9.1",
+    "nock": "9.0.5",
+    "redtape": "1.0.0",
+    "tap-spec": "4.1.1",
+    "tape": "4.9.0"
   },
   "dependencies": {
-    "archiver": "^2.1.1",
-    "boxen": "^1.1.0",
-    "chalk": "^2.3.2",
-    "deprecate": "~1.0.0",
-    "extract-zip": "^1.6.5",
-    "graceful-fs-extra": "^2.0.0",
-    "graceful-ncp": "^3.0.0",
-    "inherits": "~2.0.1",
-    "lazy-req": "^2.0.0",
-    "lodash": "~4.17.4",
-    "optimist": "^0.6.1",
-    "plist": "^3.0.1",
-    "progress": "~2.0.0",
-    "rcedit": "^1.0.0",
-    "recursive-readdir-sync": "^1.0.6",
-    "request": "^2.88.0",
-    "rimraf": "^2.5.2",
-    "semver": "^5.5.0",
-    "simple-glob": "~0.2.0",
-    "tar-fs": "^1.13.0",
+    "archiver": "2.1.1",
+    "boxen": "1.1.0",
+    "chalk": "2.3.2",
+    "deprecate": "1.1.1",
+    "extract-zip": "1.6.5",
+    "graceful-fs-extra": "2.0.0",
+    "graceful-ncp": "3.0.0",
+    "inherits": "2.0.4",
+    "lazy-req": "2.0.0",
+    "lodash": "4.17.21",
+    "optimist": "0.6.1",
+    "plist": "3.0.5",
+    "progress": "2.0.3",
+    "rcedit": "1.0.0",
+    "recursive-readdir-sync": "1.0.6",
+    "request": "2.88.2",
+    "rimraf": "2.5.2",
+    "semver": "5.5.0",
+    "simple-glob": "0.2.0",
+    "tar-fs": "1.13.0",
     "temp": "github:adam-lynch/node-temp#remove_tmpdir_dep",
-    "thenify": "^3.3.0",
-    "update-notifier": "^2.4.0",
-    "winresourcer": "^0.9.0"
+    "thenify": "3.3.1",
+    "update-notifier": "2.4.0",
+    "winresourcer": "0.9.0"
   }
 }
