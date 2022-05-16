@@ -8,8 +8,8 @@ const nw = new NwBuilder({
     // Comment out the incompatible platforms before running the example
     platforms: [
         'linux64',
-        // 'osx64',
-        // 'win64',
+        'osx64',
+        'win64',
     ]
 });
 
