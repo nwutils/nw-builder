@@ -1,7 +1,7 @@
 const NwBuilder = require('../lib');
 
 const nw = new NwBuilder({
-    version: '0.14.6',
+    version: '0.64.0',
     files: './**',
     macIcns: './icons/icon.icns',
     macPlist: {mac_bundle_id: 'myPkg'},
