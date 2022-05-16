@@ -1,15 +1,15 @@
-const NwBuilder = require('../lib');
+const NwBuilder = require('./lib');
 
 const nw = new NwBuilder({
     version: '0.64.1',
-    files: './nwapp/**',
+    files: './example/nwapp/**',
     macIcns: './icons/icon.icns',
     macPlist: {mac_bundle_id: 'myPkg'},
     // Comment out the incompatible platforms before running the example
     platforms: [
-        'linux',
-        'osx64',
-        'win64',
+        'linux64',
+        // 'osx64',
+        // 'win64',
     ]
 });
 
