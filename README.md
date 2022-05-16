@@ -1,6 +1,6 @@
 # create-nw-app
 
-Build NW.ja applications for Mac, Windows and Linux.
+Build NW.js applications for Mac, Windows and Linux.
 
 ## Installation
 
@@ -25,8 +25,8 @@ The best way to get started is to see how our example works using the CLI and th
 
 ### CLI
 
-`./bin/nwbuild` displays the CLI options.
-`./bin/nwbuild -r ./example` runs our demo app.
+Running `./bin/nwbuild` displays the CLI options.
+Running `./bin/nwbuild -r ./example` renders the demo app.
 
 ### Module
 
