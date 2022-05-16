@@ -2,7 +2,7 @@
   "main": "index.html",
   "name": "nw-demo",
   "description": "demo app of NW.js",
-  "private": true,
+  "version": "0.1.0",
   "keywords": [ "demo", "NW.js" ],
   "window": {
     "title": "NW.js demo",
