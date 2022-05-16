@@ -3,7 +3,7 @@ const NwBuilder = require('./lib');
 const nw = new NwBuilder({
     version: '0.64.1',
     files: './example/**',
-    // Comment out the incompatible platforms
+    // Comment out the incompatible platforms before running the demo on your system
     platforms: [
         'linux64',
         'osx64',
