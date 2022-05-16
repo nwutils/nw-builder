@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "tape test/*.js",
-    "demo": "node ./demo.js"
+    "demo": "node ./example/index.js"
   },
   "repository": {
     "type": "git",

@@ -1,23 +1,7 @@
 {
-    "name": "demo",
-    "version": "0.1.0",
-    "description": "demo app of NW.js",
-    "keywords": [ "demo", "NW.js" ],
-    "main": "index.html",
-    "window": {
-      "title": "NW.js demo",
-      "icon": "link.png",
-      "toolbar": false,
-      "frame": true,
-      "width": 800,
-      "height": 500,
-      "position": "center",
-      "min_width": 400,
-      "min_height": 200,
-      "max_width": 800,
-      "max_height": 600
-    },
-    "webkit": {
-      "plugin": true
-    }
+  "name": "example",
+  "private": true,
+  "scripts": {
+    "start": "node index.js"
   }
+}
