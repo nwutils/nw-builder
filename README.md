@@ -1,6 +1,8 @@
-# create-nw-app
+# nw-builder [![NPM version][npm-image]][npm-url] [![Dependency Status][depstat-image]][depstat-url] [![Join the chat at https://gitter.im/nwjs/nw-builder](https://badges.gitter.im/nwjs/nw-builder.svg)](https://gitter.im/nwjs/nw-builder?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Build NW.js applications for Mac, Windows and Linux.
+[![NPM](https://nodei.co/npm/nw-builder.png?downloads=true)](https://nodei.co/npm/nw-builder/)
+
+Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and Linux.
 
 ## Installation
 
@@ -270,6 +272,16 @@ To get around it, run `ulimit -n 1024` (or add it to your `~/.bash_profile`). Fo
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
 
+## Release History
+See [CHANGELOG.md](CHANGELOG.md) or [Releases](https://github.com/nwjs-community/nw-builder/blob/develop/releases).
+
 ## License
 
-MIT
+[MIT License](https://en.wikipedia.org/wiki/MIT_License)
+
+[npm-url]: https://www.npmjs.com/package/nw-builder
+[npm-image]: https://img.shields.io/npm/v/nw-builder.svg?style=flat
+[travis-url]: https://travis-ci.org/nwjs/nw-builder
+[travis-image]: https://img.shields.io/travis/nwjs/nw-builder/master.svg?style=flat
+[depstat-url]: https://david-dm.org/nwjs/nw-builder
+[depstat-image]: https://david-dm.org/nwjs/nw-builder.svg?style=flat
