@@ -1,6 +1,6 @@
 # nw-builder
 
-[![NPM version][npm-image]][npm-url]
+[![NPM version][https://img.shields.io/npm/v/nw-builder.svg?style=flat]][https://www.npmjs.com/package/nw-builder]
 [![ci](https://github.com/nwjs-community/nw-builder/actions/workflows/ci.yml/badge.svg)](https://github.com/nwjs-community/nw-builder/actions/workflows/ci.yml)
 [![cd](https://github.com/nwjs-community/nw-builder/actions/workflows/cd.yml/badge.svg)](https://github.com/nwjs-community/nw-builder/actions/workflows/cd.yml)
 [![Join the chat at https://gitter.im/nwjs/nw-builder](https://badges.gitter.im/nwjs/nw-builder.svg)](https://gitter.im/nwjs/nw-builder?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -83,6 +83,8 @@ nw.run().then(function () {
 ```
 
 ## API Reference
+
+> Stay up to date using the [CHANGELOG](CHANGELOG.md).
 
 ### Options
 
@@ -316,21 +318,13 @@ This project was created by [Steffen Müller](https://github.com/steffenmllr) an
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## Release History
-
-See [CHANGELOG.md](CHANGELOG.md) or [Releases](https://github.com/nwjs-community/nw-builder/blob/develop/releases).
+- Whenever possible, open an issue before submitting a pull request.
+- PRs should have short descriptive titles. For example:
+    - fix(docs): fix typo in `options.platform` description
+    - feat(platform): add support for mac m1
+- Ideally, a PR should reference a related issue
+- ~Ensure there are tests that cover your changes~
 
 ## License
 
-[MIT License](https://en.wikipedia.org/wiki/MIT_License)
-
-[npm-url]: https://www.npmjs.com/package/nw-builder
-[npm-image]: https://img.shields.io/npm/v/nw-builder.svg?style=flat
-
-[travis-url]: https://travis-ci.org/nwjs/nw-builder
-[travis-image]: https://img.shields.io/travis/nwjs/nw-builder/master.svg?style=flat
-
-[depstat-url]: https://david-dm.org/nwjs/nw-builder
-[depstat-image]: https://david-dm.org/nwjs/nw-builder.svg?style=flat
+MIT
