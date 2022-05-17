@@ -25,7 +25,9 @@ pnpm add nw-builder
 ```
 
 
-## CLI Usage
+## Usage
+
+### CLI
 
 ```shell
 Usage:
@@ -45,10 +47,12 @@ Options:
                        (-r, --run mode only)
 ```
 
-#### Run NW.js
-During development you can run NW.js with `nwbuild -r path/to/your/younwapp/ -- <args>`.
+To run NW.js in dev mode:
+```
+nwbuild -r path/to/app -- <args>
+```
 
-## Module Usage
+### Module
 
 ```js
 var NwBuilder = require('nw-builder');
@@ -69,8 +73,7 @@ nw.build().then(function () {
 });
 ```
 
-During development you can run NW.js with `run`:
-
+To run NW.js in dev mode:
 ```js
 nw.run().then(function () {
    console.log('all done!');
@@ -79,14 +82,7 @@ nw.run().then(function () {
 });
 ```
 
-`build` and `run` also supports callbacks:
-
-```js
-nw.build(function(err) {
-    if(err) return console.error(err);
-    console.log('all done!');
-});
-```
+## API Reference
 
 ### Options
 
@@ -315,6 +311,8 @@ Darwin (OS X kernel) has a low limit for file descriptors (256 per process) by d
 To get around it, run `ulimit -n 1024` (or add it to your `~/.bash_profile`). For more information, see [henvic/osx-ulimit](https://github.com/henvic/osx-ulimit).
 
 ## Team
+
+This project was created by [Steffen Müller](https://github.com/steffenmllr) and has been maintained by [Gabe Paez](https://github.com/gabepaez), [Andy Trevorah](https://github.com/trevorah), [Adam Lynch](https://github.com/adam-lynch) and [Rémy Boulanouar](https://github.com/DblK) in the past. This project is currently maintained by [Ayushman Chhabra](https://github.com/ayushmxn).
 
 **Current**
 
