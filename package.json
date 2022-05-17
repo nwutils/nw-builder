@@ -2,43 +2,21 @@
   "name": "nw-builder",
   "version": "3.5.7",
   "description": "Build NW.js applications for Mac, Windows and Linux.",
+  "keywords": ["NW.js", "Desktop", "Application"],
+  "author": "Steffen Müller",
+  "license": "MIT",
   "main": "index.js",
+  "homepage": "https://github.com/nwjs-community/nw-builder",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nwjs-community/nw-builder.git"
+  },
   "scripts": {
     "format": "prettier --write ./lib",
     "lint": "eslint --ext .js ./lib",
     "test": "tape test/*.js",
     "demo": "node ./demo.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/nwjs-community/nw-builder.git"
-  },
-  "bin": {
-    "nwbuild": "./bin/nwbuild"
-  },
-  "author": {
-    "name": "Steffen Müller"
-  },
-  "contributors": [
-    {
-      "name": "Adam Lynch",
-      "email": "contact@adamlynch.com"
-    }
-  ],
-  "engines": {
-    "node": ">= 4.0.0"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/nwjs-community/nw-builder/issues"
-  },
-  "homepage": "https://github.com/nwjs-community/nw-builder",
-  "keywords": [
-    "NW.js",
-    "node-webkit",
-    "desktop",
-    "application"
-  ],
   "devDependencies": {
     "decompress-zip": "0.3.3",
     "eol": "0.9.1",
@@ -74,6 +52,9 @@
     "thenify": "3.3.1",
     "update-notifier": "2.4.0",
     "winresourcer": "0.9.0"
+  },
+  "bin": {
+    "nwbuild": "./bin/nwbuild"
   },
   "prettier": {
     "printWidth": 80,
