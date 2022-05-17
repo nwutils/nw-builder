@@ -1,6 +1,8 @@
 # nw-builder
 
 [![NPM version][npm-image]][npm-url]
+[![ci](https://github.com/nwjs-community/nw-builder/actions/workflows/ci.yml/badge.svg)](https://github.com/nwjs-community/nw-builder/actions/workflows/ci.yml)
+[![cd](https://github.com/nwjs-community/nw-builder/actions/workflows/cd.yml/badge.svg)](https://github.com/nwjs-community/nw-builder/actions/workflows/cd.yml)
 [![Join the chat at https://gitter.im/nwjs/nw-builder](https://badges.gitter.im/nwjs/nw-builder.svg)](https://gitter.im/nwjs/nw-builder?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and Linux.
