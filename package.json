@@ -4,7 +4,7 @@
   "description": "Build NW.js applications for Mac, Windows and Linux.",
   "main": "index.js",
   "scripts": {
-    "format": "prettier --write ./src",
+    "format": "prettier --write ./lib",
     "test": "tape test/*.js",
     "demo": "node ./demo.js"
   },
