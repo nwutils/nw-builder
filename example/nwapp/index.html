@@ -2,11 +2,6 @@
 <html>
 <head>
 <title>Hello World from nw-builder!</title>
-<script>
-    var deck = require('deck');
-    var xs = deck.shuffle([ 1, 2, 3, 4 ]);
-    console.log(deck, xs);
-</script>
 </head>
 <body>
 <h1>Hello World!</h1>
@@ -16,7 +11,7 @@ We are using node.js <script>document.write(process.version)</script>
 <ul>
 <script>
 for (var counter=0; counter<xs.length; counter++) {
-   document.write("<li>" + xs[counter] + "</li>");
+   document.write("<li>" + counter + "</li>");
 }
 </script>
 </ul>
