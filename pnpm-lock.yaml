@@ -28,7 +28,7 @@ specifiers:
   simple-glob: 0.2.0
   tap-spec: 4.1.1
   tape: 4.9.0
-  tar-fs: 1.13.0
+  tar-fs: 1.16.2
   temp: github:adam-lynch/node-temp#remove_tmpdir_dep
   thenify: 3.3.1
   update-notifier: 2.4.0
@@ -54,7 +54,7 @@ dependencies:
   rimraf: 2.5.2
   semver: 5.5.0
   simple-glob: 0.2.0
-  tar-fs: 1.13.0
+  tar-fs: 1.16.2
   temp: github.com/adam-lynch/node-temp/279c1350cb7e4f02515d91da9e35d39a40774016
   thenify: 3.3.1
   update-notifier: 2.4.0
@@ -392,6 +392,10 @@ packages:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
     dev: true
+
+  /chownr/1.1.4:
+    resolution: {integrity: sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==}
+    dev: false
 
   /ci-info/1.6.0:
     resolution: {integrity: sha512-vsGdkwSCDpWmP80ncATX7iea5DWQemg1UgCW5J8tqjU3lYw4FBYuj89J0CTVomA7BEfvSZd84GmHko+MxFQU2A==}
@@ -2228,9 +2232,10 @@ packages:
       through: 2.3.8
     dev: true
 
-  /tar-fs/1.13.0:
-    resolution: {integrity: sha1-SsYsDeSQ27qeMH0KAxJkEJHVxF4=}
+  /tar-fs/1.16.2:
+    resolution: {integrity: sha512-LdknWjPEiZC1nOBwhv0JBzfJBGPJar08dZg2rwZe0ZTLQoRGEzgrl7vF3qUEkCHpI/wN9e7RyCuDhMsJUCLPPQ==}
     dependencies:
+      chownr: 1.1.4
       mkdirp: 0.5.6
       pump: 1.0.3
       tar-stream: 1.6.2

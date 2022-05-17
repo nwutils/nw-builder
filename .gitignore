@@ -5,6 +5,8 @@
 node_modules
 
 # project files
+cache
+
 yarn.lock
 package-lock.json
 
