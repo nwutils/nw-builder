@@ -19,8 +19,5 @@
   },
   "webkit": {
     "plugin": true
-  },
-  "dependencies": {
-    "deck":"latest"
   }
 }

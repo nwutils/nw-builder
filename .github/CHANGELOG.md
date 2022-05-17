@@ -5,13 +5,19 @@ All notable changes to this project will be documented in this file and in the [
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.5.7]
+
+### Security
+
+- Source platform overrides module into the project instead of it being an extenal dependency. This helped us get rid of a vulnerable lodash version. See https://github.com/nwjs-community/nw-builder/issues/500
+
 ## [3.5.1] - 2017-10-19
 
-## Added
+### Added
 
 - Add option.winVersionString for accurate process name. See https://github.com/nwjs-community/nw-builder/pull/459.
 
-## Fixed
+### Fixed
 
 - Small platform overrides fix. See https://github.com/nwjs-community/nw-builder/pull/477/files.
 
@@ -47,7 +53,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Old format
 
 - 2017-05-22    `3.2.3` Fix for caching when a version is specified (thanks @piwonesien for the help).
-- 2017-05-20    `3.2.2` Fix: when using the `nwbuild` in run mode, the `-p` option was ignored and the current platform was always used. 
+- 2017-05-20    `3.2.2` Fix: when using the `nwbuild` in run mode, the `-p` option was ignored and the current platform was always used.
 - 2017-05-16    `3.2.1` Fix: NW.js 0.22.0+ apps didn't open.
 - 2017-02-12    `3.2.0` Defaults to HTTPS now, added `manifestUrl` option, and bumped some dependencies.
 - 2016-10-09    `3.1.2` Fix for passing array as files option when running app (plus some security fixes).
@@ -80,4 +86,3 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - 2014-07-31    `0.0.4` fixed compatibility with nodewebkit 0.10.0
 - 2014-04-20    Added run option, bug fixes
 - 2014-04-13    Preview Release
-

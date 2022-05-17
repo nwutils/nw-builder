@@ -97,7 +97,7 @@ The path to your node webkit app. It supports [simple-glob](https://github.com/j
 Type: `String`  
 Default value: `'latest'`  
 
-The version of NW.js you want to use. Per default it looks up the latest version. [Here is a list](https://github.com/nwjs/nw.js/wiki/Downloads-of-old-versions) of all available releases
+The version of NW.js you want to use. Per default it looks up the latest version. [Here is a list]([https://github.com/nwjs/nw.js/releases](https://github.com/nwjs/nw.js/tags) of all available releases.
 
 #### options.flavor
 Type: `String`  
