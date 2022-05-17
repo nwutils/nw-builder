@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "format": "prettier --write ./lib",
-    "lint": "eslint --fix",
+    "lint": "eslint --ext .js ./lib",
     "test": "tape test/*.js",
     "demo": "node ./demo.js"
   },
