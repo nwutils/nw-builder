@@ -1,6 +1,7 @@
 # nw-builder
 
-[![NPM version][https://img.shields.io/npm/v/nw-builder.svg?style=flat]](https://www.npmjs.com/package/nw-builder)
+[![npm][https://img.shields.io/npm/v/nw-builder.svg?style=flat]]
+(https://www.npmjs.com/package/nw-builder)
 [![ci](https://github.com/nwjs-community/nw-builder/actions/workflows/ci.yml/badge.svg)](https://github.com/nwjs-community/nw-builder/actions/workflows/ci.yml)
 [![cd](https://github.com/nwjs-community/nw-builder/actions/workflows/cd.yml/badge.svg)](https://github.com/nwjs-community/nw-builder/actions/workflows/cd.yml)
 [![Join the chat at https://gitter.im/nwjs/nw-builder](https://badges.gitter.im/nwjs/nw-builder.svg)](https://gitter.im/nwjs/nw-builder?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
