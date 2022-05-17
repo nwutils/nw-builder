@@ -1,11 +1,7 @@
 {
   "name": "example",
-  "version": "0.0.0",
-  "devDependencies": {
-    "gulp": "^3.x",
-    "nw-builder": "^2.x"
-  },
-  "dependencies": {
-    "gulp-util": "^2.2.14"
+  "private": true,
+  "scripts": {
+    "start": "node index.js"
   }
 }
