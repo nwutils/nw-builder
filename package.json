@@ -42,6 +42,7 @@
     "decompress-zip": "0.3.3",
     "eol": "0.9.1",
     "nock": "9.0.5",
+    "prettier": "2.6.2",
     "redtape": "1.0.0",
     "tap-spec": "4.1.1",
     "tape": "4.9.0"
