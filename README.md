@@ -7,20 +7,22 @@
 
 Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and Linux.
 
-### Installation
+## Installation
 
-##### Local
-```shell
-npm install nw-builder --save-dev
+Using npm:
+```javascript
+npm install nw-builder
 ```
 
-##### Global
-```shell
-npm install nw-builder -g
+Using yarn:
+```javascript
+yarn add nw-builder
 ```
 
-##### Grunt and Gulp Plugins
-Yes, there is also a [Grunt Plugin](https://github.com/nwjs/grunt-nw-builder). For Gulp, just use the module :)
+Using pnpm:
+```javascript
+pnpm add nw-builder
+```
 
 
 ## CLI Usage
