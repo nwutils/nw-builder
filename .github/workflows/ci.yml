@@ -22,4 +22,5 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - run: pnpm install
+      - run: pnpm format
       - run: pnpm test
