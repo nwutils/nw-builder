@@ -21,6 +21,6 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - run: pnpm install
+      - run: pnpm install --no-frozen-lockfile
       - run: pnpm format
       - run: pnpm test
