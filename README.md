@@ -314,18 +314,6 @@ To get around it, run `ulimit -n 1024` (or add it to your `~/.bash_profile`). Fo
 
 This project was created by [Steffen Müller](https://github.com/steffenmllr) and has been maintained by [Gabe Paez](https://github.com/gabepaez), [Andy Trevorah](https://github.com/trevorah), [Adam Lynch](https://github.com/adam-lynch) and [Rémy Boulanouar](https://github.com/DblK) in the past. This project is currently maintained by [Ayushman Chhabra](https://github.com/ayushmxn).
 
-**Current**
-
-- Adam Lynch ([@adam-lynch](https://github.com/adam-lynch))
-- Rémy Boulanouar ([@DblK](https://github.com/DblK))
-- You? :smile:. We're open to contributions (to the code, documentation, or anything else) and or additional maintainers.
-
-**Past**
-
-- Steffen Müller ([@steffenmllr](https://github.com/steffenmllr)) (Creator)
-- Gabe Paez ([@gabepaez](https://github.com/gabepaez))
-- Andy Trevorah ([@trevorah](https://github.com/trevorah))
-
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
