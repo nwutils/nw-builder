@@ -1,6 +1,6 @@
 # nw-builder
 
-[![npm][https://img.shields.io/npm/v/nw-builder.svg?style=flat]]
+[![npm](https://img.shields.io/npm/v/nw-builder.svg?style=flat)]
 (https://www.npmjs.com/package/nw-builder)
 [![ci](https://github.com/nwjs-community/nw-builder/actions/workflows/ci.yml/badge.svg)](https://github.com/nwjs-community/nw-builder/actions/workflows/ci.yml)
 [![cd](https://github.com/nwjs-community/nw-builder/actions/workflows/cd.yml/badge.svg)](https://github.com/nwjs-community/nw-builder/actions/workflows/cd.yml)
