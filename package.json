@@ -4,6 +4,7 @@
   "description": "Build NW.js applications for Mac, Windows and Linux.",
   "main": "index.js",
   "scripts": {
+    "format": "prettier --write ./src",
     "test": "tape test/*.js",
     "demo": "node ./demo.js"
   },
@@ -70,5 +71,21 @@
     "thenify": "3.3.1",
     "update-notifier": "2.4.0",
     "winresourcer": "0.9.0"
+  },
+  "prettier": {
+    "printWidth": 80,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": false,
+    "quoteProps": "consistent",
+    "trailingComma": "all",
+    "bracketSpacing": true,
+    "bracketSameLine": false,
+    "arrowParens": "always",
+    "proseWrap": "preserve",
+    "htmlWhitespaceSensitivity": "strict",
+    "endOfLine": "lf",
+    "singleAttributePerLine": true
   }
 }
