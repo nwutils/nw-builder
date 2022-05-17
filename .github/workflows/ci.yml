@@ -23,4 +23,5 @@ jobs:
 
       - run: pnpm install --no-frozen-lockfile
       - run: pnpm format
+      - run: pnpm lint
       - run: pnpm test

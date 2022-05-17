@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "format": "prettier --write ./lib",
+    "lint": "eslint --fix",
     "test": "tape test/*.js",
     "demo": "node ./demo.js"
   },
@@ -41,6 +42,7 @@
   "devDependencies": {
     "decompress-zip": "0.3.3",
     "eol": "0.9.1",
+    "eslint": "8.15.0",
     "nock": "9.0.5",
     "prettier": "2.6.2",
     "redtape": "1.0.0",
@@ -88,5 +90,8 @@
     "htmlWhitespaceSensitivity": "strict",
     "endOfLine": "lf",
     "singleAttributePerLine": true
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended"
   }
 }
