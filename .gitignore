@@ -7,8 +7,6 @@ node_modules
 # project files
 yarn.lock
 package-lock.json
-pnpm-lock.yaml
-
 
 npm-debug.log
 .pnpm-debug.lo
