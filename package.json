@@ -1,72 +1,79 @@
 {
   "name": "nw-builder",
   "version": "3.5.7",
-  "description": "nw-builder",
+  "description": "Build NW.js applications for Mac, Windows and Linux.",
+  "keywords": ["NW.js", "Desktop", "Application"],
+  "author": "Steffen Müller",
+  "license": "MIT",
   "main": "index.js",
-  "scripts": {
-    "test": "tape test/*.js"
-  },
+  "homepage": "https://github.com/nwjs-community/nw-builder",
   "repository": {
     "type": "git",
-    "url": "git://github.com/mllrsohn/nw-builder.git"
+    "url": "https://github.com/nwjs-community/nw-builder.git"
+  },
+  "scripts": {
+    "format": "prettier --write ./lib",
+    "lint": "eslint --ext .js ./lib",
+    "test": "tape test/*.js",
+    "demo": "node ./demo.js"
+  },
+  "devDependencies": {
+    "decompress-zip": "0.3.3",
+    "eol": "0.9.1",
+    "eslint": "8.15.0",
+    "nock": "9.0.5",
+    "prettier": "2.6.2",
+    "redtape": "1.0.0",
+    "tap-spec": "4.1.1",
+    "tape": "4.9.0"
+  },
+  "dependencies": {
+    "archiver": "2.1.1",
+    "boxen": "1.1.0",
+    "chalk": "2.3.2",
+    "deprecate": "1.1.1",
+    "extract-zip": "1.6.5",
+    "graceful-fs-extra": "2.0.0",
+    "graceful-ncp": "3.0.0",
+    "inherits": "2.0.4",
+    "lazy-req": "2.0.0",
+    "lodash": "4.17.21",
+    "optimist": "0.6.1",
+    "plist": "3.0.5",
+    "progress": "2.0.3",
+    "rcedit": "1.0.0",
+    "recursive-readdir-sync": "1.0.6",
+    "request": "2.88.2",
+    "rimraf": "2.5.2",
+    "semver": "5.5.0",
+    "simple-glob": "0.2.0",
+    "tar-fs": "1.16.2",
+    "temp": "github:adam-lynch/node-temp#remove_tmpdir_dep",
+    "thenify": "3.3.1",
+    "update-notifier": "2.4.0",
+    "winresourcer": "0.9.0",
+    "yargs": "17.2.1"
   },
   "bin": {
     "nwbuild": "./bin/nwbuild"
   },
-  "author": {
-    "name": "Steffen Müller"
+  "prettier": {
+    "printWidth": 80,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": false,
+    "quoteProps": "consistent",
+    "trailingComma": "all",
+    "bracketSpacing": true,
+    "bracketSameLine": false,
+    "arrowParens": "always",
+    "proseWrap": "preserve",
+    "htmlWhitespaceSensitivity": "strict",
+    "endOfLine": "lf",
+    "singleAttributePerLine": true
   },
-  "contributors": [
-    {
-      "name": "Adam Lynch",
-      "email": "contact@adamlynch.com"
-    }
-  ],
-  "engines": {
-    "node": ">= 4.0.0"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mllrsohn/nw-builder/issues"
-  },
-  "homepage": "https://github.com/mllrsohn/nw-builder",
-  "keywords": [
-    "NW.js",
-    "node-webkit",
-    "desktop",
-    "application"
-  ],
-  "devDependencies": {
-    "decompress-zip": "^0.3.3",
-    "eol": "^0.9.1",
-    "nock": "^13.1.4",
-    "redtape": "^1.0.0",
-    "tape": "^5.3.1"
-  },
-  "dependencies": {
-    "archiver": "^5.3.0",
-    "boxen": "^6.2.1",
-    "chalk": "^4.1.2",
-    "deprecate": "^1.1.1",
-    "extract-zip": "^2.0.1",
-    "graceful-fs-extra": "^2.0.0",
-    "graceful-ncp": "^3.0.0",
-    "inherits": "^2.0.4",
-    "lazy-req": "^3.0.0",
-    "lodash": "^4.17.21",
-    "plist": "^3.0.4",
-    "progress": "^2.0.3",
-    "rcedit": "^3.0.1",
-    "recursive-readdir-sync": "^1.0.6",
-    "request": "^2.88.2",
-    "rimraf": "^3.0.2",
-    "semver": "^7.3.5",
-    "simple-glob": "^0.2.0",
-    "tar-fs": "^2.1.1",
-    "temp": "github:adam-lynch/node-temp#remove_tmpdir_dep",
-    "thenify": "^3.3.1",
-    "update-notifier": "^5.1.0",
-    "winresourcer": "^0.9.0",
-    "yargs": "^17.2.1"
+  "eslintConfig": {
+    "extends": "eslint:recommended"
   }
 }
