@@ -24,20 +24,25 @@ Yes, there is also a [Grunt Plugin](https://github.com/nwjs/grunt-nw-builder). F
 ## CLI Usage
 
 ```shell
-Usage: nwbuild [options] [path]
+Usage: 
+  nwbuild [options] [path] [-- <args>]
 
 Options:
-  -p, --platforms      Platforms to build, comma-sperated, can be: win32,win64,osx32,osx64,linux32,linux64   ['osx64', 'win32', 'win64']
-  -v, --version        The nw version, eg. 0.8.4                                             [default: "latest"]
-  -r, --run            Runs NW.js for the current platform                                   [default: false]
-  -o, --buildDir       The build folder                                                      [default: "./build"]
-  -f, --forceDownload  Force download of NW.js                                               [default: false]
+  -p, --platforms      Platforms to build, comma-sperated, can be: 
+                       win32, win64, osx32, osx64, linux32, linux64 or
+                       win, osx, linux                                       [default: <Current OS>]
+  -v, --version        The nw version, eg. 0.8.4                                 [default: "latest"]
+  -r, --run            Runs NW.js for the current platform                          [default: false]
+  -o, --buildDir       The build folder                                         [default: "./build"]
+  -f, --forceDownload  Force download of NW.js                                      [default: false]
   --cacheDir           The cache folder
-  --quiet              Disables logging                                                      [default: false]
-
+  --quiet              Disables logging                                             [default: false]
+  -- <args>            Pass custom arguments to the NW.js instance
+                       (-r, --run mode only)
 ```
+
 #### Run NW.js
-During development you can run NW.js with `nwbuild -r path/to/your/younwapp/`
+During development you can run NW.js with `nwbuild -r path/to/your/younwapp/ -- <args>`.
 
 ## Module Usage
 
@@ -45,8 +50,9 @@ During development you can run NW.js with `nwbuild -r path/to/your/younwapp/`
 var NwBuilder = require('nw-builder');
 var nw = new NwBuilder({
     files: './path/to/nwfiles/**/**', // use the glob format
-    platforms: ['osx64', 'win32', 'win64'],
-    version: '0.14.6'
+    platforms: ['osx64', 'win32', 'win64', 'linux32', 'linux64'],
+    version: 'latest',
+    argv: ['<nwjs_arg>', ... ] // see nwjs docs for possible <nwjs_arg> values
 });
 
 // Log stuff you want
@@ -102,8 +108,9 @@ The flavor of NW.js you want to use. Per default it will be `sdk`. [Here is a li
 The value `sdk` is most used for development whereas `normal` for production.
 
 #### options.platforms
-Type: `Array`  
-Default value: `['osx64', 'win32', 'win64']`  
+Type `(CLI)`: `String` (comma separated values) 
+Type `(API)`: `Array` of `String`
+Default value: [`<current OS>`]  
 
 The platforms you want to build. Can be `['win32', 'win64', 'osx32', 'osx64', 'linux32', 'linux64']`
 
@@ -133,11 +140,11 @@ This is where the releases are saved.
 Type: `String`  
 Default value: `./cache`  
 
-This is where the cached NW.js downloads are
+This is where the cached NW.js downloads are.
 
 #### options.buildType
 Type: `String` or `function`
-Default value: `default`  
+Default value: `default` 
 
 How you want to save your build.
 
@@ -150,7 +157,14 @@ How you want to save your build.
 Type: `Boolean`  
 Default value: `false`  
 
-This will delete everything in your `build_dir` directory, including the cached downloaded prebuilt binaries
+This will delete everything in your `build_dir` directory, including the cached downloaded prebuilt binaries.
+
+#### options.argv
+Type `(CLI)`: `String` (comma separated values) 
+Type `(API)`: `Array` of `String`
+Default Value: []
+
+Pass Command Line Options when you run an NW.js instance. Ignored in case of build. 
 
 #### options.macCredits
 Type: `String`  
