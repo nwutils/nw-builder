@@ -37,7 +37,7 @@ Options:
   -p, --platforms      Platforms to build, comma-sperated, can be:
                        win32, win64, osx32, osx64, linux32, linux64 or
                        win, osx, linux                                       [default: <Current OS>]
-  -v, --version        The nw version, eg. 0.8.4                                 [default: "latest"]
+  -v, --version        The nw version, eg. 0.64.1                                 [default: "latest"]
   -r, --run            Runs NW.js for the current platform                          [default: false]
   -o, --buildDir       The build folder                                         [default: "./build"]
   -f, --forceDownload  Force download of NW.js                                      [default: false]
@@ -84,7 +84,7 @@ nw.run().then(function () {
 
 ## API Reference
 
-> Stay up to date using the [CHANGELOG](CHANGELOG.md).
+> Stay up to date via the [Changelog](https://github.com/nwjs-community/nw-builder/blob/master/.github/CHANGELOG.md).
 
 ### Options
 
@@ -99,7 +99,7 @@ The path to your node webkit app. It supports [simple-glob](https://github.com/j
 Type: `String`
 Default value: `'latest'`
 
-The version of NW.js you want to use. Per default it looks up the latest version. [Here is a list]([https://github.com/nwjs/nw.js/releases](https://github.com/nwjs/nw.js/tags) of all available releases.
+The version of NW.js you want to use. Per default it looks up the latest version. [Here is a list](https://github.com/nwjs/nw.js/tags) of all available releases.
 
 #### options.flavor
 Type: `String`
