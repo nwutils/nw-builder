@@ -37,7 +37,7 @@ Options:
   -p, --platforms      Platforms to build, comma-sperated, can be:
                        win32, win64, osx32, osx64, linux32, linux64 or
                        win, osx, linux                                       [default: <Current OS>]
-  -v, --version        The nw version, eg. 0.8.4                                 [default: "latest"]
+  -v, --version        The nw version, eg. 0.64.1                                 [default: "latest"]
   -r, --run            Runs NW.js for the current platform                          [default: false]
   -o, --buildDir       The build folder                                         [default: "./build"]
   -f, --forceDownload  Force download of NW.js                                      [default: false]
