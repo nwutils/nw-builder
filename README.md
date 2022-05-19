@@ -84,7 +84,7 @@ nw.run().then(function () {
 
 ## API Reference
 
-> Stay up to date using the [CHANGELOG](CHANGELOG.md).
+> Stay up to date using the [CHANGELOG](https://github.com/nwjs-community/nw-builder/blob/master/.github/CHANGELOG.md).
 
 ### Options
 
