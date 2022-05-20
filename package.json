@@ -6,10 +6,10 @@
   "author": "Steffen Müller",
   "license": "MIT",
   "main": "index.js",
-  "homepage": "https://github.com/nwjs-community/nw-builder",
+  "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nwjs-community/nw-builder.git"
+    "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
     "format": "prettier --write ./lib",
