@@ -1,6 +1,6 @@
 {
   "name": "nw-builder",
-  "version": "3.5.7",
+  "version": "3.6.0",
   "description": "Build NW.js applications for Mac, Windows and Linux.",
   "keywords": ["NW.js", "Desktop", "Application"],
   "author": "Steffen Müller",

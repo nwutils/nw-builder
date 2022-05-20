@@ -1,19 +1,23 @@
 #!/usr/bin/env node
+var optimist = reequire('optimist');
 var updateNotifier = require('update-notifier');
 var NwBuilder = require('./../lib');
 var path = require('path');
 var detectCurrentPlatform = require('../lib/detectCurrentPlatform.js');
 
-var argv = require('yargs')
-    .command('$0 <path>')
+var currentPlatform = detectCurrentPlatform();
+
+var argv = optimist
+    .usage('Usage:\n  nwbuild [options] [path] [-- <args>]')
 
     .alias('p', 'platforms')
-    .describe('p', 'Platforms to build, comma-sperated, can be: win32,win64,osx32,osx64,linux32,linux64')
+    .default('p', currentPlatform)
+    .describe('p', 'Platforms to build, comma-sperated, can be: \n  win32, win64, osx32, osx64, linux32, linux64 or \nwin, osx, linux')
 
     .version(false)
     .alias('v', 'version')
     .default('v', 'latest')
-    .describe('v', 'The nw version, eg. 0.8.4')
+    .describe('v', 'The NW.js version, eg. 0.8.4')
 
     .alias('r', 'run')
     .default('r', false)
@@ -38,9 +42,17 @@ var argv = require('yargs')
     .describe('quiet', 'Disables logging')
     .boolean('quiet')
 
-    // Howto Help
-    .help('h')
-    .alias('h', 'help')
+    .describe(' <args>', 'Pass custom arguments to the NW.js instance \n(-r, --run mode only)')
+
+    .wrap(100)
+
+    .argv;
+
+// Howto Help
+if (argv.h || argv.help) {
+    optimist.showHelp();
+    process.exit(0);
+}
 
     .argv;
 
@@ -48,31 +60,21 @@ var options = {
     appName: argv.name,
     files: path.resolve(process.cwd(), argv.path) + '/**/*',
     flavor: argv.flavor || 'sdk',
-    platforms: argv.platforms ? argv.platforms.split(',') : null,
+    platforms: argv.platforms ? argv.platforms.split(',') : [currentPlatform],
+    currentPlatform: currentPlatform,
     version: argv.version,
     macIcns: argv.macIcns || false,
     winIco: argv.winIco || false,
     cacheDir: argv.cacheDir ? path.resolve(process.cwd(), argv.cacheDir) : path.resolve(__dirname, '..', 'cache'),
     buildDir: path.resolve(process.cwd(), argv.buildDir),
-    forceDownload: argv.forceDownload
+    forceDownload: argv.forceDownload,
+    // get all argv arguments after --
+    argv: process.argv.slice(process.argv.findIndex(function firstDash(el) {
+        return el === '--'
+    }) + 1)
 };
 
-// If we are in run mode
-if(argv.r) {
-    var currentPlatform = detectCurrentPlatform();
-    if(!options.platforms){
-        options.platforms = [ currentPlatform ];
-    }
-    options.currentPlatform = currentPlatform;
-}
-
-// Set default target platforms here
-// Remove osx32 from default, nwjs didn't support osx32 yet
-if (!options.platforms) {
-    options.platforms = ['osx64', 'win32', 'win64'];
-}
-
-// Build App
+// Initialize Builder
 var nw = new NwBuilder(options);
 
 // Logging
@@ -80,7 +82,7 @@ if(!(argv.quiet || argv.quite)) {
     nw.on('log',  console.log);
 }
 
-// Build or run the app
+// Build or Run the app
 var np = (argv.r ? nw.run() : nw.build());
 np.then(function() {
     process.exit(0);

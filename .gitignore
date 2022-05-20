@@ -5,6 +5,7 @@
 node_modules
 
 # project files
+build
 cache
 
 yarn.lock

@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file and in the [
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+## [3.6.0] - 2022-05-18
+### Added
+- GitHub Actions for CICD [#552](https://github.com/nwjs-community/nw-builder/pull/552)
+- Support multiple locales on OSX [#389](https://github.com/nwjs-community/nw-builder/pull/389)
+- Pull request and issue template [#553](https://github.com/nwjs-community/nw-builder/pull/553)
+### Changed
+- Dependencies [#550](https://github.com/nwjs-community/nw-builder/pull/550)
+- Documentation [#540](https://github.com/nwjs-community/nw-builder/pull/540) [#553](https://github.com/nwjs-community/nw-builder/pull/553) [#555](https://github.com/nwjs-community/nw-builder/pull/555)
+- Improve run mode by detecting current platform to prevent downloading additional binaries
+### Removed
+- Travis
+- AppVeyor
+- JSHint
+- EditorConfig
+
 ## [3.5.7]
 
 ### Security
