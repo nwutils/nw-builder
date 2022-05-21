@@ -10,20 +10,22 @@ Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and L
 ## Installation
 
 Using npm:
+
 ```javascript
 npm install nw-builder
 ```
 
 Using yarn:
+
 ```javascript
 yarn add nw-builder
 ```
 
 Using pnpm:
+
 ```javascript
 pnpm add nw-builder
 ```
-
 
 ## Usage
 
@@ -48,6 +50,7 @@ Options:
 ```
 
 To run NW.js in dev mode:
+
 ```
 nwbuild -r path/to/app -- <args>
 ```
@@ -74,12 +77,15 @@ nw.build().then(function () {
 ```
 
 To run NW.js in dev mode:
+
 ```js
-nw.run().then(function () {
-   console.log('all done!');
-}).catch(function (error) {
+nw.run()
+  .then(function () {
+    console.log("all done!");
+  })
+  .catch(function (error) {
     console.error(error);
-});
+  });
 ```
 
 ## API Reference
@@ -88,20 +94,22 @@ nw.run().then(function () {
 
 ### Options
 
-#### options.files *Required*
+#### options.files _Required_
+
 Type: `String`
 Default value: `null`
 
 The path to your node webkit app. It supports [simple-glob](https://github.com/jedmao/simple-glob) so you can do stuff like `['foo/*.js', '!foo/bar.js', 'foo/bar.js']`.
 
-
 #### options.version
+
 Type: `String`
 Default value: `'latest'`
 
 The version of NW.js you want to use. Per default it looks up the latest version. [Here is a list](https://github.com/nwjs/nw.js/tags) of all available releases.
 
 #### options.flavor
+
 Type: `String`
 Default value: `'sdk'`
 
@@ -110,6 +118,7 @@ The flavor of NW.js you want to use. Per default it will be `sdk`. [Here is a li
 The value `sdk` is most used for development whereas `normal` for production.
 
 #### options.platforms
+
 Type `(CLI)`: `String` (comma separated values)
 Type `(API)`: `Array` of `String`
 Default value: [`<current OS>`]
@@ -121,47 +130,54 @@ The values `['win', 'osx', 'linux']` can also be used and will build both the 32
 Be aware that the osx32 version can only be built with legacy version of nwjs. Since > 0.12.0, only 64 bits for osx works.
 
 #### options.appName
+
 Type: `String`
 Default value: `false`
 
 The Name of your NW.js app. If this value is set to null, it will autodetect the `name` from your projects package.json. This will be used to generate a plist file for mac.
 
 #### options.appVersion
+
 Type: `String`
 Default value: `false`
 
 The version of your NW.js app. If this value is set to null, it will autodetect the `version` form your projects package.json. This will be used to generate a plist file for mac.
 
 #### options.buildDir
+
 Type: `String`
 Default value: `./build`
 
 This is where the releases are saved.
 
 #### options.cacheDir
+
 Type: `String`
 Default value: `./cache`
 
 This is where the cached NW.js downloads are.
 
 #### options.buildType
+
 Type: `String` or `function`
 Default value: `default`
 
 How you want to save your build.
 
-* `default` [appName]
-* `versioned` [appName] -v[appVersion]
-* `timestamped` [appName] - [timestamp];
-* A function with options as scope (e.g `function () {return this.appVersion;}` )
+- `default` [appName]
+- `versioned` [appName] -v[appVersion]
+- `timestamped` [appName] - [timestamp];
+- A function with options as scope (e.g `function () {return this.appVersion;}` )
 
 #### options.forceDownload
+
 Type: `Boolean`
 Default value: `false`
 
 This will delete everything in your `build_dir` directory, including the cached downloaded prebuilt binaries.
 
 #### options.argv
+
 Type `(CLI)`: `String` (comma separated values)
 Type `(API)`: `Array` of `String`
 Default Value: []
@@ -169,24 +185,28 @@ Default Value: []
 Pass Command Line Options when you run an NW.js instance. Ignored in case of build.
 
 #### options.macCredits
+
 Type: `String`
 Default value: `false`
 
 MAC ONLY: The path to your credits.html file. If your don't provide your own it will use the one provided by NW.js
 
 #### options.macIcns
+
 Type: `String`
 Default value: `false`
 
 MAC ONLY: The path to your ICNS icon file. If your don't provide your own it will use the one provided by NW.js
 
 #### options.zip
+
 Type: `Boolean`
 Default value: `null`
 
 WINDOW ONLY: Instead of zipping the application and merging it into the executable the application content is placed next to the application (which speed up the startup time for large apps). The default behaviour is platform specific. For `windows` and `linux`, the application is zipped and merged into the executable. For `mac`, the application is not zipped.
 
 #### options.zipOptions
+
 Type: `Object`
 Default value: `null`
 
@@ -195,13 +215,14 @@ Allows to configure the underling zip library parameters, like store or compress
 See [archiver](http://archiverjs.com/docs/global.html#ZipOptions) documentation for detailed description of properties.
 
 #### options.macPlist
+
 Type: `String` or `Object`
 Default value: `false`
 
 MAC ONLY: Pass a string containing the path to your own plist file. If a string isn't passed, a plist file will be generated from your package.json. Pass an object to overwrite or add properties to the generated plist file.
 
-
 #### options.winVersionString
+
 Type: `Object`
 Default value: `{}`
 
@@ -219,12 +240,14 @@ winVersionString: {
 ```
 
 #### options.winIco
+
 Type: `String`
 Default value: `null`
 
 WINDOWS ONLY: The path to your ICO icon file. If your don't provide your own it will use the one provided by NW.js. If you are building on MAC or LINUX you must have [Wine](https://www.winehq.org/) installed to use this option.
 
 #### options.macZip (DEPRECATED)
+
 Type: `Boolean`
 Default value: `null`
 
@@ -290,13 +313,13 @@ For example, when building for Windows, the manifest generated and put into the 
 
 ```json
 {
-    "name": "nw-demo",
-    "version": "0.1.0",
-    "main": "index.html",
-    "window": {
-        "frame": true,
-        "toolbar": false
-    }
+  "name": "nw-demo",
+  "version": "0.1.0",
+  "main": "index.html",
+  "window": {
+    "frame": true,
+    "toolbar": false
+  }
 }
 ```
 
@@ -320,8 +343,8 @@ This project was created by [Steffen Müller](https://github.com/steffenmllr) an
 
 - Whenever possible, open an issue before submitting a pull request.
 - PRs should have short descriptive titles. For example:
-    - fix(docs): fix typo in `options.platform` description
-    - feat(platform): add support for mac m1
+  - fix(docs): fix typo in `options.platform` description
+  - feat(platform): add support for mac m1
 - Ideally, a PR should reference a related issue
 - ~Ensure there are tests that cover your changes~
 

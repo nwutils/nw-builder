@@ -2,8 +2,12 @@
   "name": "nw-builder",
   "version": "3.6.0",
   "description": "Build NW.js applications for Mac, Windows and Linux.",
-  "keywords": ["NW.js", "Desktop", "Application"],
-  "author": "Steffen Müller",
+  "keywords": [
+    "NW.js",
+    "Desktop",
+    "Application"
+  ],
+  "author": "Steffen Müller <steffen@mllrsohn.com>",
   "license": "MIT",
   "main": "index.js",
   "homepage": "https://github.com/nwjs-community/nw-builder",
@@ -12,7 +16,7 @@
     "url": "https://github.com/nwjs-community/nw-builder.git"
   },
   "scripts": {
-    "format": "prettier --write ./lib",
+    "format": "prettier --write ./",
     "lint": "eslint --ext .js ./lib",
     "test": "tape test/*.js",
     "demo": "node ./demo.js"
