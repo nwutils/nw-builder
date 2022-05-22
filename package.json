@@ -44,7 +44,7 @@
     "rcedit": "1.0.0",
     "recursive-readdir-sync": "1.0.6",
     "request": "2.88.2",
-    "rimraf": "2.5.2",
+    "rimraf": "3.0.2",
     "semver": "7.3.7",
     "simple-glob": "0.2.0",
     "tar-fs": "2.1.1",
