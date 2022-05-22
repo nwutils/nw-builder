@@ -31,7 +31,7 @@
     "tape": "5.5.3"
   },
   "dependencies": {
-    "archiver": "2.1.1",
+    "archiver": "5.3.1",
     "deprecate": "1.1.1",
     "extract-zip": "1.6.5",
     "graceful-fs-extra": "2.0.0",
