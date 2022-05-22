@@ -33,7 +33,7 @@
   "dependencies": {
     "archiver": "5.3.1",
     "deprecate": "1.1.1",
-    "extract-zip": "1.6.5",
+    "extract-zip": "2.0.1",
     "graceful-fs-extra": "2.0.0",
     "graceful-ncp": "3.0.0",
     "inherits": "2.0.4",
