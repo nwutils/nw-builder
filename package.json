@@ -24,7 +24,7 @@
   "devDependencies": {
     "decompress-zip": "0.3.3",
     "eol": "0.9.1",
-    "eslint": "8.15.0",
+    "eslint": "8.16.0",
     "nock": "9.0.5",
     "prettier": "2.6.2",
     "redtape": "1.0.0",
