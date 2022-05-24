@@ -19,12 +19,14 @@
     "format": "prettier --write ./",
     "lint": "eslint --ext .js --env node --env es6 --parser-options=ecmaVersion:2018 ./lib",
     "test": "tape test/*.js",
+    "test:unit": "jest",
     "demo": "node ./demo.js"
   },
   "devDependencies": {
     "decompress-zip": "0.3.3",
     "eol": "0.9.1",
     "eslint": "8.16.0",
+    "jest": "^28.1.0",
     "nock": "13.2.4",
     "prettier": "2.6.2",
     "redtape": "1.0.0",
