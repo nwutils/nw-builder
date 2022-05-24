@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-var optimist = require('optimist');
 var updateNotifier = require('update-notifier');
 var NwBuilder = require('./../lib');
 var path = require('path');
@@ -7,13 +6,15 @@ var detectCurrentPlatform = require('../lib/detectCurrentPlatform.js');
 
 var currentPlatform = detectCurrentPlatform();
 
-var argv = optimist
-    .usage('Usage:\n  nwbuild [options] [path] [-- <args>]')
+var argv = require('yargs')
+    .command('$0 <path>')
+    .usage('Usage:\n  $0 [options] [path] [-- <args>]')
 
     .alias('p', 'platforms')
     .default('p', currentPlatform)
     .describe('p', 'Platforms to build, comma-sperated, can be: \n  win32, win64, osx32, osx64, linux32, linux64 or \nwin, osx, linux')
 
+    .version(false)
     .alias('v', 'version')
     .default('v', 'latest')
     .describe('v', 'The NW.js version, eg. 0.8.4')
@@ -43,26 +44,17 @@ var argv = optimist
 
     .describe(' <args>', 'Pass custom arguments to the NW.js instance \n(-r, --run mode only)')
 
+    // Howto Help
+    .help('h')
+    .alias('h', 'help')
+
     .wrap(100)
 
     .argv;
 
-// Howto Help
-if (argv.h || argv.help) {
-    optimist.showHelp();
-    process.exit(0);
-}
-
-// Error if there are no files
-var files = argv._[0];
-if(!files) {
-    optimist.showHelp();
-    process.exit(1);
-}
-
 var options = {
     appName: argv.name,
-    files: path.resolve(process.cwd(), files) + '/**/*',
+    files: path.resolve(process.cwd(), argv.path) + '/**/*',
     flavor: argv.flavor || 'sdk',
     platforms: argv.platforms ? argv.platforms.split(',') : [currentPlatform],
     currentPlatform: currentPlatform,
