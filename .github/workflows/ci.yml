@@ -1,0 +1,27 @@
+name: ci
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [14, 16]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2.2.1
+        with:
+          version: 7.1.0
+          run_install: true
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - run: pnpm install
+      - run: pnpm format
+      # - run: pnpm lint
+      - run: pnpm test
