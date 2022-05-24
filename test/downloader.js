@@ -13,17 +13,6 @@ var fixturesZipStrip = "./test/fixtures/test-strip.zip";
 var fixturesTar = "./test/fixtures/test.tar.gz";
 var isWindows = process.platform === "win32";
 
-test("checkCache", function (t) {
-  t.plan(2);
-  t.ok(downloader.checkCache(fixturesCache + "/osx", ["node-webkit.app"]));
-  t.notOk(
-    downloader.checkCache(fixturesCache + "/linux32", [
-      "nwsnapshot",
-      "nwsnapshot2",
-    ]),
-  );
-});
-
 test("downloadAndUnpack: zip", function (t) {
   t.plan(isWindows ? 3 : 6);
   nock("https://amazon.s3.nw.com")
