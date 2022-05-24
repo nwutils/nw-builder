@@ -17,7 +17,7 @@
   },
   "scripts": {
     "format": "prettier --write ./",
-    "lint": "eslint --ext .js ./lib",
+    "lint": "eslint --ext .js --env node --env es6 --parser-options=ecmaVersion:2018 ./lib",
     "test": "tape test/*.js",
     "demo": "node ./demo.js"
   },
@@ -25,7 +25,7 @@
     "decompress-zip": "0.3.3",
     "eol": "0.9.1",
     "eslint": "8.16.0",
-    "nock": "9.0.5",
+    "nock": "13.2.4",
     "prettier": "2.6.2",
     "redtape": "1.0.0",
     "tape": "5.5.3"
@@ -33,7 +33,7 @@
   "dependencies": {
     "archiver": "5.3.1",
     "deprecate": "1.1.1",
-    "extract-zip": "1.6.5",
+    "extract-zip": "2.0.1",
     "graceful-fs-extra": "2.0.0",
     "graceful-ncp": "3.0.0",
     "inherits": "2.0.4",
@@ -51,7 +51,7 @@
     "thenify": "3.3.1",
     "update-notifier": "5.1.0",
     "winresourcer": "0.9.0",
-    "yargs": "^17.2.1"
+    "yargs": "^17.5.1"
   },
   "bin": {
     "nwbuild": "./bin/nwbuild"

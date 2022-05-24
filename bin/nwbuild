@@ -8,6 +8,7 @@ var currentPlatform = detectCurrentPlatform();
 
 var argv = require('yargs')
     .command('$0 <path>')
+    .usage('Usage:\n  $0 [options] [path] [-- <args>]')
 
     .alias('p', 'platforms')
     .default('p', currentPlatform)
@@ -40,6 +41,8 @@ var argv = require('yargs')
     .default('quiet', false)
     .describe('quiet', 'Disables logging')
     .boolean('quiet')
+
+    .describe(' <args>', 'Pass custom arguments to the NW.js instance \n(-r, --run mode only)')
 
     // Howto Help
     .help('h')
