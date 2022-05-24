@@ -48,6 +48,8 @@ var argv = require('yargs')
     .help('h')
     .alias('h', 'help')
 
+    .wrap(100)
+
     .argv;
 
 var options = {
