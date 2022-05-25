@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 
 const checkCache = (cacheDir, files) => {
   let missing = false;
