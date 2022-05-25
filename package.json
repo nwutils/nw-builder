@@ -16,7 +16,7 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
-    "format": "prettier --write ./",
+    "format": "prettier --write ./src",
     "lint": "eslint --ext .js --env node --env es6 --parser-options=ecmaVersion:2018 ./lib",
     "test": "tape test/*.js && pnpm test:unit",
     "test:unit": "jest",

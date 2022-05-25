@@ -1,5 +1,3 @@
 import detectCurrentPlatform from "./detectCurrentPlatform";
 
-export {
-    detectCurrentPlatform,
-};
+export { detectCurrentPlatform };
