@@ -1,7 +1,0 @@
-{
-  "name": "example",
-  "private": true,
-  "scripts": {
-    "start": "node index.js"
-  }
-}

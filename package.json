@@ -20,7 +20,7 @@
     "lint": "eslint --ext .js --env node --env es6 --parser-options=ecmaVersion:2018 ./lib",
     "test": "tape test/*.js && pnpm test:unit",
     "test:unit": "jest",
-    "demo": "node ./demo.js",
+    "demo": "cd ./test/demo && pnpm start",
     "build": "tsup src/index.ts --minify --format cjs,esm --dts --clean"
   },
   "devDependencies": {
