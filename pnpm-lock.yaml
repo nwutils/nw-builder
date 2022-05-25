@@ -1,24 +1,25 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@types/jest': ^27.5.1
-  '@types/node': ^17.0.35
+  '@types/jest': 27.5.1
+  '@types/node': 17.0.35
   archiver: 5.3.1
   decompress-zip: 0.3.3
   deprecate: 1.1.1
   eol: 0.9.1
-  esbuild: ^0.14.39
+  esbuild: 0.14.39
   eslint: 8.16.0
   extract-zip: 2.0.1
   graceful-fs-extra: 2.0.0
   graceful-ncp: 3.0.0
   inherits: 2.0.4
-  jest: ^28.1.0
-  jest-environment-jsdom: ^28.1.0
-  jsdom: ^19.0.0
+  jest: 28.1.0
+  jest-environment-jsdom: 28.1.0
+  jsdom: 19.0.0
   lodash: 4.17.21
   nock: 13.2.4
   plist: 3.0.5
+  pnpm: 7.1.5
   prettier: 2.6.2
   progress: 2.0.3
   rcedit: 3.0.1
@@ -32,12 +33,12 @@ specifiers:
   tar-fs: 2.1.1
   temp: github:adam-lynch/node-temp#remove_tmpdir_dep
   thenify: 3.3.1
-  ts-jest: ^28.0.3
-  tsup: ^6.0.1
-  typescript: ^4.7.2
+  ts-jest: 28.0.3
+  tsup: 6.0.1
+  typescript: 4.7.2
   update-notifier: 5.1.0
   winresourcer: 0.9.0
-  yargs: ^17.5.1
+  yargs: 17.5.1
 
 dependencies:
   archiver: 5.3.1
@@ -73,6 +74,7 @@ devDependencies:
   jest-environment-jsdom: 28.1.0
   jsdom: 19.0.0
   nock: 13.2.4
+  pnpm: 7.1.5
   prettier: 2.6.2
   redtape: 1.0.0_tape@5.5.3
   tape: 5.5.3
@@ -3988,6 +3990,12 @@ packages:
       base64-js: 1.5.1
       xmlbuilder: 9.0.7
     dev: false
+
+  /pnpm/7.1.5:
+    resolution: {integrity: sha512-Mkdb7mHUPbzsPjvKbhvNgHPPIX5NZlLcm7S6uFJWPJrkiiWnrq7tbqWHC09Spzwvao92R64mo6a6gGbrERNbrA==}
+    engines: {node: '>=14.19'}
+    hasBin: true
+    dev: true
 
   /postcss-load-config/3.1.4:
     resolution: {integrity: sha512-6DiM4E7v4coTE4uzA8U//WhtPwyhiim3eyjEMFCnUpzbrkK9wJHgKDT2mR+HbtSrd/NubVaYTOpSpjUl8NQeRg==}

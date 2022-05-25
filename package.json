@@ -24,22 +24,23 @@
     "build": "tsup src/index.ts --minify --format cjs,esm --dts --clean"
   },
   "devDependencies": {
-    "@types/jest": "^27.5.1",
-    "@types/node": "^17.0.35",
+    "@types/jest": "27.5.1",
+    "@types/node": "17.0.35",
     "decompress-zip": "0.3.3",
     "eol": "0.9.1",
-    "esbuild": "^0.14.39",
+    "esbuild": "0.14.39",
     "eslint": "8.16.0",
-    "jest": "^28.1.0",
-    "jest-environment-jsdom": "^28.1.0",
-    "jsdom": "^19.0.0",
+    "jest": "28.1.0",
+    "jest-environment-jsdom": "28.1.0",
+    "jsdom": "19.0.0",
     "nock": "13.2.4",
+    "pnpm": "7.1.5",
     "prettier": "2.6.2",
     "redtape": "1.0.0",
     "tape": "5.5.3",
-    "ts-jest": "^28.0.3",
-    "tsup": "^6.0.1",
-    "typescript": "^4.7.2"
+    "ts-jest": "28.0.3",
+    "tsup": "6.0.1",
+    "typescript": "4.7.2"
   },
   "dependencies": {
     "archiver": "5.3.1",
@@ -62,7 +63,7 @@
     "thenify": "3.3.1",
     "update-notifier": "5.1.0",
     "winresourcer": "0.9.0",
-    "yargs": "^17.5.1"
+    "yargs": "17.5.1"
   },
   "bin": {
     "nwbuild": "./bin/nwbuild"
