@@ -2,9 +2,9 @@
 var updateNotifier = require('update-notifier');
 var NwBuilder = require('./../lib');
 var path = require('path');
-var detectCurrentPlatform = require('../lib/detectCurrentPlatform.js');
+const { detectCurrentPlatform } = require('../dist/index.js');
 
-var currentPlatform = detectCurrentPlatform();
+const currentPlatform = detectCurrentPlatform(process);
 
 var argv = require('yargs')
     .command('$0 <path>')
