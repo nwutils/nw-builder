@@ -1,2 +1,2 @@
 export { Platform, type PlatformSchema } from "./schema";
-export { detectCurrentPlatform } from "./utilities";
+export { checkCache, detectCurrentPlatform } from "./utilities";
