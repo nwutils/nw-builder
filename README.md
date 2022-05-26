@@ -346,7 +346,7 @@ This project was created by [Steffen Müller](https://github.com/steffenmllr) an
   - fix(docs): fix typo in `options.platform` description
   - feat(platform): add support for mac m1
 - Ideally, a PR should reference a related issue
-- ~Ensure there are tests that cover your changes~
+- Ensure there are tests that cover your changes
 
 ## License
 

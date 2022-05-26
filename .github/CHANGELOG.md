@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## Changed
+
+- Refactor `checkCache` [#565](https://github.com/nwjs-community/nw-builder/pull/565)
+- Simplify demo
+- Refactor `detectCurrentPlatform` [#564](https://github.com/nwjs-community/nw-builder/pull/564)
+
 ## [3.6.0] - 2022-05-18
 
 ### Added
