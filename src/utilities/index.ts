@@ -1,3 +1,7 @@
+import checkCache from "./checkCache";
 import detectCurrentPlatform from "./detectCurrentPlatform";
 
-export { detectCurrentPlatform };
+export {
+    detectCurrentPlatform,
+    checkCache,
+};

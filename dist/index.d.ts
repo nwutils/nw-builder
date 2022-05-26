@@ -8,6 +8,8 @@ declare enum Platform {
 }
 declare type PlatformSchema = Platform.NIX_32 | Platform.NIX_32 | Platform.NIX_64 | Platform.OSX_32 | Platform.OSX_64 | Platform.WIN_32 | Platform.WIN_64;
 
+declare const checkCache: (filePath: string, files: string[]) => boolean;
+
 declare const detectCurrentPlatform: (process: NodeJS.Process) => PlatformSchema | undefined;
 
-export { Platform, PlatformSchema, detectCurrentPlatform };
+export { Platform, PlatformSchema, checkCache, detectCurrentPlatform };
