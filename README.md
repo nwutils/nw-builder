@@ -253,6 +253,12 @@ Default value: `null`
 
 MAC ONLY: Use a `app.nw` folder instead of `ZIP` file, this significantly improves the startup speed of applications on `mac`, since no decompressing is needed. Builds on other platforms will still use `ZIP` files. The default behaviour of node-webkit-builder is to not use `ZIP` files on the `mac` platform. In case of the `mac` platform the option `macZip` can override the option `zip`.
 
+#### options.mergeZip
+Type: `Boolean`
+Default value: `true`
+
+WINDOWS AND LINUX ONLY: Merge the source file package with the Node Webkit executable.
+
 ### Manifest Options
 
 #### platformOverrides
