@@ -55,4 +55,4 @@ test("for Windows 64 platform", () => {
   expect(detectCurrentPlatform(process)).toBe(Platform.WIN_64);
 });
 
-export { };
+export {};
