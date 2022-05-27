@@ -1,52 +1,97 @@
 {
-  "name": "node-webkit-builder",
-  "version": "1.0.10",
-  "description": "node-webkit-builder",
+  "name": "nw-builder",
+  "version": "3.6.0",
+  "description": "Build NW.js applications for Mac, Windows and Linux.",
+  "keywords": [
+    "NW.js",
+    "Desktop",
+    "Application"
+  ],
+  "author": "Steffen Müller <steffen@mllrsohn.com>",
+  "license": "MIT",
   "main": "index.js",
-  "scripts": {
-    "test": "colortape test/*.js"
-  },
+  "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
     "type": "git",
-    "url": "git://github.com/mllrsohn/node-webkit-builder.git"
+    "url": "https://github.com/nwutils/nw-builder.git"
+  },
+  "scripts": {
+    "format": "prettier --write ./src",
+    "lint": "eslint --ext .js --env node --env es6 --parser-options=ecmaVersion:2018 ./lib",
+    "test": "tape test/*.js && pnpm test:unit",
+    "test:unit": "jest",
+    "demo": "cd ./test/demo && pnpm start",
+    "build": "tsup src/index.ts --minify --format cjs,esm --dts --clean"
+  },
+  "devDependencies": {
+    "@types/jest": "27.5.1",
+    "@types/node": "17.0.35",
+    "decompress-zip": "0.3.3",
+    "eol": "0.9.1",
+    "esbuild": "0.14.39",
+    "eslint": "8.16.0",
+    "jest": "28.1.0",
+    "jest-environment-jsdom": "28.1.0",
+    "jsdom": "19.0.0",
+    "nock": "13.2.4",
+    "pnpm": "7.1.5",
+    "prettier": "2.6.2",
+    "redtape": "1.0.0",
+    "tape": "5.5.3",
+    "ts-jest": "28.0.3",
+    "tsup": "6.0.1",
+    "typescript": "4.7.2"
+  },
+  "dependencies": {
+    "archiver": "5.3.1",
+    "deprecate": "1.1.1",
+    "extract-zip": "2.0.1",
+    "graceful-fs-extra": "2.0.0",
+    "graceful-ncp": "3.0.0",
+    "inherits": "2.0.4",
+    "lodash": "4.17.21",
+    "plist": "3.0.5",
+    "progress": "2.0.3",
+    "rcedit": "3.0.1",
+    "recursive-readdir-sync": "1.0.6",
+    "request": "2.88.2",
+    "rimraf": "3.0.2",
+    "semver": "7.3.7",
+    "simple-glob": "0.2.0",
+    "tar-fs": "2.1.1",
+    "temp": "github:adam-lynch/node-temp#remove_tmpdir_dep",
+    "thenify": "3.3.1",
+    "update-notifier": "5.1.0",
+    "winresourcer": "0.9.0",
+    "yargs": "17.5.1"
   },
   "bin": {
     "nwbuild": "./bin/nwbuild"
   },
-  "author": {
-    "name": "Steffen Müller"
+  "prettier": {
+    "printWidth": 80,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": false,
+    "quoteProps": "consistent",
+    "trailingComma": "all",
+    "bracketSpacing": true,
+    "bracketSameLine": false,
+    "arrowParens": "always",
+    "proseWrap": "preserve",
+    "htmlWhitespaceSensitivity": "strict",
+    "endOfLine": "lf",
+    "singleAttributePerLine": true
   },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mllrsohn/node-webkit-builder/issues"
+  "eslintConfig": {
+    "extends": "eslint:recommended"
   },
-  "homepage": "https://github.com/mllrsohn/node-webkit-builder",
-  "devDependencies": {
-    "nock": "^0.32.3",
-    "tape": "~3.0.1",
-    "redtape": "~1.0.0",
-    "colortape": "~0.1.0"
-  },
-  "dependencies": {
-    "archiver": "^0.13.0",
-    "bluebird": "~1.2.2",
-    "decompress-zip": "0.0.8",
-    "inherits": "~2.0.1",
-    "lodash": "~2.4.1",
-    "optimist": "^0.6.1",
-    "rcedit": "0.2.0",
-    "plist": "^1.0.0",
-    "progress": "~1.1.7",
-    "request": "~2.40.0",
-    "rimraf": "^2.2.8",
-    "semver": "^2.3.1",
-    "simple-glob": "~0.1.0",
-    "tar-fs": "^0.3.2",
-    "temp": "~0.7.0",
-    "update-notifier": "^0.1.8",
-    "winresourcer": "^0.9.0",
-    "platform-overrides": "~1.0.1",
-    "graceful-ncp": "0.0.1",
-    "graceful-fs-extra": "~1.0.3"
+  "jest": {
+    "preset": "ts-jest",
+    "transform": {
+      "^.+\\.ts?$": "ts-jest"
+    },
+    "testEnvironment": "jsdom"
   }
 }

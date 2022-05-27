@@ -1,22 +1,17 @@
-.idea
-*.iml
+# computer files
+.DS_Store
 
-lib-cov
-*.seed
-*.log
-*.csv
-*.dat
-*.out
-*.pid
-*.gz
+# runtime files
+node_modules
 
-pids
-logs
-results
+# project files
+build
+cache
+
+yarn.lock
+package-lock.json
 
 npm-debug.log
-node_modules
-cache
-tmp/
-test/temp/
-.DS_Store
+.pnpm-debug.lo
+yarn-debug.log*
+yarn-error.log
