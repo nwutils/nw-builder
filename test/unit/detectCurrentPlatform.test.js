@@ -1,10 +1,9 @@
-import { Platform } from "../../src/schema";
-import { detectCurrentPlatform } from "../../src/utilities";
+import { detectCurrentPlatform, Platform } from "../../dist/index.js";
 
 const processEnv = { ...process.env };
 
 test("for OSX 32 platform", () => {
-  const process = {} as any;
+  const process = {};
   process.platform = "darwin";
   process.arch = "x32";
 
@@ -12,7 +11,7 @@ test("for OSX 32 platform", () => {
 });
 
 test("for OSX 64 platform", () => {
-  const process = {} as any;
+  const process = {};
   process.platform = "darwin";
   process.arch = "x64";
 
@@ -20,7 +19,7 @@ test("for OSX 64 platform", () => {
 });
 
 test("for Linux 32 platform", () => {
-  const process = {} as any;
+  const process = {};
   process.platform = "linux";
   process.arch = "x32";
 
@@ -28,7 +27,7 @@ test("for Linux 32 platform", () => {
 });
 
 test("for Linux 64 platform", () => {
-  const process = {} as any;
+  const process = {};
   process.platform = "linux";
   process.arch = "x64";
 
@@ -36,7 +35,7 @@ test("for Linux 64 platform", () => {
 });
 
 test("for Windows 32 platform", () => {
-  const process = {} as any;
+  const process = {};
   process.platform = "win32";
   process.arch = "x32";
   process.env = { ...processEnv };
@@ -46,7 +45,7 @@ test("for Windows 32 platform", () => {
 });
 
 test("for Windows 64 platform", () => {
-  const process = {} as any;
+  const process = {};
   process.platform = "win32";
   process.arch = "x64";
   process.env = { ...processEnv };

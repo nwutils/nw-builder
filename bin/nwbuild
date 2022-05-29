@@ -1,8 +1,7 @@
 #!/usr/bin/env node
-var updateNotifier = require('update-notifier');
 var NwBuilder = require('./../lib');
 var path = require('path');
-const { detectCurrentPlatform } = require('../dist/index.js');
+const { detectCurrentPlatform } = require('../dist/index');
 
 const currentPlatform = detectCurrentPlatform(process);
 
