@@ -1,8 +1,10 @@
-import { Platform, PlatformSchema } from "../schema";
-
-const detectCurrentPlatform = (
-  process: NodeJS.Process,
-): PlatformSchema | undefined => {
+import { Platform } from "../schema";
+/**
+ *
+ * @param {NodeJS.Process} process
+ * @returns {Platform | undefined}
+ */
+const detectCurrentPlatform = (process) => {
   switch (process.platform) {
     case "darwin":
       return process.arch === "x64" ? Platform.OSX_64 : Platform.OSX_32;

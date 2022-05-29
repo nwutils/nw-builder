@@ -9,6 +9,8 @@ Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and L
 
 ## Installation
 
+> Tested and runs on Node 14, 16 and 18!
+
 Using npm:
 
 ```javascript
@@ -348,6 +350,16 @@ This project was created by [Steffen Müller](https://github.com/steffenmllr) an
 
 ## Contributing
 
+### Getting Started
+
+- Install Node.js (I'd suggest using `nvm`)
+- Install your preferred package manager (doesn't have to be `pnpm`, I'm just using it as an example)
+- Run `pnpm install` to install dependencies
+- Run `pnpm demo` to test your changes at first glance
+- Run `pnpm test` to run tests
+- Don't forget to run `pnpm format` && `pnpm lint` before commiting your changes
+
+### General Guidelines
 - Whenever possible, open an issue before submitting a pull request.
 - PRs should have short descriptive titles. For example:
   - fix(docs): fix typo in `options.platform` description

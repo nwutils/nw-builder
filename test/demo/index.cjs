@@ -1,4 +1,4 @@
-const NwBuilder = require("../../lib");
+const NwBuilder = require("../../lib/index.cjs");
 
 const nw = new NwBuilder({
   version: "0.64.1",

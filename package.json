@@ -9,27 +9,27 @@
   ],
   "author": "Steffen Müller <steffen@mllrsohn.com>",
   "license": "MIT",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "type": "module",
   "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
     "type": "git",
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
-    "format": "prettier --write ./src",
-    "lint": "eslint --ext .js --env node --env es6 --parser-options=ecmaVersion:2018 ./lib",
-    "test": "tape test/*.js && pnpm test:unit",
-    "test:unit": "jest",
+    "format": "prettier --write ./bin ./lib ./src ./test",
+    "lint": "eslint ./src",
+    "test": "pnpm test:unit && tape test/*.js",
+    "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "demo": "cd ./test/demo && pnpm start",
-    "build": "tsup src/index.ts --minify --format cjs,esm --dts --clean"
+    "build": "esbuild src/index.js --bundle --minify --platform=node --outfile=./dist/index.cjs"
   },
   "devDependencies": {
-    "@types/jest": "27.5.1",
-    "@types/node": "17.0.36",
     "decompress-zip": "0.3.3",
     "eol": "0.9.1",
     "esbuild": "0.14.42",
     "eslint": "8.16.0",
+    "eslint-plugin-jsdoc": "^39.3.2",
     "jest": "28.1.0",
     "jest-environment-jsdom": "28.1.0",
     "jsdom": "19.0.0",
@@ -37,10 +37,7 @@
     "pnpm": "7.1.7",
     "prettier": "2.6.2",
     "redtape": "1.0.0",
-    "tape": "5.5.3",
-    "ts-jest": "28.0.3",
-    "tsup": "6.0.1",
-    "typescript": "4.7.2"
+    "tape": "5.5.3"
   },
   "dependencies": {
     "archiver": "5.3.1",
@@ -66,7 +63,7 @@
     "yargs": "17.5.1"
   },
   "bin": {
-    "nwbuild": "./bin/nwbuild"
+    "nwbuild": "./bin/nwbuild.cjs"
   },
   "prettier": {
     "printWidth": 80,
@@ -85,13 +82,25 @@
     "singleAttributePerLine": true
   },
   "eslintConfig": {
-    "extends": "eslint:recommended"
+    "extends": "eslint:recommended",
+    "parserOptions": {
+      "ecmaVersion": 2021,
+      "sourceType": "module"
+    },
+    "env": {
+      "es6": true,
+      "node": true
+    },
+    "overrides": [
+      {
+        "files": "./src/**/*.js"
+      }
+    ],
+    "plugins": [
+      "jsdoc"
+    ]
   },
   "jest": {
-    "preset": "ts-jest",
-    "transform": {
-      "^.+\\.ts?$": "ts-jest"
-    },
     "testEnvironment": "jsdom"
   }
 }
