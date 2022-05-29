@@ -352,14 +352,23 @@ This project was created by [Steffen Müller](https://github.com/steffenmllr) an
 
 ### Getting Started
 
-- Install Node.js (I'd suggest using `nvm`)
-- Install your preferred package manager (doesn't have to be `pnpm`, I'm just using it as an example)
-- Run `pnpm install` to install dependencies
-- Run `pnpm demo` to test your changes at first glance
-- Run `pnpm test` to run tests
-- Don't forget to run `pnpm format` && `pnpm lint` before commiting your changes
+1. Pick and install a Node version manager
+   * Linux/OSX - [nvm](https://github.com/nvm-sh/nvm)
+   * Windows 8+ - [nvm-windows](https://github.com/coreybutler/nvm-windows)
+   * Windows 7 - [nodist](https://github.com/nullivex/nodist)
+   * Win/Lin/OSX - [volta](https://volta.sh)
+1. Use your version manager to install Node 16.10 or above
+1. `corepack enable`
+1. `corepack prepare pnpm@7.1.7 --activate`
+1. `pnpm install`
+   * If you haven't used `pnpm` before, [here is a cheatsheet](https://dev.to/equiman/npm-vs-yarn-vs-pnpm-commands-cheatsheet-3el8)
+1. `pnpm demo` to test your changes at first glance
+1. `pnpm test` to run unit tests
+1. Don't forget to run `pnpm format && pnpm lint` before commiting your changes
+
 
 ### General Guidelines
+
 - Whenever possible, open an issue before submitting a pull request.
 - PRs should have short descriptive titles. For example:
   - fix(docs): fix typo in `options.platform` description
