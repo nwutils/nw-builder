@@ -9,6 +9,8 @@ Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and L
 
 ## Installation
 
+> Tested and run on Node 14, 16 and 18.
+
 Using npm:
 
 ```javascript

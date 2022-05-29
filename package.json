@@ -9,7 +9,7 @@
   ],
   "author": "Steffen Müller <steffen@mllrsohn.com>",
   "license": "MIT",
-  "main": "index.js",
+  "main": "lib/index.js",
   "type": "module",
   "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
@@ -63,7 +63,7 @@
     "yargs": "17.5.1"
   },
   "bin": {
-    "nwbuild": "./bin/nwbuild"
+    "nwbuild": "./bin/nwbuild.cjs"
   },
   "prettier": {
     "printWidth": 80,

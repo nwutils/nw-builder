@@ -1,11 +1,11 @@
 #!/usr/bin/env node
-var NwBuilder = require('./../lib');
-var path = require('path');
-const { detectCurrentPlatform } = require('../dist/index');
+const NwBuilder = require('../lib/index.cjs');
+const path = require('path');
+const { detectCurrentPlatform } = require('../dist/index.cjs');
 
 const currentPlatform = detectCurrentPlatform(process);
 
-var argv = require('yargs')
+const argv = require('yargs')
     .command('$0 <path>')
     .usage('Usage:\n  $0 [options] [path] [-- <args>]')
 
@@ -51,7 +51,7 @@ var argv = require('yargs')
 
     .argv;
 
-var options = {
+const options = {
     appName: argv.name,
     files: path.resolve(process.cwd(), argv.path) + '/**/*',
     flavor: argv.flavor || 'sdk',
@@ -70,7 +70,7 @@ var options = {
 };
 
 // Initialize Builder
-var nw = new NwBuilder(options);
+const nw = new NwBuilder(options);
 
 // Logging
 if(!(argv.quiet || argv.quite)) {
@@ -78,7 +78,7 @@ if(!(argv.quiet || argv.quite)) {
 }
 
 // Build or Run the app
-var np = (argv.r ? nw.run() : nw.build());
+const np = (argv.r ? nw.run() : nw.build());
 np.then(function() {
     process.exit(0);
 }).catch (function(error) {
