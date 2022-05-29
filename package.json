@@ -17,7 +17,7 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
-    "format": "prettier --write ./lib ./src ./test",
+    "format": "prettier --write ./bin ./lib ./src ./test",
     "lint": "eslint ./src",
     "test": "pnpm test:unit && tape test/*.js",
     "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
