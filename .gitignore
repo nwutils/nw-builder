@@ -12,6 +12,6 @@ yarn.lock
 package-lock.json
 
 npm-debug.log
-.pnpm-debug.lo
+.pnpm-debug.log
 yarn-debug.log*
 yarn-error.log

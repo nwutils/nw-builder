@@ -1,4 +1,5 @@
-import { detectCurrentPlatform, Platform } from "../../dist/index.js";
+import { detectCurrentPlatform } from "../../src/utilities";
+import { Platform } from "../../src/schema";
 
 const processEnv = { ...process.env };
 

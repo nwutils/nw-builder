@@ -10,6 +10,7 @@
   "author": "Steffen Müller <steffen@mllrsohn.com>",
   "license": "MIT",
   "main": "index.js",
+  "type": "module",
   "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
     "type": "git",
@@ -19,9 +20,9 @@
     "format": "prettier --write ./src",
     "lint": "eslint --ext .js --env node --env es6 --parser-options=ecmaVersion:2018 ./lib",
     "test": "pnpm test:unit && tape test/*.js",
-    "test:unit": "jest",
+    "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "demo": "cd ./test/demo && pnpm start",
-    "build": "esbuild src/index.js --bundle --minify --platform=node --outdir=./dist"
+    "build": "esbuild src/index.js --bundle --minify --platform=node --outfile=./dist/index.cjs"
   },
   "devDependencies": {
     "decompress-zip": "0.3.3",
@@ -97,7 +98,6 @@
     ]
   },
   "jest": {
-    "testEnvironment": "jsdom",
-    "transform": {}
+    "testEnvironment": "jsdom"
   }
 }
