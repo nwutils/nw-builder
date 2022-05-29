@@ -358,7 +358,7 @@ This project was created by [Steffen Müller](https://github.com/steffenmllr) an
    * Windows 7 - [nodist](https://github.com/nullivex/nodist)
    * Win/Lin/OSX - [volta](https://volta.sh)
 1. Use your version manager to install Node 16.10 or above
-1. `corepack enable`
+1. Run `corepack enable`
 1. `corepack prepare pnpm@7.1.7 --activate`
 1. `pnpm install`
    * If you haven't used `pnpm` before, [here is a cheatsheet](https://dev.to/equiman/npm-vs-yarn-vs-pnpm-commands-cheatsheet-3el8)
