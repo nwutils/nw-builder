@@ -2,7 +2,7 @@ var test = require("tape"),
   nock = require("nock"),
   _ = require("lodash");
 
-var versions = require("../lib/versions");
+var versions = require("../lib/versions.cjs");
 
 var root = "http://nwjs.io";
 var dlUrl = "http://dl.nwjs.io/";
