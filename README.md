@@ -365,14 +365,14 @@ This project was created by [Steffen Müller](https://github.com/steffenmllr) an
    * Windows 8+ - [nvm-windows](https://github.com/coreybutler/nvm-windows)
    * Windows 7 - [nodist](https://github.com/nullivex/nodist)
    * Win/Lin/OSX - [volta](https://volta.sh)
-2. Use your version manager to install Node 14.19, 16.9, 18.2 or above
-3. Run `corepack enable`
-4. `corepack prepare pnpm@7.1.7 --activate`
-5. `pnpm install`
+1. Use your version manager to install Node 14.19, 16.9, 18.2 or above
+1. Run `corepack enable`
+1. `corepack prepare pnpm@7.1.7 --activate`
+1. `pnpm install`
    * If you haven't used `pnpm` before, [here is a cheatsheet](https://dev.to/equiman/npm-vs-yarn-vs-pnpm-commands-cheatsheet-3el8)
-6. `pnpm demo` to test your changes at first glance
-7. `pnpm test` to run unit tests
-8. Don't forget to run `pnpm format && pnpm lint` before commiting your changes
+1. `pnpm demo` to test your changes at first glance
+1. `pnpm test` to run unit tests
+1. Don't forget to run `pnpm format && pnpm lint` before commiting your changes
 
 ### General Guidelines
 
