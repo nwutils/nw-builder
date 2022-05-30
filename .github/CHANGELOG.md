@@ -7,11 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## Added
+
+- Optional zip file merging for Windows and Linux [#567](https://github.com/nwjs-community/nw-builder/pull/567)
+- Add code of conduct [#560](https://github.com/nwjs-community/nw-builder/pull/560)
+
 ## Changed
 
+- Update contributing guide [#569](https://github.com/nwjs-community/nw-builder/pull/569)
+- Switch from TypeScript to JSDocs [#568](https://github.com/nwjs-community/nw-builder/pull/568)
+- Set window icon with `rcedit` [#566](https://github.com/nwjs-community/nw-builder/pull/566)
 - Refactor `checkCache` [#565](https://github.com/nwjs-community/nw-builder/pull/565)
 - Simplify demo
 - Refactor `detectCurrentPlatform` [#564](https://github.com/nwjs-community/nw-builder/pull/564)
+- Update dependencies [#561](https://github.com/nwjs-community/nw-builder/pull/561) [#532](https://github.com/nwjs-community/nw-builder/pull/532)
+## Removed
+
+
 
 ## [3.6.0] - 2022-05-18
 
