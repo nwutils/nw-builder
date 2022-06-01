@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Added
 
+## Changed
+
+- Refactor `platforms` object
+
+## Removed
+
+## [3.7.0] - 2022-05-30
+
+## Added
+
 - Optional zip file merging for Windows and Linux [#567](https://github.com/nwjs-community/nw-builder/pull/567)
 - Add code of conduct [#560](https://github.com/nwjs-community/nw-builder/pull/560)
 

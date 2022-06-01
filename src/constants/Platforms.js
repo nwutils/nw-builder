@@ -1,6 +1,6 @@
-var semver = require("semver");
+import semver from "semver";
 
-module.exports = {
+const Platforms = {
   win32: {
     needsZip: true,
     getRunnable: function () {
@@ -139,3 +139,5 @@ module.exports = {
       "v${ version }/${ name }-v${ version }-linux-x64.tar.gz",
   },
 };
+
+export default Platforms;
