@@ -9,6 +9,14 @@ const nw = new NwBuilder({
 
 nw.on("log", (msg) => console.log("nw-builder", msg));
 
+nw.on("appstart", (msg) => {
+  console.log("nw-builder", msg)
+  process.exit(0);
+})
+
 nw.run()
-  .then(() => process.exit(0))
-  .catch((error) => console.log(error));
+  .then(() => console.log("nw-builder Closing app via user action"))
+  .catch((error) => {
+    console.err(error)
+    process.exit(1);
+  });
