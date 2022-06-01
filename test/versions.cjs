@@ -11,10 +11,10 @@ var expectedLegacyVersions = ["0.10.2", "0.10.0-rc1", "0.9.3"];
 test("getLatestVersion", async function (t) {
   await t.plan(3);
 
-  await nock(root)
+  nock(root)
     .get("/versions.json")
     .replyWithFile(200, "./test/fixtures/manifest/versions.json");
-  await nock(root)
+  nock(root)
     .get("/versions.json")
     .replyWithFile(200, "./test/fixtures/manifest/versions.json");
 
