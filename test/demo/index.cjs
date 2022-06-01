@@ -5,6 +5,8 @@ const nw = new NwBuilder({
   files: "./**",
   macIcns: "./icon.icns",
   macPlist: { mac_bundle_id: "myPkg" },
+  winIco: "./icon.ico",
+  useRcedit: true,
 });
 
 nw.on("log", (msg) => console.log("nw-builder", msg));
