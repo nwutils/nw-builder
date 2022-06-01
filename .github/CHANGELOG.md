@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## Added
+
+## Changed
+
+- Refactor `platforms` object
+
+## Removed
+
 ## [3.7.0] - 2022-05-30
 
 ## Added
