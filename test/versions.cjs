@@ -8,17 +8,17 @@ var root = "http://nwjs.io";
 var dlUrl = "http://dl.nwjs.io/";
 var expectedLegacyVersions = ["0.10.2", "0.10.0-rc1", "0.9.3"];
 
-test("getLatestVersion", function (t) {
-  t.plan(3);
+test("getLatestVersion", async function (t) {
+  await t.plan(3);
 
-  nock(root)
+  await nock(root)
     .get("/versions.json")
     .replyWithFile(200, "./test/fixtures/manifest/versions.json");
-  nock(root)
+  await nock(root)
     .get("/versions.json")
     .replyWithFile(200, "./test/fixtures/manifest/versions.json");
 
-  versions
+  await versions
     .getLatestVersion("http://dl.nwjs.io/", root + "/versions.json")
     .then(function (result) {
       t.equal(result.version, "0.15.2");
@@ -42,14 +42,14 @@ test("getLatestVersion", function (t) {
     });
 });
 
-test("getVersions", function (t) {
-  t.plan(6);
+test("getVersions", async function (t) {
+  await t.plan(6);
 
-  nock(root)
+  await nock(root)
     .get("/versions.json")
     .replyWithFile(200, "./test/fixtures/manifest/versions.json");
-  nock(dlUrl).get("/").replyWithFile(200, "./test/fixtures/testVersions.html");
-  expectedLegacyVersions.forEach(function (expectedVersion) {
+  await nock(dlUrl).get("/").replyWithFile(200, "./test/fixtures/testVersions.html");
+  await expectedLegacyVersions.forEach(function (expectedVersion) {
     nock(dlUrl)
       .head(
         "/v" +
@@ -61,7 +61,7 @@ test("getVersions", function (t) {
       .replyWithFile(200, "./test/fixtures/testVersions.html"); // needs to reply with *any* content
   });
 
-  versions
+  await versions
     .getVersions(dlUrl, root + "/versions.json")
     .then(function (result) {
       var expectedVersions = [
@@ -217,16 +217,16 @@ test("getVersions", function (t) {
     });
 });
 
-test("getVersions (custom download URL)", function (t) {
-  t.plan(6);
+test("getVersions (custom download URL)", async function (t) {
+  await t.plan(6);
 
-  nock(root)
+  await nock(root)
     .get("/versions.json")
     .replyWithFile(200, "./test/fixtures/manifest/versions.json");
-  nock("http://abc.xyz/")
+  await nock("http://abc.xyz/")
     .get("/")
     .replyWithFile(200, "./test/fixtures/testVersions.html");
-  expectedLegacyVersions.forEach(function (expectedVersion) {
+  await expectedLegacyVersions.forEach(function (expectedVersion) {
     nock("http://abc.xyz/")
       .head(
         "/v" +
@@ -238,7 +238,7 @@ test("getVersions (custom download URL)", function (t) {
       .replyWithFile(200, "./test/fixtures/testVersions.html"); // needs to reply with *any* content
   });
 
-  versions
+  await versions
     .getVersions("http://abc.xyz/", root + "/versions.json")
     .then(function (result) {
       var expectedVersions = [
@@ -379,13 +379,13 @@ test("getVersions (custom download URL)", function (t) {
     });
 });
 
-test("getVersion", function (t) {
-  t.plan(3);
+test("getVersion", async function (t) {
+  await t.plan(3);
 
-  nock(root)
+  await nock(root)
     .get("/versions.json")
     .replyWithFile(200, "./test/fixtures/manifest/versions.json");
-  versions
+  await versions
     .getVersion({
       desiredVersion: "0.13.2",
       downloadUrl: "http://dl.nwjs.io/",
@@ -411,13 +411,13 @@ test("getVersion", function (t) {
     });
 });
 
-test("getVersion should fail for non-existent version", function (t) {
-  t.plan(1);
+test("getVersion should fail for non-existent version", async function (t) {
+  await t.plan(1);
 
-  nock(root)
+  await nock(root)
     .get("/versions.json")
     .replyWithFile(200, "./test/fixtures/manifest/versions.json");
-  versions
+  await versions
     .getVersion({
       desiredVersion: "0.13.3",
       downloadUrl: "http://dl.nwjs.io/",
@@ -431,15 +431,15 @@ test("getVersion should fail for non-existent version", function (t) {
     });
 });
 
-test("getVersion (legacy)", function (t) {
-  t.plan(3);
+test("getVersion (legacy)", async function (t) {
+  await t.plan(3);
 
-  nock(dlUrl).get("/").replyWithFile(200, "./test/fixtures/testVersions.html");
-  nock(dlUrl)
+  await nock(dlUrl).get("/").replyWithFile(200, "./test/fixtures/testVersions.html");
+  await nock(dlUrl)
     .head("/v0.10.2/node-webkit-v0.10.2-win-ia32.zip")
     .replyWithFile(200, "./test/fixtures/testVersions.html"); // needs to reply with *any* content
 
-  versions
+  await versions
     .getVersion({
       desiredVersion: "0.10.2",
       downloadUrl: "http://dl.nwjs.io/",
@@ -468,11 +468,11 @@ test("getVersion (legacy)", function (t) {
     });
 });
 
-test("getVersion (legacy) should fail for non-existent version", function (t) {
-  t.plan(1);
+test("getVersion (legacy) should fail for non-existent version", async function (t) {
+  await t.plan(1);
 
-  nock(dlUrl).get("/").replyWithFile(200, "./test/fixtures/testVersions.html");
-  versions
+  await nock(dlUrl).get("/").replyWithFile(200, "./test/fixtures/testVersions.html");
+  await versions
     .getVersion({
       desiredVersion: "0.10.1",
       downloadUrl: "http://dl.nwjs.io/",
