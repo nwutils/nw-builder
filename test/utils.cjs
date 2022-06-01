@@ -289,8 +289,8 @@ testSetup({
   },
 );
 
-test("mergeFiles", function (t) {
-  t.plan(isWindows ? 1 : 2);
+test("mergeFiles", async function (t) {
+  await t.plan(isWindows ? 1 : 2);
 
   var releasefile = temp.openSync();
   fs.writeFileSync(releasefile.path, "A");
@@ -298,7 +298,7 @@ test("mergeFiles", function (t) {
   var zipFile = temp.openSync();
   fs.writeFileSync(zipFile.path, "B");
 
-  utils.mergeFiles(releasefile.path, zipFile.path, "0755").then(function () {
+  await utils.mergeFiles(releasefile.path, zipFile.path, "0755").then(function () {
     var contents = fs.readFileSync(releasefile.path);
     var stats = fs.lstatSync(releasefile.path);
     t.equal(contents.toString(), "AB", "merge two files");
