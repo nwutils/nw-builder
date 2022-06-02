@@ -62,12 +62,15 @@ const options = {
   platforms: argv.platforms ? argv.platforms.split(",") : [currentPlatform],
   currentPlatform: currentPlatform,
   version: argv.version,
+  macCredits: argv.macCredits || false,
+  macPlist: argv.macPlist || false,
   macIcns: argv.macIcns || false,
   winIco: argv.winIco || false,
   cacheDir: argv.cacheDir
     ? path.resolve(process.cwd(), argv.cacheDir)
     : path.resolve(__dirname, "..", "cache"),
   buildDir: path.resolve(process.cwd(), argv.buildDir),
+  buildType: argv.buildType || 'default',
   forceDownload: argv.forceDownload,
   // get all argv arguments after --
   argv: process.argv.slice(
@@ -75,6 +78,8 @@ const options = {
       return el === "--";
     }) + 1,
   ),
+  zip: argv.zip || null,
+  zipOptions: argv.zipOptions || null
 };
 
 // Initialize Builder

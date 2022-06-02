@@ -1,6 +1,5 @@
 var test = require("tape"),
-  nock = require("nock"),
-  _ = require("lodash");
+  nock = require("nock");
 
 var versions = require("../lib/versions.cjs");
 
