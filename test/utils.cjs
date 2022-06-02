@@ -32,7 +32,7 @@ test("getPackageInfo invalid", function (t) {
 
 test("getPackageInfo valid", function (t) {
   t.plan(2);
-  var pkg = utils
+  utils
     .getPackageInfo("./test/fixtures/nwapp/package.json")
     .then(function (pkg) {
       t.equal(pkg.name, "nw-demo", "get package name");
@@ -154,7 +154,7 @@ test("getFileList", function (t) {
     });
 
   utils.getFileList("./test/fixtures/nwapp/images/**").then(
-    function (data) {},
+    function () {},
     function (error) {
       t.equal(
         error,
@@ -165,7 +165,7 @@ test("getFileList", function (t) {
   );
 
   utils.getFileList("./test/fixtures/nwapp/images/*.js").then(
-    function (data) {},
+    function () {},
     function (error) {
       t.equal(error, "No files matching");
     },
@@ -272,7 +272,7 @@ testSetup({
       var unzipper = new DecompressZip(nwfile),
         unzipDestination = "test/temp/platform-specific-unzipped";
 
-      unzipper.on("extract", function (log) {
+      unzipper.on("extract", function () {
         t.equal(
           fs
             .readFileSync(path.join(unzipDestination, "package.json"))

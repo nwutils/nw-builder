@@ -34,7 +34,7 @@ test("Should check if we have some files", function (t) {
     files: "./test/fixtures/nwapp/**/*",
   });
 
-  x.checkFiles().then(function (data) {
+  x.checkFiles().then(function () {
     t.deepEqual(x._appPkg, {
       name: "nw-demo",
       version: "0.1.0",
@@ -52,7 +52,7 @@ test("Should take the option name if provided", function (t) {
     appName: "somename",
   });
 
-  x.checkFiles().then(function (data) {
+  x.checkFiles().then(function () {
     t.equal(x.options.appName, "somename");
   });
 });
@@ -253,7 +253,7 @@ test("Should find latest version", function (t) {
     version: "latest",
   });
 
-  x.resolveLatestVersion().then(function (data) {
+  x.resolveLatestVersion().then(function () {
     t.ok(semver.valid(x.options.version), "Version: " + x.options.version);
   });
 
