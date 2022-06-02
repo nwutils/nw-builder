@@ -7,13 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## Added
+## [3.7.1] - 2022-06-02
 
 ## Changed
 
-- Refactor `platforms` object
-
-## Removed
+- Add `EditorConfig` [#574](https://github.com/nwjs-community/nw-builder/pull/574)
+- Fix build step for Windows x64 platform [#572](https://github.com/nwjs-community/nw-builder/pull/572)
+- Refactor `platforms` object [#571](https://github.com/nwjs-community/nw-builder/pull/571)
 
 ## [3.7.0] - 2022-05-30
 
@@ -31,9 +31,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Simplify demo
 - Refactor `detectCurrentPlatform` [#564](https://github.com/nwjs-community/nw-builder/pull/564)
 - Update dependencies [#561](https://github.com/nwjs-community/nw-builder/pull/561) [#532](https://github.com/nwjs-community/nw-builder/pull/532)
+
 ## Removed
-
-
 
 ## [3.6.0] - 2022-05-18
 
