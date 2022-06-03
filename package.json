@@ -9,7 +9,7 @@
   ],
   "author": "Steffen Müller <steffen@mllrsohn.com>",
   "license": "MIT",
-  "main": "lib/index.js",
+  "main": "lib/index.cjs",
   "type": "module",
   "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
