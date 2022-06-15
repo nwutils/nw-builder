@@ -1,3 +1,8 @@
+/**
+ * @file    [Description of file purpose]
+ * @author  [GitHub UserName]
+ */
+
 import semver from "semver";
 
 const Platforms = {

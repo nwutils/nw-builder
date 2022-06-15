@@ -1,4 +1,9 @@
 /**
+ * @file    [Description of file purpose]
+ * @author  [GitHub UserName]
+ */
+
+/**
  * @readonly
  * @enum {string}
  */

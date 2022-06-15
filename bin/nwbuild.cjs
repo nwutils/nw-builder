@@ -1,4 +1,10 @@
 #!/usr/bin/env node
+
+/**
+ * @file    [Description of file purpose]
+ * @author  [GitHub UserName]
+ */
+
 const NwBuilder = require("../lib/index.cjs");
 const path = require("path");
 const { detectCurrentPlatform } = require("../dist/index.cjs");

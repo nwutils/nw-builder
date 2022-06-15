@@ -1,3 +1,8 @@
+/**
+ * @file    [Description of file purpose]
+ * @author  [GitHub UserName]
+ */
+
 var test = require("tape"),
   nock = require("nock"),
   temp = require("temp"),

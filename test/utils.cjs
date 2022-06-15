@@ -1,3 +1,8 @@
+/**
+ * @file    [Description of file purpose]
+ * @author  [GitHub UserName]
+ */
+
 var test = require("tape");
 var testSetup = require("redtape");
 var temp = require("temp");
@@ -12,6 +17,11 @@ var thenify = require("thenify");
 var isWindows = process.platform === "win32";
 var tempFile = thenify(temp.open);
 
+/**
+ * [tempFileCleanup description]
+ *
+ * @return {[type]} [description]
+ */
 var tempFileCleanup = function () {
   return new Promise(function (resolve, reject) {
     temp.cleanup(function (err, result) {

@@ -1,8 +1,15 @@
-import { Platform } from "../constants";
 /**
+ * @file    [Description of file purpose]
+ * @author  [GitHub UserName]
+ */
+
+import { Platform } from "../constants";
+
+/**
+ * [description]
  *
- * @param {NodeJS.Process} process
- * @returns {Platform | undefined}
+ * @param  {NodeJS.Process} process  [description]
+ * @return {Platform | undefined}    [description]
  */
 const detectCurrentPlatform = (process) => {
   switch (process.platform) {

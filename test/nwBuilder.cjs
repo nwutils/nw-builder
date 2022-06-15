@@ -1,3 +1,8 @@
+/**
+ * @file    [Description of file purpose]
+ * @author  [GitHub UserName]
+ */
+
 var test = require("tape");
 var testSetup = require("redtape");
 var NwBuilder = require("../lib/index.cjs");

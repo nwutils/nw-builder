@@ -1,11 +1,17 @@
+/**
+ * @file    [Description of file purpose]
+ * @author  [GitHub UserName]
+ */
+
 import fs from "fs";
 import path from "path";
 
 /**
+ * [description]
  *
- * @param {string} filePath
- * @param {string[]} files
- * @returns {boolean}
+ * @param  {string}   filePath [description]
+ * @param  {string[]} files    [description]
+ * @return {boolean}           [description]
  */
 const checkCache = (filePath, files) => {
   let missing = false;
