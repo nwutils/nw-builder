@@ -7,6 +7,7 @@ specifiers:
   eol: 0.9.1
   esbuild: 0.14.42
   eslint: 8.16.0
+  eslint-config-tjw-jsdoc: ^1.0.2
   eslint-plugin-jsdoc: ^39.3.2
   extract-zip: 2.0.1
   graceful-fs-extra: 2.0.0
@@ -64,6 +65,7 @@ devDependencies:
   eol: 0.9.1
   esbuild: 0.14.42
   eslint: 8.16.0
+  eslint-config-tjw-jsdoc: 1.0.2_eslint@8.16.0
   eslint-plugin-jsdoc: 39.3.2_eslint@8.16.0
   jest: 28.1.0
   jest-environment-jsdom: 28.1.0
@@ -1924,6 +1926,15 @@ packages:
       optionator: 0.8.3
     optionalDependencies:
       source-map: 0.6.1
+    dev: true
+
+  /eslint-config-tjw-jsdoc/1.0.2_eslint@8.16.0:
+    resolution: {integrity: sha512-e2chp8K68lvltyQDlN5g9D7BB2DMjoJ6dNDUK6dnzcjUkczV4znrzM/Oq0ynv680GmRY1ruwBfPgIsaDiA2Jtw==}
+    dependencies:
+      eslint-plugin-jsdoc: 39.3.2_eslint@8.16.0
+    transitivePeerDependencies:
+      - eslint
+      - supports-color
     dev: true
 
   /eslint-plugin-jsdoc/39.3.2_eslint@8.16.0:
@@ -4119,7 +4130,7 @@ packages:
     dev: true
 
   /rimraf/2.2.8:
-    resolution: {integrity: sha1-5Dm+Kq7jJzIZUnMPmaiSnk/FBYI=}
+    resolution: {integrity: sha512-R5KMKHnPAQaZMqLOsyuyUmcIjSeDm+73eoqQpaXA7AZ22BL+6C+1mcUscgOsNd8WVlJuvlgAPsegcx7pjlV0Dg==}
     hasBin: true
     dev: false
 

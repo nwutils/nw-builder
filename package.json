@@ -29,6 +29,7 @@
     "eol": "0.9.1",
     "esbuild": "0.14.42",
     "eslint": "8.16.0",
+    "eslint-config-tjw-jsdoc": "^1.0.2",
     "eslint-plugin-jsdoc": "^39.3.2",
     "jest": "28.1.0",
     "jest-environment-jsdom": "28.1.0",
@@ -82,7 +83,6 @@
     "singleAttributePerLine": true
   },
   "eslintConfig": {
-    "extends": "eslint:recommended",
     "parserOptions": {
       "ecmaVersion": 2021,
       "sourceType": "module"
@@ -91,6 +91,10 @@
       "es6": true,
       "node": true
     },
+    "extends": [
+      "eslint:recommended",
+      "tjw-jsdoc"
+    ],
     "overrides": [
       {
         "files": "./src/**/*.js"
