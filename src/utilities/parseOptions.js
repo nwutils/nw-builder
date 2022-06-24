@@ -6,7 +6,9 @@
  */
  const parseOptions = (options, defaultOptions) => {
     for (const key of Object.keys(options)) {
-      defaultOptions[key] = options[key];
+      if (defaultOptions.hasOwnProperty(key)) {
+        defaultOptions[key] = options[key];
+      }
     }
     return defaultOptions;
   };
