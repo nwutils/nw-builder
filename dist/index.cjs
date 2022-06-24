@@ -114,11 +114,11 @@ var require_re = __commonJS({
 var require_parse_options = __commonJS({
   "node_modules/semver/internal/parse-options.js"(exports, module2) {
     var opts = ["includePrerelease", "loose", "rtl"];
-    var parseOptions = (options) => !options ? {} : typeof options !== "object" ? { loose: true } : opts.filter((k) => options[k]).reduce((o, k) => {
+    var parseOptions2 = (options) => !options ? {} : typeof options !== "object" ? { loose: true } : opts.filter((k) => options[k]).reduce((o, k) => {
       o[k] = true;
       return o;
     }, {});
-    module2.exports = parseOptions;
+    module2.exports = parseOptions2;
   }
 });
 
@@ -149,11 +149,11 @@ var require_semver = __commonJS({
     var debug = require_debug();
     var { MAX_LENGTH, MAX_SAFE_INTEGER } = require_constants();
     var { re, t } = require_re();
-    var parseOptions = require_parse_options();
+    var parseOptions2 = require_parse_options();
     var { compareIdentifiers } = require_identifiers();
     var SemVer = class {
       constructor(version, options) {
-        options = parseOptions(options);
+        options = parseOptions2(options);
         if (version instanceof SemVer) {
           if (version.loose === !!options.loose && version.includePrerelease === !!options.includePrerelease) {
             return version;
@@ -373,9 +373,9 @@ var require_parse = __commonJS({
     var { MAX_LENGTH } = require_constants();
     var { re, t } = require_re();
     var SemVer = require_semver();
-    var parseOptions = require_parse_options();
+    var parseOptions2 = require_parse_options();
     var parse = (version, options) => {
-      options = parseOptions(options);
+      options = parseOptions2(options);
       if (version instanceof SemVer) {
         return version;
       }
@@ -1365,7 +1365,7 @@ var require_range = __commonJS({
   "node_modules/semver/classes/range.js"(exports, module2) {
     var Range = class {
       constructor(range, options) {
-        options = parseOptions(options);
+        options = parseOptions2(options);
         if (range instanceof Range) {
           if (range.loose === !!options.loose && range.includePrerelease === !!options.includePrerelease) {
             return range;
@@ -1488,7 +1488,7 @@ var require_range = __commonJS({
     module2.exports = Range;
     var LRU = require_lru_cache();
     var cache = new LRU({ max: 1e3 });
-    var parseOptions = require_parse_options();
+    var parseOptions2 = require_parse_options();
     var Comparator = require_comparator();
     var debug = require_debug();
     var SemVer = require_semver();
@@ -1728,7 +1728,7 @@ var require_comparator = __commonJS({
         return ANY;
       }
       constructor(comp, options) {
-        options = parseOptions(options);
+        options = parseOptions2(options);
         if (comp instanceof Comparator) {
           if (comp.loose === !!options.loose) {
             return comp;
@@ -1811,7 +1811,7 @@ var require_comparator = __commonJS({
       }
     };
     module2.exports = Comparator;
-    var parseOptions = require_parse_options();
+    var parseOptions2 = require_parse_options();
     var { re, t } = require_re();
     var cmp = require_cmp();
     var debug = require_debug();
@@ -2336,12 +2336,44 @@ var require_semver2 = __commonJS({
 // src/index.js
 var src_exports = {};
 __export(src_exports, {
+  Options: () => Options_default,
   Platform: () => Platform_default,
   Platforms: () => Platforms_default,
   checkCache: () => checkCache_default,
-  detectCurrentPlatform: () => detectCurrentPlatform_default
+  detectCurrentPlatform: () => detectCurrentPlatform_default,
+  parseOptions: () => parseOptions_default
 });
 module.exports = __toCommonJS(src_exports);
+
+// src/constants/Options.js
+var Options = {
+  mode: "run",
+  files: null,
+  version: "latest",
+  flavor: "sdk",
+  cacheDir: "./cache",
+  platforms: [],
+  currentPlatform: null,
+  downloadUrl: "https://dl.nwjs.io/",
+  manifestUrl: "https://nwjs.io/versions.json",
+  appName: false,
+  appVersion: false,
+  buildDir: "./build",
+  buildType: "default",
+  forceDownload: false,
+  macCredits: false,
+  macIcns: false,
+  macZip: null,
+  macPlist: false,
+  winVersionString: {},
+  winIco: null,
+  useRcedit: false,
+  argv: [],
+  zip: null,
+  zipOptions: null,
+  mergeZip: true
+};
+var Options_default = Options;
 
 // src/constants/Platform.js
 var Platform = {
@@ -2526,10 +2558,23 @@ var detectCurrentPlatform = (process2) => {
   }
 };
 var detectCurrentPlatform_default = detectCurrentPlatform;
+
+// src/utilities/parseOptions.js
+var parseOptions = (options, defaultOptions) => {
+  for (const key of Object.keys(options)) {
+    if (defaultOptions.hasOwnProperty(key)) {
+      defaultOptions[key] = options[key];
+    }
+  }
+  return defaultOptions;
+};
+var parseOptions_default = parseOptions;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  Options,
   Platform,
   Platforms,
   checkCache,
-  detectCurrentPlatform
+  detectCurrentPlatform,
+  parseOptions
 });
