@@ -1,8 +1,6 @@
 # nw-builder
 
 [![npm](https://img.shields.io/npm/v/nw-builder.svg?style=flat)](https://www.npmjs.com/package/nw-builder)
-[![ci](https://github.com/nwjs-community/nw-builder/actions/workflows/ci.yml/badge.svg)](https://github.com/nwjs-community/nw-builder/actions/workflows/ci.yml)
-[![cd](https://github.com/nwjs-community/nw-builder/actions/workflows/cd.yml/badge.svg)](https://github.com/nwjs-community/nw-builder/actions/workflows/cd.yml)
 [![Join the chat at https://gitter.im/nwjs/nw-builder](https://badges.gitter.im/nwjs/nw-builder.svg)](https://gitter.im/nwjs/nw-builder?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and Linux.
@@ -101,6 +99,12 @@ nw.run()
 ## API Reference
 
 > Stay up to date via the [Changelog](https://github.com/nwjs-community/nw-builder/blob/master/.github/CHANGELOG.md).
+
+### Run API
+
+| Name   | Type   | Default | Description            |
+| ------ | ------ | ------- | ---------------------- |
+| srcDir | string |         | Path to your NW.js app |
 
 ### Options
 
@@ -361,15 +365,15 @@ This project was created by [Steffen Müller](https://github.com/steffenmllr) an
 ### Getting Started
 
 1. Pick and install a Node version manager
-   * Linux/OSX - [nvm](https://github.com/nvm-sh/nvm)
-   * Windows 8+ - [nvm-windows](https://github.com/coreybutler/nvm-windows)
-   * Windows 7 - [nodist](https://github.com/nullivex/nodist)
-   * Win/Lin/OSX - [volta](https://volta.sh)
+   - Linux/OSX - [nvm](https://github.com/nvm-sh/nvm)
+   - Windows 8+ - [nvm-windows](https://github.com/coreybutler/nvm-windows)
+   - Windows 7 - [nodist](https://github.com/nullivex/nodist)
+   - Win/Lin/OSX - [volta](https://volta.sh)
 1. Use your version manager to install Node 14.19, 16.9, 18.2 or above
 1. Run `corepack enable`
 1. `corepack prepare pnpm@7.1.7 --activate`
 1. `pnpm install`
-   * If you haven't used `pnpm` before, [here is a cheatsheet](https://dev.to/equiman/npm-vs-yarn-vs-pnpm-commands-cheatsheet-3el8)
+   - If you haven't used `pnpm` before, [here is a cheatsheet](https://dev.to/equiman/npm-vs-yarn-vs-pnpm-commands-cheatsheet-3el8)
 1. `pnpm demo` to test your changes at first glance
 1. `pnpm test` to run unit tests
 1. Don't forget to run `pnpm format && pnpm lint` before commiting your changes
