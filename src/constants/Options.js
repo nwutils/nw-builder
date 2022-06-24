@@ -1,16 +1,15 @@
 const Options = {
   // Run API
   files: null,
-  cacheDir: "./cache",
-  platforms: [detectCurrentPlatform(process)],
-  currentPlatform: detectCurrentPlatform(process),
+  version: "latest",
   flavor: "sdk",
+  cacheDir: "./cache",
+  platforms: [],
   downloadUrl: "https://dl.nwjs.io/",
   manifestUrl: "https://nwjs.io/versions.json",
   // Build API
   appName: false,
   appVersion: false,
-  version: "latest",
   buildDir: "./build",
   buildType: "default",
   forceDownload: false,
