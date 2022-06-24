@@ -1,4 +1,5 @@
 const Options = {
+  mode: "run",
   // Run API
   files: null,
   version: "latest",
