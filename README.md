@@ -102,9 +102,9 @@ nw.run()
 
 ### Run API
 
-| Name   | Type   | Default | Description            |
-| ------ | ------ | ------- | ---------------------- |
-| srcDir | string |         | Path to your NW.js app |
+| Name    | Type   | Default | Platform | Description            |
+| ------- | ------ | ------- | -------- | ---------------------- |
+| files\* | string | null    |          | Path to your NW.js app |
 
 ### Options
 
