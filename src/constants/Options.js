@@ -6,6 +6,7 @@ const Options = {
   flavor: "sdk",
   cacheDir: "./cache",
   platforms: [],
+  currentPlatform: null,
   downloadUrl: "https://dl.nwjs.io/",
   manifestUrl: "https://nwjs.io/versions.json",
   // Build API
