@@ -22,7 +22,7 @@
     "test": "pnpm test:unit && tape './test/*.cjs'",
     "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "demo": "cd ./test/demo && pnpm start",
-    "build": "esbuild src/index.js --bundle --minify --platform=node --outfile=./dist/index.cjs"
+    "build": "esbuild src/index.js --bundle --platform=node --outfile=./dist/index.cjs"
   },
   "devDependencies": {
     "decompress-zip": "0.3.3",
