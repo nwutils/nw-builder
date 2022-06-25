@@ -133,16 +133,21 @@ const cli = yargs(hideBin(process.argv))
   .parse();
 
 const nwbuild = new NwBuilder({
-  ...cli, currentPlatform: detectCurrentPlatform(process),
+  ...cli,
+  currentPlatform: detectCurrentPlatform(process),
   files: cli._.length !== 0 ? cli._[0] : null,
 });
 
+nwbuild.on("log", (msg) => console.log("nw-builder", msg));
+
 if (cli.mode === "run") {
-  nwbuild.run()
-  .then()
-  .catch();
+  nwbuild
+    .run()
+    .then(() => process.exit(0))
+    .catch((error) => console.log(error));
 } else {
-  nwbuild.build()
-  .then()
-  .catch();
+  nwbuild
+    .run()
+    .then(() => process.exit(0))
+    .catch((error) => console.log(error));
 }
