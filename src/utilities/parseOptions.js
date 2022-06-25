@@ -4,13 +4,13 @@
  * @param {object} defaultOptions
  * @returns {object}
  */
- const parseOptions = (options, defaultOptions) => {
-    for (const key of Object.keys(options)) {
-      if (defaultOptions.hasOwnProperty(key)) {
-        defaultOptions[key] = options[key];
-      }
+const parseOptions = (options, defaultOptions) => {
+  for (const key of Object.keys(options)) {
+    if (defaultOptions.hasOwnProperty(key)) {
+      defaultOptions[key] = options[key];
     }
-    return defaultOptions;
-  };
+  }
+  return defaultOptions;
+};
 
-  export default parseOptions;
+export default parseOptions;
