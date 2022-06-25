@@ -2345,6 +2345,21 @@ __export(src_exports, {
 });
 module.exports = __toCommonJS(src_exports);
 
+// src/utilities/detectCurrentPlatform.js
+var detectCurrentPlatform = (process2) => {
+  switch (process2.platform) {
+    case "darwin":
+      return process2.arch === "x64" ? Platform_default.OSX_64 : Platform_default.OSX_32;
+    case "win32":
+      return process2.arch === "x64" || process2.env.PROCESSOR_ARCHITEW6432 ? Platform_default.WIN_64 : Platform_default.WIN_32;
+    case "linux":
+      return process2.arch === "x64" ? Platform_default.NIX_64 : Platform_default.NIX_32;
+    default:
+      return void 0;
+  }
+};
+var detectCurrentPlatform_default = detectCurrentPlatform;
+
 // src/constants/Options.js
 var Options = {
   mode: "run",
@@ -2543,21 +2558,6 @@ var checkCache = (filePath, files) => {
   return !missing;
 };
 var checkCache_default = checkCache;
-
-// src/utilities/detectCurrentPlatform.js
-var detectCurrentPlatform = (process2) => {
-  switch (process2.platform) {
-    case "darwin":
-      return process2.arch === "x64" ? Platform_default.OSX_64 : Platform_default.OSX_32;
-    case "win32":
-      return process2.arch === "x64" || process2.env.PROCESSOR_ARCHITEW6432 ? Platform_default.WIN_64 : Platform_default.WIN_32;
-    case "linux":
-      return process2.arch === "x64" ? Platform_default.NIX_64 : Platform_default.NIX_32;
-    default:
-      return void 0;
-  }
-};
-var detectCurrentPlatform_default = detectCurrentPlatform;
 
 // src/utilities/parseOptions.js
 var parseOptions = (options, defaultOptions) => {
