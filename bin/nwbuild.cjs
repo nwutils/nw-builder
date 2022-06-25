@@ -147,7 +147,7 @@ if (cli.mode === "run") {
     .catch((error) => console.log(error));
 } else {
   nwbuild
-    .run()
+    .build()
     .then(() => process.exit(0))
     .catch((error) => console.log(error));
 }
