@@ -12,14 +12,14 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        node: [14, 16, 18]
+        node-version: [14, 16, 18]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: volta-cli/action@v1
         with:
-          node-version: ${{ matrix.node }}
-
+          node-version: ${{ matrix.node-version }}
+          npm-version: '8.5.0'
       - run: npm ci
       - run: npm run format
       - run: npm run lint
