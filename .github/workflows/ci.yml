@@ -20,6 +20,11 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
+      # Node 14 comes with npm 6 which uses lock v1
+      # npm 8.5.0 supports lock v2
+      - if: ${{ matrix.node-version == '14' }}
+        run: npm install -g npm@8.5.0
+
       - run: npm ci
       - run: npm run format
       - run: npm run lint
