@@ -19,6 +19,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
+      - uses: c-hive/gha-npm-cache@v1
 
       # Node 14 comes with npm 6 which uses lock v1
       # npm 8.5.0 supports lock v2
