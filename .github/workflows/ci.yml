@@ -12,20 +12,14 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        node: [14, 16, 18]
+        node-version: [14, 16, 18]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: volta-cli/action@v1
         with:
-          node-version: ${{ matrix.node }}
-      - uses: c-hive/gha-npm-cache@v1
-
-      # Node 14 comes with npm 6 which uses lock v1
-      # npm 8.5.0 supports lock v2
-      - if: ${{ matrix.node == '14' }}
-        run: npm install -g npm@8.5.0
-
+          node-version: ${{ matrix.node-version }}
+          npm-version: '8.5.0'
       - run: npm ci
       - run: npm run format
       - run: npm run lint
