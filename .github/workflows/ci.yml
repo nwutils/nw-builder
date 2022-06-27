@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - run: npm run install
+      - run: npm ci
       - run: npm run format
       - run: npm run lint
       - run: npm run test
