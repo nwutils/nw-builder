@@ -59,7 +59,8 @@
     "thenify": "3.3.1",
     "update-notifier": "5.1.0",
     "winresourcer": "0.9.0",
-    "yargs": "17.5.1"
+    "yargs": "17.5.1",
+    "yup": "^0.32.11"
   },
   "bin": {
     "nwbuild": "./bin/nwbuild.cjs"
