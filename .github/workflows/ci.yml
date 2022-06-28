@@ -12,20 +12,15 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        node: [14, 16, 18]
+        node-version: [14, 16, 18]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2.2.1
+      - uses: volta-cli/action@v1
         with:
-          version: 7.1.0
-          run_install: true
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node }}
-
-      - run: pnpm install
-      - run: pnpm format
-      - run: pnpm lint
-      - run: pnpm test
+          node-version: ${{ matrix.node-version }}
+          npm-version: '8.5.0'
+      - run: npm ci
+      - run: npm run format
+      - run: npm run lint
+      - run: npm run test
