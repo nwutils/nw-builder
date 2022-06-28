@@ -73,7 +73,7 @@ test("Should apply platform-specific overrides correctly", function (t) {
   t.plan(6);
 
   var x = new NwBuilder({
-    files: "./test/fixtures/platformOverrides/**/*",
+    files: "./test/fixtures/platformOverrides",
     platforms: ["osx32", "osx64", "win32", "win64", "linux32", "linux64"],
   });
 
@@ -154,7 +154,7 @@ test("Should create a ZIP per platform if every platform has overrides", functio
   t.plan(15);
 
   var x = new NwBuilder({
-    files: "./test/fixtures/platformOverrides/**/*",
+    files: "./test/fixtures/platformOverrides",
     platforms: ["osx32", "osx64", "win32", "win64", "linux32", "linux64"],
     zip: true,
   });
@@ -198,7 +198,7 @@ test("Should create a ZIP per platform which has overrides and one between the r
   t.plan(15);
 
   var x = new NwBuilder({
-    files: "./test/fixtures/oneOveriddenRestNot/**/*",
+    files: "./test/fixtures/oneOveriddenRestNot",
     platforms: ["osx32", "osx64", "win32", "win64", "linux32", "linux64"],
     zip: true,
   });
@@ -249,7 +249,7 @@ test("Should find latest version", function (t) {
     .replyWithFile(200, "./test/fixtures/manifest/versions.json");
 
   var x = new NwBuilder({
-    files: "**",
+    files: "/",
     version: "latest",
   });
 
@@ -299,7 +299,7 @@ testSetup({
     var appName = "theapp",
       buildDir = "./test/temp/oneOverridenRestNot",
       x = new NwBuilder({
-        files: "./test/fixtures/oneOveriddenRestNot/**/*",
+        files: "./test/fixtures/oneOveriddenRestNot",
         platforms: ["osx32"],
         appName: appName,
         buildDir: buildDir,
