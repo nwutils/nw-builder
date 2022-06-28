@@ -173,7 +173,7 @@ test("getFileList", function (t) {
 
   utils
     .getFileList([
-      "./test/fixtures/nwapp/**/*",
+      "./test/fixtures/nwapp",
       "!./test/fixtures/nwapp/node_modules/**/*",
       "!./test/fixtures/nwapp/javascript/**/*",
       "!./test/fixtures/nwapp/README.md",

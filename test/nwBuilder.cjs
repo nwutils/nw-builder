@@ -31,7 +31,7 @@ test("Should check if we have some files", function (t) {
   t.plan(2);
 
   var x = new NwBuilder({
-    files: "./test/fixtures/nwapp/**/*",
+    files: "./test/fixtures/nwapp",
   });
 
   x.checkFiles().then(function () {
@@ -40,7 +40,7 @@ test("Should check if we have some files", function (t) {
       version: "0.1.0",
       main: "index.html",
     });
-    t.equal(x._files.length, 7);
+    t.equal(x._files.length, 3);
   });
 });
 
@@ -48,7 +48,7 @@ test("Should take the option name if provided", function (t) {
   t.plan(1);
 
   var x = new NwBuilder({
-    files: "./test/fixtures/nwapp/**/*",
+    files: "./test/fixtures/nwapp",
     appName: "somename",
   });
 
@@ -61,7 +61,7 @@ test("Should check if we have some files: rejection", function (t) {
   t.plan(1);
 
   var x = new NwBuilder({
-    files: "./test/fixtures/nwapp/images/**",
+    files: "./test/fixtures/nwapp/images/",
   });
 
   x.checkFiles().catch(function (error) {
@@ -100,7 +100,7 @@ test("Should only create one ZIP if there are no platform-specific overrides", f
   t.plan(17);
 
   var x = new NwBuilder({
-    files: "./test/fixtures/nwapp/**/*",
+    files: "./test/fixtures/nwapp",
     platforms: ["osx32", "osx64", "win32", "win64", "linux32", "linux64"],
     zip: true,
   });
@@ -279,7 +279,7 @@ test("Should not zip mac apps by default", function (t) {
   t.plan(1);
 
   var x = new NwBuilder({
-    files: "./test/fixtures/nwapp/**/*",
+    files: "./test/fixtures/nwapp",
     platforms: ["osx32", "osx64"],
   });
   x.zipAppFiles.call(x).then(function () {
