@@ -48,7 +48,7 @@ test("Should take the option name if provided", function (t) {
   t.plan(1);
 
   var x = new NwBuilder({
-    files: "./test/fixtures/nwapp/**",
+    files: "./test/fixtures/nwapp/**/*",
     appName: "somename",
   });
 
