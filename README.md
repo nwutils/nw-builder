@@ -102,15 +102,42 @@ nw.run()
 
 > Stay up to date via the [Changelog](https://github.com/nwjs-community/nw-builder/blob/master/.github/CHANGELOG.md).
 
-### Run API
+### Options
 
-| Name      | Type     | Default      | Platform | Description                                 |
-| --------- | -------- | ------------ | -------- | ------------------------------------------- |
-| files\*   | string   | null         |          | Path to your NW.js app                      |
-| version   | string   | latest       |          | NW.js version                               |
-| flavor    | string   | sdk          |          | sdk for dev, normal for prod                |
-| cacheDir  | string   | ./cache      |          | Path to your NW.js cache                    |
-| platforms | string[] | <current OS> |          | Supports nix[32/64], osx[32/64], win[32/64] |
+#### options.files _Required_
+
+Type: `String`
+Default value: `null`
+
+The path to your node webkit app. It supports [simple-glob](https://github.com/jedmao/simple-glob) so you can do stuff like `['foo/*.js', '!foo/bar.js', 'foo/bar.js']`.
+
+#### options.version
+
+Type: `String`
+Default value: `'latest'`
+
+The version of NW.js you want to use. Per default it looks up the latest version. [Here is a list](https://github.com/nwjs/nw.js/tags) of all available releases.
+
+#### options.flavor
+
+Type: `String`
+Default value: `'sdk'`
+
+The flavor of NW.js you want to use. Per default it will be `sdk`. [Here is a list](https://github.com/nwjs/nw.js/wiki/Build-Flavors) of all flavor available.
+
+The value `sdk` is most used for development whereas `normal` for production.
+
+#### options.platforms
+
+Type `(CLI)`: `String` (comma separated values)
+Type `(API)`: `Array` of `String`
+Default value: [`<current OS>`]
+
+The platforms you want to build. Can be `['win32', 'win64', 'osx32', 'osx64', 'linux32', 'linux64']`
+
+The values `['win', 'osx', 'linux']` can also be used and will build both the 32 and 64 bit versions of the specified platforms.
+
+Be aware that the osx32 version can only be built with legacy version of nwjs. Since > 0.12.0, only 64 bits for osx works.
 
 #### options.appName
 
