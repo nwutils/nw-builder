@@ -8,6 +8,11 @@ const { Options, detectCurrentPlatform } = require("../dist/index.cjs");
 const cli = yargs(hideBin(process.argv))
   .version(false)
   .command("[files] [options...]")
+  .option("mode", {
+    type: "string",
+    description: "Choose between run and build mode",
+    default: Options["mode"],
+  })
   .option("version", {
     type: "string",
     description: "Version of NW.js you want to use.",

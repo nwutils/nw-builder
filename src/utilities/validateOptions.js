@@ -5,7 +5,7 @@ import * as yup from "yup";
 
 const validateOptions = (options) => {
   const optionsSchema = yup.object({
-    mode: "run" | "build"
+    mode: "run" || "build"
   });
 
   let pkg = {};
