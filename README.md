@@ -104,6 +104,13 @@ nw.run()
 
 ### Options
 
+#### options.mode _Required_
+
+Type: `String`
+Default value: `run`
+
+Specify if you want to run or build your app. Works in the CLI and also in the `nwbuild` function.
+
 #### options.files _Required_
 
 Type: `String`

@@ -1,11 +1,12 @@
-import fs, { readFile } from "fs";
-import path from "path";
+import fs from "fs";
 
 import Glob from "simple-glob";
 import * as yup from "yup";
 
 const validateOptions = (options) => {
-  const optionsSchema = yup.object({});
+  const optionsSchema = yup.object({
+    mode: "run" | "build"
+  });
 
   let pkg = {};
 

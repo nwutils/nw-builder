@@ -22,6 +22,7 @@
     "plugin": true
   },
   "nwbuild": {
+    "mode": "build",
     "version": "0.65.1"
   }
 }
