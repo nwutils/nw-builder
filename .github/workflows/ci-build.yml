@@ -11,7 +11,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [osx-arm]
+        os: [osx-arm64]
         node-version: [18]
     runs-on: ${{ matrix.os }}
     steps:
