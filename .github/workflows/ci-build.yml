@@ -1,0 +1,26 @@
+name: ci-build
+on:
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+    branches:
+      - master
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [osx-arm]
+        node-version: [18]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: volta-cli/action@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          npm-version: '8.5.0'
+      - run: npm ci
+      - run: npm run format
+      - run: npm run lint
+      - run: npm run test
