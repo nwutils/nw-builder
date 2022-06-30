@@ -21,7 +21,7 @@
     "lint": "eslint ./bin/**.cjs ./lib/**.cjs ./src/**.js ./test/**.cjs ",
     "test": "npm run test:unit && tape './test/*.cjs'",
     "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "demo": "cd ./test/demo && npm start",
+    "demo": "npm run build && cd ./test/demo && npm start",
     "build": "esbuild src/index.js --bundle --minify --platform=node --outfile=./dist/index.cjs"
   },
   "ManifestComments": [
