@@ -249,7 +249,7 @@ test("Should find latest version", function (t) {
     .replyWithFile(200, "./test/fixtures/manifest/versions.json");
 
   var x = new NwBuilder({
-    files: "**",
+    files: "/**.json",
     version: "latest",
   });
 
