@@ -22,5 +22,5 @@ jobs:
           npm-version: '8.5.0'
       - run: npm ci
       - run: npm run format
-      - run: npm run lint
+      # - run: npm run lint
       - run: npm run test
