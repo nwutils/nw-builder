@@ -104,7 +104,7 @@ nw.run()
 
 ### Options
 
-#### options.mode _Required_
+#### options.mode
 
 Type: `String`
 Default value: `run`
