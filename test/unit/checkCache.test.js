@@ -14,6 +14,5 @@ test("for correct file path and insufficient number of files", () => {
 
 test("for correct file path and valid number of files", () => {
   const cacheDir = process.cwd() + "/test/unit/checkCacheDir/v0.64.1/linux64";
-  console.log(cacheDir);
   expect(checkCache(cacheDir, ["nw1.app", "nw2.app"])).toBe(true);
 });
