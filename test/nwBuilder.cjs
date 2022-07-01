@@ -249,7 +249,7 @@ test("Should find latest version", function (t) {
     .replyWithFile(200, "./test/fixtures/manifest/versions.json");
 
   var x = new NwBuilder({
-    files: "/**.json",
+    files: "./test/fixtures/nwapp/**/*",
     version: "latest",
   });
 
@@ -266,7 +266,7 @@ test("Should not accept an invalid version", function (t) {
   t.plan(1);
 
   var x = new NwBuilder({
-    files: "**",
+    files: "./test/fixtures/nwapp/**/*",
     version: "1.blah.0",
   });
 
