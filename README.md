@@ -111,12 +111,12 @@ Default value: `run`
 
 Specify if you want to run or build your app. Currently only used in the CLI.
 
-#### options.logLevel
+#### options.quiet
 
 Type: `String`
 Default value: `info`
 
-Specify what level of logging you want - `error`, `warn`, `info`, `debug`, `off`
+Choose your level of logging between error, warn, info, debug and off
 
 #### options.files _Required_
 
