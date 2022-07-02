@@ -1,5 +1,6 @@
 const Options = {
   mode: "run", // run, build or package
+  logLevel: "info", // error, warn, info, debug, trace, off
   // Run API
   files: null,
   version: "latest",
