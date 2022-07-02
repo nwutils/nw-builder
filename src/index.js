@@ -3,5 +3,6 @@ import Platform from "./constants/Platform";
 import Platforms from "./constants/Platforms";
 import checkCache from "./utilities/checkCache";
 import detectCurrentPlatform from "./utilities/detectCurrentPlatform";
+import parseOptions from "./utilities/parseOptions";
 
-export { Options, Platform, Platforms, detectCurrentPlatform, checkCache };
+export { Options, Platform, Platforms, detectCurrentPlatform, checkCache, parseOptions };
