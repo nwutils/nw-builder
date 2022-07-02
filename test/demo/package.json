@@ -20,5 +20,8 @@
   },
   "webkit": {
     "plugin": true
+  },
+  "nwbuild": {
+    "version": "0.65.1"
   }
 }
