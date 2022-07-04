@@ -2,7 +2,7 @@
 
 /**
  * @file    [Description of file purpose]
- * @author  [GitHub UserName]
+ * @author  ayushmxn
  */
 
 const NwBuilder = require("../lib/index.cjs");

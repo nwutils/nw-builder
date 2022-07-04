@@ -1,6 +1,6 @@
 /**
  * @file    [Description of file purpose]
- * @author  [GitHub UserName]
+ * @author  ayushmxn
  */
 
 export { Platform, Platforms } from "./constants";
