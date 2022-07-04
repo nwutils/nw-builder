@@ -1,5 +1,5 @@
 /**
- * @file    [Description of file purpose]
+ * @file    Define platform constants
  * @author  ayushmxn
  */
 
