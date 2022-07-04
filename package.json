@@ -24,9 +24,6 @@
     "demo": "cd ./test/demo && npm start",
     "build": "esbuild src/index.js --bundle --minify --platform=node --outfile=./dist/index.cjs"
   },
-  "ManifestComments": [
-    "Pinned update-notifier to 5.1.0, v6+ requires ESM"
-  ],
   "devDependencies": {
     "decompress-zip": "^0.3.3",
     "eol": "^0.9.1",
