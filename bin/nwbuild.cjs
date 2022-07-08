@@ -4,7 +4,7 @@ const path = require("path");
 const yargs = require("yargs/yargs");
 const { hideBin } = require("yargs/helpers");
 
-const NwBuilder = require("../lib/index.cjs");
+const { nwbuild } = require("../lib/index.cjs");
 const { Options, detectCurrentPlatform } = require("../dist/index.cjs");
 
 const cli = yargs(hideBin(process.argv))
@@ -140,26 +140,8 @@ const cli = yargs(hideBin(process.argv))
   })
   .parse();
 
-const nwbuild = new NwBuilder({
+nwbuild({
   ...cli,
   currentPlatform: detectCurrentPlatform(process),
   files: path.resolve(process.cwd(), cli._[0]) + "/**/*",
 });
-
-if (cli.quiet !== "off") {
-  nwbuild.on("log", (msg) => console.log("[ INFO ]", msg));
-}
-
-if (cli.mode === "run") {
-  nwbuild
-    .run()
-    .then(() => {})
-    .catch(() => {});
-} else if (cli.mode === "build") {
-  nwbuild
-    .build()
-    .then(() => {})
-    .catch(() => {});
-} else {
-  console.error("[ ERROR ] Invalid mode. Refer to nwbuild --help");
-}

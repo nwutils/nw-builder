@@ -1,13 +1,5 @@
-const NwBuilder = require("../../lib/index.cjs");
+const { nwbuild } = require("../../lib/index.cjs");
 
-const nw = new NwBuilder({
+nwbuild({
   files: "./**",
 });
-
-nw.on("log", (msg) => console.log("nw-builder", msg));
-
-nw.on("appstart", () => process.exit(0));
-
-nw.run()
-  .then(() => process.exit(0))
-  .catch(() => process.exit(1));
