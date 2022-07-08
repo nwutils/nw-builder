@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## Added
+
+- `mode` option which defaults to run
+- `nwbuild` function
+- `quiet` option to documentation
+
+## Changed
+
+- CLI options by matching them to the API
+
+## Removed
+
 ## [3.7.4] - 2022-06-06
 
 ## Removed
