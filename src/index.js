@@ -6,4 +6,12 @@ import checkPkgOptions from "./utilities/checkPkgOptions";
 import detectCurrentPlatform from "./utilities/detectCurrentPlatform";
 import parseOptions from "./utilities/parseOptions";
 
-export { Options, Platform, Platforms, detectCurrentPlatform, checkCache, checkPkgOptions, parseOptions };
+export {
+  Options,
+  Platform,
+  Platforms,
+  detectCurrentPlatform,
+  checkCache,
+  checkPkgOptions,
+  parseOptions,
+};

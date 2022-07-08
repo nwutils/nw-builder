@@ -6,7 +6,7 @@ const nw = new NwBuilder({
 
 nw.on("log", (msg) => console.log("nw-builder", msg));
 
-nw.on("appstart", () => process.exit(0))
+nw.on("appstart", () => process.exit(0));
 
 nw.run()
   .then(() => process.exit(0))
