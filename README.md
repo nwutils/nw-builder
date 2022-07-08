@@ -104,6 +104,20 @@ nw.run()
 
 ### Options
 
+#### options.mode
+
+Type: `String`
+Default value: `run`
+
+Specify if you want to run or build your app. Currently only used in the CLI.
+
+#### options.quiet
+
+Type: `String`
+Default value: `info`
+
+Choose your level of logging between error, warn, info, debug and off
+
 #### options.files _Required_
 
 Type: `String`

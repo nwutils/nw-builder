@@ -47,7 +47,9 @@ test("getVersions", async function (t) {
   await nock(root)
     .get("/versions.json")
     .replyWithFile(200, "./test/fixtures/manifest/versions.json");
-  await nock(dlUrl).get("/").replyWithFile(200, "./test/fixtures/testVersions.html");
+  await nock(dlUrl)
+    .get("/")
+    .replyWithFile(200, "./test/fixtures/testVersions.html");
   await expectedLegacyVersions.forEach(function (expectedVersion) {
     nock(dlUrl)
       .head(
@@ -433,7 +435,9 @@ test("getVersion should fail for non-existent version", async function (t) {
 test("getVersion (legacy)", async function (t) {
   await t.plan(3);
 
-  await nock(dlUrl).get("/").replyWithFile(200, "./test/fixtures/testVersions.html");
+  await nock(dlUrl)
+    .get("/")
+    .replyWithFile(200, "./test/fixtures/testVersions.html");
   await nock(dlUrl)
     .head("/v0.10.2/node-webkit-v0.10.2-win-ia32.zip")
     .replyWithFile(200, "./test/fixtures/testVersions.html"); // needs to reply with *any* content
@@ -470,7 +474,9 @@ test("getVersion (legacy)", async function (t) {
 test("getVersion (legacy) should fail for non-existent version", async function (t) {
   await t.plan(1);
 
-  await nock(dlUrl).get("/").replyWithFile(200, "./test/fixtures/testVersions.html");
+  await nock(dlUrl)
+    .get("/")
+    .replyWithFile(200, "./test/fixtures/testVersions.html");
   await versions
     .getVersion({
       desiredVersion: "0.10.1",
