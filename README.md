@@ -62,6 +62,12 @@ nwbuild({
 
 > Stay up to date via the [Changelog](https://github.com/nwjs-community/nw-builder/blob/master/.github/CHANGELOG.md).
 
+### Methods
+
+#### nwbuild(options, callbacks)
+
+The function that setups up, runs and builds your NW.js applications. The `callbacks` are for the `run` and `build` function that run inside the `nwbuild` function. The callbacks `callback[0]`, `callback[1]`, `callback[2]` correspond to the `.then`, `.catch` and `.finally` functions of the `run` or `build` promise.
+
 ### Options
 
 #### options.mode
