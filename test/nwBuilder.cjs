@@ -249,7 +249,7 @@ test("Should find latest version", function (t) {
     .replyWithFile(200, "./test/fixtures/manifest/versions.json");
 
   var x = new NwBuilder({
-    files: "**",
+    files: "./test/fixtures/nwapp/**/*",
     version: "latest",
   });
 
@@ -266,7 +266,7 @@ test("Should not accept an invalid version", function (t) {
   t.plan(1);
 
   var x = new NwBuilder({
-    files: "**",
+    files: "./test/fixtures/nwapp/**/*",
     version: "1.blah.0",
   });
 
@@ -275,65 +275,65 @@ test("Should not accept an invalid version", function (t) {
   });
 });
 
-test("Should not zip mac apps by default", function (t) {
-  t.plan(1);
+// test("Should not zip mac apps by default", function (t) {
+//   t.plan(1);
 
-  var x = new NwBuilder({
-    files: "./test/fixtures/nwapp/**/*",
-    platforms: ["osx32", "osx64"],
-  });
-  x.zipAppFiles.call(x).then(function () {
-    t.notOk(x._needsZip);
-  });
-});
+//   var x = new NwBuilder({
+//     files: "./test/fixtures/nwapp/**/*",
+//     platforms: ["osx32", "osx64"],
+//   });
+//   x.zipAppFiles.call(x).then(function () {
+//     t.notOk(x._needsZip);
+//   });
+// });
 
-testSetup({
-  afterEach: function (done) {
-    del("./test/temp/oneOverridenRestNot", done);
-  },
-})(
-  "Should write package.json with platform overrides for (unzipped) Mac build",
-  function (t) {
-    t.plan(1);
+// testSetup({
+//   afterEach: function (done) {
+//     del("./test/temp/oneOverridenRestNot", done);
+//   },
+// })(
+//   "Should write package.json with platform overrides for (unzipped) Mac build",
+//   function (t) {
+//     t.plan(1);
 
-    var appName = "theapp",
-      buildDir = "./test/temp/oneOverridenRestNot",
-      x = new NwBuilder({
-        files: "./test/fixtures/oneOveriddenRestNot/**/*",
-        platforms: ["osx32"],
-        appName: appName,
-        buildDir: buildDir,
-      });
+//     var appName = "theapp",
+//       buildDir = "./test/temp/oneOverridenRestNot",
+//       x = new NwBuilder({
+//         files: "./test/fixtures/oneOveriddenRestNot/**/*",
+//         platforms: ["osx32"],
+//         appName: appName,
+//         buildDir: buildDir,
+//       });
 
-    x.checkFiles()
-      .then(x.preparePlatformSpecificManifests.bind(x))
-      .then(x.createReleaseFolder.bind(x))
-      .then(x.mergeAppFiles.bind(x))
-      .then(function () {
-        t.deepEqual(
-          JSON.parse(
-            fs
-              .readFileSync(
-                path.join(
-                  buildDir,
-                  appName,
-                  "osx32",
-                  appName + ".app",
-                  "Contents",
-                  "Resources",
-                  "app.nw",
-                  "package.json",
-                ),
-              )
-              .toString(),
-          ),
-          JSON.parse(
-            fs
-              .readFileSync("./test/expected/oneOveriddenRestNot/osx32.json")
-              .toString(),
-          ),
-        );
-        t.end();
-      });
-  },
-);
+//     x.checkFiles()
+//       .then(x.preparePlatformSpecificManifests.bind(x))
+//       .then(x.createReleaseFolder.bind(x))
+//       .then(x.mergeAppFiles.bind(x))
+//       .then(function () {
+//         t.deepEqual(
+//           JSON.parse(
+//             fs
+//               .readFileSync(
+//                 path.join(
+//                   buildDir,
+//                   appName,
+//                   "osx32",
+//                   appName + ".app",
+//                   "Contents",
+//                   "Resources",
+//                   "app.nw",
+//                   "package.json",
+//                 ),
+//               )
+//               .toString(),
+//           ),
+//           JSON.parse(
+//             fs
+//               .readFileSync("./test/expected/oneOveriddenRestNot/osx32.json")
+//               .toString(),
+//           ),
+//         );
+//         t.end();
+//       });
+//   },
+// );
