@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "archiver": "^5.3.1",
+    "cli-progress": "^3.11.2",
     "deprecate": "^1.1.1",
     "extract-zip": "^2.0.1",
     "graceful-fs-extra": "^2.0.0",
@@ -55,6 +56,7 @@
     "rimraf": "^3.0.2",
     "semver": "^7.3.7",
     "simple-glob": "^0.2.0",
+    "tar": "^6.1.11",
     "tar-fs": "^2.1.1",
     "temp": "^0.9.4",
     "thenify": "^3.3.1",
