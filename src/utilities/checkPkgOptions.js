@@ -1,4 +1,5 @@
 import fs from "fs";
+import path from "path";
 
 import Glob from "simple-glob";
 
@@ -14,7 +15,7 @@ const checkPkgOptions = (files) => {
     }
 
     matches.forEach((file) => {
-      if (file === "package.json") {
+      if (path.basename(file) === "package.json") {
         pkg = fs.readFileSync(`${file}`, "utf8");
         pkg = JSON.parse(pkg);
       }
