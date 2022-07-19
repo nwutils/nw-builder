@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [3.8.1] - 2022-07-18
+
+### Changed
+
+- Fix regex to match `package.json` _files_ only
+
+## [3.8.0] - 2022-07-11
+
 ## Added
 
 - `mode` option which defaults to run
@@ -16,8 +24,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Changed
 
 - CLI options by matching them to the API
-
-## Removed
 
 ## [3.7.4] - 2022-06-06
 
