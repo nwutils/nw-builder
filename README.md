@@ -72,7 +72,7 @@ The function that setups up, runs and builds your NW.js applications. The `callb
 
 #### options.mode
 
-Type: `String`
+Type: `run` | `build`
 Default value: `run`
 
 Specify if you want to run or build your app.
