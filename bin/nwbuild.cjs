@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const path = require("path");
 const yargs = require("yargs/yargs");
 const { hideBin } = require("yargs/helpers");
 
@@ -143,5 +142,5 @@ const cli = yargs(hideBin(process.argv))
 nwbuild({
   ...cli,
   currentPlatform: detectCurrentPlatform(process),
-  files: path.resolve(process.cwd(), cli._[0]) + "/**/*",
+  files: cli._,
 });
