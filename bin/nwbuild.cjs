@@ -143,5 +143,5 @@ const cli = yargs(hideBin(process.argv))
 nwbuild({
   ...cli,
   currentPlatform: detectCurrentPlatform(process),
-  files: path.resolve(process.cwd(), cli._[0]) + "/**/*",
+  files: cli._,
 });
