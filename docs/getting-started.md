@@ -4,14 +4,17 @@
 
 Download and install `nw-builder` using your preferred node package manager:
 
+Via `npm`
 ```shell
 npm install nw-builder
 ```
 
+Via `yarn`
 ```shell
 yarn add nw-builder
 ```
 
+Via `pnpm`
 ```shell
 pnpm add nw-builder
 ```
