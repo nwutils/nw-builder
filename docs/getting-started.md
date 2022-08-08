@@ -151,3 +151,5 @@ nwbuild({
   }
 }
 ```
+
+Since `files` is a required argument, you'll have to define it in the CLI or module even if you plan to override it.
