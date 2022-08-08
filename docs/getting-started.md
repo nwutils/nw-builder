@@ -59,14 +59,6 @@ nwbuild({
     .finally(() => { ... })
 ```
 
-Manifest usage:
-
-```json
-"nwbuild": {
-    "files": "./path/to/nw/app",
-}
-```
-
 This is the minimum arguments required to run a NW.js application. It detects your current platform, downloads the required NW binary and runs it.
 
 ## Build your first application
@@ -89,15 +81,6 @@ nwbuild({
     .then(() => { ... })
     .catch(() => { ... })
     .finally(() => { ... })
-```
-
-Manifest usage:
-
-```json
-"nwbuild": {
-    "files": "./path/to/nw/app/dir/**/*.*",
-    "mode": "build"
-}
 ```
 
 This is the minimum arguments required to build a NW.js application. It detects your current platform, downloads the required NW binary and builds for the current platform.
