@@ -1,6 +1,6 @@
 # Introduction
 
-Develop native applications for Mac, Windows and Linux using web technologies.
+Helper tool to simplify development of NW.js applications.
 
 ## Major Features
 
