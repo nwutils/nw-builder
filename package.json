@@ -21,7 +21,7 @@
     "lint": "eslint ./bin/**.cjs ./lib/**.cjs ./src/**.js",
     "test": "npm run test:unit && tape './test/*.cjs'",
     "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "demo": "cd ./test/demo && npm start",
+    "demo": "gulp build-dev",
     "build": "esbuild src/index.js --bundle --minify --platform=node --outfile=./dist/index.cjs"
   },
   "devDependencies": {
@@ -31,6 +31,7 @@
     "eslint": "^8.18.0",
     "eslint-config-tjw-jsdoc": "^1.0.3",
     "eslint-plugin-jsdoc": "^39.3.3",
+    "gulp": "^4.0.2",
     "jest": "^28.1.1",
     "jest-environment-jsdom": "^28.1.1",
     "jsdom": "^20.0.0",
