@@ -1,4 +1,4 @@
-const getNwId = (version, flavor, platform, arch, ext=true) => {
+const getNwId = (version, flavor, platform, arch, ext = true) => {
   if (ext) {
     return `nwjs${
       flavor === "sdk" ? "-sdk" : ""

@@ -9,14 +9,7 @@ import getNwId from "../utilities/getNwId";
 import getArch from "../utilities/getArch";
 import getPlatform from "../utilities/getPlatform";
 
-const download = async (
-  version,
-  flavour,
-  platform,
-  arch,
-  mirror,
-  outDir,
-) => {
+const download = async (version, flavour, platform, arch, mirror, outDir) => {
   const bar = new progress.SingleBar({}, progress.Presets.rect);
 
   let Platform = getPlatform(platform);
