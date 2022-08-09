@@ -20,8 +20,6 @@ const checkPkgOptions = (files) => {
     }
   });
 
-  console.log(pkg);
-
   if (pkg.nwbuild) {
     return pkg.nwbuild;
   } else {
