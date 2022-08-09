@@ -3,7 +3,7 @@ import tar from "tar";
 
 import getNwId from "../utilities/getNwId";
 
-const unzip = (
+const unzip = async (
   version,
   flavour,
   platform,
@@ -20,6 +20,7 @@ const unzip = (
       dir: `${outDir}`,
     });
   }
+  return 0;
 };
 
 export default unzip;

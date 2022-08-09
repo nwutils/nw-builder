@@ -7,7 +7,7 @@ import getNwId from "../utilities/getNwId";
 import getArch from "../utilities/getArch";
 import getPlatform from "../utilities/getPlatform";
 
-const download = (
+const download = async (
   version,
   flavour,
   platform,
