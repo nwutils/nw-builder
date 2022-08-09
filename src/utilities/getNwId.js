@@ -1,6 +1,8 @@
-const getNwId = (version, flavor, os, arch) => {
-  return `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${os}-${arch}-${
-    os === "linux" ? ".tar.gz" : ".zip"
+const getNwId = (version, flavor, platform, arch) => {
+  return `nwjs${
+    flavor === "sdk" ? "-sdk" : ""
+  }-v${version}-${platform}-${arch}${
+    platform === "linux" ? ".tar.gz" : ".zip"
   }`;
 };
 
