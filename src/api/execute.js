@@ -8,8 +8,6 @@ const execute = async (cacheDir, srcDir, platform) => {
   let exePath = null;
   let files = null;
 
-  console.log(platform);
-
   switch (platform) {
     case `${Platform.NIX}`:
       nw = "nw";
