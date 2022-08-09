@@ -19,7 +19,7 @@ const run = async (
 ) => {
   let Platform = getPlatform(platform);
   let Arch = getArch(arch);
-  const nwId = getNwId(version, flavour, Platform, Arch, (ext = false));
+  const nwId = getNwId(version, flavour, Platform, Arch, ext = false);
   if (!fs.existsSync(`${cacheDir}/${nwId}`)) {
     download(version, flavour, platform, arch, mirror, cacheDir);
     unzip(version, flavour, platform, arch, cacheDir);
