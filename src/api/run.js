@@ -21,7 +21,7 @@ const run = async (
   let Arch = getArch(arch);
   const nwId = getNwId(version, flavour, Platform, Arch, ext = false);
   const isDownloaded = fs.existsSync(`${cacheDir}/${nwId}`);
-  if (isDownloaded) {
+  if (!isDownloaded) {
     await download(version, flavour, platform, arch, mirror, cacheDir);
     await unzip(version, flavour, platform, arch, cacheDir);
     await execute(`${cacheDir}/${nwId}`, srcDir, platform);
