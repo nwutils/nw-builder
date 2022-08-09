@@ -29,7 +29,6 @@ const download = async (version, flavour, platform, arch, mirror, outDir) => {
 
     res.on("end", () => {
       bar.stop();
-      unzip(version, flavour, platform, arch, outDir);
     });
 
     fs.mkdirSync(outDir, { recursive: true });
