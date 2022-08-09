@@ -3,7 +3,7 @@ import { spawn } from "node:child_process";
 
 import Platform from "../constants/platform";
 
-const execute = (cacheDir, srcDir, platform) => {
+const execute = async (cacheDir, srcDir, platform) => {
   let nw = null;
   let exePath = null;
   let files = null;
@@ -38,8 +38,6 @@ const execute = (cacheDir, srcDir, platform) => {
   let nwProcess = spawn(exePath, [files]);
 
   nwProcess.on("close", () => {});
-
-  return 0;
 };
 
 export default execute;

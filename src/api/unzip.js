@@ -20,7 +20,6 @@ const unzip = async (
       dir: `${outDir}`,
     });
   }
-  return 0;
 };
 
 export default unzip;

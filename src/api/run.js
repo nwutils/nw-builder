@@ -21,23 +21,9 @@ const run = async (
   let Arch = getArch(arch);
   const nwId = getNwId(version, flavour, Platform, Arch, (ext = false));
   if (!fs.existsSync(`${cacheDir}/${nwId}`)) {
-    let d = await download(version, flavour, platform, arch, mirror, cacheDir);
-    if (d === 0) {
-      let u = await unzip(version, flavour, platform, arch, cacheDir);
-
-      if (u === 0) {
-        let e = await execute(`${cacheDir}/${nwId}`, srcDir, platform);
-
-        if (e == 0) {
-          return 0;
-        }
-      }
-    }
+    download(version, flavour, platform, arch, mirror, cacheDir);
   } else {
-    let e = execute(`${cacheDir}/${nwId}`, srcDir, platform);
-    if (e === 0) {
-      return 0;
-    }
+    execute(`${cacheDir}/${nwId}`, srcDir, platform);
   }
 };
 

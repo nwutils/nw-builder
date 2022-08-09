@@ -3,6 +3,8 @@ import https from "node:https";
 
 import progress from "cli-progress";
 
+import unzip from "./unzip";
+
 import getNwId from "../utilities/getNwId";
 import getArch from "../utilities/getArch";
 import getPlatform from "../utilities/getPlatform";
@@ -34,13 +36,13 @@ const download = async (
 
     res.on("end", () => {
       bar.stop();
+      unzip(version, flavour, platform, arch, outDir);
     });
 
     fs.mkdirSync(outDir, { recursive: true });
     const stream = fs.createWriteStream(`${outDir}/${nwId}`);
     res.pipe(stream);
   });
-  return 0;
 };
 
 export default download;
