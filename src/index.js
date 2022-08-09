@@ -1,4 +1,3 @@
-
 import run from "./api/run";
 import Options from "./constants/Options";
 import Platforms from "./constants/Platforms";
@@ -14,5 +13,5 @@ export {
   checkPkgOptions,
   detectCurrentPlatform,
   parseOptions,
-  run
+  run,
 };
