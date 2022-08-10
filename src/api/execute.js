@@ -3,39 +3,44 @@ import { spawn } from "node:child_process";
 
 import Platform from "../constants/platform";
 
-const execute = async (cacheDir, srcDir, platform) => {
-  let nw = null;
-  let exePath = null;
-  let files = null;
+const execute = (cacheDir, srcDir, platform) => {
+  return new Promise((resolve) => {
+    let nw = null;
+    let exePath = null;
+    let files = null;
+    let nwProcess = null;
 
-  switch (platform) {
-    case `${Platform.NIX}`:
-      nw = "nw";
-      break;
-    case `${Platform.OSX}`:
-      nw = "nwjs.app/Contents/MacOS/nwjs";
-      break;
-    case `${Platform.WIN}`:
-      nw = "nw.exe";
-      break;
-    default:
-      console.log(
-        "[ ERROR ] The current platform does not support the NW.js binary.",
-      );
-      process.exit(1);
-  }
+    switch (platform) {
+      case `${Platform.NIX}`:
+        nw = "nw";
+        break;
+      case `${Platform.OSX}`:
+        nw = "nwjs.app/Contents/MacOS/nwjs";
+        break;
+      case `${Platform.WIN}`:
+        nw = "nw.exe";
+        break;
+      default:
+        console.log(
+          "[ ERROR ] The current platform does not support the NW.js binary.",
+        );
+        process.exit(1);
+    }
 
-  exePath = path.resolve(cacheDir, nw);
+    exePath = path.resolve(cacheDir, nw);
 
-  if (Array.isArray(srcDir)) {
-    files = srcDir[0];
-  } else {
-    files = srcDir;
-  }
+    if (Array.isArray(srcDir)) {
+      files = srcDir[0];
+    } else {
+      files = srcDir;
+    }
 
-  let nwProcess = spawn(exePath, [files]);
+    nwProcess = spawn(exePath, [files]);
 
-  nwProcess.on("close", () => {});
+    nwProcess.on("close", () => {
+      resolve();
+    });
+  });
 };
 
 export default execute;
