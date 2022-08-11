@@ -8,21 +8,25 @@ import download from "./download";
 import execute from "./execute";
 import unzip from "./unzip";
 
-const run = (version, flavour, platform, arch, mirror, srcDir, cacheDir) => {
+const run = async (
+  version,
+  flavour,
+  platform,
+  arch,
+  mirror,
+  srcDir,
+  cacheDir,
+) => {
   let Platform = getPlatform(platform);
   let Arch = getArch(arch);
   const nwId = getNwId(version, flavour, Platform, Arch, (ext = false));
   const isDownloaded = fs.existsSync(`${cacheDir}/${nwId}`);
   if (!isDownloaded) {
-    download(version, flavour, platform, arch, mirror, cacheDir)
-      .then(() => {
-        unzip(version, flavour, platform, arch, cacheDir);
-      })
-      .then(() => {
-        // execute(`${cacheDir}/${nwId}`, srcDir, platform);
-      });
+    await download(version, flavour, platform, arch, mirror, cacheDir);
+    await unzip(version,   flavour, platform, arch, cacheDir);
+    // await execute(`${cacheDir}/${nwId}`, srcDir, platform);
   } else {
-    // execute(`${cacheDir}/${nwId}`, srcDir, platform);
+    await execute(`${cacheDir}/${nwId}`, srcDir, platform);
   }
 };
 
