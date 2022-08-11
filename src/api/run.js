@@ -23,7 +23,7 @@ const run = async (
   if (!fs.existsSync(`${cacheDir}/${nwId}`)) {
     await download(version, flavour, platform, arch, mirror, cacheDir);
     await unzip(version,   flavour, platform, arch, cacheDir);
-    // await execute(`${cacheDir}/${nwId}`, srcDir, platform);
+    await execute(`${cacheDir}/${nwId}`, srcDir, platform);
   } else {
     await execute(`${cacheDir}/${nwId}`, srcDir, platform);
   }

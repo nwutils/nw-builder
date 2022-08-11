@@ -1,5 +1,5 @@
 import path from "node:path";
-import { spawn } from "node:child_process";
+import child_process from "node:child_process";
 
 import Platform from "../constants/platform";
 
@@ -35,11 +35,8 @@ const execute = (cacheDir, srcDir, platform) => {
       files = srcDir;
     }
 
-    nwProcess = spawn(exePath, [files]);
-
-    nwProcess.on("close", () => {
-      resolve();
-    });
+    nwProcess = child_process.spawnSync(exePath, [files]);
+    resolve();
   });
 };
 
