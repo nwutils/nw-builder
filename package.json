@@ -27,7 +27,7 @@
   "devDependencies": {
     "decompress-zip": "^0.3.3",
     "eol": "^0.9.1",
-    "esbuild": "^0.14.47",
+    "esbuild": "^0.15.2",
     "eslint": "^8.18.0",
     "eslint-config-tjw-jsdoc": "^1.0.3",
     "eslint-plugin-jsdoc": "^39.3.3",
