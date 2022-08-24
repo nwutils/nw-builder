@@ -2,6 +2,7 @@ import updateNotifier from 'update-notifier';
 
 import Options from "../constants/Options.js";
 import detectCurrentPlatform from "../utilities/detectCurrentPlatform.js";
+import parseOptions from "../utilities/parseOptions.js";
 
 import run from "./run.js";
 import build from "./build.js";
@@ -10,7 +11,10 @@ const nwbuild = async (options) => {
 
   updateNotifier({ pkg }).notify();
 
+  options = parseOptions(options, Options);
+
   let mode = options.mode ?? null;
+
   let currentPlatform = detectCurrentPlatform(process);
   if (currentPlatform === undefined) {
     console.log("Unsupported platform");
