@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [3.8.2] - 2022-08-08
+
+### Added
+
+- Support for multiple file paths in CLI
+
 ## [3.8.1] - 2022-07-18
 
 ### Changed
