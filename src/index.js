@@ -1,3 +1,4 @@
+import nwbuild from "./api/nwbuild";
 import Options from "./constants/Options";
 import Platform from "./constants/Platform";
 import Platforms from "./constants/Platforms";
@@ -7,11 +8,12 @@ import detectCurrentPlatform from "./utilities/detectCurrentPlatform";
 import parseOptions from "./utilities/parseOptions";
 
 export {
+  nwbuild,
   Options,
   Platform,
   Platforms,
-  detectCurrentPlatform,
   checkCache,
   checkPkgOptions,
+  detectCurrentPlatform,
   parseOptions,
 };
