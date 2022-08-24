@@ -1,11 +1,15 @@
+import updateNotifier from 'update-notifier';
+
 import Options from "../constants/Options.js";
 import detectCurrentPlatform from "../utilities/detectCurrentPlatform.js";
 
-import NwBuilder from "../../lib/index.cjs";
-
 import run from "./run.js";
+import build from "./build.js";
 
 const nwbuild = async (options) => {
+
+  updateNotifier({ pkg }).notify();
+
   let mode = options.mode ?? null;
   let currentPlatform = detectCurrentPlatform(process);
   if (currentPlatform === undefined) {
@@ -22,7 +26,6 @@ const nwbuild = async (options) => {
   } else {
     architecture = "ia32";
   }
-  console.log(architecture);
   switch (mode) {
     case "run":
       run(
@@ -38,8 +41,7 @@ const nwbuild = async (options) => {
       );
       return 0;
     case "build":
-      const nw = new NwBuilder(options);
-      nw.build();
+      build();
       return 0;
     default:
       console.log("Invalid mode. Please try again.");
