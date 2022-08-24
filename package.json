@@ -1,6 +1,6 @@
 {
   "name": "nw-builder",
-  "version": "3.8.2-beta.3",
+  "version": "4.0.0-rc.1",
   "description": "Build NW.js desktop applications for Mac, Windows and Linux.",
   "keywords": [
     "NW.js",
@@ -9,7 +9,7 @@
   ],
   "author": "Steffen Müller <steffen@mllrsohn.com>",
   "license": "MIT",
-  "main": "lib/index.cjs",
+  "main": "./index.js",
   "type": "module",
   "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
