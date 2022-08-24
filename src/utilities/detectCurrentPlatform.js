@@ -1,4 +1,4 @@
-import Platform from "../constants/Platform";
+import Platform from "../constants/Platform.js";
 /**
  *
  * @param {NodeJS.Process} process
