@@ -1,9 +1,11 @@
 import Options from "../constants/Options.js";
 import detectCurrentPlatform from "../utilities/detectCurrentPlatform.js";
 
+import NwBuilder from "../../lib/index.cjs";
+
 import run from "./run.js";
 
-const nwbuild = (options) => {
+const nwbuild = async (options) => {
   let mode = options.mode ?? null;
   let currentPlatform = detectCurrentPlatform(process);
   if (currentPlatform === undefined) {
@@ -34,6 +36,14 @@ const nwbuild = (options) => {
         options.outDir ?? Options.cacheDir,
         options.outFile,
       );
+      return 0;
+    case "build":
+      const nw = new NwBuilder(options);
+      nw.build();
+      return 0;
+    default:
+      console.log("Invalid mode. Please try again.");
+      break;
   }
 };
 
