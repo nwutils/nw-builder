@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.0.0-rc.1]
+
+### Added
+
+- Install `nw-install`
+- Create new run mode in a separate function
+- Call new run mode and build mode through `nwbuild` function
+
+### Removed
+
+- Remove `NwBuilder` from exports
+
 ## [3.8.2] - 2022-08-08
 
 ### Added
