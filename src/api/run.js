@@ -1,9 +1,7 @@
 import fs from "node:fs";
 
 import { install } from "nw-install";
-
-import execute from "../utilities/execute.js";
-import getNwPath from "../utilities/getNwPath.js";
+import { develop } from "nw-develop";
 
 const run = async (
   files,
@@ -16,12 +14,8 @@ const run = async (
   outDir,
   outFile,
 ) => {
-  let exePath = `${outDir}/${outFile}/${getNwPath(platform)}`;
-  const srcFiles = (Array.isArray(files) ? files[0] : files).replace(
-    /\*[/*]*/,
-    "",
-  );
-  if (fs.existsSync(`${outDir}/${outFile}`) === false) {
+  let nwPath = `${outDir}/${outFile}`;
+  if (fs.existsSync(nwPath) === false) {
     await install(
       version,
       flavour,
@@ -33,7 +27,7 @@ const run = async (
       outFile,
     );
   }
-  await execute(exePath, srcFiles);
+  await develop(files, nwPath, platform);
 };
 
 export default run;
