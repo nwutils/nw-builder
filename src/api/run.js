@@ -27,7 +27,6 @@ const run = async (
       outFile,
     );
   }
-  console.log(files, nwPath, platform);
   await develop(files, nwPath, platform);
 };
 

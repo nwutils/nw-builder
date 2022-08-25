@@ -1,4 +1,4 @@
-import updateNotifier from 'update-notifier';
+import updateNotifier from "update-notifier";
 
 import Options from "../constants/Options.js";
 import getArchitecture from "../utilities/getArchitecture.js";
@@ -7,10 +7,9 @@ import parseOptions from "../utilities/parseOptions.js";
 
 import run from "./run.js";
 // import build from "./build.js";
-import pkg from "../../package.json" assert {type: "json"};
+import pkg from "../../package.json" assert { type: "json" };
 
 const nwbuild = async (options) => {
-
   updateNotifier({ pkg }).notify();
 
   options = parseOptions(options, Options);
@@ -34,7 +33,8 @@ const nwbuild = async (options) => {
         architecture,
         "https://nwjs.io/",
         "https://dl.nwjs.io",
-        `v${options.version}/${options.flavour}/${platform}/${architecture}`,
+        options.outDir ??
+          `v${options.version}/${options.flavour}/${platform}/${architecture}`,
         "nw",
       );
       return 0;

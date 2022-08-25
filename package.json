@@ -65,7 +65,7 @@
     "yargs": "^17.5.1"
   },
   "bin": {
-    "nwbuild": "./bin/nwbuild.cjs"
+    "nwbuild": "./bin/nwbuild.js"
   },
   "prettier": {
     "printWidth": 80,
