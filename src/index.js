@@ -3,7 +3,6 @@ import Options from "./constants/Options.js";
 import Platform from "./constants/Platform.js";
 import Platforms from "./constants/Platforms.js";
 import checkCache from "./utilities/checkCache.js";
-import detectCurrentPlatform from "./utilities/detectCurrentPlatform.js";
 import parseOptions from "./utilities/parseOptions.js";
 
 export {
@@ -12,6 +11,5 @@ export {
   Platform,
   Platforms,
   checkCache,
-  detectCurrentPlatform,
   parseOptions,
 };

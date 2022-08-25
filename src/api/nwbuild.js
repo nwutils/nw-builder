@@ -1,7 +1,8 @@
 import updateNotifier from 'update-notifier';
 
 import Options from "../constants/Options.js";
-import detectCurrentPlatform from "../utilities/detectCurrentPlatform.js";
+import getArchitecture from "../utilities/getArchitecture.js";
+import getPlatform from "../utilities/getPlatform.js";
 import parseOptions from "../utilities/parseOptions.js";
 
 import run from "./run.js";
@@ -16,24 +17,16 @@ const nwbuild = async (options) => {
 
   let mode = options.mode ?? null;
 
-  let currentPlatform = detectCurrentPlatform(process);
-  if (currentPlatform === undefined) {
-    console.log("Unsupported platform");
-    process.exit(1);
+  let platform = getPlatform(process);
+  let architecture = getArchitecture(process);
+
+  if (platform === null || architecture === null) {
+    console.log("Unsupported platform/architecture.");
   }
-  let platform = currentPlatform.substring(0, currentPlatform.length - 2);
-  let architecture = currentPlatform.substring(
-    currentPlatform.length - 2,
-    currentPlatform.length,
-  );
-  if (architecture === "64") {
-    architecture = "x64";
-  } else {
-    architecture = "ia32";
-  }
+
   switch (mode) {
     case "run":
-      run(
+      await run(
         options.files,
         options.version,
         options.flavour,
@@ -46,7 +39,7 @@ const nwbuild = async (options) => {
       );
       return 0;
     case "build":
-      build();
+      // build();
       return 0;
     default:
       console.log("Invalid mode. Please try again.");
