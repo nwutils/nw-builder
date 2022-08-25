@@ -1,89 +1,2573 @@
-var w3=Object.create;var En=Object.defineProperty;var _3=Object.getOwnPropertyDescriptor;var A3=Object.getOwnPropertyNames;var S3=Object.getPrototypeOf,v3=Object.prototype.hasOwnProperty;var E=(t,e)=>()=>(e||t((e={exports:{}}).exports,e),e.exports),B3=(t,e)=>{for(var r in e)En(t,r,{get:e[r],enumerable:!0})},Jf=(t,e,r,s)=>{if(e&&typeof e=="object"||typeof e=="function")for(let i of A3(e))!v3.call(t,i)&&i!==r&&En(t,i,{get:()=>e[i],enumerable:!(s=_3(e,i))||s.enumerable});return t};var A=(t,e,r)=>(r=t!=null?w3(S3(t)):{},Jf(e||!t||!t.__esModule?En(r,"default",{value:t,enumerable:!0}):r,t)),R3=t=>Jf(En({},"__esModule",{value:!0}),t);var eD=E((WO,Qf)=>{var Pt=require("constants"),O3=process.cwd,gn=null,T3=process.env.GRACEFUL_FS_PLATFORM||process.platform;process.cwd=function(){return gn||(gn=O3.call(process)),gn};try{process.cwd()}catch{}typeof process.chdir=="function"&&(la=process.chdir,process.chdir=function(t){gn=null,la.call(process,t)},Object.setPrototypeOf&&Object.setPrototypeOf(process.chdir,la));var la;Qf.exports=I3;function I3(t){Pt.hasOwnProperty("O_SYMLINK")&&process.version.match(/^v0\.6\.[0-2]|^v0\.5\./)&&e(t),t.lutimes||r(t),t.chown=n(t.chown),t.fchown=n(t.fchown),t.lchown=n(t.lchown),t.chmod=s(t.chmod),t.fchmod=s(t.fchmod),t.lchmod=s(t.lchmod),t.chownSync=u(t.chownSync),t.fchownSync=u(t.fchownSync),t.lchownSync=u(t.lchownSync),t.chmodSync=i(t.chmodSync),t.fchmodSync=i(t.fchmodSync),t.lchmodSync=i(t.lchmodSync),t.stat=o(t.stat),t.fstat=o(t.fstat),t.lstat=o(t.lstat),t.statSync=a(t.statSync),t.fstatSync=a(t.fstatSync),t.lstatSync=a(t.lstatSync),t.chmod&&!t.lchmod&&(t.lchmod=function(l,h,f){f&&process.nextTick(f)},t.lchmodSync=function(){}),t.chown&&!t.lchown&&(t.lchown=function(l,h,f,D){D&&process.nextTick(D)},t.lchownSync=function(){}),T3==="win32"&&(t.rename=typeof t.rename!="function"?t.rename:function(l){function h(f,D,C){var m=Date.now(),g=0;l(f,D,function F(w){if(w&&(w.code==="EACCES"||w.code==="EPERM")&&Date.now()-m<6e4){setTimeout(function(){t.stat(D,function(y,b){y&&y.code==="ENOENT"?l(f,D,F):C(w)})},g),g<100&&(g+=10);return}C&&C(w)})}return Object.setPrototypeOf&&Object.setPrototypeOf(h,l),h}(t.rename)),t.read=typeof t.read!="function"?t.read:function(l){function h(f,D,C,m,g,F){var w;if(F&&typeof F=="function"){var y=0;w=function(b,B,N){if(b&&b.code==="EAGAIN"&&y<10)return y++,l.call(t,f,D,C,m,g,w);F.apply(this,arguments)}}return l.call(t,f,D,C,m,g,w)}return Object.setPrototypeOf&&Object.setPrototypeOf(h,l),h}(t.read),t.readSync=typeof t.readSync!="function"?t.readSync:function(l){return function(h,f,D,C,m){for(var g=0;;)try{return l.call(t,h,f,D,C,m)}catch(F){if(F.code==="EAGAIN"&&g<10){g++;continue}throw F}}}(t.readSync);function e(l){l.lchmod=function(h,f,D){l.open(h,Pt.O_WRONLY|Pt.O_SYMLINK,f,function(C,m){if(C){D&&D(C);return}l.fchmod(m,f,function(g){l.close(m,function(F){D&&D(g||F)})})})},l.lchmodSync=function(h,f){var D=l.openSync(h,Pt.O_WRONLY|Pt.O_SYMLINK,f),C=!0,m;try{m=l.fchmodSync(D,f),C=!1}finally{if(C)try{l.closeSync(D)}catch{}else l.closeSync(D)}return m}}function r(l){Pt.hasOwnProperty("O_SYMLINK")&&l.futimes?(l.lutimes=function(h,f,D,C){l.open(h,Pt.O_SYMLINK,function(m,g){if(m){C&&C(m);return}l.futimes(g,f,D,function(F){l.close(g,function(w){C&&C(F||w)})})})},l.lutimesSync=function(h,f,D){var C=l.openSync(h,Pt.O_SYMLINK),m,g=!0;try{m=l.futimesSync(C,f,D),g=!1}finally{if(g)try{l.closeSync(C)}catch{}else l.closeSync(C)}return m}):l.futimes&&(l.lutimes=function(h,f,D,C){C&&process.nextTick(C)},l.lutimesSync=function(){})}function s(l){return l&&function(h,f,D){return l.call(t,h,f,function(C){c(C)&&(C=null),D&&D.apply(this,arguments)})}}function i(l){return l&&function(h,f){try{return l.call(t,h,f)}catch(D){if(!c(D))throw D}}}function n(l){return l&&function(h,f,D,C){return l.call(t,h,f,D,function(m){c(m)&&(m=null),C&&C.apply(this,arguments)})}}function u(l){return l&&function(h,f,D){try{return l.call(t,h,f,D)}catch(C){if(!c(C))throw C}}}function o(l){return l&&function(h,f,D){typeof f=="function"&&(D=f,f=null);function C(m,g){g&&(g.uid<0&&(g.uid+=4294967296),g.gid<0&&(g.gid+=4294967296)),D&&D.apply(this,arguments)}return f?l.call(t,h,f,C):l.call(t,h,C)}}function a(l){return l&&function(h,f){var D=f?l.call(t,h,f):l.call(t,h);return D&&(D.uid<0&&(D.uid+=4294967296),D.gid<0&&(D.gid+=4294967296)),D}}function c(l){if(!l||l.code==="ENOSYS")return!0;var h=!process.getuid||process.getuid()!==0;return!!(h&&(l.code==="EINVAL"||l.code==="EPERM"))}}});var sD=E((VO,rD)=>{var tD=require("stream").Stream;rD.exports=L3;function L3(t){return{ReadStream:e,WriteStream:r};function e(s,i){if(!(this instanceof e))return new e(s,i);tD.call(this);var n=this;this.path=s,this.fd=null,this.readable=!0,this.paused=!1,this.flags="r",this.mode=438,this.bufferSize=64*1024,i=i||{};for(var u=Object.keys(i),o=0,a=u.length;o<a;o++){var c=u[o];this[c]=i[c]}if(this.encoding&&this.setEncoding(this.encoding),this.start!==void 0){if(typeof this.start!="number")throw TypeError("start must be a Number");if(this.end===void 0)this.end=1/0;else if(typeof this.end!="number")throw TypeError("end must be a Number");if(this.start>this.end)throw new Error("start must be <= end");this.pos=this.start}if(this.fd!==null){process.nextTick(function(){n._read()});return}t.open(this.path,this.flags,this.mode,function(l,h){if(l){n.emit("error",l),n.readable=!1;return}n.fd=h,n.emit("open",h),n._read()})}function r(s,i){if(!(this instanceof r))return new r(s,i);tD.call(this),this.path=s,this.fd=null,this.writable=!0,this.flags="w",this.encoding="binary",this.mode=438,this.bytesWritten=0,i=i||{};for(var n=Object.keys(i),u=0,o=n.length;u<o;u++){var a=n[u];this[a]=i[a]}if(this.start!==void 0){if(typeof this.start!="number")throw TypeError("start must be a Number");if(this.start<0)throw new Error("start must be >= zero");this.pos=this.start}this.busy=!1,this._queue=[],this.fd===null&&(this._open=t.open,this._queue.push([this._open,this.path,this.flags,this.mode,void 0]),this.flush())}}});var nD=E((YO,iD)=>{"use strict";iD.exports=P3;var N3=Object.getPrototypeOf||function(t){return t.__proto__};function P3(t){if(t===null||typeof t!="object")return t;if(t instanceof Object)var e={__proto__:N3(t)};else var e=Object.create(null);return Object.getOwnPropertyNames(t).forEach(function(r){Object.defineProperty(e,r,Object.getOwnPropertyDescriptor(t,r))}),e}});var da=E((KO,Da)=>{var K=require("fs"),k3=eD(),q3=sD(),M3=nD(),Cn=require("util"),De,yn;typeof Symbol=="function"&&typeof Symbol.for=="function"?(De=Symbol.for("graceful-fs.queue"),yn=Symbol.for("graceful-fs.previous")):(De="___graceful-fs.queue",yn="___graceful-fs.previous");function $3(){}function aD(t,e){Object.defineProperty(t,De,{get:function(){return e}})}var ar=$3;Cn.debuglog?ar=Cn.debuglog("gfs4"):/\bgfs4\b/i.test(process.env.NODE_DEBUG||"")&&(ar=function(){var t=Cn.format.apply(Cn,arguments);t="GFS4: "+t.split(/\n/).join(`
-GFS4: `),console.error(t)});K[De]||(uD=global[De]||[],aD(K,uD),K.close=function(t){function e(r,s){return t.call(K,r,function(i){i||oD(),typeof s=="function"&&s.apply(this,arguments)})}return Object.defineProperty(e,yn,{value:t}),e}(K.close),K.closeSync=function(t){function e(r){t.apply(K,arguments),oD()}return Object.defineProperty(e,yn,{value:t}),e}(K.closeSync),/\bgfs4\b/i.test(process.env.NODE_DEBUG||"")&&process.on("exit",function(){ar(K[De]),require("assert").equal(K[De].length,0)}));var uD;global[De]||aD(global,K[De]);Da.exports=ha(M3(K));process.env.TEST_GRACEFUL_FS_GLOBAL_PATCH&&!K.__patched&&(Da.exports=ha(K),K.__patched=!0);function ha(t){k3(t),t.gracefulify=ha,t.createReadStream=B,t.createWriteStream=N;var e=t.readFile;t.readFile=r;function r(_,P,L){return typeof P=="function"&&(L=P,P=null),le(_,P,L);function le(he,re,Y,J){return e(he,re,function(M){M&&(M.code==="EMFILE"||M.code==="ENFILE")?Kr([le,[he,re,Y],M,J||Date.now(),Date.now()]):typeof Y=="function"&&Y.apply(this,arguments)})}}var s=t.writeFile;t.writeFile=i;function i(_,P,L,le){return typeof L=="function"&&(le=L,L=null),he(_,P,L,le);function he(re,Y,J,M,fe){return s(re,Y,J,function(H){H&&(H.code==="EMFILE"||H.code==="ENFILE")?Kr([he,[re,Y,J,M],H,fe||Date.now(),Date.now()]):typeof M=="function"&&M.apply(this,arguments)})}}var n=t.appendFile;n&&(t.appendFile=u);function u(_,P,L,le){return typeof L=="function"&&(le=L,L=null),he(_,P,L,le);function he(re,Y,J,M,fe){return n(re,Y,J,function(H){H&&(H.code==="EMFILE"||H.code==="ENFILE")?Kr([he,[re,Y,J,M],H,fe||Date.now(),Date.now()]):typeof M=="function"&&M.apply(this,arguments)})}}var o=t.copyFile;o&&(t.copyFile=a);function a(_,P,L,le){return typeof L=="function"&&(le=L,L=0),he(_,P,L,le);function he(re,Y,J,M,fe){return o(re,Y,J,function(H){H&&(H.code==="EMFILE"||H.code==="ENFILE")?Kr([he,[re,Y,J,M],H,fe||Date.now(),Date.now()]):typeof M=="function"&&M.apply(this,arguments)})}}var c=t.readdir;t.readdir=h;var l=/^v[0-5]\./;function h(_,P,L){typeof P=="function"&&(L=P,P=null);var le=l.test(process.version)?function(Y,J,M,fe){return c(Y,he(Y,J,M,fe))}:function(Y,J,M,fe){return c(Y,J,he(Y,J,M,fe))};return le(_,P,L);function he(re,Y,J,M){return function(fe,H){fe&&(fe.code==="EMFILE"||fe.code==="ENFILE")?Kr([le,[re,Y,J],fe,M||Date.now(),Date.now()]):(H&&H.sort&&H.sort(),typeof J=="function"&&J.call(this,fe,H))}}}if(process.version.substr(0,4)==="v0.8"){var f=q3(t);F=f.ReadStream,y=f.WriteStream}var D=t.ReadStream;D&&(F.prototype=Object.create(D.prototype),F.prototype.open=w);var C=t.WriteStream;C&&(y.prototype=Object.create(C.prototype),y.prototype.open=b),Object.defineProperty(t,"ReadStream",{get:function(){return F},set:function(_){F=_},enumerable:!0,configurable:!0}),Object.defineProperty(t,"WriteStream",{get:function(){return y},set:function(_){y=_},enumerable:!0,configurable:!0});var m=F;Object.defineProperty(t,"FileReadStream",{get:function(){return m},set:function(_){m=_},enumerable:!0,configurable:!0});var g=y;Object.defineProperty(t,"FileWriteStream",{get:function(){return g},set:function(_){g=_},enumerable:!0,configurable:!0});function F(_,P){return this instanceof F?(D.apply(this,arguments),this):F.apply(Object.create(F.prototype),arguments)}function w(){var _=this;ce(_.path,_.flags,_.mode,function(P,L){P?(_.autoClose&&_.destroy(),_.emit("error",P)):(_.fd=L,_.emit("open",L),_.read())})}function y(_,P){return this instanceof y?(C.apply(this,arguments),this):y.apply(Object.create(y.prototype),arguments)}function b(){var _=this;ce(_.path,_.flags,_.mode,function(P,L){P?(_.destroy(),_.emit("error",P)):(_.fd=L,_.emit("open",L))})}function B(_,P){return new t.ReadStream(_,P)}function N(_,P){return new t.WriteStream(_,P)}var R=t.open;t.open=ce;function ce(_,P,L,le){return typeof L=="function"&&(le=L,L=null),he(_,P,L,le);function he(re,Y,J,M,fe){return R(re,Y,J,function(H,HO){H&&(H.code==="EMFILE"||H.code==="ENFILE")?Kr([he,[re,Y,J,M],H,fe||Date.now(),Date.now()]):typeof M=="function"&&M.apply(this,arguments)})}}return t}function Kr(t){ar("ENQUEUE",t[0].name,t[1]),K[De].push(t),fa()}var Fn;function oD(){for(var t=Date.now(),e=0;e<K[De].length;++e)K[De][e].length>2&&(K[De][e][3]=t,K[De][e][4]=t);fa()}function fa(){if(clearTimeout(Fn),Fn=void 0,K[De].length!==0){var t=K[De].shift(),e=t[0],r=t[1],s=t[2],i=t[3],n=t[4];if(i===void 0)ar("RETRY",e.name,r),e.apply(null,r);else if(Date.now()-i>=6e4){ar("TIMEOUT",e.name,r);var u=r.pop();typeof u=="function"&&u.call(null,s)}else{var o=Date.now()-n,a=Math.max(n-i,1),c=Math.min(a*1.2,100);o>=c?(ar("RETRY",e.name,r),e.apply(null,r.concat([i]))):K[De].push(t)}Fn===void 0&&(Fn=setTimeout(fa,0))}}});var hD=E((eT,pa)=>{(function(){var t;function e(r,s){var i=this instanceof e?this:t;if(i.reset(s),typeof r=="string"&&r.length>0&&i.hash(r),i!==this)return i}e.prototype.hash=function(r){var s,i,n,u,o;switch(o=r.length,this.len+=o,i=this.k1,n=0,this.rem){case 0:i^=o>n?r.charCodeAt(n++)&65535:0;case 1:i^=o>n?(r.charCodeAt(n++)&65535)<<8:0;case 2:i^=o>n?(r.charCodeAt(n++)&65535)<<16:0;case 3:i^=o>n?(r.charCodeAt(n)&255)<<24:0,i^=o>n?(r.charCodeAt(n++)&65280)>>8:0}if(this.rem=o+this.rem&3,o-=this.rem,o>0){for(s=this.h1;i=i*11601+(i&65535)*3432906752&4294967295,i=i<<15|i>>>17,i=i*13715+(i&65535)*461832192&4294967295,s^=i,s=s<<13|s>>>19,s=s*5+3864292196&4294967295,!(n>=o);)i=r.charCodeAt(n++)&65535^(r.charCodeAt(n++)&65535)<<8^(r.charCodeAt(n++)&65535)<<16,u=r.charCodeAt(n++),i^=(u&255)<<24^(u&65280)>>8;switch(i=0,this.rem){case 3:i^=(r.charCodeAt(n+2)&65535)<<16;case 2:i^=(r.charCodeAt(n+1)&65535)<<8;case 1:i^=r.charCodeAt(n)&65535}this.h1=s}return this.k1=i,this},e.prototype.result=function(){var r,s;return r=this.k1,s=this.h1,r>0&&(r=r*11601+(r&65535)*3432906752&4294967295,r=r<<15|r>>>17,r=r*13715+(r&65535)*461832192&4294967295,s^=r),s^=this.len,s^=s>>>16,s=s*51819+(s&65535)*2246770688&4294967295,s^=s>>>13,s=s*44597+(s&65535)*3266445312&4294967295,s^=s>>>16,s>>>0},e.prototype.reset=function(r){return this.h1=typeof r=="number"?r:0,this.rem=this.k1=this.len=0,this},t=new e,typeof pa<"u"?pa.exports=e:this.MurmurHash3=e})()});var fD=E((tT,bn)=>{bn.exports=["SIGABRT","SIGALRM","SIGHUP","SIGINT","SIGTERM"];process.platform!=="win32"&&bn.exports.push("SIGVTALRM","SIGXCPU","SIGXFSZ","SIGUSR2","SIGTRAP","SIGSYS","SIGQUIT","SIGIOT");process.platform==="linux"&&bn.exports.push("SIGIO","SIGPOLL","SIGPWR","SIGSTKFLT","SIGUNUSED")});var ED=E((rT,Qr)=>{var G=global.process,lr=function(t){return t&&typeof t=="object"&&typeof t.removeListener=="function"&&typeof t.emit=="function"&&typeof t.reallyExit=="function"&&typeof t.listeners=="function"&&typeof t.kill=="function"&&typeof t.pid=="number"&&typeof t.on=="function"};lr(G)?(DD=require("assert"),Zr=fD(),dD=/^win/i.test(G.platform),ei=require("events"),typeof ei!="function"&&(ei=ei.EventEmitter),G.__signal_exit_emitter__?se=G.__signal_exit_emitter__:(se=G.__signal_exit_emitter__=new ei,se.count=0,se.emitted={}),se.infinite||(se.setMaxListeners(1/0),se.infinite=!0),Qr.exports=function(t,e){if(!lr(global.process))return function(){};DD.equal(typeof t,"function","a callback must be provided for exit handler"),Jr===!1&&ma();var r="exit";e&&e.alwaysLast&&(r="afterexit");var s=function(){se.removeListener(r,t),se.listeners("exit").length===0&&se.listeners("afterexit").length===0&&xn()};return se.on(r,t),s},xn=function(){!Jr||!lr(global.process)||(Jr=!1,Zr.forEach(function(e){try{G.removeListener(e,wn[e])}catch{}}),G.emit=_n,G.reallyExit=Ea,se.count-=1)},Qr.exports.unload=xn,hr=function(e,r,s){se.emitted[e]||(se.emitted[e]=!0,se.emit(e,r,s))},wn={},Zr.forEach(function(t){wn[t]=function(){if(!!lr(global.process)){var r=G.listeners(t);r.length===se.count&&(xn(),hr("exit",null,t),hr("afterexit",null,t),dD&&t==="SIGHUP"&&(t="SIGINT"),G.kill(G.pid,t))}}}),Qr.exports.signals=function(){return Zr},Jr=!1,ma=function(){Jr||!lr(global.process)||(Jr=!0,se.count+=1,Zr=Zr.filter(function(e){try{return G.on(e,wn[e]),!0}catch{return!1}}),G.emit=mD,G.reallyExit=pD)},Qr.exports.load=ma,Ea=G.reallyExit,pD=function(e){!lr(global.process)||(G.exitCode=e||0,hr("exit",G.exitCode,null),hr("afterexit",G.exitCode,null),Ea.call(G,G.exitCode))},_n=G.emit,mD=function(e,r){if(e==="exit"&&lr(global.process)){r!==void 0&&(G.exitCode=r);var s=_n.apply(this,arguments);return hr("exit",G.exitCode,null),hr("afterexit",G.exitCode,null),s}else return _n.apply(this,arguments)}):Qr.exports=function(){return function(){}};var DD,Zr,dD,ei,se,xn,hr,wn,Jr,ma,Ea,pD,_n,mD});var Ca=E((sT,FD)=>{FD.exports=ga;ga.strict=gD;ga.loose=CD;var z3=Object.prototype.toString,H3={"[object Int8Array]":!0,"[object Int16Array]":!0,"[object Int32Array]":!0,"[object Uint8Array]":!0,"[object Uint8ClampedArray]":!0,"[object Uint16Array]":!0,"[object Uint32Array]":!0,"[object Float32Array]":!0,"[object Float64Array]":!0};function ga(t){return gD(t)||CD(t)}function gD(t){return t instanceof Int8Array||t instanceof Int16Array||t instanceof Int32Array||t instanceof Uint8Array||t instanceof Uint8ClampedArray||t instanceof Uint16Array||t instanceof Uint32Array||t instanceof Float32Array||t instanceof Float64Array}function CD(t){return H3[z3.call(t)]}});var bD=E((iT,yD)=>{var G3=Ca().strict;yD.exports=function(e){if(G3(e)){var r=Buffer.from(e.buffer);return e.byteLength!==e.buffer.byteLength&&(r=r.slice(e.byteOffset,e.byteOffset+e.byteLength)),r}else return Buffer.from(e)}});var AD=E((nT,ti)=>{"use strict";ti.exports=J3;ti.exports.sync=Q3;ti.exports._getTmpname=Fa;ti.exports._cleanupOnExit=ya;var W=require("fs"),W3=hD(),xD=ED(),V3=require("path"),wD=Ca(),_D=bD(),{promisify:Me}=require("util"),qt={},Y3=function(){try{return require("worker_threads").threadId}catch{return 0}}(),K3=0;function Fa(t){return t+"."+W3(__filename).hash(String(process.pid)).hash(String(Y3)).hash(String(++K3)).result()}function ya(t){return()=>{try{W.unlinkSync(typeof t=="function"?t():t)}catch{}}}function X3(t){return new Promise(e=>{qt[t]||(qt[t]=[]),qt[t].push(e),qt[t].length===1&&e()})}function An(t){return t.code==="ENOSYS"||(!process.getuid||process.getuid()!==0)&&(t.code==="EINVAL"||t.code==="EPERM")}async function Z3(t,e,r={}){typeof r=="string"&&(r={encoding:r});let s,i,n=xD(ya(()=>i)),u=V3.resolve(t);try{await X3(u);let o=await Me(W.realpath)(t).catch(()=>t);if(i=Fa(o),!r.mode||!r.chown){let a=await Me(W.stat)(o).catch(()=>{});a&&(r.mode==null&&(r.mode=a.mode),r.chown==null&&process.getuid&&(r.chown={uid:a.uid,gid:a.gid}))}s=await Me(W.open)(i,"w",r.mode),r.tmpfileCreated&&await r.tmpfileCreated(i),wD(e)&&(e=_D(e)),Buffer.isBuffer(e)?await Me(W.write)(s,e,0,e.length,0):e!=null&&await Me(W.write)(s,String(e),0,String(r.encoding||"utf8")),r.fsync!==!1&&await Me(W.fsync)(s),await Me(W.close)(s),s=null,r.chown&&await Me(W.chown)(i,r.chown.uid,r.chown.gid).catch(a=>{if(!An(a))throw a}),r.mode&&await Me(W.chmod)(i,r.mode).catch(a=>{if(!An(a))throw a}),await Me(W.rename)(i,o)}finally{s&&await Me(W.close)(s).catch(()=>{}),n(),await Me(W.unlink)(i).catch(()=>{}),qt[u].shift(),qt[u].length>0?qt[u][0]():delete qt[u]}}function J3(t,e,r,s){r instanceof Function&&(s=r,r={});let i=Z3(t,e,r);return s&&i.then(s,s),i}function Q3(t,e,r){typeof r=="string"?r={encoding:r}:r||(r={});try{t=W.realpathSync(t)}catch{}let s=Fa(t);if(!r.mode||!r.chown)try{let a=W.statSync(t);r=Object.assign({},r),r.mode||(r.mode=a.mode),!r.chown&&process.getuid&&(r.chown={uid:a.uid,gid:a.gid})}catch{}let i,n=ya(s),u=xD(n),o=!0;try{if(i=W.openSync(s,"w",r.mode||438),r.tmpfileCreated&&r.tmpfileCreated(s),wD(e)&&(e=_D(e)),Buffer.isBuffer(e)?W.writeSync(i,e,0,e.length,0):e!=null&&W.writeSync(i,String(e),0,String(r.encoding||"utf8")),r.fsync!==!1&&W.fsyncSync(i),W.closeSync(i),i=null,r.chown)try{W.chownSync(s,r.chown.uid,r.chown.gid)}catch(a){if(!An(a))throw a}if(r.mode)try{W.chmodSync(s,r.mode)}catch(a){if(!An(a))throw a}W.renameSync(s,t),o=!1}finally{if(i)try{W.closeSync(i)}catch{}u(),o&&n()}}});var vD=E((uT,SD)=>{"use strict";SD.exports=t=>{let e=typeof t;return t!==null&&(e==="object"||e==="function")}});var RD=E((oT,BD)=>{"use strict";var fr=vD(),ex=new Set(["__proto__","prototype","constructor"]),tx=t=>!t.some(e=>ex.has(e));function Sn(t){let e=t.split("."),r=[];for(let s=0;s<e.length;s++){let i=e[s];for(;i[i.length-1]==="\\"&&e[s+1]!==void 0;)i=i.slice(0,-1)+".",i+=e[++s];r.push(i)}return tx(r)?r:[]}BD.exports={get(t,e,r){if(!fr(t)||typeof e!="string")return r===void 0?t:r;let s=Sn(e);if(s.length!==0){for(let i=0;i<s.length;i++)if(t=t[s[i]],t==null){if(i!==s.length-1)return r;break}return t===void 0?r:t}},set(t,e,r){if(!fr(t)||typeof e!="string")return t;let s=t,i=Sn(e);for(let n=0;n<i.length;n++){let u=i[n];fr(t[u])||(t[u]={}),n===i.length-1&&(t[u]=r),t=t[u]}return s},delete(t,e){if(!fr(t)||typeof e!="string")return!1;let r=Sn(e);for(let s=0;s<r.length;s++){let i=r[s];if(s===r.length-1)return delete t[i],!0;if(t=t[i],!fr(t))return!1}},has(t,e){if(!fr(t)||typeof e!="string")return!1;let r=Sn(e);if(r.length===0)return!1;for(let s=0;s<r.length;s++)if(fr(t)){if(!(r[s]in t))return!1;t=t[r[s]]}else return!1;return!0}}});var ni=E((bT,XD)=>{var Ax="2.0.0",Sx=Number.MAX_SAFE_INTEGER||9007199254740991,vx=16;XD.exports={SEMVER_SPEC_VERSION:Ax,MAX_LENGTH:256,MAX_SAFE_INTEGER:Sx,MAX_SAFE_COMPONENT_LENGTH:vx}});var ui=E((xT,ZD)=>{var Bx=typeof process=="object"&&process.env&&process.env.NODE_DEBUG&&/\bsemver\b/i.test(process.env.NODE_DEBUG)?(...t)=>console.error("SEMVER",...t):()=>{};ZD.exports=Bx});var Dr=E(($t,JD)=>{var{MAX_SAFE_COMPONENT_LENGTH:Ba}=ni(),Rx=ui();$t=JD.exports={};var Ox=$t.re=[],S=$t.src=[],v=$t.t={},Tx=0,O=(t,e,r)=>{let s=Tx++;Rx(t,s,e),v[t]=s,S[s]=e,Ox[s]=new RegExp(e,r?"g":void 0)};O("NUMERICIDENTIFIER","0|[1-9]\\d*");O("NUMERICIDENTIFIERLOOSE","[0-9]+");O("NONNUMERICIDENTIFIER","\\d*[a-zA-Z-][a-zA-Z0-9-]*");O("MAINVERSION",`(${S[v.NUMERICIDENTIFIER]})\\.(${S[v.NUMERICIDENTIFIER]})\\.(${S[v.NUMERICIDENTIFIER]})`);O("MAINVERSIONLOOSE",`(${S[v.NUMERICIDENTIFIERLOOSE]})\\.(${S[v.NUMERICIDENTIFIERLOOSE]})\\.(${S[v.NUMERICIDENTIFIERLOOSE]})`);O("PRERELEASEIDENTIFIER",`(?:${S[v.NUMERICIDENTIFIER]}|${S[v.NONNUMERICIDENTIFIER]})`);O("PRERELEASEIDENTIFIERLOOSE",`(?:${S[v.NUMERICIDENTIFIERLOOSE]}|${S[v.NONNUMERICIDENTIFIER]})`);O("PRERELEASE",`(?:-(${S[v.PRERELEASEIDENTIFIER]}(?:\\.${S[v.PRERELEASEIDENTIFIER]})*))`);O("PRERELEASELOOSE",`(?:-?(${S[v.PRERELEASEIDENTIFIERLOOSE]}(?:\\.${S[v.PRERELEASEIDENTIFIERLOOSE]})*))`);O("BUILDIDENTIFIER","[0-9A-Za-z-]+");O("BUILD",`(?:\\+(${S[v.BUILDIDENTIFIER]}(?:\\.${S[v.BUILDIDENTIFIER]})*))`);O("FULLPLAIN",`v?${S[v.MAINVERSION]}${S[v.PRERELEASE]}?${S[v.BUILD]}?`);O("FULL",`^${S[v.FULLPLAIN]}$`);O("LOOSEPLAIN",`[v=\\s]*${S[v.MAINVERSIONLOOSE]}${S[v.PRERELEASELOOSE]}?${S[v.BUILD]}?`);O("LOOSE",`^${S[v.LOOSEPLAIN]}$`);O("GTLT","((?:<|>)?=?)");O("XRANGEIDENTIFIERLOOSE",`${S[v.NUMERICIDENTIFIERLOOSE]}|x|X|\\*`);O("XRANGEIDENTIFIER",`${S[v.NUMERICIDENTIFIER]}|x|X|\\*`);O("XRANGEPLAIN",`[v=\\s]*(${S[v.XRANGEIDENTIFIER]})(?:\\.(${S[v.XRANGEIDENTIFIER]})(?:\\.(${S[v.XRANGEIDENTIFIER]})(?:${S[v.PRERELEASE]})?${S[v.BUILD]}?)?)?`);O("XRANGEPLAINLOOSE",`[v=\\s]*(${S[v.XRANGEIDENTIFIERLOOSE]})(?:\\.(${S[v.XRANGEIDENTIFIERLOOSE]})(?:\\.(${S[v.XRANGEIDENTIFIERLOOSE]})(?:${S[v.PRERELEASELOOSE]})?${S[v.BUILD]}?)?)?`);O("XRANGE",`^${S[v.GTLT]}\\s*${S[v.XRANGEPLAIN]}$`);O("XRANGELOOSE",`^${S[v.GTLT]}\\s*${S[v.XRANGEPLAINLOOSE]}$`);O("COERCE",`(^|[^\\d])(\\d{1,${Ba}})(?:\\.(\\d{1,${Ba}}))?(?:\\.(\\d{1,${Ba}}))?(?:$|[^\\d])`);O("COERCERTL",S[v.COERCE],!0);O("LONETILDE","(?:~>?)");O("TILDETRIM",`(\\s*)${S[v.LONETILDE]}\\s+`,!0);$t.tildeTrimReplace="$1~";O("TILDE",`^${S[v.LONETILDE]}${S[v.XRANGEPLAIN]}$`);O("TILDELOOSE",`^${S[v.LONETILDE]}${S[v.XRANGEPLAINLOOSE]}$`);O("LONECARET","(?:\\^)");O("CARETTRIM",`(\\s*)${S[v.LONECARET]}\\s+`,!0);$t.caretTrimReplace="$1^";O("CARET",`^${S[v.LONECARET]}${S[v.XRANGEPLAIN]}$`);O("CARETLOOSE",`^${S[v.LONECARET]}${S[v.XRANGEPLAINLOOSE]}$`);O("COMPARATORLOOSE",`^${S[v.GTLT]}\\s*(${S[v.LOOSEPLAIN]})$|^$`);O("COMPARATOR",`^${S[v.GTLT]}\\s*(${S[v.FULLPLAIN]})$|^$`);O("COMPARATORTRIM",`(\\s*)${S[v.GTLT]}\\s*(${S[v.LOOSEPLAIN]}|${S[v.XRANGEPLAIN]})`,!0);$t.comparatorTrimReplace="$1$2$3";O("HYPHENRANGE",`^\\s*(${S[v.XRANGEPLAIN]})\\s+-\\s+(${S[v.XRANGEPLAIN]})\\s*$`);O("HYPHENRANGELOOSE",`^\\s*(${S[v.XRANGEPLAINLOOSE]})\\s+-\\s+(${S[v.XRANGEPLAINLOOSE]})\\s*$`);O("STAR","(<|>)?=?\\s*\\*");O("GTE0","^\\s*>=\\s*0\\.0\\.0\\s*$");O("GTE0PRE","^\\s*>=\\s*0\\.0\\.0-0\\s*$")});var oi=E((wT,QD)=>{var Ix=["includePrerelease","loose","rtl"],Lx=t=>t?typeof t!="object"?{loose:!0}:Ix.filter(e=>t[e]).reduce((e,r)=>(e[r]=!0,e),{}):{};QD.exports=Lx});var Tn=E((_T,rd)=>{var ed=/^[0-9]+$/,td=(t,e)=>{let r=ed.test(t),s=ed.test(e);return r&&s&&(t=+t,e=+e),t===e?0:r&&!s?-1:s&&!r?1:t<e?-1:1},Nx=(t,e)=>td(e,t);rd.exports={compareIdentifiers:td,rcompareIdentifiers:Nx}});var me=E((AT,ud)=>{var In=ui(),{MAX_LENGTH:sd,MAX_SAFE_INTEGER:Ln}=ni(),{re:id,t:nd}=Dr(),Px=oi(),{compareIdentifiers:is}=Tn(),Te=class{constructor(e,r){if(r=Px(r),e instanceof Te){if(e.loose===!!r.loose&&e.includePrerelease===!!r.includePrerelease)return e;e=e.version}else if(typeof e!="string")throw new TypeError(`Invalid Version: ${e}`);if(e.length>sd)throw new TypeError(`version is longer than ${sd} characters`);In("SemVer",e,r),this.options=r,this.loose=!!r.loose,this.includePrerelease=!!r.includePrerelease;let s=e.trim().match(r.loose?id[nd.LOOSE]:id[nd.FULL]);if(!s)throw new TypeError(`Invalid Version: ${e}`);if(this.raw=e,this.major=+s[1],this.minor=+s[2],this.patch=+s[3],this.major>Ln||this.major<0)throw new TypeError("Invalid major version");if(this.minor>Ln||this.minor<0)throw new TypeError("Invalid minor version");if(this.patch>Ln||this.patch<0)throw new TypeError("Invalid patch version");s[4]?this.prerelease=s[4].split(".").map(i=>{if(/^[0-9]+$/.test(i)){let n=+i;if(n>=0&&n<Ln)return n}return i}):this.prerelease=[],this.build=s[5]?s[5].split("."):[],this.format()}format(){return this.version=`${this.major}.${this.minor}.${this.patch}`,this.prerelease.length&&(this.version+=`-${this.prerelease.join(".")}`),this.version}toString(){return this.version}compare(e){if(In("SemVer.compare",this.version,this.options,e),!(e instanceof Te)){if(typeof e=="string"&&e===this.version)return 0;e=new Te(e,this.options)}return e.version===this.version?0:this.compareMain(e)||this.comparePre(e)}compareMain(e){return e instanceof Te||(e=new Te(e,this.options)),is(this.major,e.major)||is(this.minor,e.minor)||is(this.patch,e.patch)}comparePre(e){if(e instanceof Te||(e=new Te(e,this.options)),this.prerelease.length&&!e.prerelease.length)return-1;if(!this.prerelease.length&&e.prerelease.length)return 1;if(!this.prerelease.length&&!e.prerelease.length)return 0;let r=0;do{let s=this.prerelease[r],i=e.prerelease[r];if(In("prerelease compare",r,s,i),s===void 0&&i===void 0)return 0;if(i===void 0)return 1;if(s===void 0)return-1;if(s===i)continue;return is(s,i)}while(++r)}compareBuild(e){e instanceof Te||(e=new Te(e,this.options));let r=0;do{let s=this.build[r],i=e.build[r];if(In("prerelease compare",r,s,i),s===void 0&&i===void 0)return 0;if(i===void 0)return 1;if(s===void 0)return-1;if(s===i)continue;return is(s,i)}while(++r)}inc(e,r){switch(e){case"premajor":this.prerelease.length=0,this.patch=0,this.minor=0,this.major++,this.inc("pre",r);break;case"preminor":this.prerelease.length=0,this.patch=0,this.minor++,this.inc("pre",r);break;case"prepatch":this.prerelease.length=0,this.inc("patch",r),this.inc("pre",r);break;case"prerelease":this.prerelease.length===0&&this.inc("patch",r),this.inc("pre",r);break;case"major":(this.minor!==0||this.patch!==0||this.prerelease.length===0)&&this.major++,this.minor=0,this.patch=0,this.prerelease=[];break;case"minor":(this.patch!==0||this.prerelease.length===0)&&this.minor++,this.patch=0,this.prerelease=[];break;case"patch":this.prerelease.length===0&&this.patch++,this.prerelease=[];break;case"pre":if(this.prerelease.length===0)this.prerelease=[0];else{let s=this.prerelease.length;for(;--s>=0;)typeof this.prerelease[s]=="number"&&(this.prerelease[s]++,s=-2);s===-1&&this.prerelease.push(0)}r&&(is(this.prerelease[0],r)===0?isNaN(this.prerelease[1])&&(this.prerelease=[r,0]):this.prerelease=[r,0]);break;default:throw new Error(`invalid increment argument: ${e}`)}return this.format(),this.raw=this.version,this}};ud.exports=Te});var dr=E((ST,ld)=>{var{MAX_LENGTH:kx}=ni(),{re:od,t:ad}=Dr(),cd=me(),qx=oi(),Mx=(t,e)=>{if(e=qx(e),t instanceof cd)return t;if(typeof t!="string"||t.length>kx||!(e.loose?od[ad.LOOSE]:od[ad.FULL]).test(t))return null;try{return new cd(t,e)}catch{return null}};ld.exports=Mx});var fd=E((vT,hd)=>{var $x=dr(),Ux=(t,e)=>{let r=$x(t,e);return r?r.version:null};hd.exports=Ux});var dd=E((BT,Dd)=>{var jx=dr(),zx=(t,e)=>{let r=jx(t.trim().replace(/^[=v]+/,""),e);return r?r.version:null};Dd.exports=zx});var Ed=E((RT,md)=>{var pd=me(),Hx=(t,e,r,s)=>{typeof r=="string"&&(s=r,r=void 0);try{return new pd(t instanceof pd?t.version:t,r).inc(e,s).version}catch{return null}};md.exports=Hx});var Ue=E((OT,Cd)=>{var gd=me(),Gx=(t,e,r)=>new gd(t,r).compare(new gd(e,r));Cd.exports=Gx});var Nn=E((TT,Fd)=>{var Wx=Ue(),Vx=(t,e,r)=>Wx(t,e,r)===0;Fd.exports=Vx});var xd=E((IT,bd)=>{var yd=dr(),Yx=Nn(),Kx=(t,e)=>{if(Yx(t,e))return null;{let r=yd(t),s=yd(e),i=r.prerelease.length||s.prerelease.length,n=i?"pre":"",u=i?"prerelease":"";for(let o in r)if((o==="major"||o==="minor"||o==="patch")&&r[o]!==s[o])return n+o;return u}};bd.exports=Kx});var _d=E((LT,wd)=>{var Xx=me(),Zx=(t,e)=>new Xx(t,e).major;wd.exports=Zx});var Sd=E((NT,Ad)=>{var Jx=me(),Qx=(t,e)=>new Jx(t,e).minor;Ad.exports=Qx});var Bd=E((PT,vd)=>{var ew=me(),tw=(t,e)=>new ew(t,e).patch;vd.exports=tw});var Od=E((kT,Rd)=>{var rw=dr(),sw=(t,e)=>{let r=rw(t,e);return r&&r.prerelease.length?r.prerelease:null};Rd.exports=sw});var Id=E((qT,Td)=>{var iw=Ue(),nw=(t,e,r)=>iw(e,t,r);Td.exports=nw});var Nd=E((MT,Ld)=>{var uw=Ue(),ow=(t,e)=>uw(t,e,!0);Ld.exports=ow});var Pn=E(($T,kd)=>{var Pd=me(),aw=(t,e,r)=>{let s=new Pd(t,r),i=new Pd(e,r);return s.compare(i)||s.compareBuild(i)};kd.exports=aw});var Md=E((UT,qd)=>{var cw=Pn(),lw=(t,e)=>t.sort((r,s)=>cw(r,s,e));qd.exports=lw});var Ud=E((jT,$d)=>{var hw=Pn(),fw=(t,e)=>t.sort((r,s)=>hw(s,r,e));$d.exports=fw});var ai=E((zT,jd)=>{var Dw=Ue(),dw=(t,e,r)=>Dw(t,e,r)>0;jd.exports=dw});var kn=E((HT,zd)=>{var pw=Ue(),mw=(t,e,r)=>pw(t,e,r)<0;zd.exports=mw});var Ra=E((GT,Hd)=>{var Ew=Ue(),gw=(t,e,r)=>Ew(t,e,r)!==0;Hd.exports=gw});var qn=E((WT,Gd)=>{var Cw=Ue(),Fw=(t,e,r)=>Cw(t,e,r)>=0;Gd.exports=Fw});var Mn=E((VT,Wd)=>{var yw=Ue(),bw=(t,e,r)=>yw(t,e,r)<=0;Wd.exports=bw});var Oa=E((YT,Vd)=>{var xw=Nn(),ww=Ra(),_w=ai(),Aw=qn(),Sw=kn(),vw=Mn(),Bw=(t,e,r,s)=>{switch(e){case"===":return typeof t=="object"&&(t=t.version),typeof r=="object"&&(r=r.version),t===r;case"!==":return typeof t=="object"&&(t=t.version),typeof r=="object"&&(r=r.version),t!==r;case"":case"=":case"==":return xw(t,r,s);case"!=":return ww(t,r,s);case">":return _w(t,r,s);case">=":return Aw(t,r,s);case"<":return Sw(t,r,s);case"<=":return vw(t,r,s);default:throw new TypeError(`Invalid operator: ${e}`)}};Vd.exports=Bw});var Kd=E((KT,Yd)=>{var Rw=me(),Ow=dr(),{re:$n,t:Un}=Dr(),Tw=(t,e)=>{if(t instanceof Rw)return t;if(typeof t=="number"&&(t=String(t)),typeof t!="string")return null;e=e||{};let r=null;if(!e.rtl)r=t.match($n[Un.COERCE]);else{let s;for(;(s=$n[Un.COERCERTL].exec(t))&&(!r||r.index+r[0].length!==t.length);)(!r||s.index+s[0].length!==r.index+r[0].length)&&(r=s),$n[Un.COERCERTL].lastIndex=s.index+s[1].length+s[2].length;$n[Un.COERCERTL].lastIndex=-1}return r===null?null:Ow(`${r[2]}.${r[3]||"0"}.${r[4]||"0"}`,e)};Yd.exports=Tw});var Zd=E((XT,Xd)=>{"use strict";Xd.exports=function(t){t.prototype[Symbol.iterator]=function*(){for(let e=this.head;e;e=e.next)yield e.value}}});var jn=E((ZT,Jd)=>{"use strict";Jd.exports=T;T.Node=pr;T.create=T;function T(t){var e=this;if(e instanceof T||(e=new T),e.tail=null,e.head=null,e.length=0,t&&typeof t.forEach=="function")t.forEach(function(i){e.push(i)});else if(arguments.length>0)for(var r=0,s=arguments.length;r<s;r++)e.push(arguments[r]);return e}T.prototype.removeNode=function(t){if(t.list!==this)throw new Error("removing node which does not belong to this list");var e=t.next,r=t.prev;return e&&(e.prev=r),r&&(r.next=e),t===this.head&&(this.head=e),t===this.tail&&(this.tail=r),t.list.length--,t.next=null,t.prev=null,t.list=null,e};T.prototype.unshiftNode=function(t){if(t!==this.head){t.list&&t.list.removeNode(t);var e=this.head;t.list=this,t.next=e,e&&(e.prev=t),this.head=t,this.tail||(this.tail=t),this.length++}};T.prototype.pushNode=function(t){if(t!==this.tail){t.list&&t.list.removeNode(t);var e=this.tail;t.list=this,t.prev=e,e&&(e.next=t),this.tail=t,this.head||(this.head=t),this.length++}};T.prototype.push=function(){for(var t=0,e=arguments.length;t<e;t++)Lw(this,arguments[t]);return this.length};T.prototype.unshift=function(){for(var t=0,e=arguments.length;t<e;t++)Nw(this,arguments[t]);return this.length};T.prototype.pop=function(){if(!!this.tail){var t=this.tail.value;return this.tail=this.tail.prev,this.tail?this.tail.next=null:this.head=null,this.length--,t}};T.prototype.shift=function(){if(!!this.head){var t=this.head.value;return this.head=this.head.next,this.head?this.head.prev=null:this.tail=null,this.length--,t}};T.prototype.forEach=function(t,e){e=e||this;for(var r=this.head,s=0;r!==null;s++)t.call(e,r.value,s,this),r=r.next};T.prototype.forEachReverse=function(t,e){e=e||this;for(var r=this.tail,s=this.length-1;r!==null;s--)t.call(e,r.value,s,this),r=r.prev};T.prototype.get=function(t){for(var e=0,r=this.head;r!==null&&e<t;e++)r=r.next;if(e===t&&r!==null)return r.value};T.prototype.getReverse=function(t){for(var e=0,r=this.tail;r!==null&&e<t;e++)r=r.prev;if(e===t&&r!==null)return r.value};T.prototype.map=function(t,e){e=e||this;for(var r=new T,s=this.head;s!==null;)r.push(t.call(e,s.value,this)),s=s.next;return r};T.prototype.mapReverse=function(t,e){e=e||this;for(var r=new T,s=this.tail;s!==null;)r.push(t.call(e,s.value,this)),s=s.prev;return r};T.prototype.reduce=function(t,e){var r,s=this.head;if(arguments.length>1)r=e;else if(this.head)s=this.head.next,r=this.head.value;else throw new TypeError("Reduce of empty list with no initial value");for(var i=0;s!==null;i++)r=t(r,s.value,i),s=s.next;return r};T.prototype.reduceReverse=function(t,e){var r,s=this.tail;if(arguments.length>1)r=e;else if(this.tail)s=this.tail.prev,r=this.tail.value;else throw new TypeError("Reduce of empty list with no initial value");for(var i=this.length-1;s!==null;i--)r=t(r,s.value,i),s=s.prev;return r};T.prototype.toArray=function(){for(var t=new Array(this.length),e=0,r=this.head;r!==null;e++)t[e]=r.value,r=r.next;return t};T.prototype.toArrayReverse=function(){for(var t=new Array(this.length),e=0,r=this.tail;r!==null;e++)t[e]=r.value,r=r.prev;return t};T.prototype.slice=function(t,e){e=e||this.length,e<0&&(e+=this.length),t=t||0,t<0&&(t+=this.length);var r=new T;if(e<t||e<0)return r;t<0&&(t=0),e>this.length&&(e=this.length);for(var s=0,i=this.head;i!==null&&s<t;s++)i=i.next;for(;i!==null&&s<e;s++,i=i.next)r.push(i.value);return r};T.prototype.sliceReverse=function(t,e){e=e||this.length,e<0&&(e+=this.length),t=t||0,t<0&&(t+=this.length);var r=new T;if(e<t||e<0)return r;t<0&&(t=0),e>this.length&&(e=this.length);for(var s=this.length,i=this.tail;i!==null&&s>e;s--)i=i.prev;for(;i!==null&&s>t;s--,i=i.prev)r.push(i.value);return r};T.prototype.splice=function(t,e,...r){t>this.length&&(t=this.length-1),t<0&&(t=this.length+t);for(var s=0,i=this.head;i!==null&&s<t;s++)i=i.next;for(var n=[],s=0;i&&s<e;s++)n.push(i.value),i=this.removeNode(i);i===null&&(i=this.tail),i!==this.head&&i!==this.tail&&(i=i.prev);for(var s=0;s<r.length;s++)i=Iw(this,i,r[s]);return n};T.prototype.reverse=function(){for(var t=this.head,e=this.tail,r=t;r!==null;r=r.prev){var s=r.prev;r.prev=r.next,r.next=s}return this.head=e,this.tail=t,this};function Iw(t,e,r){var s=e===t.head?new pr(r,null,e,t):new pr(r,e,e.next,t);return s.next===null&&(t.tail=s),s.prev===null&&(t.head=s),t.length++,s}function Lw(t,e){t.tail=new pr(e,t.tail,null,t),t.head||(t.head=t.tail),t.length++}function Nw(t,e){t.head=new pr(e,null,t.head,t),t.tail||(t.tail=t.head),t.length++}function pr(t,e,r,s){if(!(this instanceof pr))return new pr(t,e,r,s);this.list=s,this.value=t,e?(e.next=this,this.prev=e):this.prev=null,r?(r.prev=this,this.next=r):this.next=null}try{Zd()(T)}catch{}});var sp=E((JT,rp)=>{"use strict";var Pw=jn(),mr=Symbol("max"),mt=Symbol("length"),ns=Symbol("lengthCalculator"),li=Symbol("allowStale"),Er=Symbol("maxAge"),pt=Symbol("dispose"),Qd=Symbol("noDisposeOnSet"),ie=Symbol("lruList"),Ze=Symbol("cache"),tp=Symbol("updateAgeOnGet"),Ta=()=>1,La=class{constructor(e){if(typeof e=="number"&&(e={max:e}),e||(e={}),e.max&&(typeof e.max!="number"||e.max<0))throw new TypeError("max must be a non-negative number");let r=this[mr]=e.max||1/0,s=e.length||Ta;if(this[ns]=typeof s!="function"?Ta:s,this[li]=e.stale||!1,e.maxAge&&typeof e.maxAge!="number")throw new TypeError("maxAge must be a number");this[Er]=e.maxAge||0,this[pt]=e.dispose,this[Qd]=e.noDisposeOnSet||!1,this[tp]=e.updateAgeOnGet||!1,this.reset()}set max(e){if(typeof e!="number"||e<0)throw new TypeError("max must be a non-negative number");this[mr]=e||1/0,ci(this)}get max(){return this[mr]}set allowStale(e){this[li]=!!e}get allowStale(){return this[li]}set maxAge(e){if(typeof e!="number")throw new TypeError("maxAge must be a non-negative number");this[Er]=e,ci(this)}get maxAge(){return this[Er]}set lengthCalculator(e){typeof e!="function"&&(e=Ta),e!==this[ns]&&(this[ns]=e,this[mt]=0,this[ie].forEach(r=>{r.length=this[ns](r.value,r.key),this[mt]+=r.length})),ci(this)}get lengthCalculator(){return this[ns]}get length(){return this[mt]}get itemCount(){return this[ie].length}rforEach(e,r){r=r||this;for(let s=this[ie].tail;s!==null;){let i=s.prev;ep(this,e,s,r),s=i}}forEach(e,r){r=r||this;for(let s=this[ie].head;s!==null;){let i=s.next;ep(this,e,s,r),s=i}}keys(){return this[ie].toArray().map(e=>e.key)}values(){return this[ie].toArray().map(e=>e.value)}reset(){this[pt]&&this[ie]&&this[ie].length&&this[ie].forEach(e=>this[pt](e.key,e.value)),this[Ze]=new Map,this[ie]=new Pw,this[mt]=0}dump(){return this[ie].map(e=>zn(this,e)?!1:{k:e.key,v:e.value,e:e.now+(e.maxAge||0)}).toArray().filter(e=>e)}dumpLru(){return this[ie]}set(e,r,s){if(s=s||this[Er],s&&typeof s!="number")throw new TypeError("maxAge must be a number");let i=s?Date.now():0,n=this[ns](r,e);if(this[Ze].has(e)){if(n>this[mr])return us(this,this[Ze].get(e)),!1;let a=this[Ze].get(e).value;return this[pt]&&(this[Qd]||this[pt](e,a.value)),a.now=i,a.maxAge=s,a.value=r,this[mt]+=n-a.length,a.length=n,this.get(e),ci(this),!0}let u=new Na(e,r,n,i,s);return u.length>this[mr]?(this[pt]&&this[pt](e,r),!1):(this[mt]+=u.length,this[ie].unshift(u),this[Ze].set(e,this[ie].head),ci(this),!0)}has(e){if(!this[Ze].has(e))return!1;let r=this[Ze].get(e).value;return!zn(this,r)}get(e){return Ia(this,e,!0)}peek(e){return Ia(this,e,!1)}pop(){let e=this[ie].tail;return e?(us(this,e),e.value):null}del(e){us(this,this[Ze].get(e))}load(e){this.reset();let r=Date.now();for(let s=e.length-1;s>=0;s--){let i=e[s],n=i.e||0;if(n===0)this.set(i.k,i.v);else{let u=n-r;u>0&&this.set(i.k,i.v,u)}}}prune(){this[Ze].forEach((e,r)=>Ia(this,r,!1))}},Ia=(t,e,r)=>{let s=t[Ze].get(e);if(s){let i=s.value;if(zn(t,i)){if(us(t,s),!t[li])return}else r&&(t[tp]&&(s.value.now=Date.now()),t[ie].unshiftNode(s));return i.value}},zn=(t,e)=>{if(!e||!e.maxAge&&!t[Er])return!1;let r=Date.now()-e.now;return e.maxAge?r>e.maxAge:t[Er]&&r>t[Er]},ci=t=>{if(t[mt]>t[mr])for(let e=t[ie].tail;t[mt]>t[mr]&&e!==null;){let r=e.prev;us(t,e),e=r}},us=(t,e)=>{if(e){let r=e.value;t[pt]&&t[pt](r.key,r.value),t[mt]-=r.length,t[Ze].delete(r.key),t[ie].removeNode(e)}},Na=class{constructor(e,r,s,i,n){this.key=e,this.value=r,this.length=s,this.now=i,this.maxAge=n||0}},ep=(t,e,r,s)=>{let i=r.value;zn(t,i)&&(us(t,r),t[li]||(i=void 0)),i&&e.call(s,i.value,i.key,t)};rp.exports=La});var je=E((QT,op)=>{var gr=class{constructor(e,r){if(r=qw(r),e instanceof gr)return e.loose===!!r.loose&&e.includePrerelease===!!r.includePrerelease?e:new gr(e.raw,r);if(e instanceof Pa)return this.raw=e.value,this.set=[[e]],this.format(),this;if(this.options=r,this.loose=!!r.loose,this.includePrerelease=!!r.includePrerelease,this.raw=e,this.set=e.split("||").map(s=>this.parseRange(s.trim())).filter(s=>s.length),!this.set.length)throw new TypeError(`Invalid SemVer Range: ${e}`);if(this.set.length>1){let s=this.set[0];if(this.set=this.set.filter(i=>!np(i[0])),this.set.length===0)this.set=[s];else if(this.set.length>1){for(let i of this.set)if(i.length===1&&zw(i[0])){this.set=[i];break}}}this.format()}format(){return this.range=this.set.map(e=>e.join(" ").trim()).join("||").trim(),this.range}toString(){return this.range}parseRange(e){e=e.trim();let s=`parseRange:${Object.keys(this.options).join(",")}:${e}`,i=ip.get(s);if(i)return i;let n=this.options.loose,u=n?ve[be.HYPHENRANGELOOSE]:ve[be.HYPHENRANGE];e=e.replace(u,Qw(this.options.includePrerelease)),X("hyphen replace",e),e=e.replace(ve[be.COMPARATORTRIM],$w),X("comparator trim",e),e=e.replace(ve[be.TILDETRIM],Uw),e=e.replace(ve[be.CARETTRIM],jw),e=e.split(/\s+/).join(" ");let o=e.split(" ").map(h=>Hw(h,this.options)).join(" ").split(/\s+/).map(h=>Jw(h,this.options));n&&(o=o.filter(h=>(X("loose invalid filter",h,this.options),!!h.match(ve[be.COMPARATORLOOSE])))),X("range list",o);let a=new Map,c=o.map(h=>new Pa(h,this.options));for(let h of c){if(np(h))return[h];a.set(h.value,h)}a.size>1&&a.has("")&&a.delete("");let l=[...a.values()];return ip.set(s,l),l}intersects(e,r){if(!(e instanceof gr))throw new TypeError("a Range is required");return this.set.some(s=>up(s,r)&&e.set.some(i=>up(i,r)&&s.every(n=>i.every(u=>n.intersects(u,r)))))}test(e){if(!e)return!1;if(typeof e=="string")try{e=new Mw(e,this.options)}catch{return!1}for(let r=0;r<this.set.length;r++)if(e_(this.set[r],e,this.options))return!0;return!1}};op.exports=gr;var kw=sp(),ip=new kw({max:1e3}),qw=oi(),Pa=hi(),X=ui(),Mw=me(),{re:ve,t:be,comparatorTrimReplace:$w,tildeTrimReplace:Uw,caretTrimReplace:jw}=Dr(),np=t=>t.value==="<0.0.0-0",zw=t=>t.value==="",up=(t,e)=>{let r=!0,s=t.slice(),i=s.pop();for(;r&&s.length;)r=s.every(n=>i.intersects(n,e)),i=s.pop();return r},Hw=(t,e)=>(X("comp",t,e),t=Vw(t,e),X("caret",t),t=Gw(t,e),X("tildes",t),t=Kw(t,e),X("xrange",t),t=Zw(t,e),X("stars",t),t),xe=t=>!t||t.toLowerCase()==="x"||t==="*",Gw=(t,e)=>t.trim().split(/\s+/).map(r=>Ww(r,e)).join(" "),Ww=(t,e)=>{let r=e.loose?ve[be.TILDELOOSE]:ve[be.TILDE];return t.replace(r,(s,i,n,u,o)=>{X("tilde",t,s,i,n,u,o);let a;return xe(i)?a="":xe(n)?a=`>=${i}.0.0 <${+i+1}.0.0-0`:xe(u)?a=`>=${i}.${n}.0 <${i}.${+n+1}.0-0`:o?(X("replaceTilde pr",o),a=`>=${i}.${n}.${u}-${o} <${i}.${+n+1}.0-0`):a=`>=${i}.${n}.${u} <${i}.${+n+1}.0-0`,X("tilde return",a),a})},Vw=(t,e)=>t.trim().split(/\s+/).map(r=>Yw(r,e)).join(" "),Yw=(t,e)=>{X("caret",t,e);let r=e.loose?ve[be.CARETLOOSE]:ve[be.CARET],s=e.includePrerelease?"-0":"";return t.replace(r,(i,n,u,o,a)=>{X("caret",t,i,n,u,o,a);let c;return xe(n)?c="":xe(u)?c=`>=${n}.0.0${s} <${+n+1}.0.0-0`:xe(o)?n==="0"?c=`>=${n}.${u}.0${s} <${n}.${+u+1}.0-0`:c=`>=${n}.${u}.0${s} <${+n+1}.0.0-0`:a?(X("replaceCaret pr",a),n==="0"?u==="0"?c=`>=${n}.${u}.${o}-${a} <${n}.${u}.${+o+1}-0`:c=`>=${n}.${u}.${o}-${a} <${n}.${+u+1}.0-0`:c=`>=${n}.${u}.${o}-${a} <${+n+1}.0.0-0`):(X("no pr"),n==="0"?u==="0"?c=`>=${n}.${u}.${o}${s} <${n}.${u}.${+o+1}-0`:c=`>=${n}.${u}.${o}${s} <${n}.${+u+1}.0-0`:c=`>=${n}.${u}.${o} <${+n+1}.0.0-0`),X("caret return",c),c})},Kw=(t,e)=>(X("replaceXRanges",t,e),t.split(/\s+/).map(r=>Xw(r,e)).join(" ")),Xw=(t,e)=>{t=t.trim();let r=e.loose?ve[be.XRANGELOOSE]:ve[be.XRANGE];return t.replace(r,(s,i,n,u,o,a)=>{X("xRange",t,s,i,n,u,o,a);let c=xe(n),l=c||xe(u),h=l||xe(o),f=h;return i==="="&&f&&(i=""),a=e.includePrerelease?"-0":"",c?i===">"||i==="<"?s="<0.0.0-0":s="*":i&&f?(l&&(u=0),o=0,i===">"?(i=">=",l?(n=+n+1,u=0,o=0):(u=+u+1,o=0)):i==="<="&&(i="<",l?n=+n+1:u=+u+1),i==="<"&&(a="-0"),s=`${i+n}.${u}.${o}${a}`):l?s=`>=${n}.0.0${a} <${+n+1}.0.0-0`:h&&(s=`>=${n}.${u}.0${a} <${n}.${+u+1}.0-0`),X("xRange return",s),s})},Zw=(t,e)=>(X("replaceStars",t,e),t.trim().replace(ve[be.STAR],"")),Jw=(t,e)=>(X("replaceGTE0",t,e),t.trim().replace(ve[e.includePrerelease?be.GTE0PRE:be.GTE0],"")),Qw=t=>(e,r,s,i,n,u,o,a,c,l,h,f,D)=>(xe(s)?r="":xe(i)?r=`>=${s}.0.0${t?"-0":""}`:xe(n)?r=`>=${s}.${i}.0${t?"-0":""}`:u?r=`>=${r}`:r=`>=${r}${t?"-0":""}`,xe(c)?a="":xe(l)?a=`<${+c+1}.0.0-0`:xe(h)?a=`<${c}.${+l+1}.0-0`:f?a=`<=${c}.${l}.${h}-${f}`:t?a=`<${c}.${l}.${+h+1}-0`:a=`<=${a}`,`${r} ${a}`.trim()),e_=(t,e,r)=>{for(let s=0;s<t.length;s++)if(!t[s].test(e))return!1;if(e.prerelease.length&&!r.includePrerelease){for(let s=0;s<t.length;s++)if(X(t[s].semver),t[s].semver!==Pa.ANY&&t[s].semver.prerelease.length>0){let i=t[s].semver;if(i.major===e.major&&i.minor===e.minor&&i.patch===e.patch)return!0}return!1}return!0}});var hi=E((eI,fp)=>{var fi=Symbol("SemVer ANY"),os=class{static get ANY(){return fi}constructor(e,r){if(r=t_(r),e instanceof os){if(e.loose===!!r.loose)return e;e=e.value}qa("comparator",e,r),this.options=r,this.loose=!!r.loose,this.parse(e),this.semver===fi?this.value="":this.value=this.operator+this.semver.version,qa("comp",this)}parse(e){let r=this.options.loose?ap[cp.COMPARATORLOOSE]:ap[cp.COMPARATOR],s=e.match(r);if(!s)throw new TypeError(`Invalid comparator: ${e}`);this.operator=s[1]!==void 0?s[1]:"",this.operator==="="&&(this.operator=""),s[2]?this.semver=new lp(s[2],this.options.loose):this.semver=fi}toString(){return this.value}test(e){if(qa("Comparator.test",e,this.options.loose),this.semver===fi||e===fi)return!0;if(typeof e=="string")try{e=new lp(e,this.options)}catch{return!1}return ka(e,this.operator,this.semver,this.options)}intersects(e,r){if(!(e instanceof os))throw new TypeError("a Comparator is required");if((!r||typeof r!="object")&&(r={loose:!!r,includePrerelease:!1}),this.operator==="")return this.value===""?!0:new hp(e.value,r).test(this.value);if(e.operator==="")return e.value===""?!0:new hp(this.value,r).test(e.semver);let s=(this.operator===">="||this.operator===">")&&(e.operator===">="||e.operator===">"),i=(this.operator==="<="||this.operator==="<")&&(e.operator==="<="||e.operator==="<"),n=this.semver.version===e.semver.version,u=(this.operator===">="||this.operator==="<=")&&(e.operator===">="||e.operator==="<="),o=ka(this.semver,"<",e.semver,r)&&(this.operator===">="||this.operator===">")&&(e.operator==="<="||e.operator==="<"),a=ka(this.semver,">",e.semver,r)&&(this.operator==="<="||this.operator==="<")&&(e.operator===">="||e.operator===">");return s||i||n&&u||o||a}};fp.exports=os;var t_=oi(),{re:ap,t:cp}=Dr(),ka=Oa(),qa=ui(),lp=me(),hp=je()});var Di=E((tI,Dp)=>{var r_=je(),s_=(t,e,r)=>{try{e=new r_(e,r)}catch{return!1}return e.test(t)};Dp.exports=s_});var pp=E((rI,dp)=>{var i_=je(),n_=(t,e)=>new i_(t,e).set.map(r=>r.map(s=>s.value).join(" ").trim().split(" "));dp.exports=n_});var Ep=E((sI,mp)=>{var u_=me(),o_=je(),a_=(t,e,r)=>{let s=null,i=null,n=null;try{n=new o_(e,r)}catch{return null}return t.forEach(u=>{n.test(u)&&(!s||i.compare(u)===-1)&&(s=u,i=new u_(s,r))}),s};mp.exports=a_});var Cp=E((iI,gp)=>{var c_=me(),l_=je(),h_=(t,e,r)=>{let s=null,i=null,n=null;try{n=new l_(e,r)}catch{return null}return t.forEach(u=>{n.test(u)&&(!s||i.compare(u)===1)&&(s=u,i=new c_(s,r))}),s};gp.exports=h_});var bp=E((nI,yp)=>{var Ma=me(),f_=je(),Fp=ai(),D_=(t,e)=>{t=new f_(t,e);let r=new Ma("0.0.0");if(t.test(r)||(r=new Ma("0.0.0-0"),t.test(r)))return r;r=null;for(let s=0;s<t.set.length;++s){let i=t.set[s],n=null;i.forEach(u=>{let o=new Ma(u.semver.version);switch(u.operator){case">":o.prerelease.length===0?o.patch++:o.prerelease.push(0),o.raw=o.format();case"":case">=":(!n||Fp(o,n))&&(n=o);break;case"<":case"<=":break;default:throw new Error(`Unexpected operation: ${u.operator}`)}}),n&&(!r||Fp(r,n))&&(r=n)}return r&&t.test(r)?r:null};yp.exports=D_});var wp=E((uI,xp)=>{var d_=je(),p_=(t,e)=>{try{return new d_(t,e).range||"*"}catch{return null}};xp.exports=p_});var Hn=E((oI,vp)=>{var m_=me(),Sp=hi(),{ANY:E_}=Sp,g_=je(),C_=Di(),_p=ai(),Ap=kn(),F_=Mn(),y_=qn(),b_=(t,e,r,s)=>{t=new m_(t,s),e=new g_(e,s);let i,n,u,o,a;switch(r){case">":i=_p,n=F_,u=Ap,o=">",a=">=";break;case"<":i=Ap,n=y_,u=_p,o="<",a="<=";break;default:throw new TypeError('Must provide a hilo val of "<" or ">"')}if(C_(t,e,s))return!1;for(let c=0;c<e.set.length;++c){let l=e.set[c],h=null,f=null;if(l.forEach(D=>{D.semver===E_&&(D=new Sp(">=0.0.0")),h=h||D,f=f||D,i(D.semver,h.semver,s)?h=D:u(D.semver,f.semver,s)&&(f=D)}),h.operator===o||h.operator===a||(!f.operator||f.operator===o)&&n(t,f.semver))return!1;if(f.operator===a&&u(t,f.semver))return!1}return!0};vp.exports=b_});var Rp=E((aI,Bp)=>{var x_=Hn(),w_=(t,e,r)=>x_(t,e,">",r);Bp.exports=w_});var Tp=E((cI,Op)=>{var __=Hn(),A_=(t,e,r)=>__(t,e,"<",r);Op.exports=A_});var Np=E((lI,Lp)=>{var Ip=je(),S_=(t,e,r)=>(t=new Ip(t,r),e=new Ip(e,r),t.intersects(e));Lp.exports=S_});var kp=E((hI,Pp)=>{var v_=Di(),B_=Ue();Pp.exports=(t,e,r)=>{let s=[],i=null,n=null,u=t.sort((l,h)=>B_(l,h,r));for(let l of u)v_(l,e,r)?(n=l,i||(i=l)):(n&&s.push([i,n]),n=null,i=null);i&&s.push([i,null]);let o=[];for(let[l,h]of s)l===h?o.push(l):!h&&l===u[0]?o.push("*"):h?l===u[0]?o.push(`<=${h}`):o.push(`${l} - ${h}`):o.push(`>=${l}`);let a=o.join(" || "),c=typeof e.raw=="string"?e.raw:String(e);return a.length<c.length?a:e}});var jp=E((fI,Up)=>{var qp=je(),Gn=hi(),{ANY:$a}=Gn,di=Di(),Ua=Ue(),R_=(t,e,r={})=>{if(t===e)return!0;t=new qp(t,r),e=new qp(e,r);let s=!1;e:for(let i of t.set){for(let n of e.set){let u=O_(i,n,r);if(s=s||u!==null,u)continue e}if(s)return!1}return!0},O_=(t,e,r)=>{if(t===e)return!0;if(t.length===1&&t[0].semver===$a){if(e.length===1&&e[0].semver===$a)return!0;r.includePrerelease?t=[new Gn(">=0.0.0-0")]:t=[new Gn(">=0.0.0")]}if(e.length===1&&e[0].semver===$a){if(r.includePrerelease)return!0;e=[new Gn(">=0.0.0")]}let s=new Set,i,n;for(let D of t)D.operator===">"||D.operator===">="?i=Mp(i,D,r):D.operator==="<"||D.operator==="<="?n=$p(n,D,r):s.add(D.semver);if(s.size>1)return null;let u;if(i&&n){if(u=Ua(i.semver,n.semver,r),u>0)return null;if(u===0&&(i.operator!==">="||n.operator!=="<="))return null}for(let D of s){if(i&&!di(D,String(i),r)||n&&!di(D,String(n),r))return null;for(let C of e)if(!di(D,String(C),r))return!1;return!0}let o,a,c,l,h=n&&!r.includePrerelease&&n.semver.prerelease.length?n.semver:!1,f=i&&!r.includePrerelease&&i.semver.prerelease.length?i.semver:!1;h&&h.prerelease.length===1&&n.operator==="<"&&h.prerelease[0]===0&&(h=!1);for(let D of e){if(l=l||D.operator===">"||D.operator===">=",c=c||D.operator==="<"||D.operator==="<=",i){if(f&&D.semver.prerelease&&D.semver.prerelease.length&&D.semver.major===f.major&&D.semver.minor===f.minor&&D.semver.patch===f.patch&&(f=!1),D.operator===">"||D.operator===">="){if(o=Mp(i,D,r),o===D&&o!==i)return!1}else if(i.operator===">="&&!di(i.semver,String(D),r))return!1}if(n){if(h&&D.semver.prerelease&&D.semver.prerelease.length&&D.semver.major===h.major&&D.semver.minor===h.minor&&D.semver.patch===h.patch&&(h=!1),D.operator==="<"||D.operator==="<="){if(a=$p(n,D,r),a===D&&a!==n)return!1}else if(n.operator==="<="&&!di(n.semver,String(D),r))return!1}if(!D.operator&&(n||i)&&u!==0)return!1}return!(i&&c&&!n&&u!==0||n&&l&&!i&&u!==0||f||h)},Mp=(t,e,r)=>{if(!t)return e;let s=Ua(t.semver,e.semver,r);return s>0?t:s<0||e.operator===">"&&t.operator===">="?e:t},$p=(t,e,r)=>{if(!t)return e;let s=Ua(t.semver,e.semver,r);return s<0?t:s>0||e.operator==="<"&&t.operator==="<="?e:t};Up.exports=R_});var pi=E((DI,zp)=>{var ja=Dr();zp.exports={re:ja.re,src:ja.src,tokens:ja.t,SEMVER_SPEC_VERSION:ni().SEMVER_SPEC_VERSION,SemVer:me(),compareIdentifiers:Tn().compareIdentifiers,rcompareIdentifiers:Tn().rcompareIdentifiers,parse:dr(),valid:fd(),clean:dd(),inc:Ed(),diff:xd(),major:_d(),minor:Sd(),patch:Bd(),prerelease:Od(),compare:Ue(),rcompare:Id(),compareLoose:Nd(),compareBuild:Pn(),sort:Md(),rsort:Ud(),gt:ai(),lt:kn(),eq:Nn(),neq:Ra(),gte:qn(),lte:Mn(),cmp:Oa(),coerce:Kd(),Comparator:hi(),Range:je(),satisfies:Di(),toComparators:pp(),maxSatisfying:Ep(),minSatisfying:Cp(),minVersion:bp(),validRange:wp(),outside:Hn(),gtr:Rp(),ltr:Tp(),intersects:Np(),simplifyRange:kp(),subset:jp()}});var gt=E((Et,Wn)=>{"use strict";Object.defineProperty(Et,"__esModule",{value:!0});var Hp=["Int8Array","Uint8Array","Uint8ClampedArray","Int16Array","Uint16Array","Int32Array","Uint32Array","Float32Array","Float64Array","BigInt64Array","BigUint64Array"];function T_(t){return Hp.includes(t)}var I_=["Function","Generator","AsyncGenerator","GeneratorFunction","AsyncGeneratorFunction","AsyncFunction","Observable","Array","Buffer","Blob","Object","RegExp","Date","Error","Map","Set","WeakMap","WeakSet","ArrayBuffer","SharedArrayBuffer","DataView","Promise","URL","FormData","URLSearchParams","HTMLElement",...Hp];function L_(t){return I_.includes(t)}var N_=["null","undefined","string","number","bigint","boolean","symbol"];function P_(t){return N_.includes(t)}function as(t){return e=>typeof e===t}var{toString:Gp}=Object.prototype,Ei=t=>{let e=Gp.call(t).slice(8,-1);if(/HTML\w+Element/.test(e)&&d.domElement(t))return"HTMLElement";if(L_(e))return e},q=t=>e=>Ei(e)===t;function d(t){if(t===null)return"null";switch(typeof t){case"undefined":return"undefined";case"string":return"string";case"number":return"number";case"boolean":return"boolean";case"function":return"Function";case"bigint":return"bigint";case"symbol":return"symbol";default:}if(d.observable(t))return"Observable";if(d.array(t))return"Array";if(d.buffer(t))return"Buffer";let e=Ei(t);if(e)return e;if(t instanceof String||t instanceof Boolean||t instanceof Number)throw new TypeError("Please don't use object wrappers for primitive types");return"Object"}d.undefined=as("undefined");d.string=as("string");var k_=as("number");d.number=t=>k_(t)&&!d.nan(t);d.bigint=as("bigint");d.function_=as("function");d.null_=t=>t===null;d.class_=t=>d.function_(t)&&t.toString().startsWith("class ");d.boolean=t=>t===!0||t===!1;d.symbol=as("symbol");d.numericString=t=>d.string(t)&&!d.emptyStringOrWhitespace(t)&&!Number.isNaN(Number(t));d.array=(t,e)=>Array.isArray(t)?d.function_(e)?t.every(e):!0:!1;d.buffer=t=>{var e,r,s,i;return(i=(s=(r=(e=t)===null||e===void 0?void 0:e.constructor)===null||r===void 0?void 0:r.isBuffer)===null||s===void 0?void 0:s.call(r,t))!==null&&i!==void 0?i:!1};d.blob=t=>q("Blob")(t);d.nullOrUndefined=t=>d.null_(t)||d.undefined(t);d.object=t=>!d.null_(t)&&(typeof t=="object"||d.function_(t));d.iterable=t=>{var e;return d.function_((e=t)===null||e===void 0?void 0:e[Symbol.iterator])};d.asyncIterable=t=>{var e;return d.function_((e=t)===null||e===void 0?void 0:e[Symbol.asyncIterator])};d.generator=t=>{var e,r;return d.iterable(t)&&d.function_((e=t)===null||e===void 0?void 0:e.next)&&d.function_((r=t)===null||r===void 0?void 0:r.throw)};d.asyncGenerator=t=>d.asyncIterable(t)&&d.function_(t.next)&&d.function_(t.throw);d.nativePromise=t=>q("Promise")(t);var q_=t=>{var e,r;return d.function_((e=t)===null||e===void 0?void 0:e.then)&&d.function_((r=t)===null||r===void 0?void 0:r.catch)};d.promise=t=>d.nativePromise(t)||q_(t);d.generatorFunction=q("GeneratorFunction");d.asyncGeneratorFunction=t=>Ei(t)==="AsyncGeneratorFunction";d.asyncFunction=t=>Ei(t)==="AsyncFunction";d.boundFunction=t=>d.function_(t)&&!t.hasOwnProperty("prototype");d.regExp=q("RegExp");d.date=q("Date");d.error=q("Error");d.map=t=>q("Map")(t);d.set=t=>q("Set")(t);d.weakMap=t=>q("WeakMap")(t);d.weakSet=t=>q("WeakSet")(t);d.int8Array=q("Int8Array");d.uint8Array=q("Uint8Array");d.uint8ClampedArray=q("Uint8ClampedArray");d.int16Array=q("Int16Array");d.uint16Array=q("Uint16Array");d.int32Array=q("Int32Array");d.uint32Array=q("Uint32Array");d.float32Array=q("Float32Array");d.float64Array=q("Float64Array");d.bigInt64Array=q("BigInt64Array");d.bigUint64Array=q("BigUint64Array");d.arrayBuffer=q("ArrayBuffer");d.sharedArrayBuffer=q("SharedArrayBuffer");d.dataView=q("DataView");d.enumCase=(t,e)=>Object.values(e).includes(t);d.directInstanceOf=(t,e)=>Object.getPrototypeOf(t)===e.prototype;d.urlInstance=t=>q("URL")(t);d.urlString=t=>{if(!d.string(t))return!1;try{return new URL(t),!0}catch{return!1}};d.truthy=t=>Boolean(t);d.falsy=t=>!t;d.nan=t=>Number.isNaN(t);d.primitive=t=>d.null_(t)||P_(typeof t);d.integer=t=>Number.isInteger(t);d.safeInteger=t=>Number.isSafeInteger(t);d.plainObject=t=>{if(Gp.call(t)!=="[object Object]")return!1;let e=Object.getPrototypeOf(t);return e===null||e===Object.getPrototypeOf({})};d.typedArray=t=>T_(Ei(t));var M_=t=>d.safeInteger(t)&&t>=0;d.arrayLike=t=>!d.nullOrUndefined(t)&&!d.function_(t)&&M_(t.length);d.inRange=(t,e)=>{if(d.number(e))return t>=Math.min(0,e)&&t<=Math.max(e,0);if(d.array(e)&&e.length===2)return t>=Math.min(...e)&&t<=Math.max(...e);throw new TypeError(`Invalid range: ${JSON.stringify(e)}`)};var $_=1,U_=["innerHTML","ownerDocument","style","attributes","nodeValue"];d.domElement=t=>d.object(t)&&t.nodeType===$_&&d.string(t.nodeName)&&!d.plainObject(t)&&U_.every(e=>e in t);d.observable=t=>{var e,r,s,i;return t?t===((r=(e=t)[Symbol.observable])===null||r===void 0?void 0:r.call(e))||t===((i=(s=t)["@@observable"])===null||i===void 0?void 0:i.call(s)):!1};d.nodeStream=t=>d.object(t)&&d.function_(t.pipe)&&!d.observable(t);d.infinite=t=>t===1/0||t===-1/0;var Wp=t=>e=>d.integer(e)&&Math.abs(e%2)===t;d.evenInteger=Wp(0);d.oddInteger=Wp(1);d.emptyArray=t=>d.array(t)&&t.length===0;d.nonEmptyArray=t=>d.array(t)&&t.length>0;d.emptyString=t=>d.string(t)&&t.length===0;var j_=t=>d.string(t)&&!/\S/.test(t);d.emptyStringOrWhitespace=t=>d.emptyString(t)||j_(t);d.nonEmptyString=t=>d.string(t)&&t.length>0;d.nonEmptyStringAndNotWhitespace=t=>d.string(t)&&!d.emptyStringOrWhitespace(t);d.emptyObject=t=>d.object(t)&&!d.map(t)&&!d.set(t)&&Object.keys(t).length===0;d.nonEmptyObject=t=>d.object(t)&&!d.map(t)&&!d.set(t)&&Object.keys(t).length>0;d.emptySet=t=>d.set(t)&&t.size===0;d.nonEmptySet=t=>d.set(t)&&t.size>0;d.emptyMap=t=>d.map(t)&&t.size===0;d.nonEmptyMap=t=>d.map(t)&&t.size>0;d.propertyKey=t=>d.any([d.string,d.number,d.symbol],t);d.formData=t=>q("FormData")(t);d.urlSearchParams=t=>q("URLSearchParams")(t);var Vp=(t,e,r)=>{if(!d.function_(e))throw new TypeError(`Invalid predicate: ${JSON.stringify(e)}`);if(r.length===0)throw new TypeError("Invalid number of values");return t.call(r,e)};d.any=(t,...e)=>(d.array(t)?t:[t]).some(s=>Vp(Array.prototype.some,s,e));d.all=(t,...e)=>Vp(Array.prototype.every,t,e);var x=(t,e,r,s={})=>{if(!t){let{multipleValues:i}=s,n=i?`received values of types ${[...new Set(r.map(u=>`\`${d(u)}\``))].join(", ")}`:`received value of type \`${d(r)}\``;throw new TypeError(`Expected value which is \`${e}\`, ${n}.`)}};Et.assert={undefined:t=>x(d.undefined(t),"undefined",t),string:t=>x(d.string(t),"string",t),number:t=>x(d.number(t),"number",t),bigint:t=>x(d.bigint(t),"bigint",t),function_:t=>x(d.function_(t),"Function",t),null_:t=>x(d.null_(t),"null",t),class_:t=>x(d.class_(t),"Class",t),boolean:t=>x(d.boolean(t),"boolean",t),symbol:t=>x(d.symbol(t),"symbol",t),numericString:t=>x(d.numericString(t),"string with a number",t),array:(t,e)=>{x(d.array(t),"Array",t),e&&t.forEach(e)},buffer:t=>x(d.buffer(t),"Buffer",t),blob:t=>x(d.blob(t),"Blob",t),nullOrUndefined:t=>x(d.nullOrUndefined(t),"null or undefined",t),object:t=>x(d.object(t),"Object",t),iterable:t=>x(d.iterable(t),"Iterable",t),asyncIterable:t=>x(d.asyncIterable(t),"AsyncIterable",t),generator:t=>x(d.generator(t),"Generator",t),asyncGenerator:t=>x(d.asyncGenerator(t),"AsyncGenerator",t),nativePromise:t=>x(d.nativePromise(t),"native Promise",t),promise:t=>x(d.promise(t),"Promise",t),generatorFunction:t=>x(d.generatorFunction(t),"GeneratorFunction",t),asyncGeneratorFunction:t=>x(d.asyncGeneratorFunction(t),"AsyncGeneratorFunction",t),asyncFunction:t=>x(d.asyncFunction(t),"AsyncFunction",t),boundFunction:t=>x(d.boundFunction(t),"Function",t),regExp:t=>x(d.regExp(t),"RegExp",t),date:t=>x(d.date(t),"Date",t),error:t=>x(d.error(t),"Error",t),map:t=>x(d.map(t),"Map",t),set:t=>x(d.set(t),"Set",t),weakMap:t=>x(d.weakMap(t),"WeakMap",t),weakSet:t=>x(d.weakSet(t),"WeakSet",t),int8Array:t=>x(d.int8Array(t),"Int8Array",t),uint8Array:t=>x(d.uint8Array(t),"Uint8Array",t),uint8ClampedArray:t=>x(d.uint8ClampedArray(t),"Uint8ClampedArray",t),int16Array:t=>x(d.int16Array(t),"Int16Array",t),uint16Array:t=>x(d.uint16Array(t),"Uint16Array",t),int32Array:t=>x(d.int32Array(t),"Int32Array",t),uint32Array:t=>x(d.uint32Array(t),"Uint32Array",t),float32Array:t=>x(d.float32Array(t),"Float32Array",t),float64Array:t=>x(d.float64Array(t),"Float64Array",t),bigInt64Array:t=>x(d.bigInt64Array(t),"BigInt64Array",t),bigUint64Array:t=>x(d.bigUint64Array(t),"BigUint64Array",t),arrayBuffer:t=>x(d.arrayBuffer(t),"ArrayBuffer",t),sharedArrayBuffer:t=>x(d.sharedArrayBuffer(t),"SharedArrayBuffer",t),dataView:t=>x(d.dataView(t),"DataView",t),enumCase:(t,e)=>x(d.enumCase(t,e),"EnumCase",t),urlInstance:t=>x(d.urlInstance(t),"URL",t),urlString:t=>x(d.urlString(t),"string with a URL",t),truthy:t=>x(d.truthy(t),"truthy",t),falsy:t=>x(d.falsy(t),"falsy",t),nan:t=>x(d.nan(t),"NaN",t),primitive:t=>x(d.primitive(t),"primitive",t),integer:t=>x(d.integer(t),"integer",t),safeInteger:t=>x(d.safeInteger(t),"integer",t),plainObject:t=>x(d.plainObject(t),"plain object",t),typedArray:t=>x(d.typedArray(t),"TypedArray",t),arrayLike:t=>x(d.arrayLike(t),"array-like",t),domElement:t=>x(d.domElement(t),"HTMLElement",t),observable:t=>x(d.observable(t),"Observable",t),nodeStream:t=>x(d.nodeStream(t),"Node.js Stream",t),infinite:t=>x(d.infinite(t),"infinite number",t),emptyArray:t=>x(d.emptyArray(t),"empty array",t),nonEmptyArray:t=>x(d.nonEmptyArray(t),"non-empty array",t),emptyString:t=>x(d.emptyString(t),"empty string",t),emptyStringOrWhitespace:t=>x(d.emptyStringOrWhitespace(t),"empty string or whitespace",t),nonEmptyString:t=>x(d.nonEmptyString(t),"non-empty string",t),nonEmptyStringAndNotWhitespace:t=>x(d.nonEmptyStringAndNotWhitespace(t),"non-empty string and not whitespace",t),emptyObject:t=>x(d.emptyObject(t),"empty object",t),nonEmptyObject:t=>x(d.nonEmptyObject(t),"non-empty object",t),emptySet:t=>x(d.emptySet(t),"empty set",t),nonEmptySet:t=>x(d.nonEmptySet(t),"non-empty set",t),emptyMap:t=>x(d.emptyMap(t),"empty map",t),nonEmptyMap:t=>x(d.nonEmptyMap(t),"non-empty map",t),propertyKey:t=>x(d.propertyKey(t),"PropertyKey",t),formData:t=>x(d.formData(t),"FormData",t),urlSearchParams:t=>x(d.urlSearchParams(t),"URLSearchParams",t),evenInteger:t=>x(d.evenInteger(t),"even integer",t),oddInteger:t=>x(d.oddInteger(t),"odd integer",t),directInstanceOf:(t,e)=>x(d.directInstanceOf(t,e),"T",t),inRange:(t,e)=>x(d.inRange(t,e),"in range",t),any:(t,...e)=>x(d.any(t,...e),"predicate returns truthy for any value",e,{multipleValues:!0}),all:(t,...e)=>x(d.all(t,...e),"predicate returns truthy for all values",e,{multipleValues:!0})};Object.defineProperties(d,{class:{value:d.class_},function:{value:d.function_},null:{value:d.null_}});Object.defineProperties(Et.assert,{class:{value:Et.assert.class_},function:{value:Et.assert.function_},null:{value:Et.assert.null_}});Et.default=d;Wn.exports=d;Wn.exports.default=d;Wn.exports.assert=Et.assert});var Yp=E((Wa,Va)=>{"use strict";Object.defineProperty(Wa,"__esModule",{value:!0});function H_(t){return t.encrypted}var Ga=(t,e)=>{let r;typeof e=="function"?r={connect:e}:r=e;let s=typeof r.connect=="function",i=typeof r.secureConnect=="function",n=typeof r.close=="function",u=()=>{s&&r.connect(),H_(t)&&i&&(t.authorized?r.secureConnect():t.authorizationError||t.once("secureConnect",r.secureConnect)),n&&t.once("close",r.close)};t.writable&&!t.connecting?u():t.connecting?t.once("connect",u):t.destroyed&&n&&r.close(t._hadError)};Wa.default=Ga;Va.exports=Ga;Va.exports.default=Ga});var tm=E((gI,em)=>{"use strict";var W_="text/plain",V_="us-ascii",Qp=(t,e)=>e.some(r=>r instanceof RegExp?r.test(t):r===t),Y_=(t,{stripHash:e})=>{let r=/^data:(?<type>[^,]*?),(?<data>[^#]*?)(?:#(?<hash>.*))?$/.exec(t);if(!r)throw new Error(`Invalid URL: ${t}`);let{type:s,data:i,hash:n}=r.groups,u=s.split(";");n=e?"":n;let o=!1;u[u.length-1]==="base64"&&(u.pop(),o=!0);let a=(u.shift()||"").toLowerCase(),l=[...u.map(h=>{let[f,D=""]=h.split("=").map(C=>C.trim());return f==="charset"&&(D=D.toLowerCase(),D===V_)?"":`${f}${D?`=${D}`:""}`}).filter(Boolean)];return o&&l.push("base64"),(l.length!==0||a&&a!==W_)&&l.unshift(a),`data:${l.join(";")},${o?i.trim():i}${n?`#${n}`:""}`},K_=(t,e)=>{if(e={defaultProtocol:"http:",normalizeProtocol:!0,forceHttp:!1,forceHttps:!1,stripAuthentication:!0,stripHash:!1,stripTextFragment:!0,stripWWW:!0,removeQueryParameters:[/^utm_\w+/i],removeTrailingSlash:!0,removeSingleSlash:!0,removeDirectoryIndex:!1,sortQueryParameters:!0,...e},t=t.trim(),/^data:/i.test(t))return Y_(t,e);if(/^view-source:/i.test(t))throw new Error("`view-source:` is not supported as it is a non-standard protocol");let r=t.startsWith("//");!r&&/^\.*\//.test(t)||(t=t.replace(/^(?!(?:\w+:)?\/\/)|^\/\//,e.defaultProtocol));let i=new URL(t);if(e.forceHttp&&e.forceHttps)throw new Error("The `forceHttp` and `forceHttps` options cannot be used together");if(e.forceHttp&&i.protocol==="https:"&&(i.protocol="http:"),e.forceHttps&&i.protocol==="http:"&&(i.protocol="https:"),e.stripAuthentication&&(i.username="",i.password=""),e.stripHash?i.hash="":e.stripTextFragment&&(i.hash=i.hash.replace(/#?:~:text.*?$/i,"")),i.pathname&&(i.pathname=i.pathname.replace(/(?<!\b(?:[a-z][a-z\d+\-.]{1,50}:))\/{2,}/g,"/")),i.pathname)try{i.pathname=decodeURI(i.pathname)}catch{}if(e.removeDirectoryIndex===!0&&(e.removeDirectoryIndex=[/^index\.[a-z]+$/]),Array.isArray(e.removeDirectoryIndex)&&e.removeDirectoryIndex.length>0){let u=i.pathname.split("/"),o=u[u.length-1];Qp(o,e.removeDirectoryIndex)&&(u=u.slice(0,u.length-1),i.pathname=u.slice(1).join("/")+"/")}if(i.hostname&&(i.hostname=i.hostname.replace(/\.$/,""),e.stripWWW&&/^www\.(?!www\.)(?:[a-z\-\d]{1,63})\.(?:[a-z.\-\d]{2,63})$/.test(i.hostname)&&(i.hostname=i.hostname.replace(/^www\./,""))),Array.isArray(e.removeQueryParameters))for(let u of[...i.searchParams.keys()])Qp(u,e.removeQueryParameters)&&i.searchParams.delete(u);e.removeQueryParameters===!0&&(i.search=""),e.sortQueryParameters&&i.searchParams.sort(),e.removeTrailingSlash&&(i.pathname=i.pathname.replace(/\/$/,""));let n=t;return t=i.toString(),!e.removeSingleSlash&&i.pathname==="/"&&!n.endsWith("/")&&i.hash===""&&(t=t.replace(/\/$/,"")),(e.removeTrailingSlash||i.pathname==="/")&&i.hash===""&&e.removeSingleSlash&&(t=t.replace(/\/$/,"")),r&&!e.normalizeProtocol&&(t=t.replace(/^http:\/\//,"//")),e.stripProtocol&&(t=t.replace(/^(?:https?:)?\/\//,"")),t};em.exports=K_});var im=E((CI,sm)=>{sm.exports=rm;function rm(t,e){if(t&&e)return rm(t)(e);if(typeof t!="function")throw new TypeError("need wrapper function");return Object.keys(t).forEach(function(s){r[s]=t[s]}),r;function r(){for(var s=new Array(arguments.length),i=0;i<s.length;i++)s[i]=arguments[i];var n=t.apply(this,s),u=s[s.length-1];return typeof n=="function"&&n!==u&&Object.keys(u).forEach(function(o){n[o]=u[o]}),n}}});var Ka=E((FI,Ya)=>{var nm=im();Ya.exports=nm(Jn);Ya.exports.strict=nm(um);Jn.proto=Jn(function(){Object.defineProperty(Function.prototype,"once",{value:function(){return Jn(this)},configurable:!0}),Object.defineProperty(Function.prototype,"onceStrict",{value:function(){return um(this)},configurable:!0})});function Jn(t){var e=function(){return e.called?e.value:(e.called=!0,e.value=t.apply(this,arguments))};return e.called=!1,e}function um(t){var e=function(){if(e.called)throw new Error(e.onceError);return e.called=!0,e.value=t.apply(this,arguments)},r=t.name||"Function wrapped with `once`";return e.onceError=r+" shouldn't be called more than once",e.called=!1,e}});var cm=E((yI,am)=>{var X_=Ka(),Z_=function(){},J_=function(t){return t.setHeader&&typeof t.abort=="function"},Q_=function(t){return t.stdio&&Array.isArray(t.stdio)&&t.stdio.length===3},om=function(t,e,r){if(typeof e=="function")return om(t,null,e);e||(e={}),r=X_(r||Z_);var s=t._writableState,i=t._readableState,n=e.readable||e.readable!==!1&&t.readable,u=e.writable||e.writable!==!1&&t.writable,o=!1,a=function(){t.writable||c()},c=function(){u=!1,n||r.call(t)},l=function(){n=!1,u||r.call(t)},h=function(g){r.call(t,g?new Error("exited with error code: "+g):null)},f=function(g){r.call(t,g)},D=function(){process.nextTick(C)},C=function(){if(!o){if(n&&!(i&&i.ended&&!i.destroyed))return r.call(t,new Error("premature close"));if(u&&!(s&&s.ended&&!s.destroyed))return r.call(t,new Error("premature close"))}},m=function(){t.req.on("finish",c)};return J_(t)?(t.on("complete",c),t.on("abort",D),t.req?m():t.on("request",m)):u&&!s&&(t.on("end",a),t.on("close",a)),Q_(t)&&t.on("exit",h),t.on("end",l),t.on("finish",c),e.error!==!1&&t.on("error",f),t.on("close",D),function(){o=!0,t.removeListener("complete",c),t.removeListener("abort",D),t.removeListener("request",m),t.req&&t.req.removeListener("finish",c),t.removeListener("end",a),t.removeListener("close",a),t.removeListener("finish",c),t.removeListener("exit",h),t.removeListener("end",l),t.removeListener("error",f),t.removeListener("close",D)}};am.exports=om});var fm=E((bI,hm)=>{var eA=Ka(),tA=cm(),Xa=require("fs"),Fi=function(){},rA=/^v?\.0/.test(process.version),Qn=function(t){return typeof t=="function"},sA=function(t){return!rA||!Xa?!1:(t instanceof(Xa.ReadStream||Fi)||t instanceof(Xa.WriteStream||Fi))&&Qn(t.close)},iA=function(t){return t.setHeader&&Qn(t.abort)},nA=function(t,e,r,s){s=eA(s);var i=!1;t.on("close",function(){i=!0}),tA(t,{readable:e,writable:r},function(u){if(u)return s(u);i=!0,s()});var n=!1;return function(u){if(!i&&!n){if(n=!0,sA(t))return t.close(Fi);if(iA(t))return t.abort();if(Qn(t.destroy))return t.destroy();s(u||new Error("stream was destroyed"))}}},lm=function(t){t()},uA=function(t,e){return t.pipe(e)},oA=function(){var t=Array.prototype.slice.call(arguments),e=Qn(t[t.length-1]||Fi)&&t.pop()||Fi;if(Array.isArray(t[0])&&(t=t[0]),t.length<2)throw new Error("pump requires two streams per minimum");var r,s=t.map(function(i,n){var u=n<t.length-1,o=n>0;return nA(i,u,o,function(a){r||(r=a),a&&s.forEach(lm),!u&&(s.forEach(lm),e(r))})});return t.reduce(uA)};hm.exports=oA});var dm=E((xI,Dm)=>{"use strict";var{PassThrough:aA}=require("stream");Dm.exports=t=>{t={...t};let{array:e}=t,{encoding:r}=t,s=r==="buffer",i=!1;e?i=!(r||s):r=r||"utf8",s&&(r=null);let n=new aA({objectMode:i});r&&n.setEncoding(r);let u=0,o=[];return n.on("data",a=>{o.push(a),i?u=o.length:u+=a.length}),n.getBufferedValue=()=>e?o:s?Buffer.concat(o,u):o.join(""),n.getBufferedLength=()=>u,n}});var Za=E((wI,cs)=>{"use strict";var{constants:cA}=require("buffer"),lA=fm(),hA=dm(),eu=class extends Error{constructor(){super("maxBuffer exceeded"),this.name="MaxBufferError"}};async function tu(t,e){if(!t)return Promise.reject(new Error("Expected a stream"));e={maxBuffer:1/0,...e};let{maxBuffer:r}=e,s;return await new Promise((i,n)=>{let u=o=>{o&&s.getBufferedLength()<=cA.MAX_LENGTH&&(o.bufferedData=s.getBufferedValue()),n(o)};s=lA(t,hA(e),o=>{if(o){u(o);return}i()}),s.on("data",()=>{s.getBufferedLength()>r&&u(new eu)})}),s.getBufferedValue()}cs.exports=tu;cs.exports.default=tu;cs.exports.buffer=(t,e)=>tu(t,{...e,encoding:"buffer"});cs.exports.array=(t,e)=>tu(t,{...e,array:!0});cs.exports.MaxBufferError=eu});var mm=E((AI,pm)=>{"use strict";var fA=new Set([200,203,204,206,300,301,404,405,410,414,501]),DA=new Set([200,203,204,300,301,302,303,307,308,404,405,410,414,501]),dA=new Set([500,502,503,504]),pA={date:!0,connection:!0,"keep-alive":!0,"proxy-authenticate":!0,"proxy-authorization":!0,te:!0,trailer:!0,"transfer-encoding":!0,upgrade:!0},mA={"content-length":!0,"content-encoding":!0,"transfer-encoding":!0,"content-range":!0};function Fr(t){let e=parseInt(t,10);return isFinite(e)?e:0}function EA(t){return t?dA.has(t.status):!0}function Ja(t){let e={};if(!t)return e;let r=t.trim().split(/\s*,\s*/);for(let s of r){let[i,n]=s.split(/\s*=\s*/,2);e[i]=n===void 0?!0:n.replace(/^"|"$/g,"")}return e}function gA(t){let e=[];for(let r in t){let s=t[r];e.push(s===!0?r:r+"="+s)}if(!!e.length)return e.join(", ")}pm.exports=class{constructor(e,r,{shared:s,cacheHeuristic:i,immutableMinTimeToLive:n,ignoreCargoCult:u,_fromObject:o}={}){if(o){this._fromObject(o);return}if(!r||!r.headers)throw Error("Response headers missing");this._assertRequestHasHeaders(e),this._responseTime=this.now(),this._isShared=s!==!1,this._cacheHeuristic=i!==void 0?i:.1,this._immutableMinTtl=n!==void 0?n:24*3600*1e3,this._status="status"in r?r.status:200,this._resHeaders=r.headers,this._rescc=Ja(r.headers["cache-control"]),this._method="method"in e?e.method:"GET",this._url=e.url,this._host=e.headers.host,this._noAuthorization=!e.headers.authorization,this._reqHeaders=r.headers.vary?e.headers:null,this._reqcc=Ja(e.headers["cache-control"]),u&&"pre-check"in this._rescc&&"post-check"in this._rescc&&(delete this._rescc["pre-check"],delete this._rescc["post-check"],delete this._rescc["no-cache"],delete this._rescc["no-store"],delete this._rescc["must-revalidate"],this._resHeaders=Object.assign({},this._resHeaders,{"cache-control":gA(this._rescc)}),delete this._resHeaders.expires,delete this._resHeaders.pragma),r.headers["cache-control"]==null&&/no-cache/.test(r.headers.pragma)&&(this._rescc["no-cache"]=!0)}now(){return Date.now()}storable(){return!!(!this._reqcc["no-store"]&&(this._method==="GET"||this._method==="HEAD"||this._method==="POST"&&this._hasExplicitExpiration())&&DA.has(this._status)&&!this._rescc["no-store"]&&(!this._isShared||!this._rescc.private)&&(!this._isShared||this._noAuthorization||this._allowsStoringAuthenticated())&&(this._resHeaders.expires||this._rescc["max-age"]||this._isShared&&this._rescc["s-maxage"]||this._rescc.public||fA.has(this._status)))}_hasExplicitExpiration(){return this._isShared&&this._rescc["s-maxage"]||this._rescc["max-age"]||this._resHeaders.expires}_assertRequestHasHeaders(e){if(!e||!e.headers)throw Error("Request headers missing")}satisfiesWithoutRevalidation(e){this._assertRequestHasHeaders(e);let r=Ja(e.headers["cache-control"]);return r["no-cache"]||/no-cache/.test(e.headers.pragma)||r["max-age"]&&this.age()>r["max-age"]||r["min-fresh"]&&this.timeToLive()<1e3*r["min-fresh"]||this.stale()&&!(r["max-stale"]&&!this._rescc["must-revalidate"]&&(r["max-stale"]===!0||r["max-stale"]>this.age()-this.maxAge()))?!1:this._requestMatches(e,!1)}_requestMatches(e,r){return(!this._url||this._url===e.url)&&this._host===e.headers.host&&(!e.method||this._method===e.method||r&&e.method==="HEAD")&&this._varyMatches(e)}_allowsStoringAuthenticated(){return this._rescc["must-revalidate"]||this._rescc.public||this._rescc["s-maxage"]}_varyMatches(e){if(!this._resHeaders.vary)return!0;if(this._resHeaders.vary==="*")return!1;let r=this._resHeaders.vary.trim().toLowerCase().split(/\s*,\s*/);for(let s of r)if(e.headers[s]!==this._reqHeaders[s])return!1;return!0}_copyWithoutHopByHopHeaders(e){let r={};for(let s in e)pA[s]||(r[s]=e[s]);if(e.connection){let s=e.connection.trim().split(/\s*,\s*/);for(let i of s)delete r[i]}if(r.warning){let s=r.warning.split(/,/).filter(i=>!/^\s*1[0-9][0-9]/.test(i));s.length?r.warning=s.join(",").trim():delete r.warning}return r}responseHeaders(){let e=this._copyWithoutHopByHopHeaders(this._resHeaders),r=this.age();return r>3600*24&&!this._hasExplicitExpiration()&&this.maxAge()>3600*24&&(e.warning=(e.warning?`${e.warning}, `:"")+'113 - "rfc7234 5.5.4"'),e.age=`${Math.round(r)}`,e.date=new Date(this.now()).toUTCString(),e}date(){let e=Date.parse(this._resHeaders.date);return isFinite(e)?e:this._responseTime}age(){let e=this._ageValue(),r=(this.now()-this._responseTime)/1e3;return e+r}_ageValue(){return Fr(this._resHeaders.age)}maxAge(){if(!this.storable()||this._rescc["no-cache"]||this._isShared&&this._resHeaders["set-cookie"]&&!this._rescc.public&&!this._rescc.immutable||this._resHeaders.vary==="*")return 0;if(this._isShared){if(this._rescc["proxy-revalidate"])return 0;if(this._rescc["s-maxage"])return Fr(this._rescc["s-maxage"])}if(this._rescc["max-age"])return Fr(this._rescc["max-age"]);let e=this._rescc.immutable?this._immutableMinTtl:0,r=this.date();if(this._resHeaders.expires){let s=Date.parse(this._resHeaders.expires);return Number.isNaN(s)||s<r?0:Math.max(e,(s-r)/1e3)}if(this._resHeaders["last-modified"]){let s=Date.parse(this._resHeaders["last-modified"]);if(isFinite(s)&&r>s)return Math.max(e,(r-s)/1e3*this._cacheHeuristic)}return e}timeToLive(){let e=this.maxAge()-this.age(),r=e+Fr(this._rescc["stale-if-error"]),s=e+Fr(this._rescc["stale-while-revalidate"]);return Math.max(0,e,r,s)*1e3}stale(){return this.maxAge()<=this.age()}_useStaleIfError(){return this.maxAge()+Fr(this._rescc["stale-if-error"])>this.age()}useStaleWhileRevalidate(){return this.maxAge()+Fr(this._rescc["stale-while-revalidate"])>this.age()}static fromObject(e){return new this(void 0,void 0,{_fromObject:e})}_fromObject(e){if(this._responseTime)throw Error("Reinitialized");if(!e||e.v!==1)throw Error("Invalid serialization");this._responseTime=e.t,this._isShared=e.sh,this._cacheHeuristic=e.ch,this._immutableMinTtl=e.imm!==void 0?e.imm:24*3600*1e3,this._status=e.st,this._resHeaders=e.resh,this._rescc=e.rescc,this._method=e.m,this._url=e.u,this._host=e.h,this._noAuthorization=e.a,this._reqHeaders=e.reqh,this._reqcc=e.reqcc}toObject(){return{v:1,t:this._responseTime,sh:this._isShared,ch:this._cacheHeuristic,imm:this._immutableMinTtl,st:this._status,resh:this._resHeaders,rescc:this._rescc,m:this._method,u:this._url,h:this._host,a:this._noAuthorization,reqh:this._reqHeaders,reqcc:this._reqcc}}revalidationHeaders(e){this._assertRequestHasHeaders(e);let r=this._copyWithoutHopByHopHeaders(e.headers);if(delete r["if-range"],!this._requestMatches(e,!0)||!this.storable())return delete r["if-none-match"],delete r["if-modified-since"],r;if(this._resHeaders.etag&&(r["if-none-match"]=r["if-none-match"]?`${r["if-none-match"]}, ${this._resHeaders.etag}`:this._resHeaders.etag),r["accept-ranges"]||r["if-match"]||r["if-unmodified-since"]||this._method&&this._method!="GET"){if(delete r["if-modified-since"],r["if-none-match"]){let i=r["if-none-match"].split(/,/).filter(n=>!/^\s*W\//.test(n));i.length?r["if-none-match"]=i.join(",").trim():delete r["if-none-match"]}}else this._resHeaders["last-modified"]&&!r["if-modified-since"]&&(r["if-modified-since"]=this._resHeaders["last-modified"]);return r}revalidatedPolicy(e,r){if(this._assertRequestHasHeaders(e),this._useStaleIfError()&&EA(r))return{modified:!1,matches:!1,policy:this};if(!r||!r.headers)throw Error("Response headers missing");let s=!1;if(r.status!==void 0&&r.status!=304?s=!1:r.headers.etag&&!/^\s*W\//.test(r.headers.etag)?s=this._resHeaders.etag&&this._resHeaders.etag.replace(/^\s*W\//,"")===r.headers.etag:this._resHeaders.etag&&r.headers.etag?s=this._resHeaders.etag.replace(/^\s*W\//,"")===r.headers.etag.replace(/^\s*W\//,""):this._resHeaders["last-modified"]?s=this._resHeaders["last-modified"]===r.headers["last-modified"]:!this._resHeaders.etag&&!this._resHeaders["last-modified"]&&!r.headers.etag&&!r.headers["last-modified"]&&(s=!0),!s)return{policy:new this.constructor(e,r),modified:r.status!=304,matches:!1};let i={};for(let u in this._resHeaders)i[u]=u in r.headers&&!mA[u]?r.headers[u]:this._resHeaders[u];let n=Object.assign({},r,{status:this._status,method:this._method,headers:i});return{policy:new this.constructor(e,n,{shared:this._isShared,cacheHeuristic:this._cacheHeuristic,immutableMinTimeToLive:this._immutableMinTtl}),modified:!1,matches:!0}}}});var gm=E((SI,Em)=>{"use strict";Em.exports=t=>{let e={};for(let[r,s]of Object.entries(t))e[r.toLowerCase()]=s;return e}});var Fm=E((vI,Cm)=>{"use strict";var CA=require("stream").Readable,FA=gm(),Qa=class extends CA{constructor(e,r,s,i){if(typeof e!="number")throw new TypeError("Argument `statusCode` should be a number");if(typeof r!="object")throw new TypeError("Argument `headers` should be an object");if(!(s instanceof Buffer))throw new TypeError("Argument `body` should be a buffer");if(typeof i!="string")throw new TypeError("Argument `url` should be a string");super(),this.statusCode=e,this.headers=FA(r),this.body=s,this.url=i}_read(){this.push(this.body),this.push(null)}};Cm.exports=Qa});var bm=E((BI,ym)=>{"use strict";ym.exports=t=>{let e={};for(let[r,s]of Object.entries(t))e[r.toLowerCase()]=s;return e}});var wm=E((RI,xm)=>{"use strict";var yA=["destroy","setTimeout","socket","headers","trailers","rawHeaders","statusCode","httpVersion","httpVersionMinor","httpVersionMajor","rawTrailers","statusMessage"];xm.exports=(t,e)=>{let r=new Set(Object.keys(t).concat(yA));for(let s of r)s in e||(e[s]=typeof t[s]=="function"?t[s].bind(t):t[s])}});var Am=E((OI,_m)=>{"use strict";var bA=require("stream").PassThrough,xA=wm(),wA=t=>{if(!(t&&t.pipe))throw new TypeError("Parameter `response` must be a response stream.");let e=new bA;return xA(t,e),t.pipe(e)};_m.exports=wA});var tc=E(ec=>{ec.stringify=function t(e){if(typeof e>"u")return e;if(e&&Buffer.isBuffer(e))return JSON.stringify(":base64:"+e.toString("base64"));if(e&&e.toJSON&&(e=e.toJSON()),e&&typeof e=="object"){var r="",s=Array.isArray(e);r=s?"[":"{";var i=!0;for(var n in e){var u=typeof e[n]=="function"||!s&&typeof e[n]>"u";Object.hasOwnProperty.call(e,n)&&!u&&(i||(r+=","),i=!1,s?e[n]==null?r+="null":r+=t(e[n]):e[n]!==void 0&&(r+=t(n)+":"+t(e[n])))}return r+=s?"]":"}",r}else return typeof e=="string"?JSON.stringify(/^:/.test(e)?":"+e:e):typeof e>"u"?"null":JSON.stringify(e)};ec.parse=function(t){return JSON.parse(t,function(e,r){return typeof r=="string"?/^:base64:/.test(r)?Buffer.from(r.substring(8),"base64"):/^:/.test(r)?r.substring(1):r:r})}});var vm=E((II,Sm)=>{"use strict";Sm.exports=(t={},e={})=>{let r={...t.params||{},...e.params||{}};return{...t,...e,...Object.keys(r).length?{params:r}:{}}}});var Im=E((LI,su)=>{"use strict";var{promisify:Om}=require("util"),ru=tc(),Tm=require("zlib"),Bm=vm(),_A=Om(Tm.brotliCompress),AA=Om(Tm.brotliDecompress),Rm=t=>t,SA=({enable:t=!0,serialize:e=ru.stringify,deserialize:r=ru.parse,compressOptions:s,decompressOptions:i}={})=>t?{serialize:e,deserialize:r,compress:async(n,u={})=>{if(n===void 0)return n;let o=e(n);return _A(o,Bm(s,u))},decompress:async(n,u={})=>n===void 0?n:r(await AA(n,Bm(i,u)))}:{serialize:e,deserialize:r,decompress:Rm,compress:Rm};su.exports=SA;su.exports.stringify=ru.stringify;su.exports.parse=ru.parse});var km=E((NI,Pm)=>{"use strict";var vA=require("events"),Lm=tc(),BA=Im(),RA=t=>{let e={redis:"@keyv/redis",rediss:"@keyv/redis",mongodb:"@keyv/mongo",mongo:"@keyv/mongo",sqlite:"@keyv/sqlite",postgresql:"@keyv/postgres",postgres:"@keyv/postgres",mysql:"@keyv/mysql",etcd:"@keyv/etcd",offline:"@keyv/offline",tiered:"@keyv/tiered"};if(t.adapter||t.uri){let r=t.adapter||/^[^:+]*/.exec(t.uri)[0];return new(require(e[r]))(t)}return new Map},Nm=["sqlite","postgres","mysql","mongo","redis","tiered"],rc=class extends vA{constructor(e,{emitErrors:r=!0,...s}={}){if(super(),this.opts={namespace:"keyv",serialize:Lm.stringify,deserialize:Lm.parse,...typeof e=="string"?{uri:e}:e,...s},!this.opts.store){let n={...this.opts};this.opts.store=RA(n)}if(this.opts.compress){let n=BA(this.opts.compress.opts);this.opts.serialize=async({value:u,expires:o})=>n.serialize({value:await n.compress(u),expires:o}),this.opts.deserialize=async u=>{let{value:o,expires:a}=n.deserialize(u);return{value:await n.decompress(o),expires:a}}}typeof this.opts.store.on=="function"&&r&&this.opts.store.on("error",n=>this.emit("error",n)),this.opts.store.namespace=this.opts.namespace;let i=n=>async function*(){for await(let[u,o]of typeof n=="function"?n(this.opts.store.namespace):n){let a=this.opts.deserialize(o);if(!(this.opts.store.namespace&&!u.includes(this.opts.store.namespace))){if(typeof a.expires=="number"&&Date.now()>a.expires){this.delete(u);continue}yield[this._getKeyUnprefix(u),a.value]}}};typeof this.opts.store[Symbol.iterator]=="function"&&this.opts.store instanceof Map?this.iterator=i(this.opts.store):typeof this.opts.store.iterator=="function"&&this.opts.store.opts&&this._checkIterableAdaptar()&&(this.iterator=i(this.opts.store.iterator.bind(this.opts.store)))}_checkIterableAdaptar(){return Nm.includes(this.opts.store.opts.dialect)||Nm.findIndex(e=>this.opts.store.opts.url.includes(e))>=0}_getKeyPrefix(e){return`${this.opts.namespace}:${e}`}_getKeyPrefixArray(e){return e.map(r=>`${this.opts.namespace}:${r}`)}_getKeyUnprefix(e){return e.split(":").splice(1).join(":")}get(e,r){let{store:s}=this.opts,i=Array.isArray(e),n=i?this._getKeyPrefixArray(e):this._getKeyPrefix(e);if(i&&s.getMany===void 0){let u=[];for(let o of n)u.push(Promise.resolve().then(()=>s.get(o)).then(a=>typeof a=="string"?this.opts.deserialize(a):a).then(a=>{if(a!=null)return typeof a.expires=="number"&&Date.now()>a.expires?this.delete(o).then(()=>{}):r&&r.raw?a:a.value}));return Promise.allSettled(u).then(o=>{let a=[];for(let c of o)a.push(c.value);return a.every(c=>c===void 0)?[]:a})}return Promise.resolve().then(()=>i?s.getMany(n):s.get(n)).then(u=>typeof u=="string"?this.opts.deserialize(u):u).then(u=>{if(u!=null){if(i){let o=[];if(u.length===0)return[];for(let a of u){if(typeof a=="string"&&(a=this.opts.deserialize(a)),a==null){o.push(void 0);continue}typeof a.expires=="number"&&Date.now()>a.expires?(this.delete(e).then(()=>{}),o.push(void 0)):o.push(r&&r.raw?a:a.value)}return o.every(a=>a===void 0)?[]:o}return typeof u.expires=="number"&&Date.now()>u.expires?this.delete(e).then(()=>{}):r&&r.raw?u:u.value}})}set(e,r,s){let i=this._getKeyPrefix(e);typeof s>"u"&&(s=this.opts.ttl),s===0&&(s=void 0);let{store:n}=this.opts;return Promise.resolve().then(()=>{let u=typeof s=="number"?Date.now()+s:null;return typeof r=="symbol"&&this.emit("error","symbol cannot be serialized"),r={value:r,expires:u},this.opts.serialize(r)}).then(u=>n.set(i,u,s)).then(()=>!0)}delete(e){let{store:r}=this.opts;if(Array.isArray(e)){let i=this._getKeyPrefixArray(e);if(r.deleteMany===void 0){let n=[];for(let u of i)n.push(r.delete(u));return Promise.allSettled(n).then(u=>u.every(o=>o.value===!0))}return Promise.resolve().then(()=>r.deleteMany(i))}let s=this._getKeyPrefix(e);return Promise.resolve().then(()=>r.delete(s))}clear(){let{store:e}=this.opts;return Promise.resolve().then(()=>e.clear())}has(e){let r=this._getKeyPrefix(e),{store:s}=this.opts;return Promise.resolve().then(async()=>typeof s.has=="function"?s.has(r):await s.get(r)!==void 0)}disconnect(){let{store:e}=this.opts;if(typeof e.disconnect=="function")return e.disconnect()}};Pm.exports=rc});var $m=E((PI,Mm)=>{"use strict";var OA=require("events"),iu=require("url"),TA=tm(),IA=Za(),sc=mm(),qm=Fm(),LA=bm(),NA=Am(),PA=km(),Je=class{constructor(e,r){if(typeof e!="function")throw new TypeError("Parameter `request` must be a function");return this.cache=new PA({uri:typeof r=="string"&&r,store:typeof r!="string"&&r,namespace:"cacheable-request"}),this.createCacheableRequest(e)}createCacheableRequest(e){return(r,s)=>{let i;if(typeof r=="string")i=ic(iu.parse(r)),r={};else if(r instanceof iu.URL)i=ic(iu.parse(r.toString())),r={};else{let[h,...f]=(r.path||"").split("?"),D=f.length>0?`?${f.join("?")}`:"";i=ic({...r,pathname:h,search:D})}r={headers:{},method:"GET",cache:!0,strictTtl:!1,automaticFailover:!1,...r,...kA(i)},r.headers=LA(r.headers);let n=new OA,u=TA(iu.format(i),{stripWWW:!1,removeTrailingSlash:!1,stripAuthentication:!1}),o=`${r.method}:${u}`,a=!1,c=!1,l=h=>{c=!0;let f=!1,D,C=new Promise(g=>{D=()=>{f||(f=!0,g())}}),m=g=>{if(a&&!h.forceRefresh){g.status=g.statusCode;let w=sc.fromObject(a.cachePolicy).revalidatedPolicy(h,g);if(!w.modified){let y=w.policy.responseHeaders();g=new qm(a.statusCode,y,a.body,a.url),g.cachePolicy=w.policy,g.fromCache=!0}}g.fromCache||(g.cachePolicy=new sc(h,g,h),g.fromCache=!1);let F;h.cache&&g.cachePolicy.storable()?(F=NA(g),(async()=>{try{let w=IA.buffer(g);if(await Promise.race([C,new Promise(N=>g.once("end",N))]),f)return;let y=await w,b={cachePolicy:g.cachePolicy.toObject(),url:g.url,statusCode:g.fromCache?a.statusCode:g.statusCode,body:y},B=h.strictTtl?g.cachePolicy.timeToLive():void 0;h.maxTtl&&(B=B?Math.min(B,h.maxTtl):h.maxTtl),await this.cache.set(o,b,B)}catch(w){n.emit("error",new Je.CacheError(w))}})()):h.cache&&a&&(async()=>{try{await this.cache.delete(o)}catch(w){n.emit("error",new Je.CacheError(w))}})(),n.emit("response",F||g),typeof s=="function"&&s(F||g)};try{let g=e(h,m);g.once("error",D),g.once("abort",D),n.emit("request",g)}catch(g){n.emit("error",new Je.RequestError(g))}};return(async()=>{let h=async D=>{await Promise.resolve();let C=D.cache?await this.cache.get(o):void 0;if(typeof C>"u")return l(D);let m=sc.fromObject(C.cachePolicy);if(m.satisfiesWithoutRevalidation(D)&&!D.forceRefresh){let g=m.responseHeaders(),F=new qm(C.statusCode,g,C.body,C.url);F.cachePolicy=m,F.fromCache=!0,n.emit("response",F),typeof s=="function"&&s(F)}else a=C,D.headers=m.revalidationHeaders(D),l(D)},f=D=>n.emit("error",new Je.CacheError(D));this.cache.once("error",f),n.on("response",()=>this.cache.removeListener("error",f));try{await h(r)}catch(D){r.automaticFailover&&!c&&l(r),n.emit("error",new Je.CacheError(D))}})(),n}}};function kA(t){let e={...t};return e.path=`${t.pathname||"/"}${t.search||""}`,delete e.pathname,delete e.search,e}function ic(t){return{protocol:t.protocol,auth:t.auth,hostname:t.hostname||t.host||"localhost",port:t.port,pathname:t.pathname,search:t.search}}Je.RequestError=class extends Error{constructor(t){super(t.message),this.name="RequestError",Object.assign(this,t)}};Je.CacheError=class extends Error{constructor(t){super(t.message),this.name="CacheError",Object.assign(this,t)}};Mm.exports=Je});var jm=E((MI,Um)=>{"use strict";var qA=["aborted","complete","headers","httpVersion","httpVersionMinor","httpVersionMajor","method","rawHeaders","rawTrailers","setTimeout","socket","statusCode","statusMessage","trailers","url"];Um.exports=(t,e)=>{if(e._readableState.autoDestroy)throw new Error("The second stream must have the `autoDestroy` option set to `false`");let r=new Set(Object.keys(t).concat(qA)),s={};for(let i of r)i in e||(s[i]={get(){let n=t[i];return typeof n=="function"?n.bind(t):n},set(n){t[i]=n},enumerable:!0,configurable:!1});return Object.defineProperties(e,s),t.once("aborted",()=>{e.destroy(),e.emit("aborted")}),t.once("close",()=>{t.complete&&e.readable?e.once("end",()=>{e.emit("close")}):e.emit("close")}),e}});var Hm=E(($I,zm)=>{"use strict";var{Transform:MA,PassThrough:$A}=require("stream"),nc=require("zlib"),UA=jm();zm.exports=t=>{let e=(t.headers["content-encoding"]||"").toLowerCase();if(!["gzip","deflate","br"].includes(e))return t;let r=e==="br";if(r&&typeof nc.createBrotliDecompress!="function")return t.destroy(new Error("Brotli is not supported on Node.js < 12")),t;let s=!0,i=new MA({transform(o,a,c){s=!1,c(null,o)},flush(o){o()}}),n=new $A({autoDestroy:!1,destroy(o,a){t.destroy(),a(o)}}),u=r?nc.createBrotliDecompress():nc.createUnzip();return u.once("error",o=>{if(s&&!t.readable){n.end();return}n.destroy(o)}),UA(t,n),t.pipe(i).pipe(u).pipe(n),n}});var Wm=E((UI,Gm)=>{"use strict";var{PassThrough:jA}=require("stream");Gm.exports=t=>{t={...t};let{array:e}=t,{encoding:r}=t,s=r==="buffer",i=!1;e?i=!(r||s):r=r||"utf8",s&&(r=null);let n=new jA({objectMode:i});r&&n.setEncoding(r);let u=0,o=[];return n.on("data",a=>{o.push(a),i?u=o.length:u+=a.length}),n.getBufferedValue=()=>e?o:s?Buffer.concat(o,u):o.join(""),n.getBufferedLength=()=>u,n}});var Vm=E((jI,yi)=>{"use strict";var{constants:zA}=require("buffer"),HA=require("stream"),{promisify:GA}=require("util"),WA=Wm(),VA=GA(HA.pipeline),nu=class extends Error{constructor(){super("maxBuffer exceeded"),this.name="MaxBufferError"}};async function uc(t,e){if(!t)throw new Error("Expected a stream");e={maxBuffer:1/0,...e};let{maxBuffer:r}=e,s=WA(e);return await new Promise((i,n)=>{let u=o=>{o&&s.getBufferedLength()<=zA.MAX_LENGTH&&(o.bufferedData=s.getBufferedValue()),n(o)};(async()=>{try{await VA(t,s),i()}catch(o){u(o)}})(),s.on("data",()=>{s.getBufferedLength()>r&&u(new nu)})}),s.getBufferedValue()}yi.exports=uc;yi.exports.buffer=(t,e)=>uc(t,{...e,encoding:"buffer"});yi.exports.array=(t,e)=>uc(t,{...e,array:!0});yi.exports.MaxBufferError=nu});var o0=E((b7,yc)=>{"use strict";var{V4MAPPED:s6,ADDRCONFIG:i6,ALL:u0,promises:{Resolver:t0},lookup:n6}=require("dns"),{promisify:Cc}=require("util"),u6=require("os"),ls=Symbol("cacheableLookupCreateConnection"),Fc=Symbol("cacheableLookupInstance"),r0=Symbol("expires"),o6=typeof u0=="number",s0=t=>{if(!(t&&typeof t.createConnection=="function"))throw new Error("Expected an Agent instance as the first argument")},a6=t=>{for(let e of t)e.family!==6&&(e.address=`::ffff:${e.address}`,e.family=6)},i0=()=>{let t=!1,e=!1;for(let r of Object.values(u6.networkInterfaces()))for(let s of r)if(!s.internal&&(s.family==="IPv6"?e=!0:t=!0,t&&e))return{has4:t,has6:e};return{has4:t,has6:e}},c6=t=>Symbol.iterator in t,fu=t=>t.catch(e=>{if(e.code==="ENODATA"||e.code==="ENOTFOUND"||e.code==="ENOENT")return[];throw e}),n0={ttl:!0},l6={all:!0},h6={all:!0,family:4},f6={all:!0,family:6},Du=class{constructor({cache:e=new Map,maxTtl:r=1/0,fallbackDuration:s=3600,errorTtl:i=.15,resolver:n=new t0,lookup:u=n6}={}){if(this.maxTtl=r,this.errorTtl=i,this._cache=e,this._resolver=n,this._dnsLookup=u&&Cc(u),this._resolver instanceof t0?(this._resolve4=this._resolver.resolve4.bind(this._resolver),this._resolve6=this._resolver.resolve6.bind(this._resolver)):(this._resolve4=Cc(this._resolver.resolve4.bind(this._resolver)),this._resolve6=Cc(this._resolver.resolve6.bind(this._resolver))),this._iface=i0(),this._pending={},this._nextRemovalTime=!1,this._hostnamesToFallback=new Set,this.fallbackDuration=s,s>0){let o=setInterval(()=>{this._hostnamesToFallback.clear()},s*1e3);o.unref&&o.unref(),this._fallbackInterval=o}this.lookup=this.lookup.bind(this),this.lookupAsync=this.lookupAsync.bind(this)}set servers(e){this.clear(),this._resolver.setServers(e)}get servers(){return this._resolver.getServers()}lookup(e,r,s){if(typeof r=="function"?(s=r,r={}):typeof r=="number"&&(r={family:r}),!s)throw new Error("Callback must be a function.");this.lookupAsync(e,r).then(i=>{r.all?s(null,i):s(null,i.address,i.family,i.expires,i.ttl)},s)}async lookupAsync(e,r={}){typeof r=="number"&&(r={family:r});let s=await this.query(e);if(r.family===6){let i=s.filter(n=>n.family===6);r.hints&s6&&(o6&&r.hints&u0||i.length===0)?a6(s):s=i}else r.family===4&&(s=s.filter(i=>i.family===4));if(r.hints&i6){let{_iface:i}=this;s=s.filter(n=>n.family===6?i.has6:i.has4)}if(s.length===0){let i=new Error(`cacheableLookup ENOTFOUND ${e}`);throw i.code="ENOTFOUND",i.hostname=e,i}return r.all?s:s[0]}async query(e){let r=await this._cache.get(e);if(!r){let s=this._pending[e];if(s)r=await s;else{let i=this.queryAndCache(e);this._pending[e]=i;try{r=await i}finally{delete this._pending[e]}}}return r=r.map(s=>({...s})),r}async _resolve(e){let[r,s]=await Promise.all([fu(this._resolve4(e,n0)),fu(this._resolve6(e,n0))]),i=0,n=0,u=0,o=Date.now();for(let a of r)a.family=4,a.expires=o+a.ttl*1e3,i=Math.max(i,a.ttl);for(let a of s)a.family=6,a.expires=o+a.ttl*1e3,n=Math.max(n,a.ttl);return r.length>0?s.length>0?u=Math.min(i,n):u=i:u=n,{entries:[...r,...s],cacheTtl:u}}async _lookup(e){try{let[r,s]=await Promise.all([fu(this._dnsLookup(e,h6)),fu(this._dnsLookup(e,f6))]);return{entries:[...r,...s],cacheTtl:0}}catch{return{entries:[],cacheTtl:0}}}async _set(e,r,s){if(this.maxTtl>0&&s>0){s=Math.min(s,this.maxTtl)*1e3,r[r0]=Date.now()+s;try{await this._cache.set(e,r,s)}catch(i){this.lookupAsync=async()=>{let n=new Error("Cache Error. Please recreate the CacheableLookup instance.");throw n.cause=i,n}}c6(this._cache)&&this._tick(s)}}async queryAndCache(e){if(this._hostnamesToFallback.has(e))return this._dnsLookup(e,l6);let r=await this._resolve(e);r.entries.length===0&&this._dnsLookup&&(r=await this._lookup(e),r.entries.length!==0&&this.fallbackDuration>0&&this._hostnamesToFallback.add(e));let s=r.entries.length===0?this.errorTtl:r.cacheTtl;return await this._set(e,r.entries,s),r.entries}_tick(e){let r=this._nextRemovalTime;(!r||e<r)&&(clearTimeout(this._removalTimeout),this._nextRemovalTime=e,this._removalTimeout=setTimeout(()=>{this._nextRemovalTime=!1;let s=1/0,i=Date.now();for(let[n,u]of this._cache){let o=u[r0];i>=o?this._cache.delete(n):o<s&&(s=o)}s!==1/0&&this._tick(s-i)},e),this._removalTimeout.unref&&this._removalTimeout.unref())}install(e){if(s0(e),ls in e)throw new Error("CacheableLookup has been already installed");e[ls]=e.createConnection,e[Fc]=this,e.createConnection=(r,s)=>("lookup"in r||(r.lookup=this.lookup),e[ls](r,s))}uninstall(e){if(s0(e),e[ls]){if(e[Fc]!==this)throw new Error("The agent is not owned by this CacheableLookup instance");e.createConnection=e[ls],delete e[ls],delete e[Fc]}}updateInterfaceInfo(){let{_iface:e}=this;this._iface=i0(),(e.has4&&!this._iface.has4||e.has6&&!this._iface.has6)&&this._cache.clear()}clear(e){if(e){this._cache.delete(e);return}this._cache.clear()}};yc.exports=Du;yc.exports.default=Du});var xc=E((x7,a0)=>{"use strict";var bc=class{constructor(e={}){if(!(e.maxSize&&e.maxSize>0))throw new TypeError("`maxSize` must be a number greater than 0");this.maxSize=e.maxSize,this.onEviction=e.onEviction,this.cache=new Map,this.oldCache=new Map,this._size=0}_set(e,r){if(this.cache.set(e,r),this._size++,this._size>=this.maxSize){if(this._size=0,typeof this.onEviction=="function")for(let[s,i]of this.oldCache.entries())this.onEviction(s,i);this.oldCache=this.cache,this.cache=new Map}}get(e){if(this.cache.has(e))return this.cache.get(e);if(this.oldCache.has(e)){let r=this.oldCache.get(e);return this.oldCache.delete(e),this._set(e,r),r}}set(e,r){return this.cache.has(e)?this.cache.set(e,r):this._set(e,r),this}has(e){return this.cache.has(e)||this.oldCache.has(e)}peek(e){if(this.cache.has(e))return this.cache.get(e);if(this.oldCache.has(e))return this.oldCache.get(e)}delete(e){let r=this.cache.delete(e);return r&&this._size--,this.oldCache.delete(e)||r}clear(){this.cache.clear(),this.oldCache.clear(),this._size=0}*keys(){for(let[e]of this)yield e}*values(){for(let[,e]of this)yield e}*[Symbol.iterator](){for(let e of this.cache)yield e;for(let e of this.oldCache){let[r]=e;this.cache.has(r)||(yield e)}}get size(){let e=0;for(let r of this.oldCache.keys())this.cache.has(r)||e++;return Math.min(this._size+e,this.maxSize)}};a0.exports=bc});var wc=E((w7,c0)=>{"use strict";c0.exports=t=>{if(t.listenerCount("error")!==0)return t;t.__destroy=t._destroy,t._destroy=(...r)=>{let s=r.pop();t.__destroy(...r,async i=>{await Promise.resolve(),s(i)})};let e=r=>{Promise.resolve().then(()=>{t.emit("error",r)})};return t.once("error",e),Promise.resolve().then(()=>{t.off("error",e)}),t}});var xr=E((_7,p0)=>{"use strict";var{URL:l0}=require("url"),D6=require("events"),d6=require("tls"),p6=require("http2"),m6=xc(),E6=wc(),we=Symbol("currentStreamCount"),h0=Symbol("request"),_e=Symbol("cachedOriginSet"),zt=Symbol("gracefullyClosing"),du=Symbol("length"),f0=["createConnection","maxDeflateDynamicTableSize","maxSettings","maxSessionMemory","maxHeaderListPairs","maxOutstandingPings","maxReservedRemoteStreams","maxSendHeaderBlockLength","paddingStrategy","peerMaxConcurrentStreams","settings","family","localAddress","rejectUnauthorized","pskCallback","minDHSize","path","socket","ca","cert","sigalgs","ciphers","clientCertEngine","crl","dhparam","ecdhCurve","honorCipherOrder","key","privateKeyEngine","privateKeyIdentifier","maxVersion","minVersion","pfx","secureOptions","secureProtocol","sessionIdContext","ticketKeys"],g6=(t,e,r)=>{let s=0,i=t.length;for(;s<i;){let n=s+i>>>1;r(t[n],e)?s=n+1:i=n}return s},C6=(t,e)=>t.remoteSettings.maxConcurrentStreams>e.remoteSettings.maxConcurrentStreams,_c=(t,e)=>{for(let r=0;r<t.length;r++){let s=t[r];s[_e].length>0&&s[_e].length<e[_e].length&&s[_e].every(i=>e[_e].includes(i))&&s[we]+e[we]<=e.remoteSettings.maxConcurrentStreams&&d0(s)}},D0=(t,e)=>{for(let r=0;r<t.length;r++){let s=t[r];if(e[_e].length>0&&e[_e].length<s[_e].length&&e[_e].every(i=>s[_e].includes(i))&&e[we]+s[we]<=s.remoteSettings.maxConcurrentStreams)return d0(e),!0}return!1},d0=t=>{t[zt]=!0,t[we]===0&&t.close()},Ht=class extends D6{constructor({timeout:e=0,maxSessions:r=Number.POSITIVE_INFINITY,maxEmptySessions:s=10,maxCachedTlsSessions:i=100}={}){super(),this.sessions={},this.queue={},this.timeout=e,this.maxSessions=r,this.maxEmptySessions=s,this._emptySessionCount=0,this._sessionCount=0,this.settings={enablePush:!1,initialWindowSize:1024*1024*32},this.tlsSessionCache=new m6({maxSize:i})}get protocol(){return"https:"}normalizeOptions(e){let r="";for(let s=0;s<f0.length;s++){let i=f0[s];r+=":",e&&e[i]!==void 0&&(r+=e[i])}return r}_processQueue(){if(this._sessionCount>=this.maxSessions){this.closeEmptySessions(this.maxSessions-this._sessionCount+1);return}for(let e in this.queue)for(let r in this.queue[e]){let s=this.queue[e][r];s.completed||(s.completed=!0,s())}}_isBetterSession(e,r){return e>r}_accept(e,r,s,i){let n=0;for(;n<r.length&&e[we]<e.remoteSettings.maxConcurrentStreams;)r[n].resolve(e),n++;r.splice(0,n),r.length>0&&(this.getSession(s,i,r),r.length=0)}getSession(e,r,s){return new Promise((i,n)=>{Array.isArray(s)&&s.length>0?(s=[...s],i()):s=[{resolve:i,reject:n}];try{if(typeof e=="string")e=new l0(e);else if(!(e instanceof l0))throw new TypeError("The `origin` argument needs to be a string or an URL object");if(r){let{servername:l}=r,{hostname:h}=e;if(l&&h!==l)throw new Error(`Origin ${h} differs from servername ${l}`)}}catch(l){for(let h=0;h<s.length;h++)s[h].reject(l);return}let u=this.normalizeOptions(r),o=e.origin;if(u in this.sessions){let l=this.sessions[u],h=-1,f=-1,D;for(let C=0;C<l.length;C++){let m=l[C],g=m.remoteSettings.maxConcurrentStreams;if(g<h)break;if(!m[_e].includes(o))continue;let F=m[we];F>=g||m[zt]||m.destroyed||(D||(h=g),this._isBetterSession(F,f)&&(D=m,f=F))}if(D){this._accept(D,s,o,r);return}}if(u in this.queue){if(o in this.queue[u]){this.queue[u][o].listeners.push(...s);return}}else this.queue[u]={[du]:0};let a=()=>{u in this.queue&&this.queue[u][o]===c&&(delete this.queue[u][o],--this.queue[u][du]===0&&delete this.queue[u])},c=async()=>{this._sessionCount++;let l=`${o}:${u}`,h=!1,f;try{let D={...r};D.settings===void 0&&(D.settings=this.settings),D.session===void 0&&(D.session=this.tlsSessionCache.get(l)),f=await(D.createConnection||this.createConnection).call(this,e,D),D.createConnection=()=>f;let m=p6.connect(e,D);m[we]=0,m[zt]=!1;let g=()=>{let{socket:y}=m,b;return y.servername===!1?(y.servername=y.remoteAddress,b=m.originSet,y.servername=!1):b=m.originSet,b},F=()=>m[we]<m.remoteSettings.maxConcurrentStreams;m.socket.once("session",y=>{this.tlsSessionCache.set(l,y)}),m.once("error",y=>{for(let b=0;b<s.length;b++)s[b].reject(y);this.tlsSessionCache.delete(l)}),m.setTimeout(this.timeout,()=>{m.destroy()}),m.once("close",()=>{if(this._sessionCount--,h){this._emptySessionCount--;let y=this.sessions[u];y.length===1?delete this.sessions[u]:y.splice(y.indexOf(m),1)}else{a();let y=new Error("Session closed without receiving a SETTINGS frame");y.code="HTTP2WRAPPER_NOSETTINGS";for(let b=0;b<s.length;b++)s[b].reject(y)}this._processQueue()});let w=()=>{let y=this.queue[u];if(!y)return;let b=m[_e];for(let B=0;B<b.length;B++){let N=b[B];if(N in y){let{listeners:R,completed:ce}=y[N],_=0;for(;_<R.length&&F();)R[_].resolve(m),_++;if(y[N].listeners.splice(0,_),y[N].listeners.length===0&&!ce&&(delete y[N],--y[du]===0)){delete this.queue[u];break}if(!F())break}}};m.on("origin",()=>{m[_e]=g()||[],m[zt]=!1,D0(this.sessions[u],m),!(m[zt]||!F())&&(w(),F()&&_c(this.sessions[u],m))}),m.once("remoteSettings",()=>{if(c.destroyed){let y=new Error("Agent has been destroyed");for(let b=0;b<s.length;b++)s[b].reject(y);m.destroy();return}if(m.setLocalWindowSize&&m.setLocalWindowSize(1024*1024*4),m[_e]=g()||[],m.socket.encrypted){let y=m[_e][0];if(y!==o){let b=new Error(`Requested origin ${o} does not match server ${y}`);for(let B=0;B<s.length;B++)s[B].reject(b);m.destroy();return}}a();{let y=this.sessions;if(u in y){let b=y[u];b.splice(g6(b,m,C6),0,m)}else y[u]=[m]}h=!0,this._emptySessionCount++,this.emit("session",m),this._accept(m,s,o,r),m[we]===0&&this._emptySessionCount>this.maxEmptySessions&&this.closeEmptySessions(this._emptySessionCount-this.maxEmptySessions),m.on("remoteSettings",()=>{!F()||(w(),F()&&_c(this.sessions[u],m))})}),m[h0]=m.request,m.request=(y,b)=>{if(m[zt])throw new Error("The session is gracefully closing. No new streams are allowed.");let B=m[h0](y,b);return m.ref(),m[we]++===0&&this._emptySessionCount--,B.once("close",()=>{if(--m[we]===0&&(this._emptySessionCount++,m.unref(),this._emptySessionCount>this.maxEmptySessions||m[zt])){m.close();return}m.destroyed||m.closed||F()&&!D0(this.sessions[u],m)&&(_c(this.sessions[u],m),w(),m[we]===0&&this._processQueue())}),B}}catch(D){a(),this._sessionCount--;for(let C=0;C<s.length;C++)s[C].reject(D)}};c.listeners=s,c.completed=!1,c.destroyed=!1,this.queue[u][o]=c,this.queue[u][du]++,this._processQueue()})}request(e,r,s,i){return new Promise((n,u)=>{this.getSession(e,r,[{reject:u,resolve:o=>{try{let a=o.request(s,i);E6(a),n(a)}catch(a){u(a)}}}])})}async createConnection(e,r){return Ht.connect(e,r)}static connect(e,r){r.ALPNProtocols=["h2"];let s=e.port||443,i=e.hostname;typeof r.servername>"u"&&(r.servername=i);let n=d6.connect(s,i,r);return r.socket&&(n._peername={family:void 0,address:void 0,port:s}),n}closeEmptySessions(e=Number.POSITIVE_INFINITY){let r=0,{sessions:s}=this;for(let i in s){let n=s[i];for(let u=0;u<n.length;u++){let o=n[u];if(o[we]===0&&(r++,o.close(),r>=e))return r}}return r}destroy(e){let{sessions:r,queue:s}=this;for(let i in r){let n=r[i];for(let u=0;u<n.length;u++)n[u].destroy(e)}for(let i in s){let n=s[i];for(let u in n)n[u].destroyed=!0}this.queue={},this.tlsSessionCache.clear()}get emptySessionCount(){return this._emptySessionCount}get pendingSessionCount(){return this._sessionCount-this._emptySessionCount}get sessionCount(){return this._sessionCount}};Ht.kCurrentStreamCount=we;Ht.kGracefullyClosing=zt;p0.exports={Agent:Ht,globalAgent:new Ht}});var Sc=E((A7,m0)=>{"use strict";var{Readable:F6}=require("stream"),Ac=class extends F6{constructor(e,r){super({emitClose:!1,autoDestroy:!0,highWaterMark:r}),this.statusCode=null,this.statusMessage="",this.httpVersion="2.0",this.httpVersionMajor=2,this.httpVersionMinor=0,this.headers={},this.trailers={},this.req=null,this.aborted=!1,this.complete=!1,this.upgrade=null,this.rawHeaders=[],this.rawTrailers=[],this.socket=e,this._dumped=!1}get connection(){return this.socket}set connection(e){this.socket=e}_destroy(e,r){this.readableEnded||(this.aborted=!0),r(),this.req._request.destroy(e)}setTimeout(e,r){return this.req.setTimeout(e,r),this}_dump(){this._dumped||(this._dumped=!0,this.removeAllListeners("data"),this.resume())}_read(){this.req&&this.req._request.resume()}};m0.exports=Ac});var g0=E((S7,E0)=>{"use strict";E0.exports=(t,e,r)=>{for(let s of r)t.on(s,(...i)=>e.emit(s,...i))}});var Oi=E((B7,C0)=>{"use strict";var wr=(t,e,r)=>{C0.exports[e]=class extends t{constructor(...i){super(typeof r=="string"?r:r(i)),this.name=`${super.name} [${e}]`,this.code=e}}};wr(TypeError,"ERR_INVALID_ARG_TYPE",t=>{let e=t[0].includes(".")?"property":"argument",r=t[1],s=Array.isArray(r);return s&&(r=`${r.slice(0,-1).join(", ")} or ${r.slice(-1)}`),`The "${t[0]}" ${e} must be ${s?"one of":"of"} type ${r}. Received ${typeof t[2]}`});wr(TypeError,"ERR_INVALID_PROTOCOL",t=>`Protocol "${t[0]}" not supported. Expected "${t[1]}"`);wr(Error,"ERR_HTTP_HEADERS_SENT",t=>`Cannot ${t[0]} headers after they are sent to the client`);wr(TypeError,"ERR_INVALID_HTTP_TOKEN",t=>`${t[0]} must be a valid HTTP token [${t[1]}]`);wr(TypeError,"ERR_HTTP_INVALID_HEADER_VALUE",t=>`Invalid value "${t[0]} for header "${t[1]}"`);wr(TypeError,"ERR_INVALID_CHAR",t=>`Invalid character in ${t[0]} [${t[1]}]`);wr(Error,"ERR_HTTP2_NO_SOCKET_MANIPULATION","HTTP/2 sockets should not be directly manipulated (e.g. read and written)")});var y0=E((R7,F0)=>{"use strict";F0.exports=t=>{switch(t){case":method":case":scheme":case":authority":case":path":return!0;default:return!1}}});var vc=E((O7,b0)=>{"use strict";var{ERR_INVALID_HTTP_TOKEN:y6}=Oi(),b6=y0(),x6=/^[\^`\-\w!#$%&*+.|~]+$/;b0.exports=t=>{if(typeof t!="string"||!x6.test(t)&&!b6(t))throw new y6("Header name",t)}});var Bc=E((T7,x0)=>{"use strict";var{ERR_HTTP_INVALID_HEADER_VALUE:w6,ERR_INVALID_CHAR:_6}=Oi(),A6=/[^\t\u0020-\u007E\u0080-\u00FF]/;x0.exports=(t,e)=>{if(typeof e>"u")throw new w6(e,t);if(A6.test(e))throw new _6("header content",t)}});var A0=E((I7,_0)=>{"use strict";var{ERR_HTTP2_NO_SOCKET_MANIPULATION:w0}=Oi(),S6={has(t,e){let r=t.session===void 0?t:t.session.socket;return e in t||e in r},get(t,e){switch(e){case"on":case"once":case"end":case"emit":case"destroy":return t[e].bind(t);case"writable":case"destroyed":return t[e];case"readable":return t.destroyed?!1:t.readable;case"setTimeout":{let{session:r}=t;return r!==void 0?r.setTimeout.bind(r):t.setTimeout.bind(t)}case"write":case"read":case"pause":case"resume":throw new w0;default:{let r=t.session===void 0?t:t.session.socket,s=r[e];return typeof s=="function"?s.bind(r):s}}},getPrototypeOf(t){return t.session!==void 0?Reflect.getPrototypeOf(t.session.socket):Reflect.getPrototypeOf(t)},set(t,e,r){switch(e){case"writable":case"readable":case"destroyed":case"on":case"once":case"end":case"emit":case"destroy":return t[e]=r,!0;case"setTimeout":{let{session:s}=t;return s===void 0?t.setTimeout=r:s.setTimeout=r,!0}case"write":case"read":case"pause":case"resume":throw new w0;default:{let s=t.session===void 0?t:t.session.socket;return s[e]=r,!0}}}};_0.exports=S6});var Ic=E((L7,T0)=>{"use strict";var{URL:Rc,urlToHttpOptions:S0}=require("url"),v6=require("http2"),{Writable:B6}=require("stream"),{Agent:R6,globalAgent:O6}=xr(),T6=Sc(),I6=g0(),{ERR_INVALID_ARG_TYPE:pu,ERR_INVALID_PROTOCOL:L6,ERR_HTTP_HEADERS_SENT:v0}=Oi(),N6=vc(),P6=Bc(),k6=A0(),{HTTP2_HEADER_STATUS:B0,HTTP2_HEADER_METHOD:R0,HTTP2_HEADER_PATH:O0,HTTP2_HEADER_AUTHORITY:Ti,HTTP2_METHOD_CONNECT:q6}=v6.constants,de=Symbol("headers"),hs=Symbol("origin"),Ii=Symbol("session"),Oc=Symbol("options"),mu=Symbol("flushedHeaders"),Li=Symbol("jobs"),Ni=Symbol("pendingAgentPromise"),Tc=class extends B6{constructor(e,r,s){if(super({autoDestroy:!1,emitClose:!1}),typeof e=="string"?e=S0(new Rc(e)):e instanceof Rc?e=S0(e):e={...e},typeof r=="function"||r===void 0?(s=r,r=e):r=Object.assign(e,r),r.h2session){if(this[Ii]=r.h2session,this[Ii].destroyed)throw new Error("The session has been closed already");this.protocol=this[Ii].socket.encrypted?"https:":"http:"}else if(r.agent===!1)this.agent=new R6({maxEmptySessions:0});else if(typeof r.agent>"u"||r.agent===null)this.agent=O6;else if(typeof r.agent.request=="function")this.agent=r.agent;else throw new pu("options.agent",["http2wrapper.Agent-like Object","undefined","false"],r.agent);if(this.agent&&(this.protocol=this.agent.protocol),r.protocol&&r.protocol!==this.protocol)throw new L6(r.protocol,this.protocol);r.port||(r.port=r.defaultPort||this.agent&&this.agent.defaultPort||443),r.host=r.hostname||r.host||"localhost",delete r.hostname;let{timeout:i}=r;r.timeout=void 0,this[de]=Object.create(null),this[Li]=[],this[Ni]=void 0,this.socket=null,this.connection=null,this.method=r.method||"GET",this.method==="CONNECT"&&(r.path==="/"||r.path===void 0)||(this.path=r.path),this.res=null,this.aborted=!1,this.reusedSocket=!1;let{headers:n}=r;if(n)for(let o in n)this.setHeader(o,n[o]);r.auth&&!("authorization"in this[de])&&(this[de].authorization="Basic "+Buffer.from(r.auth).toString("base64")),r.session=r.tlsSession,r.path=r.socketPath,this[Oc]=r,this[hs]=new Rc(`${this.protocol}//${r.servername||r.host}:${r.port}`);let u=r._reuseSocket;u&&(r.createConnection=(...o)=>u.destroyed?this.agent.createConnection(...o):u,this.agent.getSession(this[hs],this[Oc]).catch(()=>{})),i&&this.setTimeout(i),s&&this.once("response",s),this[mu]=!1}get method(){return this[de][R0]}set method(e){e&&(this[de][R0]=e.toUpperCase())}get path(){let e=this.method==="CONNECT"?Ti:O0;return this[de][e]}set path(e){if(e){let r=this.method==="CONNECT"?Ti:O0;this[de][r]=e}}get host(){return this[hs].hostname}set host(e){}get _mustNotHaveABody(){return this.method==="GET"||this.method==="HEAD"||this.method==="DELETE"}_write(e,r,s){if(this._mustNotHaveABody){s(new Error("The GET, HEAD and DELETE methods must NOT have a body"));return}this.flushHeaders();let i=()=>this._request.write(e,r,s);this._request?i():this[Li].push(i)}_final(e){this.flushHeaders();let r=()=>{if(this._mustNotHaveABody||this.method==="CONNECT"){e();return}this._request.end(e)};this._request?r():this[Li].push(r)}abort(){this.res&&this.res.complete||(this.aborted||process.nextTick(()=>this.emit("abort")),this.aborted=!0,this.destroy())}async _destroy(e,r){this.res&&this.res._dump(),this._request?this._request.destroy():process.nextTick(()=>{this.emit("close")});try{await this[Ni]}catch(s){this.aborted&&(e=s)}r(e)}async flushHeaders(){if(this[mu]||this.destroyed)return;this[mu]=!0;let e=this.method===q6,r=s=>{if(this._request=s,this.destroyed){s.destroy();return}e||I6(s,this,["timeout","continue"]),s.once("error",n=>{this.destroy(n)}),s.once("aborted",()=>{let{res:n}=this;n?(n.aborted=!0,n.emit("aborted"),n.destroy()):this.destroy(new Error("The server aborted the HTTP/2 stream"))});let i=(n,u,o)=>{let a=new T6(this.socket,s.readableHighWaterMark);this.res=a,a.url=`${this[hs].origin}${this.path}`,a.req=this,a.statusCode=n[B0],a.headers=n,a.rawHeaders=o,a.once("end",()=>{a.complete=!0,a.socket=null,a.connection=null}),e?(a.upgrade=!0,this.emit("connect",a,s,Buffer.alloc(0))?this.emit("close"):s.destroy()):(s.on("data",c=>{!a._dumped&&!a.push(c)&&s.pause()}),s.once("end",()=>{this.aborted||a.push(null)}),this.emit("response",a)||a._dump())};s.once("response",i),s.once("headers",n=>this.emit("information",{statusCode:n[B0]})),s.once("trailers",(n,u,o)=>{let{res:a}=this;if(a===null){i(n,u,o);return}a.trailers=n,a.rawTrailers=o}),s.once("close",()=>{let{aborted:n,res:u}=this;if(u){n&&(u.aborted=!0,u.emit("aborted"),u.destroy());let o=()=>{u.emit("close"),this.destroy(),this.emit("close")};u.readable?u.once("end",o):o();return}if(!this.destroyed){this.destroy(new Error("The HTTP/2 stream has been early terminated")),this.emit("close");return}this.destroy(),this.emit("close")}),this.socket=new Proxy(s,k6);for(let n of this[Li])n();this.emit("socket",this.socket)};if(!(Ti in this[de])&&!e&&(this[de][Ti]=this[hs].host),this[Ii])try{r(this[Ii].request(this[de]))}catch(s){this.destroy(s)}else{this.reusedSocket=!0;try{let s=this.agent.request(this[hs],this[Oc],this[de]);this[Ni]=s,r(await s),this[Ni]=!1}catch(s){this[Ni]=!1,this.destroy(s)}}}get connection(){return this.socket}set connection(e){this.socket=e}getHeaderNames(){return Object.keys(this[de])}hasHeader(e){if(typeof e!="string")throw new pu("name","string",e);return Boolean(this[de][e.toLowerCase()])}getHeader(e){if(typeof e!="string")throw new pu("name","string",e);return this[de][e.toLowerCase()]}get headersSent(){return this[mu]}removeHeader(e){if(typeof e!="string")throw new pu("name","string",e);if(this.headersSent)throw new v0("remove");delete this[de][e.toLowerCase()]}setHeader(e,r){if(this.headersSent)throw new v0("set");N6(e),P6(e,r);let s=e.toLowerCase();if(s==="connection"){if(r.toLowerCase()==="keep-alive")return;throw new Error(`Invalid 'connection' header: ${r}`)}s==="host"&&this.method==="CONNECT"?this[de][Ti]=r:this[de][s]=r}setNoDelay(){}setSocketKeepAlive(){}setTimeout(e,r){let s=()=>this._request.setTimeout(e,r);return this._request?s():this[Li].push(s),this}get maxHeadersCount(){if(!this.destroyed&&this._request)return this._request.session.localSettings.maxHeaderListSize}set maxHeadersCount(e){}};T0.exports=Tc});var L0=E((N7,I0)=>{"use strict";var M6=require("tls");I0.exports=(t={},e=M6.connect)=>new Promise((r,s)=>{let i=!1,n,u=async()=>{await a,n.off("timeout",o),n.off("error",s),t.resolveSocket?(r({alpnProtocol:n.alpnProtocol,socket:n,timeout:i}),i&&(await Promise.resolve(),n.emit("timeout"))):(n.destroy(),r({alpnProtocol:n.alpnProtocol,timeout:i}))},o=async()=>{i=!0,u()},a=(async()=>{try{n=await e(t,u),n.on("error",s),n.once("timeout",o)}catch(c){s(c)}})()})});var P0=E((P7,N0)=>{"use strict";var{isIP:$6}=require("net"),U6=require("assert"),j6=t=>{if(t[0]==="["){let r=t.indexOf("]");return U6(r!==-1),t.slice(1,r)}let e=t.indexOf(":");return e===-1?t:t.slice(0,e)};N0.exports=t=>{let e=j6(t);return $6(e)?"":e}});var H0=E((k7,Pi)=>{"use strict";var{URL:k0,urlToHttpOptions:q0}=require("url"),M0=require("http"),Lc=require("https"),z6=L0(),H6=xc(),{Agent:G6,globalAgent:W6}=xr(),V6=Ic(),Y6=P0(),$0=wc(),U0=new H6({maxSize:100}),K6=new Map,X6=(t,e,r)=>{e._httpMessage={shouldKeepAlive:!0};let s=()=>{t.emit("free",e,r)};e.on("free",s);let i=()=>{t.removeSocket(e,r)};e.on("close",i);let n=()=>{let{freeSockets:o}=t;for(let a of Object.values(o))if(a.includes(e)){e.destroy();return}};e.on("timeout",n);let u=()=>{t.removeSocket(e,r),e.off("close",i),e.off("free",s),e.off("timeout",n),e.off("agentRemove",u)};e.on("agentRemove",u),t.emit("free",e,r)},j0=(t,e=new Map,r=void 0)=>async s=>{let i=`${s.host}:${s.port}:${s.ALPNProtocols.sort()}`;if(!t.has(i)){if(e.has(i))return{alpnProtocol:(await e.get(i)).alpnProtocol};let{path:n}=s;s.path=s.socketPath;let u=z6(s,r);e.set(i,u);try{let o=await u;return t.set(i,o.alpnProtocol),e.delete(i),s.path=n,o}catch(o){throw e.delete(i),s.path=n,o}}return{alpnProtocol:t.get(i)}},z0=j0(U0,K6);Pi.exports=async(t,e,r)=>{if(typeof t=="string"?t=q0(new k0(t)):t instanceof k0?t=q0(t):t={...t},typeof e=="function"||e===void 0?(r=e,e=t):e=Object.assign(t,e),e.ALPNProtocols=e.ALPNProtocols||["h2","http/1.1"],!Array.isArray(e.ALPNProtocols)||e.ALPNProtocols.length===0)throw new Error("The `ALPNProtocols` option must be an Array with at least one entry");e.protocol=e.protocol||"https:";let s=e.protocol==="https:";e.host=e.hostname||e.host||"localhost",e.session=e.tlsSession,e.servername=e.servername||Y6(e.headers&&e.headers.host||e.host),e.port=e.port||(s?443:80),e._defaultAgent=s?Lc.globalAgent:M0.globalAgent;let i=e.resolveProtocol||z0,{agent:n}=e;if(n!==void 0&&n!==!1&&n.constructor.name!=="Object")throw new Error("The `options.agent` can be only an object `http`, `https` or `http2` properties");if(s){e.resolveSocket=!0;let{socket:u,alpnProtocol:o,timeout:a}=await i(e);if(a){u&&u.destroy();let l=new Error(`Timed out resolving ALPN: ${e.timeout} ms`);throw l.code="ETIMEDOUT",l.ms=e.timeout,l}u&&e.createConnection&&(u.destroy(),u=void 0),delete e.resolveSocket;let c=o==="h2";if(n&&(n=c?n.http2:n.https,e.agent=n),n===void 0&&(n=c?W6:Lc.globalAgent),u)if(n===!1)u.destroy();else{let l=(c?G6:Lc.Agent).prototype.createConnection;n.createConnection===l?c?e._reuseSocket=u:X6(n,u,e):u.destroy()}if(c)return $0(new V6(e,r))}else n&&(e.agent=n.http);return $0(M0.request(e,r))};Pi.exports.protocolCache=U0;Pi.exports.resolveProtocol=z0;Pi.exports.createResolveProtocol=j0});var Nc=E((q7,G0)=>{"use strict";var Z6=require("stream"),J6=require("tls"),Q6=new J6.TLSSocket(new Z6.PassThrough)._handle._parentWrap.constructor;G0.exports=Q6});var kc=E((M7,W0)=>{"use strict";var Pc=class extends Error{constructor(e){super(`The proxy server rejected the request with status code ${e}`),this.statusCode=e}};W0.exports=Pc});var Y0=E(($7,V0)=>{"use strict";var eS=(t,e,r)=>{if(!r.some(i=>typeof i==="string"?typeof e===i:e instanceof i)){let i=r.map(n=>typeof n=="string"?n:n.name);throw new TypeError(`Expected '${t}' to be a type of ${i.join(" or ")}, got ${typeof e}`)}};V0.exports=eS});var qc=E((U7,X0)=>{"use strict";var{URL:K0}=require("url"),Eu=Y0();X0.exports=(t,e)=>{Eu("proxyOptions",e,["object"]),Eu("proxyOptions.headers",e.headers,["object","undefined"]),Eu("proxyOptions.raw",e.raw,["boolean","undefined"]),Eu("proxyOptions.url",e.url,[K0,"string"]);let r=new K0(e.url);t.proxyOptions={raw:!0,...e,headers:{...e.headers},url:r}}});var gu=E((j7,Z0)=>{"use strict";Z0.exports=t=>{let{username:e,password:r}=t.proxyOptions.url;if(e||r){let s=`${e}:${r}`,i=`Basic ${Buffer.from(s).toString("base64")}`;return{"proxy-authorization":i,authorization:i}}return{}}});var rE=E((z7,tE)=>{"use strict";var tS=require("tls"),rS=require("http"),J0=require("https"),sS=Nc(),{globalAgent:iS}=xr(),nS=kc(),Q0=qc(),uS=gu(),eE=(t,e,r)=>{(async()=>{try{let{proxyOptions:s}=t,{url:i,headers:n,raw:u}=s,o=await iS.request(i,s,{...uS(t),...n,":method":"CONNECT",":authority":`${e.host}:${e.port}`});o.once("error",r),o.once("response",a=>{let c=a[":status"];if(c!==200){r(new nS(c));return}let l=t instanceof J0.Agent;if(u&&l){e.socket=o;let f=tS.connect(e);f.once("close",()=>{o.destroy()}),r(null,f);return}let h=new sS(o);h.encrypted=!1,h._handle.getpeername=f=>{f.family=void 0,f.address=void 0,f.port=void 0},r(null,h)})}catch(s){r(s)}})()},Mc=class extends rS.Agent{constructor(e){super(e),Q0(this,e.proxyOptions)}createConnection(e,r){eE(this,e,r)}},$c=class extends J0.Agent{constructor(e){super(e),Q0(this,e.proxyOptions)}createConnection(e,r){eE(this,e,r)}};tE.exports={HttpOverHttp2:Mc,HttpsOverHttp2:$c}});var jc=E((H7,sE)=>{"use strict";var{Agent:oS}=xr(),aS=Nc(),cS=kc(),lS=qc(),Uc=class extends oS{constructor(e){super(e),lS(this,e.proxyOptions)}async createConnection(e,r){let s=`${e.hostname}:${e.port||443}`,[i,n]=await this._getProxyStream(s);if(n!==200)throw new cS(n);if(this.proxyOptions.raw)r.socket=i;else{let u=new aS(i);return u.encrypted=!1,u._handle.getpeername=o=>{o.family=void 0,o.address=void 0,o.port=void 0},u}return super.createConnection(e,r)}};sE.exports=Uc});var nE=E((G7,iE)=>{"use strict";var{globalAgent:hS}=xr(),fS=jc(),DS=gu(),dS=t=>new Promise((e,r)=>{t.once("error",r),t.once("response",s=>{t.off("error",r),e(s[":status"])})}),zc=class extends fS{async _getProxyStream(e){let{proxyOptions:r}=this,s={...DS(this),...r.headers,":method":"CONNECT",":authority":e},i=await hS.request(r.url,r,s),n=await dS(i);return[i,n]}};iE.exports=zc});var oE=E((W7,uE)=>{"use strict";var pS=require("http"),mS=require("https"),ES=jc(),gS=gu(),CS=t=>new Promise((e,r)=>{let s=(i,n,u)=>{n.unshift(u),t.off("error",r),e([n,i.statusCode])};t.once("error",r),t.once("connect",s)}),Cu=class extends ES{async _getProxyStream(e){let{proxyOptions:r}=this,{url:s,headers:i}=this.proxyOptions,u=(s.protocol==="https:"?mS:pS).request({...r,hostname:s.hostname,port:s.port,path:e,headers:{...gS(this),...i,host:e},method:"CONNECT"}).end();return CS(u)}};uE.exports={Http2OverHttp:Cu,Http2OverHttps:Cu}});var cE=E((V7,aE)=>{"use strict";var FS=require("http2"),{Agent:yS,globalAgent:bS}=xr(),Hc=Ic(),xS=Sc(),wS=H0(),{HttpOverHttp2:_S,HttpsOverHttp2:AS}=rE(),SS=nE(),{Http2OverHttp:vS,Http2OverHttps:BS}=oE(),RS=vc(),OS=Bc(),TS=(t,e,r)=>new Hc(t,e,r),IS=(t,e,r)=>{let s=new Hc(t,e,r);return s.end(),s};aE.exports={...FS,ClientRequest:Hc,IncomingMessage:xS,Agent:yS,globalAgent:bS,request:TS,get:IS,auto:wS,proxies:{HttpOverHttp2:_S,HttpsOverHttp2:AS,Http2OverHttp2:SS,Http2OverHttp:vS,Http2OverHttps:BS},validateHeaderName:RS,validateHeaderValue:OS}});var BE=E(_r=>{_r.parse=_r.decode=QS;_r.stringify=_r.encode=AE;_r.safe=ds;_r.unsafe=Su;var Zc=typeof process<"u"&&process.platform==="win32"?`\r
-`:`
-`;function AE(t,e){var r=[],s="";typeof e=="string"?e={section:e,whitespace:!1}:(e=e||{},e.whitespace=e.whitespace===!0);var i=e.whitespace?" = ":"=";return Object.keys(t).forEach(function(n,u,o){var a=t[n];a&&Array.isArray(a)?a.forEach(function(c){s+=ds(n+"[]")+i+ds(c)+`
-`}):a&&typeof a=="object"?r.push(n):s+=ds(n)+i+ds(a)+Zc}),e.section&&s.length&&(s="["+ds(e.section)+"]"+Zc+s),r.forEach(function(n,u,o){var a=SE(n).join("\\."),c=(e.section?e.section+".":"")+a,l=AE(t[n],{section:c,whitespace:e.whitespace});s.length&&l.length&&(s+=Zc),s+=l}),s}function SE(t){return t.replace(/\1/g,"LITERAL\\1LITERAL").replace(/\\\./g,"").split(/\./).map(function(e){return e.replace(/\1/g,"\\.").replace(/\2LITERAL\\1LITERAL\2/g,"")})}function QS(t){var e={},r=e,s=null,i=/^\[([^\]]*)\]$|^([^=]+)(=(.*))?$/i,n=t.split(/[\r\n]+/g);return n.forEach(function(u,o,a){if(!(!u||u.match(/^\s*[;#]/))){var c=u.match(i);if(!!c){if(c[1]!==void 0){if(s=Su(c[1]),s==="__proto__"){r={};return}r=e[s]=e[s]||{};return}var l=Su(c[2]);if(l!=="__proto__"){var h=c[3]?Su(c[4]):!0;switch(h){case"true":case"false":case"null":h=JSON.parse(h)}if(l.length>2&&l.slice(-2)==="[]"){if(l=l.substring(0,l.length-2),l==="__proto__")return;r[l]?Array.isArray(r[l])||(r[l]=[r[l]]):r[l]=[]}Array.isArray(r[l])?r[l].push(h):r[l]=h}}}}),Object.keys(e).filter(function(u,o,a){if(!e[u]||typeof e[u]!="object"||Array.isArray(e[u]))return!1;var c=SE(u),l=e,h=c.pop(),f=h.replace(/\\\./g,".");return c.forEach(function(D,C,m){D!=="__proto__"&&((!l[D]||typeof l[D]!="object")&&(l[D]={}),l=l[D])}),l===e&&f===h?!1:(l[f]=e[u],!0)}).forEach(function(u,o,a){delete e[u]}),e}function vE(t){return t.charAt(0)==='"'&&t.slice(-1)==='"'||t.charAt(0)==="'"&&t.slice(-1)==="'"}function ds(t){return typeof t!="string"||t.match(/[=\r\n]/)||t.match(/^\[/)||t.length>1&&vE(t)||t!==t.trim()?JSON.stringify(t):t.replace(/;/g,"\\;").replace(/#/g,"\\#")}function Su(t,e){if(t=(t||"").trim(),vE(t)){t.charAt(0)==="'"&&(t=t.substr(1,t.length-2));try{t=JSON.parse(t)}catch{}}else{for(var r=!1,s="",i=0,n=t.length;i<n;i++){var u=t.charAt(i);if(r)"\\;#".indexOf(u)!==-1?s+=u:s+="\\"+u,r=!1;else{if(";#".indexOf(u)!==-1)break;u==="\\"?r=!0:s+=u}}return r&&(s+="\\"),s.trim()}return t}});var TE=E((UL,OE)=>{"use strict";var Jc=1,RE=2;function e1(){return""}function t1(t,e,r){return t.slice(e,r).replace(/\S/g," ")}OE.exports=function(t,e){e=e||{};for(var r,s,i=!1,n=!1,u=0,o="",a=e.whitespace===!1?e1:t1,c=0;c<t.length;c++){if(r=t[c],s=t[c+1],!n&&r==='"'){var l=t[c-1]==="\\"&&t[c-2]!=="\\";l||(i=!i)}if(!i){if(!n&&r+s==="//")o+=t.slice(u,c),u=c,n=Jc,c++;else if(n===Jc&&r+s===`\r
-`){c++,n=!1,o+=a(t,u,c),u=c;continue}else if(n===Jc&&r===`
-`)n=!1,o+=a(t,u,c),u=c;else if(!n&&r+s==="/*"){o+=t.slice(u,c),u=c,n=RE,c++;continue}else if(n===RE&&r+s==="*/"){c++,n=!1,o+=a(t,u,c+1),u=c+1;continue}}}return o+(n?a(t.substr(u)):t.substr(u))}});var LE=E(ps=>{"use strict";var IE=require("fs"),r1=BE(),Mi=require("path"),s1=TE(),i1=ps.parse=function(t){return/^\s*{/.test(t)?JSON.parse(s1(t)):r1.parse(t)},n1=ps.file=function(){var t=[].slice.call(arguments).filter(function(i){return i!=null});for(var e in t)if(typeof t[e]!="string")return;var r=Mi.join.apply(null,t),s;try{return IE.readFileSync(r,"utf-8")}catch{return}},jL=ps.json=function(){var t=n1.apply(null,arguments);return t?i1(t):null},zL=ps.env=function(t,e){e=e||process.env;var r={},s=t.length;for(var i in e)if(i.toLowerCase().indexOf(t.toLowerCase())===0){for(var n=i.substring(s).split("__"),u;(u=n.indexOf(""))>-1;)n.splice(u,1);var o=r;n.forEach(function(c,l){!c||typeof o!="object"||(l===n.length-1&&(o[c]=e[i]),o[c]===void 0&&(o[c]={}),o=o[c])})}return r},HL=ps.find=function(){var t=Mi.join.apply(null,[].slice.call(arguments));function e(r,s){var i=Mi.join(r,s);try{return IE.statSync(i),i}catch{if(Mi.dirname(r)!==r)return e(Mi.dirname(r),s)}}return e(process.cwd(),t)}});var $E=E((WL,ME)=>{"use strict";function PE(t){return t instanceof Buffer||t instanceof Date||t instanceof RegExp}function kE(t){if(t instanceof Buffer){var e=Buffer.alloc?Buffer.alloc(t.length):new Buffer(t.length);return t.copy(e),e}else{if(t instanceof Date)return new Date(t.getTime());if(t instanceof RegExp)return new RegExp(t);throw new Error("Unexpected situation")}}function qE(t){var e=[];return t.forEach(function(r,s){typeof r=="object"&&r!==null?Array.isArray(r)?e[s]=qE(r):PE(r)?e[s]=kE(r):e[s]=Qc({},r):e[s]=r}),e}function NE(t,e){return e==="__proto__"?void 0:t[e]}var Qc=ME.exports=function(){if(arguments.length<1||typeof arguments[0]!="object")return!1;if(arguments.length<2)return arguments[0];var t=arguments[0],e=Array.prototype.slice.call(arguments,1),r,s,i;return e.forEach(function(n){typeof n!="object"||n===null||Array.isArray(n)||Object.keys(n).forEach(function(u){if(s=NE(t,u),r=NE(n,u),r!==t)if(typeof r!="object"||r===null){t[u]=r;return}else if(Array.isArray(r)){t[u]=qE(r);return}else if(PE(r)){t[u]=kE(r);return}else if(typeof s!="object"||s===null||Array.isArray(s)){t[u]=Qc({},r);return}else{t[u]=Qc(s,r);return}})}),t}});var HE=E((VL,zE)=>{zE.exports=function(t,e){e||(e={});var r={bools:{},strings:{},unknownFn:null};typeof e.unknown=="function"&&(r.unknownFn=e.unknown),typeof e.boolean=="boolean"&&e.boolean?r.allBools=!0:[].concat(e.boolean).filter(Boolean).forEach(function(b){r.bools[b]=!0});var s={};Object.keys(e.alias||{}).forEach(function(b){s[b]=[].concat(e.alias[b]),s[b].forEach(function(B){s[B]=[b].concat(s[b].filter(function(N){return B!==N}))})}),[].concat(e.string).filter(Boolean).forEach(function(b){r.strings[b]=!0,s[b]&&(r.strings[s[b]]=!0)});var i=e.default||{},n={_:[]};Object.keys(r.bools).forEach(function(b){a(b,i[b]===void 0?!1:i[b])});var u=[];t.indexOf("--")!==-1&&(u=t.slice(t.indexOf("--")+1),t=t.slice(0,t.indexOf("--")));function o(b,B){return r.allBools&&/^--[^=]+$/.test(B)||r.strings[b]||r.bools[b]||s[b]}function a(b,B,N){if(!(N&&r.unknownFn&&!o(b,N)&&r.unknownFn(N)===!1)){var R=!r.strings[b]&&UE(B)?Number(B):B;c(n,b.split("."),R),(s[b]||[]).forEach(function(ce){c(n,ce.split("."),R)})}}function c(b,B,N){for(var R=b,ce=0;ce<B.length-1;ce++){var _=B[ce];if(jE(R,_))return;R[_]===void 0&&(R[_]={}),(R[_]===Object.prototype||R[_]===Number.prototype||R[_]===String.prototype)&&(R[_]={}),R[_]===Array.prototype&&(R[_]=[]),R=R[_]}var _=B[B.length-1];jE(R,_)||((R===Object.prototype||R===Number.prototype||R===String.prototype)&&(R={}),R===Array.prototype&&(R=[]),R[_]===void 0||r.bools[_]||typeof R[_]=="boolean"?R[_]=N:Array.isArray(R[_])?R[_].push(N):R[_]=[R[_],N])}function l(b){return s[b].some(function(B){return r.bools[B]})}for(var h=0;h<t.length;h++){var f=t[h];if(/^--.+=/.test(f)){var D=f.match(/^--([^=]+)=([\s\S]*)$/),C=D[1],m=D[2];r.bools[C]&&(m=m!=="false"),a(C,m,f)}else if(/^--no-.+/.test(f)){var C=f.match(/^--no-(.+)/)[1];a(C,!1,f)}else if(/^--.+/.test(f)){var C=f.match(/^--(.+)/)[1],g=t[h+1];g!==void 0&&!/^-/.test(g)&&!r.bools[C]&&!r.allBools&&(s[C]?!l(C):!0)?(a(C,g,f),h++):/^(true|false)$/.test(g)?(a(C,g==="true",f),h++):a(C,r.strings[C]?"":!0,f)}else if(/^-[^-]+/.test(f)){for(var F=f.slice(1,-1).split(""),w=!1,y=0;y<F.length;y++){var g=f.slice(y+2);if(g==="-"){a(F[y],g,f);continue}if(/[A-Za-z]/.test(F[y])&&/=/.test(g)){a(F[y],g.split("=")[1],f),w=!0;break}if(/[A-Za-z]/.test(F[y])&&/-?\d+(\.\d*)?(e-?\d+)?$/.test(g)){a(F[y],g,f),w=!0;break}if(F[y+1]&&F[y+1].match(/\W/)){a(F[y],f.slice(y+2),f),w=!0;break}else a(F[y],r.strings[F[y]]?"":!0,f)}var C=f.slice(-1)[0];!w&&C!=="-"&&(t[h+1]&&!/^(-|--)[^-]/.test(t[h+1])&&!r.bools[C]&&(s[C]?!l(C):!0)?(a(C,t[h+1],f),h++):t[h+1]&&/^(true|false)$/.test(t[h+1])?(a(C,t[h+1]==="true",f),h++):a(C,r.strings[C]?"":!0,f))}else if((!r.unknownFn||r.unknownFn(f)!==!1)&&n._.push(r.strings._||!UE(f)?f:Number(f)),e.stopEarly){n._.push.apply(n._,t.slice(h+1));break}}return Object.keys(i).forEach(function(b){u1(n,b.split("."))||(c(n,b.split("."),i[b]),(s[b]||[]).forEach(function(B){c(n,B.split("."),i[b])}))}),e["--"]?(n["--"]=new Array,u.forEach(function(b){n["--"].push(b)})):u.forEach(function(b){n._.push(b)}),n};function u1(t,e){var r=t;e.slice(0,-1).forEach(function(i){r=r[i]||{}});var s=e[e.length-1];return s in r}function UE(t){return typeof t=="number"||/^0x[0-9a-f]+$/i.test(t)?!0:/^[-+]?(?:\d+(?:\.\d*)?|\.\d+)(e[-+]?\d+)?$/.test(t)}function jE(t,e){return e==="constructor"&&typeof t[e]=="function"||e==="__proto__"}});var YE=E((YL,VE)=>{var $i=LE(),ms=require("path").join,o1=$E(),GE="/etc",WE=process.platform==="win32",Ui=WE?process.env.USERPROFILE:process.env.HOME;VE.exports=function(t,e,r,s){if(typeof t!="string")throw new Error("rc(name): name *must* be string");r||(r=HE()(process.argv.slice(2))),e=(typeof e=="string"?$i.json(e):e)||{},s=s||$i.parse;var i=$i.env(t+"_"),n=[e],u=[];function o(a){if(!(u.indexOf(a)>=0)){var c=$i.file(a);c&&(n.push(s(c)),u.push(a))}}return WE||[ms(GE,t,"config"),ms(GE,t+"rc")].forEach(o),Ui&&[ms(Ui,".config",t,"config"),ms(Ui,".config",t),ms(Ui,"."+t,"config"),ms(Ui,"."+t+"rc")].forEach(o),o($i.find("."+t+"rc")),i.config&&o(i.config),r.config&&o(r.config),o1.apply(null,n.concat([i,r,u.length?{configs:u,config:u[u.length-1]}:void 0]))}});var XE=E(Es=>{"use strict";var a1=Es&&Es.__importDefault||function(t){return t&&t.__esModule?t:{default:t}};Object.defineProperty(Es,"__esModule",{value:!0});Es.readCAFileSync=void 0;var c1=a1(da());function l1(t){try{let e=c1.default.readFileSync(t,"utf8"),r="-----END CERTIFICATE-----";return e.split(r).filter(i=>Boolean(i.trim())).map(i=>`${i.trimLeft()}${r}`)}catch(e){if(e.code==="ENOENT")return;throw e}}Es.readCAFileSync=l1});var ZE=E(Ar=>{"use strict";var h1=Ar&&Ar.__createBinding||(Object.create?function(t,e,r,s){s===void 0&&(s=r),Object.defineProperty(t,s,{enumerable:!0,get:function(){return e[r]}})}:function(t,e,r,s){s===void 0&&(s=r),t[s]=e[r]}),f1=Ar&&Ar.__exportStar||function(t,e){for(var r in t)r!=="default"&&!Object.prototype.hasOwnProperty.call(e,r)&&h1(e,t,r)};Object.defineProperty(Ar,"__esModule",{value:!0});f1(XE(),Ar)});var eg=E((JL,QE)=>{QE.exports=JE;function Sr(t,e){if(typeof Object.setPrototypeOf=="function")return Object.setPrototypeOf(t,e);t.__proto__=e}function JE(){this.list=[];var t=null;Object.defineProperty(this,"root",{get:function(){return t},set:function(e){t=e,this.list.length&&Sr(this.list[this.list.length-1],e)},enumerable:!0,configurable:!0})}JE.prototype={get length(){return this.list.length},get keys(){var t=[];for(var e in this.list[0])t.push(e);return t},get snapshot(){var t={};return this.keys.forEach(function(e){t[e]=this.get(e)},this),t},get store(){return this.list[0]},push:function(t){return typeof t!="object"&&(t={valueOf:t}),this.list.length>=1&&Sr(this.list[this.list.length-1],t),Sr(t,this.root),this.list.push(t)},pop:function(){return this.list.length>=2&&Sr(this.list[this.list.length-2],this.root),this.list.pop()},unshift:function(t){return Sr(t,this.list[0]||this.root),this.list.unshift(t)},shift:function(){return this.list.length===1&&Sr(this.list[0],this.root),this.list.shift()},get:function(t){return this.list[0][t]},set:function(t,e,r){return this.length||this.push({}),r&&this.list[0].hasOwnProperty(t)&&this.push({}),this.list[0][t]=e},forEach:function(t,e){for(var r in this.list[0])t.call(e,r,this.list[0][r])},slice:function(){return this.list.slice.apply(this.list,arguments)},splice:function(){for(var t=this.list.splice.apply(this.list,arguments),e=0,r=this.list.length;e<r;e++)Sr(this.list[e],this.list[e+1]||this.root);return t}}});var ig=E(vr=>{vr.parse=vr.decode=D1;vr.stringify=vr.encode=tg;vr.safe=gs;vr.unsafe=vu;var tl=typeof process<"u"&&process.platform==="win32"?`\r
-`:`
-`;function tg(t,e){var r=[],s="";typeof e=="string"?e={section:e,whitespace:!1}:(e=e||{},e.whitespace=e.whitespace===!0);var i=e.whitespace?" = ":"=";return Object.keys(t).forEach(function(n,u,o){var a=t[n];a&&Array.isArray(a)?a.forEach(function(c){s+=gs(n+"[]")+i+gs(c)+`
-`}):a&&typeof a=="object"?r.push(n):s+=gs(n)+i+gs(a)+tl}),e.section&&s.length&&(s="["+gs(e.section)+"]"+tl+s),r.forEach(function(n,u,o){var a=rg(n).join("\\."),c=(e.section?e.section+".":"")+a,l=tg(t[n],{section:c,whitespace:e.whitespace});s.length&&l.length&&(s+=tl),s+=l}),s}function rg(t){return t.replace(/\1/g,"LITERAL\\1LITERAL").replace(/\\\./g,"").split(/\./).map(function(e){return e.replace(/\1/g,"\\.").replace(/\2LITERAL\\1LITERAL\2/g,"")})}function D1(t){var e={},r=e,s=null,i=/^\[([^\]]*)\]$|^([^=]+)(=(.*))?$/i,n=t.split(/[\r\n]+/g);return n.forEach(function(u,o,a){if(!(!u||u.match(/^\s*[;#]/))){var c=u.match(i);if(!!c){if(c[1]!==void 0){if(s=vu(c[1]),s==="__proto__"){r={};return}r=e[s]=e[s]||{};return}var l=vu(c[2]);if(l!=="__proto__"){var h=c[3]?vu(c[4]):!0;switch(h){case"true":case"false":case"null":h=JSON.parse(h)}if(l.length>2&&l.slice(-2)==="[]"){if(l=l.substring(0,l.length-2),l==="__proto__")return;r[l]?Array.isArray(r[l])||(r[l]=[r[l]]):r[l]=[]}Array.isArray(r[l])?r[l].push(h):r[l]=h}}}}),Object.keys(e).filter(function(u,o,a){if(!e[u]||typeof e[u]!="object"||Array.isArray(e[u]))return!1;var c=rg(u),l=e,h=c.pop(),f=h.replace(/\\\./g,".");return c.forEach(function(D,C,m){D!=="__proto__"&&((!l[D]||typeof l[D]!="object")&&(l[D]={}),l=l[D])}),l===e&&f===h?!1:(l[f]=e[u],!0)}).forEach(function(u,o,a){delete e[u]}),e}function sg(t){return t.charAt(0)==='"'&&t.slice(-1)==='"'||t.charAt(0)==="'"&&t.slice(-1)==="'"}function gs(t){return typeof t!="string"||t.match(/[=\r\n]/)||t.match(/^\[/)||t.length>1&&sg(t)||t!==t.trim()?JSON.stringify(t):t.replace(/;/g,"\\;").replace(/#/g,"\\#")}function vu(t,e){if(t=(t||"").trim(),sg(t)){t.charAt(0)==="'"&&(t=t.substr(1,t.length-2));try{t=JSON.parse(t)}catch{}}else{for(var r=!1,s="",i=0,n=t.length;i<n;i++){var u=t.charAt(i);if(r)"\\;#".indexOf(u)!==-1?s+=u:s+="\\"+u,r=!1;else{if(";#".indexOf(u)!==-1)break;u==="\\"?r=!0:s+=u}}return r&&(s+="\\"),s.trim()}return t}});var ag=E((bt,og)=>{var ng=eg(),ji=require("path"),Bu=require("fs"),rl=ig(),sl=require("events").EventEmitter,d1=require("url"),p1=require("http"),bt=og.exports=function(){for(var t=[].slice.call(arguments),e=new ge;t.length;){var r=t.shift();r&&e.push(typeof r=="string"?E1(r):r)}return e},eN=bt.find=function(){var t=ji.join.apply(null,[].slice.call(arguments));function e(r,s){var i=ji.join(r,s);try{return Bu.statSync(i),i}catch{if(ji.dirname(r)!==r)return e(ji.dirname(r),s)}}return e(__dirname,t)},m1=bt.parse=function(t,e,r){if(t=""+t,r)if(r==="json")if(this.emit)try{return JSON.parse(t)}catch(s){this.emit("error",s)}else return JSON.parse(t);else return rl.parse(t);else try{return JSON.parse(t)}catch{return rl.parse(t)}},E1=bt.json=function(){var t=[].slice.call(arguments).filter(function(s){return s!=null}),e=ji.join.apply(null,t),r;try{r=Bu.readFileSync(e,"utf-8")}catch{return}return m1(r,e,"json")},tN=bt.env=function(t,e){e=e||process.env;var r={},s=t.length;for(var i in e)i.indexOf(t)===0&&(r[i.substring(s)]=e[i]);return r};bt.ConfigChain=ge;function ge(){sl.apply(this),ng.apply(this,arguments),this._awaiting=0,this._saving=0,this.sources={}}var ug={constructor:{value:ge}};Object.keys(sl.prototype).forEach(function(t){ug[t]=Object.getOwnPropertyDescriptor(sl.prototype,t)});ge.prototype=Object.create(ng.prototype,ug);ge.prototype.del=function(t,e){if(e){var r=this.sources[e];if(r=r&&r.data,!r)return this.emit("error",new Error("not found "+e));delete r[t]}else for(var s=0,i=this.list.length;s<i;s++)delete this.list[s][t];return this};ge.prototype.set=function(t,e,r){var s;if(r){if(s=this.sources[r],s=s&&s.data,!s)return this.emit("error",new Error("not found "+r))}else if(s=this.list[0],!s)return this.emit("error",new Error("cannot set, no confs!"));return s[t]=e,this};ge.prototype.get=function(t,e){return e?(e=this.sources[e],e&&(e=e.data),e&&Object.hasOwnProperty.call(e,t)?e[t]:void 0):this.list[0][t]};ge.prototype.save=function(t,n,r){typeof n=="function"&&(r=n,n=null);var s=this.sources[t];if(!s||!(s.path||s.source)||!s.data)return this.emit("error",new Error("bad save target: "+t));if(s.source){var i=s.prefix||"";return Object.keys(s.data).forEach(function(o){s.source[i+o]=s.data[o]}),this}var n=n||s.type,u=s.data;return s.type==="json"?u=JSON.stringify(u):u=rl.stringify(u),this._saving++,Bu.writeFile(s.path,u,"utf8",function(o){if(this._saving--,o)return r?r(o):this.emit("error",o);this._saving===0&&(r&&r(),this.emit("save"))}.bind(this)),this};ge.prototype.addFile=function(t,e,r){r=r||t;var s={__source__:r};return this.sources[r]={path:t,type:e},this.push(s),this._await(),Bu.readFile(t,"utf8",function(i,n){i&&this.emit("error",i),this.addString(n,t,e,s)}.bind(this)),this};ge.prototype.addEnv=function(t,e,r){r=r||"env";var s=bt.env(t,e);return this.sources[r]={data:s,source:e,prefix:t},this.add(s,r)};ge.prototype.addUrl=function(t,e,r){this._await();var s=d1.format(t);r=r||s;var i={__source__:r};return this.sources[r]={href:s,type:e},this.push(i),p1.request(t,function(n){var u=[],o=n.headers["content-type"];e||(e=o.indexOf("json")!==-1?"json":o.indexOf("ini")!==-1?"ini":s.match(/\.json$/)?"json":s.match(/\.ini$/)?"ini":null,i.type=e),n.on("data",u.push.bind(u)).on("end",function(){this.addString(Buffer.concat(u),s,e,i)}.bind(this)).on("error",this.emit.bind(this,"error"))}.bind(this)).on("error",this.emit.bind(this,"error")).end(),this};ge.prototype.addString=function(t,e,r,s){return t=this.parse(t,e,r),this.add(t,s),this};ge.prototype.add=function(t,e){if(e&&typeof e=="object"){var r=this.list.indexOf(e);if(r===-1)return this.emit("error",new Error("bad marker"));this.splice(r,1,t),e=e.__source__,this.sources[e]=this.sources[e]||{},this.sources[e].data=t,this._resolve()}else typeof e=="string"&&(this.sources[e]=this.sources[e]||{},this.sources[e].data=t),this._await(),this.push(t),process.nextTick(this._resolve.bind(this));return this};ge.prototype.parse=bt.parse;ge.prototype._await=function(){this._awaiting++};ge.prototype._resolve=function(){this._awaiting--,this._awaiting===0&&this.emit("load",this)}});var lg=E((rN,cg)=>{cg.exports=function(t){let e=t.indexOf(":");if(e===-1)return il(t);let r=t.substr(0,e),s=t.substr(e+1);return`${il(r)}:${il(s)}`};function il(t){if(t=t.toLowerCase(),t==="_authtoken")return"_authToken";let e=t[0];for(let r=1;r<t.length;r++)e+=t[r]==="_"?"-":t[r];return e}});var fg=E(Ru=>{"use strict";var g1=require("fs"),Br=require("path"),hg=t=>{if(typeof t!="string"||!t)return t;let e=/(\\*)\$\{([^}]+)\}/g;return t.replace(e,(r,s,i)=>{if(s=s.length>0&&s.length%2,s)return r;if(process.env[i]===void 0)throw new Error(`Failed to replace env in config: ${r}`);return process.env[i]})},C1=(t,e,r)=>{if(typeof e!="string")return e;let s=[].concat(t[r]),i=s.indexOf(Br)!==-1,n=s.indexOf(Boolean)!==-1,u=s.indexOf(String)!==-1,o=s.indexOf(Number)!==-1;if(e=`${e}`.trim(),/^".*"$/.test(e))try{e=JSON.parse(e)}catch{throw new Error(`Failed parsing JSON config key ${r}: ${e}`)}if(n&&!u&&e==="")return!0;switch(e){case"true":return!0;case"false":return!1;case"null":return null;case"undefined":return}return e=hg(e),i&&((process.platform==="win32"?/^~(\/|\\)/:/^~\//).test(e)&&process.env.HOME&&(e=Br.resolve(process.env.HOME,e.substr(2))),e=Br.resolve(e)),o&&!isNaN(e)&&(e=Number(e)),e},F1=t=>{t=Br.resolve(t);let e=!1;for(;Br.basename(t)==="node_modules";)t=Br.dirname(t),e=!0;if(e)return t;let r=(s,i)=>{let n=/^[a-zA-Z]:(\\|\/)?$/;if(s==="/"||process.platform==="win32"&&n.test(s))return i;try{let u=g1.readdirSync(s);if(u.includes("node_modules")||u.includes("package.json")||u.includes("package.json5")||u.includes("package.yaml")||u.includes("pnpm-workspace.yaml"))return s;let o=Br.dirname(s);return o===s?i:r(o,i)}catch(u){if(s===i){if(u.code==="ENOENT")return i;throw u}return i}};return r(t,t)};Ru.envReplace=hg;Ru.findPrefix=F1;Ru.parseField=C1});var pg=E(dg=>{"use strict";var Rr=require("path"),y1=require("stream").Stream,Ou=require("url"),b1=()=>{},x1=()=>[],Dg=()=>{};dg.types={access:[null,"restricted","public"],"allow-same-version":Boolean,"always-auth":Boolean,also:[null,"dev","development"],audit:Boolean,"auth-type":["legacy","sso","saml","oauth"],"bin-links":Boolean,browser:[null,String],ca:[null,String,Array],cafile:Rr,cache:Rr,"cache-lock-stale":Number,"cache-lock-retries":Number,"cache-lock-wait":Number,"cache-max":Number,"cache-min":Number,cert:[null,String],cidr:[null,String,Array],color:["always",Boolean],depth:Number,description:Boolean,dev:Boolean,"dry-run":Boolean,editor:String,"engine-strict":Boolean,force:Boolean,"fetch-retries":Number,"fetch-retry-factor":Number,"fetch-retry-mintimeout":Number,"fetch-retry-maxtimeout":Number,git:String,"git-tag-version":Boolean,"commit-hooks":Boolean,global:Boolean,globalconfig:Rr,"global-style":Boolean,group:[Number,String],"https-proxy":[null,Ou],"user-agent":String,"ham-it-up":Boolean,heading:String,"if-present":Boolean,"ignore-prepublish":Boolean,"ignore-scripts":Boolean,"init-module":Rr,"init-author-name":String,"init-author-email":String,"init-author-url":["",Ou],"init-license":String,"init-version":Dg,json:Boolean,key:[null,String],"legacy-bundling":Boolean,link:Boolean,"local-address":x1(),loglevel:["silent","error","warn","notice","http","timing","info","verbose","silly"],logstream:y1,"logs-max":Number,long:Boolean,maxsockets:Number,message:String,"metrics-registry":[null,String],"node-options":[null,String],"node-version":[null,Dg],"no-proxy":[null,String,Array],offline:Boolean,"onload-script":[null,String],only:[null,"dev","development","prod","production"],optional:Boolean,"package-lock":Boolean,otp:[null,String],"package-lock-only":Boolean,parseable:Boolean,"prefer-offline":Boolean,"prefer-online":Boolean,prefix:Rr,production:Boolean,progress:Boolean,proxy:[null,!1,Ou],"read-only":Boolean,"rebuild-bundle":Boolean,registry:[null,Ou],rollback:Boolean,save:Boolean,"save-bundle":Boolean,"save-dev":Boolean,"save-exact":Boolean,"save-optional":Boolean,"save-prefix":String,"save-prod":Boolean,scope:String,"script-shell":[null,String],"scripts-prepend-node-path":[!1,!0,"auto","warn-only"],searchopts:String,searchexclude:[null,String],searchlimit:Number,searchstaleness:Number,"send-metrics":Boolean,shell:String,shrinkwrap:Boolean,"sign-git-tag":Boolean,"sso-poll-frequency":Number,"sso-type":[null,"oauth","saml"],"strict-ssl":Boolean,tag:String,timing:Boolean,tmp:Rr,unicode:Boolean,"unsafe-perm":Boolean,usage:Boolean,user:[Number,String],userconfig:Rr,umask:b1,version:Boolean,"tag-version-prefix":String,versions:Boolean,viewer:String,_exit:Boolean}});var Cg=E((nN,gg)=>{"use strict";var{readCAFileSync:w1}=ZE(),mg=require("fs"),nl=require("path"),{ConfigChain:_1}=ag(),A1=lg(),Eg=fg(),ul=class extends _1{constructor(e,r){super(e),this.root=e,this._parseField=Eg.parseField.bind(null,r||pg())}add(e,r){try{for(let s of Object.keys(e))e[s]=this._parseField(e[s],s)}catch(s){throw s}return super.add(e,r)}addFile(e,r){r=r||e;let s={__source__:r};this.sources[r]={path:e,type:"ini"},this.push(s),this._await();try{let i=mg.readFileSync(e,"utf8");this.addString(i,e,"ini",s)}catch{this.add({},s)}return this}addEnv(e){e=e||process.env;let r={};return Object.keys(e).filter(s=>/^npm_config_/i.test(s)).forEach(s=>{!e[s]||(r[A1(s.substr(11))]=e[s])}),super.addEnv("",r,"env")}loadPrefix(){let e=this.list[0];Object.defineProperty(this,"prefix",{enumerable:!0,set:s=>{let i=this.get("global");this[i?"globalPrefix":"localPrefix"]=s},get:()=>this.get("global")?this.globalPrefix:this.localPrefix}),Object.defineProperty(this,"globalPrefix",{enumerable:!0,set:s=>{this.set("prefix",s)},get:()=>nl.resolve(this.get("prefix"))});let r;if(Object.defineProperty(this,"localPrefix",{enumerable:!0,set:s=>{r=s},get:()=>r}),Object.prototype.hasOwnProperty.call(e,"prefix"))r=nl.resolve(e.prefix);else try{r=Eg.findPrefix(process.cwd())}catch(s){throw s}return r}loadCAFile(e){if(!e)return;let r=w1(e);r&&this.set("ca",r)}loadUser(){let e=this.root;if(this.get("global"))return;if(process.env.SUDO_UID){e.user=Number(process.env.SUDO_UID);return}let r=nl.resolve(this.get("prefix"));try{let s=mg.statSync(r);e.user=s.uid}catch(s){if(s.code==="ENOENT")return;throw s}}};gg.exports=ul});var _g=E(wg=>{"use strict";var bg=require("os"),xt=require("path"),xg=bg.tmpdir(),S1=process.getuid?process.getuid():process.pid,v1=()=>!0,Fg=process.platform==="win32",yg={editor:()=>process.env.EDITOR||process.env.VISUAL||(Fg?"notepad.exe":"vi"),shell:()=>Fg?process.env.COMSPEC||"cmd.exe":process.env.SHELL||"/bin/bash"},B1={fromString:()=>process.umask()},Cs=bg.homedir();Cs?process.env.HOME=Cs:Cs=xt.resolve(xg,"npm-"+S1);var R1=process.platform==="win32"?"npm-cache":".npm",O1=process.platform==="win32"?process.env.APPDATA:Cs,T1=xt.resolve(O1,R1),Tu,Or;Object.defineProperty(wg,"defaults",{get:function(){return Tu||(process.env.PREFIX?Or=process.env.PREFIX:process.platform==="win32"?Or=xt.dirname(process.execPath):(Or=xt.dirname(xt.dirname(process.execPath)),process.env.DESTDIR&&(Or=xt.join(process.env.DESTDIR,Or))),Tu={access:null,"allow-same-version":!1,"always-auth":!1,also:null,audit:!0,"auth-type":"legacy","bin-links":!0,browser:null,ca:null,cafile:null,cache:T1,"cache-lock-stale":6e4,"cache-lock-retries":10,"cache-lock-wait":1e4,"cache-max":1/0,"cache-min":10,cert:null,cidr:null,color:process.env.NO_COLOR==null,depth:1/0,description:!0,dev:!1,"dry-run":!1,editor:yg.editor(),"engine-strict":!1,force:!1,"fetch-retries":2,"fetch-retry-factor":10,"fetch-retry-mintimeout":1e4,"fetch-retry-maxtimeout":6e4,git:"git","git-tag-version":!0,"commit-hooks":!0,global:!1,globalconfig:xt.resolve(Or,"etc","npmrc"),"global-style":!1,group:process.platform==="win32"?0:process.env.SUDO_GID||process.getgid&&process.getgid(),"ham-it-up":!1,heading:"npm","if-present":!1,"ignore-prepublish":!1,"ignore-scripts":!1,"init-module":xt.resolve(Cs,".npm-init.js"),"init-author-name":"","init-author-email":"","init-author-url":"","init-version":"1.0.0","init-license":"ISC",json:!1,key:null,"legacy-bundling":!1,link:!1,"local-address":void 0,loglevel:"notice",logstream:process.stderr,"logs-max":10,long:!1,maxsockets:50,message:"%s","metrics-registry":null,"node-options":null,offline:!1,"onload-script":!1,only:null,optional:!0,otp:null,"package-lock":!0,"package-lock-only":!1,parseable:!1,"prefer-offline":!1,"prefer-online":!1,prefix:Or,production:process.env.NODE_ENV==="production",progress:!process.env.TRAVIS&&!process.env.CI,proxy:null,"https-proxy":null,"no-proxy":null,"user-agent":"npm/{npm-version} node/{node-version} {platform} {arch}","read-only":!1,"rebuild-bundle":!0,registry:"https://registry.npmjs.org/",rollback:!0,save:!0,"save-bundle":!1,"save-dev":!1,"save-exact":!1,"save-optional":!1,"save-prefix":"^","save-prod":!1,scope:"","script-shell":null,"scripts-prepend-node-path":"warn-only",searchopts:"",searchexclude:null,searchlimit:20,searchstaleness:15*60,"send-metrics":!1,shell:yg.shell(),shrinkwrap:!0,"sign-git-tag":!1,"sso-poll-frequency":500,"sso-type":"oauth","strict-ssl":!0,tag:"latest","tag-version-prefix":"v",timing:!1,tmp:xg,unicode:v1(),"unsafe-perm":process.platform==="win32"||process.platform==="cygwin"||!(process.getuid&&process.setuid&&process.getgid&&process.setgid)||process.getuid()!==0,usage:!1,user:process.platform==="win32"?0:"nobody",userconfig:xt.resolve(Cs,".npmrc"),umask:process.umask?process.umask():B1.fromString("022"),version:!1,versions:!1,viewer:process.platform==="win32"?"browser":"man",_exit:!0},Tu)}})});var Sg=E((oN,ol)=>{"use strict";var Tr=require("path"),I1=Cg(),Ag=_g();ol.exports=(t,e,r)=>{let s=new I1(Object.assign({},Ag.defaults,r),e);if(s.add(Object.assign({},t),"cli"),require.resolve.paths){let o=require.resolve.paths("npm"),a;try{a=require.resolve("npm",{paths:o.slice(-1)})}catch{}a&&s.addFile(Tr.resolve(Tr.dirname(a),"..","npmrc"),"builtin")}s.addEnv(),s.loadPrefix();let i=Tr.resolve(s.localPrefix,".npmrc"),n=s.get("userconfig");if(!s.get("global")&&i!==n?s.addFile(i,"project"):s.add({},"project"),s.get("workspace-prefix")&&s.get("workspace-prefix")!==i){let o=Tr.resolve(s.get("workspace-prefix"),".npmrc");s.addFile(o,"workspace")}if(s.addFile(s.get("userconfig"),"user"),s.get("prefix")){let o=Tr.resolve(s.get("prefix"),"etc");s.root.globalconfig=Tr.resolve(o,"npmrc"),s.root.globalignorefile=Tr.resolve(o,"npmignore")}s.addFile(s.get("globalconfig"),"global"),s.loadUser();let u=s.get("cafile");return u&&s.loadCAFile(u),s};Object.defineProperty(ol.exports,"defaults",{get(){return Ag.defaults},enumerable:!0})});var Ng=E((aN,Lg)=>{var al=require("url"),vg=Sg(),Bg=":_authToken",Rg=":_auth",Og=":username",Tg=":_password";Lg.exports=function(){let e,r;return arguments.length>=2?(e=arguments[0],r=Object.assign({},arguments[1])):typeof arguments[0]=="string"?e=arguments[0]:r=Object.assign({},arguments[0]),r=r||{},r.npmrc=r.npmrc?{...r.npmrc,get:s=>r.npmrc[s]}:vg(),e=e||r.npmrc.get("registry")||vg.defaults.registry,Ig(e,r)||L1(r.npmrc)};function Ig(t,e){let r=al.parse(t,!1,!0),s;for(;s!=="/"&&r.pathname!==s;){s=r.pathname||"/";let i="//"+r.host+s.replace(/\/$/,""),n=P1(i,e.npmrc);if(n)return n;if(!e.recursive)return/\/$/.test(t)?void 0:Ig(al.resolve(t,"."),e);r.pathname=al.resolve(N1(s),"..")||"/"}}function L1(t){return t.get("_auth")?{token:Iu(t.get("_auth")),type:"Basic"}:void 0}function N1(t){return t[t.length-1]==="/"?t:t+"/"}function P1(t,e){let r=k1(e.get(t+Bg)||e.get(t+"/"+Bg));if(r)return r;let s=e.get(t+Og)||e.get(t+"/"+Og),i=e.get(t+Tg)||e.get(t+"/"+Tg),n=q1(s,i);if(n)return n;let u=M1(e.get(t+Rg)||e.get(t+"/"+Rg));if(u)return u}function Iu(t){return t.replace(/^\$\{?([^}]*)\}?$/,function(e,r){return process.env[r]})}function k1(t){return t?{token:Iu(t),type:"Bearer"}:void 0}function q1(t,e){if(!t||!e)return;let r=Buffer.from(Iu(e),"base64").toString("utf8");return{token:Buffer.from(t+":"+r,"utf8").toString("base64"),type:"Basic",password:r,username:t}}function M1(t){return t?{token:Iu(t),type:"Basic"}:void 0}});var Vg=E((pN,Wg)=>{var{hasOwnProperty:dl}=Object.prototype,pl=typeof process<"u"&&process.platform==="win32"?`\r
-`:`
-`,ml=(t,e)=>{let r=[],s="";typeof e=="string"?e={section:e,whitespace:!1}:(e=e||Object.create(null),e.whitespace=e.whitespace===!0);let i=e.whitespace?" = ":"=";for(let n of Object.keys(t)){let u=t[n];if(u&&Array.isArray(u))for(let o of u)s+=Fs(n+"[]")+i+Fs(o)+`
-`;else u&&typeof u=="object"?r.push(n):s+=Fs(n)+i+Fs(u)+pl}e.section&&s.length&&(s="["+Fs(e.section)+"]"+pl+s);for(let n of r){let u=Hg(n).join("\\."),o=(e.section?e.section+".":"")+u,{whitespace:a}=e,c=ml(t[n],{section:o,whitespace:a});s.length&&c.length&&(s+=pl),s+=c}return s},Hg=t=>t.replace(/\1/g,"LITERAL\\1LITERAL").replace(/\\\./g,"").split(/\./).map(e=>e.replace(/\1/g,"\\.").replace(/\2LITERAL\\1LITERAL\2/g,"")),zg=t=>{let e=Object.create(null),r=e,s=null,i=/^\[([^\]]*)\]$|^([^=]+)(=(.*))?$/i,n=t.split(/[\r\n]+/g);for(let o of n){if(!o||o.match(/^\s*[;#]/))continue;let a=o.match(i);if(!a)continue;if(a[1]!==void 0){if(s=Nu(a[1]),s==="__proto__"){r=Object.create(null);continue}r=e[s]=e[s]||Object.create(null);continue}let c=Nu(a[2]),l=c.length>2&&c.slice(-2)==="[]",h=l?c.slice(0,-2):c;if(h==="__proto__")continue;let f=a[3]?Nu(a[4]):!0,D=f==="true"||f==="false"||f==="null"?JSON.parse(f):f;l&&(dl.call(r,h)?Array.isArray(r[h])||(r[h]=[r[h]]):r[h]=[]),Array.isArray(r[h])?r[h].push(D):r[h]=D}let u=[];for(let o of Object.keys(e)){if(!dl.call(e,o)||typeof e[o]!="object"||Array.isArray(e[o]))continue;let a=Hg(o),c=e,l=a.pop(),h=l.replace(/\\\./g,".");for(let f of a)f!=="__proto__"&&((!dl.call(c,f)||typeof c[f]!="object")&&(c[f]=Object.create(null)),c=c[f]);c===e&&h===l||(c[h]=e[o],u.push(o))}for(let o of u)delete e[o];return e},Gg=t=>t.charAt(0)==='"'&&t.slice(-1)==='"'||t.charAt(0)==="'"&&t.slice(-1)==="'",Fs=t=>typeof t!="string"||t.match(/[=\r\n]/)||t.match(/^\[/)||t.length>1&&Gg(t)||t!==t.trim()?JSON.stringify(t):t.replace(/;/g,"\\;").replace(/#/g,"\\#"),Nu=(t,e)=>{if(t=(t||"").trim(),Gg(t)){t.charAt(0)==="'"&&(t=t.substr(1,t.length-2));try{t=JSON.parse(t)}catch{}}else{let r=!1,s="";for(let i=0,n=t.length;i<n;i++){let u=t.charAt(i);if(r)"\\;#".indexOf(u)!==-1?s+=u:s+="\\"+u,r=!1;else{if(";#".indexOf(u)!==-1)break;u==="\\"?r=!0:s+=u}}return r&&(s+="\\"),s.trim()}return t};Wg.exports={parse:zg,decode:zg,stringify:ml,encode:ml,safe:Fs,unsafe:Nu}});var Zg=E(it=>{"use strict";var ne=require("path"),El=require("os"),Pu=require("fs"),W1=Vg(),Hi=process.platform==="win32",Yg=t=>{try{return W1.parse(Pu.readFileSync(t,"utf8")).prefix}catch{}},V1=()=>Object.keys(process.env).reduce((t,e)=>/^npm_config_prefix$/i.test(e)?process.env[e]:t,void 0),Y1=()=>{if(Hi&&process.env.APPDATA)return ne.join(process.env.APPDATA,"/npm/etc/npmrc");if(process.execPath.includes("/Cellar/node")){let t=process.execPath.slice(0,process.execPath.indexOf("/Cellar/node"));return ne.join(t,"/lib/node_modules/npm/npmrc")}if(process.execPath.endsWith("/bin/node")){let t=ne.dirname(ne.dirname(process.execPath));return ne.join(t,"/etc/npmrc")}},K1=()=>Hi?ne.dirname(process.execPath):ne.dirname(ne.dirname(process.execPath)),X1=()=>{let t=V1();if(t)return t;let e=Yg(ne.join(El.homedir(),".npmrc"));if(e)return e;if(process.env.PREFIX)return process.env.PREFIX;let r=Yg(Y1());return r||K1()},zi=ne.resolve(X1()),Kg=()=>{if(Hi&&process.env.LOCALAPPDATA){let t=ne.join(process.env.LOCALAPPDATA,"Yarn");if(Pu.existsSync(t))return t}return!1},Z1=()=>{if(process.env.PREFIX)return process.env.PREFIX;let t=Kg();if(t)return t;let e=ne.join(El.homedir(),".config/yarn");if(Pu.existsSync(e))return e;let r=ne.join(El.homedir(),".yarn-config");return Pu.existsSync(r)?r:zi};it.npm={};it.npm.prefix=zi;it.npm.packages=ne.join(zi,Hi?"node_modules":"lib/node_modules");it.npm.binaries=Hi?zi:ne.join(zi,"bin");var Xg=ne.resolve(Z1());it.yarn={};it.yarn.prefix=Xg;it.yarn.packages=ne.join(Xg,Kg()?"Data/global/node_modules":"global/node_modules");it.yarn.binaries=ne.join(it.yarn.packages,".bin")});var Qg=E((EN,Jg)=>{"use strict";var gl=require("path");Jg.exports=(t,e)=>{let r=gl.relative(e,t);return Boolean(r&&r!==".."&&!r.startsWith(`..${gl.sep}`)&&r!==gl.resolve(t))}});var sC=E((gN,rC)=>{"use strict";var J1=require("fs"),eC=Zg(),tC=Qg();rC.exports=(()=>{try{return tC(__dirname,eC.yarn.packages)||tC(__dirname,J1.realpathSync(eC.npm.packages))}catch{return!1}})()});var lC=E((wN,bl)=>{var Gt={};typeof bl>"u"?window.eastasianwidth=Gt:bl.exports=Gt;Gt.eastAsianWidth=function(t){var e=t.charCodeAt(0),r=t.length==2?t.charCodeAt(1):0,s=e;return 55296<=e&&e<=56319&&56320<=r&&r<=57343&&(e&=1023,r&=1023,s=e<<10|r,s+=65536),s==12288||65281<=s&&s<=65376||65504<=s&&s<=65510?"F":s==8361||65377<=s&&s<=65470||65474<=s&&s<=65479||65482<=s&&s<=65487||65490<=s&&s<=65495||65498<=s&&s<=65500||65512<=s&&s<=65518?"H":4352<=s&&s<=4447||4515<=s&&s<=4519||4602<=s&&s<=4607||9001<=s&&s<=9002||11904<=s&&s<=11929||11931<=s&&s<=12019||12032<=s&&s<=12245||12272<=s&&s<=12283||12289<=s&&s<=12350||12353<=s&&s<=12438||12441<=s&&s<=12543||12549<=s&&s<=12589||12593<=s&&s<=12686||12688<=s&&s<=12730||12736<=s&&s<=12771||12784<=s&&s<=12830||12832<=s&&s<=12871||12880<=s&&s<=13054||13056<=s&&s<=19903||19968<=s&&s<=42124||42128<=s&&s<=42182||43360<=s&&s<=43388||44032<=s&&s<=55203||55216<=s&&s<=55238||55243<=s&&s<=55291||63744<=s&&s<=64255||65040<=s&&s<=65049||65072<=s&&s<=65106||65108<=s&&s<=65126||65128<=s&&s<=65131||110592<=s&&s<=110593||127488<=s&&s<=127490||127504<=s&&s<=127546||127552<=s&&s<=127560||127568<=s&&s<=127569||131072<=s&&s<=194367||177984<=s&&s<=196605||196608<=s&&s<=262141?"W":32<=s&&s<=126||162<=s&&s<=163||165<=s&&s<=166||s==172||s==175||10214<=s&&s<=10221||10629<=s&&s<=10630?"Na":s==161||s==164||167<=s&&s<=168||s==170||173<=s&&s<=174||176<=s&&s<=180||182<=s&&s<=186||188<=s&&s<=191||s==198||s==208||215<=s&&s<=216||222<=s&&s<=225||s==230||232<=s&&s<=234||236<=s&&s<=237||s==240||242<=s&&s<=243||247<=s&&s<=250||s==252||s==254||s==257||s==273||s==275||s==283||294<=s&&s<=295||s==299||305<=s&&s<=307||s==312||319<=s&&s<=322||s==324||328<=s&&s<=331||s==333||338<=s&&s<=339||358<=s&&s<=359||s==363||s==462||s==464||s==466||s==468||s==470||s==472||s==474||s==476||s==593||s==609||s==708||s==711||713<=s&&s<=715||s==717||s==720||728<=s&&s<=731||s==733||s==735||768<=s&&s<=879||913<=s&&s<=929||931<=s&&s<=937||945<=s&&s<=961||963<=s&&s<=969||s==1025||1040<=s&&s<=1103||s==1105||s==8208||8211<=s&&s<=8214||8216<=s&&s<=8217||8220<=s&&s<=8221||8224<=s&&s<=8226||8228<=s&&s<=8231||s==8240||8242<=s&&s<=8243||s==8245||s==8251||s==8254||s==8308||s==8319||8321<=s&&s<=8324||s==8364||s==8451||s==8453||s==8457||s==8467||s==8470||8481<=s&&s<=8482||s==8486||s==8491||8531<=s&&s<=8532||8539<=s&&s<=8542||8544<=s&&s<=8555||8560<=s&&s<=8569||s==8585||8592<=s&&s<=8601||8632<=s&&s<=8633||s==8658||s==8660||s==8679||s==8704||8706<=s&&s<=8707||8711<=s&&s<=8712||s==8715||s==8719||s==8721||s==8725||s==8730||8733<=s&&s<=8736||s==8739||s==8741||8743<=s&&s<=8748||s==8750||8756<=s&&s<=8759||8764<=s&&s<=8765||s==8776||s==8780||s==8786||8800<=s&&s<=8801||8804<=s&&s<=8807||8810<=s&&s<=8811||8814<=s&&s<=8815||8834<=s&&s<=8835||8838<=s&&s<=8839||s==8853||s==8857||s==8869||s==8895||s==8978||9312<=s&&s<=9449||9451<=s&&s<=9547||9552<=s&&s<=9587||9600<=s&&s<=9615||9618<=s&&s<=9621||9632<=s&&s<=9633||9635<=s&&s<=9641||9650<=s&&s<=9651||9654<=s&&s<=9655||9660<=s&&s<=9661||9664<=s&&s<=9665||9670<=s&&s<=9672||s==9675||9678<=s&&s<=9681||9698<=s&&s<=9701||s==9711||9733<=s&&s<=9734||s==9737||9742<=s&&s<=9743||9748<=s&&s<=9749||s==9756||s==9758||s==9792||s==9794||9824<=s&&s<=9825||9827<=s&&s<=9829||9831<=s&&s<=9834||9836<=s&&s<=9837||s==9839||9886<=s&&s<=9887||9918<=s&&s<=9919||9924<=s&&s<=9933||9935<=s&&s<=9953||s==9955||9960<=s&&s<=9983||s==10045||s==10071||10102<=s&&s<=10111||11093<=s&&s<=11097||12872<=s&&s<=12879||57344<=s&&s<=63743||65024<=s&&s<=65039||s==65533||127232<=s&&s<=127242||127248<=s&&s<=127277||127280<=s&&s<=127337||127344<=s&&s<=127386||917760<=s&&s<=917999||983040<=s&&s<=1048573||1048576<=s&&s<=1114109?"A":"N"};Gt.characterLength=function(t){var e=this.eastAsianWidth(t);return e=="F"||e=="W"||e=="A"?2:1};function cC(t){return t.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]|[^\uD800-\uDFFF]/g)||[]}Gt.length=function(t){for(var e=cC(t),r=0,s=0;s<e.length;s++)r=r+this.characterLength(e[s]);return r};Gt.slice=function(t,e,r){textLen=Gt.length(t),e=e||0,r=r||1,e<0&&(e=textLen+e),r<0&&(r=textLen+r);for(var s="",i=0,n=cC(t),u=0;u<n.length;u++){var o=n[u],a=Gt.length(o);if(i>=e-(a==2?1:0))if(i+a<=r)s+=o;else break;i+=a}return s}});var fC=E((_N,hC)=>{"use strict";hC.exports=function(){return/\uD83C\uDFF4\uDB40\uDC67\uDB40\uDC62(?:\uDB40\uDC77\uDB40\uDC6C\uDB40\uDC73|\uDB40\uDC73\uDB40\uDC63\uDB40\uDC74|\uDB40\uDC65\uDB40\uDC6E\uDB40\uDC67)\uDB40\uDC7F|(?:\uD83E\uDDD1\uD83C\uDFFF\u200D\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D)?\uD83E\uDDD1|\uD83D\uDC69\uD83C\uDFFF\u200D\uD83E\uDD1D\u200D(?:\uD83D[\uDC68\uDC69]))(?:\uD83C[\uDFFB-\uDFFE])|(?:\uD83E\uDDD1\uD83C\uDFFE\u200D\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D)?\uD83E\uDDD1|\uD83D\uDC69\uD83C\uDFFE\u200D\uD83E\uDD1D\u200D(?:\uD83D[\uDC68\uDC69]))(?:\uD83C[\uDFFB-\uDFFD\uDFFF])|(?:\uD83E\uDDD1\uD83C\uDFFD\u200D\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D)?\uD83E\uDDD1|\uD83D\uDC69\uD83C\uDFFD\u200D\uD83E\uDD1D\u200D(?:\uD83D[\uDC68\uDC69]))(?:\uD83C[\uDFFB\uDFFC\uDFFE\uDFFF])|(?:\uD83E\uDDD1\uD83C\uDFFC\u200D\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D)?\uD83E\uDDD1|\uD83D\uDC69\uD83C\uDFFC\u200D\uD83E\uDD1D\u200D(?:\uD83D[\uDC68\uDC69]))(?:\uD83C[\uDFFB\uDFFD-\uDFFF])|(?:\uD83E\uDDD1\uD83C\uDFFB\u200D\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D)?\uD83E\uDDD1|\uD83D\uDC69\uD83C\uDFFB\u200D\uD83E\uDD1D\u200D(?:\uD83D[\uDC68\uDC69]))(?:\uD83C[\uDFFC-\uDFFF])|\uD83D\uDC68(?:\uD83C\uDFFB(?:\u200D(?:\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D\uD83D\uDC68(?:\uD83C[\uDFFB-\uDFFF])|\uD83D\uDC68(?:\uD83C[\uDFFB-\uDFFF]))|\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFC-\uDFFF])|[\u2695\u2696\u2708]\uFE0F|\uD83C[\uDF3E\uDF73\uDF7C\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD]))?|(?:\uD83C[\uDFFC-\uDFFF])\u200D\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D\uD83D\uDC68(?:\uD83C[\uDFFB-\uDFFF])|\uD83D\uDC68(?:\uD83C[\uDFFB-\uDFFF]))|\u200D(?:\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D)?\uD83D\uDC68|(?:\uD83D[\uDC68\uDC69])\u200D(?:\uD83D\uDC66\u200D\uD83D\uDC66|\uD83D\uDC67\u200D(?:\uD83D[\uDC66\uDC67]))|\uD83D\uDC66\u200D\uD83D\uDC66|\uD83D\uDC67\u200D(?:\uD83D[\uDC66\uDC67])|\uD83C[\uDF3E\uDF73\uDF7C\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFF\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB-\uDFFE])|\uD83C[\uDF3E\uDF73\uDF7C\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFE\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB-\uDFFD\uDFFF])|\uD83C[\uDF3E\uDF73\uDF7C\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFD\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB\uDFFC\uDFFE\uDFFF])|\uD83C[\uDF3E\uDF73\uDF7C\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFC\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB\uDFFD-\uDFFF])|\uD83C[\uDF3E\uDF73\uDF7C\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|(?:\uD83C\uDFFF\u200D[\u2695\u2696\u2708]|\uD83C\uDFFE\u200D[\u2695\u2696\u2708]|\uD83C\uDFFD\u200D[\u2695\u2696\u2708]|\uD83C\uDFFC\u200D[\u2695\u2696\u2708]|\u200D[\u2695\u2696\u2708])\uFE0F|\u200D(?:(?:\uD83D[\uDC68\uDC69])\u200D(?:\uD83D[\uDC66\uDC67])|\uD83D[\uDC66\uDC67])|\uD83C\uDFFF|\uD83C\uDFFE|\uD83C\uDFFD|\uD83C\uDFFC)?|(?:\uD83D\uDC69(?:\uD83C\uDFFB\u200D\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D(?:\uD83D[\uDC68\uDC69])|\uD83D[\uDC68\uDC69])|(?:\uD83C[\uDFFC-\uDFFF])\u200D\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D(?:\uD83D[\uDC68\uDC69])|\uD83D[\uDC68\uDC69]))|\uD83E\uDDD1(?:\uD83C[\uDFFB-\uDFFF])\u200D\uD83E\uDD1D\u200D\uD83E\uDDD1)(?:\uD83C[\uDFFB-\uDFFF])|\uD83D\uDC69\u200D\uD83D\uDC69\u200D(?:\uD83D\uDC66\u200D\uD83D\uDC66|\uD83D\uDC67\u200D(?:\uD83D[\uDC66\uDC67]))|\uD83D\uDC69(?:\u200D(?:\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D(?:\uD83D[\uDC68\uDC69])|\uD83D[\uDC68\uDC69])|\uD83C[\uDF3E\uDF73\uDF7C\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFF\u200D(?:\uD83C[\uDF3E\uDF73\uDF7C\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFE\u200D(?:\uD83C[\uDF3E\uDF73\uDF7C\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFD\u200D(?:\uD83C[\uDF3E\uDF73\uDF7C\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFC\u200D(?:\uD83C[\uDF3E\uDF73\uDF7C\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFB\u200D(?:\uD83C[\uDF3E\uDF73\uDF7C\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD]))|\uD83E\uDDD1(?:\u200D(?:\uD83E\uDD1D\u200D\uD83E\uDDD1|\uD83C[\uDF3E\uDF73\uDF7C\uDF84\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFF\u200D(?:\uD83C[\uDF3E\uDF73\uDF7C\uDF84\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFE\u200D(?:\uD83C[\uDF3E\uDF73\uDF7C\uDF84\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFD\u200D(?:\uD83C[\uDF3E\uDF73\uDF7C\uDF84\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFC\u200D(?:\uD83C[\uDF3E\uDF73\uDF7C\uDF84\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFB\u200D(?:\uD83C[\uDF3E\uDF73\uDF7C\uDF84\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD]))|\uD83D\uDC69\u200D\uD83D\uDC66\u200D\uD83D\uDC66|\uD83D\uDC69\u200D\uD83D\uDC69\u200D(?:\uD83D[\uDC66\uDC67])|\uD83D\uDC69\u200D\uD83D\uDC67\u200D(?:\uD83D[\uDC66\uDC67])|(?:\uD83D\uDC41\uFE0F\u200D\uD83D\uDDE8|\uD83E\uDDD1(?:\uD83C\uDFFF\u200D[\u2695\u2696\u2708]|\uD83C\uDFFE\u200D[\u2695\u2696\u2708]|\uD83C\uDFFD\u200D[\u2695\u2696\u2708]|\uD83C\uDFFC\u200D[\u2695\u2696\u2708]|\uD83C\uDFFB\u200D[\u2695\u2696\u2708]|\u200D[\u2695\u2696\u2708])|\uD83D\uDC69(?:\uD83C\uDFFF\u200D[\u2695\u2696\u2708]|\uD83C\uDFFE\u200D[\u2695\u2696\u2708]|\uD83C\uDFFD\u200D[\u2695\u2696\u2708]|\uD83C\uDFFC\u200D[\u2695\u2696\u2708]|\uD83C\uDFFB\u200D[\u2695\u2696\u2708]|\u200D[\u2695\u2696\u2708])|\uD83D\uDE36\u200D\uD83C\uDF2B|\uD83C\uDFF3\uFE0F\u200D\u26A7|\uD83D\uDC3B\u200D\u2744|(?:(?:\uD83C[\uDFC3\uDFC4\uDFCA]|\uD83D[\uDC6E\uDC70\uDC71\uDC73\uDC77\uDC81\uDC82\uDC86\uDC87\uDE45-\uDE47\uDE4B\uDE4D\uDE4E\uDEA3\uDEB4-\uDEB6]|\uD83E[\uDD26\uDD35\uDD37-\uDD39\uDD3D\uDD3E\uDDB8\uDDB9\uDDCD-\uDDCF\uDDD4\uDDD6-\uDDDD])(?:\uD83C[\uDFFB-\uDFFF])|\uD83D\uDC6F|\uD83E[\uDD3C\uDDDE\uDDDF])\u200D[\u2640\u2642]|(?:\u26F9|\uD83C[\uDFCB\uDFCC]|\uD83D\uDD75)(?:\uFE0F|\uD83C[\uDFFB-\uDFFF])\u200D[\u2640\u2642]|\uD83C\uDFF4\u200D\u2620|(?:\uD83C[\uDFC3\uDFC4\uDFCA]|\uD83D[\uDC6E\uDC70\uDC71\uDC73\uDC77\uDC81\uDC82\uDC86\uDC87\uDE45-\uDE47\uDE4B\uDE4D\uDE4E\uDEA3\uDEB4-\uDEB6]|\uD83E[\uDD26\uDD35\uDD37-\uDD39\uDD3D\uDD3E\uDDB8\uDDB9\uDDCD-\uDDCF\uDDD4\uDDD6-\uDDDD])\u200D[\u2640\u2642]|[\xA9\xAE\u203C\u2049\u2122\u2139\u2194-\u2199\u21A9\u21AA\u2328\u23CF\u23ED-\u23EF\u23F1\u23F2\u23F8-\u23FA\u24C2\u25AA\u25AB\u25B6\u25C0\u25FB\u25FC\u2600-\u2604\u260E\u2611\u2618\u2620\u2622\u2623\u2626\u262A\u262E\u262F\u2638-\u263A\u2640\u2642\u265F\u2660\u2663\u2665\u2666\u2668\u267B\u267E\u2692\u2694-\u2697\u2699\u269B\u269C\u26A0\u26A7\u26B0\u26B1\u26C8\u26CF\u26D1\u26D3\u26E9\u26F0\u26F1\u26F4\u26F7\u26F8\u2702\u2708\u2709\u270F\u2712\u2714\u2716\u271D\u2721\u2733\u2734\u2744\u2747\u2763\u27A1\u2934\u2935\u2B05-\u2B07\u3030\u303D\u3297\u3299]|\uD83C[\uDD70\uDD71\uDD7E\uDD7F\uDE02\uDE37\uDF21\uDF24-\uDF2C\uDF36\uDF7D\uDF96\uDF97\uDF99-\uDF9B\uDF9E\uDF9F\uDFCD\uDFCE\uDFD4-\uDFDF\uDFF5\uDFF7]|\uD83D[\uDC3F\uDCFD\uDD49\uDD4A\uDD6F\uDD70\uDD73\uDD76-\uDD79\uDD87\uDD8A-\uDD8D\uDDA5\uDDA8\uDDB1\uDDB2\uDDBC\uDDC2-\uDDC4\uDDD1-\uDDD3\uDDDC-\uDDDE\uDDE1\uDDE3\uDDE8\uDDEF\uDDF3\uDDFA\uDECB\uDECD-\uDECF\uDEE0-\uDEE5\uDEE9\uDEF0\uDEF3])\uFE0F|\uD83C\uDFF3\uFE0F\u200D\uD83C\uDF08|\uD83D\uDC69\u200D\uD83D\uDC67|\uD83D\uDC69\u200D\uD83D\uDC66|\uD83D\uDE35\u200D\uD83D\uDCAB|\uD83D\uDE2E\u200D\uD83D\uDCA8|\uD83D\uDC15\u200D\uD83E\uDDBA|\uD83E\uDDD1(?:\uD83C\uDFFF|\uD83C\uDFFE|\uD83C\uDFFD|\uD83C\uDFFC|\uD83C\uDFFB)?|\uD83D\uDC69(?:\uD83C\uDFFF|\uD83C\uDFFE|\uD83C\uDFFD|\uD83C\uDFFC|\uD83C\uDFFB)?|\uD83C\uDDFD\uD83C\uDDF0|\uD83C\uDDF6\uD83C\uDDE6|\uD83C\uDDF4\uD83C\uDDF2|\uD83D\uDC08\u200D\u2B1B|\u2764\uFE0F\u200D(?:\uD83D\uDD25|\uD83E\uDE79)|\uD83D\uDC41\uFE0F|\uD83C\uDFF3\uFE0F|\uD83C\uDDFF(?:\uD83C[\uDDE6\uDDF2\uDDFC])|\uD83C\uDDFE(?:\uD83C[\uDDEA\uDDF9])|\uD83C\uDDFC(?:\uD83C[\uDDEB\uDDF8])|\uD83C\uDDFB(?:\uD83C[\uDDE6\uDDE8\uDDEA\uDDEC\uDDEE\uDDF3\uDDFA])|\uD83C\uDDFA(?:\uD83C[\uDDE6\uDDEC\uDDF2\uDDF3\uDDF8\uDDFE\uDDFF])|\uD83C\uDDF9(?:\uD83C[\uDDE6\uDDE8\uDDE9\uDDEB-\uDDED\uDDEF-\uDDF4\uDDF7\uDDF9\uDDFB\uDDFC\uDDFF])|\uD83C\uDDF8(?:\uD83C[\uDDE6-\uDDEA\uDDEC-\uDDF4\uDDF7-\uDDF9\uDDFB\uDDFD-\uDDFF])|\uD83C\uDDF7(?:\uD83C[\uDDEA\uDDF4\uDDF8\uDDFA\uDDFC])|\uD83C\uDDF5(?:\uD83C[\uDDE6\uDDEA-\uDDED\uDDF0-\uDDF3\uDDF7-\uDDF9\uDDFC\uDDFE])|\uD83C\uDDF3(?:\uD83C[\uDDE6\uDDE8\uDDEA-\uDDEC\uDDEE\uDDF1\uDDF4\uDDF5\uDDF7\uDDFA\uDDFF])|\uD83C\uDDF2(?:\uD83C[\uDDE6\uDDE8-\uDDED\uDDF0-\uDDFF])|\uD83C\uDDF1(?:\uD83C[\uDDE6-\uDDE8\uDDEE\uDDF0\uDDF7-\uDDFB\uDDFE])|\uD83C\uDDF0(?:\uD83C[\uDDEA\uDDEC-\uDDEE\uDDF2\uDDF3\uDDF5\uDDF7\uDDFC\uDDFE\uDDFF])|\uD83C\uDDEF(?:\uD83C[\uDDEA\uDDF2\uDDF4\uDDF5])|\uD83C\uDDEE(?:\uD83C[\uDDE8-\uDDEA\uDDF1-\uDDF4\uDDF6-\uDDF9])|\uD83C\uDDED(?:\uD83C[\uDDF0\uDDF2\uDDF3\uDDF7\uDDF9\uDDFA])|\uD83C\uDDEC(?:\uD83C[\uDDE6\uDDE7\uDDE9-\uDDEE\uDDF1-\uDDF3\uDDF5-\uDDFA\uDDFC\uDDFE])|\uD83C\uDDEB(?:\uD83C[\uDDEE-\uDDF0\uDDF2\uDDF4\uDDF7])|\uD83C\uDDEA(?:\uD83C[\uDDE6\uDDE8\uDDEA\uDDEC\uDDED\uDDF7-\uDDFA])|\uD83C\uDDE9(?:\uD83C[\uDDEA\uDDEC\uDDEF\uDDF0\uDDF2\uDDF4\uDDFF])|\uD83C\uDDE8(?:\uD83C[\uDDE6\uDDE8\uDDE9\uDDEB-\uDDEE\uDDF0-\uDDF5\uDDF7\uDDFA-\uDDFF])|\uD83C\uDDE7(?:\uD83C[\uDDE6\uDDE7\uDDE9-\uDDEF\uDDF1-\uDDF4\uDDF6-\uDDF9\uDDFB\uDDFC\uDDFE\uDDFF])|\uD83C\uDDE6(?:\uD83C[\uDDE8-\uDDEC\uDDEE\uDDF1\uDDF2\uDDF4\uDDF6-\uDDFA\uDDFC\uDDFD\uDDFF])|[#\*0-9]\uFE0F\u20E3|\u2764\uFE0F|(?:\uD83C[\uDFC3\uDFC4\uDFCA]|\uD83D[\uDC6E\uDC70\uDC71\uDC73\uDC77\uDC81\uDC82\uDC86\uDC87\uDE45-\uDE47\uDE4B\uDE4D\uDE4E\uDEA3\uDEB4-\uDEB6]|\uD83E[\uDD26\uDD35\uDD37-\uDD39\uDD3D\uDD3E\uDDB8\uDDB9\uDDCD-\uDDCF\uDDD4\uDDD6-\uDDDD])(?:\uD83C[\uDFFB-\uDFFF])|(?:\u26F9|\uD83C[\uDFCB\uDFCC]|\uD83D\uDD75)(?:\uFE0F|\uD83C[\uDFFB-\uDFFF])|\uD83C\uDFF4|(?:[\u270A\u270B]|\uD83C[\uDF85\uDFC2\uDFC7]|\uD83D[\uDC42\uDC43\uDC46-\uDC50\uDC66\uDC67\uDC6B-\uDC6D\uDC72\uDC74-\uDC76\uDC78\uDC7C\uDC83\uDC85\uDC8F\uDC91\uDCAA\uDD7A\uDD95\uDD96\uDE4C\uDE4F\uDEC0\uDECC]|\uD83E[\uDD0C\uDD0F\uDD18-\uDD1C\uDD1E\uDD1F\uDD30-\uDD34\uDD36\uDD77\uDDB5\uDDB6\uDDBB\uDDD2\uDDD3\uDDD5])(?:\uD83C[\uDFFB-\uDFFF])|(?:[\u261D\u270C\u270D]|\uD83D[\uDD74\uDD90])(?:\uFE0F|\uD83C[\uDFFB-\uDFFF])|[\u270A\u270B]|\uD83C[\uDF85\uDFC2\uDFC7]|\uD83D[\uDC08\uDC15\uDC3B\uDC42\uDC43\uDC46-\uDC50\uDC66\uDC67\uDC6B-\uDC6D\uDC72\uDC74-\uDC76\uDC78\uDC7C\uDC83\uDC85\uDC8F\uDC91\uDCAA\uDD7A\uDD95\uDD96\uDE2E\uDE35\uDE36\uDE4C\uDE4F\uDEC0\uDECC]|\uD83E[\uDD0C\uDD0F\uDD18-\uDD1C\uDD1E\uDD1F\uDD30-\uDD34\uDD36\uDD77\uDDB5\uDDB6\uDDBB\uDDD2\uDDD3\uDDD5]|\uD83C[\uDFC3\uDFC4\uDFCA]|\uD83D[\uDC6E\uDC70\uDC71\uDC73\uDC77\uDC81\uDC82\uDC86\uDC87\uDE45-\uDE47\uDE4B\uDE4D\uDE4E\uDEA3\uDEB4-\uDEB6]|\uD83E[\uDD26\uDD35\uDD37-\uDD39\uDD3D\uDD3E\uDDB8\uDDB9\uDDCD-\uDDCF\uDDD4\uDDD6-\uDDDD]|\uD83D\uDC6F|\uD83E[\uDD3C\uDDDE\uDDDF]|[\u231A\u231B\u23E9-\u23EC\u23F0\u23F3\u25FD\u25FE\u2614\u2615\u2648-\u2653\u267F\u2693\u26A1\u26AA\u26AB\u26BD\u26BE\u26C4\u26C5\u26CE\u26D4\u26EA\u26F2\u26F3\u26F5\u26FA\u26FD\u2705\u2728\u274C\u274E\u2753-\u2755\u2757\u2795-\u2797\u27B0\u27BF\u2B1B\u2B1C\u2B50\u2B55]|\uD83C[\uDC04\uDCCF\uDD8E\uDD91-\uDD9A\uDE01\uDE1A\uDE2F\uDE32-\uDE36\uDE38-\uDE3A\uDE50\uDE51\uDF00-\uDF20\uDF2D-\uDF35\uDF37-\uDF7C\uDF7E-\uDF84\uDF86-\uDF93\uDFA0-\uDFC1\uDFC5\uDFC6\uDFC8\uDFC9\uDFCF-\uDFD3\uDFE0-\uDFF0\uDFF8-\uDFFF]|\uD83D[\uDC00-\uDC07\uDC09-\uDC14\uDC16-\uDC3A\uDC3C-\uDC3E\uDC40\uDC44\uDC45\uDC51-\uDC65\uDC6A\uDC79-\uDC7B\uDC7D-\uDC80\uDC84\uDC88-\uDC8E\uDC90\uDC92-\uDCA9\uDCAB-\uDCFC\uDCFF-\uDD3D\uDD4B-\uDD4E\uDD50-\uDD67\uDDA4\uDDFB-\uDE2D\uDE2F-\uDE34\uDE37-\uDE44\uDE48-\uDE4A\uDE80-\uDEA2\uDEA4-\uDEB3\uDEB7-\uDEBF\uDEC1-\uDEC5\uDED0-\uDED2\uDED5-\uDED7\uDEEB\uDEEC\uDEF4-\uDEFC\uDFE0-\uDFEB]|\uD83E[\uDD0D\uDD0E\uDD10-\uDD17\uDD1D\uDD20-\uDD25\uDD27-\uDD2F\uDD3A\uDD3F-\uDD45\uDD47-\uDD76\uDD78\uDD7A-\uDDB4\uDDB7\uDDBA\uDDBC-\uDDCB\uDDD0\uDDE0-\uDDFF\uDE70-\uDE74\uDE78-\uDE7A\uDE80-\uDE86\uDE90-\uDEA8\uDEB0-\uDEB6\uDEC0-\uDEC2\uDED0-\uDED6]|(?:[\u231A\u231B\u23E9-\u23EC\u23F0\u23F3\u25FD\u25FE\u2614\u2615\u2648-\u2653\u267F\u2693\u26A1\u26AA\u26AB\u26BD\u26BE\u26C4\u26C5\u26CE\u26D4\u26EA\u26F2\u26F3\u26F5\u26FA\u26FD\u2705\u270A\u270B\u2728\u274C\u274E\u2753-\u2755\u2757\u2795-\u2797\u27B0\u27BF\u2B1B\u2B1C\u2B50\u2B55]|\uD83C[\uDC04\uDCCF\uDD8E\uDD91-\uDD9A\uDDE6-\uDDFF\uDE01\uDE1A\uDE2F\uDE32-\uDE36\uDE38-\uDE3A\uDE50\uDE51\uDF00-\uDF20\uDF2D-\uDF35\uDF37-\uDF7C\uDF7E-\uDF93\uDFA0-\uDFCA\uDFCF-\uDFD3\uDFE0-\uDFF0\uDFF4\uDFF8-\uDFFF]|\uD83D[\uDC00-\uDC3E\uDC40\uDC42-\uDCFC\uDCFF-\uDD3D\uDD4B-\uDD4E\uDD50-\uDD67\uDD7A\uDD95\uDD96\uDDA4\uDDFB-\uDE4F\uDE80-\uDEC5\uDECC\uDED0-\uDED2\uDED5-\uDED7\uDEEB\uDEEC\uDEF4-\uDEFC\uDFE0-\uDFEB]|\uD83E[\uDD0C-\uDD3A\uDD3C-\uDD45\uDD47-\uDD78\uDD7A-\uDDCB\uDDCD-\uDDFF\uDE70-\uDE74\uDE78-\uDE7A\uDE80-\uDE86\uDE90-\uDEA8\uDEB0-\uDEB6\uDEC0-\uDEC2\uDED0-\uDED6])|(?:[#\*0-9\xA9\xAE\u203C\u2049\u2122\u2139\u2194-\u2199\u21A9\u21AA\u231A\u231B\u2328\u23CF\u23E9-\u23F3\u23F8-\u23FA\u24C2\u25AA\u25AB\u25B6\u25C0\u25FB-\u25FE\u2600-\u2604\u260E\u2611\u2614\u2615\u2618\u261D\u2620\u2622\u2623\u2626\u262A\u262E\u262F\u2638-\u263A\u2640\u2642\u2648-\u2653\u265F\u2660\u2663\u2665\u2666\u2668\u267B\u267E\u267F\u2692-\u2697\u2699\u269B\u269C\u26A0\u26A1\u26A7\u26AA\u26AB\u26B0\u26B1\u26BD\u26BE\u26C4\u26C5\u26C8\u26CE\u26CF\u26D1\u26D3\u26D4\u26E9\u26EA\u26F0-\u26F5\u26F7-\u26FA\u26FD\u2702\u2705\u2708-\u270D\u270F\u2712\u2714\u2716\u271D\u2721\u2728\u2733\u2734\u2744\u2747\u274C\u274E\u2753-\u2755\u2757\u2763\u2764\u2795-\u2797\u27A1\u27B0\u27BF\u2934\u2935\u2B05-\u2B07\u2B1B\u2B1C\u2B50\u2B55\u3030\u303D\u3297\u3299]|\uD83C[\uDC04\uDCCF\uDD70\uDD71\uDD7E\uDD7F\uDD8E\uDD91-\uDD9A\uDDE6-\uDDFF\uDE01\uDE02\uDE1A\uDE2F\uDE32-\uDE3A\uDE50\uDE51\uDF00-\uDF21\uDF24-\uDF93\uDF96\uDF97\uDF99-\uDF9B\uDF9E-\uDFF0\uDFF3-\uDFF5\uDFF7-\uDFFF]|\uD83D[\uDC00-\uDCFD\uDCFF-\uDD3D\uDD49-\uDD4E\uDD50-\uDD67\uDD6F\uDD70\uDD73-\uDD7A\uDD87\uDD8A-\uDD8D\uDD90\uDD95\uDD96\uDDA4\uDDA5\uDDA8\uDDB1\uDDB2\uDDBC\uDDC2-\uDDC4\uDDD1-\uDDD3\uDDDC-\uDDDE\uDDE1\uDDE3\uDDE8\uDDEF\uDDF3\uDDFA-\uDE4F\uDE80-\uDEC5\uDECB-\uDED2\uDED5-\uDED7\uDEE0-\uDEE5\uDEE9\uDEEB\uDEEC\uDEF0\uDEF3-\uDEFC\uDFE0-\uDFEB]|\uD83E[\uDD0C-\uDD3A\uDD3C-\uDD45\uDD47-\uDD78\uDD7A-\uDDCB\uDDCD-\uDDFF\uDE70-\uDE74\uDE78-\uDE7A\uDE80-\uDE86\uDE90-\uDEA8\uDEB0-\uDEB6\uDEC0-\uDEC2\uDED0-\uDED6])\uFE0F|(?:[\u261D\u26F9\u270A-\u270D]|\uD83C[\uDF85\uDFC2-\uDFC4\uDFC7\uDFCA-\uDFCC]|\uD83D[\uDC42\uDC43\uDC46-\uDC50\uDC66-\uDC78\uDC7C\uDC81-\uDC83\uDC85-\uDC87\uDC8F\uDC91\uDCAA\uDD74\uDD75\uDD7A\uDD90\uDD95\uDD96\uDE45-\uDE47\uDE4B-\uDE4F\uDEA3\uDEB4-\uDEB6\uDEC0\uDECC]|\uD83E[\uDD0C\uDD0F\uDD18-\uDD1F\uDD26\uDD30-\uDD39\uDD3C-\uDD3E\uDD77\uDDB5\uDDB6\uDDB8\uDDB9\uDDBB\uDDCD-\uDDCF\uDDD1-\uDDDD])/g}});var AC=E((qN,D8)=>{D8.exports={single:{topLeft:"\u250C",top:"\u2500",topRight:"\u2510",right:"\u2502",bottomRight:"\u2518",bottom:"\u2500",bottomLeft:"\u2514",left:"\u2502"},double:{topLeft:"\u2554",top:"\u2550",topRight:"\u2557",right:"\u2551",bottomRight:"\u255D",bottom:"\u2550",bottomLeft:"\u255A",left:"\u2551"},round:{topLeft:"\u256D",top:"\u2500",topRight:"\u256E",right:"\u2502",bottomRight:"\u256F",bottom:"\u2500",bottomLeft:"\u2570",left:"\u2502"},bold:{topLeft:"\u250F",top:"\u2501",topRight:"\u2513",right:"\u2503",bottomRight:"\u251B",bottom:"\u2501",bottomLeft:"\u2517",left:"\u2503"},singleDouble:{topLeft:"\u2553",top:"\u2500",topRight:"\u2556",right:"\u2551",bottomRight:"\u255C",bottom:"\u2500",bottomLeft:"\u2559",left:"\u2551"},doubleSingle:{topLeft:"\u2552",top:"\u2550",topRight:"\u2555",right:"\u2502",bottomRight:"\u255B",bottom:"\u2550",bottomLeft:"\u2558",left:"\u2502"},classic:{topLeft:"+",top:"-",topRight:"+",right:"|",bottomRight:"+",bottom:"-",bottomLeft:"+",left:"|"},arrow:{topLeft:"\u2198",top:"\u2193",topRight:"\u2199",right:"\u2190",bottomRight:"\u2196",bottom:"\u2191",bottomLeft:"\u2197",left:"\u2192"}}});var vl=E((MN,Sl)=>{"use strict";var SC=AC();Sl.exports=SC;Sl.exports.default=SC});var IC=E((UN,TC)=>{"use strict";TC.exports=({onlyFirst:t=!1}={})=>{let e=["[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)","(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))"].join("|");return new RegExp(e,t?void 0:"g")}});var Ol=E((jN,LC)=>{"use strict";var F8=IC();LC.exports=t=>typeof t=="string"?t.replace(F8(),""):t});var Il=E((zN,Tl)=>{"use strict";var NC=t=>Number.isNaN(t)?!1:t>=4352&&(t<=4447||t===9001||t===9002||11904<=t&&t<=12871&&t!==12351||12880<=t&&t<=19903||19968<=t&&t<=42182||43360<=t&&t<=43388||44032<=t&&t<=55203||63744<=t&&t<=64255||65040<=t&&t<=65049||65072<=t&&t<=65131||65281<=t&&t<=65376||65504<=t&&t<=65510||110592<=t&&t<=110593||127488<=t&&t<=127569||131072<=t&&t<=262141);Tl.exports=NC;Tl.exports.default=NC});var kC=E((HN,PC)=>{"use strict";PC.exports=function(){return/\uD83C\uDFF4\uDB40\uDC67\uDB40\uDC62(?:\uDB40\uDC65\uDB40\uDC6E\uDB40\uDC67|\uDB40\uDC73\uDB40\uDC63\uDB40\uDC74|\uDB40\uDC77\uDB40\uDC6C\uDB40\uDC73)\uDB40\uDC7F|\uD83D\uDC68(?:\uD83C\uDFFC\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68\uD83C\uDFFB|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFF\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB-\uDFFE])|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFE\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB-\uDFFD])|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFD\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB\uDFFC])|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\u200D(?:\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D)?\uD83D\uDC68|(?:\uD83D[\uDC68\uDC69])\u200D(?:\uD83D\uDC66\u200D\uD83D\uDC66|\uD83D\uDC67\u200D(?:\uD83D[\uDC66\uDC67]))|\uD83D\uDC66\u200D\uD83D\uDC66|\uD83D\uDC67\u200D(?:\uD83D[\uDC66\uDC67])|(?:\uD83D[\uDC68\uDC69])\u200D(?:\uD83D[\uDC66\uDC67])|[\u2695\u2696\u2708]\uFE0F|\uD83D[\uDC66\uDC67]|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|(?:\uD83C\uDFFB\u200D[\u2695\u2696\u2708]|\uD83C\uDFFF\u200D[\u2695\u2696\u2708]|\uD83C\uDFFE\u200D[\u2695\u2696\u2708]|\uD83C\uDFFD\u200D[\u2695\u2696\u2708]|\uD83C\uDFFC\u200D[\u2695\u2696\u2708])\uFE0F|\uD83C\uDFFB\u200D(?:\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C[\uDFFB-\uDFFF])|(?:\uD83E\uDDD1\uD83C\uDFFB\u200D\uD83E\uDD1D\u200D\uD83E\uDDD1|\uD83D\uDC69\uD83C\uDFFC\u200D\uD83E\uDD1D\u200D\uD83D\uDC69)\uD83C\uDFFB|\uD83E\uDDD1(?:\uD83C\uDFFF\u200D\uD83E\uDD1D\u200D\uD83E\uDDD1(?:\uD83C[\uDFFB-\uDFFF])|\u200D\uD83E\uDD1D\u200D\uD83E\uDDD1)|(?:\uD83E\uDDD1\uD83C\uDFFE\u200D\uD83E\uDD1D\u200D\uD83E\uDDD1|\uD83D\uDC69\uD83C\uDFFF\u200D\uD83E\uDD1D\u200D(?:\uD83D[\uDC68\uDC69]))(?:\uD83C[\uDFFB-\uDFFE])|(?:\uD83E\uDDD1\uD83C\uDFFC\u200D\uD83E\uDD1D\u200D\uD83E\uDDD1|\uD83D\uDC69\uD83C\uDFFD\u200D\uD83E\uDD1D\u200D\uD83D\uDC69)(?:\uD83C[\uDFFB\uDFFC])|\uD83D\uDC69(?:\uD83C\uDFFE\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB-\uDFFD\uDFFF])|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFC\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB\uDFFD-\uDFFF])|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFB\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFC-\uDFFF])|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFD\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB\uDFFC\uDFFE\uDFFF])|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\u200D(?:\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D(?:\uD83D[\uDC68\uDC69])|\uD83D[\uDC68\uDC69])|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFF\u200D(?:\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD]))|\uD83D\uDC69\u200D\uD83D\uDC69\u200D(?:\uD83D\uDC66\u200D\uD83D\uDC66|\uD83D\uDC67\u200D(?:\uD83D[\uDC66\uDC67]))|(?:\uD83E\uDDD1\uD83C\uDFFD\u200D\uD83E\uDD1D\u200D\uD83E\uDDD1|\uD83D\uDC69\uD83C\uDFFE\u200D\uD83E\uDD1D\u200D\uD83D\uDC69)(?:\uD83C[\uDFFB-\uDFFD])|\uD83D\uDC69\u200D\uD83D\uDC66\u200D\uD83D\uDC66|\uD83D\uDC69\u200D\uD83D\uDC69\u200D(?:\uD83D[\uDC66\uDC67])|(?:\uD83D\uDC41\uFE0F\u200D\uD83D\uDDE8|\uD83D\uDC69(?:\uD83C\uDFFF\u200D[\u2695\u2696\u2708]|\uD83C\uDFFE\u200D[\u2695\u2696\u2708]|\uD83C\uDFFC\u200D[\u2695\u2696\u2708]|\uD83C\uDFFB\u200D[\u2695\u2696\u2708]|\uD83C\uDFFD\u200D[\u2695\u2696\u2708]|\u200D[\u2695\u2696\u2708])|(?:(?:\u26F9|\uD83C[\uDFCB\uDFCC]|\uD83D\uDD75)\uFE0F|\uD83D\uDC6F|\uD83E[\uDD3C\uDDDE\uDDDF])\u200D[\u2640\u2642]|(?:\u26F9|\uD83C[\uDFCB\uDFCC]|\uD83D\uDD75)(?:\uD83C[\uDFFB-\uDFFF])\u200D[\u2640\u2642]|(?:\uD83C[\uDFC3\uDFC4\uDFCA]|\uD83D[\uDC6E\uDC71\uDC73\uDC77\uDC81\uDC82\uDC86\uDC87\uDE45-\uDE47\uDE4B\uDE4D\uDE4E\uDEA3\uDEB4-\uDEB6]|\uD83E[\uDD26\uDD37-\uDD39\uDD3D\uDD3E\uDDB8\uDDB9\uDDCD-\uDDCF\uDDD6-\uDDDD])(?:(?:\uD83C[\uDFFB-\uDFFF])\u200D[\u2640\u2642]|\u200D[\u2640\u2642])|\uD83C\uDFF4\u200D\u2620)\uFE0F|\uD83D\uDC69\u200D\uD83D\uDC67\u200D(?:\uD83D[\uDC66\uDC67])|\uD83C\uDFF3\uFE0F\u200D\uD83C\uDF08|\uD83D\uDC15\u200D\uD83E\uDDBA|\uD83D\uDC69\u200D\uD83D\uDC66|\uD83D\uDC69\u200D\uD83D\uDC67|\uD83C\uDDFD\uD83C\uDDF0|\uD83C\uDDF4\uD83C\uDDF2|\uD83C\uDDF6\uD83C\uDDE6|[#\*0-9]\uFE0F\u20E3|\uD83C\uDDE7(?:\uD83C[\uDDE6\uDDE7\uDDE9-\uDDEF\uDDF1-\uDDF4\uDDF6-\uDDF9\uDDFB\uDDFC\uDDFE\uDDFF])|\uD83C\uDDF9(?:\uD83C[\uDDE6\uDDE8\uDDE9\uDDEB-\uDDED\uDDEF-\uDDF4\uDDF7\uDDF9\uDDFB\uDDFC\uDDFF])|\uD83C\uDDEA(?:\uD83C[\uDDE6\uDDE8\uDDEA\uDDEC\uDDED\uDDF7-\uDDFA])|\uD83E\uDDD1(?:\uD83C[\uDFFB-\uDFFF])|\uD83C\uDDF7(?:\uD83C[\uDDEA\uDDF4\uDDF8\uDDFA\uDDFC])|\uD83D\uDC69(?:\uD83C[\uDFFB-\uDFFF])|\uD83C\uDDF2(?:\uD83C[\uDDE6\uDDE8-\uDDED\uDDF0-\uDDFF])|\uD83C\uDDE6(?:\uD83C[\uDDE8-\uDDEC\uDDEE\uDDF1\uDDF2\uDDF4\uDDF6-\uDDFA\uDDFC\uDDFD\uDDFF])|\uD83C\uDDF0(?:\uD83C[\uDDEA\uDDEC-\uDDEE\uDDF2\uDDF3\uDDF5\uDDF7\uDDFC\uDDFE\uDDFF])|\uD83C\uDDED(?:\uD83C[\uDDF0\uDDF2\uDDF3\uDDF7\uDDF9\uDDFA])|\uD83C\uDDE9(?:\uD83C[\uDDEA\uDDEC\uDDEF\uDDF0\uDDF2\uDDF4\uDDFF])|\uD83C\uDDFE(?:\uD83C[\uDDEA\uDDF9])|\uD83C\uDDEC(?:\uD83C[\uDDE6\uDDE7\uDDE9-\uDDEE\uDDF1-\uDDF3\uDDF5-\uDDFA\uDDFC\uDDFE])|\uD83C\uDDF8(?:\uD83C[\uDDE6-\uDDEA\uDDEC-\uDDF4\uDDF7-\uDDF9\uDDFB\uDDFD-\uDDFF])|\uD83C\uDDEB(?:\uD83C[\uDDEE-\uDDF0\uDDF2\uDDF4\uDDF7])|\uD83C\uDDF5(?:\uD83C[\uDDE6\uDDEA-\uDDED\uDDF0-\uDDF3\uDDF7-\uDDF9\uDDFC\uDDFE])|\uD83C\uDDFB(?:\uD83C[\uDDE6\uDDE8\uDDEA\uDDEC\uDDEE\uDDF3\uDDFA])|\uD83C\uDDF3(?:\uD83C[\uDDE6\uDDE8\uDDEA-\uDDEC\uDDEE\uDDF1\uDDF4\uDDF5\uDDF7\uDDFA\uDDFF])|\uD83C\uDDE8(?:\uD83C[\uDDE6\uDDE8\uDDE9\uDDEB-\uDDEE\uDDF0-\uDDF5\uDDF7\uDDFA-\uDDFF])|\uD83C\uDDF1(?:\uD83C[\uDDE6-\uDDE8\uDDEE\uDDF0\uDDF7-\uDDFB\uDDFE])|\uD83C\uDDFF(?:\uD83C[\uDDE6\uDDF2\uDDFC])|\uD83C\uDDFC(?:\uD83C[\uDDEB\uDDF8])|\uD83C\uDDFA(?:\uD83C[\uDDE6\uDDEC\uDDF2\uDDF3\uDDF8\uDDFE\uDDFF])|\uD83C\uDDEE(?:\uD83C[\uDDE8-\uDDEA\uDDF1-\uDDF4\uDDF6-\uDDF9])|\uD83C\uDDEF(?:\uD83C[\uDDEA\uDDF2\uDDF4\uDDF5])|(?:\uD83C[\uDFC3\uDFC4\uDFCA]|\uD83D[\uDC6E\uDC71\uDC73\uDC77\uDC81\uDC82\uDC86\uDC87\uDE45-\uDE47\uDE4B\uDE4D\uDE4E\uDEA3\uDEB4-\uDEB6]|\uD83E[\uDD26\uDD37-\uDD39\uDD3D\uDD3E\uDDB8\uDDB9\uDDCD-\uDDCF\uDDD6-\uDDDD])(?:\uD83C[\uDFFB-\uDFFF])|(?:\u26F9|\uD83C[\uDFCB\uDFCC]|\uD83D\uDD75)(?:\uD83C[\uDFFB-\uDFFF])|(?:[\u261D\u270A-\u270D]|\uD83C[\uDF85\uDFC2\uDFC7]|\uD83D[\uDC42\uDC43\uDC46-\uDC50\uDC66\uDC67\uDC6B-\uDC6D\uDC70\uDC72\uDC74-\uDC76\uDC78\uDC7C\uDC83\uDC85\uDCAA\uDD74\uDD7A\uDD90\uDD95\uDD96\uDE4C\uDE4F\uDEC0\uDECC]|\uD83E[\uDD0F\uDD18-\uDD1C\uDD1E\uDD1F\uDD30-\uDD36\uDDB5\uDDB6\uDDBB\uDDD2-\uDDD5])(?:\uD83C[\uDFFB-\uDFFF])|(?:[\u231A\u231B\u23E9-\u23EC\u23F0\u23F3\u25FD\u25FE\u2614\u2615\u2648-\u2653\u267F\u2693\u26A1\u26AA\u26AB\u26BD\u26BE\u26C4\u26C5\u26CE\u26D4\u26EA\u26F2\u26F3\u26F5\u26FA\u26FD\u2705\u270A\u270B\u2728\u274C\u274E\u2753-\u2755\u2757\u2795-\u2797\u27B0\u27BF\u2B1B\u2B1C\u2B50\u2B55]|\uD83C[\uDC04\uDCCF\uDD8E\uDD91-\uDD9A\uDDE6-\uDDFF\uDE01\uDE1A\uDE2F\uDE32-\uDE36\uDE38-\uDE3A\uDE50\uDE51\uDF00-\uDF20\uDF2D-\uDF35\uDF37-\uDF7C\uDF7E-\uDF93\uDFA0-\uDFCA\uDFCF-\uDFD3\uDFE0-\uDFF0\uDFF4\uDFF8-\uDFFF]|\uD83D[\uDC00-\uDC3E\uDC40\uDC42-\uDCFC\uDCFF-\uDD3D\uDD4B-\uDD4E\uDD50-\uDD67\uDD7A\uDD95\uDD96\uDDA4\uDDFB-\uDE4F\uDE80-\uDEC5\uDECC\uDED0-\uDED2\uDED5\uDEEB\uDEEC\uDEF4-\uDEFA\uDFE0-\uDFEB]|\uD83E[\uDD0D-\uDD3A\uDD3C-\uDD45\uDD47-\uDD71\uDD73-\uDD76\uDD7A-\uDDA2\uDDA5-\uDDAA\uDDAE-\uDDCA\uDDCD-\uDDFF\uDE70-\uDE73\uDE78-\uDE7A\uDE80-\uDE82\uDE90-\uDE95])|(?:[#\*0-9\xA9\xAE\u203C\u2049\u2122\u2139\u2194-\u2199\u21A9\u21AA\u231A\u231B\u2328\u23CF\u23E9-\u23F3\u23F8-\u23FA\u24C2\u25AA\u25AB\u25B6\u25C0\u25FB-\u25FE\u2600-\u2604\u260E\u2611\u2614\u2615\u2618\u261D\u2620\u2622\u2623\u2626\u262A\u262E\u262F\u2638-\u263A\u2640\u2642\u2648-\u2653\u265F\u2660\u2663\u2665\u2666\u2668\u267B\u267E\u267F\u2692-\u2697\u2699\u269B\u269C\u26A0\u26A1\u26AA\u26AB\u26B0\u26B1\u26BD\u26BE\u26C4\u26C5\u26C8\u26CE\u26CF\u26D1\u26D3\u26D4\u26E9\u26EA\u26F0-\u26F5\u26F7-\u26FA\u26FD\u2702\u2705\u2708-\u270D\u270F\u2712\u2714\u2716\u271D\u2721\u2728\u2733\u2734\u2744\u2747\u274C\u274E\u2753-\u2755\u2757\u2763\u2764\u2795-\u2797\u27A1\u27B0\u27BF\u2934\u2935\u2B05-\u2B07\u2B1B\u2B1C\u2B50\u2B55\u3030\u303D\u3297\u3299]|\uD83C[\uDC04\uDCCF\uDD70\uDD71\uDD7E\uDD7F\uDD8E\uDD91-\uDD9A\uDDE6-\uDDFF\uDE01\uDE02\uDE1A\uDE2F\uDE32-\uDE3A\uDE50\uDE51\uDF00-\uDF21\uDF24-\uDF93\uDF96\uDF97\uDF99-\uDF9B\uDF9E-\uDFF0\uDFF3-\uDFF5\uDFF7-\uDFFF]|\uD83D[\uDC00-\uDCFD\uDCFF-\uDD3D\uDD49-\uDD4E\uDD50-\uDD67\uDD6F\uDD70\uDD73-\uDD7A\uDD87\uDD8A-\uDD8D\uDD90\uDD95\uDD96\uDDA4\uDDA5\uDDA8\uDDB1\uDDB2\uDDBC\uDDC2-\uDDC4\uDDD1-\uDDD3\uDDDC-\uDDDE\uDDE1\uDDE3\uDDE8\uDDEF\uDDF3\uDDFA-\uDE4F\uDE80-\uDEC5\uDECB-\uDED2\uDED5\uDEE0-\uDEE5\uDEE9\uDEEB\uDEEC\uDEF0\uDEF3-\uDEFA\uDFE0-\uDFEB]|\uD83E[\uDD0D-\uDD3A\uDD3C-\uDD45\uDD47-\uDD71\uDD73-\uDD76\uDD7A-\uDDA2\uDDA5-\uDDAA\uDDAE-\uDDCA\uDDCD-\uDDFF\uDE70-\uDE73\uDE78-\uDE7A\uDE80-\uDE82\uDE90-\uDE95])\uFE0F|(?:[\u261D\u26F9\u270A-\u270D]|\uD83C[\uDF85\uDFC2-\uDFC4\uDFC7\uDFCA-\uDFCC]|\uD83D[\uDC42\uDC43\uDC46-\uDC50\uDC66-\uDC78\uDC7C\uDC81-\uDC83\uDC85-\uDC87\uDC8F\uDC91\uDCAA\uDD74\uDD75\uDD7A\uDD90\uDD95\uDD96\uDE45-\uDE47\uDE4B-\uDE4F\uDEA3\uDEB4-\uDEB6\uDEC0\uDECC]|\uD83E[\uDD0F\uDD18-\uDD1F\uDD26\uDD30-\uDD39\uDD3C-\uDD3E\uDDB5\uDDB6\uDDB8\uDDB9\uDDBB\uDDCD-\uDDCF\uDDD1-\uDDDD])/g}});var MC=E((GN,Ll)=>{"use strict";var y8=Ol(),b8=Il(),x8=kC(),qC=t=>{if(typeof t!="string"||t.length===0||(t=y8(t),t.length===0))return 0;t=t.replace(x8(),"  ");let e=0;for(let r=0;r<t.length;r++){let s=t.codePointAt(r);s<=31||s>=127&&s<=159||s>=768&&s<=879||(s>65535&&r++,e+=b8(s)?2:1)}return e};Ll.exports=qC;Ll.exports.default=qC});var UC=E((WN,$C)=>{"use strict";var w8=MC();function Lr(t,e){if(!t)return t;e=e||{};let r=e.align||"center";if(r==="left")return t;let s=e.split||`
-`,i=e.pad||" ",n=r!=="right"?_8:A8,u=!1;Array.isArray(t)||(u=!0,t=String(t).split(s));let o,a=0;return t=t.map(function(c){return c=String(c),o=w8(c),a=Math.max(o,a),{str:c,width:o}}).map(function(c){return new Array(n(a,c.width)+1).join(i)+c.str}),u?t.join(s):t}Lr.left=function(e){return Lr(e,{align:"left"})};Lr.center=function(e){return Lr(e,{align:"center"})};Lr.right=function(e){return Lr(e,{align:"right"})};$C.exports=Lr;function _8(t,e){return Math.floor((t-e)/2)}function A8(t,e){return t-e}});var eF=E((o4,z8)=>{z8.exports=[{name:"AppVeyor",constant:"APPVEYOR",env:"APPVEYOR",pr:"APPVEYOR_PULL_REQUEST_NUMBER"},{name:"Azure Pipelines",constant:"AZURE_PIPELINES",env:"SYSTEM_TEAMFOUNDATIONCOLLECTIONURI",pr:"SYSTEM_PULLREQUEST_PULLREQUESTID"},{name:"Appcircle",constant:"APPCIRCLE",env:"AC_APPCIRCLE"},{name:"Bamboo",constant:"BAMBOO",env:"bamboo_planKey"},{name:"Bitbucket Pipelines",constant:"BITBUCKET",env:"BITBUCKET_COMMIT",pr:"BITBUCKET_PR_ID"},{name:"Bitrise",constant:"BITRISE",env:"BITRISE_IO",pr:"BITRISE_PULL_REQUEST"},{name:"Buddy",constant:"BUDDY",env:"BUDDY_WORKSPACE_ID",pr:"BUDDY_EXECUTION_PULL_REQUEST_ID"},{name:"Buildkite",constant:"BUILDKITE",env:"BUILDKITE",pr:{env:"BUILDKITE_PULL_REQUEST",ne:"false"}},{name:"CircleCI",constant:"CIRCLE",env:"CIRCLECI",pr:"CIRCLE_PULL_REQUEST"},{name:"Cirrus CI",constant:"CIRRUS",env:"CIRRUS_CI",pr:"CIRRUS_PR"},{name:"AWS CodeBuild",constant:"CODEBUILD",env:"CODEBUILD_BUILD_ARN"},{name:"Codefresh",constant:"CODEFRESH",env:"CF_BUILD_ID",pr:{any:["CF_PULL_REQUEST_NUMBER","CF_PULL_REQUEST_ID"]}},{name:"Codeship",constant:"CODESHIP",env:{CI_NAME:"codeship"}},{name:"Drone",constant:"DRONE",env:"DRONE",pr:{DRONE_BUILD_EVENT:"pull_request"}},{name:"dsari",constant:"DSARI",env:"DSARI"},{name:"Expo Application Services",constant:"EAS",env:"EAS_BUILD"},{name:"GitHub Actions",constant:"GITHUB_ACTIONS",env:"GITHUB_ACTIONS",pr:{GITHUB_EVENT_NAME:"pull_request"}},{name:"GitLab CI",constant:"GITLAB",env:"GITLAB_CI",pr:"CI_MERGE_REQUEST_ID"},{name:"GoCD",constant:"GOCD",env:"GO_PIPELINE_LABEL"},{name:"LayerCI",constant:"LAYERCI",env:"LAYERCI",pr:"LAYERCI_PULL_REQUEST"},{name:"Hudson",constant:"HUDSON",env:"HUDSON_URL"},{name:"Jenkins",constant:"JENKINS",env:["JENKINS_URL","BUILD_ID"],pr:{any:["ghprbPullId","CHANGE_ID"]}},{name:"Magnum CI",constant:"MAGNUM",env:"MAGNUM"},{name:"Netlify CI",constant:"NETLIFY",env:"NETLIFY",pr:{env:"PULL_REQUEST",ne:"false"}},{name:"Nevercode",constant:"NEVERCODE",env:"NEVERCODE",pr:{env:"NEVERCODE_PULL_REQUEST",ne:"false"}},{name:"Render",constant:"RENDER",env:"RENDER",pr:{IS_PULL_REQUEST:"true"}},{name:"Sail CI",constant:"SAIL",env:"SAILCI",pr:"SAIL_PULL_REQUEST_NUMBER"},{name:"Semaphore",constant:"SEMAPHORE",env:"SEMAPHORE",pr:"PULL_REQUEST_NUMBER"},{name:"Screwdriver",constant:"SCREWDRIVER",env:"SCREWDRIVER",pr:{env:"SD_PULL_REQUEST",ne:"false"}},{name:"Shippable",constant:"SHIPPABLE",env:"SHIPPABLE",pr:{IS_PULL_REQUEST:"true"}},{name:"Solano CI",constant:"SOLANO",env:"TDDIUM",pr:"TDDIUM_PR_ID"},{name:"Strider CD",constant:"STRIDER",env:"STRIDER"},{name:"TaskCluster",constant:"TASKCLUSTER",env:["TASK_ID","RUN_ID"]},{name:"TeamCity",constant:"TEAMCITY",env:"TEAMCITY_VERSION"},{name:"Travis CI",constant:"TRAVIS",env:"TRAVIS",pr:{env:"TRAVIS_PULL_REQUEST",ne:"false"}},{name:"Vercel",constant:"VERCEL",env:"NOW_BUILDER"},{name:"Visual Studio App Center",constant:"APPCENTER",env:"APPCENTER_BUILD_ID"}]});var sF=E(Ie=>{"use strict";var rF=eF(),nt=process.env;Object.defineProperty(Ie,"_vendors",{value:rF.map(function(t){return t.constant})});Ie.name=null;Ie.isPR=null;rF.forEach(function(t){let r=(Array.isArray(t.env)?t.env:[t.env]).every(function(s){return tF(s)});if(Ie[t.constant]=r,r)switch(Ie.name=t.name,typeof t.pr){case"string":Ie.isPR=!!nt[t.pr];break;case"object":"env"in t.pr?Ie.isPR=t.pr.env in nt&&nt[t.pr.env]!==t.pr.ne:"any"in t.pr?Ie.isPR=t.pr.any.some(function(s){return!!nt[s]}):Ie.isPR=tF(t.pr);break;default:Ie.isPR=null}});Ie.isCI=!!(nt.CI||nt.CONTINUOUS_INTEGRATION||nt.BUILD_NUMBER||nt.RUN_ID||Ie.name);function tF(t){return typeof t=="string"?!!nt[t]:Object.keys(t).every(function(e){return nt[e]===t[e]})}});var nF=E((c4,iF)=>{"use strict";iF.exports=sF().isCI});var mF=E((R4,pF)=>{var Wl=class{constructor(e,r,s){this.etaBufferLength=e||100,this.valueBuffer=[s],this.timeBuffer=[r],this.eta="0"}update(e,r,s){this.valueBuffer.push(r),this.timeBuffer.push(e),this.calculate(s-r)}getTime(){return this.eta}calculate(e){let r=this.valueBuffer.length,s=Math.min(this.etaBufferLength,r),i=this.valueBuffer[r-1]-this.valueBuffer[r-s],n=this.timeBuffer[r-1]-this.timeBuffer[r-s],u=i/n;this.valueBuffer=this.valueBuffer.slice(-this.etaBufferLength),this.timeBuffer=this.timeBuffer.slice(-this.etaBufferLength);let o=Math.ceil(e/u/1e3);isNaN(o)?this.eta="NULL":isFinite(o)?o>1e7?this.eta="INF":o<0?this.eta=0:this.eta=o:this.eta="INF"}};pF.exports=Wl});var Yl=E((O4,EF)=>{var Nr=require("readline"),Vl=class{constructor(e){this.stream=e,this.linewrap=!0,this.dy=0}cursorSave(){!this.stream.isTTY||this.stream.write("\x1B7")}cursorRestore(){!this.stream.isTTY||this.stream.write("\x1B8")}cursor(e){!this.stream.isTTY||(e?this.stream.write("\x1B[?25h"):this.stream.write("\x1B[?25l"))}cursorTo(e=null,r=null){!this.stream.isTTY||Nr.cursorTo(this.stream,e,r)}cursorRelative(e=null,r=null){!this.stream.isTTY||(this.dy=this.dy+r,Nr.moveCursor(this.stream,e,r))}cursorRelativeReset(){!this.stream.isTTY||(Nr.moveCursor(this.stream,0,-this.dy),Nr.cursorTo(this.stream,0,null),this.dy=0)}clearRight(){!this.stream.isTTY||Nr.clearLine(this.stream,1)}clearLine(){!this.stream.isTTY||Nr.clearLine(this.stream,0)}clearBottom(){!this.stream.isTTY||Nr.clearScreenDown(this.stream)}newline(){this.stream.write(`
-`),this.dy++}write(e,r=!1){this.linewrap===!0&&r===!1?this.stream.write(e.substr(0,this.getWidth())):this.stream.write(e)}lineWrapping(e){!this.stream.isTTY||(this.linewrap=e,e?this.stream.write("\x1B[?7h"):this.stream.write("\x1B[?7l"))}isTTY(){return this.stream.isTTY===!0}getWidth(){return this.stream.columns||(this.stream.isTTY?80:200)}};EF.exports=Vl});var CF=E((T4,gF)=>{"use strict";gF.exports=function(){return/\uD83C\uDFF4\uDB40\uDC67\uDB40\uDC62(?:\uDB40\uDC65\uDB40\uDC6E\uDB40\uDC67|\uDB40\uDC73\uDB40\uDC63\uDB40\uDC74|\uDB40\uDC77\uDB40\uDC6C\uDB40\uDC73)\uDB40\uDC7F|\uD83D\uDC68(?:\uD83C\uDFFC\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68\uD83C\uDFFB|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFF\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB-\uDFFE])|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFE\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB-\uDFFD])|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFD\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB\uDFFC])|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\u200D(?:\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D)?\uD83D\uDC68|(?:\uD83D[\uDC68\uDC69])\u200D(?:\uD83D\uDC66\u200D\uD83D\uDC66|\uD83D\uDC67\u200D(?:\uD83D[\uDC66\uDC67]))|\uD83D\uDC66\u200D\uD83D\uDC66|\uD83D\uDC67\u200D(?:\uD83D[\uDC66\uDC67])|(?:\uD83D[\uDC68\uDC69])\u200D(?:\uD83D[\uDC66\uDC67])|[\u2695\u2696\u2708]\uFE0F|\uD83D[\uDC66\uDC67]|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|(?:\uD83C\uDFFB\u200D[\u2695\u2696\u2708]|\uD83C\uDFFF\u200D[\u2695\u2696\u2708]|\uD83C\uDFFE\u200D[\u2695\u2696\u2708]|\uD83C\uDFFD\u200D[\u2695\u2696\u2708]|\uD83C\uDFFC\u200D[\u2695\u2696\u2708])\uFE0F|\uD83C\uDFFB\u200D(?:\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C[\uDFFB-\uDFFF])|(?:\uD83E\uDDD1\uD83C\uDFFB\u200D\uD83E\uDD1D\u200D\uD83E\uDDD1|\uD83D\uDC69\uD83C\uDFFC\u200D\uD83E\uDD1D\u200D\uD83D\uDC69)\uD83C\uDFFB|\uD83E\uDDD1(?:\uD83C\uDFFF\u200D\uD83E\uDD1D\u200D\uD83E\uDDD1(?:\uD83C[\uDFFB-\uDFFF])|\u200D\uD83E\uDD1D\u200D\uD83E\uDDD1)|(?:\uD83E\uDDD1\uD83C\uDFFE\u200D\uD83E\uDD1D\u200D\uD83E\uDDD1|\uD83D\uDC69\uD83C\uDFFF\u200D\uD83E\uDD1D\u200D(?:\uD83D[\uDC68\uDC69]))(?:\uD83C[\uDFFB-\uDFFE])|(?:\uD83E\uDDD1\uD83C\uDFFC\u200D\uD83E\uDD1D\u200D\uD83E\uDDD1|\uD83D\uDC69\uD83C\uDFFD\u200D\uD83E\uDD1D\u200D\uD83D\uDC69)(?:\uD83C[\uDFFB\uDFFC])|\uD83D\uDC69(?:\uD83C\uDFFE\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB-\uDFFD\uDFFF])|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFC\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB\uDFFD-\uDFFF])|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFB\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFC-\uDFFF])|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFD\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB\uDFFC\uDFFE\uDFFF])|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\u200D(?:\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D(?:\uD83D[\uDC68\uDC69])|\uD83D[\uDC68\uDC69])|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFF\u200D(?:\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD]))|\uD83D\uDC69\u200D\uD83D\uDC69\u200D(?:\uD83D\uDC66\u200D\uD83D\uDC66|\uD83D\uDC67\u200D(?:\uD83D[\uDC66\uDC67]))|(?:\uD83E\uDDD1\uD83C\uDFFD\u200D\uD83E\uDD1D\u200D\uD83E\uDDD1|\uD83D\uDC69\uD83C\uDFFE\u200D\uD83E\uDD1D\u200D\uD83D\uDC69)(?:\uD83C[\uDFFB-\uDFFD])|\uD83D\uDC69\u200D\uD83D\uDC66\u200D\uD83D\uDC66|\uD83D\uDC69\u200D\uD83D\uDC69\u200D(?:\uD83D[\uDC66\uDC67])|(?:\uD83D\uDC41\uFE0F\u200D\uD83D\uDDE8|\uD83D\uDC69(?:\uD83C\uDFFF\u200D[\u2695\u2696\u2708]|\uD83C\uDFFE\u200D[\u2695\u2696\u2708]|\uD83C\uDFFC\u200D[\u2695\u2696\u2708]|\uD83C\uDFFB\u200D[\u2695\u2696\u2708]|\uD83C\uDFFD\u200D[\u2695\u2696\u2708]|\u200D[\u2695\u2696\u2708])|(?:(?:\u26F9|\uD83C[\uDFCB\uDFCC]|\uD83D\uDD75)\uFE0F|\uD83D\uDC6F|\uD83E[\uDD3C\uDDDE\uDDDF])\u200D[\u2640\u2642]|(?:\u26F9|\uD83C[\uDFCB\uDFCC]|\uD83D\uDD75)(?:\uD83C[\uDFFB-\uDFFF])\u200D[\u2640\u2642]|(?:\uD83C[\uDFC3\uDFC4\uDFCA]|\uD83D[\uDC6E\uDC71\uDC73\uDC77\uDC81\uDC82\uDC86\uDC87\uDE45-\uDE47\uDE4B\uDE4D\uDE4E\uDEA3\uDEB4-\uDEB6]|\uD83E[\uDD26\uDD37-\uDD39\uDD3D\uDD3E\uDDB8\uDDB9\uDDCD-\uDDCF\uDDD6-\uDDDD])(?:(?:\uD83C[\uDFFB-\uDFFF])\u200D[\u2640\u2642]|\u200D[\u2640\u2642])|\uD83C\uDFF4\u200D\u2620)\uFE0F|\uD83D\uDC69\u200D\uD83D\uDC67\u200D(?:\uD83D[\uDC66\uDC67])|\uD83C\uDFF3\uFE0F\u200D\uD83C\uDF08|\uD83D\uDC15\u200D\uD83E\uDDBA|\uD83D\uDC69\u200D\uD83D\uDC66|\uD83D\uDC69\u200D\uD83D\uDC67|\uD83C\uDDFD\uD83C\uDDF0|\uD83C\uDDF4\uD83C\uDDF2|\uD83C\uDDF6\uD83C\uDDE6|[#\*0-9]\uFE0F\u20E3|\uD83C\uDDE7(?:\uD83C[\uDDE6\uDDE7\uDDE9-\uDDEF\uDDF1-\uDDF4\uDDF6-\uDDF9\uDDFB\uDDFC\uDDFE\uDDFF])|\uD83C\uDDF9(?:\uD83C[\uDDE6\uDDE8\uDDE9\uDDEB-\uDDED\uDDEF-\uDDF4\uDDF7\uDDF9\uDDFB\uDDFC\uDDFF])|\uD83C\uDDEA(?:\uD83C[\uDDE6\uDDE8\uDDEA\uDDEC\uDDED\uDDF7-\uDDFA])|\uD83E\uDDD1(?:\uD83C[\uDFFB-\uDFFF])|\uD83C\uDDF7(?:\uD83C[\uDDEA\uDDF4\uDDF8\uDDFA\uDDFC])|\uD83D\uDC69(?:\uD83C[\uDFFB-\uDFFF])|\uD83C\uDDF2(?:\uD83C[\uDDE6\uDDE8-\uDDED\uDDF0-\uDDFF])|\uD83C\uDDE6(?:\uD83C[\uDDE8-\uDDEC\uDDEE\uDDF1\uDDF2\uDDF4\uDDF6-\uDDFA\uDDFC\uDDFD\uDDFF])|\uD83C\uDDF0(?:\uD83C[\uDDEA\uDDEC-\uDDEE\uDDF2\uDDF3\uDDF5\uDDF7\uDDFC\uDDFE\uDDFF])|\uD83C\uDDED(?:\uD83C[\uDDF0\uDDF2\uDDF3\uDDF7\uDDF9\uDDFA])|\uD83C\uDDE9(?:\uD83C[\uDDEA\uDDEC\uDDEF\uDDF0\uDDF2\uDDF4\uDDFF])|\uD83C\uDDFE(?:\uD83C[\uDDEA\uDDF9])|\uD83C\uDDEC(?:\uD83C[\uDDE6\uDDE7\uDDE9-\uDDEE\uDDF1-\uDDF3\uDDF5-\uDDFA\uDDFC\uDDFE])|\uD83C\uDDF8(?:\uD83C[\uDDE6-\uDDEA\uDDEC-\uDDF4\uDDF7-\uDDF9\uDDFB\uDDFD-\uDDFF])|\uD83C\uDDEB(?:\uD83C[\uDDEE-\uDDF0\uDDF2\uDDF4\uDDF7])|\uD83C\uDDF5(?:\uD83C[\uDDE6\uDDEA-\uDDED\uDDF0-\uDDF3\uDDF7-\uDDF9\uDDFC\uDDFE])|\uD83C\uDDFB(?:\uD83C[\uDDE6\uDDE8\uDDEA\uDDEC\uDDEE\uDDF3\uDDFA])|\uD83C\uDDF3(?:\uD83C[\uDDE6\uDDE8\uDDEA-\uDDEC\uDDEE\uDDF1\uDDF4\uDDF5\uDDF7\uDDFA\uDDFF])|\uD83C\uDDE8(?:\uD83C[\uDDE6\uDDE8\uDDE9\uDDEB-\uDDEE\uDDF0-\uDDF5\uDDF7\uDDFA-\uDDFF])|\uD83C\uDDF1(?:\uD83C[\uDDE6-\uDDE8\uDDEE\uDDF0\uDDF7-\uDDFB\uDDFE])|\uD83C\uDDFF(?:\uD83C[\uDDE6\uDDF2\uDDFC])|\uD83C\uDDFC(?:\uD83C[\uDDEB\uDDF8])|\uD83C\uDDFA(?:\uD83C[\uDDE6\uDDEC\uDDF2\uDDF3\uDDF8\uDDFE\uDDFF])|\uD83C\uDDEE(?:\uD83C[\uDDE8-\uDDEA\uDDF1-\uDDF4\uDDF6-\uDDF9])|\uD83C\uDDEF(?:\uD83C[\uDDEA\uDDF2\uDDF4\uDDF5])|(?:\uD83C[\uDFC3\uDFC4\uDFCA]|\uD83D[\uDC6E\uDC71\uDC73\uDC77\uDC81\uDC82\uDC86\uDC87\uDE45-\uDE47\uDE4B\uDE4D\uDE4E\uDEA3\uDEB4-\uDEB6]|\uD83E[\uDD26\uDD37-\uDD39\uDD3D\uDD3E\uDDB8\uDDB9\uDDCD-\uDDCF\uDDD6-\uDDDD])(?:\uD83C[\uDFFB-\uDFFF])|(?:\u26F9|\uD83C[\uDFCB\uDFCC]|\uD83D\uDD75)(?:\uD83C[\uDFFB-\uDFFF])|(?:[\u261D\u270A-\u270D]|\uD83C[\uDF85\uDFC2\uDFC7]|\uD83D[\uDC42\uDC43\uDC46-\uDC50\uDC66\uDC67\uDC6B-\uDC6D\uDC70\uDC72\uDC74-\uDC76\uDC78\uDC7C\uDC83\uDC85\uDCAA\uDD74\uDD7A\uDD90\uDD95\uDD96\uDE4C\uDE4F\uDEC0\uDECC]|\uD83E[\uDD0F\uDD18-\uDD1C\uDD1E\uDD1F\uDD30-\uDD36\uDDB5\uDDB6\uDDBB\uDDD2-\uDDD5])(?:\uD83C[\uDFFB-\uDFFF])|(?:[\u231A\u231B\u23E9-\u23EC\u23F0\u23F3\u25FD\u25FE\u2614\u2615\u2648-\u2653\u267F\u2693\u26A1\u26AA\u26AB\u26BD\u26BE\u26C4\u26C5\u26CE\u26D4\u26EA\u26F2\u26F3\u26F5\u26FA\u26FD\u2705\u270A\u270B\u2728\u274C\u274E\u2753-\u2755\u2757\u2795-\u2797\u27B0\u27BF\u2B1B\u2B1C\u2B50\u2B55]|\uD83C[\uDC04\uDCCF\uDD8E\uDD91-\uDD9A\uDDE6-\uDDFF\uDE01\uDE1A\uDE2F\uDE32-\uDE36\uDE38-\uDE3A\uDE50\uDE51\uDF00-\uDF20\uDF2D-\uDF35\uDF37-\uDF7C\uDF7E-\uDF93\uDFA0-\uDFCA\uDFCF-\uDFD3\uDFE0-\uDFF0\uDFF4\uDFF8-\uDFFF]|\uD83D[\uDC00-\uDC3E\uDC40\uDC42-\uDCFC\uDCFF-\uDD3D\uDD4B-\uDD4E\uDD50-\uDD67\uDD7A\uDD95\uDD96\uDDA4\uDDFB-\uDE4F\uDE80-\uDEC5\uDECC\uDED0-\uDED2\uDED5\uDEEB\uDEEC\uDEF4-\uDEFA\uDFE0-\uDFEB]|\uD83E[\uDD0D-\uDD3A\uDD3C-\uDD45\uDD47-\uDD71\uDD73-\uDD76\uDD7A-\uDDA2\uDDA5-\uDDAA\uDDAE-\uDDCA\uDDCD-\uDDFF\uDE70-\uDE73\uDE78-\uDE7A\uDE80-\uDE82\uDE90-\uDE95])|(?:[#\*0-9\xA9\xAE\u203C\u2049\u2122\u2139\u2194-\u2199\u21A9\u21AA\u231A\u231B\u2328\u23CF\u23E9-\u23F3\u23F8-\u23FA\u24C2\u25AA\u25AB\u25B6\u25C0\u25FB-\u25FE\u2600-\u2604\u260E\u2611\u2614\u2615\u2618\u261D\u2620\u2622\u2623\u2626\u262A\u262E\u262F\u2638-\u263A\u2640\u2642\u2648-\u2653\u265F\u2660\u2663\u2665\u2666\u2668\u267B\u267E\u267F\u2692-\u2697\u2699\u269B\u269C\u26A0\u26A1\u26AA\u26AB\u26B0\u26B1\u26BD\u26BE\u26C4\u26C5\u26C8\u26CE\u26CF\u26D1\u26D3\u26D4\u26E9\u26EA\u26F0-\u26F5\u26F7-\u26FA\u26FD\u2702\u2705\u2708-\u270D\u270F\u2712\u2714\u2716\u271D\u2721\u2728\u2733\u2734\u2744\u2747\u274C\u274E\u2753-\u2755\u2757\u2763\u2764\u2795-\u2797\u27A1\u27B0\u27BF\u2934\u2935\u2B05-\u2B07\u2B1B\u2B1C\u2B50\u2B55\u3030\u303D\u3297\u3299]|\uD83C[\uDC04\uDCCF\uDD70\uDD71\uDD7E\uDD7F\uDD8E\uDD91-\uDD9A\uDDE6-\uDDFF\uDE01\uDE02\uDE1A\uDE2F\uDE32-\uDE3A\uDE50\uDE51\uDF00-\uDF21\uDF24-\uDF93\uDF96\uDF97\uDF99-\uDF9B\uDF9E-\uDFF0\uDFF3-\uDFF5\uDFF7-\uDFFF]|\uD83D[\uDC00-\uDCFD\uDCFF-\uDD3D\uDD49-\uDD4E\uDD50-\uDD67\uDD6F\uDD70\uDD73-\uDD7A\uDD87\uDD8A-\uDD8D\uDD90\uDD95\uDD96\uDDA4\uDDA5\uDDA8\uDDB1\uDDB2\uDDBC\uDDC2-\uDDC4\uDDD1-\uDDD3\uDDDC-\uDDDE\uDDE1\uDDE3\uDDE8\uDDEF\uDDF3\uDDFA-\uDE4F\uDE80-\uDEC5\uDECB-\uDED2\uDED5\uDEE0-\uDEE5\uDEE9\uDEEB\uDEEC\uDEF0\uDEF3-\uDEFA\uDFE0-\uDFEB]|\uD83E[\uDD0D-\uDD3A\uDD3C-\uDD45\uDD47-\uDD71\uDD73-\uDD76\uDD7A-\uDDA2\uDDA5-\uDDAA\uDDAE-\uDDCA\uDDCD-\uDDFF\uDE70-\uDE73\uDE78-\uDE7A\uDE80-\uDE82\uDE90-\uDE95])\uFE0F|(?:[\u261D\u26F9\u270A-\u270D]|\uD83C[\uDF85\uDFC2-\uDFC4\uDFC7\uDFCA-\uDFCC]|\uD83D[\uDC42\uDC43\uDC46-\uDC50\uDC66-\uDC78\uDC7C\uDC81-\uDC83\uDC85-\uDC87\uDC8F\uDC91\uDCAA\uDD74\uDD75\uDD7A\uDD90\uDD95\uDD96\uDE45-\uDE47\uDE4B-\uDE4F\uDEA3\uDEB4-\uDEB6\uDEC0\uDECC]|\uD83E[\uDD0F\uDD18-\uDD1F\uDD26\uDD30-\uDD39\uDD3C-\uDD3E\uDDB5\uDDB6\uDDB8\uDDB9\uDDBB\uDDCD-\uDDCF\uDDD1-\uDDDD])/g}});var yF=E((I4,Kl)=>{"use strict";var Z8=Ol(),J8=Il(),Q8=CF(),FF=t=>{if(typeof t!="string"||t.length===0||(t=Z8(t),t.length===0))return 0;t=t.replace(Q8(),"  ");let e=0;for(let r=0;r<t.length;r++){let s=t.codePointAt(r);s<=31||s>=127&&s<=159||s>=768&&s<=879||(s>65535&&r++,e+=J8(s)?2:1)}return e};Kl.exports=FF;Kl.exports.default=FF});var Xl=E((L4,bF)=>{bF.exports=function(e,r,s){if(r.autopadding!==!0)return e;function i(n,u){return(r.autopaddingChar+n).slice(-u)}switch(s){case"percentage":return i(e,3);default:return e}}});var Zl=E((N4,xF)=>{xF.exports=function(e,r){let s=Math.round(e*r.barsize),i=r.barsize-s;return r.barCompleteString.substr(0,s)+r.barGlue+r.barIncompleteString.substr(0,i)}});var Jl=E((P4,wF)=>{wF.exports=function(e,r,s){function i(u){return s?s*Math.round(u/s):u}function n(u){return(r.autopaddingChar+u).slice(-2)}return e>3600?n(Math.floor(e/3600))+"h"+n(i(e%3600/60))+"m":e>60?n(Math.floor(e/60))+"m"+n(i(e%60))+"s":e>10?n(i(e))+"s":n(e)+"s"}});var Ql=E((k4,_F)=>{var ev=yF(),tv=Xl(),rv=Zl(),sv=Jl();_F.exports=function(e,r,s){let i=e.format,n=e.formatTime||sv,u=e.formatValue||tv,o=e.formatBar||rv,a=Math.floor(r.progress*100)+"",c=r.stopTime||Date.now(),l=Math.round((c-r.startTime)/1e3),h=Object.assign({},s,{bar:o(r.progress,e),percentage:u(a,e,"percentage"),total:u(r.total,e,"total"),value:u(r.value,e,"value"),eta:u(r.eta,e,"eta"),eta_formatted:n(r.eta,e,5),duration:u(l,e,"duration"),duration_formatted:n(l,e,1)});i=i.replace(/\{(\w+)\}/g,function(C,m){return typeof h[m]<"u"?h[m]:C});let f=Math.max(0,r.maxWidth-ev(i)-2),D=Math.floor(f/2);switch(e.align){case"right":i=f>0?" ".repeat(f)+i:i;break;case"center":i=D>0?" ".repeat(D)+i:i;break;case"left":default:break}return i}});var eh=E((M4,SF)=>{var AF=mF(),iv=Yl(),nv=Ql(),uv=require("events");SF.exports=class extends uv{constructor(e){super(),this.options=e,this.terminal=this.options.terminal?this.options.terminal:new iv(this.options.stream),this.value=0,this.startValue=0,this.total=100,this.lastDrawnString=null,this.startTime=null,this.stopTime=null,this.lastRedraw=Date.now(),this.eta=new AF(this.options.etaBufferLength,0,0),this.payload={},this.isActive=!1,this.formatter=typeof this.options.format=="function"?this.options.format:nv}render(e=!1){let r={progress:this.getProgress(),eta:this.eta.getTime(),startTime:this.startTime,stopTime:this.stopTime,total:this.total,value:this.value,maxWidth:this.terminal.getWidth()};this.options.etaAsynchronousUpdate&&this.updateETA();let s=this.formatter(this.options,r,this.payload);(e||this.options.forceRedraw||this.options.noTTYOutput&&!this.terminal.isTTY()||this.lastDrawnString!=s)&&(this.emit("redraw-pre"),this.terminal.cursorTo(0,null),this.terminal.write(s),this.terminal.clearRight(),this.lastDrawnString=s,this.lastRedraw=Date.now(),this.emit("redraw-post"))}start(e,r,s){this.value=r||0,this.total=typeof e<"u"&&e>=0?e:100,this.startValue=r||0,this.payload=s||{},this.startTime=Date.now(),this.stopTime=null,this.lastDrawnString="",this.eta=new AF(this.options.etaBufferLength,this.startTime,this.value),this.isActive=!0,this.emit("start",e,r)}stop(){this.isActive=!1,this.stopTime=Date.now(),this.emit("stop",this.total,this.value)}update(e,r={}){typeof e=="number"&&(this.value=e,this.eta.update(Date.now(),e,this.total));let s=(typeof e=="object"?e:r)||{};this.emit("update",this.total,this.value);for(let i in s)this.payload[i]=s[i];this.value>=this.getTotal()&&this.options.stopOnComplete&&this.stop()}getProgress(){let e=this.value/this.total;return this.options.progressCalculationRelative&&(e=(this.value-this.startValue)/(this.total-this.startValue)),isNaN(e)&&(e=this.options&&this.options.emptyOnZero?0:1),e=Math.min(Math.max(e,0),1),e}increment(e=1,r={}){typeof e=="object"?this.update(this.value+1,e):this.update(this.value+e,r)}getTotal(){return this.total}setTotal(e){typeof e<"u"&&e>=0&&(this.total=e)}updateETA(){this.eta.update(Date.now(),this.value,this.total)}}});var th=E(($4,vF)=>{function j(t,e){return typeof t>"u"||t===null?e:t}vF.exports={parse:function(e,r){let s={},i=Object.assign({},r,e);return s.throttleTime=1e3/j(i.fps,10),s.stream=j(i.stream,process.stderr),s.terminal=j(i.terminal,null),s.clearOnComplete=j(i.clearOnComplete,!1),s.stopOnComplete=j(i.stopOnComplete,!1),s.barsize=j(i.barsize,40),s.align=j(i.align,"left"),s.hideCursor=j(i.hideCursor,!1),s.linewrap=j(i.linewrap,!1),s.barCompleteString=new Array(s.barsize+1).join(i.barCompleteChar||"="),s.barIncompleteString=new Array(s.barsize+1).join(i.barIncompleteChar||"-"),s.barGlue=j(i.barGlue,""),s.format=j(i.format,"progress [{bar}] {percentage}% | ETA: {eta}s | {value}/{total}"),s.formatTime=j(i.formatTime,null),s.formatValue=j(i.formatValue,null),s.formatBar=j(i.formatBar,null),s.etaBufferLength=j(i.etaBuffer,10),s.etaAsynchronousUpdate=j(i.etaAsynchronousUpdate,!1),s.progressCalculationRelative=j(i.progressCalculationRelative,!1),s.synchronousUpdate=j(i.synchronousUpdate,!0),s.noTTYOutput=j(i.noTTYOutput,!1),s.notTTYSchedule=j(i.notTTYSchedule,2e3),s.emptyOnZero=j(i.emptyOnZero,!1),s.forceRedraw=j(i.forceRedraw,!1),s.autopadding=j(i.autopadding,!1),s.autopaddingChar=s.autopadding?j(i.autopaddingChar,"   "):"",s.gracefulExit=j(i.gracefulExit,!1),s}}});var RF=E((j4,BF)=>{var ov=eh(),av=th();BF.exports=class extends ov{constructor(e,r){super(av.parse(e,r)),this.timer=null,this.options.noTTYOutput&&this.terminal.isTTY()===!1&&(this.options.synchronousUpdate=!1),this.schedulingRate=this.terminal.isTTY()?this.options.throttleTime:this.options.notTTYSchedule,this.sigintCallback=null}render(){this.timer&&(clearTimeout(this.timer),this.timer=null),super.render(),this.options.noTTYOutput&&this.terminal.isTTY()===!1&&this.terminal.newline(),this.timer=setTimeout(this.render.bind(this),this.schedulingRate)}update(e,r){!this.timer||(super.update(e,r),this.options.synchronousUpdate&&this.lastRedraw+this.options.throttleTime*2<Date.now()&&this.render())}start(e,r,s){this.options.noTTYOutput===!1&&this.terminal.isTTY()===!1||(this.sigintCallback===null&&this.options.gracefulExit&&(this.sigintCallback=this.stop.bind(this),process.once("SIGINT",this.sigintCallback),process.once("SIGTERM",this.sigintCallback)),this.terminal.cursorSave(),this.options.hideCursor===!0&&this.terminal.cursor(!1),this.options.linewrap===!1&&this.terminal.lineWrapping(!1),super.start(e,r,s),this.render())}stop(){!this.timer||(this.sigintCallback&&(process.removeListener("SIGINT",this.sigintCallback),process.removeListener("SIGTERM",this.sigintCallback),this.sigintCallback=null),this.render(),super.stop(),clearTimeout(this.timer),this.timer=null,this.options.hideCursor===!0&&this.terminal.cursor(!0),this.options.linewrap===!1&&this.terminal.lineWrapping(!0),this.terminal.cursorRestore(),this.options.clearOnComplete?(this.terminal.cursorTo(0,null),this.terminal.clearLine()):this.terminal.newline())}}});var TF=E((H4,OF)=>{var cv=Yl(),lv=eh(),hv=th(),fv=require("events");OF.exports=class extends fv{constructor(e,r){super(),this.bars=[],this.options=hv.parse(e,r),this.options.synchronousUpdate=!1,this.terminal=this.options.terminal?this.options.terminal:new cv(this.options.stream),this.timer=null,this.isActive=!1,this.schedulingRate=this.terminal.isTTY()?this.options.throttleTime:this.options.notTTYSchedule,this.loggingBuffer=[],this.sigintCallback=null}create(e,r,s,i={}){let n=new lv(Object.assign({},this.options,i));return this.bars.push(n),this.options.noTTYOutput===!1&&this.terminal.isTTY()===!1||(this.sigintCallback===null&&this.options.gracefulExit&&(this.sigintCallback=this.stop.bind(this),process.once("SIGINT",this.sigintCallback),process.once("SIGTERM",this.sigintCallback)),this.isActive||(this.options.hideCursor===!0&&this.terminal.cursor(!1),this.options.linewrap===!1&&this.terminal.lineWrapping(!1),this.timer=setTimeout(this.update.bind(this),this.schedulingRate)),this.isActive=!0,n.start(e,r,s),this.emit("start")),n}remove(e){let r=this.bars.indexOf(e);return r<0?!1:(this.bars.splice(r,1),this.update(),this.terminal.newline(),this.terminal.clearBottom(),!0)}update(){if(this.timer&&(clearTimeout(this.timer),this.timer=null),this.emit("update-pre"),this.terminal.cursorRelativeReset(),this.emit("redraw-pre"),this.loggingBuffer.length>0)for(this.terminal.clearLine();this.loggingBuffer.length>0;)this.terminal.write(this.loggingBuffer.shift(),!0);for(let e=0;e<this.bars.length;e++)e>0&&this.terminal.newline(),this.bars[e].render();this.emit("redraw-post"),this.options.noTTYOutput&&this.terminal.isTTY()===!1&&(this.terminal.newline(),this.terminal.newline()),this.timer=setTimeout(this.update.bind(this),this.schedulingRate),this.emit("update-post"),this.options.stopOnComplete&&!this.bars.find(e=>e.isActive)&&this.stop()}stop(){if(clearTimeout(this.timer),this.timer=null,this.sigintCallback&&(process.removeListener("SIGINT",this.sigintCallback),process.removeListener("SIGTERM",this.sigintCallback),this.sigintCallback=null),this.isActive=!1,this.options.hideCursor===!0&&this.terminal.cursor(!0),this.options.linewrap===!1&&this.terminal.lineWrapping(!0),this.terminal.cursorRelativeReset(),this.emit("stop-pre-clear"),this.options.clearOnComplete)this.terminal.clearBottom();else{for(let e=0;e<this.bars.length;e++)e>0&&this.terminal.newline(),this.bars[e].render(),this.bars[e].stop();this.terminal.newline()}this.emit("stop")}log(e){this.loggingBuffer.push(e)}}});var LF=E((G4,IF)=>{IF.exports={format:"progress [{bar}] {percentage}% | ETA: {eta}s | {value}/{total}",barCompleteChar:"=",barIncompleteChar:"-"}});var PF=E((W4,NF)=>{NF.exports={format:" {bar} {percentage}% | ETA: {eta}s | {value}/{total}",barCompleteChar:"\u2588",barIncompleteChar:"\u2591"}});var qF=E((V4,kF)=>{kF.exports={format:" \x1B[90m{bar}\x1B[0m {percentage}% | ETA: {eta}s | {value}/{total}",barCompleteChar:"\u2588",barIncompleteChar:"\u2591"}});var $F=E((Y4,MF)=>{MF.exports={format:" {bar}\u25A0 {percentage}% | ETA: {eta}s | {value}/{total}",barCompleteChar:"\u25A0",barIncompleteChar:" "}});var jF=E((K4,UF)=>{var Dv=LF(),dv=PF(),pv=qF(),mv=$F();UF.exports={legacy:Dv,shades_classic:dv,shades_grey:pv,rect:mv}});var GF=E((X4,HF)=>{var zF=RF(),Ev=TF(),gv=jF(),Cv=Ql(),Fv=Xl(),yv=Zl(),bv=Jl();HF.exports={Bar:zF,SingleBar:zF,MultiBar:Ev,Presets:gv,Format:{Formatter:Cv,BarFormat:yv,ValueFormat:Fv,TimeFormat:bv}}});var VF=E((Z4,WF)=>{var ws=1e3,_s=ws*60,As=_s*60,Pr=As*24,xv=Pr*7,wv=Pr*365.25;WF.exports=function(t,e){e=e||{};var r=typeof t;if(r==="string"&&t.length>0)return _v(t);if(r==="number"&&isFinite(t))return e.long?Sv(t):Av(t);throw new Error("val is not a non-empty string or a valid number. val="+JSON.stringify(t))};function _v(t){if(t=String(t),!(t.length>100)){var e=/^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(t);if(!!e){var r=parseFloat(e[1]),s=(e[2]||"ms").toLowerCase();switch(s){case"years":case"year":case"yrs":case"yr":case"y":return r*wv;case"weeks":case"week":case"w":return r*xv;case"days":case"day":case"d":return r*Pr;case"hours":case"hour":case"hrs":case"hr":case"h":return r*As;case"minutes":case"minute":case"mins":case"min":case"m":return r*_s;case"seconds":case"second":case"secs":case"sec":case"s":return r*ws;case"milliseconds":case"millisecond":case"msecs":case"msec":case"ms":return r;default:return}}}}function Av(t){var e=Math.abs(t);return e>=Pr?Math.round(t/Pr)+"d":e>=As?Math.round(t/As)+"h":e>=_s?Math.round(t/_s)+"m":e>=ws?Math.round(t/ws)+"s":t+"ms"}function Sv(t){var e=Math.abs(t);return e>=Pr?Yu(t,e,Pr,"day"):e>=As?Yu(t,e,As,"hour"):e>=_s?Yu(t,e,_s,"minute"):e>=ws?Yu(t,e,ws,"second"):t+" ms"}function Yu(t,e,r,s){var i=e>=r*1.5;return Math.round(t/r)+" "+s+(i?"s":"")}});var rh=E((J4,YF)=>{function vv(t){r.debug=r,r.default=r,r.coerce=a,r.disable=n,r.enable=i,r.enabled=u,r.humanize=VF(),r.destroy=c,Object.keys(t).forEach(l=>{r[l]=t[l]}),r.names=[],r.skips=[],r.formatters={};function e(l){let h=0;for(let f=0;f<l.length;f++)h=(h<<5)-h+l.charCodeAt(f),h|=0;return r.colors[Math.abs(h)%r.colors.length]}r.selectColor=e;function r(l){let h,f=null,D,C;function m(...g){if(!m.enabled)return;let F=m,w=Number(new Date),y=w-(h||w);F.diff=y,F.prev=h,F.curr=w,h=w,g[0]=r.coerce(g[0]),typeof g[0]!="string"&&g.unshift("%O");let b=0;g[0]=g[0].replace(/%([a-zA-Z%])/g,(N,R)=>{if(N==="%%")return"%";b++;let ce=r.formatters[R];if(typeof ce=="function"){let _=g[b];N=ce.call(F,_),g.splice(b,1),b--}return N}),r.formatArgs.call(F,g),(F.log||r.log).apply(F,g)}return m.namespace=l,m.useColors=r.useColors(),m.color=r.selectColor(l),m.extend=s,m.destroy=r.destroy,Object.defineProperty(m,"enabled",{enumerable:!0,configurable:!1,get:()=>f!==null?f:(D!==r.namespaces&&(D=r.namespaces,C=r.enabled(l)),C),set:g=>{f=g}}),typeof r.init=="function"&&r.init(m),m}function s(l,h){let f=r(this.namespace+(typeof h>"u"?":":h)+l);return f.log=this.log,f}function i(l){r.save(l),r.namespaces=l,r.names=[],r.skips=[];let h,f=(typeof l=="string"?l:"").split(/[\s,]+/),D=f.length;for(h=0;h<D;h++)!f[h]||(l=f[h].replace(/\*/g,".*?"),l[0]==="-"?r.skips.push(new RegExp("^"+l.slice(1)+"$")):r.names.push(new RegExp("^"+l+"$")))}function n(){let l=[...r.names.map(o),...r.skips.map(o).map(h=>"-"+h)].join(",");return r.enable(""),l}function u(l){if(l[l.length-1]==="*")return!0;let h,f;for(h=0,f=r.skips.length;h<f;h++)if(r.skips[h].test(l))return!1;for(h=0,f=r.names.length;h<f;h++)if(r.names[h].test(l))return!0;return!1}function o(l){return l.toString().substring(2,l.toString().length-2).replace(/\.\*\?$/,"*")}function a(l){return l instanceof Error?l.stack||l.message:l}function c(){console.warn("Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.")}return r.enable(r.load()),r}YF.exports=vv});var KF=E((Le,Ku)=>{Le.formatArgs=Rv;Le.save=Ov;Le.load=Tv;Le.useColors=Bv;Le.storage=Iv();Le.destroy=(()=>{let t=!1;return()=>{t||(t=!0,console.warn("Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`."))}})();Le.colors=["#0000CC","#0000FF","#0033CC","#0033FF","#0066CC","#0066FF","#0099CC","#0099FF","#00CC00","#00CC33","#00CC66","#00CC99","#00CCCC","#00CCFF","#3300CC","#3300FF","#3333CC","#3333FF","#3366CC","#3366FF","#3399CC","#3399FF","#33CC00","#33CC33","#33CC66","#33CC99","#33CCCC","#33CCFF","#6600CC","#6600FF","#6633CC","#6633FF","#66CC00","#66CC33","#9900CC","#9900FF","#9933CC","#9933FF","#99CC00","#99CC33","#CC0000","#CC0033","#CC0066","#CC0099","#CC00CC","#CC00FF","#CC3300","#CC3333","#CC3366","#CC3399","#CC33CC","#CC33FF","#CC6600","#CC6633","#CC9900","#CC9933","#CCCC00","#CCCC33","#FF0000","#FF0033","#FF0066","#FF0099","#FF00CC","#FF00FF","#FF3300","#FF3333","#FF3366","#FF3399","#FF33CC","#FF33FF","#FF6600","#FF6633","#FF9900","#FF9933","#FFCC00","#FFCC33"];function Bv(){return typeof window<"u"&&window.process&&(window.process.type==="renderer"||window.process.__nwjs)?!0:typeof navigator<"u"&&navigator.userAgent&&navigator.userAgent.toLowerCase().match(/(edge|trident)\/(\d+)/)?!1:typeof document<"u"&&document.documentElement&&document.documentElement.style&&document.documentElement.style.WebkitAppearance||typeof window<"u"&&window.console&&(window.console.firebug||window.console.exception&&window.console.table)||typeof navigator<"u"&&navigator.userAgent&&navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/)&&parseInt(RegExp.$1,10)>=31||typeof navigator<"u"&&navigator.userAgent&&navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/)}function Rv(t){if(t[0]=(this.useColors?"%c":"")+this.namespace+(this.useColors?" %c":" ")+t[0]+(this.useColors?"%c ":" ")+"+"+Ku.exports.humanize(this.diff),!this.useColors)return;let e="color: "+this.color;t.splice(1,0,e,"color: inherit");let r=0,s=0;t[0].replace(/%[a-zA-Z%]/g,i=>{i!=="%%"&&(r++,i==="%c"&&(s=r))}),t.splice(s,0,e)}Le.log=console.debug||console.log||(()=>{});function Ov(t){try{t?Le.storage.setItem("debug",t):Le.storage.removeItem("debug")}catch{}}function Tv(){let t;try{t=Le.storage.getItem("debug")}catch{}return!t&&typeof process<"u"&&"env"in process&&(t=process.env.DEBUG),t}function Iv(){try{return localStorage}catch{}}Ku.exports=rh()(Le);var{formatters:Lv}=Ku.exports;Lv.j=function(t){try{return JSON.stringify(t)}catch(e){return"[UnexpectedJSONParseError]: "+e.message}}});var ZF=E((Q4,XF)=>{"use strict";XF.exports=(t,e=process.argv)=>{let r=t.startsWith("-")?"":t.length===1?"-":"--",s=e.indexOf(r+t),i=e.indexOf("--");return s!==-1&&(i===-1||s<i)}});var ey=E((e9,QF)=>{"use strict";var Nv=require("os"),JF=require("tty"),He=ZF(),{env:oe}=process,Wt;He("no-color")||He("no-colors")||He("color=false")||He("color=never")?Wt=0:(He("color")||He("colors")||He("color=true")||He("color=always"))&&(Wt=1);"FORCE_COLOR"in oe&&(oe.FORCE_COLOR==="true"?Wt=1:oe.FORCE_COLOR==="false"?Wt=0:Wt=oe.FORCE_COLOR.length===0?1:Math.min(parseInt(oe.FORCE_COLOR,10),3));function sh(t){return t===0?!1:{level:t,hasBasic:!0,has256:t>=2,has16m:t>=3}}function ih(t,e){if(Wt===0)return 0;if(He("color=16m")||He("color=full")||He("color=truecolor"))return 3;if(He("color=256"))return 2;if(t&&!e&&Wt===void 0)return 0;let r=Wt||0;if(oe.TERM==="dumb")return r;if(process.platform==="win32"){let s=Nv.release().split(".");return Number(s[0])>=10&&Number(s[2])>=10586?Number(s[2])>=14931?3:2:1}if("CI"in oe)return["TRAVIS","CIRCLECI","APPVEYOR","GITLAB_CI","GITHUB_ACTIONS","BUILDKITE"].some(s=>s in oe)||oe.CI_NAME==="codeship"?1:r;if("TEAMCITY_VERSION"in oe)return/^(9\.(0*[1-9]\d*)\.|\d{2,}\.)/.test(oe.TEAMCITY_VERSION)?1:0;if(oe.COLORTERM==="truecolor")return 3;if("TERM_PROGRAM"in oe){let s=parseInt((oe.TERM_PROGRAM_VERSION||"").split(".")[0],10);switch(oe.TERM_PROGRAM){case"iTerm.app":return s>=3?3:2;case"Apple_Terminal":return 2}}return/-256(color)?$/i.test(oe.TERM)?2:/^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux/i.test(oe.TERM)||"COLORTERM"in oe?1:r}function Pv(t){let e=ih(t,t&&t.isTTY);return sh(e)}QF.exports={supportsColor:Pv,stdout:sh(ih(!0,JF.isatty(1))),stderr:sh(ih(!0,JF.isatty(2)))}});var ry=E((pe,Zu)=>{var kv=require("tty"),Xu=require("util");pe.init=Hv;pe.log=Uv;pe.formatArgs=Mv;pe.save=jv;pe.load=zv;pe.useColors=qv;pe.destroy=Xu.deprecate(()=>{},"Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.");pe.colors=[6,2,3,4,5,1];try{let t=ey();t&&(t.stderr||t).level>=2&&(pe.colors=[20,21,26,27,32,33,38,39,40,41,42,43,44,45,56,57,62,63,68,69,74,75,76,77,78,79,80,81,92,93,98,99,112,113,128,129,134,135,148,149,160,161,162,163,164,165,166,167,168,169,170,171,172,173,178,179,184,185,196,197,198,199,200,201,202,203,204,205,206,207,208,209,214,215,220,221])}catch{}pe.inspectOpts=Object.keys(process.env).filter(t=>/^debug_/i.test(t)).reduce((t,e)=>{let r=e.substring(6).toLowerCase().replace(/_([a-z])/g,(i,n)=>n.toUpperCase()),s=process.env[e];return/^(yes|on|true|enabled)$/i.test(s)?s=!0:/^(no|off|false|disabled)$/i.test(s)?s=!1:s==="null"?s=null:s=Number(s),t[r]=s,t},{});function qv(){return"colors"in pe.inspectOpts?Boolean(pe.inspectOpts.colors):kv.isatty(process.stderr.fd)}function Mv(t){let{namespace:e,useColors:r}=this;if(r){let s=this.color,i="\x1B[3"+(s<8?s:"8;5;"+s),n=`  ${i};1m${e} \x1B[0m`;t[0]=n+t[0].split(`
-`).join(`
-`+n),t.push(i+"m+"+Zu.exports.humanize(this.diff)+"\x1B[0m")}else t[0]=$v()+e+" "+t[0]}function $v(){return pe.inspectOpts.hideDate?"":new Date().toISOString()+" "}function Uv(...t){return process.stderr.write(Xu.format(...t)+`
-`)}function jv(t){t?process.env.DEBUG=t:delete process.env.DEBUG}function zv(){return process.env.DEBUG}function Hv(t){t.inspectOpts={};let e=Object.keys(pe.inspectOpts);for(let r=0;r<e.length;r++)t.inspectOpts[e[r]]=pe.inspectOpts[e[r]]}Zu.exports=rh()(pe);var{formatters:ty}=Zu.exports;ty.o=function(t){return this.inspectOpts.colors=this.useColors,Xu.inspect(t,this.inspectOpts).split(`
-`).map(e=>e.trim()).join(" ")};ty.O=function(t){return this.inspectOpts.colors=this.useColors,Xu.inspect(t,this.inspectOpts)}});var sy=E((t9,nh)=>{typeof process>"u"||process.type==="renderer"||process.browser===!0||process.__nwjs?nh.exports=KF():nh.exports=ry()});var oy=E((r9,uy)=>{uy.exports=Ju;function Ju(){this.pending=0,this.max=1/0,this.listeners=[],this.waiting=[],this.error=null}Ju.prototype.go=function(t){this.pending<this.max?ny(this,t):this.waiting.push(t)};Ju.prototype.wait=function(t){this.pending===0?t(this.error):this.listeners.push(t)};Ju.prototype.hold=function(){return iy(this)};function iy(t){t.pending+=1;var e=!1;return r;function r(i){if(e)throw new Error("callback called twice");if(e=!0,t.error=t.error||i,t.pending-=1,t.waiting.length>0&&t.pending<t.max)ny(t,t.waiting.shift());else if(t.pending===0){var n=t.listeners;t.listeners=[],n.forEach(s)}}function s(i){i(t.error)}}function ny(t,e){e(iy(t))}});var cy=E(Xi=>{var Ki=require("fs"),Qu=require("util"),uh=require("stream"),ay=uh.Readable,oh=uh.Writable,Gv=uh.PassThrough,Wv=oy(),eo=require("events").EventEmitter;Xi.createFromBuffer=Vv;Xi.createFromFd=Yv;Xi.BufferSlicer=At;Xi.FdSlicer=_t;Qu.inherits(_t,eo);function _t(t,e){e=e||{},eo.call(this),this.fd=t,this.pend=new Wv,this.pend.max=1,this.refCount=0,this.autoClose=!!e.autoClose}_t.prototype.read=function(t,e,r,s,i){var n=this;n.pend.go(function(u){Ki.read(n.fd,t,e,r,s,function(o,a,c){u(),i(o,a,c)})})};_t.prototype.write=function(t,e,r,s,i){var n=this;n.pend.go(function(u){Ki.write(n.fd,t,e,r,s,function(o,a,c){u(),i(o,a,c)})})};_t.prototype.createReadStream=function(t){return new to(this,t)};_t.prototype.createWriteStream=function(t){return new ro(this,t)};_t.prototype.ref=function(){this.refCount+=1};_t.prototype.unref=function(){var t=this;if(t.refCount-=1,t.refCount>0)return;if(t.refCount<0)throw new Error("invalid unref");t.autoClose&&Ki.close(t.fd,e);function e(r){r?t.emit("error",r):t.emit("close")}};Qu.inherits(to,ay);function to(t,e){e=e||{},ay.call(this,e),this.context=t,this.context.ref(),this.start=e.start||0,this.endOffset=e.end,this.pos=this.start,this.destroyed=!1}to.prototype._read=function(t){var e=this;if(!e.destroyed){var r=Math.min(e._readableState.highWaterMark,t);if(e.endOffset!=null&&(r=Math.min(r,e.endOffset-e.pos)),r<=0){e.destroyed=!0,e.push(null),e.context.unref();return}e.context.pend.go(function(s){if(e.destroyed)return s();var i=new Buffer(r);Ki.read(e.context.fd,i,0,r,e.pos,function(n,u){n?e.destroy(n):u===0?(e.destroyed=!0,e.push(null),e.context.unref()):(e.pos+=u,e.push(i.slice(0,u))),s()})})}};to.prototype.destroy=function(t){this.destroyed||(t=t||new Error("stream destroyed"),this.destroyed=!0,this.emit("error",t),this.context.unref())};Qu.inherits(ro,oh);function ro(t,e){e=e||{},oh.call(this,e),this.context=t,this.context.ref(),this.start=e.start||0,this.endOffset=e.end==null?1/0:+e.end,this.bytesWritten=0,this.pos=this.start,this.destroyed=!1,this.on("finish",this.destroy.bind(this))}ro.prototype._write=function(t,e,r){var s=this;if(!s.destroyed){if(s.pos+t.length>s.endOffset){var i=new Error("maximum file length exceeded");i.code="ETOOBIG",s.destroy(),r(i);return}s.context.pend.go(function(n){if(s.destroyed)return n();Ki.write(s.context.fd,t,0,t.length,s.pos,function(u,o){u?(s.destroy(),n(),r(u)):(s.bytesWritten+=o,s.pos+=o,s.emit("progress"),n(),r())})})}};ro.prototype.destroy=function(){this.destroyed||(this.destroyed=!0,this.context.unref())};Qu.inherits(At,eo);function At(t,e){eo.call(this),e=e||{},this.refCount=0,this.buffer=t,this.maxChunkSize=e.maxChunkSize||Number.MAX_SAFE_INTEGER}At.prototype.read=function(t,e,r,s,i){var n=s+r,u=n-this.buffer.length,o=u>0?u:r;this.buffer.copy(t,e,s,n),setImmediate(function(){i(null,o)})};At.prototype.write=function(t,e,r,s,i){t.copy(this.buffer,s,e,e+r),setImmediate(function(){i(null,r,t)})};At.prototype.createReadStream=function(t){t=t||{};var e=new Gv(t);e.destroyed=!1,e.start=t.start||0,e.endOffset=t.end,e.pos=e.endOffset||this.buffer.length;for(var r=this.buffer.slice(e.start,e.pos),s=0;;){var i=s+this.maxChunkSize;if(i>=r.length){s<r.length&&e.write(r.slice(s,r.length));break}e.write(r.slice(s,i)),s=i}return e.end(),e.destroy=function(){e.destroyed=!0},e};At.prototype.createWriteStream=function(t){var e=this;t=t||{};var r=new oh(t);return r.start=t.start||0,r.endOffset=t.end==null?this.buffer.length:+t.end,r.bytesWritten=0,r.pos=r.start,r.destroyed=!1,r._write=function(s,i,n){if(!r.destroyed){var u=r.pos+s.length;if(u>r.endOffset){var o=new Error("maximum file length exceeded");o.code="ETOOBIG",r.destroyed=!0,n(o);return}s.copy(e.buffer,r.pos,0,s.length),r.bytesWritten+=s.length,r.pos=u,r.emit("progress"),n()}},r.destroy=function(){r.destroyed=!0},r};At.prototype.ref=function(){this.refCount+=1};At.prototype.unref=function(){if(this.refCount-=1,this.refCount<0)throw new Error("invalid unref")};function Vv(t,e){return new At(t,e)}function Yv(t,e){return new _t(t,e)}});var fy=E((i9,hy)=>{var Vt=require("buffer").Buffer,ah=[0,1996959894,3993919788,2567524794,124634137,1886057615,3915621685,2657392035,249268274,2044508324,3772115230,2547177864,162941995,2125561021,3887607047,2428444049,498536548,1789927666,4089016648,2227061214,450548861,1843258603,4107580753,2211677639,325883990,1684777152,4251122042,2321926636,335633487,1661365465,4195302755,2366115317,997073096,1281953886,3579855332,2724688242,1006888145,1258607687,3524101629,2768942443,901097722,1119000684,3686517206,2898065728,853044451,1172266101,3705015759,2882616665,651767980,1373503546,3369554304,3218104598,565507253,1454621731,3485111705,3099436303,671266974,1594198024,3322730930,2970347812,795835527,1483230225,3244367275,3060149565,1994146192,31158534,2563907772,4023717930,1907459465,112637215,2680153253,3904427059,2013776290,251722036,2517215374,3775830040,2137656763,141376813,2439277719,3865271297,1802195444,476864866,2238001368,4066508878,1812370925,453092731,2181625025,4111451223,1706088902,314042704,2344532202,4240017532,1658658271,366619977,2362670323,4224994405,1303535960,984961486,2747007092,3569037538,1256170817,1037604311,2765210733,3554079995,1131014506,879679996,2909243462,3663771856,1141124467,855842277,2852801631,3708648649,1342533948,654459306,3188396048,3373015174,1466479909,544179635,3110523913,3462522015,1591671054,702138776,2966460450,3352799412,1504918807,783551873,3082640443,3233442989,3988292384,2596254646,62317068,1957810842,3939845945,2647816111,81470997,1943803523,3814918930,2489596804,225274430,2053790376,3826175755,2466906013,167816743,2097651377,4027552580,2265490386,503444072,1762050814,4150417245,2154129355,426522225,1852507879,4275313526,2312317920,282753626,1742555852,4189708143,2394877945,397917763,1622183637,3604390888,2714866558,953729732,1340076626,3518719985,2797360999,1068828381,1219638859,3624741850,2936675148,906185462,1090812512,3747672003,2825379669,829329135,1181335161,3412177804,3160834842,628085408,1382605366,3423369109,3138078467,570562233,1426400815,3317316542,2998733608,733239954,1555261956,3268935591,3050360625,752459403,1541320221,2607071920,3965973030,1969922972,40735498,2617837225,3943577151,1913087877,83908371,2512341634,3803740692,2075208622,213261112,2463272603,3855990285,2094854071,198958881,2262029012,4057260610,1759359992,534414190,2176718541,4139329115,1873836001,414664567,2282248934,4279200368,1711684554,285281116,2405801727,4167216745,1634467795,376229701,2685067896,3608007406,1308918612,956543938,2808555105,3495958263,1231636301,1047427035,2932959818,3654703836,1088359270,936918e3,2847714899,3736837829,1202900863,817233897,3183342108,3401237130,1404277552,615818150,3134207493,3453421203,1423857449,601450431,3009837614,3294710456,1567103746,711928724,3020668471,3272380065,1510334235,755167117];typeof Int32Array<"u"&&(ah=new Int32Array(ah));function ly(t){if(Vt.isBuffer(t))return t;var e=typeof Vt.alloc=="function"&&typeof Vt.from=="function";if(typeof t=="number")return e?Vt.alloc(t):new Vt(t);if(typeof t=="string")return e?Vt.from(t):new Vt(t);throw new Error("input must be buffer, number, or string, received "+typeof t)}function Kv(t){var e=ly(4);return e.writeInt32BE(t,0),e}function ch(t,e){t=ly(t),Vt.isBuffer(e)&&(e=e.readUInt32BE(0));for(var r=~~e^-1,s=0;s<t.length;s++)r=ah[(r^t[s])&255]^r>>>8;return r^-1}function lh(){return Kv(ch.apply(null,arguments))}lh.signed=function(){return ch.apply(null,arguments)};lh.unsigned=function(){return ch.apply(null,arguments)>>>0};hy.exports=lh});var Cy=E(at=>{var hh=require("fs"),Xv=require("zlib"),Dy=cy(),Zv=fy(),no=require("util"),uo=require("events").EventEmitter,dy=require("stream").Transform,fh=require("stream").PassThrough,Jv=require("stream").Writable;at.open=Qv;at.fromFd=py;at.fromBuffer=eB;at.fromRandomAccessReader=Dh;at.dosDateTimeToDate=Ey;at.validateFileName=gy;at.ZipFile=Yt;at.Entry=Zi;at.RandomAccessReader=Kt;function Qv(t,e,r){typeof e=="function"&&(r=e,e=null),e==null&&(e={}),e.autoClose==null&&(e.autoClose=!0),e.lazyEntries==null&&(e.lazyEntries=!1),e.decodeStrings==null&&(e.decodeStrings=!0),e.validateEntrySizes==null&&(e.validateEntrySizes=!0),e.strictFileNames==null&&(e.strictFileNames=!1),r==null&&(r=io),hh.open(t,"r",function(s,i){if(s)return r(s);py(i,e,function(n,u){n&&hh.close(i,io),r(n,u)})})}function py(t,e,r){typeof e=="function"&&(r=e,e=null),e==null&&(e={}),e.autoClose==null&&(e.autoClose=!1),e.lazyEntries==null&&(e.lazyEntries=!1),e.decodeStrings==null&&(e.decodeStrings=!0),e.validateEntrySizes==null&&(e.validateEntrySizes=!0),e.strictFileNames==null&&(e.strictFileNames=!1),r==null&&(r=io),hh.fstat(t,function(s,i){if(s)return r(s);var n=Dy.createFromFd(t,{autoClose:!0});Dh(n,i.size,e,r)})}function eB(t,e,r){typeof e=="function"&&(r=e,e=null),e==null&&(e={}),e.autoClose=!1,e.lazyEntries==null&&(e.lazyEntries=!1),e.decodeStrings==null&&(e.decodeStrings=!0),e.validateEntrySizes==null&&(e.validateEntrySizes=!0),e.strictFileNames==null&&(e.strictFileNames=!1);var s=Dy.createFromBuffer(t,{maxChunkSize:65536});Dh(s,t.length,e,r)}function Dh(t,e,r,s){typeof r=="function"&&(s=r,r=null),r==null&&(r={}),r.autoClose==null&&(r.autoClose=!0),r.lazyEntries==null&&(r.lazyEntries=!1),r.decodeStrings==null&&(r.decodeStrings=!0);var i=!!r.decodeStrings;if(r.validateEntrySizes==null&&(r.validateEntrySizes=!0),r.strictFileNames==null&&(r.strictFileNames=!1),s==null&&(s=io),typeof e!="number")throw new Error("expected totalSize parameter to be a number");if(e>Number.MAX_SAFE_INTEGER)throw new Error("zip file too large. only file sizes up to 2^52 are supported due to JavaScript's Number type being an IEEE 754 double.");t.ref();var n=22,u=65535,o=Math.min(n+u,e),a=ot(o),c=e-a.length;Ss(t,a,0,o,c,function(l){if(l)return s(l);for(var h=o-n;h>=0;h-=1)if(a.readUInt32LE(h)===101010256){var f=a.slice(h),D=f.readUInt16LE(4);if(D!==0)return s(new Error("multi-disk zip files are not supported: found disk number: "+D));var C=f.readUInt16LE(10),m=f.readUInt32LE(16),g=f.readUInt16LE(20),F=f.length-n;if(g!==F)return s(new Error("invalid comment length. expected: "+F+". found: "+g));var w=i?so(f,22,f.length,!1):f.slice(22);if(!(C===65535||m===4294967295))return s(null,new Yt(t,m,e,C,w,r.autoClose,r.lazyEntries,i,r.validateEntrySizes,r.strictFileNames));var y=ot(20),b=c+h-y.length;Ss(t,y,0,y.length,b,function(B){if(B)return s(B);if(y.readUInt32LE(0)!==117853008)return s(new Error("invalid zip64 end of central directory locator signature"));var N=vs(y,8),R=ot(56);Ss(t,R,0,R.length,N,function(ce){return ce?s(ce):R.readUInt32LE(0)!==101075792?s(new Error("invalid zip64 end of central directory record signature")):(C=vs(R,32),m=vs(R,48),s(null,new Yt(t,m,e,C,w,r.autoClose,r.lazyEntries,i,r.validateEntrySizes,r.strictFileNames)))})});return}s(new Error("end of central directory record signature not found"))})}no.inherits(Yt,uo);function Yt(t,e,r,s,i,n,u,o,a,c){var l=this;uo.call(l),l.reader=t,l.reader.on("error",function(h){my(l,h)}),l.reader.once("close",function(){l.emit("close")}),l.readEntryCursor=e,l.fileSize=r,l.entryCount=s,l.comment=i,l.entriesRead=0,l.autoClose=!!n,l.lazyEntries=!!u,l.decodeStrings=!!o,l.validateEntrySizes=!!a,l.strictFileNames=!!c,l.isOpen=!0,l.emittedError=!1,l.lazyEntries||l._readEntry()}Yt.prototype.close=function(){!this.isOpen||(this.isOpen=!1,this.reader.unref())};function et(t,e){t.autoClose&&t.close(),my(t,e)}function my(t,e){t.emittedError||(t.emittedError=!0,t.emit("error",e))}Yt.prototype.readEntry=function(){if(!this.lazyEntries)throw new Error("readEntry() called without lazyEntries:true");this._readEntry()};Yt.prototype._readEntry=function(){var t=this;if(t.entryCount===t.entriesRead){setImmediate(function(){t.autoClose&&t.close(),!t.emittedError&&t.emit("end")});return}if(!t.emittedError){var e=ot(46);Ss(t.reader,e,0,e.length,t.readEntryCursor,function(r){if(r)return et(t,r);if(!t.emittedError){var s=new Zi,i=e.readUInt32LE(0);if(i!==33639248)return et(t,new Error("invalid central directory file header signature: 0x"+i.toString(16)));if(s.versionMadeBy=e.readUInt16LE(4),s.versionNeededToExtract=e.readUInt16LE(6),s.generalPurposeBitFlag=e.readUInt16LE(8),s.compressionMethod=e.readUInt16LE(10),s.lastModFileTime=e.readUInt16LE(12),s.lastModFileDate=e.readUInt16LE(14),s.crc32=e.readUInt32LE(16),s.compressedSize=e.readUInt32LE(20),s.uncompressedSize=e.readUInt32LE(24),s.fileNameLength=e.readUInt16LE(28),s.extraFieldLength=e.readUInt16LE(30),s.fileCommentLength=e.readUInt16LE(32),s.internalFileAttributes=e.readUInt16LE(36),s.externalFileAttributes=e.readUInt32LE(38),s.relativeOffsetOfLocalHeader=e.readUInt32LE(42),s.generalPurposeBitFlag&64)return et(t,new Error("strong encryption is not supported"));t.readEntryCursor+=46,e=ot(s.fileNameLength+s.extraFieldLength+s.fileCommentLength),Ss(t.reader,e,0,e.length,t.readEntryCursor,function(n){if(n)return et(t,n);if(!t.emittedError){var u=(s.generalPurposeBitFlag&2048)!==0;s.fileName=t.decodeStrings?so(e,0,s.fileNameLength,u):e.slice(0,s.fileNameLength);var o=s.fileNameLength+s.extraFieldLength,a=e.slice(s.fileNameLength,o);s.extraFields=[];for(var c=0;c<a.length-3;){var l=a.readUInt16LE(c+0),h=a.readUInt16LE(c+2),f=c+4,D=f+h;if(D>a.length)return et(t,new Error("extra field length exceeds extra field buffer size"));var C=ot(h);a.copy(C,0,f,D),s.extraFields.push({id:l,data:C}),c=D}if(s.fileComment=t.decodeStrings?so(e,o,o+s.fileCommentLength,u):e.slice(o,o+s.fileCommentLength),s.comment=s.fileComment,t.readEntryCursor+=e.length,t.entriesRead+=1,s.uncompressedSize===4294967295||s.compressedSize===4294967295||s.relativeOffsetOfLocalHeader===4294967295){for(var m=null,c=0;c<s.extraFields.length;c++){var g=s.extraFields[c];if(g.id===1){m=g.data;break}}if(m==null)return et(t,new Error("expected zip64 extended information extra field"));var F=0;if(s.uncompressedSize===4294967295){if(F+8>m.length)return et(t,new Error("zip64 extended information extra field does not include uncompressed size"));s.uncompressedSize=vs(m,F),F+=8}if(s.compressedSize===4294967295){if(F+8>m.length)return et(t,new Error("zip64 extended information extra field does not include compressed size"));s.compressedSize=vs(m,F),F+=8}if(s.relativeOffsetOfLocalHeader===4294967295){if(F+8>m.length)return et(t,new Error("zip64 extended information extra field does not include relative header offset"));s.relativeOffsetOfLocalHeader=vs(m,F),F+=8}}if(t.decodeStrings)for(var c=0;c<s.extraFields.length;c++){var g=s.extraFields[c];if(g.id===28789){if(g.data.length<6||g.data.readUInt8(0)!==1)continue;var w=g.data.readUInt32LE(1);if(Zv.unsigned(e.slice(0,s.fileNameLength))!==w)continue;s.fileName=so(g.data,5,g.data.length,!0);break}}if(t.validateEntrySizes&&s.compressionMethod===0){var y=s.uncompressedSize;if(s.isEncrypted()&&(y+=12),s.compressedSize!==y){var b="compressed/uncompressed size mismatch for stored file: "+s.compressedSize+" != "+s.uncompressedSize;return et(t,new Error(b))}}if(t.decodeStrings){t.strictFileNames||(s.fileName=s.fileName.replace(/\\/g,"/"));var B=gy(s.fileName,t.validateFileNameOptions);if(B!=null)return et(t,new Error(B))}t.emit("entry",s),t.lazyEntries||t._readEntry()}})}})}};Yt.prototype.openReadStream=function(t,e,r){var s=this,i=0,n=t.compressedSize;if(r==null)r=e,e={};else{if(e.decrypt!=null){if(!t.isEncrypted())throw new Error("options.decrypt can only be specified for encrypted entries");if(e.decrypt!==!1)throw new Error("invalid options.decrypt value: "+e.decrypt);if(t.isCompressed()&&e.decompress!==!1)throw new Error("entry is encrypted and compressed, and options.decompress !== false")}if(e.decompress!=null){if(!t.isCompressed())throw new Error("options.decompress can only be specified for compressed entries");if(!(e.decompress===!1||e.decompress===!0))throw new Error("invalid options.decompress value: "+e.decompress)}if(e.start!=null||e.end!=null){if(t.isCompressed()&&e.decompress!==!1)throw new Error("start/end range not allowed for compressed entry without options.decompress === false");if(t.isEncrypted()&&e.decrypt!==!1)throw new Error("start/end range not allowed for encrypted entry without options.decrypt === false")}if(e.start!=null){if(i=e.start,i<0)throw new Error("options.start < 0");if(i>t.compressedSize)throw new Error("options.start > entry.compressedSize")}if(e.end!=null){if(n=e.end,n<0)throw new Error("options.end < 0");if(n>t.compressedSize)throw new Error("options.end > entry.compressedSize");if(n<i)throw new Error("options.end < options.start")}}if(!s.isOpen)return r(new Error("closed"));if(t.isEncrypted()&&e.decrypt!==!1)return r(new Error("entry is encrypted, and options.decrypt !== false"));s.reader.ref();var u=ot(30);Ss(s.reader,u,0,u.length,t.relativeOffsetOfLocalHeader,function(o){try{if(o)return r(o);var a=u.readUInt32LE(0);if(a!==67324752)return r(new Error("invalid local file header signature: 0x"+a.toString(16)));var c=u.readUInt16LE(26),l=u.readUInt16LE(28),h=t.relativeOffsetOfLocalHeader+u.length+c+l,f;if(t.compressionMethod===0)f=!1;else if(t.compressionMethod===8)f=e.decompress!=null?e.decompress:!0;else return r(new Error("unsupported compression method: "+t.compressionMethod));var D=h,C=D+t.compressedSize;if(t.compressedSize!==0&&C>s.fileSize)return r(new Error("file data overflows file bounds: "+D+" + "+t.compressedSize+" > "+s.fileSize));var m=s.reader.createReadStream({start:D+i,end:D+n}),g=m;if(f){var F=!1,w=Xv.createInflateRaw();m.on("error",function(y){setImmediate(function(){F||w.emit("error",y)})}),m.pipe(w),s.validateEntrySizes?(g=new Ji(t.uncompressedSize),w.on("error",function(y){setImmediate(function(){F||g.emit("error",y)})}),w.pipe(g)):g=w,g.destroy=function(){F=!0,w!==g&&w.unpipe(g),m.unpipe(w),m.destroy()}}r(null,g)}finally{s.reader.unref()}})};function Zi(){}Zi.prototype.getLastModDate=function(){return Ey(this.lastModFileDate,this.lastModFileTime)};Zi.prototype.isEncrypted=function(){return(this.generalPurposeBitFlag&1)!==0};Zi.prototype.isCompressed=function(){return this.compressionMethod===8};function Ey(t,e){var r=t&31,s=(t>>5&15)-1,i=(t>>9&127)+1980,n=0,u=(e&31)*2,o=e>>5&63,a=e>>11&31;return new Date(i,s,r,a,o,u,n)}function gy(t){return t.indexOf("\\")!==-1?"invalid characters in fileName: "+t:/^[a-zA-Z]:/.test(t)||/^\//.test(t)?"absolute path: "+t:t.split("/").indexOf("..")!==-1?"invalid relative path: "+t:null}function Ss(t,e,r,s,i,n){if(s===0)return setImmediate(function(){n(null,ot(0))});t.read(e,r,s,i,function(u,o){if(u)return n(u);if(o<s)return n(new Error("unexpected EOF"));n()})}no.inherits(Ji,dy);function Ji(t){dy.call(this),this.actualByteCount=0,this.expectedByteCount=t}Ji.prototype._transform=function(t,e,r){if(this.actualByteCount+=t.length,this.actualByteCount>this.expectedByteCount){var s="too many bytes in the stream. expected "+this.expectedByteCount+". got at least "+this.actualByteCount;return r(new Error(s))}r(null,t)};Ji.prototype._flush=function(t){if(this.actualByteCount<this.expectedByteCount){var e="not enough bytes in the stream. expected "+this.expectedByteCount+". got only "+this.actualByteCount;return t(new Error(e))}t()};no.inherits(Kt,uo);function Kt(){uo.call(this),this.refCount=0}Kt.prototype.ref=function(){this.refCount+=1};Kt.prototype.unref=function(){var t=this;if(t.refCount-=1,t.refCount>0)return;if(t.refCount<0)throw new Error("invalid unref");t.close(e);function e(r){if(r)return t.emit("error",r);t.emit("close")}};Kt.prototype.createReadStream=function(t){var e=t.start,r=t.end;if(e===r){var s=new fh;return setImmediate(function(){s.end()}),s}var i=this._readStreamForRange(e,r),n=!1,u=new oo(this);i.on("error",function(a){setImmediate(function(){n||u.emit("error",a)})}),u.destroy=function(){i.unpipe(u),u.unref(),i.destroy()};var o=new Ji(r-e);return u.on("error",function(a){setImmediate(function(){n||o.emit("error",a)})}),o.destroy=function(){n=!0,u.unpipe(o),u.destroy()},i.pipe(u).pipe(o)};Kt.prototype._readStreamForRange=function(t,e){throw new Error("not implemented")};Kt.prototype.read=function(t,e,r,s,i){var n=this.createReadStream({start:s,end:s+r}),u=new Jv,o=0;u._write=function(a,c,l){a.copy(t,e+o,0,a.length),o+=a.length,l()},u.on("finish",i),n.on("error",function(a){i(a)}),n.pipe(u)};Kt.prototype.close=function(t){setImmediate(t)};no.inherits(oo,fh);function oo(t){fh.call(this),this.context=t,this.context.ref(),this.unreffedYet=!1}oo.prototype._flush=function(t){this.unref(),t()};oo.prototype.unref=function(t){this.unreffedYet||(this.unreffedYet=!0,this.context.unref())};var tB="\0\u263A\u263B\u2665\u2666\u2663\u2660\u2022\u25D8\u25CB\u25D9\u2642\u2640\u266A\u266B\u263C\u25BA\u25C4\u2195\u203C\xB6\xA7\u25AC\u21A8\u2191\u2193\u2192\u2190\u221F\u2194\u25B2\u25BC !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u2302\xC7\xFC\xE9\xE2\xE4\xE0\xE5\xE7\xEA\xEB\xE8\xEF\xEE\xEC\xC4\xC5\xC9\xE6\xC6\xF4\xF6\xF2\xFB\xF9\xFF\xD6\xDC\xA2\xA3\xA5\u20A7\u0192\xE1\xED\xF3\xFA\xF1\xD1\xAA\xBA\xBF\u2310\xAC\xBD\xBC\xA1\xAB\xBB\u2591\u2592\u2593\u2502\u2524\u2561\u2562\u2556\u2555\u2563\u2551\u2557\u255D\u255C\u255B\u2510\u2514\u2534\u252C\u251C\u2500\u253C\u255E\u255F\u255A\u2554\u2569\u2566\u2560\u2550\u256C\u2567\u2568\u2564\u2565\u2559\u2558\u2552\u2553\u256B\u256A\u2518\u250C\u2588\u2584\u258C\u2590\u2580\u03B1\xDF\u0393\u03C0\u03A3\u03C3\xB5\u03C4\u03A6\u0398\u03A9\u03B4\u221E\u03C6\u03B5\u2229\u2261\xB1\u2265\u2264\u2320\u2321\xF7\u2248\xB0\u2219\xB7\u221A\u207F\xB2\u25A0\xA0";function so(t,e,r,s){if(s)return t.toString("utf8",e,r);for(var i="",n=e;n<r;n++)i+=tB[t[n]];return i}function vs(t,e){var r=t.readUInt32LE(e),s=t.readUInt32LE(e+4);return s*4294967296+r}var ot;typeof Buffer.allocUnsafe=="function"?ot=function(t){return Buffer.allocUnsafe(t)}:ot=function(t){return new Buffer(t)};function io(t){if(t)throw t}});var yy=E((u9,Fy)=>{var tt=sy()("extract-zip"),{createWriteStream:rB,promises:Bs}=require("fs"),sB=Za(),kr=require("path"),{promisify:ph}=require("util"),iB=require("stream"),nB=Cy(),uB=ph(nB.open),oB=ph(iB.pipeline),dh=class{constructor(e,r){this.zipPath=e,this.opts=r}async extract(){return tt("opening",this.zipPath,"with opts",this.opts),this.zipfile=await uB(this.zipPath,{lazyEntries:!0}),this.canceled=!1,new Promise((e,r)=>{this.zipfile.on("error",s=>{this.canceled=!0,r(s)}),this.zipfile.readEntry(),this.zipfile.on("close",()=>{this.canceled||(tt("zip extraction complete"),e())}),this.zipfile.on("entry",async s=>{if(this.canceled){tt("skipping entry",s.fileName,{cancelled:this.canceled});return}if(tt("zipfile entry",s.fileName),s.fileName.startsWith("__MACOSX/")){this.zipfile.readEntry();return}let i=kr.dirname(kr.join(this.opts.dir,s.fileName));try{await Bs.mkdir(i,{recursive:!0});let n=await Bs.realpath(i);if(kr.relative(this.opts.dir,n).split(kr.sep).includes(".."))throw new Error(`Out of bound path "${n}" found while processing file ${s.fileName}`);await this.extractEntry(s),tt("finished processing",s.fileName),this.zipfile.readEntry()}catch(n){this.canceled=!0,this.zipfile.close(),r(n)}})})}async extractEntry(e){if(this.canceled){tt("skipping entry extraction",e.fileName,{cancelled:this.canceled});return}this.opts.onEntry&&this.opts.onEntry(e,this.zipfile);let r=kr.join(this.opts.dir,e.fileName),s=e.externalFileAttributes>>16&65535,i=61440,n=16384,u=40960,o=(s&i)===u,a=(s&i)===n;!a&&e.fileName.endsWith("/")&&(a=!0);let c=e.versionMadeBy>>8;a||(a=c===0&&e.externalFileAttributes===16),tt("extracting entry",{filename:e.fileName,isDir:a,isSymlink:o});let l=this.getExtractedMode(s,a)&511,h=a?r:kr.dirname(r),f={recursive:!0};if(a&&(f.mode=l),tt("mkdir",{dir:h,...f}),await Bs.mkdir(h,f),a)return;tt("opening read stream",r);let D=await ph(this.zipfile.openReadStream.bind(this.zipfile))(e);if(o){let C=await sB(D);tt("creating symlink",C,r),await Bs.symlink(C,r)}else await oB(D,rB(r,{mode:l}))}getExtractedMode(e,r){let s=e;return s===0&&(r?(this.opts.defaultDirMode&&(s=parseInt(this.opts.defaultDirMode,10)),s||(s=493)):(this.opts.defaultFileMode&&(s=parseInt(this.opts.defaultFileMode,10)),s||(s=420))),s}};Fy.exports=async function(t,e){if(tt("creating target directory",e.dir),!kr.isAbsolute(e.dir))throw new Error("Target directory is expected to be absolute");return await Bs.mkdir(e.dir,{recursive:!0}),e.dir=await Bs.realpath(e.dir),new dh(t,e).extract()}});var Rs=E((o9,xy)=>{"use strict";var by=new Map([["C","cwd"],["f","file"],["z","gzip"],["P","preservePaths"],["U","unlink"],["strip-components","strip"],["stripComponents","strip"],["keep-newer","newer"],["keepNewer","newer"],["keep-newer-files","newer"],["keepNewerFiles","newer"],["k","keep"],["keep-existing","keep"],["keepExisting","keep"],["m","noMtime"],["no-mtime","noMtime"],["p","preserveOwner"],["L","follow"],["h","follow"]]);xy.exports=t=>t?Object.keys(t).map(e=>[by.has(e)?by.get(e):e,t[e]]).reduce((e,r)=>(e[r[0]]=r[1],e),Object.create(null)):{}});var Ts=E((a9,Ty)=>{"use strict";var wy=typeof process=="object"&&process?process:{stdout:null,stderr:null},aB=require("events"),_y=require("stream"),Ay=require("string_decoder").StringDecoder,St=Symbol("EOF"),vt=Symbol("maybeEmitEnd"),Xt=Symbol("emittedEnd"),ao=Symbol("emittingEnd"),Qi=Symbol("emittedError"),co=Symbol("closed"),Sy=Symbol("read"),lo=Symbol("flush"),vy=Symbol("flushChunk"),Be=Symbol("encoding"),Bt=Symbol("decoder"),ho=Symbol("flowing"),en=Symbol("paused"),Os=Symbol("resume"),ae=Symbol("bufferLength"),mh=Symbol("bufferPush"),Eh=Symbol("bufferShift"),Ce=Symbol("objectMode"),Fe=Symbol("destroyed"),gh=Symbol("emitData"),By=Symbol("emitEnd"),Ch=Symbol("emitEnd2"),Rt=Symbol("async"),tn=t=>Promise.resolve().then(t),Ry=global._MP_NO_ITERATOR_SYMBOLS_!=="1",cB=Ry&&Symbol.asyncIterator||Symbol("asyncIterator not implemented"),lB=Ry&&Symbol.iterator||Symbol("iterator not implemented"),hB=t=>t==="end"||t==="finish"||t==="prefinish",fB=t=>t instanceof ArrayBuffer||typeof t=="object"&&t.constructor&&t.constructor.name==="ArrayBuffer"&&t.byteLength>=0,DB=t=>!Buffer.isBuffer(t)&&ArrayBuffer.isView(t),fo=class{constructor(e,r,s){this.src=e,this.dest=r,this.opts=s,this.ondrain=()=>e[Os](),r.on("drain",this.ondrain)}unpipe(){this.dest.removeListener("drain",this.ondrain)}proxyErrors(){}end(){this.unpipe(),this.opts.end&&this.dest.end()}},Fh=class extends fo{unpipe(){this.src.removeListener("error",this.proxyErrors),super.unpipe()}constructor(e,r,s){super(e,r,s),this.proxyErrors=i=>r.emit("error",i),e.on("error",this.proxyErrors)}};Ty.exports=class Oy extends _y{constructor(e){super(),this[ho]=!1,this[en]=!1,this.pipes=[],this.buffer=[],this[Ce]=e&&e.objectMode||!1,this[Ce]?this[Be]=null:this[Be]=e&&e.encoding||null,this[Be]==="buffer"&&(this[Be]=null),this[Rt]=e&&!!e.async||!1,this[Bt]=this[Be]?new Ay(this[Be]):null,this[St]=!1,this[Xt]=!1,this[ao]=!1,this[co]=!1,this[Qi]=null,this.writable=!0,this.readable=!0,this[ae]=0,this[Fe]=!1}get bufferLength(){return this[ae]}get encoding(){return this[Be]}set encoding(e){if(this[Ce])throw new Error("cannot set encoding in objectMode");if(this[Be]&&e!==this[Be]&&(this[Bt]&&this[Bt].lastNeed||this[ae]))throw new Error("cannot change encoding");this[Be]!==e&&(this[Bt]=e?new Ay(e):null,this.buffer.length&&(this.buffer=this.buffer.map(r=>this[Bt].write(r)))),this[Be]=e}setEncoding(e){this.encoding=e}get objectMode(){return this[Ce]}set objectMode(e){this[Ce]=this[Ce]||!!e}get async(){return this[Rt]}set async(e){this[Rt]=this[Rt]||!!e}write(e,r,s){if(this[St])throw new Error("write after end");if(this[Fe])return this.emit("error",Object.assign(new Error("Cannot call write after a stream was destroyed"),{code:"ERR_STREAM_DESTROYED"})),!0;typeof r=="function"&&(s=r,r="utf8"),r||(r="utf8");let i=this[Rt]?tn:n=>n();return!this[Ce]&&!Buffer.isBuffer(e)&&(DB(e)?e=Buffer.from(e.buffer,e.byteOffset,e.byteLength):fB(e)?e=Buffer.from(e):typeof e!="string"&&(this.objectMode=!0)),this[Ce]?(this.flowing&&this[ae]!==0&&this[lo](!0),this.flowing?this.emit("data",e):this[mh](e),this[ae]!==0&&this.emit("readable"),s&&i(s),this.flowing):e.length?(typeof e=="string"&&!(r===this[Be]&&!this[Bt].lastNeed)&&(e=Buffer.from(e,r)),Buffer.isBuffer(e)&&this[Be]&&(e=this[Bt].write(e)),this.flowing&&this[ae]!==0&&this[lo](!0),this.flowing?this.emit("data",e):this[mh](e),this[ae]!==0&&this.emit("readable"),s&&i(s),this.flowing):(this[ae]!==0&&this.emit("readable"),s&&i(s),this.flowing)}read(e){if(this[Fe])return null;if(this[ae]===0||e===0||e>this[ae])return this[vt](),null;this[Ce]&&(e=null),this.buffer.length>1&&!this[Ce]&&(this.encoding?this.buffer=[this.buffer.join("")]:this.buffer=[Buffer.concat(this.buffer,this[ae])]);let r=this[Sy](e||null,this.buffer[0]);return this[vt](),r}[Sy](e,r){return e===r.length||e===null?this[Eh]():(this.buffer[0]=r.slice(e),r=r.slice(0,e),this[ae]-=e),this.emit("data",r),!this.buffer.length&&!this[St]&&this.emit("drain"),r}end(e,r,s){return typeof e=="function"&&(s=e,e=null),typeof r=="function"&&(s=r,r="utf8"),e&&this.write(e,r),s&&this.once("end",s),this[St]=!0,this.writable=!1,(this.flowing||!this[en])&&this[vt](),this}[Os](){this[Fe]||(this[en]=!1,this[ho]=!0,this.emit("resume"),this.buffer.length?this[lo]():this[St]?this[vt]():this.emit("drain"))}resume(){return this[Os]()}pause(){this[ho]=!1,this[en]=!0}get destroyed(){return this[Fe]}get flowing(){return this[ho]}get paused(){return this[en]}[mh](e){this[Ce]?this[ae]+=1:this[ae]+=e.length,this.buffer.push(e)}[Eh](){return this.buffer.length&&(this[Ce]?this[ae]-=1:this[ae]-=this.buffer[0].length),this.buffer.shift()}[lo](e){do;while(this[vy](this[Eh]()));!e&&!this.buffer.length&&!this[St]&&this.emit("drain")}[vy](e){return e?(this.emit("data",e),this.flowing):!1}pipe(e,r){if(this[Fe])return;let s=this[Xt];return r=r||{},e===wy.stdout||e===wy.stderr?r.end=!1:r.end=r.end!==!1,r.proxyErrors=!!r.proxyErrors,s?r.end&&e.end():(this.pipes.push(r.proxyErrors?new Fh(this,e,r):new fo(this,e,r)),this[Rt]?tn(()=>this[Os]()):this[Os]()),e}unpipe(e){let r=this.pipes.find(s=>s.dest===e);r&&(this.pipes.splice(this.pipes.indexOf(r),1),r.unpipe())}addListener(e,r){return this.on(e,r)}on(e,r){let s=super.on(e,r);return e==="data"&&!this.pipes.length&&!this.flowing?this[Os]():e==="readable"&&this[ae]!==0?super.emit("readable"):hB(e)&&this[Xt]?(super.emit(e),this.removeAllListeners(e)):e==="error"&&this[Qi]&&(this[Rt]?tn(()=>r.call(this,this[Qi])):r.call(this,this[Qi])),s}get emittedEnd(){return this[Xt]}[vt](){!this[ao]&&!this[Xt]&&!this[Fe]&&this.buffer.length===0&&this[St]&&(this[ao]=!0,this.emit("end"),this.emit("prefinish"),this.emit("finish"),this[co]&&this.emit("close"),this[ao]=!1)}emit(e,r,...s){if(e!=="error"&&e!=="close"&&e!==Fe&&this[Fe])return;if(e==="data")return r?this[Rt]?tn(()=>this[gh](r)):this[gh](r):!1;if(e==="end")return this[By]();if(e==="close"){if(this[co]=!0,!this[Xt]&&!this[Fe])return;let n=super.emit("close");return this.removeAllListeners("close"),n}else if(e==="error"){this[Qi]=r;let n=super.emit("error",r);return this[vt](),n}else if(e==="resume"){let n=super.emit("resume");return this[vt](),n}else if(e==="finish"||e==="prefinish"){let n=super.emit(e);return this.removeAllListeners(e),n}let i=super.emit(e,r,...s);return this[vt](),i}[gh](e){for(let s of this.pipes)s.dest.write(e)===!1&&this.pause();let r=super.emit("data",e);return this[vt](),r}[By](){this[Xt]||(this[Xt]=!0,this.readable=!1,this[Rt]?tn(()=>this[Ch]()):this[Ch]())}[Ch](){if(this[Bt]){let r=this[Bt].end();if(r){for(let s of this.pipes)s.dest.write(r);super.emit("data",r)}}for(let r of this.pipes)r.end();let e=super.emit("end");return this.removeAllListeners("end"),e}collect(){let e=[];this[Ce]||(e.dataLength=0);let r=this.promise();return this.on("data",s=>{e.push(s),this[Ce]||(e.dataLength+=s.length)}),r.then(()=>e)}concat(){return this[Ce]?Promise.reject(new Error("cannot concat in objectMode")):this.collect().then(e=>this[Ce]?Promise.reject(new Error("cannot concat in objectMode")):this[Be]?e.join(""):Buffer.concat(e,e.dataLength))}promise(){return new Promise((e,r)=>{this.on(Fe,()=>r(new Error("stream destroyed"))),this.on("error",s=>r(s)),this.on("end",()=>e())})}[cB](){return{next:()=>{let r=this.read();if(r!==null)return Promise.resolve({done:!1,value:r});if(this[St])return Promise.resolve({done:!0});let s=null,i=null,n=c=>{this.removeListener("data",u),this.removeListener("end",o),i(c)},u=c=>{this.removeListener("error",n),this.removeListener("end",o),this.pause(),s({value:c,done:!!this[St]})},o=()=>{this.removeListener("error",n),this.removeListener("data",u),s({done:!0})},a=()=>n(new Error("stream destroyed"));return new Promise((c,l)=>{i=l,s=c,this.once(Fe,a),this.once("error",n),this.once("end",o),this.once("data",u)})}}}[lB](){return{next:()=>{let r=this.read();return{value:r,done:r===null}}}}destroy(e){return this[Fe]?(e?this.emit("error",e):this.emit(Fe),this):(this[Fe]=!0,this.buffer.length=0,this[ae]=0,typeof this.close=="function"&&!this[co]&&this.close(),e?this.emit("error",e):this.emit(Fe),this)}static isStream(e){return!!e&&(e instanceof Oy||e instanceof _y||e instanceof aB&&(typeof e.pipe=="function"||typeof e.write=="function"&&typeof e.end=="function"))}}});var Ly=E((c9,Iy)=>{var dB=require("zlib").constants||{ZLIB_VERNUM:4736};Iy.exports=Object.freeze(Object.assign(Object.create(null),{Z_NO_FLUSH:0,Z_PARTIAL_FLUSH:1,Z_SYNC_FLUSH:2,Z_FULL_FLUSH:3,Z_FINISH:4,Z_BLOCK:5,Z_OK:0,Z_STREAM_END:1,Z_NEED_DICT:2,Z_ERRNO:-1,Z_STREAM_ERROR:-2,Z_DATA_ERROR:-3,Z_MEM_ERROR:-4,Z_BUF_ERROR:-5,Z_VERSION_ERROR:-6,Z_NO_COMPRESSION:0,Z_BEST_SPEED:1,Z_BEST_COMPRESSION:9,Z_DEFAULT_COMPRESSION:-1,Z_FILTERED:1,Z_HUFFMAN_ONLY:2,Z_RLE:3,Z_FIXED:4,Z_DEFAULT_STRATEGY:0,DEFLATE:1,INFLATE:2,GZIP:3,GUNZIP:4,DEFLATERAW:5,INFLATERAW:6,UNZIP:7,BROTLI_DECODE:8,BROTLI_ENCODE:9,Z_MIN_WINDOWBITS:8,Z_MAX_WINDOWBITS:15,Z_DEFAULT_WINDOWBITS:15,Z_MIN_CHUNK:64,Z_MAX_CHUNK:1/0,Z_DEFAULT_CHUNK:16384,Z_MIN_MEMLEVEL:1,Z_MAX_MEMLEVEL:9,Z_DEFAULT_MEMLEVEL:8,Z_MIN_LEVEL:-1,Z_MAX_LEVEL:9,Z_DEFAULT_LEVEL:-1,BROTLI_OPERATION_PROCESS:0,BROTLI_OPERATION_FLUSH:1,BROTLI_OPERATION_FINISH:2,BROTLI_OPERATION_EMIT_METADATA:3,BROTLI_MODE_GENERIC:0,BROTLI_MODE_TEXT:1,BROTLI_MODE_FONT:2,BROTLI_DEFAULT_MODE:0,BROTLI_MIN_QUALITY:0,BROTLI_MAX_QUALITY:11,BROTLI_DEFAULT_QUALITY:11,BROTLI_MIN_WINDOW_BITS:10,BROTLI_MAX_WINDOW_BITS:24,BROTLI_LARGE_MAX_WINDOW_BITS:30,BROTLI_DEFAULT_WINDOW:22,BROTLI_MIN_INPUT_BLOCK_BITS:16,BROTLI_MAX_INPUT_BLOCK_BITS:24,BROTLI_PARAM_MODE:0,BROTLI_PARAM_QUALITY:1,BROTLI_PARAM_LGWIN:2,BROTLI_PARAM_LGBLOCK:3,BROTLI_PARAM_DISABLE_LITERAL_CONTEXT_MODELING:4,BROTLI_PARAM_SIZE_HINT:5,BROTLI_PARAM_LARGE_WINDOW:6,BROTLI_PARAM_NPOSTFIX:7,BROTLI_PARAM_NDIRECT:8,BROTLI_DECODER_RESULT_ERROR:0,BROTLI_DECODER_RESULT_SUCCESS:1,BROTLI_DECODER_RESULT_NEEDS_MORE_INPUT:2,BROTLI_DECODER_RESULT_NEEDS_MORE_OUTPUT:3,BROTLI_DECODER_PARAM_DISABLE_RING_BUFFER_REALLOCATION:0,BROTLI_DECODER_PARAM_LARGE_WINDOW:1,BROTLI_DECODER_NO_ERROR:0,BROTLI_DECODER_SUCCESS:1,BROTLI_DECODER_NEEDS_MORE_INPUT:2,BROTLI_DECODER_NEEDS_MORE_OUTPUT:3,BROTLI_DECODER_ERROR_FORMAT_EXUBERANT_NIBBLE:-1,BROTLI_DECODER_ERROR_FORMAT_RESERVED:-2,BROTLI_DECODER_ERROR_FORMAT_EXUBERANT_META_NIBBLE:-3,BROTLI_DECODER_ERROR_FORMAT_SIMPLE_HUFFMAN_ALPHABET:-4,BROTLI_DECODER_ERROR_FORMAT_SIMPLE_HUFFMAN_SAME:-5,BROTLI_DECODER_ERROR_FORMAT_CL_SPACE:-6,BROTLI_DECODER_ERROR_FORMAT_HUFFMAN_SPACE:-7,BROTLI_DECODER_ERROR_FORMAT_CONTEXT_MAP_REPEAT:-8,BROTLI_DECODER_ERROR_FORMAT_BLOCK_LENGTH_1:-9,BROTLI_DECODER_ERROR_FORMAT_BLOCK_LENGTH_2:-10,BROTLI_DECODER_ERROR_FORMAT_TRANSFORM:-11,BROTLI_DECODER_ERROR_FORMAT_DICTIONARY:-12,BROTLI_DECODER_ERROR_FORMAT_WINDOW_BITS:-13,BROTLI_DECODER_ERROR_FORMAT_PADDING_1:-14,BROTLI_DECODER_ERROR_FORMAT_PADDING_2:-15,BROTLI_DECODER_ERROR_FORMAT_DISTANCE:-16,BROTLI_DECODER_ERROR_DICTIONARY_NOT_SET:-19,BROTLI_DECODER_ERROR_INVALID_ARGUMENTS:-20,BROTLI_DECODER_ERROR_ALLOC_CONTEXT_MODES:-21,BROTLI_DECODER_ERROR_ALLOC_TREE_GROUPS:-22,BROTLI_DECODER_ERROR_ALLOC_CONTEXT_MAP:-25,BROTLI_DECODER_ERROR_ALLOC_RING_BUFFER_1:-26,BROTLI_DECODER_ERROR_ALLOC_RING_BUFFER_2:-27,BROTLI_DECODER_ERROR_ALLOC_BLOCK_TYPE_TREES:-30,BROTLI_DECODER_ERROR_UNREACHABLE:-31},dB))});var Ph=E(Ne=>{"use strict";var _h=require("assert"),Zt=require("buffer").Buffer,ky=require("zlib"),qr=Ne.constants=Ly(),pB=Ts(),Ny=Zt.concat,Mr=Symbol("_superWrite"),Ls=class extends Error{constructor(e){super("zlib: "+e.message),this.code=e.code,this.errno=e.errno,this.code||(this.code="ZLIB_ERROR"),this.message="zlib: "+e.message,Error.captureStackTrace(this,this.constructor)}get name(){return"ZlibError"}},mB=Symbol("opts"),rn=Symbol("flushFlag"),Py=Symbol("finishFlushFlag"),Nh=Symbol("fullFlushFlag"),U=Symbol("handle"),Do=Symbol("onError"),Is=Symbol("sawError"),yh=Symbol("level"),bh=Symbol("strategy"),xh=Symbol("ended"),l9=Symbol("_defaultFullFlush"),po=class extends pB{constructor(e,r){if(!e||typeof e!="object")throw new TypeError("invalid options for ZlibBase constructor");super(e),this[Is]=!1,this[xh]=!1,this[mB]=e,this[rn]=e.flush,this[Py]=e.finishFlush;try{this[U]=new ky[r](e)}catch(s){throw new Ls(s)}this[Do]=s=>{this[Is]||(this[Is]=!0,this.close(),this.emit("error",s))},this[U].on("error",s=>this[Do](new Ls(s))),this.once("end",()=>this.close)}close(){this[U]&&(this[U].close(),this[U]=null,this.emit("close"))}reset(){if(!this[Is])return _h(this[U],"zlib binding closed"),this[U].reset()}flush(e){this.ended||(typeof e!="number"&&(e=this[Nh]),this.write(Object.assign(Zt.alloc(0),{[rn]:e})))}end(e,r,s){return e&&this.write(e,r),this.flush(this[Py]),this[xh]=!0,super.end(null,null,s)}get ended(){return this[xh]}write(e,r,s){if(typeof r=="function"&&(s=r,r="utf8"),typeof e=="string"&&(e=Zt.from(e,r)),this[Is])return;_h(this[U],"zlib binding closed");let i=this[U]._handle,n=i.close;i.close=()=>{};let u=this[U].close;this[U].close=()=>{},Zt.concat=c=>c;let o;try{let c=typeof e[rn]=="number"?e[rn]:this[rn];o=this[U]._processChunk(e,c),Zt.concat=Ny}catch(c){Zt.concat=Ny,this[Do](new Ls(c))}finally{this[U]&&(this[U]._handle=i,i.close=n,this[U].close=u,this[U].removeAllListeners("error"))}this[U]&&this[U].on("error",c=>this[Do](new Ls(c)));let a;if(o)if(Array.isArray(o)&&o.length>0){a=this[Mr](Zt.from(o[0]));for(let c=1;c<o.length;c++)a=this[Mr](o[c])}else a=this[Mr](Zt.from(o));return s&&s(),a}[Mr](e){return super.write(e)}},Ot=class extends po{constructor(e,r){e=e||{},e.flush=e.flush||qr.Z_NO_FLUSH,e.finishFlush=e.finishFlush||qr.Z_FINISH,super(e,r),this[Nh]=qr.Z_FULL_FLUSH,this[yh]=e.level,this[bh]=e.strategy}params(e,r){if(!this[Is]){if(!this[U])throw new Error("cannot switch params when binding is closed");if(!this[U].params)throw new Error("not supported in this implementation");if(this[yh]!==e||this[bh]!==r){this.flush(qr.Z_SYNC_FLUSH),_h(this[U],"zlib binding closed");let s=this[U].flush;this[U].flush=(i,n)=>{this.flush(i),n()};try{this[U].params(e,r)}finally{this[U].flush=s}this[U]&&(this[yh]=e,this[bh]=r)}}}},Ah=class extends Ot{constructor(e){super(e,"Deflate")}},Sh=class extends Ot{constructor(e){super(e,"Inflate")}},wh=Symbol("_portable"),vh=class extends Ot{constructor(e){super(e,"Gzip"),this[wh]=e&&!!e.portable}[Mr](e){return this[wh]?(this[wh]=!1,e[9]=255,super[Mr](e)):super[Mr](e)}},Bh=class extends Ot{constructor(e){super(e,"Gunzip")}},Rh=class extends Ot{constructor(e){super(e,"DeflateRaw")}},Oh=class extends Ot{constructor(e){super(e,"InflateRaw")}},Th=class extends Ot{constructor(e){super(e,"Unzip")}},mo=class extends po{constructor(e,r){e=e||{},e.flush=e.flush||qr.BROTLI_OPERATION_PROCESS,e.finishFlush=e.finishFlush||qr.BROTLI_OPERATION_FINISH,super(e,r),this[Nh]=qr.BROTLI_OPERATION_FLUSH}},Ih=class extends mo{constructor(e){super(e,"BrotliCompress")}},Lh=class extends mo{constructor(e){super(e,"BrotliDecompress")}};Ne.Deflate=Ah;Ne.Inflate=Sh;Ne.Gzip=vh;Ne.Gunzip=Bh;Ne.DeflateRaw=Rh;Ne.InflateRaw=Oh;Ne.Unzip=Th;typeof ky.BrotliCompress=="function"?(Ne.BrotliCompress=Ih,Ne.BrotliDecompress=Lh):Ne.BrotliCompress=Ne.BrotliDecompress=class{constructor(){throw new Error("Brotli is not supported in this version of Node.js")}}});var Ns=E((D9,qy)=>{var EB=process.env.TESTING_TAR_FAKE_PLATFORM||process.platform;qy.exports=EB!=="win32"?t=>t:t=>t&&t.replace(/\\/g,"/")});var Eo=E((p9,My)=>{"use strict";var gB=Ts(),kh=Ns(),qh=Symbol("slurp");My.exports=class extends gB{constructor(e,r,s){switch(super(),this.pause(),this.extended=r,this.globalExtended=s,this.header=e,this.startBlockSize=512*Math.ceil(e.size/512),this.blockRemain=this.startBlockSize,this.remain=e.size,this.type=e.type,this.meta=!1,this.ignore=!1,this.type){case"File":case"OldFile":case"Link":case"SymbolicLink":case"CharacterDevice":case"BlockDevice":case"Directory":case"FIFO":case"ContiguousFile":case"GNUDumpDir":break;case"NextFileHasLongLinkpath":case"NextFileHasLongPath":case"OldGnuLongPath":case"GlobalExtendedHeader":case"ExtendedHeader":case"OldExtendedHeader":this.meta=!0;break;default:this.ignore=!0}this.path=kh(e.path),this.mode=e.mode,this.mode&&(this.mode=this.mode&4095),this.uid=e.uid,this.gid=e.gid,this.uname=e.uname,this.gname=e.gname,this.size=e.size,this.mtime=e.mtime,this.atime=e.atime,this.ctime=e.ctime,this.linkpath=kh(e.linkpath),this.uname=e.uname,this.gname=e.gname,r&&this[qh](r),s&&this[qh](s,!0)}write(e){let r=e.length;if(r>this.blockRemain)throw new Error("writing more to entry than is appropriate");let s=this.remain,i=this.blockRemain;return this.remain=Math.max(0,s-r),this.blockRemain=Math.max(0,i-r),this.ignore?!0:s>=r?super.write(e):super.write(e.slice(0,s))}[qh](e,r){for(let s in e)e[s]!==null&&e[s]!==void 0&&!(r&&s==="path")&&(this[s]=s==="path"||s==="linkpath"?kh(e[s]):e[s])}}});var Mh=E(go=>{"use strict";go.name=new Map([["0","File"],["","OldFile"],["1","Link"],["2","SymbolicLink"],["3","CharacterDevice"],["4","BlockDevice"],["5","Directory"],["6","FIFO"],["7","ContiguousFile"],["g","GlobalExtendedHeader"],["x","ExtendedHeader"],["A","SolarisACL"],["D","GNUDumpDir"],["I","Inode"],["K","NextFileHasLongLinkpath"],["L","NextFileHasLongPath"],["M","ContinuationFile"],["N","OldGnuLongPath"],["S","SparseFile"],["V","TapeVolumeHeader"],["X","OldExtendedHeader"]]);go.code=new Map(Array.from(go.name).map(t=>[t[1],t[0]]))});var zy=E((E9,jy)=>{"use strict";var CB=(t,e)=>{if(Number.isSafeInteger(t))t<0?yB(t,e):FB(t,e);else throw Error("cannot encode number outside of javascript safe integer range");return e},FB=(t,e)=>{e[0]=128;for(var r=e.length;r>1;r--)e[r-1]=t&255,t=Math.floor(t/256)},yB=(t,e)=>{e[0]=255;var r=!1;t=t*-1;for(var s=e.length;s>1;s--){var i=t&255;t=Math.floor(t/256),r?e[s-1]=$y(i):i===0?e[s-1]=0:(r=!0,e[s-1]=Uy(i))}},bB=t=>{let e=t[0],r=e===128?wB(t.slice(1,t.length)):e===255?xB(t):null;if(r===null)throw Error("invalid base256 encoding");if(!Number.isSafeInteger(r))throw Error("parsed number outside of javascript safe integer range");return r},xB=t=>{for(var e=t.length,r=0,s=!1,i=e-1;i>-1;i--){var n=t[i],u;s?u=$y(n):n===0?u=n:(s=!0,u=Uy(n)),u!==0&&(r-=u*Math.pow(256,e-i-1))}return r},wB=t=>{for(var e=t.length,r=0,s=e-1;s>-1;s--){var i=t[s];i!==0&&(r+=i*Math.pow(256,e-s-1))}return r},$y=t=>(255^t)&255,Uy=t=>(255^t)+1&255;jy.exports={encode:CB,parse:bB}});var ks=E((g9,Gy)=>{"use strict";var $h=Mh(),Ps=require("path").posix,Hy=zy(),Uh=Symbol("slurp"),Pe=Symbol("type"),Hh=class{constructor(e,r,s,i){this.cksumValid=!1,this.needPax=!1,this.nullBlock=!1,this.block=null,this.path=null,this.mode=null,this.uid=null,this.gid=null,this.size=null,this.mtime=null,this.cksum=null,this[Pe]="0",this.linkpath=null,this.uname=null,this.gname=null,this.devmaj=0,this.devmin=0,this.atime=null,this.ctime=null,Buffer.isBuffer(e)?this.decode(e,r||0,s,i):e&&this.set(e)}decode(e,r,s,i){if(r||(r=0),!e||!(e.length>=r+512))throw new Error("need 512 bytes for header");if(this.path=$r(e,r,100),this.mode=Jt(e,r+100,8),this.uid=Jt(e,r+108,8),this.gid=Jt(e,r+116,8),this.size=Jt(e,r+124,12),this.mtime=jh(e,r+136,12),this.cksum=Jt(e,r+148,12),this[Uh](s),this[Uh](i,!0),this[Pe]=$r(e,r+156,1),this[Pe]===""&&(this[Pe]="0"),this[Pe]==="0"&&this.path.substr(-1)==="/"&&(this[Pe]="5"),this[Pe]==="5"&&(this.size=0),this.linkpath=$r(e,r+157,100),e.slice(r+257,r+265).toString()==="ustar\x0000")if(this.uname=$r(e,r+265,32),this.gname=$r(e,r+297,32),this.devmaj=Jt(e,r+329,8),this.devmin=Jt(e,r+337,8),e[r+475]!==0){let u=$r(e,r+345,155);this.path=u+"/"+this.path}else{let u=$r(e,r+345,130);u&&(this.path=u+"/"+this.path),this.atime=jh(e,r+476,12),this.ctime=jh(e,r+488,12)}let n=8*32;for(let u=r;u<r+148;u++)n+=e[u];for(let u=r+156;u<r+512;u++)n+=e[u];this.cksumValid=n===this.cksum,this.cksum===null&&n===8*32&&(this.nullBlock=!0)}[Uh](e,r){for(let s in e)e[s]!==null&&e[s]!==void 0&&!(r&&s==="path")&&(this[s]=e[s])}encode(e,r){if(e||(e=this.block=Buffer.alloc(512),r=0),r||(r=0),!(e.length>=r+512))throw new Error("need 512 bytes for header");let s=this.ctime||this.atime?130:155,i=_B(this.path||"",s),n=i[0],u=i[1];this.needPax=i[2],this.needPax=Ur(e,r,100,n)||this.needPax,this.needPax=Qt(e,r+100,8,this.mode)||this.needPax,this.needPax=Qt(e,r+108,8,this.uid)||this.needPax,this.needPax=Qt(e,r+116,8,this.gid)||this.needPax,this.needPax=Qt(e,r+124,12,this.size)||this.needPax,this.needPax=zh(e,r+136,12,this.mtime)||this.needPax,e[r+156]=this[Pe].charCodeAt(0),this.needPax=Ur(e,r+157,100,this.linkpath)||this.needPax,e.write("ustar\x0000",r+257,8),this.needPax=Ur(e,r+265,32,this.uname)||this.needPax,this.needPax=Ur(e,r+297,32,this.gname)||this.needPax,this.needPax=Qt(e,r+329,8,this.devmaj)||this.needPax,this.needPax=Qt(e,r+337,8,this.devmin)||this.needPax,this.needPax=Ur(e,r+345,s,u)||this.needPax,e[r+475]!==0?this.needPax=Ur(e,r+345,155,u)||this.needPax:(this.needPax=Ur(e,r+345,130,u)||this.needPax,this.needPax=zh(e,r+476,12,this.atime)||this.needPax,this.needPax=zh(e,r+488,12,this.ctime)||this.needPax);let o=8*32;for(let a=r;a<r+148;a++)o+=e[a];for(let a=r+156;a<r+512;a++)o+=e[a];return this.cksum=o,Qt(e,r+148,8,this.cksum),this.cksumValid=!0,this.needPax}set(e){for(let r in e)e[r]!==null&&e[r]!==void 0&&(this[r]=e[r])}get type(){return $h.name.get(this[Pe])||this[Pe]}get typeKey(){return this[Pe]}set type(e){$h.code.has(e)?this[Pe]=$h.code.get(e):this[Pe]=e}},_B=(t,e)=>{let s=t,i="",n,u=Ps.parse(t).root||".";if(Buffer.byteLength(s)<100)n=[s,i,!1];else{i=Ps.dirname(s),s=Ps.basename(s);do Buffer.byteLength(s)<=100&&Buffer.byteLength(i)<=e?n=[s,i,!1]:Buffer.byteLength(s)>100&&Buffer.byteLength(i)<=e?n=[s.substr(0,100-1),i,!0]:(s=Ps.join(Ps.basename(i),s),i=Ps.dirname(i));while(i!==u&&!n);n||(n=[t.substr(0,100-1),"",!0])}return n},$r=(t,e,r)=>t.slice(e,e+r).toString("utf8").replace(/\0.*/,""),jh=(t,e,r)=>AB(Jt(t,e,r)),AB=t=>t===null?null:new Date(t*1e3),Jt=(t,e,r)=>t[e]&128?Hy.parse(t.slice(e,e+r)):vB(t,e,r),SB=t=>isNaN(t)?null:t,vB=(t,e,r)=>SB(parseInt(t.slice(e,e+r).toString("utf8").replace(/\0.*$/,"").trim(),8)),BB={12:8589934591,8:2097151},Qt=(t,e,r,s)=>s===null?!1:s>BB[r]||s<0?(Hy.encode(s,t.slice(e,e+r)),!0):(RB(t,e,r,s),!1),RB=(t,e,r,s)=>t.write(OB(s,r),e,r,"ascii"),OB=(t,e)=>TB(Math.floor(t).toString(8),e),TB=(t,e)=>(t.length===e-1?t:new Array(e-t.length-1).join("0")+t+" ")+"\0",zh=(t,e,r,s)=>s===null?!1:Qt(t,e,r,s.getTime()/1e3),IB=new Array(156).join("\0"),Ur=(t,e,r,s)=>s===null?!1:(t.write(s+IB,e,r,"utf8"),s.length!==Buffer.byteLength(s)||s.length>r);Gy.exports=Hh});var Co=E((C9,Wy)=>{"use strict";var LB=ks(),NB=require("path"),sn=class{constructor(e,r){this.atime=e.atime||null,this.charset=e.charset||null,this.comment=e.comment||null,this.ctime=e.ctime||null,this.gid=e.gid||null,this.gname=e.gname||null,this.linkpath=e.linkpath||null,this.mtime=e.mtime||null,this.path=e.path||null,this.size=e.size||null,this.uid=e.uid||null,this.uname=e.uname||null,this.dev=e.dev||null,this.ino=e.ino||null,this.nlink=e.nlink||null,this.global=r||!1}encode(){let e=this.encodeBody();if(e==="")return null;let r=Buffer.byteLength(e),s=512*Math.ceil(1+r/512),i=Buffer.allocUnsafe(s);for(let n=0;n<512;n++)i[n]=0;new LB({path:("PaxHeader/"+NB.basename(this.path)).slice(0,99),mode:this.mode||420,uid:this.uid||null,gid:this.gid||null,size:r,mtime:this.mtime||null,type:this.global?"GlobalExtendedHeader":"ExtendedHeader",linkpath:"",uname:this.uname||"",gname:this.gname||"",devmaj:0,devmin:0,atime:this.atime||null,ctime:this.ctime||null}).encode(i),i.write(e,512,r,"utf8");for(let n=r+512;n<i.length;n++)i[n]=0;return i}encodeBody(){return this.encodeField("path")+this.encodeField("ctime")+this.encodeField("atime")+this.encodeField("dev")+this.encodeField("ino")+this.encodeField("nlink")+this.encodeField("charset")+this.encodeField("comment")+this.encodeField("gid")+this.encodeField("gname")+this.encodeField("linkpath")+this.encodeField("mtime")+this.encodeField("size")+this.encodeField("uid")+this.encodeField("uname")}encodeField(e){if(this[e]===null||this[e]===void 0)return"";let r=this[e]instanceof Date?this[e].getTime()/1e3:this[e],s=" "+(e==="dev"||e==="ino"||e==="nlink"?"SCHILY.":"")+e+"="+r+`
-`,i=Buffer.byteLength(s),n=Math.floor(Math.log(i)/Math.log(10))+1;return i+n>=Math.pow(10,n)&&(n+=1),n+i+s}};sn.parse=(t,e,r)=>new sn(PB(kB(t),e),r);var PB=(t,e)=>e?Object.keys(t).reduce((r,s)=>(r[s]=t[s],r),e):t,kB=t=>t.replace(/\n$/,"").split(`
-`).reduce(qB,Object.create(null)),qB=(t,e)=>{let r=parseInt(e,10);if(r!==Buffer.byteLength(e)+1)return t;e=e.substr((r+" ").length);let s=e.split("="),i=s.shift().replace(/^SCHILY\.(dev|ino|nlink)/,"$1");if(!i)return t;let n=s.join("=");return t[i]=/^([A-Z]+\.)?([mac]|birth|creation)time$/.test(i)?new Date(n*1e3):/^[0-9]+$/.test(n)?+n:n,t};Wy.exports=sn});var qs=E((F9,Vy)=>{Vy.exports=t=>{let e=t.length-1,r=-1;for(;e>-1&&t.charAt(e)==="/";)r=e,e--;return r===-1?t:t.slice(0,r)}});var Fo=E((y9,Yy)=>{"use strict";Yy.exports=t=>class extends t{warn(e,r,s={}){this.file&&(s.file=this.file),this.cwd&&(s.cwd=this.cwd),s.code=r instanceof Error&&r.code||e,s.tarCode=e,!this.strict&&s.recoverable!==!1?(r instanceof Error&&(s=Object.assign(r,s),r=r.message),this.emit("warn",s.tarCode,r,s)):r instanceof Error?this.emit("error",Object.assign(r,s)):this.emit("error",Object.assign(new Error(`${e}: ${r}`),s))}}});var Wh=E((x9,Ky)=>{"use strict";var yo=["|","<",">","?",":"],Gh=yo.map(t=>String.fromCharCode(61440+t.charCodeAt(0))),MB=new Map(yo.map((t,e)=>[t,Gh[e]])),$B=new Map(Gh.map((t,e)=>[t,yo[e]]));Ky.exports={encode:t=>yo.reduce((e,r)=>e.split(r).join(MB.get(r)),t),decode:t=>Gh.reduce((e,r)=>e.split(r).join($B.get(r)),t)}});var Vh=E((w9,Zy)=>{var{isAbsolute:UB,parse:Xy}=require("path").win32;Zy.exports=t=>{let e="",r=Xy(t);for(;UB(t)||r.root;){let s=t.charAt(0)==="/"&&t.slice(0,4)!=="//?/"?"/":r.root;t=t.substr(s.length),e+=s,r=Xy(t)}return[e,t]}});var Qy=E((_9,Jy)=>{"use strict";Jy.exports=(t,e,r)=>(t&=4095,r&&(t=(t|384)&-19),e&&(t&256&&(t|=64),t&32&&(t|=8),t&4&&(t|=1)),t)});var sf=E((v9,D2)=>{"use strict";var u2=Ts(),o2=Co(),a2=ks(),lt=require("fs"),e2=require("path"),ct=Ns(),jB=qs(),c2=(t,e)=>e?(t=ct(t).replace(/^\.(\/|$)/,""),jB(e)+"/"+t):ct(t),zB=16*1024*1024,t2=Symbol("process"),r2=Symbol("file"),s2=Symbol("directory"),Kh=Symbol("symlink"),i2=Symbol("hardlink"),nn=Symbol("header"),bo=Symbol("read"),Xh=Symbol("lstat"),xo=Symbol("onlstat"),Zh=Symbol("onread"),Jh=Symbol("onreadlink"),Qh=Symbol("openfile"),ef=Symbol("onopenfile"),er=Symbol("close"),wo=Symbol("mode"),tf=Symbol("awaitDrain"),Yh=Symbol("ondrain"),ht=Symbol("prefix"),n2=Symbol("hadError"),l2=Fo(),HB=Wh(),h2=Vh(),f2=Qy(),_o=l2(class extends u2{constructor(e,r){if(r=r||{},super(r),typeof e!="string")throw new TypeError("path is required");this.path=ct(e),this.portable=!!r.portable,this.myuid=process.getuid&&process.getuid()||0,this.myuser=process.env.USER||"",this.maxReadSize=r.maxReadSize||zB,this.linkCache=r.linkCache||new Map,this.statCache=r.statCache||new Map,this.preservePaths=!!r.preservePaths,this.cwd=ct(r.cwd||process.cwd()),this.strict=!!r.strict,this.noPax=!!r.noPax,this.noMtime=!!r.noMtime,this.mtime=r.mtime||null,this.prefix=r.prefix?ct(r.prefix):null,this.fd=null,this.blockLen=null,this.blockRemain=null,this.buf=null,this.offset=null,this.length=null,this.pos=null,this.remain=null,typeof r.onwarn=="function"&&this.on("warn",r.onwarn);let s=!1;if(!this.preservePaths){let[i,n]=h2(this.path);i&&(this.path=n,s=i)}this.win32=!!r.win32||process.platform==="win32",this.win32&&(this.path=HB.decode(this.path.replace(/\\/g,"/")),e=e.replace(/\\/g,"/")),this.absolute=ct(r.absolute||e2.resolve(this.cwd,e)),this.path===""&&(this.path="./"),s&&this.warn("TAR_ENTRY_INFO",`stripping ${s} from absolute path`,{entry:this,path:s+this.path}),this.statCache.has(this.absolute)?this[xo](this.statCache.get(this.absolute)):this[Xh]()}emit(e,...r){return e==="error"&&(this[n2]=!0),super.emit(e,...r)}[Xh](){lt.lstat(this.absolute,(e,r)=>{if(e)return this.emit("error",e);this[xo](r)})}[xo](e){this.statCache.set(this.absolute,e),this.stat=e,e.isFile()||(e.size=0),this.type=WB(e),this.emit("stat",e),this[t2]()}[t2](){switch(this.type){case"File":return this[r2]();case"Directory":return this[s2]();case"SymbolicLink":return this[Kh]();default:return this.end()}}[wo](e){return f2(e,this.type==="Directory",this.portable)}[ht](e){return c2(e,this.prefix)}[nn](){this.type==="Directory"&&this.portable&&(this.noMtime=!0),this.header=new a2({path:this[ht](this.path),linkpath:this.type==="Link"?this[ht](this.linkpath):this.linkpath,mode:this[wo](this.stat.mode),uid:this.portable?null:this.stat.uid,gid:this.portable?null:this.stat.gid,size:this.stat.size,mtime:this.noMtime?null:this.mtime||this.stat.mtime,type:this.type,uname:this.portable?null:this.stat.uid===this.myuid?this.myuser:"",atime:this.portable?null:this.stat.atime,ctime:this.portable?null:this.stat.ctime}),this.header.encode()&&!this.noPax&&super.write(new o2({atime:this.portable?null:this.header.atime,ctime:this.portable?null:this.header.ctime,gid:this.portable?null:this.header.gid,mtime:this.noMtime?null:this.mtime||this.header.mtime,path:this[ht](this.path),linkpath:this.type==="Link"?this[ht](this.linkpath):this.linkpath,size:this.header.size,uid:this.portable?null:this.header.uid,uname:this.portable?null:this.header.uname,dev:this.portable?null:this.stat.dev,ino:this.portable?null:this.stat.ino,nlink:this.portable?null:this.stat.nlink}).encode()),super.write(this.header.block)}[s2](){this.path.substr(-1)!=="/"&&(this.path+="/"),this.stat.size=0,this[nn](),this.end()}[Kh](){lt.readlink(this.absolute,(e,r)=>{if(e)return this.emit("error",e);this[Jh](r)})}[Jh](e){this.linkpath=ct(e),this[nn](),this.end()}[i2](e){this.type="Link",this.linkpath=ct(e2.relative(this.cwd,e)),this.stat.size=0,this[nn](),this.end()}[r2](){if(this.stat.nlink>1){let e=this.stat.dev+":"+this.stat.ino;if(this.linkCache.has(e)){let r=this.linkCache.get(e);if(r.indexOf(this.cwd)===0)return this[i2](r)}this.linkCache.set(e,this.absolute)}if(this[nn](),this.stat.size===0)return this.end();this[Qh]()}[Qh](){lt.open(this.absolute,"r",(e,r)=>{if(e)return this.emit("error",e);this[ef](r)})}[ef](e){if(this.fd=e,this[n2])return this[er]();this.blockLen=512*Math.ceil(this.stat.size/512),this.blockRemain=this.blockLen;let r=Math.min(this.blockLen,this.maxReadSize);this.buf=Buffer.allocUnsafe(r),this.offset=0,this.pos=0,this.remain=this.stat.size,this.length=this.buf.length,this[bo]()}[bo](){let{fd:e,buf:r,offset:s,length:i,pos:n}=this;lt.read(e,r,s,i,n,(u,o)=>{if(u)return this[er](()=>this.emit("error",u));this[Zh](o)})}[er](e){lt.close(this.fd,e)}[Zh](e){if(e<=0&&this.remain>0){let i=new Error("encountered unexpected EOF");return i.path=this.absolute,i.syscall="read",i.code="EOF",this[er](()=>this.emit("error",i))}if(e>this.remain){let i=new Error("did not encounter expected EOF");return i.path=this.absolute,i.syscall="read",i.code="EOF",this[er](()=>this.emit("error",i))}if(e===this.remain)for(let i=e;i<this.length&&e<this.blockRemain;i++)this.buf[i+this.offset]=0,e++,this.remain++;let r=this.offset===0&&e===this.buf.length?this.buf:this.buf.slice(this.offset,this.offset+e);this.write(r)?this[Yh]():this[tf](()=>this[Yh]())}[tf](e){this.once("drain",e)}write(e){if(this.blockRemain<e.length){let r=new Error("writing more data than expected");return r.path=this.absolute,this.emit("error",r)}return this.remain-=e.length,this.blockRemain-=e.length,this.pos+=e.length,this.offset+=e.length,super.write(e)}[Yh](){if(!this.remain)return this.blockRemain&&super.write(Buffer.alloc(this.blockRemain)),this[er](e=>e?this.emit("error",e):this.end());this.offset>=this.length&&(this.buf=Buffer.allocUnsafe(Math.min(this.blockRemain,this.buf.length)),this.offset=0),this.length=this.buf.length-this.offset,this[bo]()}}),rf=class extends _o{[Xh](){this[xo](lt.lstatSync(this.absolute))}[Kh](){this[Jh](lt.readlinkSync(this.absolute))}[Qh](){this[ef](lt.openSync(this.absolute,"r"))}[bo](){let e=!0;try{let{fd:r,buf:s,offset:i,length:n,pos:u}=this,o=lt.readSync(r,s,i,n,u);this[Zh](o),e=!1}finally{if(e)try{this[er](()=>{})}catch{}}}[tf](e){e()}[er](e){lt.closeSync(this.fd),e()}},GB=l2(class extends u2{constructor(e,r){r=r||{},super(r),this.preservePaths=!!r.preservePaths,this.portable=!!r.portable,this.strict=!!r.strict,this.noPax=!!r.noPax,this.noMtime=!!r.noMtime,this.readEntry=e,this.type=e.type,this.type==="Directory"&&this.portable&&(this.noMtime=!0),this.prefix=r.prefix||null,this.path=ct(e.path),this.mode=this[wo](e.mode),this.uid=this.portable?null:e.uid,this.gid=this.portable?null:e.gid,this.uname=this.portable?null:e.uname,this.gname=this.portable?null:e.gname,this.size=e.size,this.mtime=this.noMtime?null:r.mtime||e.mtime,this.atime=this.portable?null:e.atime,this.ctime=this.portable?null:e.ctime,this.linkpath=ct(e.linkpath),typeof r.onwarn=="function"&&this.on("warn",r.onwarn);let s=!1;if(!this.preservePaths){let[i,n]=h2(this.path);i&&(this.path=n,s=i)}this.remain=e.size,this.blockRemain=e.startBlockSize,this.header=new a2({path:this[ht](this.path),linkpath:this.type==="Link"?this[ht](this.linkpath):this.linkpath,mode:this.mode,uid:this.portable?null:this.uid,gid:this.portable?null:this.gid,size:this.size,mtime:this.noMtime?null:this.mtime,type:this.type,uname:this.portable?null:this.uname,atime:this.portable?null:this.atime,ctime:this.portable?null:this.ctime}),s&&this.warn("TAR_ENTRY_INFO",`stripping ${s} from absolute path`,{entry:this,path:s+this.path}),this.header.encode()&&!this.noPax&&super.write(new o2({atime:this.portable?null:this.atime,ctime:this.portable?null:this.ctime,gid:this.portable?null:this.gid,mtime:this.noMtime?null:this.mtime,path:this[ht](this.path),linkpath:this.type==="Link"?this[ht](this.linkpath):this.linkpath,size:this.size,uid:this.portable?null:this.uid,uname:this.portable?null:this.uname,dev:this.portable?null:this.readEntry.dev,ino:this.portable?null:this.readEntry.ino,nlink:this.portable?null:this.readEntry.nlink}).encode()),super.write(this.header.block),e.pipe(this)}[ht](e){return c2(e,this.prefix)}[wo](e){return f2(e,this.type==="Directory",this.portable)}write(e){let r=e.length;if(r>this.blockRemain)throw new Error("writing more to entry than is appropriate");return this.blockRemain-=r,super.write(e)}end(){return this.blockRemain&&super.write(Buffer.alloc(this.blockRemain)),super.end()}});_o.Sync=rf;_o.Tar=GB;var WB=t=>t.isFile()?"File":t.isDirectory()?"Directory":t.isSymbolicLink()?"SymbolicLink":"Unsupported";D2.exports=_o});var Lo=E((R9,F2)=>{"use strict";var To=class{constructor(e,r){this.path=e||"./",this.absolute=r,this.entry=null,this.stat=null,this.readdir=null,this.pending=!1,this.ignore=!1,this.piped=!1}},VB=Ts(),YB=Ph(),KB=Eo(),Df=sf(),XB=Df.Sync,ZB=Df.Tar,JB=jn(),d2=Buffer.alloc(1024),vo=Symbol("onStat"),Ao=Symbol("ended"),ft=Symbol("queue"),Ms=Symbol("current"),jr=Symbol("process"),So=Symbol("processing"),p2=Symbol("processJob"),Dt=Symbol("jobs"),nf=Symbol("jobDone"),Bo=Symbol("addFSEntry"),m2=Symbol("addTarEntry"),cf=Symbol("stat"),lf=Symbol("readdir"),Ro=Symbol("onreaddir"),Oo=Symbol("pipe"),E2=Symbol("entry"),uf=Symbol("entryOpt"),hf=Symbol("writeEntryClass"),C2=Symbol("write"),of=Symbol("ondrain"),Io=require("fs"),g2=require("path"),QB=Fo(),af=Ns(),df=QB(class extends VB{constructor(e){super(e),e=e||Object.create(null),this.opt=e,this.file=e.file||"",this.cwd=e.cwd||process.cwd(),this.maxReadSize=e.maxReadSize,this.preservePaths=!!e.preservePaths,this.strict=!!e.strict,this.noPax=!!e.noPax,this.prefix=af(e.prefix||""),this.linkCache=e.linkCache||new Map,this.statCache=e.statCache||new Map,this.readdirCache=e.readdirCache||new Map,this[hf]=Df,typeof e.onwarn=="function"&&this.on("warn",e.onwarn),this.portable=!!e.portable,this.zip=null,e.gzip?(typeof e.gzip!="object"&&(e.gzip={}),this.portable&&(e.gzip.portable=!0),this.zip=new YB.Gzip(e.gzip),this.zip.on("data",r=>super.write(r)),this.zip.on("end",r=>super.end()),this.zip.on("drain",r=>this[of]()),this.on("resume",r=>this.zip.resume())):this.on("drain",this[of]),this.noDirRecurse=!!e.noDirRecurse,this.follow=!!e.follow,this.noMtime=!!e.noMtime,this.mtime=e.mtime||null,this.filter=typeof e.filter=="function"?e.filter:r=>!0,this[ft]=new JB,this[Dt]=0,this.jobs=+e.jobs||4,this[So]=!1,this[Ao]=!1}[C2](e){return super.write(e)}add(e){return this.write(e),this}end(e){return e&&this.write(e),this[Ao]=!0,this[jr](),this}write(e){if(this[Ao])throw new Error("write after end");return e instanceof KB?this[m2](e):this[Bo](e),this.flowing}[m2](e){let r=af(g2.resolve(this.cwd,e.path));if(!this.filter(e.path,e))e.resume();else{let s=new To(e.path,r,!1);s.entry=new ZB(e,this[uf](s)),s.entry.on("end",i=>this[nf](s)),this[Dt]+=1,this[ft].push(s)}this[jr]()}[Bo](e){let r=af(g2.resolve(this.cwd,e));this[ft].push(new To(e,r)),this[jr]()}[cf](e){e.pending=!0,this[Dt]+=1;let r=this.follow?"stat":"lstat";Io[r](e.absolute,(s,i)=>{e.pending=!1,this[Dt]-=1,s?this.emit("error",s):this[vo](e,i)})}[vo](e,r){this.statCache.set(e.absolute,r),e.stat=r,this.filter(e.path,r)||(e.ignore=!0),this[jr]()}[lf](e){e.pending=!0,this[Dt]+=1,Io.readdir(e.absolute,(r,s)=>{if(e.pending=!1,this[Dt]-=1,r)return this.emit("error",r);this[Ro](e,s)})}[Ro](e,r){this.readdirCache.set(e.absolute,r),e.readdir=r,this[jr]()}[jr](){if(!this[So]){this[So]=!0;for(let e=this[ft].head;e!==null&&this[Dt]<this.jobs;e=e.next)if(this[p2](e.value),e.value.ignore){let r=e.next;this[ft].removeNode(e),e.next=r}this[So]=!1,this[Ao]&&!this[ft].length&&this[Dt]===0&&(this.zip?this.zip.end(d2):(super.write(d2),super.end()))}}get[Ms](){return this[ft]&&this[ft].head&&this[ft].head.value}[nf](e){this[ft].shift(),this[Dt]-=1,this[jr]()}[p2](e){if(!e.pending){if(e.entry){e===this[Ms]&&!e.piped&&this[Oo](e);return}if(e.stat||(this.statCache.has(e.absolute)?this[vo](e,this.statCache.get(e.absolute)):this[cf](e)),!!e.stat&&!e.ignore&&!(!this.noDirRecurse&&e.stat.isDirectory()&&!e.readdir&&(this.readdirCache.has(e.absolute)?this[Ro](e,this.readdirCache.get(e.absolute)):this[lf](e),!e.readdir))){if(e.entry=this[E2](e),!e.entry){e.ignore=!0;return}e===this[Ms]&&!e.piped&&this[Oo](e)}}}[uf](e){return{onwarn:(r,s,i)=>this.warn(r,s,i),noPax:this.noPax,cwd:this.cwd,absolute:e.absolute,preservePaths:this.preservePaths,maxReadSize:this.maxReadSize,strict:this.strict,portable:this.portable,linkCache:this.linkCache,statCache:this.statCache,noMtime:this.noMtime,mtime:this.mtime,prefix:this.prefix}}[E2](e){this[Dt]+=1;try{return new this[hf](e.path,this[uf](e)).on("end",()=>this[nf](e)).on("error",r=>this.emit("error",r))}catch(r){this.emit("error",r)}}[of](){this[Ms]&&this[Ms].entry&&this[Ms].entry.resume()}[Oo](e){e.piped=!0,e.readdir&&e.readdir.forEach(i=>{let n=e.path,u=n==="./"?"":n.replace(/\/*$/,"/");this[Bo](u+i)});let r=e.entry,s=this.zip;s?r.on("data",i=>{s.write(i)||r.pause()}):r.on("data",i=>{super.write(i)||r.pause()})}pause(){return this.zip&&this.zip.pause(),super.pause()}}),ff=class extends df{constructor(e){super(e),this[hf]=XB}pause(){}resume(){}[cf](e){let r=this.follow?"statSync":"lstatSync";this[vo](e,Io[r](e.absolute))}[lf](e,r){this[Ro](e,Io.readdirSync(e.absolute))}[Oo](e){let r=e.entry,s=this.zip;e.readdir&&e.readdir.forEach(i=>{let n=e.path,u=n==="./"?"":n.replace(/\/*$/,"/");this[Bo](u+i)}),s?r.on("data",i=>{s.write(i)}):r.on("data",i=>{super[C2](i)})}};df.Sync=ff;F2.exports=df});var Vs=E(on=>{"use strict";var eR=Ts(),tR=require("events").EventEmitter,Re=require("fs"),Ef=Re.writev;if(!Ef){let t=process.binding("fs"),e=t.FSReqWrap||t.FSReqCallback;Ef=(r,s,i,n)=>{let u=(a,c)=>n(a,c,s),o=new e;o.oncomplete=u,t.writeBuffers(r,s,i,o)}}var Gs=Symbol("_autoClose"),rt=Symbol("_close"),un=Symbol("_ended"),k=Symbol("_fd"),y2=Symbol("_finished"),rr=Symbol("_flags"),pf=Symbol("_flush"),gf=Symbol("_handleChunk"),Cf=Symbol("_makeBuf"),Mo=Symbol("_mode"),No=Symbol("_needDrain"),zs=Symbol("_onerror"),Ws=Symbol("_onopen"),mf=Symbol("_onread"),Us=Symbol("_onwrite"),sr=Symbol("_open"),Tt=Symbol("_path"),zr=Symbol("_pos"),dt=Symbol("_queue"),js=Symbol("_read"),b2=Symbol("_readSize"),tr=Symbol("_reading"),Po=Symbol("_remain"),x2=Symbol("_size"),ko=Symbol("_write"),$s=Symbol("_writing"),qo=Symbol("_defaultFlag"),Hs=Symbol("_errored"),$o=class extends eR{constructor(e,r){if(r=r||{},super(r),this.readable=!0,this.writable=!1,typeof e!="string")throw new TypeError("path must be a string");this[Hs]=!1,this[k]=typeof r.fd=="number"?r.fd:null,this[Tt]=e,this[b2]=r.readSize||16*1024*1024,this[tr]=!1,this[x2]=typeof r.size=="number"?r.size:1/0,this[Po]=this[x2],this[Gs]=typeof r.autoClose=="boolean"?r.autoClose:!0,typeof this[k]=="number"?this[js]():this[sr]()}get fd(){return this[k]}get path(){return this[Tt]}write(){throw new TypeError("this is a readable stream")}end(){throw new TypeError("this is a readable stream")}[sr](){Re.open(this[Tt],"r",(e,r)=>this[Ws](e,r))}[Ws](e,r){e?this[zs](e):(this[k]=r,this.emit("open",r),this[js]())}[Cf](){return Buffer.allocUnsafe(Math.min(this[b2],this[Po]))}[js](){if(!this[tr]){this[tr]=!0;let e=this[Cf]();if(e.length===0)return process.nextTick(()=>this[mf](null,0,e));Re.read(this[k],e,0,e.length,null,(r,s,i)=>this[mf](r,s,i))}}[mf](e,r,s){this[tr]=!1,e?this[zs](e):this[gf](r,s)&&this[js]()}[rt](){if(this[Gs]&&typeof this[k]=="number"){let e=this[k];this[k]=null,Re.close(e,r=>r?this.emit("error",r):this.emit("close"))}}[zs](e){this[tr]=!0,this[rt](),this.emit("error",e)}[gf](e,r){let s=!1;return this[Po]-=e,e>0&&(s=super.write(e<r.length?r.slice(0,e):r)),(e===0||this[Po]<=0)&&(s=!1,this[rt](),super.end()),s}emit(e,r){switch(e){case"prefinish":case"finish":break;case"drain":typeof this[k]=="number"&&this[js]();break;case"error":return this[Hs]?void 0:(this[Hs]=!0,super.emit(e,r));default:return super.emit(e,r)}}},Ff=class extends $o{[sr](){let e=!0;try{this[Ws](null,Re.openSync(this[Tt],"r")),e=!1}finally{e&&this[rt]()}}[js](){let e=!0;try{if(!this[tr]){this[tr]=!0;do{let r=this[Cf](),s=r.length===0?0:Re.readSync(this[k],r,0,r.length,null);if(!this[gf](s,r))break}while(!0);this[tr]=!1}e=!1}finally{e&&this[rt]()}}[rt](){if(this[Gs]&&typeof this[k]=="number"){let e=this[k];this[k]=null,Re.closeSync(e),this.emit("close")}}},Uo=class extends tR{constructor(e,r){r=r||{},super(r),this.readable=!1,this.writable=!0,this[Hs]=!1,this[$s]=!1,this[un]=!1,this[No]=!1,this[dt]=[],this[Tt]=e,this[k]=typeof r.fd=="number"?r.fd:null,this[Mo]=r.mode===void 0?438:r.mode,this[zr]=typeof r.start=="number"?r.start:null,this[Gs]=typeof r.autoClose=="boolean"?r.autoClose:!0;let s=this[zr]!==null?"r+":"w";this[qo]=r.flags===void 0,this[rr]=this[qo]?s:r.flags,this[k]===null&&this[sr]()}emit(e,r){if(e==="error"){if(this[Hs])return;this[Hs]=!0}return super.emit(e,r)}get fd(){return this[k]}get path(){return this[Tt]}[zs](e){this[rt](),this[$s]=!0,this.emit("error",e)}[sr](){Re.open(this[Tt],this[rr],this[Mo],(e,r)=>this[Ws](e,r))}[Ws](e,r){this[qo]&&this[rr]==="r+"&&e&&e.code==="ENOENT"?(this[rr]="w",this[sr]()):e?this[zs](e):(this[k]=r,this.emit("open",r),this[pf]())}end(e,r){return e&&this.write(e,r),this[un]=!0,!this[$s]&&!this[dt].length&&typeof this[k]=="number"&&this[Us](null,0),this}write(e,r){return typeof e=="string"&&(e=Buffer.from(e,r)),this[un]?(this.emit("error",new Error("write() after end()")),!1):this[k]===null||this[$s]||this[dt].length?(this[dt].push(e),this[No]=!0,!1):(this[$s]=!0,this[ko](e),!0)}[ko](e){Re.write(this[k],e,0,e.length,this[zr],(r,s)=>this[Us](r,s))}[Us](e,r){e?this[zs](e):(this[zr]!==null&&(this[zr]+=r),this[dt].length?this[pf]():(this[$s]=!1,this[un]&&!this[y2]?(this[y2]=!0,this[rt](),this.emit("finish")):this[No]&&(this[No]=!1,this.emit("drain"))))}[pf](){if(this[dt].length===0)this[un]&&this[Us](null,0);else if(this[dt].length===1)this[ko](this[dt].pop());else{let e=this[dt];this[dt]=[],Ef(this[k],e,this[zr],(r,s)=>this[Us](r,s))}}[rt](){if(this[Gs]&&typeof this[k]=="number"){let e=this[k];this[k]=null,Re.close(e,r=>r?this.emit("error",r):this.emit("close"))}}},yf=class extends Uo{[sr](){let e;if(this[qo]&&this[rr]==="r+")try{e=Re.openSync(this[Tt],this[rr],this[Mo])}catch(r){if(r.code==="ENOENT")return this[rr]="w",this[sr]();throw r}else e=Re.openSync(this[Tt],this[rr],this[Mo]);this[Ws](null,e)}[rt](){if(this[Gs]&&typeof this[k]=="number"){let e=this[k];this[k]=null,Re.closeSync(e),this.emit("close")}}[ko](e){let r=!0;try{this[Us](null,Re.writeSync(this[k],e,0,e.length,this[zr])),r=!1}finally{if(r)try{this[rt]()}catch{}}}};on.ReadStream=$o;on.ReadStreamSync=Ff;on.WriteStream=Uo;on.WriteStreamSync=yf});var Yo=E((I9,R2)=>{"use strict";var rR=Fo(),sR=ks(),iR=require("events"),nR=jn(),uR=1024*1024,oR=Eo(),w2=Co(),aR=Ph(),bf=Buffer.from([31,139]),Ge=Symbol("state"),Hr=Symbol("writeEntry"),It=Symbol("readEntry"),xf=Symbol("nextEntry"),_2=Symbol("processEntry"),We=Symbol("extendedHeader"),an=Symbol("globalExtendedHeader"),ir=Symbol("meta"),A2=Symbol("emitMeta"),z=Symbol("buffer"),Lt=Symbol("queue"),Gr=Symbol("ended"),S2=Symbol("emittedEnd"),Wr=Symbol("emit"),Oe=Symbol("unzip"),jo=Symbol("consumeChunk"),zo=Symbol("consumeChunkSub"),wf=Symbol("consumeBody"),v2=Symbol("consumeMeta"),B2=Symbol("consumeHeader"),Ho=Symbol("consuming"),_f=Symbol("bufferConcat"),Af=Symbol("maybeEnd"),cn=Symbol("writing"),nr=Symbol("aborted"),Go=Symbol("onDone"),Vr=Symbol("sawValidEntry"),Wo=Symbol("sawNullBlock"),Vo=Symbol("sawEOF"),cR=t=>!0;R2.exports=rR(class extends iR{constructor(e){e=e||{},super(e),this.file=e.file||"",this[Vr]=null,this.on(Go,r=>{(this[Ge]==="begin"||this[Vr]===!1)&&this.warn("TAR_BAD_ARCHIVE","Unrecognized archive format")}),e.ondone?this.on(Go,e.ondone):this.on(Go,r=>{this.emit("prefinish"),this.emit("finish"),this.emit("end"),this.emit("close")}),this.strict=!!e.strict,this.maxMetaEntrySize=e.maxMetaEntrySize||uR,this.filter=typeof e.filter=="function"?e.filter:cR,this.writable=!0,this.readable=!1,this[Lt]=new nR,this[z]=null,this[It]=null,this[Hr]=null,this[Ge]="begin",this[ir]="",this[We]=null,this[an]=null,this[Gr]=!1,this[Oe]=null,this[nr]=!1,this[Wo]=!1,this[Vo]=!1,typeof e.onwarn=="function"&&this.on("warn",e.onwarn),typeof e.onentry=="function"&&this.on("entry",e.onentry)}[B2](e,r){this[Vr]===null&&(this[Vr]=!1);let s;try{s=new sR(e,r,this[We],this[an])}catch(i){return this.warn("TAR_ENTRY_INVALID",i)}if(s.nullBlock)this[Wo]?(this[Vo]=!0,this[Ge]==="begin"&&(this[Ge]="header"),this[Wr]("eof")):(this[Wo]=!0,this[Wr]("nullBlock"));else if(this[Wo]=!1,!s.cksumValid)this.warn("TAR_ENTRY_INVALID","checksum failure",{header:s});else if(!s.path)this.warn("TAR_ENTRY_INVALID","path is required",{header:s});else{let i=s.type;if(/^(Symbolic)?Link$/.test(i)&&!s.linkpath)this.warn("TAR_ENTRY_INVALID","linkpath required",{header:s});else if(!/^(Symbolic)?Link$/.test(i)&&s.linkpath)this.warn("TAR_ENTRY_INVALID","linkpath forbidden",{header:s});else{let n=this[Hr]=new oR(s,this[We],this[an]);if(!this[Vr])if(n.remain){let u=()=>{n.invalid||(this[Vr]=!0)};n.on("end",u)}else this[Vr]=!0;n.meta?n.size>this.maxMetaEntrySize?(n.ignore=!0,this[Wr]("ignoredEntry",n),this[Ge]="ignore",n.resume()):n.size>0&&(this[ir]="",n.on("data",u=>this[ir]+=u),this[Ge]="meta"):(this[We]=null,n.ignore=n.ignore||!this.filter(n.path,n),n.ignore?(this[Wr]("ignoredEntry",n),this[Ge]=n.remain?"ignore":"header",n.resume()):(n.remain?this[Ge]="body":(this[Ge]="header",n.end()),this[It]?this[Lt].push(n):(this[Lt].push(n),this[xf]())))}}}[_2](e){let r=!0;return e?Array.isArray(e)?this.emit.apply(this,e):(this[It]=e,this.emit("entry",e),e.emittedEnd||(e.on("end",s=>this[xf]()),r=!1)):(this[It]=null,r=!1),r}[xf](){do;while(this[_2](this[Lt].shift()));if(!this[Lt].length){let e=this[It];!e||e.flowing||e.size===e.remain?this[cn]||this.emit("drain"):e.once("drain",s=>this.emit("drain"))}}[wf](e,r){let s=this[Hr],i=s.blockRemain,n=i>=e.length&&r===0?e:e.slice(r,r+i);return s.write(n),s.blockRemain||(this[Ge]="header",this[Hr]=null,s.end()),n.length}[v2](e,r){let s=this[Hr],i=this[wf](e,r);return this[Hr]||this[A2](s),i}[Wr](e,r,s){!this[Lt].length&&!this[It]?this.emit(e,r,s):this[Lt].push([e,r,s])}[A2](e){switch(this[Wr]("meta",this[ir]),e.type){case"ExtendedHeader":case"OldExtendedHeader":this[We]=w2.parse(this[ir],this[We],!1);break;case"GlobalExtendedHeader":this[an]=w2.parse(this[ir],this[an],!0);break;case"NextFileHasLongPath":case"OldGnuLongPath":this[We]=this[We]||Object.create(null),this[We].path=this[ir].replace(/\0.*/,"");break;case"NextFileHasLongLinkpath":this[We]=this[We]||Object.create(null),this[We].linkpath=this[ir].replace(/\0.*/,"");break;default:throw new Error("unknown meta: "+e.type)}}abort(e){this[nr]=!0,this.emit("abort",e),this.warn("TAR_ABORT",e,{recoverable:!1})}write(e){if(this[nr])return;if(this[Oe]===null&&e){if(this[z]&&(e=Buffer.concat([this[z],e]),this[z]=null),e.length<bf.length)return this[z]=e,!0;for(let s=0;this[Oe]===null&&s<bf.length;s++)e[s]!==bf[s]&&(this[Oe]=!1);if(this[Oe]===null){let s=this[Gr];this[Gr]=!1,this[Oe]=new aR.Unzip,this[Oe].on("data",n=>this[jo](n)),this[Oe].on("error",n=>this.abort(n)),this[Oe].on("end",n=>{this[Gr]=!0,this[jo]()}),this[cn]=!0;let i=this[Oe][s?"end":"write"](e);return this[cn]=!1,i}}this[cn]=!0,this[Oe]?this[Oe].write(e):this[jo](e),this[cn]=!1;let r=this[Lt].length?!1:this[It]?this[It].flowing:!0;return!r&&!this[Lt].length&&this[It].once("drain",s=>this.emit("drain")),r}[_f](e){e&&!this[nr]&&(this[z]=this[z]?Buffer.concat([this[z],e]):e)}[Af](){if(this[Gr]&&!this[S2]&&!this[nr]&&!this[Ho]){this[S2]=!0;let e=this[Hr];if(e&&e.blockRemain){let r=this[z]?this[z].length:0;this.warn("TAR_BAD_ARCHIVE",`Truncated input (needed ${e.blockRemain} more bytes, only ${r} available)`,{entry:e}),this[z]&&e.write(this[z]),e.end()}this[Wr](Go)}}[jo](e){if(this[Ho])this[_f](e);else if(!e&&!this[z])this[Af]();else{if(this[Ho]=!0,this[z]){this[_f](e);let r=this[z];this[z]=null,this[zo](r)}else this[zo](e);for(;this[z]&&this[z].length>=512&&!this[nr]&&!this[Vo];){let r=this[z];this[z]=null,this[zo](r)}this[Ho]=!1}(!this[z]||this[Gr])&&this[Af]()}[zo](e){let r=0,s=e.length;for(;r+512<=s&&!this[nr]&&!this[Vo];)switch(this[Ge]){case"begin":case"header":this[B2](e,r),r+=512;break;case"ignore":case"body":r+=this[wf](e,r);break;case"meta":r+=this[v2](e,r);break;default:throw new Error("invalid state: "+this[Ge])}r<s&&(this[z]?this[z]=Buffer.concat([e.slice(r),this[z]]):this[z]=e.slice(r))}end(e){this[nr]||(this[Oe]?this[Oe].end(e):(this[Gr]=!0,this.write(e)))}})});var Ko=E((L9,L2)=>{"use strict";var lR=Rs(),T2=Yo(),Ys=require("fs"),hR=Vs(),O2=require("path"),Sf=qs();L2.exports=(t,e,r)=>{typeof t=="function"?(r=t,e=null,t={}):Array.isArray(t)&&(e=t,t={}),typeof e=="function"&&(r=e,e=null),e?e=Array.from(e):e=[];let s=lR(t);if(s.sync&&typeof r=="function")throw new TypeError("callback not supported for sync tar functions");if(!s.file&&typeof r=="function")throw new TypeError("callback only supported with file option");return e.length&&DR(s,e),s.noResume||fR(s),s.file&&s.sync?dR(s):s.file?pR(s,r):I2(s)};var fR=t=>{let e=t.onentry;t.onentry=e?r=>{e(r),r.resume()}:r=>r.resume()},DR=(t,e)=>{let r=new Map(e.map(n=>[Sf(n),!0])),s=t.filter,i=(n,u)=>{let o=u||O2.parse(n).root||".",a=n===o?!1:r.has(n)?r.get(n):i(O2.dirname(n),o);return r.set(n,a),a};t.filter=s?(n,u)=>s(n,u)&&i(Sf(n)):n=>i(Sf(n))},dR=t=>{let e=I2(t),r=t.file,s=!0,i;try{let n=Ys.statSync(r),u=t.maxReadSize||16*1024*1024;if(n.size<u)e.end(Ys.readFileSync(r));else{let o=0,a=Buffer.allocUnsafe(u);for(i=Ys.openSync(r,"r");o<n.size;){let c=Ys.readSync(i,a,0,u,o);o+=c,e.write(a.slice(0,c))}e.end()}s=!1}finally{if(s&&i)try{Ys.closeSync(i)}catch{}}},pR=(t,e)=>{let r=new T2(t),s=t.maxReadSize||16*1024*1024,i=t.file,n=new Promise((u,o)=>{r.on("error",o),r.on("end",u),Ys.stat(i,(a,c)=>{if(a)o(a);else{let l=new hR.ReadStream(i,{readSize:s,size:c.size});l.on("error",o),l.pipe(r)}})});return e?n.then(e,e):n},I2=t=>new T2(t)});var $2=E((N9,M2)=>{"use strict";var mR=Rs(),Xo=Lo(),N2=Vs(),P2=Ko(),k2=require("path");M2.exports=(t,e,r)=>{if(typeof e=="function"&&(r=e),Array.isArray(t)&&(e=t,t={}),!e||!Array.isArray(e)||!e.length)throw new TypeError("no files or directories specified");e=Array.from(e);let s=mR(t);if(s.sync&&typeof r=="function")throw new TypeError("callback not supported for sync tar functions");if(!s.file&&typeof r=="function")throw new TypeError("callback only supported with file option");return s.file&&s.sync?ER(s,e):s.file?gR(s,e,r):s.sync?CR(s,e):FR(s,e)};var ER=(t,e)=>{let r=new Xo.Sync(t),s=new N2.WriteStreamSync(t.file,{mode:t.mode||438});r.pipe(s),q2(r,e)},gR=(t,e,r)=>{let s=new Xo(t),i=new N2.WriteStream(t.file,{mode:t.mode||438});s.pipe(i);let n=new Promise((u,o)=>{i.on("error",o),i.on("close",u),s.on("error",o)});return vf(s,e),r?n.then(r,r):n},q2=(t,e)=>{e.forEach(r=>{r.charAt(0)==="@"?P2({file:k2.resolve(t.cwd,r.substr(1)),sync:!0,noResume:!0,onentry:s=>t.add(s)}):t.add(r)}),t.end()},vf=(t,e)=>{for(;e.length;){let r=e.shift();if(r.charAt(0)==="@")return P2({file:k2.resolve(t.cwd,r.substr(1)),noResume:!0,onentry:s=>t.add(s)}).then(s=>vf(t,e));t.add(r)}t.end()},CR=(t,e)=>{let r=new Xo.Sync(t);return q2(r,e),r},FR=(t,e)=>{let r=new Xo(t);return vf(r,e),r}});var Bf=E((P9,V2)=>{"use strict";var yR=Rs(),U2=Lo(),ke=require("fs"),j2=Vs(),z2=Ko(),H2=require("path"),G2=ks();V2.exports=(t,e,r)=>{let s=yR(t);if(!s.file)throw new TypeError("file is required");if(s.gzip)throw new TypeError("cannot append to compressed archives");if(!e||!Array.isArray(e)||!e.length)throw new TypeError("no files or directories specified");return e=Array.from(e),s.sync?bR(s,e):wR(s,e,r)};var bR=(t,e)=>{let r=new U2.Sync(t),s=!0,i,n;try{try{i=ke.openSync(t.file,"r+")}catch(a){if(a.code==="ENOENT")i=ke.openSync(t.file,"w+");else throw a}let u=ke.fstatSync(i),o=Buffer.alloc(512);e:for(n=0;n<u.size;n+=512){for(let l=0,h=0;l<512;l+=h){if(h=ke.readSync(i,o,l,o.length-l,n+l),n===0&&o[0]===31&&o[1]===139)throw new Error("cannot append to compressed archives");if(!h)break e}let a=new G2(o);if(!a.cksumValid)break;let c=512*Math.ceil(a.size/512);if(n+c+512>u.size)break;n+=c,t.mtimeCache&&t.mtimeCache.set(a.path,a.mtime)}s=!1,xR(t,r,n,i,e)}finally{if(s)try{ke.closeSync(i)}catch{}}},xR=(t,e,r,s,i)=>{let n=new j2.WriteStreamSync(t.file,{fd:s,start:r});e.pipe(n),_R(e,i)},wR=(t,e,r)=>{e=Array.from(e);let s=new U2(t),i=(u,o,a)=>{let c=(C,m)=>{C?ke.close(u,g=>a(C)):a(null,m)},l=0;if(o===0)return c(null,0);let h=0,f=Buffer.alloc(512),D=(C,m)=>{if(C)return c(C);if(h+=m,h<512&&m)return ke.read(u,f,h,f.length-h,l+h,D);if(l===0&&f[0]===31&&f[1]===139)return c(new Error("cannot append to compressed archives"));if(h<512)return c(null,l);let g=new G2(f);if(!g.cksumValid)return c(null,l);let F=512*Math.ceil(g.size/512);if(l+F+512>o||(l+=F+512,l>=o))return c(null,l);t.mtimeCache&&t.mtimeCache.set(g.path,g.mtime),h=0,ke.read(u,f,0,512,l,D)};ke.read(u,f,0,512,l,D)},n=new Promise((u,o)=>{s.on("error",o);let a="r+",c=(l,h)=>{if(l&&l.code==="ENOENT"&&a==="r+")return a="w+",ke.open(t.file,a,c);if(l)return o(l);ke.fstat(h,(f,D)=>{if(f)return ke.close(h,()=>o(f));i(h,D.size,(C,m)=>{if(C)return o(C);let g=new j2.WriteStream(t.file,{fd:h,start:m});s.pipe(g),g.on("error",o),g.on("close",u),W2(s,e)})})};ke.open(t.file,a,c)});return r?n.then(r,r):n},_R=(t,e)=>{e.forEach(r=>{r.charAt(0)==="@"?z2({file:H2.resolve(t.cwd,r.substr(1)),sync:!0,noResume:!0,onentry:s=>t.add(s)}):t.add(r)}),t.end()},W2=(t,e)=>{for(;e.length;){let r=e.shift();if(r.charAt(0)==="@")return z2({file:H2.resolve(t.cwd,r.substr(1)),noResume:!0,onentry:s=>t.add(s)}).then(s=>W2(t,e));t.add(r)}t.end()}});var K2=E((k9,Y2)=>{"use strict";var AR=Rs(),SR=Bf();Y2.exports=(t,e,r)=>{let s=AR(t);if(!s.file)throw new TypeError("file is required");if(s.gzip)throw new TypeError("cannot append to compressed archives");if(!e||!Array.isArray(e)||!e.length)throw new TypeError("no files or directories specified");return e=Array.from(e),vR(s),SR(s,e,r)};var vR=t=>{let e=t.filter;t.mtimeCache||(t.mtimeCache=new Map),t.filter=e?(r,s)=>e(r,s)&&!(t.mtimeCache.get(r)>s.mtime):(r,s)=>!(t.mtimeCache.get(r)>s.mtime)}});var J2=E((q9,Z2)=>{var{promisify:X2}=require("util"),ur=require("fs"),BR=t=>{if(!t)t={mode:511,fs:ur};else if(typeof t=="object")t={mode:511,fs:ur,...t};else if(typeof t=="number")t={mode:t,fs:ur};else if(typeof t=="string")t={mode:parseInt(t,8),fs:ur};else throw new TypeError("invalid options argument");return t.mkdir=t.mkdir||t.fs.mkdir||ur.mkdir,t.mkdirAsync=X2(t.mkdir),t.stat=t.stat||t.fs.stat||ur.stat,t.statAsync=X2(t.stat),t.statSync=t.statSync||t.fs.statSync||ur.statSync,t.mkdirSync=t.mkdirSync||t.fs.mkdirSync||ur.mkdirSync,t};Z2.exports=BR});var eb=E((M9,Q2)=>{var RR=process.env.__TESTING_MKDIRP_PLATFORM__||process.platform,{resolve:OR,parse:TR}=require("path"),IR=t=>{if(/\0/.test(t))throw Object.assign(new TypeError("path must be a string without null bytes"),{path:t,code:"ERR_INVALID_ARG_VALUE"});if(t=OR(t),RR==="win32"){let e=/[*|"<>?:]/,{root:r}=TR(t);if(e.test(t.substr(r.length)))throw Object.assign(new Error("Illegal characters in path."),{path:t,code:"EINVAL"})}return t};Q2.exports=IR});var nb=E(($9,ib)=>{var{dirname:tb}=require("path"),rb=(t,e,r=void 0)=>r===e?Promise.resolve():t.statAsync(e).then(s=>s.isDirectory()?r:void 0,s=>s.code==="ENOENT"?rb(t,tb(e),e):void 0),sb=(t,e,r=void 0)=>{if(r!==e)try{return t.statSync(e).isDirectory()?r:void 0}catch(s){return s.code==="ENOENT"?sb(t,tb(e),e):void 0}};ib.exports={findMade:rb,findMadeSync:sb}});var Tf=E((U9,ob)=>{var{dirname:ub}=require("path"),Rf=(t,e,r)=>{e.recursive=!1;let s=ub(t);return s===t?e.mkdirAsync(t,e).catch(i=>{if(i.code!=="EISDIR")throw i}):e.mkdirAsync(t,e).then(()=>r||t,i=>{if(i.code==="ENOENT")return Rf(s,e).then(n=>Rf(t,e,n));if(i.code!=="EEXIST"&&i.code!=="EROFS")throw i;return e.statAsync(t).then(n=>{if(n.isDirectory())return r;throw i},()=>{throw i})})},Of=(t,e,r)=>{let s=ub(t);if(e.recursive=!1,s===t)try{return e.mkdirSync(t,e)}catch(i){if(i.code!=="EISDIR")throw i;return}try{return e.mkdirSync(t,e),r||t}catch(i){if(i.code==="ENOENT")return Of(t,e,Of(s,e,r));if(i.code!=="EEXIST"&&i.code!=="EROFS")throw i;try{if(!e.statSync(t).isDirectory())throw i}catch{throw i}}};ob.exports={mkdirpManual:Rf,mkdirpManualSync:Of}});var lb=E((j9,cb)=>{var{dirname:ab}=require("path"),{findMade:LR,findMadeSync:NR}=nb(),{mkdirpManual:PR,mkdirpManualSync:kR}=Tf(),qR=(t,e)=>(e.recursive=!0,ab(t)===t?e.mkdirAsync(t,e):LR(e,t).then(s=>e.mkdirAsync(t,e).then(()=>s).catch(i=>{if(i.code==="ENOENT")return PR(t,e);throw i}))),MR=(t,e)=>{if(e.recursive=!0,ab(t)===t)return e.mkdirSync(t,e);let s=NR(e,t);try{return e.mkdirSync(t,e),s}catch(i){if(i.code==="ENOENT")return kR(t,e);throw i}};cb.exports={mkdirpNative:qR,mkdirpNativeSync:MR}});var db=E((z9,Db)=>{var hb=require("fs"),$R=process.env.__TESTING_MKDIRP_NODE_VERSION__||process.version,If=$R.replace(/^v/,"").split("."),fb=+If[0]>10||+If[0]==10&&+If[1]>=12,UR=fb?t=>t.mkdir===hb.mkdir:()=>!1,jR=fb?t=>t.mkdirSync===hb.mkdirSync:()=>!1;Db.exports={useNative:UR,useNativeSync:jR}});var Fb=E((H9,Cb)=>{var Ks=J2(),Xs=eb(),{mkdirpNative:pb,mkdirpNativeSync:mb}=lb(),{mkdirpManual:Eb,mkdirpManualSync:gb}=Tf(),{useNative:zR,useNativeSync:HR}=db(),Zs=(t,e)=>(t=Xs(t),e=Ks(e),zR(e)?pb(t,e):Eb(t,e)),GR=(t,e)=>(t=Xs(t),e=Ks(e),HR(e)?mb(t,e):gb(t,e));Zs.sync=GR;Zs.native=(t,e)=>pb(Xs(t),Ks(e));Zs.manual=(t,e)=>Eb(Xs(t),Ks(e));Zs.nativeSync=(t,e)=>mb(Xs(t),Ks(e));Zs.manualSync=(t,e)=>gb(Xs(t),Ks(e));Cb.exports=Zs});var Sb=E((G9,Ab)=>{"use strict";var Ve=require("fs"),Yr=require("path"),WR=Ve.lchown?"lchown":"chown",VR=Ve.lchownSync?"lchownSync":"chownSync",bb=Ve.lchown&&!process.version.match(/v1[1-9]+\./)&&!process.version.match(/v10\.[6-9]/),yb=(t,e,r)=>{try{return Ve[VR](t,e,r)}catch(s){if(s.code!=="ENOENT")throw s}},YR=(t,e,r)=>{try{return Ve.chownSync(t,e,r)}catch(s){if(s.code!=="ENOENT")throw s}},KR=bb?(t,e,r,s)=>i=>{!i||i.code!=="EISDIR"?s(i):Ve.chown(t,e,r,s)}:(t,e,r,s)=>s,Lf=bb?(t,e,r)=>{try{return yb(t,e,r)}catch(s){if(s.code!=="EISDIR")throw s;YR(t,e,r)}}:(t,e,r)=>yb(t,e,r),XR=process.version,xb=(t,e,r)=>Ve.readdir(t,e,r),ZR=(t,e)=>Ve.readdirSync(t,e);/^v4\./.test(XR)&&(xb=(t,e,r)=>Ve.readdir(t,r));var Zo=(t,e,r,s)=>{Ve[WR](t,e,r,KR(t,e,r,i=>{s(i&&i.code!=="ENOENT"?i:null)}))},wb=(t,e,r,s,i)=>{if(typeof e=="string")return Ve.lstat(Yr.resolve(t,e),(n,u)=>{if(n)return i(n.code!=="ENOENT"?n:null);u.name=e,wb(t,u,r,s,i)});if(e.isDirectory())Nf(Yr.resolve(t,e.name),r,s,n=>{if(n)return i(n);let u=Yr.resolve(t,e.name);Zo(u,r,s,i)});else{let n=Yr.resolve(t,e.name);Zo(n,r,s,i)}},Nf=(t,e,r,s)=>{xb(t,{withFileTypes:!0},(i,n)=>{if(i){if(i.code==="ENOENT")return s();if(i.code!=="ENOTDIR"&&i.code!=="ENOTSUP")return s(i)}if(i||!n.length)return Zo(t,e,r,s);let u=n.length,o=null,a=c=>{if(!o){if(c)return s(o=c);if(--u===0)return Zo(t,e,r,s)}};n.forEach(c=>wb(t,c,e,r,a))})},JR=(t,e,r,s)=>{if(typeof e=="string")try{let i=Ve.lstatSync(Yr.resolve(t,e));i.name=e,e=i}catch(i){if(i.code==="ENOENT")return;throw i}e.isDirectory()&&_b(Yr.resolve(t,e.name),r,s),Lf(Yr.resolve(t,e.name),r,s)},_b=(t,e,r)=>{let s;try{s=ZR(t,{withFileTypes:!0})}catch(i){if(i.code==="ENOENT")return;if(i.code==="ENOTDIR"||i.code==="ENOTSUP")return Lf(t,e,r);throw i}return s&&s.length&&s.forEach(i=>JR(t,i,e,r)),Lf(t,e,r)};Ab.exports=Nf;Nf.sync=_b});var Ob=E((W9,Pf)=>{"use strict";var vb=Fb(),Ye=require("fs"),Jo=require("path"),Bb=Sb(),st=Ns(),Qo=class extends Error{constructor(e,r){super("Cannot extract through symbolic link"),this.path=r,this.symlink=e}get name(){return"SylinkError"}},ea=class extends Error{constructor(e,r){super(r+": Cannot cd into '"+e+"'"),this.path=e,this.code=r}get name(){return"CwdError"}},ta=(t,e)=>t.get(st(e)),ln=(t,e,r)=>t.set(st(e),r),QR=(t,e)=>{Ye.stat(t,(r,s)=>{(r||!s.isDirectory())&&(r=new ea(t,r&&r.code||"ENOTDIR")),e(r)})};Pf.exports=(t,e,r)=>{t=st(t);let s=e.umask,i=e.mode|448,n=(i&s)!==0,u=e.uid,o=e.gid,a=typeof u=="number"&&typeof o=="number"&&(u!==e.processUid||o!==e.processGid),c=e.preserve,l=e.unlink,h=e.cache,f=st(e.cwd),D=(g,F)=>{g?r(g):(ln(h,t,!0),F&&a?Bb(F,u,o,w=>D(w)):n?Ye.chmod(t,i,r):r())};if(h&&ta(h,t)===!0)return D();if(t===f)return QR(t,D);if(c)return vb(t,{mode:i}).then(g=>D(null,g),D);let m=st(Jo.relative(f,t)).split("/");ra(f,m,i,h,l,f,null,D)};var ra=(t,e,r,s,i,n,u,o)=>{if(!e.length)return o(null,u);let a=e.shift(),c=st(Jo.resolve(t+"/"+a));if(ta(s,c))return ra(c,e,r,s,i,n,u,o);Ye.mkdir(c,r,Rb(c,e,r,s,i,n,u,o))},Rb=(t,e,r,s,i,n,u,o)=>a=>{a?Ye.lstat(t,(c,l)=>{if(c)c.path=c.path&&st(c.path),o(c);else if(l.isDirectory())ra(t,e,r,s,i,n,u,o);else if(i)Ye.unlink(t,h=>{if(h)return o(h);Ye.mkdir(t,r,Rb(t,e,r,s,i,n,u,o))});else{if(l.isSymbolicLink())return o(new Qo(t,t+"/"+e.join("/")));o(a)}}):(u=u||t,ra(t,e,r,s,i,n,u,o))},eO=t=>{let e=!1,r="ENOTDIR";try{e=Ye.statSync(t).isDirectory()}catch(s){r=s.code}finally{if(!e)throw new ea(t,r)}};Pf.exports.sync=(t,e)=>{t=st(t);let r=e.umask,s=e.mode|448,i=(s&r)!==0,n=e.uid,u=e.gid,o=typeof n=="number"&&typeof u=="number"&&(n!==e.processUid||u!==e.processGid),a=e.preserve,c=e.unlink,l=e.cache,h=st(e.cwd),f=g=>{ln(l,t,!0),g&&o&&Bb.sync(g,n,u),i&&Ye.chmodSync(t,s)};if(l&&ta(l,t)===!0)return f();if(t===h)return eO(h),f();if(a)return f(vb.sync(t,s));let C=st(Jo.relative(h,t)).split("/"),m=null;for(let g=C.shift(),F=h;g&&(F+="/"+g);g=C.shift())if(F=st(Jo.resolve(F)),!ta(l,F))try{Ye.mkdirSync(F,s),m=m||F,ln(l,F,!0)}catch{let y=Ye.lstatSync(F);if(y.isDirectory()){ln(l,F,!0);continue}else if(c){Ye.unlinkSync(F),Ye.mkdirSync(F,s),m=m||F,ln(l,F,!0);continue}else if(y.isSymbolicLink())return new Qo(F,F+"/"+C.join("/"))}return f(m)}});var qf=E((V9,Tb)=>{var kf=Object.create(null),{hasOwnProperty:tO}=Object.prototype;Tb.exports=t=>(tO.call(kf,t)||(kf[t]=t.normalize("NFKD")),kf[t])});var Pb=E((Y9,Nb)=>{var Ib=require("assert"),rO=qf(),sO=qs(),{join:Lb}=require("path"),iO=process.env.TESTING_TAR_FAKE_PLATFORM||process.platform,nO=iO==="win32";Nb.exports=()=>{let t=new Map,e=new Map,r=c=>c.split("/").slice(0,-1).reduce((h,f)=>(h.length&&(f=Lb(h[h.length-1],f)),h.push(f||"/"),h),[]),s=new Set,i=c=>{let l=e.get(c);if(!l)throw new Error("function does not have any path reservations");return{paths:l.paths.map(h=>t.get(h)),dirs:[...l.dirs].map(h=>t.get(h))}},n=c=>{let{paths:l,dirs:h}=i(c);return l.every(f=>f[0]===c)&&h.every(f=>f[0]instanceof Set&&f[0].has(c))},u=c=>s.has(c)||!n(c)?!1:(s.add(c),c(()=>o(c)),!0),o=c=>{if(!s.has(c))return!1;let{paths:l,dirs:h}=e.get(c),f=new Set;return l.forEach(D=>{let C=t.get(D);Ib.equal(C[0],c),C.length===1?t.delete(D):(C.shift(),typeof C[0]=="function"?f.add(C[0]):C[0].forEach(m=>f.add(m)))}),h.forEach(D=>{let C=t.get(D);Ib(C[0]instanceof Set),C[0].size===1&&C.length===1?t.delete(D):C[0].size===1?(C.shift(),f.add(C[0])):C[0].delete(c)}),s.delete(c),f.forEach(D=>u(D)),!0};return{check:n,reserve:(c,l)=>{c=nO?["win32 parallelization disabled"]:c.map(f=>rO(sO(Lb(f))).toLowerCase());let h=new Set(c.map(f=>r(f)).reduce((f,D)=>f.concat(D)));return e.set(l,{dirs:h,paths:c}),c.forEach(f=>{let D=t.get(f);D?D.push(l):t.set(f,[l])}),h.forEach(f=>{let D=t.get(f);D?D[D.length-1]instanceof Set?D[D.length-1].add(l):D.push(new Set([l])):t.set(f,[new Set([l])])}),u(l)}}}});var Mb=E((K9,qb)=>{var uO=process.env.__FAKE_PLATFORM__||process.platform,oO=uO==="win32",aO=global.__FAKE_TESTING_FS__||require("fs"),{O_CREAT:cO,O_TRUNC:lO,O_WRONLY:hO,UV_FS_O_FILEMAP:kb=0}=aO.constants,fO=oO&&!!kb,DO=512*1024,dO=kb|lO|cO|hO;qb.exports=fO?t=>t<DO?dO:"w":()=>"w"});var Vf=E((X9,Qb)=>{"use strict";var pO=require("assert"),mO=Yo(),I=require("fs"),EO=Vs(),Nt=require("path"),Xb=Ob(),$b=Wh(),gO=Pb(),CO=Vh(),qe=Ns(),FO=qs(),yO=qf(),Ub=Symbol("onEntry"),Uf=Symbol("checkFs"),jb=Symbol("checkFs2"),na=Symbol("pruneCache"),jf=Symbol("isReusable"),Ke=Symbol("makeFs"),zf=Symbol("file"),Hf=Symbol("directory"),ua=Symbol("link"),zb=Symbol("symlink"),Hb=Symbol("hardlink"),Gb=Symbol("unsupported"),Wb=Symbol("checkPath"),or=Symbol("mkdir"),ye=Symbol("onError"),sa=Symbol("pending"),Vb=Symbol("pend"),Js=Symbol("unpend"),Mf=Symbol("ended"),$f=Symbol("maybeClose"),Gf=Symbol("skip"),hn=Symbol("doChown"),fn=Symbol("uid"),Dn=Symbol("gid"),dn=Symbol("checkedCwd"),Zb=require("crypto"),Jb=Mb(),bO=process.env.TESTING_TAR_FAKE_PLATFORM||process.platform,pn=bO==="win32",xO=(t,e)=>{if(!pn)return I.unlink(t,e);let r=t+".DELETE."+Zb.randomBytes(16).toString("hex");I.rename(t,r,s=>{if(s)return e(s);I.unlink(r,e)})},wO=t=>{if(!pn)return I.unlinkSync(t);let e=t+".DELETE."+Zb.randomBytes(16).toString("hex");I.renameSync(t,e),I.unlinkSync(e)},Yb=(t,e,r)=>t===t>>>0?t:e===e>>>0?e:r,Kb=t=>yO(FO(qe(t))).toLowerCase(),_O=(t,e)=>{e=Kb(e);for(let r of t.keys()){let s=Kb(r);(s===e||s.indexOf(e+"/")===0)&&t.delete(r)}},AO=t=>{for(let e of t.keys())t.delete(e)},mn=class extends mO{constructor(e){if(e||(e={}),e.ondone=r=>{this[Mf]=!0,this[$f]()},super(e),this[dn]=!1,this.reservations=gO(),this.transform=typeof e.transform=="function"?e.transform:null,this.writable=!0,this.readable=!1,this[sa]=0,this[Mf]=!1,this.dirCache=e.dirCache||new Map,typeof e.uid=="number"||typeof e.gid=="number"){if(typeof e.uid!="number"||typeof e.gid!="number")throw new TypeError("cannot set owner without number uid and gid");if(e.preserveOwner)throw new TypeError("cannot preserve owner in archive and also set owner explicitly");this.uid=e.uid,this.gid=e.gid,this.setOwner=!0}else this.uid=null,this.gid=null,this.setOwner=!1;e.preserveOwner===void 0&&typeof e.uid!="number"?this.preserveOwner=process.getuid&&process.getuid()===0:this.preserveOwner=!!e.preserveOwner,this.processUid=(this.preserveOwner||this.setOwner)&&process.getuid?process.getuid():null,this.processGid=(this.preserveOwner||this.setOwner)&&process.getgid?process.getgid():null,this.forceChown=e.forceChown===!0,this.win32=!!e.win32||pn,this.newer=!!e.newer,this.keep=!!e.keep,this.noMtime=!!e.noMtime,this.preservePaths=!!e.preservePaths,this.unlink=!!e.unlink,this.cwd=qe(Nt.resolve(e.cwd||process.cwd())),this.strip=+e.strip||0,this.processUmask=e.noChmod?0:process.umask(),this.umask=typeof e.umask=="number"?e.umask:this.processUmask,this.dmode=e.dmode||511&~this.umask,this.fmode=e.fmode||438&~this.umask,this.on("entry",r=>this[Ub](r))}warn(e,r,s={}){return(e==="TAR_BAD_ARCHIVE"||e==="TAR_ABORT")&&(s.recoverable=!1),super.warn(e,r,s)}[$f](){this[Mf]&&this[sa]===0&&(this.emit("prefinish"),this.emit("finish"),this.emit("end"),this.emit("close"))}[Wb](e){if(this.strip){let r=qe(e.path).split("/");if(r.length<this.strip)return!1;if(e.path=r.slice(this.strip).join("/"),e.type==="Link"){let s=qe(e.linkpath).split("/");if(s.length>=this.strip)e.linkpath=s.slice(this.strip).join("/");else return!1}}if(!this.preservePaths){let r=qe(e.path),s=r.split("/");if(s.includes("..")||pn&&/^[a-z]:\.\.$/i.test(s[0]))return this.warn("TAR_ENTRY_ERROR","path contains '..'",{entry:e,path:r}),!1;let[i,n]=CO(r);i&&(e.path=n,this.warn("TAR_ENTRY_INFO",`stripping ${i} from absolute path`,{entry:e,path:r}))}if(Nt.isAbsolute(e.path)?e.absolute=qe(Nt.resolve(e.path)):e.absolute=qe(Nt.resolve(this.cwd,e.path)),!this.preservePaths&&e.absolute.indexOf(this.cwd+"/")!==0&&e.absolute!==this.cwd)return this.warn("TAR_ENTRY_ERROR","path escaped extraction target",{entry:e,path:qe(e.path),resolvedPath:e.absolute,cwd:this.cwd}),!1;if(e.absolute===this.cwd&&e.type!=="Directory"&&e.type!=="GNUDumpDir")return!1;if(this.win32){let{root:r}=Nt.win32.parse(e.absolute);e.absolute=r+$b.encode(e.absolute.substr(r.length));let{root:s}=Nt.win32.parse(e.path);e.path=s+$b.encode(e.path.substr(s.length))}return!0}[Ub](e){if(!this[Wb](e))return e.resume();switch(pO.equal(typeof e.absolute,"string"),e.type){case"Directory":case"GNUDumpDir":e.mode&&(e.mode=e.mode|448);case"File":case"OldFile":case"ContiguousFile":case"Link":case"SymbolicLink":return this[Uf](e);case"CharacterDevice":case"BlockDevice":case"FIFO":default:return this[Gb](e)}}[ye](e,r){e.name==="CwdError"?this.emit("error",e):(this.warn("TAR_ENTRY_ERROR",e,{entry:r}),this[Js](),r.resume())}[or](e,r,s){Xb(qe(e),{uid:this.uid,gid:this.gid,processUid:this.processUid,processGid:this.processGid,umask:this.processUmask,preserve:this.preservePaths,unlink:this.unlink,cache:this.dirCache,cwd:this.cwd,mode:r,noChmod:this.noChmod},s)}[hn](e){return this.forceChown||this.preserveOwner&&(typeof e.uid=="number"&&e.uid!==this.processUid||typeof e.gid=="number"&&e.gid!==this.processGid)||typeof this.uid=="number"&&this.uid!==this.processUid||typeof this.gid=="number"&&this.gid!==this.processGid}[fn](e){return Yb(this.uid,e.uid,this.processUid)}[Dn](e){return Yb(this.gid,e.gid,this.processGid)}[zf](e,r){let s=e.mode&4095||this.fmode,i=new EO.WriteStream(e.absolute,{flags:Jb(e.size),mode:s,autoClose:!1});i.on("error",a=>{i.fd&&I.close(i.fd,()=>{}),i.write=()=>!0,this[ye](a,e),r()});let n=1,u=a=>{if(a){i.fd&&I.close(i.fd,()=>{}),this[ye](a,e),r();return}--n===0&&I.close(i.fd,c=>{c?this[ye](c,e):this[Js](),r()})};i.on("finish",a=>{let c=e.absolute,l=i.fd;if(e.mtime&&!this.noMtime){n++;let h=e.atime||new Date,f=e.mtime;I.futimes(l,h,f,D=>D?I.utimes(c,h,f,C=>u(C&&D)):u())}if(this[hn](e)){n++;let h=this[fn](e),f=this[Dn](e);I.fchown(l,h,f,D=>D?I.chown(c,h,f,C=>u(C&&D)):u())}u()});let o=this.transform&&this.transform(e)||e;o!==e&&(o.on("error",a=>{this[ye](a,e),r()}),e.pipe(o)),o.pipe(i)}[Hf](e,r){let s=e.mode&4095||this.dmode;this[or](e.absolute,s,i=>{if(i){this[ye](i,e),r();return}let n=1,u=o=>{--n===0&&(r(),this[Js](),e.resume())};e.mtime&&!this.noMtime&&(n++,I.utimes(e.absolute,e.atime||new Date,e.mtime,u)),this[hn](e)&&(n++,I.chown(e.absolute,this[fn](e),this[Dn](e),u)),u()})}[Gb](e){e.unsupported=!0,this.warn("TAR_ENTRY_UNSUPPORTED",`unsupported entry type: ${e.type}`,{entry:e}),e.resume()}[zb](e,r){this[ua](e,e.linkpath,"symlink",r)}[Hb](e,r){let s=qe(Nt.resolve(this.cwd,e.linkpath));this[ua](e,s,"link",r)}[Vb](){this[sa]++}[Js](){this[sa]--,this[$f]()}[Gf](e){this[Js](),e.resume()}[jf](e,r){return e.type==="File"&&!this.unlink&&r.isFile()&&r.nlink<=1&&!pn}[Uf](e){this[Vb]();let r=[e.path];e.linkpath&&r.push(e.linkpath),this.reservations.reserve(r,s=>this[jb](e,s))}[na](e){e.type==="SymbolicLink"?AO(this.dirCache):e.type!=="Directory"&&_O(this.dirCache,e.absolute)}[jb](e,r){this[na](e);let s=o=>{this[na](e),r(o)},i=()=>{this[or](this.cwd,this.dmode,o=>{if(o){this[ye](o,e),s();return}this[dn]=!0,n()})},n=()=>{if(e.absolute!==this.cwd){let o=qe(Nt.dirname(e.absolute));if(o!==this.cwd)return this[or](o,this.dmode,a=>{if(a){this[ye](a,e),s();return}u()})}u()},u=()=>{I.lstat(e.absolute,(o,a)=>{if(a&&(this.keep||this.newer&&a.mtime>e.mtime)){this[Gf](e),s();return}if(o||this[jf](e,a))return this[Ke](null,e,s);if(a.isDirectory()){if(e.type==="Directory"){let c=!this.noChmod&&e.mode&&(a.mode&4095)!==e.mode,l=h=>this[Ke](h,e,s);return c?I.chmod(e.absolute,e.mode,l):l()}if(e.absolute!==this.cwd)return I.rmdir(e.absolute,c=>this[Ke](c,e,s))}if(e.absolute===this.cwd)return this[Ke](null,e,s);xO(e.absolute,c=>this[Ke](c,e,s))})};this[dn]?n():i()}[Ke](e,r,s){if(e){this[ye](e,r),s();return}switch(r.type){case"File":case"OldFile":case"ContiguousFile":return this[zf](r,s);case"Link":return this[Hb](r,s);case"SymbolicLink":return this[zb](r,s);case"Directory":case"GNUDumpDir":return this[Hf](r,s)}}[ua](e,r,s,i){I[s](r,e.absolute,n=>{n?this[ye](n,e):(this[Js](),e.resume()),i()})}},ia=t=>{try{return[null,t()]}catch(e){return[e,null]}},Wf=class extends mn{[Ke](e,r){return super[Ke](e,r,()=>{})}[Uf](e){if(this[na](e),!this[dn]){let n=this[or](this.cwd,this.dmode);if(n)return this[ye](n,e);this[dn]=!0}if(e.absolute!==this.cwd){let n=qe(Nt.dirname(e.absolute));if(n!==this.cwd){let u=this[or](n,this.dmode);if(u)return this[ye](u,e)}}let[r,s]=ia(()=>I.lstatSync(e.absolute));if(s&&(this.keep||this.newer&&s.mtime>e.mtime))return this[Gf](e);if(r||this[jf](e,s))return this[Ke](null,e);if(s.isDirectory()){if(e.type==="Directory"){let u=!this.noChmod&&e.mode&&(s.mode&4095)!==e.mode,[o]=u?ia(()=>{I.chmodSync(e.absolute,e.mode)}):[];return this[Ke](o,e)}let[n]=ia(()=>I.rmdirSync(e.absolute));this[Ke](n,e)}let[i]=e.absolute===this.cwd?[]:ia(()=>wO(e.absolute));this[Ke](i,e)}[zf](e,r){let s=e.mode&4095||this.fmode,i=o=>{let a;try{I.closeSync(n)}catch(c){a=c}(o||a)&&this[ye](o||a,e),r()},n;try{n=I.openSync(e.absolute,Jb(e.size),s)}catch(o){return i(o)}let u=this.transform&&this.transform(e)||e;u!==e&&(u.on("error",o=>this[ye](o,e)),e.pipe(u)),u.on("data",o=>{try{I.writeSync(n,o,0,o.length)}catch(a){i(a)}}),u.on("end",o=>{let a=null;if(e.mtime&&!this.noMtime){let c=e.atime||new Date,l=e.mtime;try{I.futimesSync(n,c,l)}catch(h){try{I.utimesSync(e.absolute,c,l)}catch{a=h}}}if(this[hn](e)){let c=this[fn](e),l=this[Dn](e);try{I.fchownSync(n,c,l)}catch(h){try{I.chownSync(e.absolute,c,l)}catch{a=a||h}}}i(a)})}[Hf](e,r){let s=e.mode&4095||this.dmode,i=this[or](e.absolute,s);if(i){this[ye](i,e),r();return}if(e.mtime&&!this.noMtime)try{I.utimesSync(e.absolute,e.atime||new Date,e.mtime)}catch{}if(this[hn](e))try{I.chownSync(e.absolute,this[fn](e),this[Dn](e))}catch{}r(),e.resume()}[or](e,r){try{return Xb.sync(qe(e),{uid:this.uid,gid:this.gid,processUid:this.processUid,processGid:this.processGid,umask:this.processUmask,preserve:this.preservePaths,unlink:this.unlink,cache:this.dirCache,cwd:this.cwd,mode:r})}catch(s){return s}}[ua](e,r,s,i){try{I[s+"Sync"](r,e.absolute),i(),e.resume()}catch(n){return this[ye](n,e)}}};mn.Sync=Wf;Qb.exports=mn});var i3=E((Z9,s3)=>{"use strict";var SO=Rs(),oa=Vf(),t3=require("fs"),r3=Vs(),e3=require("path"),Yf=qs();s3.exports=(t,e,r)=>{typeof t=="function"?(r=t,e=null,t={}):Array.isArray(t)&&(e=t,t={}),typeof e=="function"&&(r=e,e=null),e?e=Array.from(e):e=[];let s=SO(t);if(s.sync&&typeof r=="function")throw new TypeError("callback not supported for sync tar functions");if(!s.file&&typeof r=="function")throw new TypeError("callback only supported with file option");return e.length&&vO(s,e),s.file&&s.sync?BO(s):s.file?RO(s,r):s.sync?OO(s):TO(s)};var vO=(t,e)=>{let r=new Map(e.map(n=>[Yf(n),!0])),s=t.filter,i=(n,u)=>{let o=u||e3.parse(n).root||".",a=n===o?!1:r.has(n)?r.get(n):i(e3.dirname(n),o);return r.set(n,a),a};t.filter=s?(n,u)=>s(n,u)&&i(Yf(n)):n=>i(Yf(n))},BO=t=>{let e=new oa.Sync(t),r=t.file,s=t3.statSync(r),i=t.maxReadSize||16*1024*1024;new r3.ReadStreamSync(r,{readSize:i,size:s.size}).pipe(e)},RO=(t,e)=>{let r=new oa(t),s=t.maxReadSize||16*1024*1024,i=t.file,n=new Promise((u,o)=>{r.on("error",o),r.on("close",u),t3.stat(i,(a,c)=>{if(a)o(a);else{let l=new r3.ReadStream(i,{readSize:s,size:c.size});l.on("error",o),l.pipe(r)}})});return e?n.then(e,e):n},OO=t=>new oa.Sync(t),TO=t=>new oa(t)});var n3=E(te=>{"use strict";te.c=te.create=$2();te.r=te.replace=Bf();te.t=te.list=Ko();te.u=te.update=K2();te.x=te.extract=i3();te.Pack=Lo();te.Unpack=Vf();te.Parse=Yo();te.ReadEntry=Eo();te.WriteEntry=sf();te.Header=ks();te.Pax=Co();te.types=Mh()});var zO={};B3(zO,{Options:()=>Wu,Platform:()=>F3,Platforms:()=>y3,checkCache:()=>x3,nwbuild:()=>g3,parseOptions:()=>Vu});module.exports=R3(zO);var ut=A(require("node:process"),1),aF=require("node:child_process"),cF=require("node:url"),Hl=A(require("node:path"),1),Gu=require("node:util");var ts=A(require("path"),1),qD=A(require("os"),1),xa=A(da(),1);var lD=A(require("os"),1),Qs=A(require("path"),1),kt=lD.default.homedir(),{env:cr}=process,cD=cr.XDG_DATA_HOME||(kt?Qs.default.join(kt,".local","share"):void 0),Xr=cr.XDG_CONFIG_HOME||(kt?Qs.default.join(kt,".config"):void 0),XO=cr.XDG_STATE_HOME||(kt?Qs.default.join(kt,".local","state"):void 0),ZO=cr.XDG_CACHE_HOME||(kt?Qs.default.join(kt,".cache"):void 0),JO=cr.XDG_RUNTIME_DIR||void 0,U3=(cr.XDG_DATA_DIRS||"/usr/local/share/:/usr/share/").split(":");cD&&U3.unshift(cD);var j3=(cr.XDG_CONFIG_DIRS||"/etc/xdg").split(":");Xr&&j3.unshift(Xr);var wa=A(AD(),1),es=A(RD(),1);var OD=require("util"),vn=A(require("crypto"),1),TD=(0,OD.promisify)(vn.default.randomBytes),rx="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~".split(""),sx="0123456789".split(""),ix="CDEHKMPRTUWXY012458".split(""),nx="!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~".split(""),ux="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".split(""),ox=(t,e)=>{let r=e.length,s=Math.floor(65536/r)*r-1,i=2*Math.ceil(1.1*t),n="",u=0;for(;u<t;){let o=vn.default.randomBytes(i),a=0;for(;a<i&&u<t;){let c=o.readUInt16LE(a);a+=2,!(c>s)&&(n+=e[c%r],u++)}}return n},ax=async(t,e)=>{let r=e.length,s=Math.floor(65536/r)*r-1,i=2*Math.ceil(1.1*t),n="",u=0;for(;u<t;){let o=await TD(i),a=0;for(;a<i&&u<t;){let c=o.readUInt16LE(a);a+=2,!(c>s)&&(n+=e[c%r],u++)}}return n},cx=(t,e,r)=>vn.default.randomBytes(t).toString(e).slice(0,r),lx=async(t,e,r)=>(await TD(t)).toString(e).slice(0,r),hx=new Set([void 0,"hex","base64","url-safe","numeric","distinguishable","ascii-printable","alphanumeric"]),ID=(t,e)=>({length:r,type:s,characters:i})=>{if(!(r>=0&&Number.isFinite(r)))throw new TypeError("Expected a `length` to be a non-negative finite number");if(s!==void 0&&i!==void 0)throw new TypeError("Expected either `type` or `characters`");if(i!==void 0&&typeof i!="string")throw new TypeError("Expected `characters` to be string");if(!hx.has(s))throw new TypeError(`Unknown type: ${s}`);if(s===void 0&&i===void 0&&(s="hex"),s==="hex"||s===void 0&&i===void 0)return e(Math.ceil(r*.5),"hex",r);if(s==="base64")return e(Math.ceil(r*.75),"base64",r);if(s==="url-safe")return t(r,rx);if(s==="numeric")return t(r,sx);if(s==="distinguishable")return t(r,ix);if(s==="ascii-printable")return t(r,nx);if(s==="alphanumeric")return t(r,ux);if(i.length===0)throw new TypeError("Expected `characters` string length to be greater than or equal to 1");if(i.length>65536)throw new TypeError("Expected `characters` string length to be less or equal to 65536");return t(r,i.split(""))},LD=ID(ox,cx);LD.async=ID(ax,lx);var ND=LD;function ba(){return ND({length:32})}var fx=Xr||ts.default.join(qD.default.tmpdir(),ba()),PD="You don't have access to this file.",Dx={mode:448,recursive:!0},kD={mode:384},ri=class{constructor(e,r,s={}){let i=s.globalConfigPath?ts.default.join(e,"config.json"):ts.default.join("configstore",`${e}.json`);this._path=s.configPath||ts.default.join(fx,i),r&&(this.all={...r,...this.all})}get all(){try{return JSON.parse(xa.default.readFileSync(this._path,"utf8"))}catch(e){if(e.code==="ENOENT")return{};if(e.code==="EACCES"&&(e.message=`${e.message}
-${PD}
-`),e.name==="SyntaxError")return wa.default.sync(this._path,"",kD),{};throw e}}set all(e){try{xa.default.mkdirSync(ts.default.dirname(this._path),Dx),wa.default.sync(this._path,JSON.stringify(e,void 0,"	"),kD)}catch(r){throw r.code==="EACCES"&&(r.message=`${r.message}
-${PD}
-`),r}}get size(){return Object.keys(this.all||{}).length}get(e){return es.default.get(this.all,e)}set(e,r){let s=this.all;if(arguments.length===1)for(let i of Object.keys(e))es.default.set(s,i,e[i]);else es.default.set(s,e,r);this.all=s}has(e){return es.default.has(this.all,e)}delete(e){let r=this.all;es.default.delete(r,e),this.all=r}clear(){this.all={}}get path(){return this._path}};var MD=(t=0)=>e=>`\x1B[${e+t}m`,$D=(t=0)=>e=>`\x1B[${38+t};5;${e}m`,UD=(t=0)=>(e,r,s)=>`\x1B[${38+t};2;${e};${r};${s}m`;function dx(){let t=new Map,e={modifier:{reset:[0,0],bold:[1,22],dim:[2,22],italic:[3,23],underline:[4,24],overline:[53,55],inverse:[7,27],hidden:[8,28],strikethrough:[9,29]},color:{black:[30,39],red:[31,39],green:[32,39],yellow:[33,39],blue:[34,39],magenta:[35,39],cyan:[36,39],white:[37,39],blackBright:[90,39],redBright:[91,39],greenBright:[92,39],yellowBright:[93,39],blueBright:[94,39],magentaBright:[95,39],cyanBright:[96,39],whiteBright:[97,39]},bgColor:{bgBlack:[40,49],bgRed:[41,49],bgGreen:[42,49],bgYellow:[43,49],bgBlue:[44,49],bgMagenta:[45,49],bgCyan:[46,49],bgWhite:[47,49],bgBlackBright:[100,49],bgRedBright:[101,49],bgGreenBright:[102,49],bgYellowBright:[103,49],bgBlueBright:[104,49],bgMagentaBright:[105,49],bgCyanBright:[106,49],bgWhiteBright:[107,49]}};e.color.gray=e.color.blackBright,e.bgColor.bgGray=e.bgColor.bgBlackBright,e.color.grey=e.color.blackBright,e.bgColor.bgGrey=e.bgColor.bgBlackBright;for(let[r,s]of Object.entries(e)){for(let[i,n]of Object.entries(s))e[i]={open:`\x1B[${n[0]}m`,close:`\x1B[${n[1]}m`},s[i]=e[i],t.set(n[0],n[1]);Object.defineProperty(e,r,{value:s,enumerable:!1})}return Object.defineProperty(e,"codes",{value:t,enumerable:!1}),e.color.close="\x1B[39m",e.bgColor.close="\x1B[49m",e.color.ansi=MD(),e.color.ansi256=$D(),e.color.ansi16m=UD(),e.bgColor.ansi=MD(10),e.bgColor.ansi256=$D(10),e.bgColor.ansi16m=UD(10),Object.defineProperties(e,{rgbToAnsi256:{value:(r,s,i)=>r===s&&s===i?r<8?16:r>248?231:Math.round((r-8)/247*24)+232:16+36*Math.round(r/255*5)+6*Math.round(s/255*5)+Math.round(i/255*5),enumerable:!1},hexToRgb:{value:r=>{let s=/(?<colorString>[a-f\d]{6}|[a-f\d]{3})/i.exec(r.toString(16));if(!s)return[0,0,0];let{colorString:i}=s.groups;i.length===3&&(i=[...i].map(u=>u+u).join(""));let n=Number.parseInt(i,16);return[n>>16&255,n>>8&255,n&255]},enumerable:!1},hexToAnsi256:{value:r=>e.rgbToAnsi256(...e.hexToRgb(r)),enumerable:!1},ansi256ToAnsi:{value:r=>{if(r<8)return 30+r;if(r<16)return 90+(r-8);let s,i,n;if(r>=232)s=((r-232)*10+8)/255,i=s,n=s;else{r-=16;let a=r%36;s=Math.floor(r/36)/5,i=Math.floor(a/6)/5,n=a%6/5}let u=Math.max(s,i,n)*2;if(u===0)return 30;let o=30+(Math.round(n)<<2|Math.round(i)<<1|Math.round(s));return u===2&&(o+=60),o},enumerable:!1},rgbToAnsi:{value:(r,s,i)=>e.ansi256ToAnsi(e.rgbToAnsi256(r,s,i)),enumerable:!1},hexToAnsi:{value:r=>e.ansi256ToAnsi(e.hexToAnsi256(r)),enumerable:!1}}),e}var px=dx(),Xe=px;var Rn=A(require("node:process"),1),zD=A(require("node:os"),1),_a=A(require("node:tty"),1);function $e(t,e=Rn.default.argv){let r=t.startsWith("-")?"":t.length===1?"-":"--",s=e.indexOf(r+t),i=e.indexOf("--");return s!==-1&&(i===-1||s<i)}var{env:Q}=Rn.default,Bn;$e("no-color")||$e("no-colors")||$e("color=false")||$e("color=never")?Bn=0:($e("color")||$e("colors")||$e("color=true")||$e("color=always"))&&(Bn=1);function mx(){if("FORCE_COLOR"in Q)return Q.FORCE_COLOR==="true"?1:Q.FORCE_COLOR==="false"?0:Q.FORCE_COLOR.length===0?1:Math.min(Number.parseInt(Q.FORCE_COLOR,10),3)}function Ex(t){return t===0?!1:{level:t,hasBasic:!0,has256:t>=2,has16m:t>=3}}function gx(t,{streamIsTTY:e,sniffFlags:r=!0}={}){let s=mx();s!==void 0&&(Bn=s);let i=r?Bn:s;if(i===0)return 0;if(r){if($e("color=16m")||$e("color=full")||$e("color=truecolor"))return 3;if($e("color=256"))return 2}if(t&&!e&&i===void 0)return 0;let n=i||0;if(Q.TERM==="dumb")return n;if(Rn.default.platform==="win32"){let u=zD.default.release().split(".");return Number(u[0])>=10&&Number(u[2])>=10586?Number(u[2])>=14931?3:2:1}if("CI"in Q)return["TRAVIS","CIRCLECI","APPVEYOR","GITLAB_CI","GITHUB_ACTIONS","BUILDKITE","DRONE"].some(u=>u in Q)||Q.CI_NAME==="codeship"?1:n;if("TEAMCITY_VERSION"in Q)return/^(9\.(0*[1-9]\d*)\.|\d{2,}\.)/.test(Q.TEAMCITY_VERSION)?1:0;if("TF_BUILD"in Q&&"AGENT_NAME"in Q)return 1;if(Q.COLORTERM==="truecolor")return 3;if("TERM_PROGRAM"in Q){let u=Number.parseInt((Q.TERM_PROGRAM_VERSION||"").split(".")[0],10);switch(Q.TERM_PROGRAM){case"iTerm.app":return u>=3?3:2;case"Apple_Terminal":return 2}}return/-256(color)?$/i.test(Q.TERM)?2:/^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux/i.test(Q.TERM)||"COLORTERM"in Q?1:n}function jD(t,e={}){let r=gx(t,{streamIsTTY:t&&t.isTTY,...e});return Ex(r)}var Cx={stdout:jD({isTTY:_a.default.isatty(1)}),stderr:jD({isTTY:_a.default.isatty(2)})},HD=Cx;function GD(t,e,r){let s=t.indexOf(e);if(s===-1)return t;let i=e.length,n=0,u="";do u+=t.substr(n,s-n)+e+r,n=s+i,s=t.indexOf(e,n);while(s!==-1);return u+=t.slice(n),u}function WD(t,e,r,s){let i=0,n="";do{let u=t[s-1]==="\r";n+=t.substr(i,(u?s-1:s)-i)+e+(u?`\r
-`:`
-`)+r,i=s+1,s=t.indexOf(`
-`,i)}while(s!==-1);return n+=t.slice(i),n}var{stdout:VD,stderr:YD}=HD,Aa=Symbol("GENERATOR"),rs=Symbol("STYLER"),si=Symbol("IS_EMPTY"),KD=["ansi","ansi","ansi256","ansi16m"],ss=Object.create(null),Fx=(t,e={})=>{if(e.level&&!(Number.isInteger(e.level)&&e.level>=0&&e.level<=3))throw new Error("The `level` option should be an integer from 0 to 3");let r=VD?VD.level:0;t.level=e.level===void 0?r:e.level};var yx=t=>{let e=(...r)=>r.join(" ");return Fx(e,t),Object.setPrototypeOf(e,ii.prototype),e};function ii(t){return yx(t)}Object.setPrototypeOf(ii.prototype,Function.prototype);for(let[t,e]of Object.entries(Xe))ss[t]={get(){let r=On(this,va(e.open,e.close,this[rs]),this[si]);return Object.defineProperty(this,t,{value:r}),r}};ss.visible={get(){let t=On(this,this[rs],!0);return Object.defineProperty(this,"visible",{value:t}),t}};var Sa=(t,e,r,...s)=>t==="rgb"?e==="ansi16m"?Xe[r].ansi16m(...s):e==="ansi256"?Xe[r].ansi256(Xe.rgbToAnsi256(...s)):Xe[r].ansi(Xe.rgbToAnsi(...s)):t==="hex"?Sa("rgb",e,r,...Xe.hexToRgb(...s)):Xe[r][t](...s),bx=["rgb","hex","ansi256"];for(let t of bx){ss[t]={get(){let{level:r}=this;return function(...s){let i=va(Sa(t,KD[r],"color",...s),Xe.color.close,this[rs]);return On(this,i,this[si])}}};let e="bg"+t[0].toUpperCase()+t.slice(1);ss[e]={get(){let{level:r}=this;return function(...s){let i=va(Sa(t,KD[r],"bgColor",...s),Xe.bgColor.close,this[rs]);return On(this,i,this[si])}}}}var xx=Object.defineProperties(()=>{},{...ss,level:{enumerable:!0,get(){return this[Aa].level},set(t){this[Aa].level=t}}}),va=(t,e,r)=>{let s,i;return r===void 0?(s=t,i=e):(s=r.openAll+t,i=e+r.closeAll),{open:t,close:e,openAll:s,closeAll:i,parent:r}},On=(t,e,r)=>{let s=(...i)=>wx(s,i.length===1?""+i[0]:i.join(" "));return Object.setPrototypeOf(s,xx),s[Aa]=t,s[rs]=e,s[si]=r,s},wx=(t,e)=>{if(t.level<=0||!e)return t[si]?"":e;let r=t[rs];if(r===void 0)return e;let{openAll:s,closeAll:i}=r;if(e.includes("\x1B"))for(;r!==void 0;)e=GD(e,r.close,r.open),r=r.parent;let n=e.indexOf(`
-`);return n!==-1&&(e=WD(e,i,s,n)),s+e+i};Object.defineProperties(ii.prototype,ss);var _x=ii(),FT=ii({level:YD?YD.level:0});var Mt=_x;var lF=A(pi(),1);var mi=A(pi(),1);function za(t,e){if(t=mi.default.parse(t),e=mi.default.parse(e),!(mi.default.compareBuild(t,e)>=0))return mi.default.diff(t,e)||"build"}var Pg=require("node:http"),kg=require("node:https");var Ae=A(gt(),1);var bE=require("node:events"),Ds=A(gt(),1);var Ha=class extends Error{constructor(e){super(e||"Promise was canceled"),this.name="CancelError"}get isCanceled(){return!0}},Ut=class{static fn(e){return(...r)=>new Ut((s,i,n)=>{r.push(n),e(...r).then(s,i)})}constructor(e){this._cancelHandlers=[],this._isPending=!0,this._isCanceled=!1,this._rejectOnCancel=!0,this._promise=new Promise((r,s)=>{this._reject=s;let i=o=>{(!this._isCanceled||!u.shouldReject)&&(this._isPending=!1,r(o))},n=o=>{this._isPending=!1,s(o)},u=o=>{if(!this._isPending)throw new Error("The `onCancel` handler was attached after the promise settled.");this._cancelHandlers.push(o)};Object.defineProperties(u,{shouldReject:{get:()=>this._rejectOnCancel,set:o=>{this._rejectOnCancel=o}}}),e(i,n,u)})}then(e,r){return this._promise.then(e,r)}catch(e){return this._promise.catch(e)}finally(e){return this._promise.finally(e)}cancel(e){if(!(!this._isPending||this._isCanceled)){if(this._isCanceled=!0,this._cancelHandlers.length>0)try{for(let r of this._cancelHandlers)r()}catch(r){this._reject(r);return}this._rejectOnCancel&&this._reject(new Ha(e))}}get isCanceled(){return this._isCanceled}};Object.setPrototypeOf(Ut.prototype,Promise.prototype);var Vn=A(gt(),1);function z_(t){return Vn.default.object(t)&&"_onResponse"in t}var Z=class extends Error{constructor(e,r,s){if(super(e),Object.defineProperty(this,"input",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"code",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"stack",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"response",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"request",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"timings",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Error.captureStackTrace(this,this.constructor),this.name="RequestError",this.code=r.code??"ERR_GOT_REQUEST_ERROR",this.input=r.input,z_(s)?(Object.defineProperty(this,"request",{enumerable:!1,value:s}),Object.defineProperty(this,"response",{enumerable:!1,value:s.response}),this.options=s.options):this.options=s,this.timings=this.request?.timings,Vn.default.string(r.stack)&&Vn.default.string(this.stack)){let i=this.stack.indexOf(this.message)+this.message.length,n=this.stack.slice(i).split(`
-`).reverse(),u=r.stack.slice(r.stack.indexOf(r.message)+r.message.length).split(`
-`).reverse();for(;u.length>0&&u[0]===n[0];)n.shift();this.stack=`${this.stack.slice(0,i)}${n.reverse().join(`
-`)}${u.reverse().join(`
-`)}`}}},Yn=class extends Z{constructor(e){super(`Redirected ${e.options.maxRedirects} times. Aborting.`,{},e),this.name="MaxRedirectsError",this.code="ERR_TOO_MANY_REDIRECTS"}},Cr=class extends Z{constructor(e){super(`Response code ${e.statusCode} (${e.statusMessage})`,{},e.request),this.name="HTTPError",this.code="ERR_NON_2XX_3XX_RESPONSE"}},Kn=class extends Z{constructor(e,r){super(e.message,e,r),this.name="CacheError",this.code=this.code==="ERR_GOT_REQUEST_ERROR"?"ERR_CACHE_ACCESS":this.code}},gi=class extends Z{constructor(e,r){super(e.message,e,r),this.name="UploadError",this.code=this.code==="ERR_GOT_REQUEST_ERROR"?"ERR_UPLOAD":this.code}},Xn=class extends Z{constructor(e,r,s){super(e.message,e,s),Object.defineProperty(this,"timings",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"event",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),this.name="TimeoutError",this.event=e.event,this.timings=r}},Ci=class extends Z{constructor(e,r){super(e.message,e,r),this.name="ReadError",this.code=this.code==="ERR_GOT_REQUEST_ERROR"?"ERR_READING_RESPONSE_STREAM":this.code}},Zn=class extends Z{constructor(e){super("Retrying",{},e),this.name="RetryError",this.code="ERR_RETRYING"}};var Xc=A(require("node:process"),1),xu=require("node:buffer"),CE=require("node:stream"),wu=require("node:url"),qi=A(require("node:http"),1);var Kp=require("events"),Xp=require("util"),Zp=A(Yp(),1),G_=t=>{if(t.timings)return t.timings;let e={start:Date.now(),socket:void 0,lookup:void 0,connect:void 0,secureConnect:void 0,upload:void 0,response:void 0,end:void 0,error:void 0,abort:void 0,phases:{wait:void 0,dns:void 0,tcp:void 0,tls:void 0,request:void 0,firstByte:void 0,download:void 0,total:void 0}};t.timings=e;let r=u=>{u.once(Kp.errorMonitor,()=>{e.error=Date.now(),e.phases.total=e.error-e.start})};r(t);let s=()=>{e.abort=Date.now(),e.phases.total=e.abort-e.start};t.prependOnceListener("abort",s);let i=u=>{if(e.socket=Date.now(),e.phases.wait=e.socket-e.start,Xp.types.isProxy(u))return;let o=()=>{e.lookup=Date.now(),e.phases.dns=e.lookup-e.socket};u.prependOnceListener("lookup",o),(0,Zp.default)(u,{connect:()=>{e.connect=Date.now(),e.lookup===void 0&&(u.removeListener("lookup",o),e.lookup=e.connect,e.phases.dns=e.lookup-e.socket),e.phases.tcp=e.connect-e.lookup},secureConnect:()=>{e.secureConnect=Date.now(),e.phases.tls=e.secureConnect-e.connect}})};t.socket?i(t.socket):t.prependOnceListener("socket",i);let n=()=>{e.upload=Date.now(),e.phases.request=e.upload-(e.secureConnect??e.connect)};return t.writableFinished?n():t.prependOnceListener("finish",n),t.prependOnceListener("response",u=>{e.response=Date.now(),e.phases.firstByte=e.response-e.upload,u.timings=e,r(u),u.prependOnceListener("end",()=>{t.off("abort",s),u.off("aborted",s),!e.phases.total&&(e.end=Date.now(),e.phases.download=e.end-e.response,e.phases.total=e.end-e.start)}),u.prependOnceListener("aborted",s)}),e},Jp=G_;var Kc=A($m(),1),FE=A(Hm(),1),$=A(gt(),1),yE=A(Vm(),1);var Ym="abcdefghijklmnopqrstuvwxyz0123456789";function YA(){let t=16,e="";for(;t--;)e+=Ym[Math.random()*Ym.length<<0];return e}var Km=YA;var KA=t=>Object.prototype.toString.call(t).slice(8,-1).toLowerCase();function XA(t){if(KA(t)!=="object")return!1;let e=Object.getPrototypeOf(t);return e==null?!0:(e.constructor&&e.constructor.toString())===Object.toString()}var oc=XA;var ZA=t=>String(t).replace(/\r(?!\n)|(?<!\r)\n/g,`\r
-`),ac=ZA;var JA=t=>String(t).replace(/\r/g,"%0D").replace(/\n/g,"%0A").replace(/"/g,"%22"),cc=JA;var QA=t=>typeof t=="function",Ct=QA;var yr=t=>Boolean(t&&typeof t=="object"&&Ct(t.constructor)&&t[Symbol.toStringTag]==="File"&&Ct(t.stream)&&t.name!=null&&t.size!=null&&t.lastModified!=null);var lc=t=>Boolean(t&&Ct(t.constructor)&&t[Symbol.toStringTag]==="FormData"&&Ct(t.append)&&Ct(t.getAll)&&Ct(t.entries)&&Ct(t[Symbol.iterator])),uu=lc;var bi=function(t,e,r,s,i){if(s==="m")throw new TypeError("Private method is not writable");if(s==="a"&&!i)throw new TypeError("Private accessor was defined without a setter");if(typeof e=="function"?t!==e||!i:!e.has(t))throw new TypeError("Cannot write private member to an object whose class did not declare it");return s==="a"?i.call(t,r):i?i.value=r:e.set(t,r),r},V=function(t,e,r,s){if(r==="a"&&!s)throw new TypeError("Private accessor was defined without a getter");if(typeof e=="function"?t!==e||!s:!e.has(t))throw new TypeError("Cannot read private member from an object whose class did not declare it");return r==="m"?s:r==="a"?s.call(t):s?s.value:e.get(t)},ou,jt,xi,au,wi,br,_i,Ai,cu,hc,e6={enableAdditionalHeaders:!1},lu=class{constructor(e,r,s){if(ou.add(this),jt.set(this,`\r
-`),xi.set(this,void 0),au.set(this,void 0),wi.set(this,"-".repeat(2)),br.set(this,new TextEncoder),_i.set(this,void 0),Ai.set(this,void 0),cu.set(this,void 0),!lc(e))throw new TypeError("Expected first argument to be a FormData instance.");let i;if(oc(r)?s=r:i=r,i||(i=Km()),typeof i!="string")throw new TypeError("Expected boundary argument to be a string.");if(s&&!oc(s))throw new TypeError("Expected options argument to be an object.");bi(this,Ai,e,"f"),bi(this,cu,{...e6,...s},"f"),bi(this,xi,V(this,br,"f").encode(V(this,jt,"f")),"f"),bi(this,au,V(this,xi,"f").byteLength,"f"),this.boundary=`form-data-boundary-${i}`,this.contentType=`multipart/form-data; boundary=${this.boundary}`,bi(this,_i,V(this,br,"f").encode(`${V(this,wi,"f")}${this.boundary}${V(this,wi,"f")}${V(this,jt,"f").repeat(2)}`),"f"),this.contentLength=String(this.getContentLength()),this.headers=Object.freeze({"Content-Type":this.contentType,"Content-Length":this.contentLength}),Object.defineProperties(this,{boundary:{writable:!1,configurable:!1},contentType:{writable:!1,configurable:!1},contentLength:{writable:!1,configurable:!1},headers:{writable:!1,configurable:!1}})}getContentLength(){let e=0;for(let[r,s]of V(this,Ai,"f")){let i=yr(s)?s:V(this,br,"f").encode(ac(s));e+=V(this,ou,"m",hc).call(this,r,i).byteLength,e+=yr(i)?i.size:i.byteLength,e+=V(this,au,"f")}return e+V(this,_i,"f").byteLength}*values(){for(let[e,r]of V(this,Ai,"f").entries()){let s=yr(r)?r:V(this,br,"f").encode(ac(r));yield V(this,ou,"m",hc).call(this,e,s),yield s,yield V(this,xi,"f")}yield V(this,_i,"f")}async*encode(){for(let e of this.values())yr(e)?yield*e.stream():yield e}[(jt=new WeakMap,xi=new WeakMap,au=new WeakMap,wi=new WeakMap,br=new WeakMap,_i=new WeakMap,Ai=new WeakMap,cu=new WeakMap,ou=new WeakSet,hc=function(r,s){let i="";return i+=`${V(this,wi,"f")}${this.boundary}${V(this,jt,"f")}`,i+=`Content-Disposition: form-data; name="${cc(r)}"`,yr(s)&&(i+=`; filename="${cc(s.name)}"${V(this,jt,"f")}`,i+=`Content-Type: ${s.type||"application/octet-stream"}`),V(this,cu,"f").enableAdditionalHeaders===!0&&(i+=`${V(this,jt,"f")}Content-Length: ${yr(s)?s.size:s.byteLength}`),V(this,br,"f").encode(`${i}${V(this,jt,"f").repeat(2)}`)},Symbol.iterator)](){return this.values()}[Symbol.asyncIterator](){return this.encode()}};var Xm=require("node:buffer"),Zm=require("node:util"),Dc=A(gt(),1);var fc=A(gt(),1);function Si(t){return fc.default.nodeStream(t)&&fc.default.function_(t.getBoundary)}async function dc(t,e){if(e&&"content-length"in e)return Number(e["content-length"]);if(!t)return 0;if(Dc.default.string(t))return Xm.Buffer.byteLength(t);if(Dc.default.buffer(t))return t.length;if(Si(t))return(0,Zm.promisify)(t.getLength.bind(t))()}function vi(t,e,r){let s={};for(let i of r){let n=(...u)=>{e.emit(i,...u)};s[i]=n,t.on(i,n)}return()=>{for(let[i,n]of Object.entries(s))t.off(i,n)}}var Qm=A(require("node:net"),1);function pc(){let t=[];return{once(e,r,s){e.once(r,s),t.push({origin:e,event:r,fn:s})},unhandleAll(){for(let e of t){let{origin:r,event:s,fn:i}=e;r.removeListener(s,i)}t.length=0}}}var Jm=Symbol("reentry"),t6=()=>{},Bi=class extends Error{constructor(e,r){super(`Timeout awaiting '${r}' for ${e}ms`),Object.defineProperty(this,"event",{enumerable:!0,configurable:!0,writable:!0,value:r}),Object.defineProperty(this,"code",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),this.name="TimeoutError",this.code="ETIMEDOUT"}};function mc(t,e,r){if(Jm in t)return t6;t[Jm]=!0;let s=[],{once:i,unhandleAll:n}=pc(),u=(m,g,F)=>{let w=setTimeout(g,m,m,F);w.unref?.();let y=()=>{clearTimeout(w)};return s.push(y),y},{host:o,hostname:a}=r,c=(m,g)=>{t.destroy(new Bi(m,g))},l=()=>{for(let m of s)m();n()};if(t.once("error",m=>{if(l(),t.listenerCount("error")===0)throw m}),typeof e.request<"u"){let m=u(e.request,c,"request");i(t,"response",g=>{i(g,"end",m)})}if(typeof e.socket<"u"){let{socket:m}=e,g=()=>{c(m,"socket")};t.setTimeout(m,g),s.push(()=>{t.removeListener("timeout",g)})}let h=typeof e.lookup<"u",f=typeof e.connect<"u",D=typeof e.secureConnect<"u",C=typeof e.send<"u";return(h||f||D||C)&&i(t,"socket",m=>{let{socketPath:g}=t;if(m.connecting){let F=Boolean(g??Qm.default.isIP(a??o??"")!==0);if(h&&!F&&typeof m.address().address>"u"){let w=u(e.lookup,c,"lookup");i(m,"lookup",w)}if(f){let w=()=>u(e.connect,c,"connect");F?i(m,"connect",w()):i(m,"lookup",y=>{y===null&&i(m,"connect",w())})}D&&r.protocol==="https:"&&i(m,"connect",()=>{let w=u(e.secureConnect,c,"secureConnect");i(m,"secureConnect",w)})}if(C){let F=()=>u(e.send,c,"send");m.connecting?i(m,"connect",()=>{i(t,"upload-complete",F())}):i(t,"upload-complete",F())}}),typeof e.response<"u"&&i(t,"upload-complete",()=>{let m=u(e.response,c,"response");i(t,"response",m)}),typeof e.read<"u"&&i(t,"response",m=>{let g=u(e.read,c,"read");i(m,"end",g)}),l}var Ec=A(gt(),1);function gc(t){t=t;let e={protocol:t.protocol,hostname:Ec.default.string(t.hostname)&&t.hostname.startsWith("[")?t.hostname.slice(1,-1):t.hostname,host:t.host,hash:t.hash,search:t.search,pathname:t.pathname,href:t.href,path:`${t.pathname||""}${t.search||""}`};return Ec.default.string(t.port)&&t.port.length>0&&(e.port=Number(t.port)),(t.username||t.password)&&(e.auth=`${t.username||""}:${t.password||""}`),e}var Ri=class{constructor(){Object.defineProperty(this,"weakMap",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"map",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),this.weakMap=new WeakMap,this.map=new Map}set(e,r){typeof e=="object"?this.weakMap.set(e,r):this.map.set(e,r)}get(e){return typeof e=="object"?this.weakMap.get(e):this.map.get(e)}has(e){return typeof e=="object"?this.weakMap.has(e):this.map.has(e)}};var r6=({attemptCount:t,retryOptions:e,error:r,retryAfter:s,computedValue:i})=>{if(r.name==="RetryError")return 1;if(t>e.limit)return 0;let n=e.methods.includes(r.options.method),u=e.errorCodes.includes(r.code),o=r.response&&e.statusCodes.includes(r.response.statusCode);if(!n||!u&&!o)return 0;if(r.response){if(s)return s>i?0:s;if(r.response.statusCode===413)return 0}let a=Math.random()*e.noise;return Math.min(2**(t-1)*1e3,e.backoffLimit)+a},e0=r6;var fE=A(require("node:process"),1),ki=require("node:util"),Ft=require("node:url"),DE=require("node:tls"),dE=A(require("node:http"),1),pE=A(require("node:https"),1),p=A(gt(),1);function hu(t){return Object.fromEntries(Object.entries(t).map(([e,r])=>[e.toLowerCase(),r]))}var mE=A(o0(),1),EE=A(cE(),1);function Gc(t){let e=[],r=t.split(",");for(let s of r){let[i,...n]=s.split(";"),u=i.trim();if(u[0]!=="<"||u[u.length-1]!==">")throw new Error(`Invalid format of the Link header reference: ${u}`);let o=u.slice(1,-1),a={};if(n.length===0)throw new Error(`Unexpected end of Link header parameters: ${n.join(";")}`);for(let c of n){let l=c.trim(),h=l.indexOf("=");if(h===-1)throw new Error(`Failed to parse Link header: ${t}`);let f=l.slice(0,h).trim(),D=l.slice(h+1).trim();a[f]=D}e.push({reference:o,parameters:a})}return e}var[lE,LS]=fE.default.versions.node.split(".").map(t=>Number(t));function NS(t){for(let e in t){let r=t[e];p.assert.any([p.default.string,p.default.number,p.default.boolean,p.default.null_,p.default.undefined],r)}}var PS=new Map,Fu,kS=()=>Fu||(Fu=new mE.default,Fu),qS={request:void 0,agent:{http:void 0,https:void 0,http2:void 0},h2session:void 0,decompress:!0,timeout:{connect:void 0,lookup:void 0,read:void 0,request:void 0,response:void 0,secureConnect:void 0,send:void 0,socket:void 0},prefixUrl:"",body:void 0,form:void 0,json:void 0,cookieJar:void 0,ignoreInvalidCookies:!1,searchParams:void 0,dnsLookup:void 0,dnsCache:void 0,context:{},hooks:{init:[],beforeRequest:[],beforeError:[],beforeRedirect:[],beforeRetry:[],afterResponse:[]},followRedirect:!0,maxRedirects:10,cache:void 0,throwHttpErrors:!0,username:"",password:"",http2:!1,allowGetBody:!1,headers:{"user-agent":"got (https://github.com/sindresorhus/got)"},methodRewriting:!1,dnsLookupIpVersion:void 0,parseJson:JSON.parse,stringifyJson:JSON.stringify,retry:{limit:2,methods:["GET","PUT","HEAD","DELETE","OPTIONS","TRACE"],statusCodes:[408,413,429,500,502,503,504,521,522,524],errorCodes:["ETIMEDOUT","ECONNRESET","EADDRINUSE","ECONNREFUSED","EPIPE","ENOTFOUND","ENETUNREACH","EAI_AGAIN"],maxRetryAfter:void 0,calculateDelay:({computedValue:t})=>t,backoffLimit:Number.POSITIVE_INFINITY,noise:100},localAddress:void 0,method:"GET",createConnection:void 0,cacheOptions:{shared:void 0,cacheHeuristic:void 0,immutableMinTimeToLive:void 0,ignoreCargoCult:void 0},https:{alpnProtocols:void 0,rejectUnauthorized:void 0,checkServerIdentity:void 0,certificateAuthority:void 0,key:void 0,certificate:void 0,passphrase:void 0,pfx:void 0,ciphers:void 0,honorCipherOrder:void 0,minVersion:void 0,maxVersion:void 0,signatureAlgorithms:void 0,tlsSessionLifetime:void 0,dhparam:void 0,ecdhCurve:void 0,certificateRevocationLists:void 0},encoding:void 0,resolveBodyOnly:!1,isStream:!1,responseType:"text",url:void 0,pagination:{transform(t){return t.request.options.responseType==="json"?t.body:JSON.parse(t.body)},paginate({response:t}){let e=t.headers.link;if(typeof e!="string"||e.trim()==="")return!1;let s=Gc(e).find(i=>i.parameters.rel==="next"||i.parameters.rel==='"next"');return s?{url:new Ft.URL(s.reference,t.url)}:!1},filter:()=>!0,shouldContinue:()=>!0,countLimit:Number.POSITIVE_INFINITY,backoff:0,requestLimit:1e4,stackAllItems:!1},setHost:!0,maxHeaderSize:void 0},MS=t=>{let{hooks:e,retry:r}=t,s={...t,context:{...t.context},cacheOptions:{...t.cacheOptions},https:{...t.https},agent:{...t.agent},headers:{...t.headers},retry:{...r,errorCodes:[...r.errorCodes],methods:[...r.methods],statusCodes:[...r.statusCodes]},timeout:{...t.timeout},hooks:{init:[...e.init],beforeRequest:[...e.beforeRequest],beforeError:[...e.beforeError],beforeRedirect:[...e.beforeRedirect],beforeRetry:[...e.beforeRetry],afterResponse:[...e.afterResponse]},searchParams:t.searchParams?new Ft.URLSearchParams(t.searchParams):void 0,pagination:{...t.pagination}};return s.url!==void 0&&(s.prefixUrl=""),s},$S=t=>{let{hooks:e,retry:r}=t,s={...t};return p.default.object(t.context)&&(s.context={...t.context}),p.default.object(t.cacheOptions)&&(s.cacheOptions={...t.cacheOptions}),p.default.object(t.https)&&(s.https={...t.https}),p.default.object(t.cacheOptions)&&(s.cacheOptions={...s.cacheOptions}),p.default.object(t.agent)&&(s.agent={...t.agent}),p.default.object(t.headers)&&(s.headers={...t.headers}),p.default.object(r)&&(s.retry={...r},p.default.array(r.errorCodes)&&(s.retry.errorCodes=[...r.errorCodes]),p.default.array(r.methods)&&(s.retry.methods=[...r.methods]),p.default.array(r.statusCodes)&&(s.retry.statusCodes=[...r.statusCodes])),p.default.object(t.timeout)&&(s.timeout={...t.timeout}),p.default.object(e)&&(s.hooks={...e},p.default.array(e.init)&&(s.hooks.init=[...e.init]),p.default.array(e.beforeRequest)&&(s.hooks.beforeRequest=[...e.beforeRequest]),p.default.array(e.beforeError)&&(s.hooks.beforeError=[...e.beforeError]),p.default.array(e.beforeRedirect)&&(s.hooks.beforeRedirect=[...e.beforeRedirect]),p.default.array(e.beforeRetry)&&(s.hooks.beforeRetry=[...e.beforeRetry]),p.default.array(e.afterResponse)&&(s.hooks.afterResponse=[...e.afterResponse])),p.default.object(t.pagination)&&(s.pagination={...t.pagination}),s},US=t=>{let e=[t.timeout.socket,t.timeout.connect,t.timeout.lookup,t.timeout.request,t.timeout.secureConnect].filter(r=>typeof r=="number");if(e.length>0)return Math.min(...e)},hE=(t,e,r)=>{let s=t.hooks?.init;if(s)for(let i of s)i(e,r)},Ee=class{constructor(e,r,s){if(Object.defineProperty(this,"_unixOptions",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"_internals",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"_merging",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"_init",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),p.assert.any([p.default.string,p.default.urlInstance,p.default.object,p.default.undefined],e),p.assert.any([p.default.object,p.default.undefined],r),p.assert.any([p.default.object,p.default.undefined],s),e instanceof Ee||r instanceof Ee)throw new TypeError("The defaults must be passed as the third argument");this._internals=MS(s?._internals??s??qS),this._init=[...s?._init??[]],this._merging=!1,this._unixOptions=void 0;try{if(p.default.plainObject(e))try{this.merge(e),this.merge(r)}finally{this.url=e.url}else try{this.merge(r)}finally{if(r?.url!==void 0)if(e===void 0)this.url=r.url;else throw new TypeError("The `url` option is mutually exclusive with the `input` argument");else e!==void 0&&(this.url=e)}}catch(i){throw i.options=this,i}}merge(e){if(!!e){if(e instanceof Ee){for(let r of e._init)this.merge(r);return}e=$S(e),hE(this,e,this),hE(e,e,this),this._merging=!0,"isStream"in e&&(this.isStream=e.isStream);try{let r=!1;for(let s in e)if(!(s==="mutableDefaults"||s==="handlers")&&s!=="url"){if(!(s in this))throw new Error(`Unexpected option: ${s}`);this[s]=e[s],r=!0}r&&this._init.push(e)}finally{this._merging=!1}}}get request(){return this._internals.request}set request(e){p.assert.any([p.default.function_,p.default.undefined],e),this._internals.request=e}get agent(){return this._internals.agent}set agent(e){p.assert.plainObject(e);for(let r in e){if(!(r in this._internals.agent))throw new TypeError(`Unexpected agent option: ${r}`);p.assert.any([p.default.object,p.default.undefined],e[r])}this._merging?Object.assign(this._internals.agent,e):this._internals.agent={...e}}get h2session(){return this._internals.h2session}set h2session(e){this._internals.h2session=e}get decompress(){return this._internals.decompress}set decompress(e){p.assert.boolean(e),this._internals.decompress=e}get timeout(){return this._internals.timeout}set timeout(e){p.assert.plainObject(e);for(let r in e){if(!(r in this._internals.timeout))throw new Error(`Unexpected timeout option: ${r}`);p.assert.any([p.default.number,p.default.undefined],e[r])}this._merging?Object.assign(this._internals.timeout,e):this._internals.timeout={...e}}get prefixUrl(){return this._internals.prefixUrl}set prefixUrl(e){if(p.assert.any([p.default.string,p.default.urlInstance],e),e===""){this._internals.prefixUrl="";return}if(e=e.toString(),e.endsWith("/")||(e+="/"),this._internals.prefixUrl&&this._internals.url){let{href:r}=this._internals.url;this._internals.url.href=e+r.slice(this._internals.prefixUrl.length)}this._internals.prefixUrl=e}get body(){return this._internals.body}set body(e){p.assert.any([p.default.string,p.default.buffer,p.default.nodeStream,p.default.generator,p.default.asyncGenerator,uu,p.default.undefined],e),p.default.nodeStream(e)&&p.assert.truthy(e.readable),e!==void 0&&(p.assert.undefined(this._internals.form),p.assert.undefined(this._internals.json)),this._internals.body=e}get form(){return this._internals.form}set form(e){p.assert.any([p.default.plainObject,p.default.undefined],e),e!==void 0&&(p.assert.undefined(this._internals.body),p.assert.undefined(this._internals.json)),this._internals.form=e}get json(){return this._internals.json}set json(e){e!==void 0&&(p.assert.undefined(this._internals.body),p.assert.undefined(this._internals.form)),this._internals.json=e}get url(){return this._internals.url}set url(e){if(p.assert.any([p.default.string,p.default.urlInstance,p.default.undefined],e),e===void 0){this._internals.url=void 0;return}if(p.default.string(e)&&e.startsWith("/"))throw new Error("`url` must not start with a slash");let r=`${this.prefixUrl}${e.toString()}`,s=new Ft.URL(r);if(this._internals.url=s,decodeURI(r),s.protocol==="unix:"&&(s.href=`http://unix${s.pathname}${s.search}`),s.protocol!=="http:"&&s.protocol!=="https:"){let i=new Error(`Unsupported protocol: ${s.protocol}`);throw i.code="ERR_UNSUPPORTED_PROTOCOL",i}if(this._internals.username&&(s.username=this._internals.username,this._internals.username=""),this._internals.password&&(s.password=this._internals.password,this._internals.password=""),this._internals.searchParams&&(s.search=this._internals.searchParams.toString(),this._internals.searchParams=void 0),s.hostname==="unix"){let i=/(?<socketPath>.+?):(?<path>.+)/.exec(`${s.pathname}${s.search}`);if(i?.groups){let{socketPath:n,path:u}=i.groups;this._unixOptions={socketPath:n,path:u,host:""}}else this._unixOptions=void 0;return}this._unixOptions=void 0}get cookieJar(){return this._internals.cookieJar}set cookieJar(e){if(p.assert.any([p.default.object,p.default.undefined],e),e===void 0){this._internals.cookieJar=void 0;return}let{setCookie:r,getCookieString:s}=e;p.assert.function_(r),p.assert.function_(s),r.length===4&&s.length===0?(r=(0,ki.promisify)(r.bind(e)),s=(0,ki.promisify)(s.bind(e)),this._internals.cookieJar={setCookie:r,getCookieString:s}):this._internals.cookieJar=e}get ignoreInvalidCookies(){return this._internals.ignoreInvalidCookies}set ignoreInvalidCookies(e){p.assert.boolean(e),this._internals.ignoreInvalidCookies=e}get searchParams(){return this._internals.url?this._internals.url.searchParams:(this._internals.searchParams===void 0&&(this._internals.searchParams=new Ft.URLSearchParams),this._internals.searchParams)}set searchParams(e){p.assert.any([p.default.string,p.default.object,p.default.undefined],e);let r=this._internals.url;if(e===void 0){this._internals.searchParams=void 0,r&&(r.search="");return}let s=this.searchParams,i;if(p.default.string(e))i=new Ft.URLSearchParams(e);else if(e instanceof Ft.URLSearchParams)i=e;else{NS(e),i=new Ft.URLSearchParams;for(let n in e){let u=e[n];u===null?i.append(n,""):u===void 0?s.delete(n):i.append(n,u)}}if(this._merging){for(let n of i.keys())s.delete(n);for(let[n,u]of i)s.append(n,u)}else r?r.search=s.toString():this._internals.searchParams=s}get searchParameters(){throw new Error("The `searchParameters` option does not exist. Use `searchParams` instead.")}set searchParameters(e){throw new Error("The `searchParameters` option does not exist. Use `searchParams` instead.")}get dnsLookup(){return this._internals.dnsLookup}set dnsLookup(e){p.assert.any([p.default.function_,p.default.undefined],e),this._internals.dnsLookup=e}get dnsCache(){return this._internals.dnsCache}set dnsCache(e){p.assert.any([p.default.object,p.default.boolean,p.default.undefined],e),e===!0?this._internals.dnsCache=kS():e===!1?this._internals.dnsCache=void 0:this._internals.dnsCache=e}get context(){return this._internals.context}set context(e){p.assert.object(e),this._merging?Object.assign(this._internals.context,e):this._internals.context={...e}}get hooks(){return this._internals.hooks}set hooks(e){p.assert.object(e);for(let r in e){if(!(r in this._internals.hooks))throw new Error(`Unexpected hook event: ${r}`);let s=r,n=e[s];if(p.assert.any([p.default.array,p.default.undefined],n),n)for(let u of n)p.assert.function_(u);if(this._merging)n&&this._internals.hooks[s].push(...n);else{if(!n)throw new Error(`Missing hook event: ${r}`);this._internals.hooks[r]=[...n]}}}get followRedirect(){return this._internals.followRedirect}set followRedirect(e){p.assert.boolean(e),this._internals.followRedirect=e}get followRedirects(){throw new TypeError("The `followRedirects` option does not exist. Use `followRedirect` instead.")}set followRedirects(e){throw new TypeError("The `followRedirects` option does not exist. Use `followRedirect` instead.")}get maxRedirects(){return this._internals.maxRedirects}set maxRedirects(e){p.assert.number(e),this._internals.maxRedirects=e}get cache(){return this._internals.cache}set cache(e){p.assert.any([p.default.object,p.default.string,p.default.boolean,p.default.undefined],e),e===!0?this._internals.cache=PS:e===!1?this._internals.cache=void 0:this._internals.cache=e}get throwHttpErrors(){return this._internals.throwHttpErrors}set throwHttpErrors(e){p.assert.boolean(e),this._internals.throwHttpErrors=e}get username(){let e=this._internals.url,r=e?e.username:this._internals.username;return decodeURIComponent(r)}set username(e){p.assert.string(e);let r=this._internals.url,s=encodeURIComponent(e);r?r.username=s:this._internals.username=s}get password(){let e=this._internals.url,r=e?e.password:this._internals.password;return decodeURIComponent(r)}set password(e){p.assert.string(e);let r=this._internals.url,s=encodeURIComponent(e);r?r.password=s:this._internals.password=s}get http2(){return this._internals.http2}set http2(e){p.assert.boolean(e),this._internals.http2=e}get allowGetBody(){return this._internals.allowGetBody}set allowGetBody(e){p.assert.boolean(e),this._internals.allowGetBody=e}get headers(){return this._internals.headers}set headers(e){p.assert.plainObject(e),this._merging?Object.assign(this._internals.headers,hu(e)):this._internals.headers=hu(e)}get methodRewriting(){return this._internals.methodRewriting}set methodRewriting(e){p.assert.boolean(e),this._internals.methodRewriting=e}get dnsLookupIpVersion(){return this._internals.dnsLookupIpVersion}set dnsLookupIpVersion(e){if(e!==void 0&&e!==4&&e!==6)throw new TypeError(`Invalid DNS lookup IP version: ${e}`);this._internals.dnsLookupIpVersion=e}get parseJson(){return this._internals.parseJson}set parseJson(e){p.assert.function_(e),this._internals.parseJson=e}get stringifyJson(){return this._internals.stringifyJson}set stringifyJson(e){p.assert.function_(e),this._internals.stringifyJson=e}get retry(){return this._internals.retry}set retry(e){if(p.assert.plainObject(e),p.assert.any([p.default.function_,p.default.undefined],e.calculateDelay),p.assert.any([p.default.number,p.default.undefined],e.maxRetryAfter),p.assert.any([p.default.number,p.default.undefined],e.limit),p.assert.any([p.default.array,p.default.undefined],e.methods),p.assert.any([p.default.array,p.default.undefined],e.statusCodes),p.assert.any([p.default.array,p.default.undefined],e.errorCodes),p.assert.any([p.default.number,p.default.undefined],e.noise),e.noise&&Math.abs(e.noise)>100)throw new Error(`The maximum acceptable retry noise is +/- 100ms, got ${e.noise}`);for(let s in e)if(!(s in this._internals.retry))throw new Error(`Unexpected retry option: ${s}`);this._merging?Object.assign(this._internals.retry,e):this._internals.retry={...e};let{retry:r}=this._internals;r.methods=[...new Set(r.methods.map(s=>s.toUpperCase()))],r.statusCodes=[...new Set(r.statusCodes)],r.errorCodes=[...new Set(r.errorCodes)]}get localAddress(){return this._internals.localAddress}set localAddress(e){p.assert.any([p.default.string,p.default.undefined],e),this._internals.localAddress=e}get method(){return this._internals.method}set method(e){p.assert.string(e),this._internals.method=e.toUpperCase()}get createConnection(){return this._internals.createConnection}set createConnection(e){p.assert.any([p.default.function_,p.default.undefined],e),this._internals.createConnection=e}get cacheOptions(){return this._internals.cacheOptions}set cacheOptions(e){p.assert.plainObject(e),p.assert.any([p.default.boolean,p.default.undefined],e.shared),p.assert.any([p.default.number,p.default.undefined],e.cacheHeuristic),p.assert.any([p.default.number,p.default.undefined],e.immutableMinTimeToLive),p.assert.any([p.default.boolean,p.default.undefined],e.ignoreCargoCult);for(let r in e)if(!(r in this._internals.cacheOptions))throw new Error(`Cache option \`${r}\` does not exist`);this._merging?Object.assign(this._internals.cacheOptions,e):this._internals.cacheOptions={...e}}get https(){return this._internals.https}set https(e){p.assert.plainObject(e),p.assert.any([p.default.boolean,p.default.undefined],e.rejectUnauthorized),p.assert.any([p.default.function_,p.default.undefined],e.checkServerIdentity),p.assert.any([p.default.string,p.default.object,p.default.array,p.default.undefined],e.certificateAuthority),p.assert.any([p.default.string,p.default.object,p.default.array,p.default.undefined],e.key),p.assert.any([p.default.string,p.default.object,p.default.array,p.default.undefined],e.certificate),p.assert.any([p.default.string,p.default.undefined],e.passphrase),p.assert.any([p.default.string,p.default.buffer,p.default.array,p.default.undefined],e.pfx),p.assert.any([p.default.array,p.default.undefined],e.alpnProtocols),p.assert.any([p.default.string,p.default.undefined],e.ciphers),p.assert.any([p.default.string,p.default.buffer,p.default.undefined],e.dhparam),p.assert.any([p.default.string,p.default.undefined],e.signatureAlgorithms),p.assert.any([p.default.string,p.default.undefined],e.minVersion),p.assert.any([p.default.string,p.default.undefined],e.maxVersion),p.assert.any([p.default.boolean,p.default.undefined],e.honorCipherOrder),p.assert.any([p.default.number,p.default.undefined],e.tlsSessionLifetime),p.assert.any([p.default.string,p.default.undefined],e.ecdhCurve),p.assert.any([p.default.string,p.default.buffer,p.default.array,p.default.undefined],e.certificateRevocationLists);for(let r in e)if(!(r in this._internals.https))throw new Error(`HTTPS option \`${r}\` does not exist`);this._merging?Object.assign(this._internals.https,e):this._internals.https={...e}}get encoding(){return this._internals.encoding}set encoding(e){if(e===null)throw new TypeError("To get a Buffer, set `options.responseType` to `buffer` instead");p.assert.any([p.default.string,p.default.undefined],e),this._internals.encoding=e}get resolveBodyOnly(){return this._internals.resolveBodyOnly}set resolveBodyOnly(e){p.assert.boolean(e),this._internals.resolveBodyOnly=e}get isStream(){return this._internals.isStream}set isStream(e){p.assert.boolean(e),this._internals.isStream=e}get responseType(){return this._internals.responseType}set responseType(e){if(e===void 0){this._internals.responseType="text";return}if(e!=="text"&&e!=="buffer"&&e!=="json")throw new Error(`Invalid \`responseType\` option: ${e}`);this._internals.responseType=e}get pagination(){return this._internals.pagination}set pagination(e){p.assert.object(e),this._merging?Object.assign(this._internals.pagination,e):this._internals.pagination=e}get auth(){throw new Error("Parameter `auth` is deprecated. Use `username` / `password` instead.")}set auth(e){throw new Error("Parameter `auth` is deprecated. Use `username` / `password` instead.")}get setHost(){return this._internals.setHost}set setHost(e){p.assert.boolean(e),this._internals.setHost=e}get maxHeaderSize(){return this._internals.maxHeaderSize}set maxHeaderSize(e){p.assert.any([p.default.number,p.default.undefined],e),this._internals.maxHeaderSize=e}toJSON(){return{...this._internals}}[Symbol.for("nodejs.util.inspect.custom")](e,r){return(0,ki.inspect)(this._internals,r)}createNativeRequestOptions(){let e=this._internals,r=e.url,s;r.protocol==="https:"?s=e.http2?e.agent:e.agent.https:s=e.agent.http;let{https:i}=e,{pfx:n}=i;return p.default.array(n)&&p.default.plainObject(n[0])&&(n=n.map(u=>({buf:u.buffer,passphrase:u.passphrase}))),{...e.cacheOptions,...this._unixOptions,ALPNProtocols:i.alpnProtocols,ca:i.certificateAuthority,cert:i.certificate,key:i.key,passphrase:i.passphrase,pfx:i.pfx,rejectUnauthorized:i.rejectUnauthorized,checkServerIdentity:i.checkServerIdentity??DE.checkServerIdentity,ciphers:i.ciphers,honorCipherOrder:i.honorCipherOrder,minVersion:i.minVersion,maxVersion:i.maxVersion,sigalgs:i.signatureAlgorithms,sessionTimeout:i.tlsSessionLifetime,dhparam:i.dhparam,ecdhCurve:i.ecdhCurve,crl:i.certificateRevocationLists,lookup:e.dnsLookup??e.dnsCache?.lookup,family:e.dnsLookupIpVersion,agent:s,setHost:e.setHost,method:e.method,maxHeaderSize:e.maxHeaderSize,localAddress:e.localAddress,headers:e.headers,createConnection:e.createConnection,timeout:e.http2?US(e):void 0,h2session:e.h2session}}getRequestFunction(){let e=this._internals.url,{request:r}=this._internals;return!r&&e?this.getFallbackRequestFunction():r}getFallbackRequestFunction(){let e=this._internals.url;if(!!e){if(e.protocol==="https:"){if(this._internals.http2){if(lE<15||lE===15&&LS<10){let r=new Error("To use the `http2` option, install Node.js 15.10.0 or above");throw r.code="EUNSUPPORTED",r}return EE.default.auto}return pE.default.request}return dE.default.request}}freeze(){let e=this._internals;Object.freeze(e),Object.freeze(e.hooks),Object.freeze(e.hooks.afterResponse),Object.freeze(e.hooks.beforeError),Object.freeze(e.hooks.beforeRedirect),Object.freeze(e.hooks.beforeRequest),Object.freeze(e.hooks.beforeRetry),Object.freeze(e.hooks.init),Object.freeze(e.https),Object.freeze(e.cacheOptions),Object.freeze(e.agent),Object.freeze(e.headers),Object.freeze(e.timeout),Object.freeze(e.retry),Object.freeze(e.retry.errorCodes),Object.freeze(e.retry.methods),Object.freeze(e.retry.statusCodes),Object.freeze(e.context)}};var fs=t=>{let{statusCode:e}=t,r=t.request.options.followRedirect?299:399;return e>=200&&e<=r||e===304},yu=class extends Z{constructor(e,r){let{options:s}=r.request;super(`${e.message} in "${s.url.toString()}"`,e,r.request),this.name="ParseError",this.code="ERR_BODY_PARSE_FAILURE"}},Wc=(t,e,r,s)=>{let{rawBody:i}=t;try{if(e==="text")return i.toString(s);if(e==="json")return i.length===0?"":r(i.toString(s));if(e==="buffer")return i}catch(n){throw new yu(n,t)}throw new yu({message:`Unknown body type '${e}'`,name:"Error"},t)};function jS(t){return t.writable&&!t.writableEnded}var gE=jS;function bu(t){return t.protocol==="unix:"||t.hostname==="unix"}var zS=$.default.string(Xc.default.versions.brotli),HS=new Set(["GET","HEAD"]),Vc=new Ri,GS=new Set([300,301,302,303,304,307,308]),WS=["socket","connect","continue","information","upgrade"],Yc=()=>{},yt=class extends CE.Duplex{constructor(e,r,s){super({autoDestroy:!1,highWaterMark:0}),Object.defineProperty(this,"constructor",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"_noPipe",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"options",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"response",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"requestUrl",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"redirectUrls",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"retryCount",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"_stopRetry",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"_downloadedSize",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"_uploadedSize",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"_stopReading",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"_pipedServerResponses",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"_request",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"_responseSize",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"_bodySize",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"_unproxyEvents",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"_isFromCache",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"_cannotHaveBody",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"_triggerRead",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"_cancelTimeouts",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"_nativeResponse",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"_flushed",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"_aborted",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),Object.defineProperty(this,"_requestInitialized",{enumerable:!0,configurable:!0,writable:!0,value:void 0}),this._downloadedSize=0,this._uploadedSize=0,this._stopReading=!1,this._pipedServerResponses=new Set,this._cannotHaveBody=!1,this._unproxyEvents=Yc,this._triggerRead=!1,this._cancelTimeouts=Yc,this._jobs=[],this._flushed=!1,this._requestInitialized=!1,this._aborted=!1,this.redirectUrls=[],this.retryCount=0,this._stopRetry=Yc,this.on("pipe",n=>{n.headers&&Object.assign(this.options.headers,n.headers)}),this.on("newListener",n=>{if(n==="retry"&&this.listenerCount("retry")>0)throw new Error("A retry listener has been attached already.")});try{if(this.options=new Ee(e,r,s),!this.options.url){if(this.options.prefixUrl==="")throw new TypeError("Missing `url` property");this.options.url=""}this.requestUrl=this.options.url}catch(n){let{options:u}=n;u&&(this.options=u),this.flush=async()=>{this.flush=async()=>{},this.destroy(n)};return}let{body:i}=this.options;$.default.nodeStream(i)&&i.once("error",n=>{this._flushed?this._beforeError(new gi(n,this)):this.flush=async()=>{this.flush=async()=>{},this._beforeError(new gi(n,this))}})}async flush(){if(!this._flushed){this._flushed=!0;try{if(await this._finalizeBody(),this.destroyed)return;if(await this._makeRequest(),this.destroyed){this._request?.destroy();return}for(let e of this._jobs)e();this._jobs.length=0,this._requestInitialized=!0}catch(e){this._beforeError(e)}}}_beforeError(e){if(this._stopReading)return;let{response:r,options:s}=this,i=this.retryCount+(e.name==="RetryError"?0:1);this._stopReading=!0,e instanceof Z||(e=new Z(e.message,e,this));let n=e;(async()=>{if(r?.readable&&!r.rawBody&&!this._request?.socket?.destroyed&&(r.setEncoding(this.readableEncoding),await this._setRawBody(r)&&(r.body=r.rawBody.toString())),this.listenerCount("retry")!==0){let u;try{let o;r&&"retry-after"in r.headers&&(o=Number(r.headers["retry-after"]),Number.isNaN(o)?(o=Date.parse(r.headers["retry-after"])-Date.now(),o<=0&&(o=1)):o*=1e3);let a=s.retry;u=await a.calculateDelay({attemptCount:i,retryOptions:a,error:n,retryAfter:o,computedValue:e0({attemptCount:i,retryOptions:a,error:n,retryAfter:o,computedValue:a.maxRetryAfter??s.timeout.request??Number.POSITIVE_INFINITY})})}catch(o){this._error(new Z(o.message,o,this));return}if(u){if(await new Promise(o=>{let a=setTimeout(o,u);this._stopRetry=()=>{clearTimeout(a),o()}}),this.destroyed)return;try{for(let o of this.options.hooks.beforeRetry)await o(n,this.retryCount+1)}catch(o){this._error(new Z(o.message,e,this));return}if(this.destroyed)return;this.destroy(),this.emit("retry",this.retryCount+1,e,o=>{let a=new yt(s.url,o,s);return a.retryCount=this.retryCount+1,Xc.default.nextTick(()=>{a.flush()}),a});return}}this._error(n)})()}_read(){this._triggerRead=!0;let{response:e}=this;if(e&&!this._stopReading){e.readableLength&&(this._triggerRead=!1);let r;for(;(r=e.read())!==null;){this._downloadedSize+=r.length;let s=this.downloadProgress;s.percent<1&&this.emit("downloadProgress",s),this.push(r)}}}_write(e,r,s){let i=()=>{this._writeRequest(e,r,s)};this._requestInitialized?i():this._jobs.push(i)}_final(e){let r=()=>{if(!this._request||this._request.destroyed){e();return}this._request.end(s=>{this._request._writableState?.errored||(s||(this._bodySize=this._uploadedSize,this.emit("uploadProgress",this.uploadProgress),this._request.emit("upload-complete")),e(s))})};this._requestInitialized?r():this._jobs.push(r)}_destroy(e,r){if(this._stopReading=!0,this.flush=async()=>{},this._stopRetry(),this._cancelTimeouts(),this.options){let{body:s}=this.options;$.default.nodeStream(s)&&s.destroy()}this._request&&this._request.destroy(),e!==null&&!$.default.undefined(e)&&!(e instanceof Z)&&(e=new Z(e.message,e,this)),r(e)}pipe(e,r){return e instanceof qi.ServerResponse&&this._pipedServerResponses.add(e),super.pipe(e,r)}unpipe(e){return e instanceof qi.ServerResponse&&this._pipedServerResponses.delete(e),super.unpipe(e),this}async _finalizeBody(){let{options:e}=this,{headers:r}=e,s=!$.default.undefined(e.form),i=!$.default.undefined(e.json),n=!$.default.undefined(e.body),u=HS.has(e.method)&&!(e.method==="GET"&&e.allowGetBody);if(this._cannotHaveBody=u,s||i||n){if(u)throw new TypeError(`The \`${e.method}\` method cannot be used with a body`);let o=!$.default.string(r["content-type"]);if(n){if(uu(e.body)){let c=new lu(e.body);o&&(r["content-type"]=c.headers["Content-Type"]),r["content-length"]=c.headers["Content-Length"],e.body=c.encode()}Si(e.body)&&o&&(r["content-type"]=`multipart/form-data; boundary=${e.body.getBoundary()}`)}else if(s){o&&(r["content-type"]="application/x-www-form-urlencoded");let{form:c}=e;e.form=void 0,e.body=new wu.URLSearchParams(c).toString()}else{o&&(r["content-type"]="application/json");let{json:c}=e;e.json=void 0,e.body=e.stringifyJson(c)}let a=await dc(e.body,e.headers);$.default.undefined(r["content-length"])&&$.default.undefined(r["transfer-encoding"])&&!u&&!$.default.undefined(a)&&(r["content-length"]=String(a))}e.responseType==="json"&&!("accept"in e.headers)&&(e.headers.accept="application/json"),this._bodySize=Number(r["content-length"])||void 0}async _onResponseBase(e){if(this.isAborted)return;let{options:r}=this,{url:s}=r;this._nativeResponse=e,r.decompress&&(e=(0,FE.default)(e));let i=e.statusCode,n=e;n.statusMessage=n.statusMessage?n.statusMessage:qi.default.STATUS_CODES[i],n.url=r.url.toString(),n.requestUrl=this.requestUrl,n.redirectUrls=this.redirectUrls,n.request=this,n.isFromCache=this._nativeResponse.fromCache??!1,n.ip=this.ip,n.retryCount=this.retryCount,n.ok=fs(n),this._isFromCache=n.isFromCache,this._responseSize=Number(e.headers["content-length"])||void 0,this.response=n,e.once("end",()=>{this._responseSize=this._downloadedSize,this.emit("downloadProgress",this.downloadProgress)}),e.once("error",o=>{this._aborted=!0,e.destroy(),this._beforeError(new Ci(o,this))}),e.once("aborted",()=>{this._aborted=!0,this._beforeError(new Ci({name:"Error",message:"The server aborted pending request",code:"ECONNRESET"},this))}),this.emit("downloadProgress",this.downloadProgress);let u=e.headers["set-cookie"];if($.default.object(r.cookieJar)&&u){let o=u.map(async a=>r.cookieJar.setCookie(a,s.toString()));r.ignoreInvalidCookies&&(o=o.map(async a=>{try{await a}catch{}}));try{await Promise.all(o)}catch(a){this._beforeError(a);return}}if(!this.isAborted){if(r.followRedirect&&e.headers.location&&GS.has(i)){if(e.resume(),this._cancelTimeouts(),this._unproxyEvents(),this.redirectUrls.length>=r.maxRedirects){this._beforeError(new Yn(this));return}this._request=void 0;let o=new Ee(void 0,void 0,this.options);(i===303&&o.method!=="GET"&&o.method!=="HEAD"||o.methodRewriting)&&(o.method="GET",o.body=void 0,o.json=void 0,o.form=void 0,delete o.headers["content-length"]);try{let c=xu.Buffer.from(e.headers.location,"binary").toString(),l=new wu.URL(c,s);if(!bu(s)&&bu(l)){this._beforeError(new Z("Cannot redirect to UNIX socket",{},this));return}l.hostname!==s.hostname||l.port!==s.port?("host"in o.headers&&delete o.headers.host,"cookie"in o.headers&&delete o.headers.cookie,"authorization"in o.headers&&delete o.headers.authorization,(o.username||o.password)&&(o.username="",o.password="")):(l.username=o.username,l.password=o.password),this.redirectUrls.push(l),o.prefixUrl="",o.url=l;for(let h of o.hooks.beforeRedirect)await h(o,n);this.emit("redirect",o,n),this.options=o,await this._makeRequest()}catch(c){this._beforeError(c);return}return}if(r.isStream&&r.throwHttpErrors&&!fs(n)){this._beforeError(new Cr(n));return}if(e.on("readable",()=>{this._triggerRead&&this._read()}),this.on("resume",()=>{e.resume()}),this.on("pause",()=>{e.pause()}),e.once("end",()=>{this.push(null)}),this._noPipe){await this._setRawBody()&&this.emit("response",e);return}this.emit("response",e);for(let o of this._pipedServerResponses)if(!o.headersSent){for(let a in e.headers){let c=r.decompress?a!=="content-encoding":!0,l=e.headers[a];c&&o.setHeader(a,l)}o.statusCode=i}}}async _setRawBody(e=this){if(e.readableEnded)return!1;try{let r=await(0,yE.buffer)(e);if(!this.isAborted)return this.response.rawBody=r,!0}catch{}return!1}async _onResponse(e){try{await this._onResponseBase(e)}catch(r){this._beforeError(r)}}_onRequest(e){let{options:r}=this,{timeout:s,url:i}=r;Jp(e),this.options.http2&&e.setTimeout(0),this._cancelTimeouts=mc(e,s,i);let n=r.cache?"cacheableResponse":"response";e.once(n,u=>{this._onResponse(u)}),e.once("error",u=>{this._aborted=!0,e.destroy(),u=u instanceof Bi?new Xn(u,this.timings,this):new Z(u.message,u,this),this._beforeError(u)}),this._unproxyEvents=vi(e,this,WS),this._request=e,this.emit("uploadProgress",this.uploadProgress),this._sendBody(),this.emit("request",e)}async _asyncWrite(e){return new Promise((r,s)=>{super.write(e,i=>{if(i){s(i);return}r()})})}_sendBody(){let{body:e}=this.options,r=this.redirectUrls.length===0?this:this._request??this;$.default.nodeStream(e)?e.pipe(r):$.default.generator(e)||$.default.asyncGenerator(e)?(async()=>{try{for await(let s of e)await this._asyncWrite(s);super.end()}catch(s){this._beforeError(s)}})():$.default.undefined(e)?(this._cannotHaveBody||this._noPipe)&&r.end():(this._writeRequest(e,void 0,()=>{}),r.end())}_prepareCache(e){Vc.has(e)||Vc.set(e,new Kc.default((r,s)=>{let i=r._request(r,s);return $.default.promise(i)&&(i.once=(n,u)=>{if(n==="error")(async()=>{try{await i}catch(o){u(o)}})();else if(n==="abort")(async()=>{try{(await i).once("abort",u)}catch{}})();else throw new Error(`Unknown HTTP2 promise event: ${n}`);return i}),i},e))}async _createCacheableRequest(e,r){return new Promise((s,i)=>{Object.assign(r,gc(e));let n,u=Vc.get(r.cache)(r,async o=>{if(o._readableState.autoDestroy=!1,n){let a=()=>{o.req&&(o.complete=o.req.res.complete)};o.prependOnceListener("end",a),a(),(await n).emit("cacheableResponse",o)}s(o)});u.once("error",i),u.once("request",async o=>{n=o,s(n)})})}async _makeRequest(){let{options:e}=this,{headers:r,username:s,password:i}=e,n=e.cookieJar;for(let c in r)if($.default.undefined(r[c]))delete r[c];else if($.default.null_(r[c]))throw new TypeError(`Use \`undefined\` instead of \`null\` to delete the \`${c}\` header`);if(e.decompress&&$.default.undefined(r["accept-encoding"])&&(r["accept-encoding"]=zS?"gzip, deflate, br":"gzip, deflate"),s||i){let c=xu.Buffer.from(`${s}:${i}`).toString("base64");r.authorization=`Basic ${c}`}if(n){let c=await n.getCookieString(e.url.toString());$.default.nonEmptyString(c)&&(r.cookie=c)}e.prefixUrl="";let u;for(let c of e.hooks.beforeRequest){let l=await c(e);if(!$.default.undefined(l)){u=()=>l;break}}u||(u=e.getRequestFunction());let o=e.url;this._requestOptions=e.createNativeRequestOptions(),e.cache&&(this._requestOptions._request=u,this._requestOptions.cache=e.cache,this._prepareCache(e.cache));let a=e.cache?this._createCacheableRequest:u;try{let c=a(o,this._requestOptions);$.default.promise(c)&&(c=await c),$.default.undefined(c)&&(c=e.getFallbackRequestFunction()(o,this._requestOptions),$.default.promise(c)&&(c=await c)),gE(c)?this._onRequest(c):this.writable?(this.once("finish",()=>{this._onResponse(c)}),this._sendBody()):this._onResponse(c)}catch(c){throw c instanceof Kc.default.CacheError?new Kn(c,this):c}}async _error(e){try{for(let r of this.options.hooks.beforeError)e=await r(e)}catch(r){e=new Z(r.message,r,this)}this.destroy(e)}_writeRequest(e,r,s){!this._request||this._request.destroyed||this._request.write(e,r,i=>{if(!i){this._uploadedSize+=xu.Buffer.byteLength(e,r);let n=this.uploadProgress;n.percent<1&&this.emit("uploadProgress",n)}s(i)})}get ip(){return this.socket?.remoteAddress}get isAborted(){return this._aborted}get socket(){return this._request?.socket??void 0}get downloadProgress(){let e;return this._responseSize?e=this._downloadedSize/this._responseSize:this._responseSize===this._downloadedSize?e=1:e=0,{percent:e,transferred:this._downloadedSize,total:this._responseSize}}get uploadProgress(){let e;return this._bodySize?e=this._uploadedSize/this._bodySize:this._bodySize===this._uploadedSize?e=1:e=0,{percent:e,transferred:this._uploadedSize,total:this._bodySize}}get timings(){return this._request?.timings}get isFromCache(){return this._isFromCache}get reusedSocket(){return this._request?.reusedSocket}};var _u=class extends Z{constructor(e){super("Promise was canceled",{},e),this.name="CancelError",this.code="ERR_CANCELED"}get isCanceled(){return!0}};var VS=["request","response","redirect","uploadProgress","downloadProgress"];function Au(t){let e,r,s,i=new bE.EventEmitter,n=new Ut((o,a,c)=>{c(()=>{e.destroy()}),c.shouldReject=!1,c(()=>{a(new _u(e))});let l=h=>{c(()=>{});let f=t??new yt(void 0,void 0,s);f.retryCount=h,f._noPipe=!0,e=f,f.once("response",async m=>{let g=(m.headers["content-encoding"]??"").toLowerCase(),F=g==="gzip"||g==="deflate"||g==="br",{options:w}=f;if(F&&!w.decompress)m.body=m.rawBody;else try{m.body=Wc(m,w.responseType,w.parseJson,w.encoding)}catch(y){if(m.body=m.rawBody.toString(),fs(m)){f._beforeError(y);return}}try{let y=w.hooks.afterResponse;for(let[b,B]of y.entries())if(m=await B(m,async N=>{throw w.merge(N),w.prefixUrl="",N.url&&(w.url=N.url),w.hooks.afterResponse=w.hooks.afterResponse.slice(0,b),new Zn(f)}),!(Ds.default.object(m)&&Ds.default.number(m.statusCode)&&!Ds.default.nullOrUndefined(m.body)))throw new TypeError("The `afterResponse` hook returned an invalid value")}catch(y){f._beforeError(y);return}if(r=m,!fs(m)){f._beforeError(new Cr(m));return}f.destroy(),o(f.options.resolveBodyOnly?m.body:m)});let D=m=>{if(n.isCanceled)return;let{options:g}=f;if(m instanceof Cr&&!g.throwHttpErrors){let{response:F}=m;f.destroy(),o(f.options.resolveBodyOnly?F.body:F);return}a(m)};f.once("error",D);let C=f.options?.body;f.once("retry",(m,g)=>{t=void 0;let F=f.options.body;if(C===F&&Ds.default.nodeStream(F)){g.message="Cannot retry with consumed body stream",D(g);return}s=f.options,l(m)}),vi(f,i,VS),Ds.default.undefined(t)&&f.flush()};l(0)});n.on=(o,a)=>(i.on(o,a),n);let u=o=>{let a=(async()=>{await n;let{options:c}=r.request;return Wc(r,o,c.parseJson,c.encoding)})();return Object.defineProperties(a,Object.getOwnPropertyDescriptors(n)),a};return n.json=()=>{if(e.options){let{headers:o}=e.options;!e.writableFinished&&!("accept"in o)&&(o.accept="application/json")}return u("json")},n.buffer=()=>u("buffer"),n.text=()=>u("text"),n}var YS=async t=>new Promise(e=>{setTimeout(e,t)}),KS=t=>Ae.default.function_(t),XS=["get","post","put","patch","head","delete"],xE=t=>{t={options:new Ee(void 0,void 0,t.options),handlers:[...t.handlers],mutableDefaults:t.mutableDefaults},Object.defineProperty(t,"mutableDefaults",{enumerable:!0,configurable:!1,writable:!1});let e=(s,i,n=t.options)=>{let u=new yt(s,i,n),o,a=h=>(u.options=h,u._noPipe=!h.isStream,u.flush(),h.isStream?u:(o||(o=Au(u)),o)),c=0,l=h=>{let D=(t.handlers[c++]??a)(h,l);if(Ae.default.promise(D)&&!u.options.isStream&&(o||(o=Au(u)),D!==o)){let C=Object.getOwnPropertyDescriptors(o);for(let m in C)m in D&&delete C[m];Object.defineProperties(D,C),D.cancel=o.cancel}return D};return l(u.options)};e.extend=(...s)=>{let i=new Ee(void 0,void 0,t.options),n=[...t.handlers],u;for(let o of s)KS(o)?(i.merge(o.defaults.options),n.push(...o.defaults.handlers),u=o.defaults.mutableDefaults):(i.merge(o),o.handlers&&n.push(...o.handlers),u=o.mutableDefaults);return xE({options:i,handlers:n,mutableDefaults:Boolean(u)})};let r=async function*(s,i){let n=new Ee(s,i,t.options);n.resolveBodyOnly=!1;let{pagination:u}=n;Ae.assert.function_(u.transform),Ae.assert.function_(u.shouldContinue),Ae.assert.function_(u.filter),Ae.assert.function_(u.paginate),Ae.assert.number(u.countLimit),Ae.assert.number(u.requestLimit),Ae.assert.number(u.backoff);let o=[],{countLimit:a}=u,c=0;for(;c<u.requestLimit;){c!==0&&await YS(u.backoff);let l=await e(void 0,void 0,n),h=await u.transform(l),f=[];Ae.assert.array(h);for(let C of h)if(u.filter({item:C,currentItems:f,allItems:o})&&(!u.shouldContinue({item:C,currentItems:f,allItems:o})||(yield C,u.stackAllItems&&o.push(C),f.push(C),--a<=0)))return;let D=u.paginate({response:l,currentItems:f,allItems:o});if(D===!1)return;D===l.request.options?n=l.request.options:(n.merge(D),Ae.assert.any([Ae.default.urlInstance,Ae.default.undefined],D.url),D.url!==void 0&&(n.prefixUrl="",n.url=D.url)),c++}};e.paginate=r,e.paginate.all=async(s,i)=>{let n=[];for await(let u of r(s,i))n.push(u);return n},e.paginate.each=r,e.stream=(s,i)=>e(s,{...i,isStream:!0});for(let s of XS)e[s]=(i,n)=>e(i,{...n,method:s}),e.stream[s]=(i,n)=>e(i,{...n,method:s,isStream:!0});return t.mutableDefaults||(Object.freeze(t.handlers),t.options.freeze()),Object.defineProperty(e,"defaults",{value:t,writable:!1,configurable:!1,enumerable:!0}),e},wE=xE;var ZS={options:new Ee,handlers:[],mutableDefaults:!1},JS=wE(ZS),_E=JS;var KE=A(YE(),1);function el(t){let e=(0,KE.default)("npm",{registry:"https://registry.npmjs.org/"}),r=e[`${t}:registry`]||e.config_registry||e.registry;return r.slice(-1)==="/"?r:`${r}/`}var qg=A(Ng(),1),Mg=A(pi(),1),$g={keepAlive:!0,maxSockets:50},$1=new Pg.Agent($g),U1=new kg.Agent($g),cl=class extends Error{constructor(e){super(`Package \`${e}\` could not be found`),this.name="PackageNotFoundError"}},ll=class extends Error{constructor(e,r){super(`Version \`${r}\` for package \`${e}\` could not be found`),this.name="VersionNotFoundError"}};async function hl(t,e){e={version:"latest",...e};let r=t.split("/")[0],s=e.registryUrl||el(r),i=new URL(encodeURIComponent(t).replace(/^%40/,"@"),s),n=(0,qg.default)(s.toString(),{recursive:!0}),u={accept:"application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*"};e.fullMetadata&&delete u.accept,n&&(u.authorization=`${n.type} ${n.token}`);let o={headers:u,agent:{http:$1,https:U1}};e.agent&&(o.agent=e.agent);let a;try{a=await _E(i,o).json()}catch(h){throw h.response.statusCode===404?new cl(t):h}if(e.allVersions)return a;let{version:c}=e,l=new ll(t,c);if(a["dist-tags"][c])a=a.versions[a["dist-tags"][c]];else if(c){if(!a.versions[c]){let h=Object.keys(a.versions);if(c=Mg.default.maxSatisfying(h,c),!c)throw l}if(a=a.versions[c],!a)throw l}return a}async function fl(t,e){let{version:r}=await hl(t.toLowerCase(),e);return r}var Dl=A(require("node:process"),1),Ug=Dl.default.env.npm_package_json,Lu=Dl.default.env.npm_config_user_agent,j1=Boolean(Lu&&Lu.startsWith("npm")),z1=Boolean(Ug&&Ug.endsWith("package.json")),H1=j1||z1,G1=Boolean(Lu&&Lu.startsWith("yarn")),jg=H1||G1;var hF=A(sC(),1);var ku=A(require("node:path"),1),iC=require("node:url"),e8={},Q1=()=>{let t=ku.default.dirname((0,iC.fileURLToPath)(e8.url)),r=process.platform==="win32"?ku.default.join("Yarn","config","global"):ku.default.join(".config","yarn","global");return t.includes(r)},nC=Q1;var uC=A(require("node:process"),1),oC=A(require("node:path"),1),aC=A(require("node:fs"),1);function Cl(t=uC.default.cwd()){return aC.default.existsSync(oC.default.resolve(t,"yarn.lock"))}var Vi=A(require("node:process"),1);function Fl({onlyFirst:t=!1}={}){let e=["[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)","(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))"].join("|");return new RegExp(e,t?void 0:"g")}function yl(t){if(typeof t!="string")throw new TypeError(`Expected a \`string\`, got \`${typeof t}\``);return t.replace(Fl(),"")}var DC=A(lC(),1),dC=A(fC(),1);function ue(t,e={}){if(typeof t!="string"||t.length===0||(e={ambiguousIsNarrow:!0,...e},t=yl(t),t.length===0))return 0;t=t.replace((0,dC.default)(),"  ");let r=e.ambiguousIsNarrow?1:2,s=0;for(let i of t){let n=i.codePointAt(0);if(n<=31||n>=127&&n<=159||n>=768&&n<=879)continue;switch(DC.default.eastAsianWidth(i)){case"F":case"W":s+=2;break;case"A":s+=r;break;default:s+=1}}return s}var pC=(t=0)=>e=>`\x1B[${e+t}m`,mC=(t=0)=>e=>`\x1B[${38+t};5;${e}m`,EC=(t=0)=>(e,r,s)=>`\x1B[${38+t};2;${e};${r};${s}m`;function t8(){let t=new Map,e={modifier:{reset:[0,0],bold:[1,22],dim:[2,22],italic:[3,23],underline:[4,24],overline:[53,55],inverse:[7,27],hidden:[8,28],strikethrough:[9,29]},color:{black:[30,39],red:[31,39],green:[32,39],yellow:[33,39],blue:[34,39],magenta:[35,39],cyan:[36,39],white:[37,39],blackBright:[90,39],redBright:[91,39],greenBright:[92,39],yellowBright:[93,39],blueBright:[94,39],magentaBright:[95,39],cyanBright:[96,39],whiteBright:[97,39]},bgColor:{bgBlack:[40,49],bgRed:[41,49],bgGreen:[42,49],bgYellow:[43,49],bgBlue:[44,49],bgMagenta:[45,49],bgCyan:[46,49],bgWhite:[47,49],bgBlackBright:[100,49],bgRedBright:[101,49],bgGreenBright:[102,49],bgYellowBright:[103,49],bgBlueBright:[104,49],bgMagentaBright:[105,49],bgCyanBright:[106,49],bgWhiteBright:[107,49]}};e.color.gray=e.color.blackBright,e.bgColor.bgGray=e.bgColor.bgBlackBright,e.color.grey=e.color.blackBright,e.bgColor.bgGrey=e.bgColor.bgBlackBright;for(let[r,s]of Object.entries(e)){for(let[i,n]of Object.entries(s))e[i]={open:`\x1B[${n[0]}m`,close:`\x1B[${n[1]}m`},s[i]=e[i],t.set(n[0],n[1]);Object.defineProperty(e,r,{value:s,enumerable:!1})}return Object.defineProperty(e,"codes",{value:t,enumerable:!1}),e.color.close="\x1B[39m",e.bgColor.close="\x1B[49m",e.color.ansi=pC(),e.color.ansi256=mC(),e.color.ansi16m=EC(),e.bgColor.ansi=pC(10),e.bgColor.ansi256=mC(10),e.bgColor.ansi16m=EC(10),Object.defineProperties(e,{rgbToAnsi256:{value:(r,s,i)=>r===s&&s===i?r<8?16:r>248?231:Math.round((r-8)/247*24)+232:16+36*Math.round(r/255*5)+6*Math.round(s/255*5)+Math.round(i/255*5),enumerable:!1},hexToRgb:{value:r=>{let s=/(?<colorString>[a-f\d]{6}|[a-f\d]{3})/i.exec(r.toString(16));if(!s)return[0,0,0];let{colorString:i}=s.groups;i.length===3&&(i=[...i].map(u=>u+u).join(""));let n=Number.parseInt(i,16);return[n>>16&255,n>>8&255,n&255]},enumerable:!1},hexToAnsi256:{value:r=>e.rgbToAnsi256(...e.hexToRgb(r)),enumerable:!1},ansi256ToAnsi:{value:r=>{if(r<8)return 30+r;if(r<16)return 90+(r-8);let s,i,n;if(r>=232)s=((r-232)*10+8)/255,i=s,n=s;else{r-=16;let a=r%36;s=Math.floor(r/36)/5,i=Math.floor(a/6)/5,n=a%6/5}let u=Math.max(s,i,n)*2;if(u===0)return 30;let o=30+(Math.round(n)<<2|Math.round(i)<<1|Math.round(s));return u===2&&(o+=60),o},enumerable:!1},rgbToAnsi:{value:(r,s,i)=>e.ansi256ToAnsi(e.rgbToAnsi256(r,s,i)),enumerable:!1},hexToAnsi:{value:r=>e.ansi256ToAnsi(e.hexToAnsi256(r)),enumerable:!1}}),e}var r8=t8(),Qe=r8;var Mu=A(require("node:process"),1),CC=A(require("node:os"),1),xl=A(require("node:tty"),1);function ze(t,e=Mu.default.argv){let r=t.startsWith("-")?"":t.length===1?"-":"--",s=e.indexOf(r+t),i=e.indexOf("--");return s!==-1&&(i===-1||s<i)}var{env:ee}=Mu.default,qu;ze("no-color")||ze("no-colors")||ze("color=false")||ze("color=never")?qu=0:(ze("color")||ze("colors")||ze("color=true")||ze("color=always"))&&(qu=1);function s8(){if("FORCE_COLOR"in ee)return ee.FORCE_COLOR==="true"?1:ee.FORCE_COLOR==="false"?0:ee.FORCE_COLOR.length===0?1:Math.min(Number.parseInt(ee.FORCE_COLOR,10),3)}function i8(t){return t===0?!1:{level:t,hasBasic:!0,has256:t>=2,has16m:t>=3}}function n8(t,{streamIsTTY:e,sniffFlags:r=!0}={}){let s=s8();s!==void 0&&(qu=s);let i=r?qu:s;if(i===0)return 0;if(r){if(ze("color=16m")||ze("color=full")||ze("color=truecolor"))return 3;if(ze("color=256"))return 2}if(t&&!e&&i===void 0)return 0;let n=i||0;if(ee.TERM==="dumb")return n;if(Mu.default.platform==="win32"){let u=CC.default.release().split(".");return Number(u[0])>=10&&Number(u[2])>=10586?Number(u[2])>=14931?3:2:1}if("CI"in ee)return["TRAVIS","CIRCLECI","APPVEYOR","GITLAB_CI","GITHUB_ACTIONS","BUILDKITE","DRONE"].some(u=>u in ee)||ee.CI_NAME==="codeship"?1:n;if("TEAMCITY_VERSION"in ee)return/^(9\.(0*[1-9]\d*)\.|\d{2,}\.)/.test(ee.TEAMCITY_VERSION)?1:0;if("TF_BUILD"in ee&&"AGENT_NAME"in ee)return 1;if(ee.COLORTERM==="truecolor")return 3;if("TERM_PROGRAM"in ee){let u=Number.parseInt((ee.TERM_PROGRAM_VERSION||"").split(".")[0],10);switch(ee.TERM_PROGRAM){case"iTerm.app":return u>=3?3:2;case"Apple_Terminal":return 2}}return/-256(color)?$/i.test(ee.TERM)?2:/^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux/i.test(ee.TERM)||"COLORTERM"in ee?1:n}function gC(t,e={}){let r=n8(t,{streamIsTTY:t&&t.isTTY,...e});return i8(r)}var u8={stdout:gC({isTTY:xl.default.isatty(1)}),stderr:gC({isTTY:xl.default.isatty(2)})},FC=u8;function yC(t,e,r){let s=t.indexOf(e);if(s===-1)return t;let i=e.length,n=0,u="";do u+=t.substr(n,s-n)+e+r,n=s+i,s=t.indexOf(e,n);while(s!==-1);return u+=t.slice(n),u}function bC(t,e,r,s){let i=0,n="";do{let u=t[s-1]==="\r";n+=t.substr(i,(u?s-1:s)-i)+e+(u?`\r
-`:`
-`)+r,i=s+1,s=t.indexOf(`
-`,i)}while(s!==-1);return n+=t.slice(i),n}var{stdout:xC,stderr:wC}=FC,wl=Symbol("GENERATOR"),ys=Symbol("STYLER"),Gi=Symbol("IS_EMPTY"),_C=["ansi","ansi","ansi256","ansi16m"],bs=Object.create(null),o8=(t,e={})=>{if(e.level&&!(Number.isInteger(e.level)&&e.level>=0&&e.level<=3))throw new Error("The `level` option should be an integer from 0 to 3");let r=xC?xC.level:0;t.level=e.level===void 0?r:e.level};var a8=t=>{let e=(...r)=>r.join(" ");return o8(e,t),Object.setPrototypeOf(e,Wi.prototype),e};function Wi(t){return a8(t)}Object.setPrototypeOf(Wi.prototype,Function.prototype);for(let[t,e]of Object.entries(Qe))bs[t]={get(){let r=$u(this,Al(e.open,e.close,this[ys]),this[Gi]);return Object.defineProperty(this,t,{value:r}),r}};bs.visible={get(){let t=$u(this,this[ys],!0);return Object.defineProperty(this,"visible",{value:t}),t}};var _l=(t,e,r,...s)=>t==="rgb"?e==="ansi16m"?Qe[r].ansi16m(...s):e==="ansi256"?Qe[r].ansi256(Qe.rgbToAnsi256(...s)):Qe[r].ansi(Qe.rgbToAnsi(...s)):t==="hex"?_l("rgb",e,r,...Qe.hexToRgb(...s)):Qe[r][t](...s),c8=["rgb","hex","ansi256"];for(let t of c8){bs[t]={get(){let{level:r}=this;return function(...s){let i=Al(_l(t,_C[r],"color",...s),Qe.color.close,this[ys]);return $u(this,i,this[Gi])}}};let e="bg"+t[0].toUpperCase()+t.slice(1);bs[e]={get(){let{level:r}=this;return function(...s){let i=Al(_l(t,_C[r],"bgColor",...s),Qe.bgColor.close,this[ys]);return $u(this,i,this[Gi])}}}}var l8=Object.defineProperties(()=>{},{...bs,level:{enumerable:!0,get(){return this[wl].level},set(t){this[wl].level=t}}}),Al=(t,e,r)=>{let s,i;return r===void 0?(s=t,i=e):(s=r.openAll+t,i=e+r.closeAll),{open:t,close:e,openAll:s,closeAll:i,parent:r}},$u=(t,e,r)=>{let s=(...i)=>h8(s,i.length===1?""+i[0]:i.join(" "));return Object.setPrototypeOf(s,l8),s[wl]=t,s[ys]=e,s[Gi]=r,s},h8=(t,e)=>{if(t.level<=0||!e)return t[Gi]?"":e;let r=t[ys];if(r===void 0)return e;let{openAll:s,closeAll:i}=r;if(e.includes("\x1B"))for(;r!==void 0;)e=yC(e,r.close,r.open),r=r.parent;let n=e.indexOf(`
-`);return n!==-1&&(e=bC(e,i,s,n)),s+e+i};Object.defineProperties(Wi.prototype,bs);var f8=Wi(),LN=Wi({level:wC?wC.level:0});var Ir=f8;function Uu(t){let e=0;for(let r of t.split(`
-`))e=Math.max(e,ue(r));return e}var JC=A(vl(),1);var d8=/[\p{Lu}]/u,p8=/[\p{Ll}]/u,vC=/^[\p{Lu}](?![\p{Lu}])/gu,OC=/([\p{Alpha}\p{N}_]|$)/u,Bl=/[_.\- ]+/,m8=new RegExp("^"+Bl.source),BC=new RegExp(Bl.source+OC.source,"gu"),RC=new RegExp("\\d+"+OC.source,"gu"),E8=(t,e,r)=>{let s=!1,i=!1,n=!1;for(let u=0;u<t.length;u++){let o=t[u];s&&d8.test(o)?(t=t.slice(0,u)+"-"+t.slice(u),s=!1,n=i,i=!0,u++):i&&n&&p8.test(o)?(t=t.slice(0,u-1)+"-"+t.slice(u-1),n=i,i=!1,s=!0):(s=e(o)===o&&r(o)!==o,n=i,i=r(o)===o&&e(o)!==o)}return t},g8=(t,e)=>(vC.lastIndex=0,t.replace(vC,r=>e(r))),C8=(t,e)=>(BC.lastIndex=0,RC.lastIndex=0,t.replace(BC,(r,s)=>e(s)).replace(RC,r=>e(r)));function Rl(t,e){if(!(typeof t=="string"||Array.isArray(t)))throw new TypeError("Expected the input to be `string | string[]`");if(e={pascalCase:!1,preserveConsecutiveUppercase:!1,...e},Array.isArray(t)?t=t.map(n=>n.trim()).filter(n=>n.length).join("-"):t=t.trim(),t.length===0)return"";let r=e.locale===!1?n=>n.toLowerCase():n=>n.toLocaleLowerCase(e.locale),s=e.locale===!1?n=>n.toUpperCase():n=>n.toLocaleUpperCase(e.locale);return t.length===1?Bl.test(t)?"":e.pascalCase?s(t):r(t):(t!==r(t)&&(t=E8(t,r,s)),t=t.replace(m8,""),t=e.preserveConsecutiveUppercase?g8(t,r):r(t),e.pascalCase&&(t=s(t.charAt(0))+t.slice(1)),C8(t,s))}var $l=A(UC(),1);function Nl({onlyFirst:t=!1}={}){let e=["[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)","(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))"].join("|");return new RegExp(e,t?void 0:"g")}function Pl(t){if(typeof t!="string")throw new TypeError(`Expected a \`string\`, got \`${typeof t}\``);return t.replace(Nl(),"")}var jC=(t=0)=>e=>`\x1B[${e+t}m`,zC=(t=0)=>e=>`\x1B[${38+t};5;${e}m`,HC=(t=0)=>(e,r,s)=>`\x1B[${38+t};2;${e};${r};${s}m`;function S8(){let t=new Map,e={modifier:{reset:[0,0],bold:[1,22],dim:[2,22],italic:[3,23],underline:[4,24],overline:[53,55],inverse:[7,27],hidden:[8,28],strikethrough:[9,29]},color:{black:[30,39],red:[31,39],green:[32,39],yellow:[33,39],blue:[34,39],magenta:[35,39],cyan:[36,39],white:[37,39],blackBright:[90,39],redBright:[91,39],greenBright:[92,39],yellowBright:[93,39],blueBright:[94,39],magentaBright:[95,39],cyanBright:[96,39],whiteBright:[97,39]},bgColor:{bgBlack:[40,49],bgRed:[41,49],bgGreen:[42,49],bgYellow:[43,49],bgBlue:[44,49],bgMagenta:[45,49],bgCyan:[46,49],bgWhite:[47,49],bgBlackBright:[100,49],bgRedBright:[101,49],bgGreenBright:[102,49],bgYellowBright:[103,49],bgBlueBright:[104,49],bgMagentaBright:[105,49],bgCyanBright:[106,49],bgWhiteBright:[107,49]}};e.color.gray=e.color.blackBright,e.bgColor.bgGray=e.bgColor.bgBlackBright,e.color.grey=e.color.blackBright,e.bgColor.bgGrey=e.bgColor.bgBlackBright;for(let[r,s]of Object.entries(e)){for(let[i,n]of Object.entries(s))e[i]={open:`\x1B[${n[0]}m`,close:`\x1B[${n[1]}m`},s[i]=e[i],t.set(n[0],n[1]);Object.defineProperty(e,r,{value:s,enumerable:!1})}return Object.defineProperty(e,"codes",{value:t,enumerable:!1}),e.color.close="\x1B[39m",e.bgColor.close="\x1B[49m",e.color.ansi=jC(),e.color.ansi256=zC(),e.color.ansi16m=HC(),e.bgColor.ansi=jC(10),e.bgColor.ansi256=zC(10),e.bgColor.ansi16m=HC(10),Object.defineProperties(e,{rgbToAnsi256:{value:(r,s,i)=>r===s&&s===i?r<8?16:r>248?231:Math.round((r-8)/247*24)+232:16+36*Math.round(r/255*5)+6*Math.round(s/255*5)+Math.round(i/255*5),enumerable:!1},hexToRgb:{value:r=>{let s=/(?<colorString>[a-f\d]{6}|[a-f\d]{3})/i.exec(r.toString(16));if(!s)return[0,0,0];let{colorString:i}=s.groups;i.length===3&&(i=i.split("").map(u=>u+u).join(""));let n=Number.parseInt(i,16);return[n>>16&255,n>>8&255,n&255]},enumerable:!1},hexToAnsi256:{value:r=>e.rgbToAnsi256(...e.hexToRgb(r)),enumerable:!1},ansi256ToAnsi:{value:r=>{if(r<8)return 30+r;if(r<16)return 90+(r-8);let s,i,n;if(r>=232)s=((r-232)*10+8)/255,i=s,n=s;else{r-=16;let a=r%36;s=Math.floor(r/36)/5,i=Math.floor(a/6)/5,n=a%6/5}let u=Math.max(s,i,n)*2;if(u===0)return 30;let o=30+(Math.round(n)<<2|Math.round(i)<<1|Math.round(s));return u===2&&(o+=60),o},enumerable:!1},rgbToAnsi:{value:(r,s,i)=>e.ansi256ToAnsi(e.rgbToAnsi256(r,s,i)),enumerable:!1},hexToAnsi:{value:r=>e.ansi256ToAnsi(e.hexToAnsi256(r)),enumerable:!1}}),e}var v8=S8(),GC=v8;var ju=new Set(["\x1B","\x9B"]),B8=39,ql="\x07",YC="[",R8="]",KC="m",Ml=`${R8}8;;`,WC=t=>`${ju.values().next().value}${YC}${t}${KC}`,VC=t=>`${ju.values().next().value}${Ml}${t}${ql}`,O8=t=>t.split(" ").map(e=>ue(e)),kl=(t,e,r)=>{let s=[...e],i=!1,n=!1,u=ue(Pl(t[t.length-1]));for(let[o,a]of s.entries()){let c=ue(a);if(u+c<=r?t[t.length-1]+=a:(t.push(a),u=0),ju.has(a)&&(i=!0,n=s.slice(o+1).join("").startsWith(Ml)),i){n?a===ql&&(i=!1,n=!1):a===KC&&(i=!1);continue}u+=c,u===r&&o<s.length-1&&(t.push(""),u=0)}!u&&t[t.length-1].length>0&&t.length>1&&(t[t.length-2]+=t.pop())},T8=t=>{let e=t.split(" "),r=e.length;for(;r>0&&!(ue(e[r-1])>0);)r--;return r===e.length?t:e.slice(0,r).join(" ")+e.slice(r).join("")},I8=(t,e,r={})=>{if(r.trim!==!1&&t.trim()==="")return"";let s="",i,n,u=O8(t),o=[""];for(let[c,l]of t.split(" ").entries()){r.trim!==!1&&(o[o.length-1]=o[o.length-1].trimStart());let h=ue(o[o.length-1]);if(c!==0&&(h>=e&&(r.wordWrap===!1||r.trim===!1)&&(o.push(""),h=0),(h>0||r.trim===!1)&&(o[o.length-1]+=" ",h++)),r.hard&&u[c]>e){let f=e-h,D=1+Math.floor((u[c]-f-1)/e);Math.floor((u[c]-1)/e)<D&&o.push(""),kl(o,l,e);continue}if(h+u[c]>e&&h>0&&u[c]>0){if(r.wordWrap===!1&&h<e){kl(o,l,e);continue}o.push("")}if(h+u[c]>e&&r.wordWrap===!1){kl(o,l,e);continue}o[o.length-1]+=l}r.trim!==!1&&(o=o.map(c=>T8(c)));let a=[...o.join(`
-`)];for(let[c,l]of a.entries()){if(s+=l,ju.has(l)){let{groups:f}=new RegExp(`(?:\\${YC}(?<code>\\d+)m|\\${Ml}(?<uri>.*)${ql})`).exec(a.slice(c).join(""))||{groups:{}};if(f.code!==void 0){let D=Number.parseFloat(f.code);i=D===B8?void 0:D}else f.uri!==void 0&&(n=f.uri.length===0?void 0:f.uri)}let h=GC.codes.get(Number(i));a[c+1]===`
-`?(n&&(s+=VC("")),i&&h&&(s+=WC(h))):l===`
-`&&(i&&h&&(s+=WC(i)),n&&(s+=VC(n)))}return s};function zu(t,e,r){return String(t).normalize().replace(/\r\n/g,`
-`).split(`
-`).map(s=>I8(s,e,r)).join(`
-`)}var j8=A(vl(),1),xs=`
-`,Se=" ",wt=2,QC=()=>{let{env:t,stdout:e,stderr:r}=Vi.default;return e?.columns?e.columns:r?.columns?r.columns:t.COLUMNS?Number.parseInt(t.COLUMNS,10):80},XC=t=>typeof t=="number"?{top:t,right:t*3,bottom:t,left:t*3}:{top:0,right:0,bottom:0,left:0,...t},L8=t=>{let e=["topLeft","topRight","bottomRight","bottomLeft","left","right","top","bottom"],r;if(typeof t=="string"){if(r=JC.default[t],!r)throw new TypeError(`Invalid border style: ${t}`)}else{typeof t?.vertical=="string"&&(t.left=t.vertical,t.right=t.vertical),typeof t?.horizontal=="string"&&(t.top=t.horizontal,t.bottom=t.horizontal);for(let s of e)if(!t[s]||typeof t[s]!="string")throw new TypeError(`Invalid border style: ${s}`);r=t}return r},N8=(t,e,r)=>{let s="",i=ue(t);switch(r){case"left":s=t+e.slice(i);break;case"right":s=e.slice(i)+t;break;default:e=e.slice(i),e.length%2===1?(e=e.slice(Math.floor(e.length/2)),s=e.slice(1)+t+e):(e=e.slice(e.length/2),s=e+t+e);break}return s},P8=(t,{padding:e,width:r,textAlignment:s,height:i})=>{t=(0,$l.default)(t,{align:s});let n=t.split(xs),u=Uu(t),o=r-e.left-e.right;if(u>o){let l=[];for(let h of n){let f=zu(h,o,{hard:!0}),C=(0,$l.default)(f,{align:s}).split(`
-`),m=Math.max(...C.map(g=>ue(g)));for(let g of C){let F;switch(s){case"center":F=Se.repeat((o-m)/2)+g;break;case"right":F=Se.repeat(o-m)+g;break;default:F=g;break}l.push(F)}}n=l}s==="center"&&u<o?n=n.map(l=>Se.repeat((o-u)/2)+l):s==="right"&&u<o&&(n=n.map(l=>Se.repeat(o-u)+l));let a=Se.repeat(e.left),c=Se.repeat(e.right);return n=n.map(l=>a+l+c),n=n.map(l=>{if(r-ue(l)>0)switch(s){case"center":return l+Se.repeat(r-ue(l));case"right":return l+Se.repeat(r-ue(l));default:return l+Se.repeat(r-ue(l))}return l}),e.top>0&&(n=[...Array.from({length:e.top}).fill(Se.repeat(r)),...n]),e.bottom>0&&(n=[...n,...Array.from({length:e.bottom}).fill(Se.repeat(r))]),i&&n.length>i?n=n.slice(0,i):i&&n.length<i&&(n=[...n,...Array.from({length:i-n.length}).fill(Se.repeat(r))]),n.join(xs)},k8=(t,e,r)=>{let s=D=>{let C=r.borderColor?$8(r.borderColor)(D):D;return r.dimBorder?Ir.dim(C):C},i=D=>r.backgroundColor?U8(r.backgroundColor)(D):D,n=L8(r.borderStyle),u=QC(),o=Se.repeat(r.margin.left);if(r.float==="center"){let D=Math.max((u-e-wt)/2,0);o=Se.repeat(D)}else if(r.float==="right"){let D=Math.max(u-e-r.margin.right-wt,0);o=Se.repeat(D)}let a=s(xs.repeat(r.margin.top)+o+n.topLeft+(r.title?N8(r.title,n.top.repeat(e),r.titleAlignment):n.top.repeat(e))+n.topRight),c=s(o+n.bottomLeft+n.bottom.repeat(e)+n.bottomRight+xs.repeat(r.margin.bottom)),l=e+wt+r.margin.left>=u?"":xs,f=t.split(xs).map(D=>o+s(n.left)+i(D)+s(n.right)).join(l);return a+l+f+l+c},q8=t=>{if(t.fullscreen&&Vi.default?.stdout){let e=[Vi.default.stdout.columns,Vi.default.stdout.rows];typeof t.fullscreen=="function"&&(e=t.fullscreen(...e)),t.width||(t.width=e[0]),t.height||(t.height=e[1])}return t.width&&(t.width=Math.max(1,t.width-wt)),t.height&&(t.height=Math.max(1,t.height-wt)),t},M8=(t,e)=>{e=q8(e);let r=e.width!==void 0,s=QC(),i=s-e.margin.left-e.margin.right-wt,n=Uu(zu(t,s-wt,{hard:!0,trim:!1}))+e.padding.left+e.padding.right;if(e.title&&r?(e.title=e.title.slice(0,Math.max(0,e.width-2)),e.title&&(e.title=` ${e.title} `)):e.title&&(e.title=e.title.slice(0,Math.max(0,i-2)),e.title&&(e.title=` ${e.title} `,ue(e.title)>n&&(e.width=ue(e.title)))),e.width=e.width?e.width:n,!r){if(e.margin.left&&e.margin.right&&e.width>i){let o=(s-e.width-wt)/(e.margin.left+e.margin.right);e.margin.left=Math.max(0,Math.floor(e.margin.left*o)),e.margin.right=Math.max(0,Math.floor(e.margin.right*o))}e.width=Math.min(e.width,s-wt-e.margin.left-e.margin.right)}return e.width-(e.padding.left+e.padding.right)<=0&&(e.padding.left=0,e.padding.right=0),e.height&&e.height-(e.padding.top+e.padding.bottom)<=0&&(e.padding.top=0,e.padding.bottom=0),e},Ul=t=>t.match(/^#(?:[0-f]{3}){1,2}$/i),ZC=t=>typeof t=="string"&&(Ir[t]??Ul(t)),$8=t=>Ul(t)?Ir.hex(t):Ir[t],U8=t=>Ul(t)?Ir.bgHex(t):Ir[Rl(["bg",t])];function Hu(t,e){if(e={padding:0,borderStyle:"single",dimBorder:!1,textAlignment:"left",float:"left",titleAlignment:"left",...e},e.align&&(e.textAlignment=e.align),e.borderColor&&!ZC(e.borderColor))throw new Error(`${e.borderColor} is not a valid borderColor`);if(e.backgroundColor&&!ZC(e.backgroundColor))throw new Error(`${e.backgroundColor} is not a valid backgroundColor`);return e.padding=XC(e.padding),e.margin=XC(e.margin),e=M8(t,e),t=P8(t,e),k8(t,e.width,e)}var fF=A(nF(),1);var uF=t=>t.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/'/g,"&#39;").replace(/</g,"&lt;").replace(/>/g,"&gt;");function oF(t,...e){if(typeof t=="string")return uF(t);let r=t[0];for(let[s,i]of e.entries())r=r+uF(String(i))+t[s+1];return r}var jl=class extends Error{constructor(e){super(`Missing a value for ${e?`the placeholder: ${e}`:"a placeholder"}`,e),this.name="MissingValueError",this.key=e}};function zl(t,e,{ignoreMissing:r=!1,transform:s=({value:i})=>i}={}){if(typeof t!="string")throw new TypeError(`Expected a \`string\` in the first argument, got \`${typeof t}\``);if(typeof e!="object")throw new TypeError(`Expected an \`object\` or \`Array\` in the second argument, got \`${typeof e}\``);let i=(a,c)=>{let l=e;for(let f of c.split("."))l=l?l[f]:void 0;let h=s({value:l,key:c});if(h===void 0){if(r)return a;throw new jl(c)}return String(h)},n=a=>(...c)=>oF(a(...c)),u=/{{(\d+|[a-z$_][\w\-$]*?(?:\.[\w\-$]*?)*?)}}/gi;u.test(t)&&(t=t.replace(u,n(i)));let o=/{(\d+|[a-z$_][\w\-$]*?(?:\.[\w\-$]*?)*?)}/gi;return t.replace(o,i)}var W8={},H8=Hl.default.dirname((0,cF.fileURLToPath)(W8.url)),G8=1e3*60*60*24,Yi=class{config;update;_packageName;_shouldNotifyInNpmScript;#t;#e;#s;#r;constructor(e={}){if(this.#t=e,e.pkg=e.pkg||{},e.distTag=e.distTag||"latest",e.pkg={name:e.pkg.name||e.packageName,version:e.pkg.version||e.packageVersion},!e.pkg.name||!e.pkg.version)throw new Error("pkg.name and pkg.version required");if(this._packageName=e.pkg.name,this.#e=e.pkg.version,this.#s=typeof e.updateCheckInterval=="number"?e.updateCheckInterval:G8,this.#r="NO_UPDATE_NOTIFIER"in ut.default.env||ut.default.env.NODE_ENV==="test"||ut.default.argv.includes("--no-update-notifier")||fF.default,this._shouldNotifyInNpmScript=e.shouldNotifyInNpmScript,!this.#r)try{this.config=new ri(`update-notifier-${this._packageName}`,{optOut:!1,lastUpdateCheck:Date.now()})}catch{let r=Mt.yellow((0,Gu.format)(" %s update check failed ",e.pkg.name))+(0,Gu.format)(`
- Try running with %s or get access `,Mt.cyan("sudo"))+`
- to the local update config store via 
-`+Mt.cyan((0,Gu.format)(" sudo chown -R $USER:$(id -gn $USER) %s ",Xr));ut.default.on("exit",()=>{console.error(Hu(r,{textAlignment:"center"}))})}}check(){!this.config||this.config.get("optOut")||this.#r||(this.update=this.config.get("update"),this.update&&(this.update.current=this.#e,this.config.delete("update")),!(Date.now()-this.config.get("lastUpdateCheck")<this.#s)&&(0,aF.spawn)(ut.default.execPath,[Hl.default.join(H8,"check.js"),JSON.stringify(this.#t)],{detached:!0,stdio:"ignore"}).unref())}async fetchInfo(){let{distTag:e}=this.#t,r=await fl(this._packageName,{version:e});return{latest:r,current:this.#e,type:za(this.#e,r)||e,name:this._packageName}}notify(e){let r=!this._shouldNotifyInNpmScript&&jg;if(!ut.default.stdout.isTTY||r||!this.update||!lF.default.gt(this.update.latest,this.update.current))return this;e={isGlobal:hF.default,isYarnGlobal:nC(),...e};let s;e.isYarnGlobal?s=`yarn global add ${this._packageName}`:e.isGlobal?s=`npm i -g ${this._packageName}`:Cl()?s=`yarn add ${this._packageName}`:s=`npm i ${this._packageName}`;let i="Update available "+Mt.dim("{currentVersion}")+Mt.reset(" \u2192 ")+Mt.green("{latestVersion}")+` 
-Run `+Mt.cyan("{updateCommand}")+" to update",n=e.message||i;e.boxenOptions=e.boxenOptions||{padding:1,margin:1,textAlignment:"center",borderColor:"yellow",borderStyle:"round"};let u=Hu(zl(n,{packageName:this._packageName,currentVersion:this.update.current,latestVersion:this.update.latest,updateCommand:s}),e.boxenOptions);return e.defer===!1?console.error(u):(ut.default.on("exit",()=>{console.error(u)}),ut.default.on("SIGINT",()=>{console.error(""),ut.default.exit()})),this}};function Gl(t){let e=new Yi(t);return e.check(),e}var V8={mode:"run",quiet:"info",files:null,version:"latest",flavour:"sdk",cacheDir:"./cache",platforms:[],currentPlatform:null,mirror:"https://nwjs.io/",downloadUrl:"https://dl.nwjs.io",manifestUrl:"https://nwjs.io/versions.json",appName:!1,appVersion:!1,buildDir:"./build",buildType:"default",forceDownload:!1,macCredits:!1,macIcns:!1,macZip:null,macPlist:!1,winVersionString:{},winIco:null,useRcedit:!1,argv:[],zip:null,zipOptions:null,mergeZip:!0},Wu=V8;var Y8=t=>{switch(t.arch){case"x64":return"x64";case"ia32":return"ia32";default:return null}},DF=Y8;var K8=t=>{switch(t.platform){case"linux":return"linux";case"darwin":return"osx";case"win32":return"win";default:return null}},dF=K8;var X8=(t,e)=>{for(let r of Object.keys(t))e.hasOwnProperty(r)&&(e[r]=t[r]);return e},Vu=X8;var p3=A(require("node:fs"),1);var Kf=A(require("fs"),1),u3=A(require("https"),1),Xf=A(GF(),1),o3=A(yy(),1),a3=A(n3(),1),c3=A(require("fs"),1),l3=A(require("fs"),1),aa=new Xf.default.SingleBar({},Xf.default.Presets.rect),IO=(t,e,r,s,i,n,u,o)=>new Promise((a,c)=>{i!=="https://nwjs.io/"&&(console.log("Invalid mirror. Please try again."),c(1));let l=`${n}/v${t}/nwjs-${e}-v${t}-${r}-${s}.${r==="linux"?"tar.gz":"zip"}`;u3.default.get(l,h=>{let f=0;aa.start(Number(h.headers["content-length"]),0),h.on("data",C=>{f+=C.length,aa.increment(),aa.update(f)}),h.on("error",C=>{console.log(C),c(1)}),h.on("end",()=>{aa.stop(),a(0)}),Kf.default.mkdirSync(u,{recursive:!0});let D=Kf.default.createWriteStream(`${u}/${o}.${r==="linux"?"tar.gz":"zip"}`);h.pipe(D)})}),LO=(t,e,r)=>new Promise(s=>{t==="linux"?(a3.default.x({file:`${e}/${r}.tar.gz`,C:`${e}`}),s(0)):((0,o3.default)(`${e}/${r}.zip`,{dir:`${e}`}),s(0))}),NO=(t,e,r)=>new Promise((s,i)=>{c3.default.rm(`${e}/${r}.${t==="linux"?"tar.gz":"zip"}`,n=>{n&&i(1)}),setTimeout(()=>{s(0)},3e3)}),PO=(t,e,r,s,i,n)=>new Promise((u,o)=>{let a=`${i}/nwjs-${e}-v${t}-${r}-${s}`,c=`${i}/${n}`;l3.default.rename(a,c,l=>{l&&o(1)}),u(0)}),h3=async(t,e,r,s,i,n,u,o)=>{await IO(t,e,r,s,i,n,u,o),await LO(r,u,o),await NO(r,u,o),await PO(t,e,r,s,u,o)};var D3=A(require("child_process"),1),kO=(t,e)=>new Promise((r,s)=>{let i=D3.default.spawn(e,[t]);i.on("close",()=>{r(0)}),i.on("error",n=>{console.log(n),s(1)})}),f3=t=>{switch(t){case"linux":return"nw";case"osx":return"nwjs.app/Contents/MacOS/nwjs";case"win":return"nw.exe";default:return null}},d3=async(t,e,r)=>f3(r)===null?(console.log("Unsupported platform."),1):(await kO(t,`${e}/${f3(r)}`),0);var qO=async(t,e,r,s,i,n,u,o,a)=>{let c=`${o}/${a}`;p3.default.existsSync(c)===!1&&await h3(e,r,s,i,n,u,o,a),await d3(t,c)},m3=qO;var E3={name:"nw-builder",version:"4.0.0-rc.1",description:"Build NW.js desktop applications for Mac, Windows and Linux.",keywords:["NW.js","Desktop","Application"],author:"Steffen M\xFCller <steffen@mllrsohn.com>",license:"MIT",main:"./index.js",type:"module",homepage:"https://github.com/nwutils/nw-builder",repository:{type:"git",url:"https://github.com/nwutils/nw-builder.git"},scripts:{format:"prettier --write ./bin ./lib ./src ./test",lint:"eslint ./bin/**.cjs ./lib/**.cjs ./src/**.js",test:"npm run test:unit && tape './test/*.cjs'","test:unit":"node --experimental-vm-modules node_modules/jest/bin/jest.js",demo:"cd ./test/demo && npm start",build:"esbuild src/index.js --bundle --minify --platform=node --outfile=./dist/index.cjs"},devDependencies:{"decompress-zip":"^0.3.3",eol:"^0.9.1",esbuild:"^0.15.2",eslint:"^8.18.0","eslint-config-tjw-jsdoc":"^1.0.3","eslint-plugin-jsdoc":"^39.3.3",jest:"^28.1.1","jest-environment-jsdom":"^28.1.1",jsdom:"^20.0.0",nock:"^13.2.7",prettier:"^2.7.1",redtape:"^1.0.0",tape:"^5.5.3"},dependencies:{archiver:"^5.3.1",deprecate:"^1.1.1","extract-zip":"^2.0.1","graceful-fs-extra":"^2.0.0","graceful-ncp":"^3.0.0",inherits:"^2.0.4",lodash:"^4.17.21","nw-develop":"^0.1.0","nw-install":"^0.3.0",plist:"^3.0.5",progress:"^2.0.3",rcedit:"^3.0.1","recursive-readdir-sync":"^1.0.6",request:"^2.88.2",rimraf:"^3.0.2",semver:"^7.3.7","simple-glob":"^0.2.0","tar-fs":"^2.1.1",temp:"^0.9.4",thenify:"^3.3.1","update-notifier":"^6.0.2",winresourcer:"^0.9.0",yargs:"^17.5.1"},bin:{nwbuild:"./bin/nwbuild.cjs"},prettier:{printWidth:80,tabWidth:2,useTabs:!1,semi:!0,singleQuote:!1,quoteProps:"consistent",trailingComma:"all",bracketSpacing:!0,bracketSameLine:!1,arrowParens:"always",proseWrap:"preserve",htmlWhitespaceSensitivity:"strict",endOfLine:"lf",singleAttributePerLine:!0},eslintConfig:{parserOptions:{ecmaVersion:2021,sourceType:"module"},env:{es6:!0,node:!0},extends:["eslint:recommended","tjw-jsdoc"],overrides:[{files:"./src/**/*.js"}],plugins:["jsdoc"]},jest:{testEnvironment:"jsdom"}};var $O=async t=>{Gl({pkg:E3}).notify(),t=Vu(t,Wu);let e=t.mode??null,r=dF(process),s=DF(process);switch(console.log(r,s),(r===null||s===null)&&console.log("Unsupported platform/architecture."),e){case"run":return await m3(t.files,t.version,t.flavour,r,s,"https://nwjs.io/","https://dl.nwjs.io",`v${t.version}/${t.flavour}/${r}/${s}`,"nw"),0;case"build":return 0;default:return console.log("Invalid mode. Please try again."),1}},g3=$O;var C3={NIX_32:"linux32",NIX_64:"linux64",OSX_32:"osx32",OSX_64:"osx64",WIN_32:"win32",WIN_64:"win64"};Object.freeze(C3);var F3=C3;var Zf=A(pi(),1),UO={win32:{needsZip:!0,getRunnable:function(){return"nw.exe"},files:{"<=0.9.2":["nw.exe","ffmpegsumo.dll","icudt.dll","libEGL.dll","libGLESv2.dll","nw.pak"],">0.9.2 <0.12.0":["nw.exe","ffmpegsumo.dll","icudtl.dat","libEGL.dll","libGLESv2.dll","nw.pak","locales"],">=0.12.0":["nw.exe","ffmpegsumo.dll","icudtl.dat","libEGL.dll","libGLESv2.dll","nw.pak","locales","d3dcompiler_47.dll","pdf.dll"]},versionNameTemplate:"v${ version }/${ name }-v${ version }-win-ia32.zip"},win64:{needsZip:!0,getRunnable:function(){return"nw.exe"},files:{"<=0.9.2":["nw.exe","ffmpegsumo.dll","icudt.dll","libEGL.dll","libGLESv2.dll","nw.pak","locales"],">0.9.2 <0.12.0":["nw.exe","ffmpegsumo.dll","icudtl.dat","libEGL.dll","libGLESv2.dll","nw.pak","locales"],">=0.12.0":["nw.exe","ffmpegsumo.dll","icudtl.dat","libEGL.dll","libGLESv2.dll","nw.pak","locales","d3dcompiler_47.dll","pdf.dll"]},versionNameTemplate:"v${ version }/${ name }-v${ version }-win-x64.zip"},osx32:{needsZip:!1,getRunnable:function(t){return Zf.default.satisfies(t,">=0.12.0 || ~0.12.0-alpha")?"nwjs.app/Contents/MacOS/nwjs":"node-webkit.app/Contents/MacOS/node-webkit"},files:{"<0.12.0-alpha":["node-webkit.app"],">=0.12.0 || ~0.12.0-alpha":["nwjs.app"]},versionNameTemplate:"v${ version }/${ name }-v${ version }-osx-ia32.zip"},osx64:{needsZip:!1,getRunnable:function(t){return Zf.default.satisfies(t,">=0.12.0 || ~0.12.0-alpha")?"nwjs.app/Contents/MacOS/nwjs":"node-webkit.app/Contents/MacOS/node-webkit"},files:{"<0.12.0-alpha":["node-webkit.app"],">=0.12.0 || ~0.12.0-alpha":["nwjs.app"]},versionNameTemplate:"v${ version }/${ name }-v${ version }-osx-x64.zip"},linux32:{needsZip:!0,chmod:"0755",getRunnable:function(){return"nw"},files:{"<=0.9.2":["nw","nw.pak","libffmpegsumo.so"],">0.9.2 <=0.10.1":["nw","nw.pak","libffmpegsumo.so","icudtl.dat"],">0.10.1":["nw","nw.pak","libffmpegsumo.so","icudtl.dat","locales"]},versionNameTemplate:"v${ version }/${ name }-v${ version }-linux-ia32.tar.gz"},linux64:{needsZip:!0,chmod:"0755",getRunnable:function(){return"nw"},files:{"<=0.9.2":["nw","nw.pak","libffmpegsumo.so"],">0.9.2 <=0.10.1":["nw","nw.pak","libffmpegsumo.so","icudtl.dat"],">0.10.1":["nw","nw.pak","libffmpegsumo.so","icudtl.dat","locales"]},versionNameTemplate:"v${ version }/${ name }-v${ version }-linux-x64.tar.gz"}},y3=UO;var ca=A(require("fs"),1),b3=A(require("path"),1),jO=(t,e)=>{let r=!1;if(e.length===1&&e[0]==="*")return ca.default.existsSync(t)&&ca.default.readdirSync(t).length>=2;for(let s of e){if(r)return!1;ca.default.existsSync(b3.default.join(t,s))||(r=!0)}return!r},x3=jO;0&&(module.exports={Options,Platform,Platforms,checkCache,nwbuild,parseOptions});
-/*!
- * @description Recursive object extending
- * @author Viacheslav Lotsmanov <lotsmanov89@gmail.com>
- * @license MIT
- *
- * The MIT License (MIT)
- *
- * Copyright (c) 2013-2018 Viacheslav Lotsmanov
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
- * the Software, and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-/**
- * @preserve
- * JS Implementation of incremental MurmurHash3 (r150) (as of May 10, 2013)
- *
- * @author <a href="mailto:jensyt@gmail.com">Jens Taylor</a>
- * @see http://github.com/homebrewing/brauhaus-diff
- * @author <a href="mailto:gary.court@gmail.com">Gary Court</a>
- * @see http://github.com/garycourt/murmurhash-js
- * @author <a href="mailto:aappleby@gmail.com">Austin Appleby</a>
- * @see http://sites.google.com/site/murmurhash/
- */
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __commonJS = (cb, mod) => function __require() {
+  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+};
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// node_modules/semver/internal/constants.js
+var require_constants = __commonJS({
+  "node_modules/semver/internal/constants.js"(exports, module2) {
+    var SEMVER_SPEC_VERSION = "2.0.0";
+    var MAX_LENGTH = 256;
+    var MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER || 9007199254740991;
+    var MAX_SAFE_COMPONENT_LENGTH = 16;
+    module2.exports = {
+      SEMVER_SPEC_VERSION,
+      MAX_LENGTH,
+      MAX_SAFE_INTEGER,
+      MAX_SAFE_COMPONENT_LENGTH
+    };
+  }
+});
+
+// node_modules/semver/internal/debug.js
+var require_debug = __commonJS({
+  "node_modules/semver/internal/debug.js"(exports, module2) {
+    var debug = typeof process === "object" && process.env && process.env.NODE_DEBUG && /\bsemver\b/i.test(process.env.NODE_DEBUG) ? (...args) => console.error("SEMVER", ...args) : () => {
+    };
+    module2.exports = debug;
+  }
+});
+
+// node_modules/semver/internal/re.js
+var require_re = __commonJS({
+  "node_modules/semver/internal/re.js"(exports, module2) {
+    var { MAX_SAFE_COMPONENT_LENGTH } = require_constants();
+    var debug = require_debug();
+    exports = module2.exports = {};
+    var re = exports.re = [];
+    var src = exports.src = [];
+    var t = exports.t = {};
+    var R = 0;
+    var createToken = (name, value, isGlobal) => {
+      const index = R++;
+      debug(name, index, value);
+      t[name] = index;
+      src[index] = value;
+      re[index] = new RegExp(value, isGlobal ? "g" : void 0);
+    };
+    createToken("NUMERICIDENTIFIER", "0|[1-9]\\d*");
+    createToken("NUMERICIDENTIFIERLOOSE", "[0-9]+");
+    createToken("NONNUMERICIDENTIFIER", "\\d*[a-zA-Z-][a-zA-Z0-9-]*");
+    createToken("MAINVERSION", `(${src[t.NUMERICIDENTIFIER]})\\.(${src[t.NUMERICIDENTIFIER]})\\.(${src[t.NUMERICIDENTIFIER]})`);
+    createToken("MAINVERSIONLOOSE", `(${src[t.NUMERICIDENTIFIERLOOSE]})\\.(${src[t.NUMERICIDENTIFIERLOOSE]})\\.(${src[t.NUMERICIDENTIFIERLOOSE]})`);
+    createToken("PRERELEASEIDENTIFIER", `(?:${src[t.NUMERICIDENTIFIER]}|${src[t.NONNUMERICIDENTIFIER]})`);
+    createToken("PRERELEASEIDENTIFIERLOOSE", `(?:${src[t.NUMERICIDENTIFIERLOOSE]}|${src[t.NONNUMERICIDENTIFIER]})`);
+    createToken("PRERELEASE", `(?:-(${src[t.PRERELEASEIDENTIFIER]}(?:\\.${src[t.PRERELEASEIDENTIFIER]})*))`);
+    createToken("PRERELEASELOOSE", `(?:-?(${src[t.PRERELEASEIDENTIFIERLOOSE]}(?:\\.${src[t.PRERELEASEIDENTIFIERLOOSE]})*))`);
+    createToken("BUILDIDENTIFIER", "[0-9A-Za-z-]+");
+    createToken("BUILD", `(?:\\+(${src[t.BUILDIDENTIFIER]}(?:\\.${src[t.BUILDIDENTIFIER]})*))`);
+    createToken("FULLPLAIN", `v?${src[t.MAINVERSION]}${src[t.PRERELEASE]}?${src[t.BUILD]}?`);
+    createToken("FULL", `^${src[t.FULLPLAIN]}$`);
+    createToken("LOOSEPLAIN", `[v=\\s]*${src[t.MAINVERSIONLOOSE]}${src[t.PRERELEASELOOSE]}?${src[t.BUILD]}?`);
+    createToken("LOOSE", `^${src[t.LOOSEPLAIN]}$`);
+    createToken("GTLT", "((?:<|>)?=?)");
+    createToken("XRANGEIDENTIFIERLOOSE", `${src[t.NUMERICIDENTIFIERLOOSE]}|x|X|\\*`);
+    createToken("XRANGEIDENTIFIER", `${src[t.NUMERICIDENTIFIER]}|x|X|\\*`);
+    createToken("XRANGEPLAIN", `[v=\\s]*(${src[t.XRANGEIDENTIFIER]})(?:\\.(${src[t.XRANGEIDENTIFIER]})(?:\\.(${src[t.XRANGEIDENTIFIER]})(?:${src[t.PRERELEASE]})?${src[t.BUILD]}?)?)?`);
+    createToken("XRANGEPLAINLOOSE", `[v=\\s]*(${src[t.XRANGEIDENTIFIERLOOSE]})(?:\\.(${src[t.XRANGEIDENTIFIERLOOSE]})(?:\\.(${src[t.XRANGEIDENTIFIERLOOSE]})(?:${src[t.PRERELEASELOOSE]})?${src[t.BUILD]}?)?)?`);
+    createToken("XRANGE", `^${src[t.GTLT]}\\s*${src[t.XRANGEPLAIN]}$`);
+    createToken("XRANGELOOSE", `^${src[t.GTLT]}\\s*${src[t.XRANGEPLAINLOOSE]}$`);
+    createToken("COERCE", `${"(^|[^\\d])(\\d{1,"}${MAX_SAFE_COMPONENT_LENGTH}})(?:\\.(\\d{1,${MAX_SAFE_COMPONENT_LENGTH}}))?(?:\\.(\\d{1,${MAX_SAFE_COMPONENT_LENGTH}}))?(?:$|[^\\d])`);
+    createToken("COERCERTL", src[t.COERCE], true);
+    createToken("LONETILDE", "(?:~>?)");
+    createToken("TILDETRIM", `(\\s*)${src[t.LONETILDE]}\\s+`, true);
+    exports.tildeTrimReplace = "$1~";
+    createToken("TILDE", `^${src[t.LONETILDE]}${src[t.XRANGEPLAIN]}$`);
+    createToken("TILDELOOSE", `^${src[t.LONETILDE]}${src[t.XRANGEPLAINLOOSE]}$`);
+    createToken("LONECARET", "(?:\\^)");
+    createToken("CARETTRIM", `(\\s*)${src[t.LONECARET]}\\s+`, true);
+    exports.caretTrimReplace = "$1^";
+    createToken("CARET", `^${src[t.LONECARET]}${src[t.XRANGEPLAIN]}$`);
+    createToken("CARETLOOSE", `^${src[t.LONECARET]}${src[t.XRANGEPLAINLOOSE]}$`);
+    createToken("COMPARATORLOOSE", `^${src[t.GTLT]}\\s*(${src[t.LOOSEPLAIN]})$|^$`);
+    createToken("COMPARATOR", `^${src[t.GTLT]}\\s*(${src[t.FULLPLAIN]})$|^$`);
+    createToken("COMPARATORTRIM", `(\\s*)${src[t.GTLT]}\\s*(${src[t.LOOSEPLAIN]}|${src[t.XRANGEPLAIN]})`, true);
+    exports.comparatorTrimReplace = "$1$2$3";
+    createToken("HYPHENRANGE", `^\\s*(${src[t.XRANGEPLAIN]})\\s+-\\s+(${src[t.XRANGEPLAIN]})\\s*$`);
+    createToken("HYPHENRANGELOOSE", `^\\s*(${src[t.XRANGEPLAINLOOSE]})\\s+-\\s+(${src[t.XRANGEPLAINLOOSE]})\\s*$`);
+    createToken("STAR", "(<|>)?=?\\s*\\*");
+    createToken("GTE0", "^\\s*>=\\s*0\\.0\\.0\\s*$");
+    createToken("GTE0PRE", "^\\s*>=\\s*0\\.0\\.0-0\\s*$");
+  }
+});
+
+// node_modules/semver/internal/parse-options.js
+var require_parse_options = __commonJS({
+  "node_modules/semver/internal/parse-options.js"(exports, module2) {
+    var opts = ["includePrerelease", "loose", "rtl"];
+    var parseOptions2 = (options) => !options ? {} : typeof options !== "object" ? { loose: true } : opts.filter((k) => options[k]).reduce((o, k) => {
+      o[k] = true;
+      return o;
+    }, {});
+    module2.exports = parseOptions2;
+  }
+});
+
+// node_modules/semver/internal/identifiers.js
+var require_identifiers = __commonJS({
+  "node_modules/semver/internal/identifiers.js"(exports, module2) {
+    var numeric = /^[0-9]+$/;
+    var compareIdentifiers = (a, b) => {
+      const anum = numeric.test(a);
+      const bnum = numeric.test(b);
+      if (anum && bnum) {
+        a = +a;
+        b = +b;
+      }
+      return a === b ? 0 : anum && !bnum ? -1 : bnum && !anum ? 1 : a < b ? -1 : 1;
+    };
+    var rcompareIdentifiers = (a, b) => compareIdentifiers(b, a);
+    module2.exports = {
+      compareIdentifiers,
+      rcompareIdentifiers
+    };
+  }
+});
+
+// node_modules/semver/classes/semver.js
+var require_semver = __commonJS({
+  "node_modules/semver/classes/semver.js"(exports, module2) {
+    var debug = require_debug();
+    var { MAX_LENGTH, MAX_SAFE_INTEGER } = require_constants();
+    var { re, t } = require_re();
+    var parseOptions2 = require_parse_options();
+    var { compareIdentifiers } = require_identifiers();
+    var SemVer = class {
+      constructor(version, options) {
+        options = parseOptions2(options);
+        if (version instanceof SemVer) {
+          if (version.loose === !!options.loose && version.includePrerelease === !!options.includePrerelease) {
+            return version;
+          } else {
+            version = version.version;
+          }
+        } else if (typeof version !== "string") {
+          throw new TypeError(`Invalid Version: ${version}`);
+        }
+        if (version.length > MAX_LENGTH) {
+          throw new TypeError(
+            `version is longer than ${MAX_LENGTH} characters`
+          );
+        }
+        debug("SemVer", version, options);
+        this.options = options;
+        this.loose = !!options.loose;
+        this.includePrerelease = !!options.includePrerelease;
+        const m = version.trim().match(options.loose ? re[t.LOOSE] : re[t.FULL]);
+        if (!m) {
+          throw new TypeError(`Invalid Version: ${version}`);
+        }
+        this.raw = version;
+        this.major = +m[1];
+        this.minor = +m[2];
+        this.patch = +m[3];
+        if (this.major > MAX_SAFE_INTEGER || this.major < 0) {
+          throw new TypeError("Invalid major version");
+        }
+        if (this.minor > MAX_SAFE_INTEGER || this.minor < 0) {
+          throw new TypeError("Invalid minor version");
+        }
+        if (this.patch > MAX_SAFE_INTEGER || this.patch < 0) {
+          throw new TypeError("Invalid patch version");
+        }
+        if (!m[4]) {
+          this.prerelease = [];
+        } else {
+          this.prerelease = m[4].split(".").map((id) => {
+            if (/^[0-9]+$/.test(id)) {
+              const num = +id;
+              if (num >= 0 && num < MAX_SAFE_INTEGER) {
+                return num;
+              }
+            }
+            return id;
+          });
+        }
+        this.build = m[5] ? m[5].split(".") : [];
+        this.format();
+      }
+      format() {
+        this.version = `${this.major}.${this.minor}.${this.patch}`;
+        if (this.prerelease.length) {
+          this.version += `-${this.prerelease.join(".")}`;
+        }
+        return this.version;
+      }
+      toString() {
+        return this.version;
+      }
+      compare(other) {
+        debug("SemVer.compare", this.version, this.options, other);
+        if (!(other instanceof SemVer)) {
+          if (typeof other === "string" && other === this.version) {
+            return 0;
+          }
+          other = new SemVer(other, this.options);
+        }
+        if (other.version === this.version) {
+          return 0;
+        }
+        return this.compareMain(other) || this.comparePre(other);
+      }
+      compareMain(other) {
+        if (!(other instanceof SemVer)) {
+          other = new SemVer(other, this.options);
+        }
+        return compareIdentifiers(this.major, other.major) || compareIdentifiers(this.minor, other.minor) || compareIdentifiers(this.patch, other.patch);
+      }
+      comparePre(other) {
+        if (!(other instanceof SemVer)) {
+          other = new SemVer(other, this.options);
+        }
+        if (this.prerelease.length && !other.prerelease.length) {
+          return -1;
+        } else if (!this.prerelease.length && other.prerelease.length) {
+          return 1;
+        } else if (!this.prerelease.length && !other.prerelease.length) {
+          return 0;
+        }
+        let i = 0;
+        do {
+          const a = this.prerelease[i];
+          const b = other.prerelease[i];
+          debug("prerelease compare", i, a, b);
+          if (a === void 0 && b === void 0) {
+            return 0;
+          } else if (b === void 0) {
+            return 1;
+          } else if (a === void 0) {
+            return -1;
+          } else if (a === b) {
+            continue;
+          } else {
+            return compareIdentifiers(a, b);
+          }
+        } while (++i);
+      }
+      compareBuild(other) {
+        if (!(other instanceof SemVer)) {
+          other = new SemVer(other, this.options);
+        }
+        let i = 0;
+        do {
+          const a = this.build[i];
+          const b = other.build[i];
+          debug("prerelease compare", i, a, b);
+          if (a === void 0 && b === void 0) {
+            return 0;
+          } else if (b === void 0) {
+            return 1;
+          } else if (a === void 0) {
+            return -1;
+          } else if (a === b) {
+            continue;
+          } else {
+            return compareIdentifiers(a, b);
+          }
+        } while (++i);
+      }
+      inc(release, identifier) {
+        switch (release) {
+          case "premajor":
+            this.prerelease.length = 0;
+            this.patch = 0;
+            this.minor = 0;
+            this.major++;
+            this.inc("pre", identifier);
+            break;
+          case "preminor":
+            this.prerelease.length = 0;
+            this.patch = 0;
+            this.minor++;
+            this.inc("pre", identifier);
+            break;
+          case "prepatch":
+            this.prerelease.length = 0;
+            this.inc("patch", identifier);
+            this.inc("pre", identifier);
+            break;
+          case "prerelease":
+            if (this.prerelease.length === 0) {
+              this.inc("patch", identifier);
+            }
+            this.inc("pre", identifier);
+            break;
+          case "major":
+            if (this.minor !== 0 || this.patch !== 0 || this.prerelease.length === 0) {
+              this.major++;
+            }
+            this.minor = 0;
+            this.patch = 0;
+            this.prerelease = [];
+            break;
+          case "minor":
+            if (this.patch !== 0 || this.prerelease.length === 0) {
+              this.minor++;
+            }
+            this.patch = 0;
+            this.prerelease = [];
+            break;
+          case "patch":
+            if (this.prerelease.length === 0) {
+              this.patch++;
+            }
+            this.prerelease = [];
+            break;
+          case "pre":
+            if (this.prerelease.length === 0) {
+              this.prerelease = [0];
+            } else {
+              let i = this.prerelease.length;
+              while (--i >= 0) {
+                if (typeof this.prerelease[i] === "number") {
+                  this.prerelease[i]++;
+                  i = -2;
+                }
+              }
+              if (i === -1) {
+                this.prerelease.push(0);
+              }
+            }
+            if (identifier) {
+              if (compareIdentifiers(this.prerelease[0], identifier) === 0) {
+                if (isNaN(this.prerelease[1])) {
+                  this.prerelease = [identifier, 0];
+                }
+              } else {
+                this.prerelease = [identifier, 0];
+              }
+            }
+            break;
+          default:
+            throw new Error(`invalid increment argument: ${release}`);
+        }
+        this.format();
+        this.raw = this.version;
+        return this;
+      }
+    };
+    module2.exports = SemVer;
+  }
+});
+
+// node_modules/semver/functions/parse.js
+var require_parse = __commonJS({
+  "node_modules/semver/functions/parse.js"(exports, module2) {
+    var { MAX_LENGTH } = require_constants();
+    var { re, t } = require_re();
+    var SemVer = require_semver();
+    var parseOptions2 = require_parse_options();
+    var parse = (version, options) => {
+      options = parseOptions2(options);
+      if (version instanceof SemVer) {
+        return version;
+      }
+      if (typeof version !== "string") {
+        return null;
+      }
+      if (version.length > MAX_LENGTH) {
+        return null;
+      }
+      const r = options.loose ? re[t.LOOSE] : re[t.FULL];
+      if (!r.test(version)) {
+        return null;
+      }
+      try {
+        return new SemVer(version, options);
+      } catch (er) {
+        return null;
+      }
+    };
+    module2.exports = parse;
+  }
+});
+
+// node_modules/semver/functions/valid.js
+var require_valid = __commonJS({
+  "node_modules/semver/functions/valid.js"(exports, module2) {
+    var parse = require_parse();
+    var valid = (version, options) => {
+      const v = parse(version, options);
+      return v ? v.version : null;
+    };
+    module2.exports = valid;
+  }
+});
+
+// node_modules/semver/functions/clean.js
+var require_clean = __commonJS({
+  "node_modules/semver/functions/clean.js"(exports, module2) {
+    var parse = require_parse();
+    var clean = (version, options) => {
+      const s = parse(version.trim().replace(/^[=v]+/, ""), options);
+      return s ? s.version : null;
+    };
+    module2.exports = clean;
+  }
+});
+
+// node_modules/semver/functions/inc.js
+var require_inc = __commonJS({
+  "node_modules/semver/functions/inc.js"(exports, module2) {
+    var SemVer = require_semver();
+    var inc = (version, release, options, identifier) => {
+      if (typeof options === "string") {
+        identifier = options;
+        options = void 0;
+      }
+      try {
+        return new SemVer(
+          version instanceof SemVer ? version.version : version,
+          options
+        ).inc(release, identifier).version;
+      } catch (er) {
+        return null;
+      }
+    };
+    module2.exports = inc;
+  }
+});
+
+// node_modules/semver/functions/compare.js
+var require_compare = __commonJS({
+  "node_modules/semver/functions/compare.js"(exports, module2) {
+    var SemVer = require_semver();
+    var compare = (a, b, loose) => new SemVer(a, loose).compare(new SemVer(b, loose));
+    module2.exports = compare;
+  }
+});
+
+// node_modules/semver/functions/eq.js
+var require_eq = __commonJS({
+  "node_modules/semver/functions/eq.js"(exports, module2) {
+    var compare = require_compare();
+    var eq = (a, b, loose) => compare(a, b, loose) === 0;
+    module2.exports = eq;
+  }
+});
+
+// node_modules/semver/functions/diff.js
+var require_diff = __commonJS({
+  "node_modules/semver/functions/diff.js"(exports, module2) {
+    var parse = require_parse();
+    var eq = require_eq();
+    var diff = (version1, version2) => {
+      if (eq(version1, version2)) {
+        return null;
+      } else {
+        const v1 = parse(version1);
+        const v2 = parse(version2);
+        const hasPre = v1.prerelease.length || v2.prerelease.length;
+        const prefix = hasPre ? "pre" : "";
+        const defaultResult = hasPre ? "prerelease" : "";
+        for (const key in v1) {
+          if (key === "major" || key === "minor" || key === "patch") {
+            if (v1[key] !== v2[key]) {
+              return prefix + key;
+            }
+          }
+        }
+        return defaultResult;
+      }
+    };
+    module2.exports = diff;
+  }
+});
+
+// node_modules/semver/functions/major.js
+var require_major = __commonJS({
+  "node_modules/semver/functions/major.js"(exports, module2) {
+    var SemVer = require_semver();
+    var major = (a, loose) => new SemVer(a, loose).major;
+    module2.exports = major;
+  }
+});
+
+// node_modules/semver/functions/minor.js
+var require_minor = __commonJS({
+  "node_modules/semver/functions/minor.js"(exports, module2) {
+    var SemVer = require_semver();
+    var minor = (a, loose) => new SemVer(a, loose).minor;
+    module2.exports = minor;
+  }
+});
+
+// node_modules/semver/functions/patch.js
+var require_patch = __commonJS({
+  "node_modules/semver/functions/patch.js"(exports, module2) {
+    var SemVer = require_semver();
+    var patch = (a, loose) => new SemVer(a, loose).patch;
+    module2.exports = patch;
+  }
+});
+
+// node_modules/semver/functions/prerelease.js
+var require_prerelease = __commonJS({
+  "node_modules/semver/functions/prerelease.js"(exports, module2) {
+    var parse = require_parse();
+    var prerelease = (version, options) => {
+      const parsed = parse(version, options);
+      return parsed && parsed.prerelease.length ? parsed.prerelease : null;
+    };
+    module2.exports = prerelease;
+  }
+});
+
+// node_modules/semver/functions/rcompare.js
+var require_rcompare = __commonJS({
+  "node_modules/semver/functions/rcompare.js"(exports, module2) {
+    var compare = require_compare();
+    var rcompare = (a, b, loose) => compare(b, a, loose);
+    module2.exports = rcompare;
+  }
+});
+
+// node_modules/semver/functions/compare-loose.js
+var require_compare_loose = __commonJS({
+  "node_modules/semver/functions/compare-loose.js"(exports, module2) {
+    var compare = require_compare();
+    var compareLoose = (a, b) => compare(a, b, true);
+    module2.exports = compareLoose;
+  }
+});
+
+// node_modules/semver/functions/compare-build.js
+var require_compare_build = __commonJS({
+  "node_modules/semver/functions/compare-build.js"(exports, module2) {
+    var SemVer = require_semver();
+    var compareBuild = (a, b, loose) => {
+      const versionA = new SemVer(a, loose);
+      const versionB = new SemVer(b, loose);
+      return versionA.compare(versionB) || versionA.compareBuild(versionB);
+    };
+    module2.exports = compareBuild;
+  }
+});
+
+// node_modules/semver/functions/sort.js
+var require_sort = __commonJS({
+  "node_modules/semver/functions/sort.js"(exports, module2) {
+    var compareBuild = require_compare_build();
+    var sort = (list, loose) => list.sort((a, b) => compareBuild(a, b, loose));
+    module2.exports = sort;
+  }
+});
+
+// node_modules/semver/functions/rsort.js
+var require_rsort = __commonJS({
+  "node_modules/semver/functions/rsort.js"(exports, module2) {
+    var compareBuild = require_compare_build();
+    var rsort = (list, loose) => list.sort((a, b) => compareBuild(b, a, loose));
+    module2.exports = rsort;
+  }
+});
+
+// node_modules/semver/functions/gt.js
+var require_gt = __commonJS({
+  "node_modules/semver/functions/gt.js"(exports, module2) {
+    var compare = require_compare();
+    var gt = (a, b, loose) => compare(a, b, loose) > 0;
+    module2.exports = gt;
+  }
+});
+
+// node_modules/semver/functions/lt.js
+var require_lt = __commonJS({
+  "node_modules/semver/functions/lt.js"(exports, module2) {
+    var compare = require_compare();
+    var lt = (a, b, loose) => compare(a, b, loose) < 0;
+    module2.exports = lt;
+  }
+});
+
+// node_modules/semver/functions/neq.js
+var require_neq = __commonJS({
+  "node_modules/semver/functions/neq.js"(exports, module2) {
+    var compare = require_compare();
+    var neq = (a, b, loose) => compare(a, b, loose) !== 0;
+    module2.exports = neq;
+  }
+});
+
+// node_modules/semver/functions/gte.js
+var require_gte = __commonJS({
+  "node_modules/semver/functions/gte.js"(exports, module2) {
+    var compare = require_compare();
+    var gte = (a, b, loose) => compare(a, b, loose) >= 0;
+    module2.exports = gte;
+  }
+});
+
+// node_modules/semver/functions/lte.js
+var require_lte = __commonJS({
+  "node_modules/semver/functions/lte.js"(exports, module2) {
+    var compare = require_compare();
+    var lte = (a, b, loose) => compare(a, b, loose) <= 0;
+    module2.exports = lte;
+  }
+});
+
+// node_modules/semver/functions/cmp.js
+var require_cmp = __commonJS({
+  "node_modules/semver/functions/cmp.js"(exports, module2) {
+    var eq = require_eq();
+    var neq = require_neq();
+    var gt = require_gt();
+    var gte = require_gte();
+    var lt = require_lt();
+    var lte = require_lte();
+    var cmp = (a, op, b, loose) => {
+      switch (op) {
+        case "===":
+          if (typeof a === "object") {
+            a = a.version;
+          }
+          if (typeof b === "object") {
+            b = b.version;
+          }
+          return a === b;
+        case "!==":
+          if (typeof a === "object") {
+            a = a.version;
+          }
+          if (typeof b === "object") {
+            b = b.version;
+          }
+          return a !== b;
+        case "":
+        case "=":
+        case "==":
+          return eq(a, b, loose);
+        case "!=":
+          return neq(a, b, loose);
+        case ">":
+          return gt(a, b, loose);
+        case ">=":
+          return gte(a, b, loose);
+        case "<":
+          return lt(a, b, loose);
+        case "<=":
+          return lte(a, b, loose);
+        default:
+          throw new TypeError(`Invalid operator: ${op}`);
+      }
+    };
+    module2.exports = cmp;
+  }
+});
+
+// node_modules/semver/functions/coerce.js
+var require_coerce = __commonJS({
+  "node_modules/semver/functions/coerce.js"(exports, module2) {
+    var SemVer = require_semver();
+    var parse = require_parse();
+    var { re, t } = require_re();
+    var coerce = (version, options) => {
+      if (version instanceof SemVer) {
+        return version;
+      }
+      if (typeof version === "number") {
+        version = String(version);
+      }
+      if (typeof version !== "string") {
+        return null;
+      }
+      options = options || {};
+      let match = null;
+      if (!options.rtl) {
+        match = version.match(re[t.COERCE]);
+      } else {
+        let next;
+        while ((next = re[t.COERCERTL].exec(version)) && (!match || match.index + match[0].length !== version.length)) {
+          if (!match || next.index + next[0].length !== match.index + match[0].length) {
+            match = next;
+          }
+          re[t.COERCERTL].lastIndex = next.index + next[1].length + next[2].length;
+        }
+        re[t.COERCERTL].lastIndex = -1;
+      }
+      if (match === null) {
+        return null;
+      }
+      return parse(`${match[2]}.${match[3] || "0"}.${match[4] || "0"}`, options);
+    };
+    module2.exports = coerce;
+  }
+});
+
+// node_modules/yallist/iterator.js
+var require_iterator = __commonJS({
+  "node_modules/yallist/iterator.js"(exports, module2) {
+    "use strict";
+    module2.exports = function(Yallist) {
+      Yallist.prototype[Symbol.iterator] = function* () {
+        for (let walker = this.head; walker; walker = walker.next) {
+          yield walker.value;
+        }
+      };
+    };
+  }
+});
+
+// node_modules/yallist/yallist.js
+var require_yallist = __commonJS({
+  "node_modules/yallist/yallist.js"(exports, module2) {
+    "use strict";
+    module2.exports = Yallist;
+    Yallist.Node = Node;
+    Yallist.create = Yallist;
+    function Yallist(list) {
+      var self = this;
+      if (!(self instanceof Yallist)) {
+        self = new Yallist();
+      }
+      self.tail = null;
+      self.head = null;
+      self.length = 0;
+      if (list && typeof list.forEach === "function") {
+        list.forEach(function(item) {
+          self.push(item);
+        });
+      } else if (arguments.length > 0) {
+        for (var i = 0, l = arguments.length; i < l; i++) {
+          self.push(arguments[i]);
+        }
+      }
+      return self;
+    }
+    Yallist.prototype.removeNode = function(node) {
+      if (node.list !== this) {
+        throw new Error("removing node which does not belong to this list");
+      }
+      var next = node.next;
+      var prev = node.prev;
+      if (next) {
+        next.prev = prev;
+      }
+      if (prev) {
+        prev.next = next;
+      }
+      if (node === this.head) {
+        this.head = next;
+      }
+      if (node === this.tail) {
+        this.tail = prev;
+      }
+      node.list.length--;
+      node.next = null;
+      node.prev = null;
+      node.list = null;
+      return next;
+    };
+    Yallist.prototype.unshiftNode = function(node) {
+      if (node === this.head) {
+        return;
+      }
+      if (node.list) {
+        node.list.removeNode(node);
+      }
+      var head = this.head;
+      node.list = this;
+      node.next = head;
+      if (head) {
+        head.prev = node;
+      }
+      this.head = node;
+      if (!this.tail) {
+        this.tail = node;
+      }
+      this.length++;
+    };
+    Yallist.prototype.pushNode = function(node) {
+      if (node === this.tail) {
+        return;
+      }
+      if (node.list) {
+        node.list.removeNode(node);
+      }
+      var tail = this.tail;
+      node.list = this;
+      node.prev = tail;
+      if (tail) {
+        tail.next = node;
+      }
+      this.tail = node;
+      if (!this.head) {
+        this.head = node;
+      }
+      this.length++;
+    };
+    Yallist.prototype.push = function() {
+      for (var i = 0, l = arguments.length; i < l; i++) {
+        push(this, arguments[i]);
+      }
+      return this.length;
+    };
+    Yallist.prototype.unshift = function() {
+      for (var i = 0, l = arguments.length; i < l; i++) {
+        unshift(this, arguments[i]);
+      }
+      return this.length;
+    };
+    Yallist.prototype.pop = function() {
+      if (!this.tail) {
+        return void 0;
+      }
+      var res = this.tail.value;
+      this.tail = this.tail.prev;
+      if (this.tail) {
+        this.tail.next = null;
+      } else {
+        this.head = null;
+      }
+      this.length--;
+      return res;
+    };
+    Yallist.prototype.shift = function() {
+      if (!this.head) {
+        return void 0;
+      }
+      var res = this.head.value;
+      this.head = this.head.next;
+      if (this.head) {
+        this.head.prev = null;
+      } else {
+        this.tail = null;
+      }
+      this.length--;
+      return res;
+    };
+    Yallist.prototype.forEach = function(fn, thisp) {
+      thisp = thisp || this;
+      for (var walker = this.head, i = 0; walker !== null; i++) {
+        fn.call(thisp, walker.value, i, this);
+        walker = walker.next;
+      }
+    };
+    Yallist.prototype.forEachReverse = function(fn, thisp) {
+      thisp = thisp || this;
+      for (var walker = this.tail, i = this.length - 1; walker !== null; i--) {
+        fn.call(thisp, walker.value, i, this);
+        walker = walker.prev;
+      }
+    };
+    Yallist.prototype.get = function(n) {
+      for (var i = 0, walker = this.head; walker !== null && i < n; i++) {
+        walker = walker.next;
+      }
+      if (i === n && walker !== null) {
+        return walker.value;
+      }
+    };
+    Yallist.prototype.getReverse = function(n) {
+      for (var i = 0, walker = this.tail; walker !== null && i < n; i++) {
+        walker = walker.prev;
+      }
+      if (i === n && walker !== null) {
+        return walker.value;
+      }
+    };
+    Yallist.prototype.map = function(fn, thisp) {
+      thisp = thisp || this;
+      var res = new Yallist();
+      for (var walker = this.head; walker !== null; ) {
+        res.push(fn.call(thisp, walker.value, this));
+        walker = walker.next;
+      }
+      return res;
+    };
+    Yallist.prototype.mapReverse = function(fn, thisp) {
+      thisp = thisp || this;
+      var res = new Yallist();
+      for (var walker = this.tail; walker !== null; ) {
+        res.push(fn.call(thisp, walker.value, this));
+        walker = walker.prev;
+      }
+      return res;
+    };
+    Yallist.prototype.reduce = function(fn, initial) {
+      var acc;
+      var walker = this.head;
+      if (arguments.length > 1) {
+        acc = initial;
+      } else if (this.head) {
+        walker = this.head.next;
+        acc = this.head.value;
+      } else {
+        throw new TypeError("Reduce of empty list with no initial value");
+      }
+      for (var i = 0; walker !== null; i++) {
+        acc = fn(acc, walker.value, i);
+        walker = walker.next;
+      }
+      return acc;
+    };
+    Yallist.prototype.reduceReverse = function(fn, initial) {
+      var acc;
+      var walker = this.tail;
+      if (arguments.length > 1) {
+        acc = initial;
+      } else if (this.tail) {
+        walker = this.tail.prev;
+        acc = this.tail.value;
+      } else {
+        throw new TypeError("Reduce of empty list with no initial value");
+      }
+      for (var i = this.length - 1; walker !== null; i--) {
+        acc = fn(acc, walker.value, i);
+        walker = walker.prev;
+      }
+      return acc;
+    };
+    Yallist.prototype.toArray = function() {
+      var arr = new Array(this.length);
+      for (var i = 0, walker = this.head; walker !== null; i++) {
+        arr[i] = walker.value;
+        walker = walker.next;
+      }
+      return arr;
+    };
+    Yallist.prototype.toArrayReverse = function() {
+      var arr = new Array(this.length);
+      for (var i = 0, walker = this.tail; walker !== null; i++) {
+        arr[i] = walker.value;
+        walker = walker.prev;
+      }
+      return arr;
+    };
+    Yallist.prototype.slice = function(from, to) {
+      to = to || this.length;
+      if (to < 0) {
+        to += this.length;
+      }
+      from = from || 0;
+      if (from < 0) {
+        from += this.length;
+      }
+      var ret = new Yallist();
+      if (to < from || to < 0) {
+        return ret;
+      }
+      if (from < 0) {
+        from = 0;
+      }
+      if (to > this.length) {
+        to = this.length;
+      }
+      for (var i = 0, walker = this.head; walker !== null && i < from; i++) {
+        walker = walker.next;
+      }
+      for (; walker !== null && i < to; i++, walker = walker.next) {
+        ret.push(walker.value);
+      }
+      return ret;
+    };
+    Yallist.prototype.sliceReverse = function(from, to) {
+      to = to || this.length;
+      if (to < 0) {
+        to += this.length;
+      }
+      from = from || 0;
+      if (from < 0) {
+        from += this.length;
+      }
+      var ret = new Yallist();
+      if (to < from || to < 0) {
+        return ret;
+      }
+      if (from < 0) {
+        from = 0;
+      }
+      if (to > this.length) {
+        to = this.length;
+      }
+      for (var i = this.length, walker = this.tail; walker !== null && i > to; i--) {
+        walker = walker.prev;
+      }
+      for (; walker !== null && i > from; i--, walker = walker.prev) {
+        ret.push(walker.value);
+      }
+      return ret;
+    };
+    Yallist.prototype.splice = function(start, deleteCount, ...nodes) {
+      if (start > this.length) {
+        start = this.length - 1;
+      }
+      if (start < 0) {
+        start = this.length + start;
+      }
+      for (var i = 0, walker = this.head; walker !== null && i < start; i++) {
+        walker = walker.next;
+      }
+      var ret = [];
+      for (var i = 0; walker && i < deleteCount; i++) {
+        ret.push(walker.value);
+        walker = this.removeNode(walker);
+      }
+      if (walker === null) {
+        walker = this.tail;
+      }
+      if (walker !== this.head && walker !== this.tail) {
+        walker = walker.prev;
+      }
+      for (var i = 0; i < nodes.length; i++) {
+        walker = insert(this, walker, nodes[i]);
+      }
+      return ret;
+    };
+    Yallist.prototype.reverse = function() {
+      var head = this.head;
+      var tail = this.tail;
+      for (var walker = head; walker !== null; walker = walker.prev) {
+        var p = walker.prev;
+        walker.prev = walker.next;
+        walker.next = p;
+      }
+      this.head = tail;
+      this.tail = head;
+      return this;
+    };
+    function insert(self, node, value) {
+      var inserted = node === self.head ? new Node(value, null, node, self) : new Node(value, node, node.next, self);
+      if (inserted.next === null) {
+        self.tail = inserted;
+      }
+      if (inserted.prev === null) {
+        self.head = inserted;
+      }
+      self.length++;
+      return inserted;
+    }
+    function push(self, item) {
+      self.tail = new Node(item, self.tail, null, self);
+      if (!self.head) {
+        self.head = self.tail;
+      }
+      self.length++;
+    }
+    function unshift(self, item) {
+      self.head = new Node(item, null, self.head, self);
+      if (!self.tail) {
+        self.tail = self.head;
+      }
+      self.length++;
+    }
+    function Node(value, prev, next, list) {
+      if (!(this instanceof Node)) {
+        return new Node(value, prev, next, list);
+      }
+      this.list = list;
+      this.value = value;
+      if (prev) {
+        prev.next = this;
+        this.prev = prev;
+      } else {
+        this.prev = null;
+      }
+      if (next) {
+        next.prev = this;
+        this.next = next;
+      } else {
+        this.next = null;
+      }
+    }
+    try {
+      require_iterator()(Yallist);
+    } catch (er) {
+    }
+  }
+});
+
+// node_modules/lru-cache/index.js
+var require_lru_cache = __commonJS({
+  "node_modules/lru-cache/index.js"(exports, module2) {
+    "use strict";
+    var Yallist = require_yallist();
+    var MAX = Symbol("max");
+    var LENGTH = Symbol("length");
+    var LENGTH_CALCULATOR = Symbol("lengthCalculator");
+    var ALLOW_STALE = Symbol("allowStale");
+    var MAX_AGE = Symbol("maxAge");
+    var DISPOSE = Symbol("dispose");
+    var NO_DISPOSE_ON_SET = Symbol("noDisposeOnSet");
+    var LRU_LIST = Symbol("lruList");
+    var CACHE = Symbol("cache");
+    var UPDATE_AGE_ON_GET = Symbol("updateAgeOnGet");
+    var naiveLength = () => 1;
+    var LRUCache = class {
+      constructor(options) {
+        if (typeof options === "number")
+          options = { max: options };
+        if (!options)
+          options = {};
+        if (options.max && (typeof options.max !== "number" || options.max < 0))
+          throw new TypeError("max must be a non-negative number");
+        const max = this[MAX] = options.max || Infinity;
+        const lc = options.length || naiveLength;
+        this[LENGTH_CALCULATOR] = typeof lc !== "function" ? naiveLength : lc;
+        this[ALLOW_STALE] = options.stale || false;
+        if (options.maxAge && typeof options.maxAge !== "number")
+          throw new TypeError("maxAge must be a number");
+        this[MAX_AGE] = options.maxAge || 0;
+        this[DISPOSE] = options.dispose;
+        this[NO_DISPOSE_ON_SET] = options.noDisposeOnSet || false;
+        this[UPDATE_AGE_ON_GET] = options.updateAgeOnGet || false;
+        this.reset();
+      }
+      set max(mL) {
+        if (typeof mL !== "number" || mL < 0)
+          throw new TypeError("max must be a non-negative number");
+        this[MAX] = mL || Infinity;
+        trim(this);
+      }
+      get max() {
+        return this[MAX];
+      }
+      set allowStale(allowStale) {
+        this[ALLOW_STALE] = !!allowStale;
+      }
+      get allowStale() {
+        return this[ALLOW_STALE];
+      }
+      set maxAge(mA) {
+        if (typeof mA !== "number")
+          throw new TypeError("maxAge must be a non-negative number");
+        this[MAX_AGE] = mA;
+        trim(this);
+      }
+      get maxAge() {
+        return this[MAX_AGE];
+      }
+      set lengthCalculator(lC) {
+        if (typeof lC !== "function")
+          lC = naiveLength;
+        if (lC !== this[LENGTH_CALCULATOR]) {
+          this[LENGTH_CALCULATOR] = lC;
+          this[LENGTH] = 0;
+          this[LRU_LIST].forEach((hit) => {
+            hit.length = this[LENGTH_CALCULATOR](hit.value, hit.key);
+            this[LENGTH] += hit.length;
+          });
+        }
+        trim(this);
+      }
+      get lengthCalculator() {
+        return this[LENGTH_CALCULATOR];
+      }
+      get length() {
+        return this[LENGTH];
+      }
+      get itemCount() {
+        return this[LRU_LIST].length;
+      }
+      rforEach(fn, thisp) {
+        thisp = thisp || this;
+        for (let walker = this[LRU_LIST].tail; walker !== null; ) {
+          const prev = walker.prev;
+          forEachStep(this, fn, walker, thisp);
+          walker = prev;
+        }
+      }
+      forEach(fn, thisp) {
+        thisp = thisp || this;
+        for (let walker = this[LRU_LIST].head; walker !== null; ) {
+          const next = walker.next;
+          forEachStep(this, fn, walker, thisp);
+          walker = next;
+        }
+      }
+      keys() {
+        return this[LRU_LIST].toArray().map((k) => k.key);
+      }
+      values() {
+        return this[LRU_LIST].toArray().map((k) => k.value);
+      }
+      reset() {
+        if (this[DISPOSE] && this[LRU_LIST] && this[LRU_LIST].length) {
+          this[LRU_LIST].forEach((hit) => this[DISPOSE](hit.key, hit.value));
+        }
+        this[CACHE] = /* @__PURE__ */ new Map();
+        this[LRU_LIST] = new Yallist();
+        this[LENGTH] = 0;
+      }
+      dump() {
+        return this[LRU_LIST].map((hit) => isStale(this, hit) ? false : {
+          k: hit.key,
+          v: hit.value,
+          e: hit.now + (hit.maxAge || 0)
+        }).toArray().filter((h) => h);
+      }
+      dumpLru() {
+        return this[LRU_LIST];
+      }
+      set(key, value, maxAge) {
+        maxAge = maxAge || this[MAX_AGE];
+        if (maxAge && typeof maxAge !== "number")
+          throw new TypeError("maxAge must be a number");
+        const now = maxAge ? Date.now() : 0;
+        const len = this[LENGTH_CALCULATOR](value, key);
+        if (this[CACHE].has(key)) {
+          if (len > this[MAX]) {
+            del(this, this[CACHE].get(key));
+            return false;
+          }
+          const node = this[CACHE].get(key);
+          const item = node.value;
+          if (this[DISPOSE]) {
+            if (!this[NO_DISPOSE_ON_SET])
+              this[DISPOSE](key, item.value);
+          }
+          item.now = now;
+          item.maxAge = maxAge;
+          item.value = value;
+          this[LENGTH] += len - item.length;
+          item.length = len;
+          this.get(key);
+          trim(this);
+          return true;
+        }
+        const hit = new Entry(key, value, len, now, maxAge);
+        if (hit.length > this[MAX]) {
+          if (this[DISPOSE])
+            this[DISPOSE](key, value);
+          return false;
+        }
+        this[LENGTH] += hit.length;
+        this[LRU_LIST].unshift(hit);
+        this[CACHE].set(key, this[LRU_LIST].head);
+        trim(this);
+        return true;
+      }
+      has(key) {
+        if (!this[CACHE].has(key))
+          return false;
+        const hit = this[CACHE].get(key).value;
+        return !isStale(this, hit);
+      }
+      get(key) {
+        return get(this, key, true);
+      }
+      peek(key) {
+        return get(this, key, false);
+      }
+      pop() {
+        const node = this[LRU_LIST].tail;
+        if (!node)
+          return null;
+        del(this, node);
+        return node.value;
+      }
+      del(key) {
+        del(this, this[CACHE].get(key));
+      }
+      load(arr) {
+        this.reset();
+        const now = Date.now();
+        for (let l = arr.length - 1; l >= 0; l--) {
+          const hit = arr[l];
+          const expiresAt = hit.e || 0;
+          if (expiresAt === 0)
+            this.set(hit.k, hit.v);
+          else {
+            const maxAge = expiresAt - now;
+            if (maxAge > 0) {
+              this.set(hit.k, hit.v, maxAge);
+            }
+          }
+        }
+      }
+      prune() {
+        this[CACHE].forEach((value, key) => get(this, key, false));
+      }
+    };
+    var get = (self, key, doUse) => {
+      const node = self[CACHE].get(key);
+      if (node) {
+        const hit = node.value;
+        if (isStale(self, hit)) {
+          del(self, node);
+          if (!self[ALLOW_STALE])
+            return void 0;
+        } else {
+          if (doUse) {
+            if (self[UPDATE_AGE_ON_GET])
+              node.value.now = Date.now();
+            self[LRU_LIST].unshiftNode(node);
+          }
+        }
+        return hit.value;
+      }
+    };
+    var isStale = (self, hit) => {
+      if (!hit || !hit.maxAge && !self[MAX_AGE])
+        return false;
+      const diff = Date.now() - hit.now;
+      return hit.maxAge ? diff > hit.maxAge : self[MAX_AGE] && diff > self[MAX_AGE];
+    };
+    var trim = (self) => {
+      if (self[LENGTH] > self[MAX]) {
+        for (let walker = self[LRU_LIST].tail; self[LENGTH] > self[MAX] && walker !== null; ) {
+          const prev = walker.prev;
+          del(self, walker);
+          walker = prev;
+        }
+      }
+    };
+    var del = (self, node) => {
+      if (node) {
+        const hit = node.value;
+        if (self[DISPOSE])
+          self[DISPOSE](hit.key, hit.value);
+        self[LENGTH] -= hit.length;
+        self[CACHE].delete(hit.key);
+        self[LRU_LIST].removeNode(node);
+      }
+    };
+    var Entry = class {
+      constructor(key, value, length, now, maxAge) {
+        this.key = key;
+        this.value = value;
+        this.length = length;
+        this.now = now;
+        this.maxAge = maxAge || 0;
+      }
+    };
+    var forEachStep = (self, fn, node, thisp) => {
+      let hit = node.value;
+      if (isStale(self, hit)) {
+        del(self, node);
+        if (!self[ALLOW_STALE])
+          hit = void 0;
+      }
+      if (hit)
+        fn.call(thisp, hit.value, hit.key, self);
+    };
+    module2.exports = LRUCache;
+  }
+});
+
+// node_modules/semver/classes/range.js
+var require_range = __commonJS({
+  "node_modules/semver/classes/range.js"(exports, module2) {
+    var Range = class {
+      constructor(range, options) {
+        options = parseOptions2(options);
+        if (range instanceof Range) {
+          if (range.loose === !!options.loose && range.includePrerelease === !!options.includePrerelease) {
+            return range;
+          } else {
+            return new Range(range.raw, options);
+          }
+        }
+        if (range instanceof Comparator) {
+          this.raw = range.value;
+          this.set = [[range]];
+          this.format();
+          return this;
+        }
+        this.options = options;
+        this.loose = !!options.loose;
+        this.includePrerelease = !!options.includePrerelease;
+        this.raw = range;
+        this.set = range.split("||").map((r) => this.parseRange(r.trim())).filter((c) => c.length);
+        if (!this.set.length) {
+          throw new TypeError(`Invalid SemVer Range: ${range}`);
+        }
+        if (this.set.length > 1) {
+          const first = this.set[0];
+          this.set = this.set.filter((c) => !isNullSet(c[0]));
+          if (this.set.length === 0) {
+            this.set = [first];
+          } else if (this.set.length > 1) {
+            for (const c of this.set) {
+              if (c.length === 1 && isAny(c[0])) {
+                this.set = [c];
+                break;
+              }
+            }
+          }
+        }
+        this.format();
+      }
+      format() {
+        this.range = this.set.map((comps) => {
+          return comps.join(" ").trim();
+        }).join("||").trim();
+        return this.range;
+      }
+      toString() {
+        return this.range;
+      }
+      parseRange(range) {
+        range = range.trim();
+        const memoOpts = Object.keys(this.options).join(",");
+        const memoKey = `parseRange:${memoOpts}:${range}`;
+        const cached = cache.get(memoKey);
+        if (cached) {
+          return cached;
+        }
+        const loose = this.options.loose;
+        const hr = loose ? re[t.HYPHENRANGELOOSE] : re[t.HYPHENRANGE];
+        range = range.replace(hr, hyphenReplace(this.options.includePrerelease));
+        debug("hyphen replace", range);
+        range = range.replace(re[t.COMPARATORTRIM], comparatorTrimReplace);
+        debug("comparator trim", range);
+        range = range.replace(re[t.TILDETRIM], tildeTrimReplace);
+        range = range.replace(re[t.CARETTRIM], caretTrimReplace);
+        range = range.split(/\s+/).join(" ");
+        let rangeList = range.split(" ").map((comp) => parseComparator(comp, this.options)).join(" ").split(/\s+/).map((comp) => replaceGTE0(comp, this.options));
+        if (loose) {
+          rangeList = rangeList.filter((comp) => {
+            debug("loose invalid filter", comp, this.options);
+            return !!comp.match(re[t.COMPARATORLOOSE]);
+          });
+        }
+        debug("range list", rangeList);
+        const rangeMap = /* @__PURE__ */ new Map();
+        const comparators = rangeList.map((comp) => new Comparator(comp, this.options));
+        for (const comp of comparators) {
+          if (isNullSet(comp)) {
+            return [comp];
+          }
+          rangeMap.set(comp.value, comp);
+        }
+        if (rangeMap.size > 1 && rangeMap.has("")) {
+          rangeMap.delete("");
+        }
+        const result = [...rangeMap.values()];
+        cache.set(memoKey, result);
+        return result;
+      }
+      intersects(range, options) {
+        if (!(range instanceof Range)) {
+          throw new TypeError("a Range is required");
+        }
+        return this.set.some((thisComparators) => {
+          return isSatisfiable(thisComparators, options) && range.set.some((rangeComparators) => {
+            return isSatisfiable(rangeComparators, options) && thisComparators.every((thisComparator) => {
+              return rangeComparators.every((rangeComparator) => {
+                return thisComparator.intersects(rangeComparator, options);
+              });
+            });
+          });
+        });
+      }
+      test(version) {
+        if (!version) {
+          return false;
+        }
+        if (typeof version === "string") {
+          try {
+            version = new SemVer(version, this.options);
+          } catch (er) {
+            return false;
+          }
+        }
+        for (let i = 0; i < this.set.length; i++) {
+          if (testSet(this.set[i], version, this.options)) {
+            return true;
+          }
+        }
+        return false;
+      }
+    };
+    module2.exports = Range;
+    var LRU = require_lru_cache();
+    var cache = new LRU({ max: 1e3 });
+    var parseOptions2 = require_parse_options();
+    var Comparator = require_comparator();
+    var debug = require_debug();
+    var SemVer = require_semver();
+    var {
+      re,
+      t,
+      comparatorTrimReplace,
+      tildeTrimReplace,
+      caretTrimReplace
+    } = require_re();
+    var isNullSet = (c) => c.value === "<0.0.0-0";
+    var isAny = (c) => c.value === "";
+    var isSatisfiable = (comparators, options) => {
+      let result = true;
+      const remainingComparators = comparators.slice();
+      let testComparator = remainingComparators.pop();
+      while (result && remainingComparators.length) {
+        result = remainingComparators.every((otherComparator) => {
+          return testComparator.intersects(otherComparator, options);
+        });
+        testComparator = remainingComparators.pop();
+      }
+      return result;
+    };
+    var parseComparator = (comp, options) => {
+      debug("comp", comp, options);
+      comp = replaceCarets(comp, options);
+      debug("caret", comp);
+      comp = replaceTildes(comp, options);
+      debug("tildes", comp);
+      comp = replaceXRanges(comp, options);
+      debug("xrange", comp);
+      comp = replaceStars(comp, options);
+      debug("stars", comp);
+      return comp;
+    };
+    var isX = (id) => !id || id.toLowerCase() === "x" || id === "*";
+    var replaceTildes = (comp, options) => comp.trim().split(/\s+/).map((c) => {
+      return replaceTilde(c, options);
+    }).join(" ");
+    var replaceTilde = (comp, options) => {
+      const r = options.loose ? re[t.TILDELOOSE] : re[t.TILDE];
+      return comp.replace(r, (_, M, m, p, pr) => {
+        debug("tilde", comp, _, M, m, p, pr);
+        let ret;
+        if (isX(M)) {
+          ret = "";
+        } else if (isX(m)) {
+          ret = `>=${M}.0.0 <${+M + 1}.0.0-0`;
+        } else if (isX(p)) {
+          ret = `>=${M}.${m}.0 <${M}.${+m + 1}.0-0`;
+        } else if (pr) {
+          debug("replaceTilde pr", pr);
+          ret = `>=${M}.${m}.${p}-${pr} <${M}.${+m + 1}.0-0`;
+        } else {
+          ret = `>=${M}.${m}.${p} <${M}.${+m + 1}.0-0`;
+        }
+        debug("tilde return", ret);
+        return ret;
+      });
+    };
+    var replaceCarets = (comp, options) => comp.trim().split(/\s+/).map((c) => {
+      return replaceCaret(c, options);
+    }).join(" ");
+    var replaceCaret = (comp, options) => {
+      debug("caret", comp, options);
+      const r = options.loose ? re[t.CARETLOOSE] : re[t.CARET];
+      const z = options.includePrerelease ? "-0" : "";
+      return comp.replace(r, (_, M, m, p, pr) => {
+        debug("caret", comp, _, M, m, p, pr);
+        let ret;
+        if (isX(M)) {
+          ret = "";
+        } else if (isX(m)) {
+          ret = `>=${M}.0.0${z} <${+M + 1}.0.0-0`;
+        } else if (isX(p)) {
+          if (M === "0") {
+            ret = `>=${M}.${m}.0${z} <${M}.${+m + 1}.0-0`;
+          } else {
+            ret = `>=${M}.${m}.0${z} <${+M + 1}.0.0-0`;
+          }
+        } else if (pr) {
+          debug("replaceCaret pr", pr);
+          if (M === "0") {
+            if (m === "0") {
+              ret = `>=${M}.${m}.${p}-${pr} <${M}.${m}.${+p + 1}-0`;
+            } else {
+              ret = `>=${M}.${m}.${p}-${pr} <${M}.${+m + 1}.0-0`;
+            }
+          } else {
+            ret = `>=${M}.${m}.${p}-${pr} <${+M + 1}.0.0-0`;
+          }
+        } else {
+          debug("no pr");
+          if (M === "0") {
+            if (m === "0") {
+              ret = `>=${M}.${m}.${p}${z} <${M}.${m}.${+p + 1}-0`;
+            } else {
+              ret = `>=${M}.${m}.${p}${z} <${M}.${+m + 1}.0-0`;
+            }
+          } else {
+            ret = `>=${M}.${m}.${p} <${+M + 1}.0.0-0`;
+          }
+        }
+        debug("caret return", ret);
+        return ret;
+      });
+    };
+    var replaceXRanges = (comp, options) => {
+      debug("replaceXRanges", comp, options);
+      return comp.split(/\s+/).map((c) => {
+        return replaceXRange(c, options);
+      }).join(" ");
+    };
+    var replaceXRange = (comp, options) => {
+      comp = comp.trim();
+      const r = options.loose ? re[t.XRANGELOOSE] : re[t.XRANGE];
+      return comp.replace(r, (ret, gtlt, M, m, p, pr) => {
+        debug("xRange", comp, ret, gtlt, M, m, p, pr);
+        const xM = isX(M);
+        const xm = xM || isX(m);
+        const xp = xm || isX(p);
+        const anyX = xp;
+        if (gtlt === "=" && anyX) {
+          gtlt = "";
+        }
+        pr = options.includePrerelease ? "-0" : "";
+        if (xM) {
+          if (gtlt === ">" || gtlt === "<") {
+            ret = "<0.0.0-0";
+          } else {
+            ret = "*";
+          }
+        } else if (gtlt && anyX) {
+          if (xm) {
+            m = 0;
+          }
+          p = 0;
+          if (gtlt === ">") {
+            gtlt = ">=";
+            if (xm) {
+              M = +M + 1;
+              m = 0;
+              p = 0;
+            } else {
+              m = +m + 1;
+              p = 0;
+            }
+          } else if (gtlt === "<=") {
+            gtlt = "<";
+            if (xm) {
+              M = +M + 1;
+            } else {
+              m = +m + 1;
+            }
+          }
+          if (gtlt === "<") {
+            pr = "-0";
+          }
+          ret = `${gtlt + M}.${m}.${p}${pr}`;
+        } else if (xm) {
+          ret = `>=${M}.0.0${pr} <${+M + 1}.0.0-0`;
+        } else if (xp) {
+          ret = `>=${M}.${m}.0${pr} <${M}.${+m + 1}.0-0`;
+        }
+        debug("xRange return", ret);
+        return ret;
+      });
+    };
+    var replaceStars = (comp, options) => {
+      debug("replaceStars", comp, options);
+      return comp.trim().replace(re[t.STAR], "");
+    };
+    var replaceGTE0 = (comp, options) => {
+      debug("replaceGTE0", comp, options);
+      return comp.trim().replace(re[options.includePrerelease ? t.GTE0PRE : t.GTE0], "");
+    };
+    var hyphenReplace = (incPr) => ($0, from, fM, fm, fp, fpr, fb, to, tM, tm, tp, tpr, tb) => {
+      if (isX(fM)) {
+        from = "";
+      } else if (isX(fm)) {
+        from = `>=${fM}.0.0${incPr ? "-0" : ""}`;
+      } else if (isX(fp)) {
+        from = `>=${fM}.${fm}.0${incPr ? "-0" : ""}`;
+      } else if (fpr) {
+        from = `>=${from}`;
+      } else {
+        from = `>=${from}${incPr ? "-0" : ""}`;
+      }
+      if (isX(tM)) {
+        to = "";
+      } else if (isX(tm)) {
+        to = `<${+tM + 1}.0.0-0`;
+      } else if (isX(tp)) {
+        to = `<${tM}.${+tm + 1}.0-0`;
+      } else if (tpr) {
+        to = `<=${tM}.${tm}.${tp}-${tpr}`;
+      } else if (incPr) {
+        to = `<${tM}.${tm}.${+tp + 1}-0`;
+      } else {
+        to = `<=${to}`;
+      }
+      return `${from} ${to}`.trim();
+    };
+    var testSet = (set, version, options) => {
+      for (let i = 0; i < set.length; i++) {
+        if (!set[i].test(version)) {
+          return false;
+        }
+      }
+      if (version.prerelease.length && !options.includePrerelease) {
+        for (let i = 0; i < set.length; i++) {
+          debug(set[i].semver);
+          if (set[i].semver === Comparator.ANY) {
+            continue;
+          }
+          if (set[i].semver.prerelease.length > 0) {
+            const allowed = set[i].semver;
+            if (allowed.major === version.major && allowed.minor === version.minor && allowed.patch === version.patch) {
+              return true;
+            }
+          }
+        }
+        return false;
+      }
+      return true;
+    };
+  }
+});
+
+// node_modules/semver/classes/comparator.js
+var require_comparator = __commonJS({
+  "node_modules/semver/classes/comparator.js"(exports, module2) {
+    var ANY = Symbol("SemVer ANY");
+    var Comparator = class {
+      static get ANY() {
+        return ANY;
+      }
+      constructor(comp, options) {
+        options = parseOptions2(options);
+        if (comp instanceof Comparator) {
+          if (comp.loose === !!options.loose) {
+            return comp;
+          } else {
+            comp = comp.value;
+          }
+        }
+        debug("comparator", comp, options);
+        this.options = options;
+        this.loose = !!options.loose;
+        this.parse(comp);
+        if (this.semver === ANY) {
+          this.value = "";
+        } else {
+          this.value = this.operator + this.semver.version;
+        }
+        debug("comp", this);
+      }
+      parse(comp) {
+        const r = this.options.loose ? re[t.COMPARATORLOOSE] : re[t.COMPARATOR];
+        const m = comp.match(r);
+        if (!m) {
+          throw new TypeError(`Invalid comparator: ${comp}`);
+        }
+        this.operator = m[1] !== void 0 ? m[1] : "";
+        if (this.operator === "=") {
+          this.operator = "";
+        }
+        if (!m[2]) {
+          this.semver = ANY;
+        } else {
+          this.semver = new SemVer(m[2], this.options.loose);
+        }
+      }
+      toString() {
+        return this.value;
+      }
+      test(version) {
+        debug("Comparator.test", version, this.options.loose);
+        if (this.semver === ANY || version === ANY) {
+          return true;
+        }
+        if (typeof version === "string") {
+          try {
+            version = new SemVer(version, this.options);
+          } catch (er) {
+            return false;
+          }
+        }
+        return cmp(version, this.operator, this.semver, this.options);
+      }
+      intersects(comp, options) {
+        if (!(comp instanceof Comparator)) {
+          throw new TypeError("a Comparator is required");
+        }
+        if (!options || typeof options !== "object") {
+          options = {
+            loose: !!options,
+            includePrerelease: false
+          };
+        }
+        if (this.operator === "") {
+          if (this.value === "") {
+            return true;
+          }
+          return new Range(comp.value, options).test(this.value);
+        } else if (comp.operator === "") {
+          if (comp.value === "") {
+            return true;
+          }
+          return new Range(this.value, options).test(comp.semver);
+        }
+        const sameDirectionIncreasing = (this.operator === ">=" || this.operator === ">") && (comp.operator === ">=" || comp.operator === ">");
+        const sameDirectionDecreasing = (this.operator === "<=" || this.operator === "<") && (comp.operator === "<=" || comp.operator === "<");
+        const sameSemVer = this.semver.version === comp.semver.version;
+        const differentDirectionsInclusive = (this.operator === ">=" || this.operator === "<=") && (comp.operator === ">=" || comp.operator === "<=");
+        const oppositeDirectionsLessThan = cmp(this.semver, "<", comp.semver, options) && (this.operator === ">=" || this.operator === ">") && (comp.operator === "<=" || comp.operator === "<");
+        const oppositeDirectionsGreaterThan = cmp(this.semver, ">", comp.semver, options) && (this.operator === "<=" || this.operator === "<") && (comp.operator === ">=" || comp.operator === ">");
+        return sameDirectionIncreasing || sameDirectionDecreasing || sameSemVer && differentDirectionsInclusive || oppositeDirectionsLessThan || oppositeDirectionsGreaterThan;
+      }
+    };
+    module2.exports = Comparator;
+    var parseOptions2 = require_parse_options();
+    var { re, t } = require_re();
+    var cmp = require_cmp();
+    var debug = require_debug();
+    var SemVer = require_semver();
+    var Range = require_range();
+  }
+});
+
+// node_modules/semver/functions/satisfies.js
+var require_satisfies = __commonJS({
+  "node_modules/semver/functions/satisfies.js"(exports, module2) {
+    var Range = require_range();
+    var satisfies = (version, range, options) => {
+      try {
+        range = new Range(range, options);
+      } catch (er) {
+        return false;
+      }
+      return range.test(version);
+    };
+    module2.exports = satisfies;
+  }
+});
+
+// node_modules/semver/ranges/to-comparators.js
+var require_to_comparators = __commonJS({
+  "node_modules/semver/ranges/to-comparators.js"(exports, module2) {
+    var Range = require_range();
+    var toComparators = (range, options) => new Range(range, options).set.map((comp) => comp.map((c) => c.value).join(" ").trim().split(" "));
+    module2.exports = toComparators;
+  }
+});
+
+// node_modules/semver/ranges/max-satisfying.js
+var require_max_satisfying = __commonJS({
+  "node_modules/semver/ranges/max-satisfying.js"(exports, module2) {
+    var SemVer = require_semver();
+    var Range = require_range();
+    var maxSatisfying = (versions, range, options) => {
+      let max = null;
+      let maxSV = null;
+      let rangeObj = null;
+      try {
+        rangeObj = new Range(range, options);
+      } catch (er) {
+        return null;
+      }
+      versions.forEach((v) => {
+        if (rangeObj.test(v)) {
+          if (!max || maxSV.compare(v) === -1) {
+            max = v;
+            maxSV = new SemVer(max, options);
+          }
+        }
+      });
+      return max;
+    };
+    module2.exports = maxSatisfying;
+  }
+});
+
+// node_modules/semver/ranges/min-satisfying.js
+var require_min_satisfying = __commonJS({
+  "node_modules/semver/ranges/min-satisfying.js"(exports, module2) {
+    var SemVer = require_semver();
+    var Range = require_range();
+    var minSatisfying = (versions, range, options) => {
+      let min = null;
+      let minSV = null;
+      let rangeObj = null;
+      try {
+        rangeObj = new Range(range, options);
+      } catch (er) {
+        return null;
+      }
+      versions.forEach((v) => {
+        if (rangeObj.test(v)) {
+          if (!min || minSV.compare(v) === 1) {
+            min = v;
+            minSV = new SemVer(min, options);
+          }
+        }
+      });
+      return min;
+    };
+    module2.exports = minSatisfying;
+  }
+});
+
+// node_modules/semver/ranges/min-version.js
+var require_min_version = __commonJS({
+  "node_modules/semver/ranges/min-version.js"(exports, module2) {
+    var SemVer = require_semver();
+    var Range = require_range();
+    var gt = require_gt();
+    var minVersion = (range, loose) => {
+      range = new Range(range, loose);
+      let minver = new SemVer("0.0.0");
+      if (range.test(minver)) {
+        return minver;
+      }
+      minver = new SemVer("0.0.0-0");
+      if (range.test(minver)) {
+        return minver;
+      }
+      minver = null;
+      for (let i = 0; i < range.set.length; ++i) {
+        const comparators = range.set[i];
+        let setMin = null;
+        comparators.forEach((comparator) => {
+          const compver = new SemVer(comparator.semver.version);
+          switch (comparator.operator) {
+            case ">":
+              if (compver.prerelease.length === 0) {
+                compver.patch++;
+              } else {
+                compver.prerelease.push(0);
+              }
+              compver.raw = compver.format();
+            case "":
+            case ">=":
+              if (!setMin || gt(compver, setMin)) {
+                setMin = compver;
+              }
+              break;
+            case "<":
+            case "<=":
+              break;
+            default:
+              throw new Error(`Unexpected operation: ${comparator.operator}`);
+          }
+        });
+        if (setMin && (!minver || gt(minver, setMin))) {
+          minver = setMin;
+        }
+      }
+      if (minver && range.test(minver)) {
+        return minver;
+      }
+      return null;
+    };
+    module2.exports = minVersion;
+  }
+});
+
+// node_modules/semver/ranges/valid.js
+var require_valid2 = __commonJS({
+  "node_modules/semver/ranges/valid.js"(exports, module2) {
+    var Range = require_range();
+    var validRange = (range, options) => {
+      try {
+        return new Range(range, options).range || "*";
+      } catch (er) {
+        return null;
+      }
+    };
+    module2.exports = validRange;
+  }
+});
+
+// node_modules/semver/ranges/outside.js
+var require_outside = __commonJS({
+  "node_modules/semver/ranges/outside.js"(exports, module2) {
+    var SemVer = require_semver();
+    var Comparator = require_comparator();
+    var { ANY } = Comparator;
+    var Range = require_range();
+    var satisfies = require_satisfies();
+    var gt = require_gt();
+    var lt = require_lt();
+    var lte = require_lte();
+    var gte = require_gte();
+    var outside = (version, range, hilo, options) => {
+      version = new SemVer(version, options);
+      range = new Range(range, options);
+      let gtfn, ltefn, ltfn, comp, ecomp;
+      switch (hilo) {
+        case ">":
+          gtfn = gt;
+          ltefn = lte;
+          ltfn = lt;
+          comp = ">";
+          ecomp = ">=";
+          break;
+        case "<":
+          gtfn = lt;
+          ltefn = gte;
+          ltfn = gt;
+          comp = "<";
+          ecomp = "<=";
+          break;
+        default:
+          throw new TypeError('Must provide a hilo val of "<" or ">"');
+      }
+      if (satisfies(version, range, options)) {
+        return false;
+      }
+      for (let i = 0; i < range.set.length; ++i) {
+        const comparators = range.set[i];
+        let high = null;
+        let low = null;
+        comparators.forEach((comparator) => {
+          if (comparator.semver === ANY) {
+            comparator = new Comparator(">=0.0.0");
+          }
+          high = high || comparator;
+          low = low || comparator;
+          if (gtfn(comparator.semver, high.semver, options)) {
+            high = comparator;
+          } else if (ltfn(comparator.semver, low.semver, options)) {
+            low = comparator;
+          }
+        });
+        if (high.operator === comp || high.operator === ecomp) {
+          return false;
+        }
+        if ((!low.operator || low.operator === comp) && ltefn(version, low.semver)) {
+          return false;
+        } else if (low.operator === ecomp && ltfn(version, low.semver)) {
+          return false;
+        }
+      }
+      return true;
+    };
+    module2.exports = outside;
+  }
+});
+
+// node_modules/semver/ranges/gtr.js
+var require_gtr = __commonJS({
+  "node_modules/semver/ranges/gtr.js"(exports, module2) {
+    var outside = require_outside();
+    var gtr = (version, range, options) => outside(version, range, ">", options);
+    module2.exports = gtr;
+  }
+});
+
+// node_modules/semver/ranges/ltr.js
+var require_ltr = __commonJS({
+  "node_modules/semver/ranges/ltr.js"(exports, module2) {
+    var outside = require_outside();
+    var ltr = (version, range, options) => outside(version, range, "<", options);
+    module2.exports = ltr;
+  }
+});
+
+// node_modules/semver/ranges/intersects.js
+var require_intersects = __commonJS({
+  "node_modules/semver/ranges/intersects.js"(exports, module2) {
+    var Range = require_range();
+    var intersects = (r1, r2, options) => {
+      r1 = new Range(r1, options);
+      r2 = new Range(r2, options);
+      return r1.intersects(r2);
+    };
+    module2.exports = intersects;
+  }
+});
+
+// node_modules/semver/ranges/simplify.js
+var require_simplify = __commonJS({
+  "node_modules/semver/ranges/simplify.js"(exports, module2) {
+    var satisfies = require_satisfies();
+    var compare = require_compare();
+    module2.exports = (versions, range, options) => {
+      const set = [];
+      let first = null;
+      let prev = null;
+      const v = versions.sort((a, b) => compare(a, b, options));
+      for (const version of v) {
+        const included = satisfies(version, range, options);
+        if (included) {
+          prev = version;
+          if (!first) {
+            first = version;
+          }
+        } else {
+          if (prev) {
+            set.push([first, prev]);
+          }
+          prev = null;
+          first = null;
+        }
+      }
+      if (first) {
+        set.push([first, null]);
+      }
+      const ranges = [];
+      for (const [min, max] of set) {
+        if (min === max) {
+          ranges.push(min);
+        } else if (!max && min === v[0]) {
+          ranges.push("*");
+        } else if (!max) {
+          ranges.push(`>=${min}`);
+        } else if (min === v[0]) {
+          ranges.push(`<=${max}`);
+        } else {
+          ranges.push(`${min} - ${max}`);
+        }
+      }
+      const simplified = ranges.join(" || ");
+      const original = typeof range.raw === "string" ? range.raw : String(range);
+      return simplified.length < original.length ? simplified : range;
+    };
+  }
+});
+
+// node_modules/semver/ranges/subset.js
+var require_subset = __commonJS({
+  "node_modules/semver/ranges/subset.js"(exports, module2) {
+    var Range = require_range();
+    var Comparator = require_comparator();
+    var { ANY } = Comparator;
+    var satisfies = require_satisfies();
+    var compare = require_compare();
+    var subset = (sub, dom, options = {}) => {
+      if (sub === dom) {
+        return true;
+      }
+      sub = new Range(sub, options);
+      dom = new Range(dom, options);
+      let sawNonNull = false;
+      OUTER:
+        for (const simpleSub of sub.set) {
+          for (const simpleDom of dom.set) {
+            const isSub = simpleSubset(simpleSub, simpleDom, options);
+            sawNonNull = sawNonNull || isSub !== null;
+            if (isSub) {
+              continue OUTER;
+            }
+          }
+          if (sawNonNull) {
+            return false;
+          }
+        }
+      return true;
+    };
+    var simpleSubset = (sub, dom, options) => {
+      if (sub === dom) {
+        return true;
+      }
+      if (sub.length === 1 && sub[0].semver === ANY) {
+        if (dom.length === 1 && dom[0].semver === ANY) {
+          return true;
+        } else if (options.includePrerelease) {
+          sub = [new Comparator(">=0.0.0-0")];
+        } else {
+          sub = [new Comparator(">=0.0.0")];
+        }
+      }
+      if (dom.length === 1 && dom[0].semver === ANY) {
+        if (options.includePrerelease) {
+          return true;
+        } else {
+          dom = [new Comparator(">=0.0.0")];
+        }
+      }
+      const eqSet = /* @__PURE__ */ new Set();
+      let gt, lt;
+      for (const c of sub) {
+        if (c.operator === ">" || c.operator === ">=") {
+          gt = higherGT(gt, c, options);
+        } else if (c.operator === "<" || c.operator === "<=") {
+          lt = lowerLT(lt, c, options);
+        } else {
+          eqSet.add(c.semver);
+        }
+      }
+      if (eqSet.size > 1) {
+        return null;
+      }
+      let gtltComp;
+      if (gt && lt) {
+        gtltComp = compare(gt.semver, lt.semver, options);
+        if (gtltComp > 0) {
+          return null;
+        } else if (gtltComp === 0 && (gt.operator !== ">=" || lt.operator !== "<=")) {
+          return null;
+        }
+      }
+      for (const eq of eqSet) {
+        if (gt && !satisfies(eq, String(gt), options)) {
+          return null;
+        }
+        if (lt && !satisfies(eq, String(lt), options)) {
+          return null;
+        }
+        for (const c of dom) {
+          if (!satisfies(eq, String(c), options)) {
+            return false;
+          }
+        }
+        return true;
+      }
+      let higher, lower;
+      let hasDomLT, hasDomGT;
+      let needDomLTPre = lt && !options.includePrerelease && lt.semver.prerelease.length ? lt.semver : false;
+      let needDomGTPre = gt && !options.includePrerelease && gt.semver.prerelease.length ? gt.semver : false;
+      if (needDomLTPre && needDomLTPre.prerelease.length === 1 && lt.operator === "<" && needDomLTPre.prerelease[0] === 0) {
+        needDomLTPre = false;
+      }
+      for (const c of dom) {
+        hasDomGT = hasDomGT || c.operator === ">" || c.operator === ">=";
+        hasDomLT = hasDomLT || c.operator === "<" || c.operator === "<=";
+        if (gt) {
+          if (needDomGTPre) {
+            if (c.semver.prerelease && c.semver.prerelease.length && c.semver.major === needDomGTPre.major && c.semver.minor === needDomGTPre.minor && c.semver.patch === needDomGTPre.patch) {
+              needDomGTPre = false;
+            }
+          }
+          if (c.operator === ">" || c.operator === ">=") {
+            higher = higherGT(gt, c, options);
+            if (higher === c && higher !== gt) {
+              return false;
+            }
+          } else if (gt.operator === ">=" && !satisfies(gt.semver, String(c), options)) {
+            return false;
+          }
+        }
+        if (lt) {
+          if (needDomLTPre) {
+            if (c.semver.prerelease && c.semver.prerelease.length && c.semver.major === needDomLTPre.major && c.semver.minor === needDomLTPre.minor && c.semver.patch === needDomLTPre.patch) {
+              needDomLTPre = false;
+            }
+          }
+          if (c.operator === "<" || c.operator === "<=") {
+            lower = lowerLT(lt, c, options);
+            if (lower === c && lower !== lt) {
+              return false;
+            }
+          } else if (lt.operator === "<=" && !satisfies(lt.semver, String(c), options)) {
+            return false;
+          }
+        }
+        if (!c.operator && (lt || gt) && gtltComp !== 0) {
+          return false;
+        }
+      }
+      if (gt && hasDomLT && !lt && gtltComp !== 0) {
+        return false;
+      }
+      if (lt && hasDomGT && !gt && gtltComp !== 0) {
+        return false;
+      }
+      if (needDomGTPre || needDomLTPre) {
+        return false;
+      }
+      return true;
+    };
+    var higherGT = (a, b, options) => {
+      if (!a) {
+        return b;
+      }
+      const comp = compare(a.semver, b.semver, options);
+      return comp > 0 ? a : comp < 0 ? b : b.operator === ">" && a.operator === ">=" ? b : a;
+    };
+    var lowerLT = (a, b, options) => {
+      if (!a) {
+        return b;
+      }
+      const comp = compare(a.semver, b.semver, options);
+      return comp < 0 ? a : comp > 0 ? b : b.operator === "<" && a.operator === "<=" ? b : a;
+    };
+    module2.exports = subset;
+  }
+});
+
+// node_modules/semver/index.js
+var require_semver2 = __commonJS({
+  "node_modules/semver/index.js"(exports, module2) {
+    var internalRe = require_re();
+    module2.exports = {
+      re: internalRe.re,
+      src: internalRe.src,
+      tokens: internalRe.t,
+      SEMVER_SPEC_VERSION: require_constants().SEMVER_SPEC_VERSION,
+      SemVer: require_semver(),
+      compareIdentifiers: require_identifiers().compareIdentifiers,
+      rcompareIdentifiers: require_identifiers().rcompareIdentifiers,
+      parse: require_parse(),
+      valid: require_valid(),
+      clean: require_clean(),
+      inc: require_inc(),
+      diff: require_diff(),
+      major: require_major(),
+      minor: require_minor(),
+      patch: require_patch(),
+      prerelease: require_prerelease(),
+      compare: require_compare(),
+      rcompare: require_rcompare(),
+      compareLoose: require_compare_loose(),
+      compareBuild: require_compare_build(),
+      sort: require_sort(),
+      rsort: require_rsort(),
+      gt: require_gt(),
+      lt: require_lt(),
+      eq: require_eq(),
+      neq: require_neq(),
+      gte: require_gte(),
+      lte: require_lte(),
+      cmp: require_cmp(),
+      coerce: require_coerce(),
+      Comparator: require_comparator(),
+      Range: require_range(),
+      satisfies: require_satisfies(),
+      toComparators: require_to_comparators(),
+      maxSatisfying: require_max_satisfying(),
+      minSatisfying: require_min_satisfying(),
+      minVersion: require_min_version(),
+      validRange: require_valid2(),
+      outside: require_outside(),
+      gtr: require_gtr(),
+      ltr: require_ltr(),
+      intersects: require_intersects(),
+      simplifyRange: require_simplify(),
+      subset: require_subset()
+    };
+  }
+});
+
+// src/index.js
+var src_exports = {};
+__export(src_exports, {
+  Options: () => Options_default,
+  Platform: () => Platform_default,
+  Platforms: () => Platforms_default,
+  checkCache: () => checkCache_default,
+  parseOptions: () => parseOptions_default
+});
+module.exports = __toCommonJS(src_exports);
+
+// src/constants/Options.js
+var Options = {
+  mode: "run",
+  quiet: "info",
+  files: null,
+  version: "latest",
+  flavour: "sdk",
+  cacheDir: "./cache",
+  platforms: [],
+  currentPlatform: null,
+  mirror: "https://nwjs.io/",
+  downloadUrl: "https://dl.nwjs.io",
+  manifestUrl: "https://nwjs.io/versions.json",
+  appName: false,
+  appVersion: false,
+  buildDir: "./build",
+  buildType: "default",
+  forceDownload: false,
+  macCredits: false,
+  macIcns: false,
+  macZip: null,
+  macPlist: false,
+  winVersionString: {},
+  winIco: null,
+  useRcedit: false,
+  argv: [],
+  zip: null,
+  zipOptions: null,
+  mergeZip: true
+};
+var Options_default = Options;
+
+// src/constants/Platform.js
+var Platform = {
+  NIX_32: "linux32",
+  NIX_64: "linux64",
+  OSX_32: "osx32",
+  OSX_64: "osx64",
+  WIN_32: "win32",
+  WIN_64: "win64"
+};
+Object.freeze(Platform);
+var Platform_default = Platform;
+
+// src/constants/Platforms.js
+var import_semver = __toESM(require_semver2(), 1);
+var Platforms = {
+  win32: {
+    needsZip: true,
+    getRunnable: function() {
+      return "nw.exe";
+    },
+    files: {
+      "<=0.9.2": [
+        "nw.exe",
+        "ffmpegsumo.dll",
+        "icudt.dll",
+        "libEGL.dll",
+        "libGLESv2.dll",
+        "nw.pak"
+      ],
+      ">0.9.2 <0.12.0": [
+        "nw.exe",
+        "ffmpegsumo.dll",
+        "icudtl.dat",
+        "libEGL.dll",
+        "libGLESv2.dll",
+        "nw.pak",
+        "locales"
+      ],
+      ">=0.12.0": [
+        "nw.exe",
+        "ffmpegsumo.dll",
+        "icudtl.dat",
+        "libEGL.dll",
+        "libGLESv2.dll",
+        "nw.pak",
+        "locales",
+        "d3dcompiler_47.dll",
+        "pdf.dll"
+      ]
+    },
+    versionNameTemplate: "v${ version }/${ name }-v${ version }-win-ia32.zip"
+  },
+  win64: {
+    needsZip: true,
+    getRunnable: function() {
+      return "nw.exe";
+    },
+    files: {
+      "<=0.9.2": [
+        "nw.exe",
+        "ffmpegsumo.dll",
+        "icudt.dll",
+        "libEGL.dll",
+        "libGLESv2.dll",
+        "nw.pak",
+        "locales"
+      ],
+      ">0.9.2 <0.12.0": [
+        "nw.exe",
+        "ffmpegsumo.dll",
+        "icudtl.dat",
+        "libEGL.dll",
+        "libGLESv2.dll",
+        "nw.pak",
+        "locales"
+      ],
+      ">=0.12.0": [
+        "nw.exe",
+        "ffmpegsumo.dll",
+        "icudtl.dat",
+        "libEGL.dll",
+        "libGLESv2.dll",
+        "nw.pak",
+        "locales",
+        "d3dcompiler_47.dll",
+        "pdf.dll"
+      ]
+    },
+    versionNameTemplate: "v${ version }/${ name }-v${ version }-win-x64.zip"
+  },
+  osx32: {
+    needsZip: false,
+    getRunnable: function(version) {
+      if (import_semver.default.satisfies(version, ">=0.12.0 || ~0.12.0-alpha")) {
+        return "nwjs.app/Contents/MacOS/nwjs";
+      } else {
+        return "node-webkit.app/Contents/MacOS/node-webkit";
+      }
+    },
+    files: {
+      "<0.12.0-alpha": ["node-webkit.app"],
+      ">=0.12.0 || ~0.12.0-alpha": ["nwjs.app"]
+    },
+    versionNameTemplate: "v${ version }/${ name }-v${ version }-osx-ia32.zip"
+  },
+  osx64: {
+    needsZip: false,
+    getRunnable: function(version) {
+      if (import_semver.default.satisfies(version, ">=0.12.0 || ~0.12.0-alpha")) {
+        return "nwjs.app/Contents/MacOS/nwjs";
+      } else {
+        return "node-webkit.app/Contents/MacOS/node-webkit";
+      }
+    },
+    files: {
+      "<0.12.0-alpha": ["node-webkit.app"],
+      ">=0.12.0 || ~0.12.0-alpha": ["nwjs.app"]
+    },
+    versionNameTemplate: "v${ version }/${ name }-v${ version }-osx-x64.zip"
+  },
+  linux32: {
+    needsZip: true,
+    chmod: "0755",
+    getRunnable: function() {
+      return "nw";
+    },
+    files: {
+      "<=0.9.2": ["nw", "nw.pak", "libffmpegsumo.so"],
+      ">0.9.2 <=0.10.1": ["nw", "nw.pak", "libffmpegsumo.so", "icudtl.dat"],
+      ">0.10.1": ["nw", "nw.pak", "libffmpegsumo.so", "icudtl.dat", "locales"]
+    },
+    versionNameTemplate: "v${ version }/${ name }-v${ version }-linux-ia32.tar.gz"
+  },
+  linux64: {
+    needsZip: true,
+    chmod: "0755",
+    getRunnable: function() {
+      return "nw";
+    },
+    files: {
+      "<=0.9.2": ["nw", "nw.pak", "libffmpegsumo.so"],
+      ">0.9.2 <=0.10.1": ["nw", "nw.pak", "libffmpegsumo.so", "icudtl.dat"],
+      ">0.10.1": ["nw", "nw.pak", "libffmpegsumo.so", "icudtl.dat", "locales"]
+    },
+    versionNameTemplate: "v${ version }/${ name }-v${ version }-linux-x64.tar.gz"
+  }
+};
+var Platforms_default = Platforms;
+
+// src/utilities/checkCache.js
+var import_fs = __toESM(require("fs"), 1);
+var import_path = __toESM(require("path"), 1);
+var checkCache = (filePath, files) => {
+  let missing = false;
+  if (files.length === 1 && files[0] === "*") {
+    return import_fs.default.existsSync(filePath) && import_fs.default.readdirSync(filePath).length >= 2;
+  }
+  for (let file of files) {
+    if (missing) {
+      return false;
+    }
+    if (!import_fs.default.existsSync(import_path.default.join(filePath, file))) {
+      missing = true;
+    }
+  }
+  return !missing;
+};
+var checkCache_default = checkCache;
+
+// src/utilities/parseOptions.js
+var parseOptions = (options, defaultOptions) => {
+  for (const key of Object.keys(options)) {
+    if (defaultOptions.hasOwnProperty(key)) {
+      defaultOptions[key] = options[key];
+    }
+  }
+  return defaultOptions;
+};
+var parseOptions_default = parseOptions;
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  Options,
+  Platform,
+  Platforms,
+  checkCache,
+  parseOptions
+});
