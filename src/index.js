@@ -1,11 +1,10 @@
-import nwbuild from "./api/nwbuild";
-import Options from "./constants/Options";
-import Platform from "./constants/Platform";
-import Platforms from "./constants/Platforms";
-import checkCache from "./utilities/checkCache";
-import checkPkgOptions from "./utilities/checkPkgOptions";
-import detectCurrentPlatform from "./utilities/detectCurrentPlatform";
-import parseOptions from "./utilities/parseOptions";
+import nwbuild from "./api/nwbuild.js";
+import Options from "./constants/Options.js";
+import Platform from "./constants/Platform.js";
+import Platforms from "./constants/Platforms.js";
+import checkCache from "./utilities/checkCache.js";
+import detectCurrentPlatform from "./utilities/detectCurrentPlatform.js";
+import parseOptions from "./utilities/parseOptions.js";
 
 export {
   nwbuild,
@@ -13,7 +12,6 @@ export {
   Platform,
   Platforms,
   checkCache,
-  checkPkgOptions,
   detectCurrentPlatform,
   parseOptions,
 };

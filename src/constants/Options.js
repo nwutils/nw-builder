@@ -4,7 +4,7 @@ const Options = {
   // Run API
   files: null,
   version: "latest",
-  flavor: "sdk",
+  flavour: "sdk",
   cacheDir: "./cache",
   platforms: [],
   currentPlatform: null,

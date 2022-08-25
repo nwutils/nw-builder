@@ -47,6 +47,7 @@
     "graceful-ncp": "^3.0.0",
     "inherits": "^2.0.4",
     "lodash": "^4.17.21",
+    "nw-develop": "^0.1.0",
     "nw-install": "^0.3.0",
     "plist": "^3.0.5",
     "progress": "^2.0.3",

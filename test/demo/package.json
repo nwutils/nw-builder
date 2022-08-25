@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "description": "NW.js demo",
   "main": "./index.html",
+  "type": "module",
   "scripts": {
-    "start": "node ./index.cjs"
+    "start": "node ./index.js"
   },
   "window": {
     "title": "NW.js Demo",

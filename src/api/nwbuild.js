@@ -5,7 +5,8 @@ import detectCurrentPlatform from "../utilities/detectCurrentPlatform.js";
 import parseOptions from "../utilities/parseOptions.js";
 
 import run from "./run.js";
-import build from "./build.js";
+// import build from "./build.js";
+import pkg from "../../package.json" assert {type: "json"};
 
 const nwbuild = async (options) => {
 
@@ -38,10 +39,10 @@ const nwbuild = async (options) => {
         options.flavour,
         platform,
         architecture,
-        Options.mirror,
-        Options.downloadUrl,
-        options.outDir ?? Options.cacheDir,
-        options.outFile,
+        "https://nwjs.io/",
+        "https://dl.nwjs.io",
+        `v${options.version}/${options.flavour}/${platform}/${architecture}`,
+        "nw",
       );
       return 0;
     case "build":
@@ -49,7 +50,7 @@ const nwbuild = async (options) => {
       return 0;
     default:
       console.log("Invalid mode. Please try again.");
-      break;
+      return 1;
   }
 };
 
