@@ -40,7 +40,7 @@ const nwbuild = async (options) => {
 
   switch (mode) {
     case "run":
-      await develop(files, `${options.cacheDir}/nw`, platform);
+      await develop(options.files, `${options.cacheDir}/nw`, platform);
       return 0;
     case "build":
       await packager(
