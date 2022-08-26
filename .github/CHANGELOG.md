@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [3.8.3] - 2022-08-26
+
+### Changed
+
+- `platforms` argument also accepts comma separated (without spaces) values
+
+## [3.8.2] - 2022-08-08
+
+### Added
+
+- Support for multiple file paths
+
 ## [3.8.1] - 2022-07-18
 
 ### Changed
