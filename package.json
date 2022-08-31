@@ -11,7 +11,7 @@
   ],
   "author": "Steffen Müller <steffen@mllrsohn.com>",
   "license": "MIT",
-  "main": "./src/api/nwbuild.js",
+  "main": "./src/nwbuild.js",
   "type": "module",
   "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
@@ -35,7 +35,8 @@
     "nw-install": "^0.3.1",
     "nw-package": "^0.1.0",
     "update-notifier": "^6.0.2",
-    "yargs": "^17.5.1"
+    "yargs": "^17.5.1",
+    "yup": "^0.32.11"
   },
   "bin": {
     "nwbuild": "./bin/nwbuild.js"

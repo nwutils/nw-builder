@@ -1,8 +1,8 @@
-import nwbuild from "../../src/api/nwbuild.js";
+import nwbuild from "../../src/nwbuild.js";
 
 nwbuild({
   mode: "run",
-  files: ".",
+  appDir: ".",
   version: "0.67.1",
   flavour: "sdk",
   platform: "linux",

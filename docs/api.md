@@ -1,5 +1,9 @@
 # API Reference
 
-Coming soon!
+## Methods
 
-For now checkout the API on the project's [README](https://github.com/nwutils/nw-builder#api-reference).
+`nwbuild`
+
+| Name   | Type     | Default | Description           |
+| ------ | -------- | ------- | --------------------- |
+| appDir | `string` |         | Path to app directory |

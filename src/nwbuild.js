@@ -4,17 +4,21 @@ import { install } from "nw-install";
 import { develop } from "nw-develop";
 import { packager } from "nw-package";
 
-import Options from "../constants/Options.js";
-import getArchitecture from "../utilities/getArchitecture.js";
-import getPlatform from "../utilities/getPlatform.js";
-import parseOptions from "../utilities/parseOptions.js";
+import getArchitecture from "./getArchitecture.js";
+import getPlatform from "./utilities/getPlatform.js";
+import validate from "./validate.js";
 
 // import pkg from "../../package.json" assert { type: "json" };
 
+/**
+ *
+ * @param {object} options
+ * @returns {Promise <0 | 1>}
+ */
 const nwbuild = async (options) => {
   // updateNotifier({ pkg }).notify();
 
-  options = parseOptions(options, Options);
+  options = validate(options);
 
   let mode = options.mode ?? null;
 
@@ -40,11 +44,11 @@ const nwbuild = async (options) => {
 
   switch (mode) {
     case "run":
-      await develop(options.files, `${options.cacheDir}/nw`, platform);
+      await develop(options.appDir, `${options.cacheDir}/nw`, platform);
       return 0;
     case "build":
       await packager(
-        options.files,
+        options.appDir,
         `${options.cacheDir}/nw`,
         options.buildDir,
         platform,
