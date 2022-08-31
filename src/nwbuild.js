@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import process from "node:process";
 import { install } from "nw-install";
 import { develop } from "nw-develop";
 import { packager } from "nw-package";
@@ -23,8 +24,6 @@ const nwbuild = async (options) => {
 
   options = validate(options);
 
-  let mode = options.mode ?? null;
-
   let platform = getPlatform(process);
   let architecture = getArchitecture(process);
 
@@ -45,21 +44,19 @@ const nwbuild = async (options) => {
     );
   }
 
-  switch (mode) {
-    case "run":
-      await develop(options.appDir, `${options.cacheDir}/nw`, platform);
-      return 0;
-    case "build":
-      await packager(
-        options.appDir,
-        `${options.cacheDir}/nw`,
-        options.buildDir,
-        platform,
-      );
-      return 0;
-    default:
-      console.log("Invalid mode. Please try again.");
-      return 1;
+  if (options.mode === "run") {
+    await develop(options.appDir, `${options.cacheDir}/nw`, platform);
+    return 0;
+  }
+  // We can use  `else` here since we've already validated that mode is either `run` or `build`.
+  else {
+    await packager(
+      options.appDir,
+      `${options.cacheDir}/nw`,
+      options.buildDir,
+      platform,
+    );
+    return 0;
   }
 };
 
