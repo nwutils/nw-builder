@@ -2,7 +2,7 @@ import nwbuild from "../../src/nwbuild.js";
 
 nwbuild({
   mode: "run",
-  appDir: ".",
+  appDir: "./test/demo",
   version: "0.67.1",
   flavour: "sdk",
   platform: "linux",

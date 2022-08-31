@@ -5,7 +5,7 @@ import { develop } from "nw-develop";
 import { packager } from "nw-package";
 
 import getArchitecture from "./getArchitecture.js";
-import getPlatform from "./utilities/getPlatform.js";
+import getPlatform from "./getPlatform.js";
 import validate from "./validate.js";
 
 /**
