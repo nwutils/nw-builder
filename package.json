@@ -36,7 +36,6 @@
     "nw-develop": "^0.1.0",
     "nw-install": "^0.3.1",
     "nw-package": "^0.1.0",
-    "update-notifier": "^6.0.2",
     "yargs": "^17.5.1",
     "yup": "^0.32.11"
   },

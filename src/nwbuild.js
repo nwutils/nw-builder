@@ -1,5 +1,4 @@
 import fs from "node:fs";
-// import updateNotifier from "update-notifier";
 import { install } from "nw-install";
 import { develop } from "nw-develop";
 import { packager } from "nw-package";
@@ -8,15 +7,19 @@ import getArchitecture from "./getArchitecture.js";
 import getPlatform from "./utilities/getPlatform.js";
 import validate from "./validate.js";
 
-// import pkg from "../../package.json" assert { type: "json" };
+/**
+ * The options object passed into the nwbuild function
+ * @typedef {object} OptionsSchema
+ * @property {"run" | "build"} mode - Run or build your app
+ * @property {string} appDir - Path to app directory
+ */
 
 /**
- *
- * @param {object} options
+ * The main function which runs or builds the NW.js application
+ * @param {OptionsSchema} options
  * @returns {Promise <0 | 1>}
  */
 const nwbuild = async (options) => {
-  // updateNotifier({ pkg }).notify();
 
   options = validate(options);
 
