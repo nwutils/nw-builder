@@ -11,7 +11,7 @@
   ],
   "author": "Steffen Müller <steffen@mllrsohn.com>",
   "license": "MIT",
-  "main": "./src/api/nwbuild.js",
+  "main": "./src/nwbuild.js",
   "type": "module",
   "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
@@ -21,21 +21,23 @@
   "scripts": {
     "format": "prettier --write ./bin ./src ./test",
     "lint": "eslint ./bin/**.js ./src/**/*.js",
-    "test": "",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "demo": "cd ./test/demo && npm start"
   },
   "devDependencies": {
     "eslint": "^8.18.0",
     "eslint-config-tjw-jsdoc": "^1.0.3",
     "eslint-plugin-jsdoc": "^39.3.3",
+    "jest": "^29.0.1",
+    "jest-environment-jsdom": "^29.0.1",
     "prettier": "^2.7.1"
   },
   "dependencies": {
     "nw-develop": "^0.1.0",
     "nw-install": "^0.3.1",
     "nw-package": "^0.1.0",
-    "update-notifier": "^6.0.2",
-    "yargs": "^17.5.1"
+    "yargs": "^17.5.1",
+    "yup": "^0.32.11"
   },
   "bin": {
     "nwbuild": "./bin/nwbuild.js"
@@ -63,7 +65,8 @@
     },
     "env": {
       "es6": true,
-      "node": true
+      "node": true,
+      "jest": true
     },
     "extends": [
       "eslint:recommended",
@@ -77,8 +80,5 @@
     "plugins": [
       "jsdoc"
     ]
-  },
-  "jest": {
-    "testEnvironment": "jsdom"
   }
 }
