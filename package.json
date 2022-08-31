@@ -21,13 +21,15 @@
   "scripts": {
     "format": "prettier --write ./bin ./src ./test",
     "lint": "eslint ./bin/**.js ./src/**/*.js",
-    "test": "",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "demo": "cd ./test/demo && npm start"
   },
   "devDependencies": {
     "eslint": "^8.18.0",
     "eslint-config-tjw-jsdoc": "^1.0.3",
     "eslint-plugin-jsdoc": "^39.3.3",
+    "jest": "^29.0.1",
+    "jest-environment-jsdom": "^29.0.1",
     "prettier": "^2.7.1"
   },
   "dependencies": {
@@ -64,7 +66,8 @@
     },
     "env": {
       "es6": true,
-      "node": true
+      "node": true,
+      "jest": true
     },
     "extends": [
       "eslint:recommended",
@@ -78,8 +81,5 @@
     "plugins": [
       "jsdoc"
     ]
-  },
-  "jest": {
-    "testEnvironment": "jsdom"
   }
 }
