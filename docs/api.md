@@ -4,6 +4,7 @@
 
 `nwbuild`
 
-| Name   | Type     | Default | Description           |
-| ------ | -------- | ------- | --------------------- |
-| appDir | `string` |         | Path to app directory |
+| Name   | Type               | Default | Description           |
+| ------ | ------------------ | ------- | --------------------- |
+| mode   | `"run" \| "build"` |         | Run or build your app |
+| appDir | `string`           |         | Path to app directory |
