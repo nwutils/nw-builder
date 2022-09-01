@@ -1,3 +1,8 @@
+/**
+ *
+ * @param {NodeJS.Process} process
+ * @returns {"linux" | "osx" | "win"}
+ */
 const getPlatform = (process) => {
   switch (process.platform) {
     case "linux":

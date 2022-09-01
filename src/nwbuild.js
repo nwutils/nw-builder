@@ -13,6 +13,12 @@ import validate from "./validate.js";
  * @typedef {object} OptionsSchema
  * @property {"run" | "build"} mode - Run or build your app
  * @property {string} appDir - Path to app directory
+ * @property {string} version - NW.js version
+ * @property {string} flavour - NW.js build flavour
+ * @property {"linux" | "osx" | "win"} platform - NW.js supported platforms
+ * @property {"ia32" | "x64"} architecture - NW.js supported architectures
+ * @property {string} cacheDir - Path to NW.js binaries directory
+ * @property {string} buildDir - Path to NW.js applications
  */
 
 /**
@@ -21,7 +27,6 @@ import validate from "./validate.js";
  * @returns {Promise <0 | 1>}
  */
 const nwbuild = async (options) => {
-
   options = validate(options);
 
   let platform = getPlatform(process);
@@ -44,19 +49,18 @@ const nwbuild = async (options) => {
     );
   }
 
-  if (options.mode === "run") {
-    await develop(options.appDir, `${options.cacheDir}/nw`, platform);
-    return 0;
-  }
-  // We can use  `else` here since we've already validated that mode is either `run` or `build`.
-  else {
-    await packager(
-      options.appDir,
-      `${options.cacheDir}/nw`,
-      options.buildDir,
-      platform,
-    );
-    return 0;
+  switch (options.mode) {
+    case "run":
+      await develop(options.appDir, `${options.cacheDir}/nw`, platform);
+      return 0;
+    case "build":
+      await packager(
+        options.appDir,
+        `${options.cacheDir}/nw`,
+        options.buildDir,
+        platform,
+      );
+      return 0;
   }
 };
 
