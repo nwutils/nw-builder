@@ -2,10 +2,10 @@ name: ci
 on:
   pull_request:
     branches:
-      - master
+      - main
   workflow_dispatch:
     branches:
-      - master
+      - main
 
 jobs:
   test:
