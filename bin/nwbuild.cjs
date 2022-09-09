@@ -3,7 +3,7 @@
 const yargs = require("yargs/yargs");
 const { hideBin } = require("yargs/helpers");
 
-const { nwbuild } = require("../lib/index.cjs");
+const NwBuilder = require("../lib/index.cjs");
 const { Options, detectCurrentPlatform } = require("../dist/index.cjs");
 
 const cli = yargs(hideBin(process.argv))
@@ -139,8 +139,14 @@ const cli = yargs(hideBin(process.argv))
   })
   .parse();
 
-nwbuild({
+const nw = new NwBuilder({
   ...cli,
   currentPlatform: detectCurrentPlatform(process),
   files: cli._,
 });
+
+if (cli.mode === "build") {
+  nw.build();
+} else {
+  nw.run();
+}
