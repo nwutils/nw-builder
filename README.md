@@ -1,10 +1,5 @@
 # nw-builder
 
-[![npm](https://img.shields.io/npm/v/nw-builder.svg?style=flat)](https://www.npmjs.com/package/nw-builder)
-[![ci](https://github.com/nwjs-community/nw-builder/actions/workflows/ci.yml/badge.svg)](https://github.com/nwjs-community/nw-builder/actions/workflows/ci.yml)
-[![cd](https://github.com/nwjs-community/nw-builder/actions/workflows/cd.yml/badge.svg)](https://github.com/nwjs-community/nw-builder/actions/workflows/cd.yml)
-[![Join the chat at https://gitter.im/nwjs/nw-builder](https://badges.gitter.im/nwjs/nw-builder.svg)](https://gitter.im/nwjs/nw-builder?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and Linux.
 
 ## Table of Contents
@@ -37,52 +32,11 @@ Using pnpm:
 pnpm add nw-builder
 ```
 
-## Usage
-
-### CLI
-
-```shell
-nwbuild ./path/to/app
-```
-
-### Module
-
-```js
-const { nwbuild } = require("nw-builder");
-
-nwbuild({
-  files: "./path/to/app",
-  platforms: ["linux64", "win32"],
-});
-```
-
-> If no `mode` option is defined, it defaults to `run`. If no `platforms` option is defined, it defaults to the current platform.
-
 ## API Reference
 
 > Stay up to date via the [Changelog](https://github.com/nwjs-community/nw-builder/blob/master/.github/CHANGELOG.md).
 
-### Methods
-
-#### nwbuild(options, callbacks)
-
-The function that setups up, runs and builds your NW.js applications. The `callbacks` are for the `run` and `build` function that run inside the `nwbuild` function. The callbacks `callback[0]`, `callback[1]`, `callback[2]` correspond to the `.then`, `.catch` and `.finally` functions of the `run` or `build` promise.
-
 ### Options
-
-#### options.mode
-
-Type: `run` | `build`
-Default value: `run`
-
-Specify if you want to run or build your app.
-
-#### options.quiet
-
-Type: `String`
-Default value: `info`
-
-Choose your level of logging between error, warn, info, debug and off.
 
 #### options.files _Required_
 
