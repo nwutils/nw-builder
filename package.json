@@ -33,7 +33,7 @@
     "eslint-config-tjw-jsdoc": "^1.0.3",
     "eslint-plugin-jsdoc": "^39.3.3",
     "jest": "^29.0.2",
-    "jest-environment-jsdom": "^28.1.1",
+    "jest-environment-jsdom": "^29.0.2",
     "jsdom": "^20.0.0",
     "nock": "^13.2.7",
     "prettier": "^2.7.1",
