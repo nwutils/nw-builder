@@ -30,26 +30,28 @@ import * as yup from "yup";
  * @returns {Promise<boolean>}
  */
 const validate = async (options) => {
-    const optionsSchema = yup.object({
-        files: yup.string().required(),
-        version: yup.string().matches(/(latest|stable|^\d+\.\d+\.\d+$)/),
-        flavor: yup.string().matches(/(sdk|normal)/),
-        platforms: yup.array().of(yup.string().matches(/(linux|osx|win)(32|64)/)),
-        cacheDir: yup.string(),
-        buildDir: yup.string(),
-        buildType: yup.string().matches(/(default|versioned|timestamped)/),
-        argv: yup.array().of(yup.string()),
-        macCredits: yup.string(),
-        macIcns: yup.string(),
-        macPlist: yup.string(),
-        winIco: yup.string(),
-        winVersionString: yup.string(),
-        zip: yup.boolean(),
-        zipOptions: yup.object(),
-        mergeZip: yup.boolean(),
-    }).typeError("options should be of type object")
+  const optionsSchema = yup
+    .object({
+      files: yup.string().required(),
+      version: yup.string().matches(/(latest|stable|^\d+\.\d+\.\d+$)/),
+      flavor: yup.string().matches(/(sdk|normal)/),
+      platforms: yup.array().of(yup.string().matches(/(linux|osx|win)(32|64)/)),
+      cacheDir: yup.string(),
+      buildDir: yup.string(),
+      buildType: yup.string().matches(/(default|versioned|timestamped)/),
+      argv: yup.array().of(yup.string()),
+      macCredits: yup.string(),
+      macIcns: yup.string(),
+      macPlist: yup.string(),
+      winIco: yup.string(),
+      winVersionString: yup.string(),
+      zip: yup.boolean(),
+      zipOptions: yup.object(),
+      mergeZip: yup.boolean(),
+    })
+    .typeError("options should be of type object");
 
-    return optionsSchema.isValid(options);
+  return optionsSchema.isValid(options);
 };
 
 export { validate };
