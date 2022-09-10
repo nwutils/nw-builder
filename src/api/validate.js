@@ -27,7 +27,7 @@ import * as yup from "yup";
 /**
  * Validate nw-builder options
  * @param {OptionsSchema} options
- * @returns {OptionsSchema | Error}
+ * @returns {Promise<boolean>}
  */
 const validate = async (options) => {
     const optionsSchema = yup.object({
@@ -38,7 +38,7 @@ const validate = async (options) => {
         cacheDir: yup.string(),
         buildDir: yup.string(),
         buildType: yup.string().matches(/(default|versioned|timestamped)/),
-        argv: yup.array.of(yup.string()),
+        argv: yup.array().of(yup.string()),
         macCredits: yup.string(),
         macIcns: yup.string(),
         macPlist: yup.string(),
@@ -47,10 +47,9 @@ const validate = async (options) => {
         zip: yup.boolean(),
         zipOptions: yup.object(),
         mergeZip: yup.boolean(),
-    })
+    }).typeError("options should be of type object")
 
-    const error = await optionsSchema.validate(options);
-    return error;
+    return optionsSchema.isValid(options);
 };
 
 export { validate };
