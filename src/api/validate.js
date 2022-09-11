@@ -27,7 +27,7 @@ import * as yup from "yup";
 /**
  * Validate nw-builder options
  * @param {OptionsSchema} options
- * @returns {Promise<boolean>}
+ * @returns {boolean}
  */
 const validate = (options) => {
   const optionsSchema = yup
