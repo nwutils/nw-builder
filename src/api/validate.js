@@ -29,9 +29,10 @@ import * as yup from "yup";
  * @param {OptionsSchema} options
  * @returns {Promise<boolean>}
  */
-const validate = async (options) => {
+const validate = (options) => {
   const optionsSchema = yup
-    .object({
+    .object()
+    .shape({
       files: yup.string().required(),
       version: yup.string().matches(/(latest|stable|^\d+\.\d+\.\d+$)/),
       flavor: yup.string().matches(/(sdk|normal)/),
@@ -51,7 +52,7 @@ const validate = async (options) => {
     })
     .typeError("options should be of type object");
 
-  return optionsSchema.isValid(options);
+  return optionsSchema.isValidSync(options);
 };
 
 export { validate };
