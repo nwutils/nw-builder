@@ -30,6 +30,9 @@ import * as yup from "yup";
  * @returns {boolean}
  */
 const validate = (options) => {
+  if (typeof options === "function") {
+    return false;
+  }
   const optionsSchema = yup
     .object()
     .shape({
