@@ -3,7 +3,7 @@ import * as yup from "yup";
 /**
  * OptionsSchema
  * @typedef {Object} OptionsSchema
- * @property {string} files
+ * @property {string | string[]} files
  * @property {string} version
  * @property {"sdk" | "normal"} flavor
  *
