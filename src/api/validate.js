@@ -2,7 +2,7 @@ import * as yup from "yup";
 
 /**
  * OptionsSchema
- * @typedef {Object} OptionsSchema
+ * @typedef {object} OptionsSchema
  * @property {string | string[]} files
  * @property {string} version
  * @property {"sdk" | "normal"} flavor
@@ -20,7 +20,7 @@ import * as yup from "yup";
  * @property {string} winIco
  * @property {string} winVersionString
  * @property {boolean} zip
- * @property {Object} zipOptions
+ * @property {object} zipOptions
  * @property {boolean} mergeZip
  */
 
