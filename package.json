@@ -25,6 +25,7 @@
     "lint": "eslint ./bin/**.cjs ./lib/**.cjs ./src/**.js",
     "test": "npm run test:unit && tape './test/*.cjs'",
     "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:cover": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
     "demo:cjs": "cd ./test/demo && npm run start:cjs",
     "demo:esm": "cd ./test/demo && npm run start:esm",
     "demo:cli": "nwbuild ./** --mode=build --platforms=linux32, linux64 --version=0.67.1",
