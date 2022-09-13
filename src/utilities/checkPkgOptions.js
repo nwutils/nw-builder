@@ -8,15 +8,13 @@ const checkPkgOptions = (files) => {
 
   let matches = Glob(files);
 
-  if (matches.length === 0) {
-    console.error("[ ERROR ] package.json not found");
-    process.exit(1);
-  }
+  let packageJsonExists = false;
 
   matches.forEach((file) => {
-    if (path.basename(file) === "package.json") {
+    if (!packageJsonExists && path.basename(file) === "package.json") {
       pkg = fs.readFileSync(`${file}`, "utf8");
       pkg = JSON.parse(pkg);
+      packageJsonExists = true;
     }
   });
 
