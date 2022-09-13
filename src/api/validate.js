@@ -1,3 +1,5 @@
+import fs from "node:fs";
+
 import * as yup from "yup";
 
 /**
@@ -36,7 +38,7 @@ const validate = (options) => {
   const optionsSchema = yup
     .object()
     .shape({
-      files: yup.string().required(),
+      files: yup.string().required() || yup.array.of(yup.string()).required(),
       version: yup.string().matches(/(latest|stable|^\d+\.\d+\.\d+$)/),
       flavor: yup.string().matches(/(sdk|normal)/),
       platforms: yup.array().of(yup.string().matches(/(linux|osx|win)(32|64)/)),
@@ -55,7 +57,23 @@ const validate = (options) => {
     })
     .typeError("options should be of type object");
 
-  return optionsSchema.isValidSync(options);
+    if (optionsSchema.isValidSync(options)) {
+      for (const file of options.files) {
+        if (!fs.statSync(file)) {
+          return false;
+        }
+      }
+
+      if (!fs.statSync(options.cacheDir)) {
+        return false;
+      }
+
+      if (!fs.statSync(options.buildDir)) {
+        return false;
+      }
+    } else {
+      return false;
+    };
 };
 
 export { validate };
