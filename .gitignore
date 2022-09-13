@@ -3,6 +3,7 @@
 
 # runtime files
 node_modules
+coverage
 
 # project files
 build
