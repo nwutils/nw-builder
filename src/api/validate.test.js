@@ -25,3 +25,17 @@ describe("option object", () => {
     expect(validate({})).toBe(false);
   });
 });
+
+describe("files option", () => {
+  test("files option as undefined", () => {
+    expect(validate({})).toBe(false);
+  });
+
+  test("files option as number", () => {
+    expect(
+      validate({
+        files: 5,
+      }),
+    ).toBe(true);
+  });
+});
