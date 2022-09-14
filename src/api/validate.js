@@ -1,5 +1,6 @@
 import fs from "node:fs";
 
+import Glob from "simple-glob";
 import * as yup from "yup";
 
 /**
@@ -8,6 +9,8 @@ import * as yup from "yup";
  * @property {string | string[] | null} files
  * @property {string | "latest" | "stable"} version
  * @property {"sdk" | "normal"} flavor
+ * @property {string} downloadUrl
+ * @property {string} manifestUrl
  * @property {string[]} platforms
  * @property {string | false} appName
  * @property {string | false} appVersion
@@ -32,38 +35,44 @@ import * as yup from "yup";
  */
 const validate = (options) => {
   const optionsSchema = yup.object({
-    files: yup.string().defined(),
+    files: yup.string().required(),
     version: yup.string().matches(/(latest|stable|^\d+\.\d+\.\d+$)/),
     flavor: yup.string().matches(/(sdk|normal)/),
+    downloadUrl: yup.string(),
+    manifestUrl: yup.string(),
     platforms: yup.array().of(yup.string().matches(/(linux|osx|win)(32|64)/)),
+    appName: yup.string().nullable(),
+    appVersion: yup.string().nullable(),
     cacheDir: yup.string(),
     buildDir: yup.string(),
     buildType: yup.string().matches(/(default|versioned|timestamped)/),
     argv: yup.array().of(yup.string()),
-    macCredits: yup.string(),
-    macIcns: yup.string(),
-    macPlist: yup.string(),
-    winIco: yup.string(),
-    winVersionString: yup.string(),
-    zip: yup.boolean(),
-    zipOptions: yup.object(),
+    macCredits: yup.string().nullable(),
+    macIcns: yup.string().nullable(),
+    macPlist: yup.string().nullable(),
+    winIco: yup.string().nullable(),
+    winVersionString: yup.object().nullable(),
+    zip: yup.boolean().nullable(),
+    zipOptions: yup.object().nullable(),
     mergeZip: yup.boolean(),
-  });
+  }, { strict: true} );
 
-  if (optionsSchema.isValidSync(options) === false) {
+  if (
+    typeof options === "function" ||
+    optionsSchema.isValidSync(options) === false ||
+    typeof options.files === "function" ||
+    // TODO(ayushmxn): why does yup give false positive for number and boolean input?
+    typeof options.files === "number" ||
+    typeof options.files === "boolean"
+  ) {
     return false;
-  }
-
-  if (Array.isArray(options.files)) {
-    for (const file of options.files) {
-      if (typeof file !== "string" || !fs.statSync(file)) {
+  } else {
+    let files = Glob(options.files);
+    files.forEach((file) => {
+      if (typeof file !== "string" || !fs.existsSync(file)) {
         return false;
       }
-    }
-  } else {
-    if (typeof file !== "string" || !fs.statSync(options.files)) {
-      return false;
-    }
+    });
   }
 
   return true;

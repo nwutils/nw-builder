@@ -49,11 +49,11 @@ const parse = (options) => {
   options.buildDir = options.buildDir ?? "buildDir";
   options.buildType = options.buildType ?? "default";
   options.argv = options.argv ?? [];
-  options.macCredits = options.macCredits ?? false;
-  options.macIcns = options.macIcns ?? false;
-  options.macPlist = options.macPlist ?? false;
+  options.macCredits = options.macCredits ?? null;
+  options.macIcns = options.macIcns ?? null;
+  options.macPlist = options.macPlist ?? null;
   options.winIco = options.winIco ?? null;
-  options.winVersionString = options.winVersionString ?? {};
+  options.winVersionString = options.winVersionString ?? null;
   options.zip = options.zip ?? null;
   options.zipOptions = options.zipOptions ?? null;
   options.mergeZip = true.mergeZip ?? true;
