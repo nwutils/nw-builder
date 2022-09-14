@@ -1,10 +1,9 @@
 /**
  * @file    [Description of file purpose]
- * @author  [GitHub UserName]
+ * @author  ayushmxn
  */
 
-import { Platform } from "../constants";
-
+import Platform from "../constants/Platform";
 /**
  * [description]
  *

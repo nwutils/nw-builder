@@ -1,10 +1,5 @@
 # nw-builder
 
-[![npm](https://img.shields.io/npm/v/nw-builder.svg?style=flat)](https://www.npmjs.com/package/nw-builder)
-[![ci](https://github.com/nwjs-community/nw-builder/actions/workflows/ci.yml/badge.svg)](https://github.com/nwjs-community/nw-builder/actions/workflows/ci.yml)
-[![cd](https://github.com/nwjs-community/nw-builder/actions/workflows/cd.yml/badge.svg)](https://github.com/nwjs-community/nw-builder/actions/workflows/cd.yml)
-[![Join the chat at https://gitter.im/nwjs/nw-builder](https://badges.gitter.im/nwjs/nw-builder.svg)](https://gitter.im/nwjs/nw-builder?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and Linux.
 
 ## Table of Contents
@@ -35,67 +30,6 @@ Using pnpm:
 
 ```javascript
 pnpm add nw-builder
-```
-
-## Usage
-
-### CLI
-
-```shell
-Usage:
-  nwbuild [options] [path] [-- <args>]
-
-Options:
-  -p, --platforms      Platforms to build, comma-sperated, can be:
-                       win32, win64, osx32, osx64, linux32, linux64 or
-                       win, osx, linux                                       [default: <Current OS>]
-  -v, --version        The nw version, eg. 0.64.1                                 [default: "latest"]
-  -r, --run            Runs NW.js for the current platform                          [default: false]
-  -o, --buildDir       The build folder                                         [default: "./build"]
-  -f, --forceDownload  Force download of NW.js                                      [default: false]
-  --cacheDir           The cache folder
-  --quiet              Disables logging                                             [default: false]
-  -- <args>            Pass custom arguments to the NW.js instance
-                       (-r, --run mode only)
-```
-
-To run NW.js in dev mode:
-
-```
-nwbuild -r path/to/app -- <args>
-```
-
-### Module
-
-```js
-var NwBuilder = require('nw-builder');
-var nw = new NwBuilder({
-    files: './path/to/nwfiles/**/**', // use the glob format
-    platforms: ['osx64', 'win32', 'win64', 'linux32', 'linux64'],
-    version: 'latest',
-    argv: ['<nwjs_arg>', ... ] // see nwjs docs for possible <nwjs_arg> values
-});
-
-// Log stuff you want
-nw.on('log',  console.log);
-
-nw.build().then(function () {
-   console.log('all done!');
-}).catch(function (error) {
-    console.error(error);
-});
-```
-
-To run NW.js in dev mode:
-
-```js
-nw.run()
-  .then(function () {
-    console.log("all done!");
-  })
-  .catch(function (error) {
-    console.error(error);
-  });
 ```
 
 ## API Reference
@@ -144,7 +78,7 @@ Be aware that the osx32 version can only be built with legacy version of nwjs. S
 Type: `String`
 Default value: `false`
 
-The Name of your NW.js app. If this value is set to null, it will autodetect the `name` from your projects package.json. This will be used to generate a plist file for mac.
+The Name of your NW.js app. If this value is set to null, it will autodetect the `name` from your project's package.json. This will be used to generate a plist file for mac.
 
 #### options.appVersion
 
@@ -361,8 +295,8 @@ This project was created by [Steffen Müller](https://github.com/steffenmllr) an
 ### Getting Started
 
 1. Pick and install a Node version manager
-   * Linux/OSX - [nvm](https://github.com/nvm-sh/nvm)
-   * Win 7+/Linux/OSX - [volta](https://volta.sh)
+   - Linux/OSX - [nvm](https://github.com/nvm-sh/nvm)
+   - Win 7+/Linux/OSX - [volta](https://volta.sh)
 1. Use your version manager to install Node 14.19 or above
 1. Run `npm install`
 1. `npm run demo` to test your changes at first glance

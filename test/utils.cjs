@@ -1,6 +1,6 @@
 /**
  * @file    [Description of file purpose]
- * @author  [GitHub UserName]
+ * @author  ayushmxn
  */
 
 var test = require("tape");
@@ -18,9 +18,9 @@ var isWindows = process.platform === "win32";
 var tempFile = thenify(temp.open);
 
 /**
- * [tempFileCleanup description]
+ * Wraps temp.cleanup in a Promise.
  *
- * @return {[type]} [description]
+ * @return {Promise} The result or error from temp.cleanup
  */
 var tempFileCleanup = function () {
   return new Promise(function (resolve, reject) {
@@ -308,13 +308,15 @@ test("mergeFiles", async function (t) {
   var zipFile = temp.openSync();
   fs.writeFileSync(zipFile.path, "B");
 
-  await utils.mergeFiles(releasefile.path, zipFile.path, "0755").then(function () {
-    var contents = fs.readFileSync(releasefile.path);
-    var stats = fs.lstatSync(releasefile.path);
-    t.equal(contents.toString(), "AB", "merge two files");
+  await utils
+    .mergeFiles(releasefile.path, zipFile.path, "0755")
+    .then(function () {
+      var contents = fs.readFileSync(releasefile.path);
+      var stats = fs.lstatSync(releasefile.path);
+      t.equal(contents.toString(), "AB", "merge two files");
 
-    if (!isWindows) {
-      t.equal(stats.mode.toString(8), "100755", "fix the permission"); // DOES NOT WORK ON WINDOWS
-    }
-  });
+      if (!isWindows) {
+        t.equal(stats.mode.toString(8), "100755", "fix the permission"); // DOES NOT WORK ON WINDOWS
+      }
+    });
 });
