@@ -62,6 +62,7 @@ const validate = (options) => {
     optionsSchema.isValidSync(options) === false ||
     typeof options.files === "function" ||
     // TODO(ayushmxn): why does yup give false positive for number and boolean input?
+    // https://github.com/jquense/yup/issues/1777
     typeof options.files === "number" ||
     typeof options.files === "boolean"
   ) {
