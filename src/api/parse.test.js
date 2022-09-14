@@ -1,3 +1,5 @@
+import detectCurrentPlatform from "../utilities/detectCurrentPlatform";
+
 import { NW_VERSION_LATEST } from "./constants";
 import { parse } from "./parse";
 
@@ -6,7 +8,7 @@ test("parse options if none are defined", () => {
     files: null,
     version: NW_VERSION_LATEST,
     flavor: "sdk",
-    platforms: [],
+    platforms: [detectCurrentPlatform(process)],
     appName: null,
     appVersion: null,
     cacheDir: "cacheDir",

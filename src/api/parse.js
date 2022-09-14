@@ -1,4 +1,7 @@
-import { NW_VERSION_LATEST, NW_VERSION_STABLE } from "./constants";
+import process from "node:process";
+
+import detectCurrentPlatform from "../utilities/detectCurrentPlatform.js";
+import { NW_VERSION_LATEST, NW_VERSION_STABLE } from "./constants.js";
 
 /**
  * OptionsSchema
@@ -35,7 +38,7 @@ const parse = (options) => {
     options.version = NW_VERSION_STABLE;
   }
   options.flavor = options.flavor ?? "sdk";
-  options.platforms = options.platforms ?? [];
+  options.platforms = options.platforms ?? [detectCurrentPlatform(process)];
   options.appName = options.appName ?? null;
   options.appVersion = options.appVersion ?? null;
   options.cacheDir = options.cacheDir ?? "cacheDir";

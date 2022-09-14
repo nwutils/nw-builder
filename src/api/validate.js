@@ -51,7 +51,6 @@ const validate = (options) => {
   });
 
   if (optionsSchema.isValidSync(options) === false) {
-    console.log("1");
     return false;
   }
 
