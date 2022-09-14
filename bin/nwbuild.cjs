@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * @file    [Description of file purpose]
+ * @file    The binary definition file used by CLI users, such as "npx nwbuild"
  * @author  ayushmxn
  */
 
