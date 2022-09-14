@@ -32,7 +32,7 @@ import * as yup from "yup";
  */
 const validate = (options) => {
   const optionsSchema = yup.object({
-    files: yup.string().required(),
+    files: yup.string().defined(),
     version: yup.string().matches(/(latest|stable|^\d+\.\d+\.\d+$)/),
     flavor: yup.string().matches(/(sdk|normal)/),
     platforms: yup.array().of(yup.string().matches(/(linux|osx|win)(32|64)/)),
@@ -51,27 +51,20 @@ const validate = (options) => {
   });
 
   if (optionsSchema.isValidSync(options) === false) {
+    console.log("1");
     return false;
   }
 
   if (Array.isArray(options.files)) {
     for (const file of options.files) {
-      if (!fs.statSync(file)) {
+      if (typeof file !== "string" || !fs.statSync(file)) {
         return false;
       }
     }
   } else {
-    if (!fs.statSync(options.files)) {
+    if (typeof file !== "string" || !fs.statSync(options.files)) {
       return false;
     }
-  }
-
-  if (!fs.statSync(options.cacheDir)) {
-    return false;
-  }
-
-  if (!fs.statSync(options.buildDir)) {
-    return false;
   }
 
   return true;

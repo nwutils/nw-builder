@@ -31,11 +31,41 @@ describe("files option", () => {
     expect(validate({})).toBe(false);
   });
 
+  test("files option as null", () => {
+    expect(
+      validate({
+        files: null,
+      }),
+    ).toBe(false);
+  });
+  test("files option as boolean", () => {
+    expect(
+      validate({
+        files: true,
+      }),
+    ).toBe(false);
+  });
   test("files option as number", () => {
     expect(
       validate({
         files: 5,
       }),
-    ).toBe(true);
+    ).toBe(false);
+  });
+
+  test("files option as function", () => {
+    expect(
+      validate({
+        files: function () {},
+      }),
+    ).toBe(false);
+  });
+
+  test("files option as object", () => {
+    expect(
+      validate({
+        files: {},
+      }),
+    ).toBe(false);
   });
 });

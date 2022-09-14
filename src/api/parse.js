@@ -29,29 +29,29 @@ import { NW_VERSION_LATEST, NW_VERSION_STABLE } from "./constants";
  * @returns {OptionsSchema}
  */
 const parse = (options) => {
-    options.files = options.files ?? null;
-    options.version = options.version ?? NW_VERSION_LATEST;
-    if (options.version === "stable") {
-        options.version = NW_VERSION_STABLE;
-    }
-    options.flavor = options.flavor ?? "sdk";
-    options.platforms = options.platforms ?? [];
-    options.appName = options.appName ?? null;
-    options.appVersion = options.appVersion ?? null;
-    options.cacheDir = options.cacheDir ?? "cacheDir";
-    options.buildDir = options.buildDir ?? "buildDir";
-    options.buildType = options.buildType ?? "default";
-    options.argv = options.argv ?? [];
-    options.macCredits = options.macCredits ?? false;
-    options.macIcns = options.macIcns ?? false;
-    options.macPlist = options.macPlist ?? false;
-    options.winIco = options.winIco ?? null;
-    options.winVersionString = options.winVersionString ?? {};
-    options.zip = options.zip ?? null;
-    options.zipOptions = options.zipOptions ?? null;
-    options.mergeZip = true.mergeZip ?? true;
+  options.files = options.files ?? null;
+  options.version = options.version ?? NW_VERSION_LATEST;
+  if (options.version === "stable") {
+    options.version = NW_VERSION_STABLE;
+  }
+  options.flavor = options.flavor ?? "sdk";
+  options.platforms = options.platforms ?? [];
+  options.appName = options.appName ?? null;
+  options.appVersion = options.appVersion ?? null;
+  options.cacheDir = options.cacheDir ?? "cacheDir";
+  options.buildDir = options.buildDir ?? "buildDir";
+  options.buildType = options.buildType ?? "default";
+  options.argv = options.argv ?? [];
+  options.macCredits = options.macCredits ?? false;
+  options.macIcns = options.macIcns ?? false;
+  options.macPlist = options.macPlist ?? false;
+  options.winIco = options.winIco ?? null;
+  options.winVersionString = options.winVersionString ?? {};
+  options.zip = options.zip ?? null;
+  options.zipOptions = options.zipOptions ?? null;
+  options.mergeZip = true.mergeZip ?? true;
 
-    return options;
+  return options;
 };
 
 export { parse };
