@@ -8,6 +8,8 @@ test("parse options if none are defined", () => {
     files: null,
     version: NW_VERSION_LATEST,
     flavor: "sdk",
+    downloadUrl: "https://dl.nwjs.io",
+    manifestUrl: "https://nwjs.io/versions.json",
     platforms: [detectCurrentPlatform(process)],
     appName: null,
     appVersion: null,

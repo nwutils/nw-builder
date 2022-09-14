@@ -9,6 +9,8 @@ import { NW_VERSION_LATEST, NW_VERSION_STABLE } from "./constants.js";
  * @property {string | string[] | null} files
  * @property {string | "latest" | "stable"} version
  * @property {"sdk" | "normal"} flavor
+ * @property {string} downloadUrl
+ * @property {string} manifestUrl
  * @property {string[]} platforms
  * @property {string | false} appName
  * @property {string | false} appVersion
@@ -38,6 +40,8 @@ const parse = (options) => {
     options.version = NW_VERSION_STABLE;
   }
   options.flavor = options.flavor ?? "sdk";
+  options.downloadUrl = options.downloadUrl ?? "https://dl.nwjs.io";
+  options.manifestUrl = options.manifestUrl ?? "https://nwjs.io/versions.json";
   options.platforms = options.platforms ?? [detectCurrentPlatform(process)];
   options.appName = options.appName ?? null;
   options.appVersion = options.appVersion ?? null;
