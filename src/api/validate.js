@@ -34,28 +34,31 @@ import * as yup from "yup";
  * @returns {boolean}
  */
 const validate = (options) => {
-  const optionsSchema = yup.object({
-    files: yup.string().required(),
-    version: yup.string().matches(/(latest|stable|^\d+\.\d+\.\d+$)/),
-    flavor: yup.string().matches(/(sdk|normal)/),
-    downloadUrl: yup.string(),
-    manifestUrl: yup.string(),
-    platforms: yup.array().of(yup.string().matches(/(linux|osx|win)(32|64)/)),
-    appName: yup.string().nullable(),
-    appVersion: yup.string().nullable(),
-    cacheDir: yup.string(),
-    buildDir: yup.string(),
-    buildType: yup.string().matches(/(default|versioned|timestamped)/),
-    argv: yup.array().of(yup.string()),
-    macCredits: yup.string().nullable(),
-    macIcns: yup.string().nullable(),
-    macPlist: yup.string().nullable(),
-    winIco: yup.string().nullable(),
-    winVersionString: yup.object().nullable(),
-    zip: yup.boolean().nullable(),
-    zipOptions: yup.object().nullable(),
-    mergeZip: yup.boolean(),
-  }, { strict: true} );
+  const optionsSchema = yup.object(
+    {
+      files: yup.string().required(),
+      version: yup.string().matches(/(latest|stable|^\d+\.\d+\.\d+$)/),
+      flavor: yup.string().matches(/(sdk|normal)/),
+      downloadUrl: yup.string(),
+      manifestUrl: yup.string(),
+      platforms: yup.array().of(yup.string().matches(/(linux|osx|win)(32|64)/)),
+      appName: yup.string().nullable(),
+      appVersion: yup.string().nullable(),
+      cacheDir: yup.string(),
+      buildDir: yup.string(),
+      buildType: yup.string().matches(/(default|versioned|timestamped)/),
+      argv: yup.array().of(yup.string()),
+      macCredits: yup.string().nullable(),
+      macIcns: yup.string().nullable(),
+      macPlist: yup.string().nullable(),
+      winIco: yup.string().nullable(),
+      winVersionString: yup.object().nullable(),
+      zip: yup.boolean().nullable(),
+      zipOptions: yup.object().nullable(),
+      mergeZip: yup.boolean(),
+    },
+    { strict: true },
+  );
 
   if (
     typeof options === "function" ||
