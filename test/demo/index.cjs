@@ -4,8 +4,8 @@ const options = {
   files: "./**",
   version: "0.68.1",
   flavor: "sdk",
-  platforms: ["linux32", "linux64"],
+  cacheDir: "./cache",
 };
 
 const nw = new NwBuilder(options);
-nw.build();
+nw.run();
