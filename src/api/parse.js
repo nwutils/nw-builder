@@ -45,8 +45,8 @@ const parse = (options) => {
   options.platforms = options.platforms ?? [detectCurrentPlatform(process)];
   options.appName = options.appName ?? null;
   options.appVersion = options.appVersion ?? null;
-  options.cacheDir = options.cacheDir ?? "cacheDir";
-  options.buildDir = options.buildDir ?? "buildDir";
+  options.cacheDir = options.cacheDir ?? "cache";
+  options.buildDir = options.buildDir ?? "build";
   options.buildType = options.buildType ?? "default";
   options.argv = options.argv ?? [];
   options.macCredits = options.macCredits ?? null;
