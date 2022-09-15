@@ -1,15 +1,11 @@
 const NwBuilder = require("../../lib/index.cjs");
 
-const nw = new NwBuilder({
+const options = {
   files: "./**",
-  version: "0.67.1",
-  flavor: "normal",
-});
+  version: "0.68.1",
+  flavor: "sdk",
+  cacheDir: "./cache",
+};
 
-nw.run()
-  .then((msg) => {
-    console.log(msg);
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+const nw = new NwBuilder(options);
+nw.run(options);
