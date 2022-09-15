@@ -8,4 +8,4 @@ const options = {
 };
 
 const nw = new NwBuilder(options);
-nw.run(options);
+nw.run();

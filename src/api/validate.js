@@ -77,6 +77,7 @@ const validate = (options) => {
         return false;
       }
     });
+    options.files = files;
   }
 
   return true;
