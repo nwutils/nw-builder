@@ -1,20 +1,25 @@
+/**
+ * @file    The default options for the library
+ * @author  ayushmxn
+ */
+
 const Options = {
-  mode: "run", // run, build or package
-  quiet: "info", // error, warn, info, debug, off
+  mode: 'run', // run, build or package
+  quiet: 'info', // error, warn, info, debug, off
   // Run API
   files: null,
-  version: "latest",
-  flavor: "sdk",
-  cacheDir: "./cache",
+  version: 'latest',
+  flavor: 'sdk',
+  cacheDir: './cache',
   platforms: [],
   currentPlatform: null,
-  downloadUrl: "https://dl.nwjs.io/",
-  manifestUrl: "https://nwjs.io/versions.json",
+  downloadUrl: 'https://dl.nwjs.io/',
+  manifestUrl: 'https://nwjs.io/versions.json',
   // Build API
   appName: false,
   appVersion: false,
-  buildDir: "./build",
-  buildType: "default",
+  buildDir: './build',
+  buildType: 'default',
   forceDownload: false,
   macCredits: false,
   macIcns: false,

@@ -38,7 +38,7 @@ pnpm add nw-builder
 
 ### Options
 
-#### options.files _Required_
+#### options.files *Required*
 
 Type: `String`
 Default value: `null`
