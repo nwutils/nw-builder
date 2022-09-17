@@ -4,27 +4,31 @@
  */
 
 import Platform from "../constants/Platform";
+
 /**
- * [description]
+ * Returns a platform constant based on the current platform.
  *
- * @param  {NodeJS.Process} process  [description]
- * @return {Platform | undefined}    [description]
+ * @param  {object}               process  The global Node.js process variable
+ * @return {Platform | undefined}          'linux32', 'osx32', 'win64', etc or undefined
  */
 const detectCurrentPlatform = (process) => {
-  switch (process.platform) {
-    case "darwin":
-      return process.arch === "x64" ? Platform.OSX_64 : Platform.OSX_32;
+  const win64 = (
+    process.platform === 'win32' &&
+    process.env.PROCESSOR_ARCHITEW6432
+  );
 
-    case "win32":
-      return process.arch === "x64" || process.env.PROCESSOR_ARCHITEW6432
-        ? Platform.WIN_64
-        : Platform.WIN_32;
-
-    case "linux":
-      return process.arch === "x64" ? Platform.NIX_64 : Platform.NIX_32;
-    default:
-      return undefined;
+  const osMap = {
+    win32: Platform.WIN_32,
+    darwin: Platform.OSX_32,
+    linux: Platform.NIX_32
+  };
+  if (process.arch === 'x64' || win64) {
+    osMap.win32 = Platform.WIN_64;
+    osMap.darwin = Platform.OSX_64;
+    osMap.linux = Platform.NIX_64;
   }
-};
+
+  return osMap[process.platform];
+}
 
 export default detectCurrentPlatform;
