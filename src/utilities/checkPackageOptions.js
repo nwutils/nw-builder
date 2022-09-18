@@ -30,9 +30,8 @@ const checkPackageOptions = (files) => {
 
   if (manifest.nwbuild) {
     return manifest.nwbuild;
-  } else {
-    return {};
   }
+  return {};
 };
 
 export default checkPackageOptions;

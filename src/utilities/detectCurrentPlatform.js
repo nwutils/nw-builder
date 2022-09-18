@@ -1,5 +1,5 @@
 /**
- * @file    [Description of file purpose]
+ * @file    Maps the current OS platform to a constant string.
  * @author  ayushmxn
  */
 
