@@ -5,4 +5,10 @@ const nw = new NwBuilder({
   version: "0.67.1",
 });
 
-nw.run();
+nw.run()
+  .then((msg) => {
+    console.log(msg);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
