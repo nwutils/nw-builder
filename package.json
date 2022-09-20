@@ -1,6 +1,6 @@
 {
   "name": "nw-builder",
-  "version": "3.8.3-beta.1",
+  "version": "3.8.4",
   "description": "Build NW.js desktop applications for Mac, Windows and Linux.",
   "keywords": [
     "NW.js",
@@ -10,10 +10,6 @@
   "author": "Steffen Müller <steffen@mllrsohn.com>",
   "license": "MIT",
   "main": "./lib/index.cjs",
-  "exports": {
-    "import": "./src/api/nwbuild.js",
-    "require": "./lib/index.cjs"
-  },
   "type": "module",
   "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
@@ -25,14 +21,12 @@
     "lint": "eslint ./bin/**.cjs ./lib/**.cjs ./src/**.js",
     "test": "npm run test:unit && tape './test/*.cjs'",
     "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "demo:cjs": "cd ./test/demo && npm run start:cjs",
-    "demo:esm": "cd ./test/demo && npm run start:esm",
+    "demo": "cd ./test/demo && npm run start",
     "demo:cli": "nwbuild ./** --mode=build --platforms=linux32, linux64 --version=0.67.1",
     "build": "esbuild src/index.js --bundle --minify --platform=node --outfile=./dist/index.cjs"
   },
   "devDependencies": {
     "decompress-zip": "^0.3.3",
-    "eol": "^0.9.1",
     "esbuild": "^0.15.2",
     "eslint": "^8.18.0",
     "eslint-config-tjw-jsdoc": "^1.0.3",
@@ -48,11 +42,10 @@
   "dependencies": {
     "archiver": "^5.3.1",
     "deprecate": "^1.1.1",
-    "extract-zip": "^2.0.1",
     "graceful-fs-extra": "^2.0.0",
-    "graceful-ncp": "^3.0.0",
     "inherits": "^2.0.4",
     "lodash": "^4.17.21",
+    "nw-install": "^0.3.3",
     "plist": "^3.0.5",
     "progress": "^2.0.3",
     "rcedit": "^3.0.1",
@@ -61,10 +54,8 @@
     "rimraf": "^3.0.2",
     "semver": "^7.3.7",
     "simple-glob": "^0.2.0",
-    "tar-fs": "^2.1.1",
     "temp": "^0.9.4",
     "thenify": "^3.3.1",
-    "update-notifier": "^6.0.2",
     "winresourcer": "^0.9.0",
     "yargs": "^17.5.1"
   },
