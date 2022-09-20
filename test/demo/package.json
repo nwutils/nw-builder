@@ -5,8 +5,7 @@
   "main": "./index.html",
   "type": "module",
   "scripts": {
-    "start:cjs": "node ./index.cjs",
-    "start:esm": "node ./index.js"
+    "start": "node ./index.cjs"
   },
   "window": {
     "title": "NW.js Demo",
