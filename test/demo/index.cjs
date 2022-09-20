@@ -6,6 +6,7 @@ const nw = new NwBuilder({
   platforms: ["linux64"],
 });
 
+// Replace `build` with `run` to run the application instead
 nw.build()
   .then((msg) => {
     console.log(msg);
