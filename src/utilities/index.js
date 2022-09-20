@@ -3,7 +3,7 @@
  * @author  ayushmxn
  */
 
-import checkCache from "./checkCache";
-import detectCurrentPlatform from "./detectCurrentPlatform";
+import checkCache from './checkCache';
+import detectCurrentPlatform from './detectCurrentPlatform';
 
 export { detectCurrentPlatform, checkCache };
