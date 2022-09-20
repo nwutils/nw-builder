@@ -1,6 +1,6 @@
 {
   "name": "nw-builder",
-  "version": "3.8.4",
+  "version": "3.8.5",
   "description": "Build NW.js desktop applications for Mac, Windows and Linux.",
   "keywords": [
     "NW.js",
@@ -22,7 +22,7 @@
     "test": "npm run test:unit && tape './test/*.cjs'",
     "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "demo": "cd ./test/demo && npm run start",
-    "demo:cli": "nwbuild ./** --mode=build --platforms=linux32, linux64 --version=0.67.1",
+    "demo:cli": "nwbuild ./** --mode=build --platforms=linux32,linux64 --version=0.67.1",
     "build": "esbuild src/index.js --bundle --minify --platform=node --outfile=./dist/index.cjs"
   },
   "devDependencies": {
