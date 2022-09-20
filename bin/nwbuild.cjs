@@ -5,11 +5,11 @@
  * @author  ayushmxn
  */
 
-const yargs = require("yargs/yargs");
-const { hideBin } = require("yargs/helpers");
+const { hideBin } = require('yargs/helpers');
+const yargs = require('yargs/yargs');
 
-const NwBuilder = require("../lib/index.cjs");
-const { Options, detectCurrentPlatform } = require("../dist/index.cjs");
+const { Options, detectCurrentPlatform } = require('../dist/index.cjs');
+const NwBuilder = require('../lib/index.cjs');
 
 const cli = yargs(hideBin(process.argv))
   .version(false)

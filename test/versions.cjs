@@ -3,14 +3,14 @@
  * @author  ayushmxn
  */
 
-var test = require("tape"),
-  nock = require("nock");
+const nock = require('nock');
+const test = require('tape');
 
-var versions = require("../lib/versions.cjs");
+const versions = require('../lib/versions.cjs');
 
-var root = "http://nwjs.io";
-var dlUrl = "http://dl.nwjs.io/";
-var expectedLegacyVersions = ["0.10.2", "0.10.0-rc1", "0.9.3"];
+const root = 'http://nwjs.io';
+const dlUrl = 'http://dl.nwjs.io/';
+const expectedLegacyVersions = ['0.10.2', '0.10.0-rc1', '0.9.3'];
 
 test("getLatestVersion", async function (t) {
   await t.plan(3);

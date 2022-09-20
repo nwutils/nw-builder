@@ -3,7 +3,7 @@
  * @author  ayushmxn
  */
 
-import Platform from "../constants/Platform";
+import Platform from '../constants/Platform';
 
 /**
  * Returns a platform constant based on the current platform.

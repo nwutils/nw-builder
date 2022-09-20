@@ -1,4 +1,4 @@
-import checkCache from "../../src/utilities/checkCache";
+import checkCache from '../../src/utilities/checkCache';
 
 test("for incorrect file path", () => {
   const cacheDir = process.cwd() + "/test/unit/checkCacheDir/v0.64.1/osx";

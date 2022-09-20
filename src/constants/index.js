@@ -3,8 +3,8 @@
  * @author  ayushmxn
  */
 
-import Platform from "./Platform";
-import Platforms from "./Platforms";
+import Platform from './Platform';
+import Platforms from './Platforms';
 
 export {
   Platform,

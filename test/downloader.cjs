@@ -3,19 +3,21 @@
  * @author  ayushmxn
  */
 
-var test = require("tape"),
-  nock = require("nock"),
-  temp = require("temp"),
-  path = require("path"),
-  fs = require("fs");
+const fs = require('fs');
+const path = require('path');
+
+const nock = require('nock');
+const test = require('tape');
+const temp = require('temp');
 
 temp.track();
 
-var downloader = require("../lib/downloader.cjs");
-var fixturesZip = "./test/fixtures/test.zip";
-var fixturesZipStrip = "./test/fixtures/test-strip.zip";
-var fixturesTar = "./test/fixtures/test.tar.gz";
-var isWindows = process.platform === "win32";
+const downloader = require('../lib/downloader.cjs');
+
+const fixturesZip = './test/fixtures/test.zip';
+const fixturesZipStrip = './test/fixtures/test-strip.zip';
+const fixturesTar = './test/fixtures/test.tar.gz';
+const isWindows = process.platform === 'win32';
 
 test("downloadAndUnpack: zip", function (t) {
   t.plan(isWindows ? 3 : 6);

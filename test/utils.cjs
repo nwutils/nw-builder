@@ -3,26 +3,29 @@
  * @author  ayushmxn
  */
 
-var test = require("tape");
-var testSetup = require("redtape");
-var temp = require("temp");
-var fs = require("fs");
-var path = require("path");
-var utils = require("../lib/utils.cjs");
-var DecompressZip = require("decompress-zip");
-var _ = require("lodash");
-var EventEmitter = require("events").EventEmitter;
-var del = require("rimraf");
-var thenify = require("thenify");
-var isWindows = process.platform === "win32";
-var tempFile = thenify(temp.open);
+const fs = require('fs');
+const path = require('path');
+
+const DecompressZip = require('decompress-zip');
+const EventEmitter = require('events').EventEmitter;
+const _ = require('lodash');
+const testSetup = require('redtape');
+const del = require('rimraf');
+const test = require('tape');
+const temp = require('temp');
+const thenify = require('thenify');
+
+const utils = require('../lib/utils.cjs');
+
+const isWindows = process.platform === 'win32';
+const tempFile = thenify(temp.open);
 
 /**
  * Wraps temp.cleanup in a Promise.
  *
  * @return {Promise} The result or error from temp.cleanup
  */
-var tempFileCleanup = function () {
+const tempFileCleanup = function () {
   return new Promise(function (resolve, reject) {
     temp.cleanup(function (err, result) {
       if (err) {

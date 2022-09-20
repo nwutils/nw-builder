@@ -3,7 +3,7 @@
  * @author  ayushmxn
  */
 
-import semver from "semver";
+import semver from 'semver';
 
 const Platforms = {
   win32: {
