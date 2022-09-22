@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [3.8.6] - 2022-09-22
+
+- Fix mac and windows build
+
 ## [3.8.5] - 2022-09-20
 
 ### Added
