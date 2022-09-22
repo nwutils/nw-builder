@@ -32,6 +32,10 @@ Using pnpm:
 pnpm add nw-builder
 ```
 
+## Usage
+
+Check out the the demo under `/test/demo` directory for examples of module usage. For CLI, type in `nwbuild --help` in your terminal.
+
 ## API Reference
 
 > Stay up to date via the [Changelog](https://github.com/nwjs-community/nw-builder/blob/master/.github/CHANGELOG.md).

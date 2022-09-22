@@ -34,9 +34,29 @@ This should give an error:
 [ ERROR ] package.json not found
 ```
 
-## Write your first application:
+## Write your first NW.js application
 
-To learn how to write your NW.js application, follow the steps given [here](https://ayushmxn.github.io/nw-repro/getting-started#write-your-first-nwjs-application).
+Create a folder such as `nw` with a `package.json` explicitly for your NW app. This keeps your Node application config and NW application config seperate. The manifest should at the least have a `name` and `main` property. `main` points to the entry point of your NW.js application. This can be an HTML or JavaScript file.
+
+```json
+"name":"nw-demo"
+"version":"0.1.0"
+"main":"./index.html"
+```
+
+Here's an example on how to use a JavaScript file as the entry point:
+
+```json
+"name":"nw-demo"
+"version":"0.1.0"
+"main":"./main.js"
+```
+
+```javascript
+nw.Window.open("./index.html", {}, () => {});
+```
+
+More information can be found in the [API reference](http://docs.nwjs.io/en/latest/References/App/)
 
 ## Run your first application
 
@@ -52,11 +72,9 @@ Module usage:
 const { nwbuild } = require("nw-builder");
 
 nwbuild({
-    files: "./path/to/nw/app"
-})
-    .then(() => { ... })
-    .catch(() => { ... })
-    .finally(() => { ... })
+    files: "./path/to/nw/app",
+    mode: "run",
+});
 ```
 
 This is the minimum arguments required to run a NW.js application. It detects your current platform, downloads the required NW binary and runs it.
@@ -75,17 +93,16 @@ Module usage:
 const { nwbuild } = require("nw-builder");
 
 nwbuild({
-    files: "./path/to/nw/app/dir/**/*.*"
-    mode: "build"
-})
-    .then(() => { ... })
-    .catch(() => { ... })
-    .finally(() => { ... })
+    files: "./path/to/nw/app/dir/**/*.*",
+    flavor: "normal",
+    platforms: ["win32", "linux64"],
+    mode: "build",
+});
 ```
 
 This is the minimum arguments required to build a NW.js application. It detects your current platform, downloads the required NW binary and builds for the current platform.
 
-You can learn more about the configuration options in the [API reference](./api).
+You can learn more about the configuration options in the [API reference](http://docs.nwjs.io/en/latest/References/App/).
 
 ## Tips
 
@@ -111,7 +128,7 @@ However this may not make sense if you have multiple scripts with multiple optio
 }
 ```
 
-You can even define your options in your project's `package.json` under the `nwbuild` property. This is ideal if you only have one NW.js run or build process. Note that the `package.json` options override the CLI and module.
+You can even define your options in your project's `package.json` under the `nwbuild` property. This is ideal if you only have one NW.js run or build process. Note that the `package.json` options override the CLI and module options.
 
 `run.js`
 

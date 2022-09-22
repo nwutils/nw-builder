@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [3.8.5] - 2022-09-20
+
+### Added
+
+- `nwbuild` function which accidently got removed.
+
+### Changed
+
+- Update usage docs for `nwbuild`
+
+## [3.8.4] - 2022-09-20
+
+### Changed
+
+- Refactor download function
+
+## [3.8.3-beta.1]
+
+### Changed
+
+- Check for first instance of `package.json`
+
 ## [3.8.3] - 2022-08-26
 
 ### Changed
