@@ -1,6 +1,5 @@
 /**
- * @file    Retrieves options object from package.json
- * @author  ayushmxn
+ * @file  Retrieves options object from package.json
  */
 
 import fs from 'fs';

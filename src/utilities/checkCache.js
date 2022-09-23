@@ -1,6 +1,5 @@
 /**
- * @file    Determines if files are already cached locally.
- * @author  ayushmxn
+ * @file  Determines if files are already cached locally.
  */
 
 import fs from 'fs';

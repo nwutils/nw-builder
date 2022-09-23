@@ -1,6 +1,5 @@
 /**
- * @file    Dummy file
- * @author  ayushmxn
+ * @file  Dummy file
  */
 
 /**

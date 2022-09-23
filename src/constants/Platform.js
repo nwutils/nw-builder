@@ -1,6 +1,5 @@
 /**
- * @file    Define platform constants
- * @author  ayushmxn
+ * @file  Define platform constants
  */
 
 /**

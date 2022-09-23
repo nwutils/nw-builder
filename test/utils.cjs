@@ -1,6 +1,5 @@
 /**
- * @file    [Description of file purpose]
- * @author  ayushmxn
+ * @file  [Description of file purpose]
  */
 
 const fs = require('fs');

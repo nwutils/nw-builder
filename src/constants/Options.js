@@ -1,6 +1,5 @@
 /**
- * @file    The default options for the library
- * @author  ayushmxn
+ * @file  The default options for the library
  */
 
 const Options = {

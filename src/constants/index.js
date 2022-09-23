@@ -1,6 +1,5 @@
 /**
- * @file    Constants
- * @author  ayushmxn
+ * @file  Constants
  */
 
 import Platform from './Platform';

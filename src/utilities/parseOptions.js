@@ -1,6 +1,5 @@
 /**
- * @file    Handles creating the options object used by the library.
- * @author  ayushmxn
+ * @file  Handles creating the options object used by the library.
  */
 
 /**

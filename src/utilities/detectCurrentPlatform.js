@@ -1,6 +1,5 @@
 /**
- * @file    Maps the current OS platform to a constant string.
- * @author  ayushmxn
+ * @file  Maps the current OS platform to a constant string.
  */
 
 import Platform from '../constants/Platform';

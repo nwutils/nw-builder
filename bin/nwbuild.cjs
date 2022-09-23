@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * @file    The binary definition file used by CLI users, such as "npx nwbuild"
- * @author  ayushmxn
+ * @file  The binary definition file used by CLI users, such as "npx nwbuild"
  */
 
 const { hideBin } = require('yargs/helpers');
