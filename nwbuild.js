@@ -1,12 +1,14 @@
 import fs from "node:fs";
 
-import { remove } from "./install/remove.js";
 import { decompress } from "./install/decompress.js";
-import { download } from "./install/download.js";
 import { develop } from "./run/develop.js";
+import { download } from "./install/download.js";
+import { remove } from "./install/remove.js";
+import { packager } from "./bld/package.js";
 
 const nwbuild = async ({
   srcDir,
+  cacheDir = "/cache",
   version,
   flavour,
   platform,
@@ -22,32 +24,34 @@ const nwbuild = async ({
 }) => {
   // validate inputs
 
-  let nwDir = `${outDir}/nwjs-${flavour}-v${version}-${platform}-${arch}`;
+  let nwDir = `${cacheDir}/nwjs-${flavour}-v${version}-${platform}-${arch}`;
 
   if (
     noCache === true ||
     fs.existsSync(
-      `${outDir}/nwjs-${flavour}-v${version}-${platform}-${arch}`,
+      nwDir,
     ) === false
   ) {
-    await download(version, flavour, platform, arch, downloadUrl, outDir);
-    await decompress(platform, outDir);
-    await remove(platform, outDir);
+    await download(version, flavour, platform, arch, downloadUrl, cacheDir);
+    await decompress(platform, cacheDir);
+    await remove(platform, cacheDir);
   }
 
   // run app
 
   if (run === true) {
     await develop(srcDir, nwDir, platform);
+  } else {
+    packager(srcDir, nwDir, outDir, platform);
   }
+
+  // build app
 
   // linux config
 
   // window config
 
   // macos config
-
-  // build app
 };
 
-// nwbuild({ srcDir: "./test/demo", version: "0.69.1", flavour: "sdk", platform:"linux", arch:"x64", outDir:"./dev", run: true });
+nwbuild({ srcDir: "./test/demo", cacheDir: "./cache", version: "0.69.1", flavour: "sdk", platform:"linux", arch:"x64", outDir:"./dev", run: false });
