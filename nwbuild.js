@@ -26,12 +26,8 @@ const nwbuild = async ({
 
   let nwDir = `${cacheDir}/nwjs-${flavour}-v${version}-${platform}-${arch}`;
 
-  if (
-    noCache === true ||
-    fs.existsSync(
-      nwDir,
-    ) === false
-  ) {
+  if (noCache === true || fs.existsSync(nwDir) === false) {
+    await fs.rmSync(nwDir, { force: true, recursive: true });
     await download(version, flavour, platform, arch, downloadUrl, cacheDir);
     await decompress(platform, cacheDir);
     await remove(platform, cacheDir);
@@ -54,4 +50,14 @@ const nwbuild = async ({
   // macos config
 };
 
-nwbuild({ srcDir: "./test/demo", cacheDir: "./cache", version: "0.69.1", flavour: "sdk", platform:"linux", arch:"x64", outDir:"./dev", run: false });
+nwbuild({
+  srcDir: "./test/demo",
+  cacheDir: "./cache",
+  version: "0.69.1",
+  flavour: "sdk",
+  platform: "osx",
+  arch: "x64",
+  outDir: "./build",
+  run: false,
+  noCache: true,
+});

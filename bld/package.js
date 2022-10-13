@@ -9,6 +9,7 @@ const packager = async (
   outDir,
   platform,
 ) => {
+  fs.rmSync(outDir, { force:true, recursive: true });
   fs.cpSync(nwDir, outDir, { recursive: true });
   fs.cpSync(
     srcDir,
@@ -20,20 +21,20 @@ const packager = async (
     },
   );
 
-  let buffer = fs.readFileSync(`${outDir}/package.nw/package.json`);
-  let pkg = JSON.parse(buffer);
+  // let buffer = fs.readFileSync(`${outDir}/${platform !== "osx" ? "package.nw" : "nwjs.app/Contents/Resources/nw.app"}/package.json`);
+  // let pkg = JSON.parse(buffer);
 
-  switch (platform) {
-    case "linux":
-      setLinuxConfig(pkg, outDir);
-      break;
-    case "win":
-      setWinConfig(pkg, outDir);
-      break;
-    default:
-      break;
-  }
-  return 1;
+  // switch (platform) {
+  //   case "linux":
+  //     setLinuxConfig(pkg, outDir);
+  //     break;
+  //   case "win":
+  //     setWinConfig(pkg, outDir);
+  //     break;
+  //   default:
+  //     break;
+  // }
+  // return 1;
 };
 
 export { packager };
