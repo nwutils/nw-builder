@@ -1,57 +1,53 @@
+import fs from "node:fs";
+
 import { remove } from "./install/remove.js";
 import { decompress } from "./install/decompress.js";
 import { download } from "./install/download.js";
+import { develop } from "./run/develop.js";
 
 const nwbuild = async ({
-    srcDir,
-    version,
-    flavour,
-    platform,
-    arch,
-    downloadUrl="https://dl.nwjs.io",
-    manifestUrl,
-    outDir,
-    // flags
-    noCache=false,
-    noGlob=true,
-    zip=false,
+  srcDir,
+  version,
+  flavour,
+  platform,
+  arch,
+  outDir,
+  downloadUrl = "https://dl.nwjs.io",
+  manifestUrl,
+  // flags
+  noCache = false,
+  noGlob = true,
+  zip = false,
+  run = false,
 }) => {
+  // validate inputs
 
-    // validate inputs
+  let nwDir = `${outDir}/nwjs-${flavour}-v${version}-${platform}-${arch}`;
 
-    // download nw
+  if (
+    noCache === true ||
+    fs.existsSync(
+      `${outDir}/nwjs-${flavour}-v${version}-${platform}-${arch}`,
+    ) === false
+  ) {
+    await download(version, flavour, platform, arch, downloadUrl, outDir);
+    await decompress(platform, outDir);
+    await remove(platform, outDir);
+  }
 
-    await download(
-        version,
-        flavour,
-        platform,
-        arch,
-        downloadUrl,
-        outDir,
-    );
+  // run app
 
-    await decompress(
-        platform,
-        outDir,
-    );
+  if (run === true) {
+    await develop(srcDir, nwDir, platform);
+  }
 
-    await remove(
-        platform,
-        outDir,
-    );
+  // linux config
 
-    // decompress nw
+  // window config
 
-    // rename nw
+  // macos config
 
-    // run app
-
-    // linux config
-
-    // window config
-
-    // macos config
-
-    // build app
-
+  // build app
 };
+
+// nwbuild({ srcDir: "./test/demo", version: "0.69.1", flavour: "sdk", platform:"linux", arch:"x64", outDir:"./dev", run: true });
