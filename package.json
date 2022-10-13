@@ -1,15 +1,16 @@
 {
   "name": "nw-builder",
-  "version": "3.8.6",
+  "version": "4.0.0-rc.6",
   "description": "Build NW.js desktop applications for Mac, Windows and Linux.",
   "keywords": [
     "NW.js",
+    "node-webkit",
     "Desktop",
     "Application"
   ],
   "author": "Steffen Müller <steffen@mllrsohn.com>",
   "license": "MIT",
-  "main": "./lib/index.cjs",
+  "main": "./src/index.js",
   "type": "module",
   "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
@@ -17,50 +18,32 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
-    "format": "prettier --write ./bin ./lib ./src ./test",
-    "lint": "eslint ./bin/**.cjs ./lib/**.cjs ./src/**.js",
-    "test": "npm run test:unit && tape './test/*.cjs'",
-    "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "demo": "cd ./test/demo && npm run start",
-    "demo:cli": "nwbuild ./** --mode=build --platforms=linux32,linux64 --version=0.67.1",
-    "build": "esbuild src/index.js --bundle --minify --platform=node --outfile=./dist/index.cjs"
+    "format": "prettier --write ./src",
+    "lint": "eslint ./src",
+    "demo:run": "cd ./test/demo && node run.js",
+    "demo:bld": "cd ./test/demo && node bld.js",
+    "demo:cli": "cd ./test/demo && nwbuild ./nwapp --version=0.69.1 --flavour=sdk --platform=linux --arch=x64 --outDir=./build"
   },
   "devDependencies": {
-    "decompress-zip": "^0.3.3",
-    "esbuild": "^0.15.2",
     "eslint": "^8.18.0",
     "eslint-config-tjw-jsdoc": "^1.0.3",
     "eslint-plugin-jsdoc": "^39.3.3",
     "jest": "^29.0.2",
     "jest-environment-jsdom": "^29.0.2",
     "jsdom": "^20.0.0",
-    "nock": "^13.2.7",
-    "prettier": "^2.7.1",
-    "redtape": "^1.0.0",
-    "tape": "^5.5.3"
+    "prettier": "^2.7.1"
   },
   "dependencies": {
-    "archiver": "^5.3.1",
-    "deprecate": "^1.1.1",
-    "graceful-fs-extra": "^2.0.0",
-    "inherits": "^2.0.4",
-    "lodash": "^4.17.21",
-    "nw-install": "^0.3.4",
+    "cli-progress": "^3.11.2",
+    "extract-zip": "^2.0.1",
     "plist": "^3.0.5",
     "progress": "^2.0.3",
     "rcedit": "^3.0.1",
-    "recursive-readdir-sync": "^1.0.6",
-    "request": "^2.88.2",
-    "rimraf": "^3.0.2",
-    "semver": "^7.3.7",
-    "simple-glob": "^0.2.0",
-    "temp": "^0.9.4",
-    "thenify": "^3.3.1",
-    "winresourcer": "^0.9.0",
+    "tar": "^6.1.11",
     "yargs": "^17.5.1"
   },
   "bin": {
-    "nwbuild": "./bin/nwbuild.cjs"
+    "nwbuild": "./src/cli.js"
   },
   "prettier": {
     "printWidth": 80,
