@@ -16,10 +16,10 @@ export const nwbuild = async ({
   outDir,
   // flags
   downloadUrl = "https://dl.nwjs.io",
-  manifestUrl = "https://nwjs.io/versions",
+  // manifestUrl = "https://nwjs.io/versions",
   noCache = false,
-  noGlob = true,
-  zip = false,
+  // noGlob = true,
+  // zip = false,
   run = false,
 }) => {
   // validate inputs
