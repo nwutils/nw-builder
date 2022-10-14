@@ -24,7 +24,7 @@ export const nwbuild = async ({
 }) => {
   // validate inputs
 
-  let nwDir = `${cacheDir}/nwjs-${flavour}-v${version}-${platform}-${arch}`;
+  let nwDir = `${cacheDir}/nwjs-${flavour === "normal" ? "": "sdk-"}v${version}-${platform}-${arch}`;
 
   if (noCache === true || fs.existsSync(nwDir) === false) {
     await fs.rmSync(nwDir, { force: true, recursive: true });
