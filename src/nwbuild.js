@@ -18,7 +18,6 @@ export const nwbuild = async ({
   downloadUrl = "https://dl.nwjs.io",
   // manifestUrl = "https://nwjs.io/versions",
   noCache = false,
-  // noGlob = true,
   // zip = false,
   run = false,
 }) => {

@@ -5,7 +5,7 @@ nwbuild({
     cacheDir: "./cache",
     version: "0.69.1",
     flavour: "normal",
-    platform: "linux",
+    platform: "osx",
     arch: "x64",
     outDir: "./build",
   });
