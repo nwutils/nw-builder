@@ -9,4 +9,5 @@ nwbuild({
     arch: "x64",
     outDir: "./build",
     run: true,
+    zip: true,
   });

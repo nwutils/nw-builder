@@ -18,12 +18,14 @@ export const nwbuild = async ({
   downloadUrl = "https://dl.nwjs.io",
   // manifestUrl = "https://nwjs.io/versions",
   noCache = false,
-  // zip = false,
+  zip = false,
   run = false,
 }) => {
   // validate inputs
 
-  let nwDir = `${cacheDir}/nwjs-${flavour === "normal" ? "": "sdk-"}v${version}-${platform}-${arch}`;
+  let nwDir = `${cacheDir}/nwjs-${
+    flavour === "normal" ? "" : "sdk-"
+  }v${version}-${platform}-${arch}`;
 
   if (noCache === true || fs.existsSync(nwDir) === false) {
     await fs.rmSync(nwDir, { force: true, recursive: true });
@@ -37,7 +39,7 @@ export const nwbuild = async ({
   if (run === true) {
     await develop(srcDir, nwDir, platform);
   } else {
-    await packager(srcDir, nwDir, outDir, platform);
+    await packager(srcDir, nwDir, outDir, platform, zip);
   }
 
   // macos config
