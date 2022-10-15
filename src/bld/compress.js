@@ -46,6 +46,4 @@ const compress = (outDir, type="zip") => {
 
 };
 
-compress("./test/demo/build");
-
 export { compress };

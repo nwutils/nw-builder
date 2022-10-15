@@ -4,8 +4,9 @@ nwbuild({
     srcDir: "./nwapp",
     cacheDir: "./cache",
     version: "0.69.1",
-    flavour: "normal",
-    platform: "osx",
+    flavour: "sdk",
+    platform: "linux",
     arch: "x64",
     outDir: "./build",
+    zip: true,
   });

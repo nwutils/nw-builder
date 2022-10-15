@@ -20,6 +20,7 @@
   "scripts": {
     "format": "prettier --write ./src",
     "lint": "eslint ./src",
+    "docs": "jsdoc ./src/nwbuild.js -d docs",
     "demo:run": "cd ./test/demo && node run.js",
     "demo:bld": "cd ./test/demo && node bld.js",
     "demo:cli": "cd ./test/demo && nwbuild ./nwapp --version=0.69.1 --flavour=sdk --platform=linux --arch=x64 --outDir=./build"
@@ -30,6 +31,7 @@
     "eslint-plugin-jsdoc": "^39.3.3",
     "jest": "^29.0.2",
     "jest-environment-jsdom": "^29.0.2",
+    "jsdoc": "^3.6.11",
     "jsdom": "^20.0.0",
     "prettier": "^2.7.1"
   },
