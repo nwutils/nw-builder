@@ -36,9 +36,9 @@ const packager = async (srcDir, nwDir, outDir, platform, zip) => {
   }
 
   if (zip === true) {
-    compress(outDir, type);
+    compress(outDir);
   } else if (zip === "zip" || zip === "tar") {
-    compress(outDir, type);
+    compress(outDir, zip);
   }
 
   return 0;
