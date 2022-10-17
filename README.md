@@ -34,7 +34,7 @@ nwbuild({
   manifestUrl: "https://nwjs.io/versions"
   run: false,
   noCache: false,
-  noGlob: true
+  zip: false
 });
 
 ```

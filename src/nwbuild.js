@@ -6,7 +6,24 @@ import { download } from "./get/download.js";
 import { remove } from "./get/remove.js";
 import { packager } from "./bld/package.js";
 
-export const nwbuild = async ({
+/**
+ * Options schema
+ * @typedef {Object} OptionsSchema
+ * @property {string} srcDir
+ * @property {string} cacheDir
+ * @property {string} version
+ * @property {"sdk" | "normal"} flavour
+ * @property {"linux" | "osx" | "win"} platform
+ * @property {"ia32" | "x64"} arch
+ * @property {string} outDir
+ */
+
+/**
+ *
+ * @param {OptionsSchema} obj
+ * @return {void}
+ */
+const nwbuild = async ({
   srcDir,
   cacheDir = "./cache",
   version,
@@ -18,13 +35,14 @@ export const nwbuild = async ({
   downloadUrl = "https://dl.nwjs.io",
   // manifestUrl = "https://nwjs.io/versions",
   noCache = false,
-  // noGlob = true,
-  // zip = false,
+  zip = false,
   run = false,
 }) => {
   // validate inputs
 
-  let nwDir = `${cacheDir}/nwjs-${flavour}-v${version}-${platform}-${arch}`;
+  let nwDir = `${cacheDir}/nwjs${
+    flavour === "sdk" ? "-sdk" : ""
+  }-v${version}-${platform}-${arch}`;
 
   if (noCache === true || fs.existsSync(nwDir) === false) {
     await fs.rmSync(nwDir, { force: true, recursive: true });
@@ -38,8 +56,10 @@ export const nwbuild = async ({
   if (run === true) {
     await develop(srcDir, nwDir, platform);
   } else {
-    await packager(srcDir, nwDir, outDir, platform);
+    await packager(srcDir, nwDir, outDir, platform, zip);
   }
 
   // macos config
 };
+
+export default nwbuild;
