@@ -23,7 +23,7 @@ import { packager } from "./bld/package.js";
  * @param {OptionsSchema} obj
  * @return {void}
  */
-export const nwbuild = async ({
+const nwbuild = async ({
   srcDir,
   cacheDir = "./cache",
   version,
@@ -61,3 +61,5 @@ export const nwbuild = async ({
 
   // macos config
 };
+
+export default nwbuild;

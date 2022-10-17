@@ -10,7 +10,7 @@
   ],
   "author": "Steffen Müller <steffen@mllrsohn.com>",
   "license": "MIT",
-  "main": "./src/index.js",
+  "main": "./src/nwbuild.js",
   "type": "module",
   "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
