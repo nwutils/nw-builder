@@ -8,4 +8,5 @@ coverage
 # project files
 build
 cache
+docs
 *.zip
