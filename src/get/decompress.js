@@ -3,6 +3,11 @@ import path from "node:path";
 import extract from "extract-zip";
 import tar from "tar";
 
+/**
+ *
+ * @param platform
+ * @param outDir
+ */
 const decompress = (platform, outDir) => {
   return new Promise((resolve, reject) => {
     if (platform === "linux") {

@@ -1,5 +1,10 @@
 import fs from "node:fs";
 
+/**
+ *
+ * @param platform
+ * @param outDir
+ */
 const remove = (platform, outDir) => {
   return new Promise((resolve, reject) => {
     fs.rm(

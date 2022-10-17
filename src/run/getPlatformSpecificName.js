@@ -1,3 +1,7 @@
+/**
+ *
+ * @param platform
+ */
 const getPlatformSpecificName = (platform) => {
   switch (platform) {
     case "linux":

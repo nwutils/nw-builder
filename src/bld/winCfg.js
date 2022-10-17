@@ -1,5 +1,10 @@
 import rcedit from "rcedit";
 
+/**
+ *
+ * @param pkg
+ * @param outDir
+ */
 const setWinConfig = async (pkg, outDir) => {
   return rcedit(`${outDir}/nw.exe`, {
     "file-version": pkg.version,

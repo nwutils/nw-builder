@@ -19,7 +19,7 @@
   },
   "scripts": {
     "format": "prettier --write ./src",
-    "lint": "eslint ./src",
+    "lint": "eslint --fix ./src",
     "docs": "jsdoc ./src/nwbuild.js -d docs",
     "demo:run": "cd ./test/demo && node run.js",
     "demo:bld": "cd ./test/demo && node bld.js",

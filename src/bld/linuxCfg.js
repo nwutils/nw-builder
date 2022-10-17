@@ -1,5 +1,10 @@
 import fs from "node:fs";
 
+/**
+ *
+ * @param pkg
+ * @param outDir
+ */
 const setLinuxConfig = async (pkg, outDir) => {
   let fileContent = `[Desktop Entry]
     Name=${pkg.name}

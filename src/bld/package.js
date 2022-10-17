@@ -4,6 +4,14 @@ import { compress } from "./compress.js";
 import { setLinuxConfig } from "./linuxCfg.js";
 import { setWinConfig } from "./winCfg.js";
 
+/**
+ *
+ * @param srcDir
+ * @param nwDir
+ * @param outDir
+ * @param platform
+ * @param zip
+ */
 const packager = async (srcDir, nwDir, outDir, platform, zip) => {
   fs.rmSync(outDir, { force: true, recursive: true });
   fs.cpSync(nwDir, outDir, { recursive: true });

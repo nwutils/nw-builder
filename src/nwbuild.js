@@ -8,19 +8,20 @@ import { packager } from "./bld/package.js";
 
 /**
  * Options schema
- * @typedef {Object} OptionsSchema
- * @property {string} srcDir
- * @property {string} cacheDir
- * @property {string} version
- * @property {"sdk" | "normal"} flavour
+ *
+ * @typedef {object} OptionsSchema
+ * @property {string}                  srcDir
+ * @property {string}                  cacheDir
+ * @property {string}                  version
+ * @property {"sdk" | "normal"}        flavour
  * @property {"linux" | "osx" | "win"} platform
- * @property {"ia32" | "x64"} arch
- * @property {string} outDir
+ * @property {"ia32" | "x64"}          arch
+ * @property {string}                  outDir
  */
 
 /**
  *
- * @param {OptionsSchema} obj
+ * @param  {OptionsSchema} obj
  * @return {void}
  */
 const nwbuild = async ({

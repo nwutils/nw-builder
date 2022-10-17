@@ -1,6 +1,11 @@
 import fs from "node:fs";
 import archiver from "archiver";
 
+/**
+ *
+ * @param outDir
+ * @param type
+ */
 const compress = (outDir, type="zip") => {
   const output = fs.createWriteStream(`${outDir}.${type}`);
   const archive = archiver("zip");

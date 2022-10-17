@@ -5,6 +5,15 @@ import progress from "cli-progress";
 
 const bar = new progress.SingleBar({}, progress.Presets.rect);
 
+/**
+ *
+ * @param version
+ * @param flavour
+ * @param platform
+ * @param architecture
+ * @param downloadUrl
+ * @param outDir
+ */
 const download = (
   version,
   flavour,
