@@ -31,7 +31,7 @@ nwbuild({
   // these are implicitely defined unless
   // you want to change some behaviour
   downloadUrl: "https://dl.nwjs.io",
-  manifestUrl: "https://nwjs.io/versions"
+  manifestUrl: "https://nwjs.io/versions",
   run: false,
   noCache: false,
   zip: false
