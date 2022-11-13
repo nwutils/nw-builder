@@ -43,7 +43,7 @@
     "archiver": "^5.3.1",
     "cli-progress": "^3.11.2",
     "extract-zip": "^2.0.1",
-    "plist": "^3.0.5",
+    "plist": "^3.0.6",
     "progress": "^2.0.3",
     "rcedit": "^3.0.1",
     "tar": "^6.1.11",

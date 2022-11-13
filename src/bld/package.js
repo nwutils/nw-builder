@@ -2,6 +2,7 @@ import fs from "node:fs";
 
 import { compress } from "./compress.js";
 import { setLinuxConfig } from "./linuxCfg.js";
+import { setOsxConfig } from "./osxCfg.js";
 import { setWinConfig } from "./winCfg.js";
 
 const packager = async (srcDir, nwDir, outDir, platform, zip) => {
@@ -30,6 +31,9 @@ const packager = async (srcDir, nwDir, outDir, platform, zip) => {
       break;
     case "win":
       setWinConfig(pkg, outDir);
+      break;
+    case "osx":
+      setOsxConfig(pkg, outDir);
       break;
     default:
       break;

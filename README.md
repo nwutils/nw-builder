@@ -16,7 +16,7 @@ npm install nw-builder
 ## Usage
 
 ```javascript
-import nwbuild from "nw-builder";
+import { nwbuild } from "nw-builder";
 
 nwbuild({
   srcDir: "./nwapp",
@@ -36,10 +36,6 @@ nwbuild({
   zip: false,
 });
 ```
-
-## Team
-
-This project was created by [Steffen Müller](https://github.com/steffenmllr) and has been maintained by [Gabe Paez](https://github.com/gabepaez), [Andy Trevorah](https://github.com/trevorah), [Adam Lynch](https://github.com/adam-lynch) and [Rémy Boulanouar](https://github.com/DblK) in the past. This project is currently maintained by [Ayushman Chhabra](https://github.com/ayushmxn).
 
 ## Contributing
 
