@@ -37,6 +37,29 @@ const nwbuild = async ({
   zip = false,
   run = false,
 }) => {
+  let pkgPath = `${srcDir}/package.json`;
+  let pkgExist= true;
+  let pkgData = null;
+
+  try {
+    await fs.access(pkgPath, fs.constants.F_OK)
+  } catch(e) {
+    pkgExist = false;
+  }
+
+  if (pkgExist === true) {
+    pkgData = await fs.readFile(pkgPath, "utf8");
+    pkgData = JSON.parse(pkgData);
+    if (pkgData.nwbuild !== undefined) {
+      srcDir = pkgData.nwbuild.srcDir ?? srcDir;
+      cacheDir = pkgData.nwbuild.cacheDir ?? cacheDir;
+      version = pkgData.nwbuild.version ?? version;
+      flavour = pkgData.nwbuild.flavour ?? flavour;
+      platform = pkgData.nwbuild.platform ?? platform;
+      arch = pkgData.nwbuild.arch ?? arch;
+      outDir = pkgData.nwbuild.outDir ?? outDir;
+    }
+  }
   let nwDir = `${cacheDir}/nwjs${
     flavour === "sdk" ? "-sdk" : ""
   }-v${version}-${platform}-${arch}`;
