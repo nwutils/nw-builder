@@ -8,7 +8,11 @@
     "Desktop",
     "Application"
   ],
-  "author": "Steffen Müller <steffen@mllrsohn.com>",
+  "author": {
+    "name": "Steffen Müller",
+    "email": "steffen@mllrsohn.com",
+    "url": "https://github.com/steffenmllr"
+  },
   "license": "MIT",
   "main": "./src/nwbuild.js",
   "type": "module",
@@ -18,7 +22,7 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
-    "format": "prettier --write ./src",
+    "format": "prettier --write \"**/*.{js,md}\"",
     "lint": "eslint ./src",
     "docs": "jsdoc ./src/nwbuild.js -d docs",
     "demo:run": "cd ./test/demo && node run.js",
