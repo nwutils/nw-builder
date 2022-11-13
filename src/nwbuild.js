@@ -38,12 +38,12 @@ const nwbuild = async ({
   run = false,
 }) => {
   let pkgPath = `${srcDir}/package.json`;
-  let pkgExist= true;
+  let pkgExist = true;
   let pkgData = null;
 
   try {
-    await fs.access(pkgPath, fs.constants.F_OK)
-  } catch(e) {
+    await fs.access(pkgPath, fs.constants.F_OK);
+  } catch (e) {
     pkgExist = false;
   }
 
@@ -68,8 +68,8 @@ const nwbuild = async ({
 
   try {
     await fs.access(nwDir, fs.constants.F_OK);
-  } catch(e) {
-    fileExists = false
+  } catch (e) {
+    fileExists = false;
   }
 
   if (noCache === true || fileExists === false) {

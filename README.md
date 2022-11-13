@@ -16,7 +16,6 @@ npm install nw-builder
 ## Usage
 
 ```javascript
-
 import nwbuild from "nw-builder";
 
 nwbuild({
@@ -34,9 +33,8 @@ nwbuild({
   manifestUrl: "https://nwjs.io/versions",
   run: false,
   noCache: false,
-  zip: false
+  zip: false,
 });
-
 ```
 
 ## Team
