@@ -26,7 +26,6 @@ const setOsxConfig = async (pkg, outDir) => {
     `${outDir}/nwjs.app/Contents/Frameworks/nwjs Framework.framework/Versions/${chromium_version}/Helpers/${name} Helper (Renderer).app`;
   let helper_app_path = (name = "nwjs") =>
     `${outDir}/nwjs.app/Contents/Frameworks/nwjs Framework.framework/Versions/${chromium_version}/Helpers/${name} Helper.app`;
-
   await fs.rename(helper_app_path_alerts(), helper_app_path_alerts(pkg.name));
   await fs.rename(helper_app_path_gpu(), helper_app_path_gpu(pkg.name));
   await fs.rename(helper_app_path_plugin(), helper_app_path_plugin(pkg.name));
@@ -35,6 +34,56 @@ const setOsxConfig = async (pkg, outDir) => {
     helper_app_path_renderer(pkg.name),
   );
   await fs.rename(helper_app_path(), helper_app_path(pkg.name));
+
+  let helper_app_alerts_plist_path = `${helper_app_path_alerts(
+    pkg.name,
+  )}/Contents/Info.plist`;
+  let helper_app_gpu_plist_path = `${helper_app_path_gpu(
+    pkg.name,
+  )}/Contents/Info.plist`;
+  let helper_app_plugin_plist_path = `${helper_app_path_plugin(
+    pkg.name,
+  )}/Contents/Info.plist`;
+  let helper_app_render_plist_path = `${helper_app_path_renderer(
+    pkg.name,
+  )}/Contents/Info.plist`;
+  let helper_app_plist_path = `${helper_app_path(
+    pkg.name,
+  )}/Contents/Info.plist`;
+
+  let helper_app_alerts_plist_json = plist.parse(
+    await fs.readFile(helper_app_alerts_plist_path, "utf-8"),
+  );
+  let helper_app_gpu_plist_json = plist.parse(
+    await fs.readFile(helper_app_gpu_plist_path, "utf-8"),
+  );
+  let helper_app_plugin_plist_json = plist.parse(
+    await fs.readFile(helper_app_plugin_plist_path, "utf-8"),
+  );
+  let helper_app_render_plist_json = plist.parse(
+    await fs.readFile(helper_app_render_plist_path, "utf-8"),
+  );
+  let helper_app_plist_json = plist.parse(
+    await fs.readFile(helper_app_plist_path, "utf-8"),
+  );
+
+  helper_app_alerts_plist_json.CFBundleDisplayName = pkg.name;
+  helper_app_gpu_plist_json.CFBundleDisplayName = pkg.name;
+  helper_app_render_plist_json.CFBundleDisplayName = pkg.name;
+  helper_app_plugin_plist_json.CFBundleDisplayName = pkg.name;
+  helper_app_plist_json.CFBundleDisplayName = pkg.name;
+
+  let helper_app_alerts_plist = plist.build(helper_app_alerts_plist_json);
+  let helper_app_gpu_plist = plist.build(helper_app_gpu_plist_json);
+  let helper_app_render_plist = plist.build(helper_app_render_plist_json);
+  let helper_app_plugin_plist = plist.build(helper_app_plugin_plist_json);
+  let helper_app_plist = plist.build(helper_app_plist_json);
+
+  await fs.writeFile(helper_app_alerts_plist_path, helper_app_alerts_plist);
+  await fs.writeFile(helper_app_gpu_plist_path, helper_app_gpu_plist);
+  await fs.writeFile(helper_app_plugin_plist_path, helper_app_plugin_plist);
+  await fs.writeFile(helper_app_render_plist_path, helper_app_render_plist);
+  await fs.writeFile(helper_app_plist_path, helper_app_plist);
 };
 
 export { setOsxConfig };
