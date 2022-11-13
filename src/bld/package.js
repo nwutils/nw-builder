@@ -34,6 +34,7 @@ const packager = async (srcDir, nwDir, outDir, platform, zip) => {
       break;
     case "osx":
       setOsxConfig(pkg, outDir);
+      break;
     default:
       break;
   }
