@@ -8,5 +8,4 @@ nwbuild({
   platform: "linux",
   arch: "x64",
   outDir: "./build",
-  zip: true,
 });

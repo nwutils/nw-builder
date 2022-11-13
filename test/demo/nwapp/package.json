@@ -1,6 +1,7 @@
 {
     "name": "nwdemo",
     "main": "index.html",
+    "product_string": "nwdemo",
     "nwbuild": {
         "srcDir": "./nwapp",
         "version": "0.70.1",
