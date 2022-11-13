@@ -1,5 +1,4 @@
-import fs from "node:fs";
-
+import fs from "node:fs/promises";
 import { decompress } from "./get/decompress.js";
 import { develop } from "./run/develop.js";
 import { download } from "./get/download.js";
@@ -38,28 +37,30 @@ const nwbuild = async ({
   zip = false,
   run = false,
 }) => {
-  // validate inputs
-
   let nwDir = `${cacheDir}/nwjs${
     flavour === "sdk" ? "-sdk" : ""
   }-v${version}-${platform}-${arch}`;
 
-  if (noCache === true || fs.existsSync(nwDir) === false) {
-    await fs.rmSync(nwDir, { force: true, recursive: true });
+  let fileExists = true;
+
+  try {
+    await fs.access(nwDir, fs.constants.F_OK);
+  } catch(e) {
+    fileExists = false
+  }
+
+  if (noCache === true || fileExists === false) {
+    await fs.rm(nwDir, { force: true, recursive: true });
     await download(version, flavour, platform, arch, downloadUrl, cacheDir);
     await decompress(platform, cacheDir);
     await remove(platform, cacheDir);
   }
-
-  // run app
 
   if (run === true) {
     await develop(srcDir, nwDir, platform);
   } else {
     await packager(srcDir, nwDir, outDir, platform, zip);
   }
-
-  // macos config
 };
 
-export default nwbuild;
+export { nwbuild };
