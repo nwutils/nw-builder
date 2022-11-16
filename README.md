@@ -15,26 +15,32 @@ npm install nw-builder
 
 ## Usage
 
+At a glance module usage:
+
 ```javascript
 import { nwbuild } from "nw-builder";
 
 nwbuild({
-  srcDir: "./nwapp",
-  cacheDir: "./cache",
-  version: "0.69.1",
-  flavour: "sdk",
-  platform: "linux",
-  arch: "x64",
+  srcDir: "./nwapp", // directory to store nw app files
+  version: "0.69.1", // latest or stable or 0.x.y
+  flavour: "sdk", //sdk (dev) or normal (prod)
+  platform: "linux", //linux, osx, win
+  arch: "x64", //ia32 or x64
   outDir: "./build",
   // flags with their default values
-  // these are implicitely defined unless
-  // you want to change some behaviour
+  cacheDir: "./cache", //directory to store nw binaries and shared libraries
   downloadUrl: "https://dl.nwjs.io",
   manifestUrl: "https://nwjs.io/versions",
-  run: false,
-  noCache: false,
-  zip: false,
+  run: false, //run app to quickly demo it
+  noCache: false, //delete and redownload nw version
+  zip: false, // optionally zip files
 });
+```
+
+At a glance CLI usage:
+
+```shell
+nwbuild ./nwapp --version=0.70.1 --flavour=sdk --platform=linux --arch=x64 --outDir=./build
 ```
 
 ## Contributing
