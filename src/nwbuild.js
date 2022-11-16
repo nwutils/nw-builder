@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import { decompress } from "./get/decompress.js";
 import { develop } from "./run/develop.js";
 import { download } from "./get/download.js";
+import { getReleaseInfo } from "./get/getReleaseInfo.js";
 import { remove } from "./get/remove.js";
 import { packager } from "./bld/package.js";
 
@@ -32,7 +33,7 @@ const nwbuild = async ({
   outDir,
   // flags
   downloadUrl = "https://dl.nwjs.io",
-  // manifestUrl = "https://nwjs.io/versions",
+  manifestUrl = "https://nwjs.io/versions",
   noCache = false,
   zip = false,
   run = false,
@@ -60,6 +61,8 @@ const nwbuild = async ({
       outDir = pkgData.nwbuild.outDir ?? outDir;
     }
   }
+
+  let releaseInfo = await getReleaseInfo(version, cacheDir, manifestUrl);
   let nwDir = `${cacheDir}/nwjs${
     flavour === "sdk" ? "-sdk" : ""
   }-v${version}-${platform}-${arch}`;
@@ -82,7 +85,7 @@ const nwbuild = async ({
   if (run === true) {
     await develop(srcDir, nwDir, platform);
   } else {
-    await packager(srcDir, nwDir, outDir, platform, zip);
+    await packager(srcDir, nwDir, outDir, platform, zip, releaseInfo);
   }
 };
 

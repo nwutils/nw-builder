@@ -5,7 +5,7 @@ import { setLinuxConfig } from "./linuxCfg.js";
 import { setOsxConfig } from "./osxCfg.js";
 import { setWinConfig } from "./winCfg.js";
 
-const packager = async (srcDir, nwDir, outDir, platform, zip) => {
+const packager = async (srcDir, nwDir, outDir, platform, zip, releaseInfo) => {
   fs.rmSync(outDir, { force: true, recursive: true });
   fs.cpSync(nwDir, outDir, { recursive: true });
   fs.cpSync(
@@ -33,7 +33,7 @@ const packager = async (srcDir, nwDir, outDir, platform, zip) => {
       setWinConfig(pkg, outDir);
       break;
     case "osx":
-      setOsxConfig(pkg, outDir);
+      setOsxConfig(pkg, outDir, releaseInfo);
       break;
     default:
       break;

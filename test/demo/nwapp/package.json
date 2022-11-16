@@ -9,6 +9,6 @@
         "platform": "osx",
         "arch": "x64",
         "outDir": "./build",
-        "run": true
+        "run": false
     }
 }
