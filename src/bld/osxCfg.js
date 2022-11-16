@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 
 import plist from "plist";
 
-const setOsxConfig = async (pkg, outDir) => {
+const setOsxConfig = async (pkg, outDir, releaseInfo) => {
   // Rename CFBundleDisplayName in Contents/Info.plist
   let contents_info_plist_path = `${outDir}/nwjs.app/Contents/Info.plist`;
   let contents_info_plist_json = plist.parse(
@@ -15,17 +15,16 @@ const setOsxConfig = async (pkg, outDir) => {
   // Rename CFBundleDisplayName in Contents/Resources/en.lproj/InfoPlist.strings
 
   // Rename Helper apps in Contents/Framework.framework/Versions/n.n.n.n/Helpers
-  let chromium_version = "107.0.5304.88";
   let helper_app_path_alerts = (name = "nwjs") =>
-    `${outDir}/nwjs.app/Contents/Frameworks/nwjs Framework.framework/Versions/${chromium_version}/Helpers/${name} Helper (Alerts).app`;
+    `${outDir}/nwjs.app/Contents/Frameworks/nwjs Framework.framework/Versions/${releaseInfo.components.chromium}/Helpers/${name} Helper (Alerts).app`;
   let helper_app_path_gpu = (name = "nwjs") =>
-    `${outDir}/nwjs.app/Contents/Frameworks/nwjs Framework.framework/Versions/${chromium_version}/Helpers/${name} Helper (GPU).app`;
+    `${outDir}/nwjs.app/Contents/Frameworks/nwjs Framework.framework/Versions/${releaseInfo.components.chromium}/Helpers/${name} Helper (GPU).app`;
   let helper_app_path_plugin = (name = "nwjs") =>
-    `${outDir}/nwjs.app/Contents/Frameworks/nwjs Framework.framework/Versions/${chromium_version}/Helpers/${name} Helper (Plugin).app`;
+    `${outDir}/nwjs.app/Contents/Frameworks/nwjs Framework.framework/Versions/${releaseInfo.components.chromium}/Helpers/${name} Helper (Plugin).app`;
   let helper_app_path_renderer = (name = "nwjs") =>
-    `${outDir}/nwjs.app/Contents/Frameworks/nwjs Framework.framework/Versions/${chromium_version}/Helpers/${name} Helper (Renderer).app`;
+    `${outDir}/nwjs.app/Contents/Frameworks/nwjs Framework.framework/Versions/${releaseInfo.components.chromium}/Helpers/${name} Helper (Renderer).app`;
   let helper_app_path = (name = "nwjs") =>
-    `${outDir}/nwjs.app/Contents/Frameworks/nwjs Framework.framework/Versions/${chromium_version}/Helpers/${name} Helper.app`;
+    `${outDir}/nwjs.app/Contents/Frameworks/nwjs Framework.framework/Versions/${releaseInfo.components.chromium}/Helpers/${name} Helper.app`;
   await fs.rename(helper_app_path_alerts(), helper_app_path_alerts(pkg.name));
   await fs.rename(helper_app_path_gpu(), helper_app_path_gpu(pkg.name));
   await fs.rename(helper_app_path_plugin(), helper_app_path_plugin(pkg.name));
