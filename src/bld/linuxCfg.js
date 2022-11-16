@@ -1,17 +1,19 @@
-import fs from "node:fs";
+import fs from "node:fs/promises";
 
-const setLinuxConfig = async (pkg, outDir) => {
+/**
+ *
+ * @param {Object} pkg srcDir's package.json as JSON
+ * @param {string} outDir directory which stores build artifacts
+ * @returns {undefined}
+ */
+export async function setLinuxConfig (pkg, outDir) {
   let fileContent = `[Desktop Entry]
     Name=${pkg.name}
     Version=${pkg.version}
-    Exec=bash -c "nw package.nw"
+    Exec=bash -c "${pkg.name} package.nw"
     Type=Application
     Terminal=false`;
 
   let filePath = `${outDir}/${pkg.name}.desktop`;
-  fs.writeFileSync(filePath, fileContent);
-  fs.chmodSync(filePath, "755");
-  return 0;
+  await fs.writeFile(filePath, fileContent);
 };
-
-export { setLinuxConfig };
