@@ -1,7 +1,8 @@
 import fs from "node:fs/promises";
 
 /**
- *
+ * Generates a Desktop Entry file for Linux
+ * https://specifications.freedesktop.org/desktop-entry-spec/latest/
  * @param {Object} pkg srcDir's package.json as JSON
  * @param {string} outDir directory which stores build artifacts
  * @returns {undefined}
