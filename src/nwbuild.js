@@ -1,4 +1,6 @@
 import fs from "node:fs/promises";
+import process from "node:process";
+
 import { decompress } from "./get/decompress.js";
 import { develop } from "./run/develop.js";
 import { download } from "./get/download.js";
@@ -25,7 +27,7 @@ import { packager } from "./bld/package.js";
  */
 const nwbuild = async ({
   srcDir,
-  cacheDir = "./cache",
+  cacheDir = `${process.cwd()}/cache`,
   version,
   flavour,
   platform,
