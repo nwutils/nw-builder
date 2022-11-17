@@ -25,4 +25,4 @@ export const setLinuxConfig = async (pkg, outDir) => {
     log.info("The Desktop Entry file will not be generated");
     log.info("Consult the documentation for what properties to include");
   }
-}
+};
