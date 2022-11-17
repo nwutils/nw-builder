@@ -1,4 +1,6 @@
-import fs from "node:fs/promises";
+import { cp, readFile, rm } from "node:fs/promises";
+
+import { log } from "../log.js";
 
 import { compress } from "./compress.js";
 import { setLinuxConfig } from "./linuxCfg.js";
@@ -17,9 +19,12 @@ import { setWinConfig } from "./winCfg.js";
  * @return {undefined}
  */
 const packager = async (srcDir, nwDir, outDir, platform, zip, releaseInfo) => {
-  await fs.rm(outDir, { force: true, recursive: true });
-  await fs.cp(nwDir, outDir, { recursive: true });
-  await fs.cp(
+  log.info(`Remove any files at ${outDir} directory`);
+  await rm(outDir, { force: true, recursive: true });
+  log.info(`Copy ${nwDir} files to ${outDir} directory`);
+  await cp(nwDir, outDir, { recursive: true });
+  log.info(`Copy ${srcDir} files to ${outDir} directory`);
+  await cp(
     srcDir,
     `${outDir}/${
       platform !== "osx" ? "package.nw" : "nwjs.app/Contents/Resources/nw.app"
@@ -29,13 +34,16 @@ const packager = async (srcDir, nwDir, outDir, platform, zip, releaseInfo) => {
     },
   );
 
-  let buffer = await fs.readFile(
+  log.info("Get NW's package.json as a buffer");
+  let buffer = await readFile(
     `${outDir}/${
       platform !== "osx" ? "package.nw" : "nwjs.app/Contents/Resources/nw.app"
     }/package.json`,
   );
+  log.info("Convert package.json buffer into JSON");
   let pkg = JSON.parse(buffer);
 
+  log.info(`Starting platform specific config steps for ${platform}`);
   switch (platform) {
     case "linux":
       setLinuxConfig(pkg, outDir);
