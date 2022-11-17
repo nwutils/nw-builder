@@ -1,4 +1,4 @@
-import process from "node:process";
+import { cwd } from "node:process";
 import { createLogger, format, transports } from "winston";
 
 const { combine, timestamp, printf } = format;
@@ -11,7 +11,7 @@ export const log = createLogger({
   format: combine(timestamp(), customFormat),
   transports: [
     new transports.File({
-      filename: `${process.cwd()}/nwbuild.log`,
+      filename: `${cwd()}/nwbuild.log`,
       level: "silly",
     }),
     new transports.Console({

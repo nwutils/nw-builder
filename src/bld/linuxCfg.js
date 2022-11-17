@@ -1,4 +1,4 @@
-import fs from "node:fs/promises";
+import { rename, writeFile } from "node:fs/promises";
 
 import { log } from "../log.js";
 
@@ -10,7 +10,8 @@ import { log } from "../log.js";
  * @param  {string}    outDir  directory which stores build artifacts
  * @return {undefined}
  */
-export async function setLinuxConfig(pkg, outDir) {
+export const setLinuxConfig = async (pkg, outDir) => {
+  await rename(`${outDir}/nw`, `${outDir}/${pkg.name}`);
   if (typeof pkg.linuxCfg === "object") {
     let fileContent = `[Desktop Entry]\n`;
     Object.keys(pkg.linuxCfg).forEach((key) => {
@@ -18,7 +19,7 @@ export async function setLinuxConfig(pkg, outDir) {
       log.info(`Add ${key}=${pkg.linuxCfg[key]} to Desktop Entry File`);
     });
     let filePath = `${outDir}/${pkg.name}.desktop`;
-    await fs.writeFile(filePath, fileContent);
+    await writeFile(filePath, fileContent);
   } else {
     log.warn("No LinuxCfg object found in srcDir/package.json`");
     log.info("The Desktop Entry file will not be generated");
