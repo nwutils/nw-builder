@@ -44,6 +44,7 @@
     "progress": "^2.0.3",
     "rcedit": "^3.0.1",
     "tar": "^6.1.11",
+    "winston": "^3.8.2",
     "yargs": "^17.5.1"
   },
   "bin": {
@@ -79,8 +80,8 @@
       "tjw-jsdoc"
     ],
     "rules": {
-      "jsdoc/require-file-overview": 0,
-      "jsdoc/match-description": 0
+      "jsdoc/require-file-overview": "off",
+      "jsdoc/match-description": "off"
     }
   },
   "jest": {
