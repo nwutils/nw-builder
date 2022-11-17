@@ -77,7 +77,11 @@
     "extends": [
       "eslint:recommended",
       "tjw-jsdoc"
-    ]
+    ],
+    "rules": {
+      "jsdoc/require-file-overview": 0,
+      "jsdoc/match-description": 0
+    }
   },
   "jest": {
     "testEnvironment": "jsdom"
