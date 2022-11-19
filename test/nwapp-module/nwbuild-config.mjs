@@ -2,7 +2,7 @@ import { nwbuild } from "../../src/nwbuild.js";
 
 nwbuild({
   srcDir: "./nwapp", // directory to store nw app files
-  excludes: ["./**.txt", "**.ts"],
+  excludes: ["**/*.ts", "**/*.txt", "cache", "cache/**",  "build", "build/**", "node_modules", "node_modules/**"],
   version: "0.69.1", // latest or stable or 0.x.y
   flavour: "sdk", //sdk (dev) or normal (prod)
   platform: "osx", //linux, osx, win

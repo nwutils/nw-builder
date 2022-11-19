@@ -43,10 +43,10 @@
     "cli-progress": "^3.11.2",
     "extract-zip": "^2.0.1",
     "fast-glob": "^3.2.12",
-    "globby": "^13.1.2",
     "plist": "^3.0.6",
     "progress": "^2.0.3",
     "rcedit": "^3.0.1",
+    "recursive-copy": "^2.0.14",
     "tar": "^6.1.11",
     "yargs": "^17.5.1"
   },
