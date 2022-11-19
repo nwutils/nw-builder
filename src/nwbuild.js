@@ -26,6 +26,7 @@ import { packager } from "./bld/package.js";
 const nwbuild = async ({
   srcDir,
   cacheDir = "./cache",
+  excludes,
   version,
   flavour,
   platform,
@@ -62,6 +63,10 @@ const nwbuild = async ({
     }
   }
 
+  if (cacheDir) {
+    await fs.mkdir(cacheDir, { recursive: true });
+  }
+
   let releaseInfo = await getReleaseInfo(version, cacheDir, manifestUrl);
   let nwDir = `${cacheDir}/nwjs${
     flavour === "sdk" ? "-sdk" : ""
@@ -85,7 +90,7 @@ const nwbuild = async ({
   if (run === true) {
     await develop(srcDir, nwDir, platform);
   } else {
-    await packager(srcDir, nwDir, outDir, platform, zip, releaseInfo);
+    await packager(srcDir, nwDir, outDir, platform, zip, releaseInfo, excludes);
   }
 };
 

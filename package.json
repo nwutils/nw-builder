@@ -25,7 +25,8 @@
     "format": "prettier --write \"**/*.{js,md}\"",
     "lint": "eslint ./src",
     "docs": "jsdoc ./src/nwbuild.js -d docs",
-    "demo": "cd ./test/demo && nwbuild ./nwapp --version=0.69.1 --flavour=sdk --platform=linux --arch=x64 --outDir=./build"
+    "demo": "cd ./test/demo && nwbuild ./nwapp --version=0.69.1 --flavour=sdk --platform=linux --arch=x64 --outDir=./build",
+    "demo-module": "cd ./test/nwapp-module && node ./nwbuild-config.mjs"
   },
   "devDependencies": {
     "eslint": "^8.25.0",
@@ -41,6 +42,8 @@
     "archiver": "^5.3.1",
     "cli-progress": "^3.11.2",
     "extract-zip": "^2.0.1",
+    "fast-glob": "^3.2.12",
+    "globby": "^13.1.2",
     "plist": "^3.0.6",
     "progress": "^2.0.3",
     "rcedit": "^3.0.1",

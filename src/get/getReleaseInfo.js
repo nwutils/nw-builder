@@ -11,7 +11,7 @@ export const getReleaseInfo = async (version, cacheDir, manifestUrl) => {
         console.log(`[ ERROR ] Manifest file does not exist locally`);
         console.log(`[ INFO ] Downloading latest manifest file under ${cacheDir}`);
         const data = await getManifest(manifestUrl);
-    await fs.writeFile(`${cacheDir}/manifest.json`, data.slice(9));
+        await fs.writeFile(`${cacheDir}/manifest.json`, data.slice(9));
     } finally {
         let manifestData = await fs.readFile(`${cacheDir}/manifest.json`);
         let manifestJson = JSON.parse(manifestData);
