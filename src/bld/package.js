@@ -9,6 +9,7 @@ import { setWinConfig } from "./winCfg.js";
 import { globby } from 'globby';
 
 const getAllFiles = function(dirPath) {
+  dirPath = path.resolve(dirPath)
   const files = fs.readdirSync(dirPath)
 
   let arrayOfFiles = []
@@ -43,7 +44,7 @@ const packager = async (srcDir, nwDir, outDir, platform, zip, releaseInfo, exclu
     if (!excludeResolvedPaths.includes(resolvedFile)) {
       fs.cpSync(
         path.resolve(file), 
-        `${nwAppDir}/${file.replace(srcDir, '')}`,
+        `${nwAppDir}/${file.replace(path.resolve(srcDir), '')}`,
         {
           recursive: true
         }
