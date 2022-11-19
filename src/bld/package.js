@@ -8,11 +8,11 @@ import { setWinConfig } from "./winCfg.js";
 
 import { globby } from 'globby';
 
-const getAllFiles = function(dirPath) {
+const getAllFiles = function(dirPath, arrayOfFiles) {
   dirPath = path.resolve(dirPath)
   const files = fs.readdirSync(dirPath)
 
-  let arrayOfFiles = []
+  arrayOfFiles = arrayOfFiles || []
 
   files.forEach(function(file) {
     if (fs.statSync(dirPath + "/" + file).isDirectory()) {
