@@ -12,7 +12,7 @@ import { log } from "../log.js";
  */
 export const setLinuxConfig = async (pkg, outDir) => {
   await rename(`${outDir}/nw`, `${outDir}/${pkg.name}`);
-  if (typeof pkg.linuxCfg === "object") {
+  if (typeof pkg.nwbuild.linuxCfg === "object") {
     let fileContent = `[Desktop Entry]\n`;
     Object.keys(pkg.linuxCfg).forEach((key) => {
       fileContent += `${key}=${pkg.linuxCfg[key]}\n`;

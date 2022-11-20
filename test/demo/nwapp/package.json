@@ -9,11 +9,11 @@
         "platform": "linux",
         "arch": "x64",
         "outDir": "./build",
-        "run": false
-    },
-    "linuxCfg": {
-        "Type": "Application",
-        "Version": "1.5",
-        "Name": "nwdemo"
+        "run": false,
+        "linuxCfg": {
+            "Type": "Application",
+            "Version": "1.5",
+            "Name": "nwdemo"
+        }
     }
 }
