@@ -31,5 +31,5 @@ export const setLinuxConfig = async (pkg, outDir) => {
   });
   let filePath = `${outDir}/${pkg.name}.desktop`;
   await writeFile(filePath, fileContent);
-  log.info("Desktop Entry file generated");
+  log.debug("Desktop Entry file generated");
 };

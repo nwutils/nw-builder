@@ -19,11 +19,11 @@ import { setWinConfig } from "./winCfg.js";
  * @return {undefined}
  */
 const packager = async (srcDir, nwDir, outDir, platform, zip, releaseInfo) => {
-  log.info(`Remove any files at ${outDir} directory`);
+  log.debug(`Remove any files at ${outDir} directory`);
   await rm(outDir, { force: true, recursive: true });
-  log.info(`Copy ${nwDir} files to ${outDir} directory`);
+  log.debug(`Copy ${nwDir} files to ${outDir} directory`);
   await cp(nwDir, outDir, { recursive: true });
-  log.info(`Copy ${srcDir} files to ${outDir} directory`);
+  log.debug(`Copy ${srcDir} files to ${outDir} directory`);
   await cp(
     srcDir,
     `${outDir}/${
@@ -34,16 +34,16 @@ const packager = async (srcDir, nwDir, outDir, platform, zip, releaseInfo) => {
     },
   );
 
-  log.info("Get NW's package.json as a buffer");
+  log.debug("Get NW's package.json as a buffer");
   let buffer = await readFile(
     `${outDir}/${
       platform !== "osx" ? "package.nw" : "nwjs.app/Contents/Resources/nw.app"
     }/package.json`,
   );
-  log.info("Convert package.json buffer into JSON");
+  log.debug("Convert package.json buffer into JSON");
   let pkg = JSON.parse(buffer);
 
-  log.info(`Starting platform specific config steps for ${platform}`);
+  log.debug(`Starting platform specific config steps for ${platform}`);
   switch (platform) {
     case "linux":
       setLinuxConfig(pkg, outDir);

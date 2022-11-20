@@ -23,7 +23,7 @@ export const getManifest = (manifestUrl) => {
       });
 
       res.on("end", () => {
-        log.info("Succesfully cached manifest metadata");
+        log.debug("Succesfully cached manifest metadata");
         resolve(chunks);
       });
     });
