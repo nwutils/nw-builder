@@ -11,18 +11,25 @@ import { log } from "../log.js";
  * @return {undefined}
  */
 export const setLinuxConfig = async (pkg, outDir) => {
+  let desktopEntryFile = {
+    Type: "Application",
+    Name: pkg.name,
+    Exec: pkg.name,
+  };
   await rename(`${outDir}/nw`, `${outDir}/${pkg.name}`);
   if (typeof pkg.nwbuild.linuxCfg === "object") {
-    let fileContent = `[Desktop Entry]\n`;
-    Object.keys(pkg.linuxCfg).forEach((key) => {
-      fileContent += `${key}=${pkg.linuxCfg[key]}\n`;
-      log.info(`Add ${key}=${pkg.linuxCfg[key]} to Desktop Entry File`);
+    Object.keys(pkg.nwbuild.linuxCfg).forEach((key) => {
+      if (key !== "Type") {
+        desktopEntryFile[key] = pkg.nwbuild.linuxCfg[key];
+      }
     });
-    let filePath = `${outDir}/${pkg.name}.desktop`;
-    await writeFile(filePath, fileContent);
-  } else {
-    log.warn("No LinuxCfg object found in srcDir/package.json`");
-    log.info("The Desktop Entry file will not be generated");
-    log.info("Consult the documentation for what properties to include");
   }
+  let fileContent = `[Desktop Entry]\n`;
+  Object.keys(desktopEntryFile).forEach((key) => {
+    fileContent += `${key}=${desktopEntryFile[key]}\n`;
+    log.debug(`Add ${key}=${desktopEntryFile[key]} to Desktop Entry File`);
+  });
+  let filePath = `${outDir}/${pkg.name}.desktop`;
+  await writeFile(filePath, fileContent);
+  log.info("Desktop Entry file generated");
 };

@@ -12,7 +12,6 @@
         "run": false,
         "linuxCfg": {
             "Type": "Application",
-            "Version": "1.5",
             "Name": "nwdemo"
         }
     }
