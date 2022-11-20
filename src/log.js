@@ -20,8 +20,10 @@ export const log = createLogger({
   ],
 });
 
-if (process.env.NODE_ENV !== 'production') {
-  log.add(new transports.Console({
-    level: "debug"
-  }));
+if (process.env.NODE_ENV !== "production") {
+  log.add(
+    new transports.Console({
+      level: "debug",
+    }),
+  );
 }

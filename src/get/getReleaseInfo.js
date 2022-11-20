@@ -10,15 +10,13 @@ import { getManifest } from "./getManifest.js";
  * @param  {string} version      NW version
  * @param  {string} cacheDir     Directory to store NW binaries
  * @param  {string} manifestUrl  Url to manifest
- * @return {object}
+ * @return {object}              Version specific release info
  */
 export const getReleaseInfo = async (version, cacheDir, manifestUrl) => {
   let releaseData = undefined;
   try {
     await access(`${cacheDir}/manifest.json`);
-    log.debug(
-      `Manifest file already exists locally under ${cacheDir}`,
-    );
+    log.debug(`Manifest file already exists locally under ${cacheDir}`);
   } catch (e) {
     log.error(`Manifest file does not exist locally`);
     log.debug(`Downloading latest manifest file under ${cacheDir}`);
