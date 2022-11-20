@@ -10,3 +10,4 @@ build
 cache
 docs
 *.zip
+nwbuild.log

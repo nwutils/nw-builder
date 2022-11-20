@@ -1,21 +1,31 @@
-import https from "node:https";
+import { get } from "node:https";
 
-export const getManifest  = (manifestUrl) => {
-    let chunks = undefined;
+import { log } from "../log.js";
 
-    return new Promise((resolve, reject) => {
-        https.get(manifestUrl, (res) => {
-            res.on("data", (chunk) => {
-                chunks += chunk;
-            });
+/**
+ * Get manifest (array of NW release metadata) from URL
+ *
+ * @param  {string}                       manifestUrl  Url to manifest
+ * @return {Promise <object | undefined>}
+ */
+export const getManifest = (manifestUrl) => {
+  let chunks = undefined;
 
-            res.on("error", (e) => {
-                reject(e);
-            });
+  return new Promise((resolve, reject) => {
+    get(manifestUrl, (res) => {
+      res.on("data", (chunk) => {
+        chunks += chunk;
+      });
 
-            res.on("end", () => {
-                resolve(chunks);
-            });
-        });
+      res.on("error", (e) => {
+        log.error(e);
+        reject(undefined);
+      });
+
+      res.on("end", () => {
+        log.debug("Succesfully cached manifest metadata");
+        resolve(chunks);
+      });
     });
+  });
 };

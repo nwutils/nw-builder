@@ -6,9 +6,13 @@
         "srcDir": "./nwapp",
         "version": "0.70.1",
         "flavour": "sdk",
-        "platform": "osx",
+        "platform": "linux",
         "arch": "x64",
         "outDir": "./build",
-        "run": false
+        "run": false,
+        "linuxCfg": {
+            "Type": "Application",
+            "Name": "nwdemo"
+        }
     }
 }

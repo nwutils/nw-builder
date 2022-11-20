@@ -1,4 +1,6 @@
-import fs from "node:fs/promises";
+import { access, constants, readFile, rm } from "node:fs/promises";
+import { cwd } from "node:process";
+
 import { decompress } from "./get/decompress.js";
 import { develop } from "./run/develop.js";
 import { download } from "./get/download.js";
@@ -8,24 +10,25 @@ import { packager } from "./bld/package.js";
 
 /**
  * Options schema
+ *
  * @typedef {Object} OptionsSchema
- * @property {string} srcDir
- * @property {string} cacheDir
- * @property {string} version
- * @property {"sdk" | "normal"} flavour
+ * @property {string}                  srcDir
+ * @property {string}                  cacheDir
+ * @property {string}                  version
+ * @property {"sdk" | "normal"}        flavour
  * @property {"linux" | "osx" | "win"} platform
- * @property {"ia32" | "x64"} arch
- * @property {string} outDir
+ * @property {"ia32" | "x64"}          arch
+ * @property {string}                  outDir
  */
 
 /**
  *
- * @param {OptionsSchema} obj
+ * @param  {OptionsSchema} obj
  * @return {void}
  */
 const nwbuild = async ({
   srcDir,
-  cacheDir = "./cache",
+  cacheDir = `${cwd()}/cache`,
   version,
   flavour,
   platform,
@@ -43,13 +46,13 @@ const nwbuild = async ({
   let pkgData = null;
 
   try {
-    await fs.access(pkgPath, fs.constants.F_OK);
+    await access(pkgPath, constants.F_OK);
   } catch (e) {
     pkgExist = false;
   }
 
   if (pkgExist === true) {
-    pkgData = await fs.readFile(pkgPath, "utf8");
+    pkgData = await readFile(pkgPath, "utf8");
     pkgData = JSON.parse(pkgData);
     if (pkgData.nwbuild !== undefined) {
       srcDir = pkgData.nwbuild.srcDir ?? srcDir;
@@ -70,13 +73,13 @@ const nwbuild = async ({
   let fileExists = true;
 
   try {
-    await fs.access(nwDir, fs.constants.F_OK);
+    await access(nwDir, constants.F_OK);
   } catch (e) {
     fileExists = false;
   }
 
   if (noCache === true || fileExists === false) {
-    await fs.rm(nwDir, { force: true, recursive: true });
+    await rm(nwDir, { force: true, recursive: true });
     await download(version, flavour, platform, arch, downloadUrl, cacheDir);
     await decompress(platform, cacheDir);
     await remove(platform, cacheDir);

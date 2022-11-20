@@ -1,17 +1,35 @@
-import fs from "node:fs";
+import { rename, writeFile } from "node:fs/promises";
 
-const setLinuxConfig = async (pkg, outDir) => {
-  let fileContent = `[Desktop Entry]
-    Name=${pkg.name}
-    Version=${pkg.version}
-    Exec=bash -c "nw package.nw"
-    Type=Application
-    Terminal=false`;
+import { log } from "../log.js";
 
+/**
+ * Generates a Desktop Entry file for Linux
+ * https://specifications.freedesktop.org/desktop-entry-spec/latest/ar01s06.html
+ *
+ * @param  {object}    pkg     srcDir's package.json as JSON
+ * @param  {string}    outDir  directory which stores build artifacts
+ * @return {undefined}
+ */
+export const setLinuxConfig = async (pkg, outDir) => {
+  let desktopEntryFile = {
+    Type: "Application",
+    Name: pkg.name,
+    Exec: pkg.name,
+  };
+  await rename(`${outDir}/nw`, `${outDir}/${pkg.name}`);
+  if (typeof pkg.nwbuild.linuxCfg === "object") {
+    Object.keys(pkg.nwbuild.linuxCfg).forEach((key) => {
+      if (key !== "Type") {
+        desktopEntryFile[key] = pkg.nwbuild.linuxCfg[key];
+      }
+    });
+  }
+  let fileContent = `[Desktop Entry]\n`;
+  Object.keys(desktopEntryFile).forEach((key) => {
+    fileContent += `${key}=${desktopEntryFile[key]}\n`;
+    log.debug(`Add ${key}=${desktopEntryFile[key]} to Desktop Entry File`);
+  });
   let filePath = `${outDir}/${pkg.name}.desktop`;
-  fs.writeFileSync(filePath, fileContent);
-  fs.chmodSync(filePath, "755");
-  return 0;
+  await writeFile(filePath, fileContent);
+  log.debug("Desktop Entry file generated");
 };
-
-export { setLinuxConfig };
