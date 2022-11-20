@@ -12,10 +12,16 @@ export const log = createLogger({
   transports: [
     new transports.File({
       filename: `${cwd()}/nwbuild.log`,
-      level: "silly",
+      level: "info",
     }),
     new transports.Console({
-      level: "silly",
+      level: "info",
     }),
   ],
 });
+
+if (process.env.NODE_ENV !== 'production') {
+  log.add(new transports.Console({
+    level: "debug"
+  }));
+}
