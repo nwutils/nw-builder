@@ -65,7 +65,6 @@ const nwbuild = async ({
     }
   }
 
-  let releaseInfo = await getReleaseInfo(version, cacheDir, manifestUrl);
   let nwDir = `${cacheDir}/nwjs${
     flavour === "sdk" ? "-sdk" : ""
   }-v${version}-${platform}-${arch}`;
@@ -84,6 +83,8 @@ const nwbuild = async ({
     await decompress(platform, cacheDir);
     await remove(platform, cacheDir);
   }
+
+  let releaseInfo = await getReleaseInfo(version, cacheDir, manifestUrl);
 
   if (run === true) {
     await develop(srcDir, nwDir, platform);
