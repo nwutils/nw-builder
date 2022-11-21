@@ -1,4 +1,3 @@
-import { cwd } from "node:process";
 import { createLogger, format, transports } from "winston";
 
 const { combine, timestamp, printf } = format;
