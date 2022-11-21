@@ -10,10 +10,6 @@ const customFormat = printf(({ level, message, timestamp }) => {
 export const log = createLogger({
   format: combine(timestamp(), customFormat),
   transports: [
-    new transports.File({
-      filename: `${cwd()}/nwbuild.log`,
-      level: "info",
-    }),
     new transports.Console({
       level: "info",
     }),
