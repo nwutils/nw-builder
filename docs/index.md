@@ -20,14 +20,15 @@ Module usage
 import { nwbuild } from "nw-builder";
 
 nwbuild({
-    srcDir: "./nwapp",
-    mode: "run",
-    version: "0.70.1",
-    flavour: "sdk",
+  srcDir: "./nwapp",
+  mode: "run",
+  version: "0.70.1",
+  flavour: "sdk",
 });
 ```
 
 CLI usage
+
 ```shell
 nwbuild ./nwapp --mode=run --version=0.70.1 --flavour=sdk
 ```
@@ -35,16 +36,17 @@ nwbuild ./nwapp --mode=run --version=0.70.1 --flavour=sdk
 package.json usage
 
 `./nwapp/package.json`
+
 ```json
 {
-    "name": "nwdemo",
-    "main": "./index.html",
-    "nwbuild": {
-        "srcDir": "./nwapp",
-        "mode": "run",
-        "version": "0.70.1",
-        "flavour": "sdk",
-    }
+  "name": "nwdemo",
+  "main": "./index.html",
+  "nwbuild": {
+    "srcDir": "./nwapp",
+    "mode": "run",
+    "version": "0.70.1",
+    "flavour": "sdk"
+  }
 }
 ```
 
@@ -56,17 +58,18 @@ Module usage
 import { nwbuild } from "nw-builder";
 
 nwbuild({
-    srcDir: "./nwapp",
-    mode: "run",
-    version: "0.70.1",
-    flavour: "normal",
-    platform: "linux",
-    arch: "x64",
-    outDir: "./out",
+  srcDir: "./nwapp",
+  mode: "run",
+  version: "0.70.1",
+  flavour: "normal",
+  platform: "linux",
+  arch: "x64",
+  outDir: "./out",
 });
 ```
 
 CLI usage
+
 ```shell
 nwbuild ./nwapp --mode=build --version=0.70.1 --flavour=normal --platform=linux --arch=x64 --outDir=./out
 ```
@@ -74,20 +77,25 @@ nwbuild ./nwapp --mode=build --version=0.70.1 --flavour=normal --platform=linux 
 package.json usage
 
 `./nwapp/package.json`
+
 ```json
 {
-    "name": "nwdemo",
-    "main": "./index.html",
-    "nwbuild": {
-        "srcDir": "./nwapp",
-        "mode": "build",
-        "version": "0.70.1",
-        "flavour": "normal",
-        "platform": "linux",
-        "arch": "x64",
-        "outDir": "./out",
-    }
+  "name": "nwdemo",
+  "main": "./index.html",
+  "nwbuild": {
+    "srcDir": "./nwapp",
+    "mode": "build",
+    "version": "0.70.1",
+    "flavour": "normal",
+    "platform": "linux",
+    "arch": "x64",
+    "outDir": "./out"
+  }
 }
 ```
 
 ## API Reference
+
+| Name   | Type     | Default    | Descriptions |
+| ------ | -------- | ---------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| srcDir | `string` | `string[]` |              | When `noGlob` is `true`, `srcDir` is the directory that holds NW related files. When `noGlob` is `false`, `srcDir` is an array of file glob patterns |
