@@ -96,6 +96,11 @@ package.json usage
 
 ## API Reference
 
-| Name   | Type    | Default   | Descriptions |
-| ------ | ------- | --------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| srcDir | `string | string[]` |              | When `noGlob` is `true`, `srcDir` is the directory that holds NW related files. When `noGlob` is `false`, `srcDir` is an array of file glob patterns |
+| Name     | Type     | Default   | Description                            |
+| -------- | -------- | --------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| srcDir   | `string  | string[]` |                                        | When `noGlob` is `true`, `srcDir` is the directory that holds NW related files. When `noGlob` is `false`, `srcDir` is an array of file glob patterns |
+| version  | `latest  | stable    | string`                                |                                                                                                                                                      | NW runtime version     |
+| flavour  | `sdk     | normal`   |                                        | NW runtime build flavour.                                                                                                                            |
+| platform | `linux   | osx       | win`                                   |                                                                                                                                                      | NW supported platforms |
+| arch     | `ia32    | x64`      |                                        | NW supported architectures                                                                                                                           |
+| outDir   | `string` |           | Directory which stores build artifacts |
