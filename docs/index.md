@@ -1,6 +1,8 @@
-# Getting Started
+# Documentation
 
-## Getting Started
+> This assumes you know how to [write an NW.js application](https://nwjs.readthedocs.io/en/latest/For%20Users/Getting%20Started/).
+
+## Install
 
 Install `nw-builder` via `npm` or your preferred Node package manager of choice.
 
@@ -8,52 +10,84 @@ Install `nw-builder` via `npm` or your preferred Node package manager of choice.
 npm i -D nw-builder
 ```
 
-### Your first application
+## Usage
 
-Create a `package.json` with a `name` and `main` property. The `name` signifies your NW.js application's unique name. The `main` is the entry point of your application.
+### Run your first application
 
-`package.json`:
-```json
-{
-    "name": "demo",
-    "main": "./index.html"
-}
-```
+Module usage
 
-`index.html`
-```html
-<html>
-    <head></head>
-    <body>Demo</body>
-</html>
-```
-
-You can also have a JavaScript file as an entry point:
-
-`package.json`:
-```json
-{
-    "name": "demo",
-    "main": "./main.js"
-}
-```
-
-`main.js`:
 ```javascript
-nw.Window.open("./index.html", {}, () => {});
+import { nwbuild } from "nw-builder";
+
+nwbuild({
+    srcDir: "./nwapp",
+    mode: "run",
+    version: "0.70.1",
+    flavour: "sdk",
+});
 ```
 
-Refer to the [NW.js documentation](https://nwjs.readthedocs.io/en/latest/References/Window/) to learn more.
+CLI usage
+```shell
+nwbuild ./nwapp --mode=run --version=0.70.1 --flavour=sdk
+```
 
-To run your application, call `nwbuild` CLI command:
+package.json usage
 
+`./nwapp/package.json`
 ```json
 {
-    "scripts": {
-        "run": "nwbuild . --version=0.70.1 --flavour=sdk --platform=linux --arch=x64 --outDir=./out"
+    "name": "nwdemo",
+    "main": "./index.html",
+    "nwbuild": {
+        "srcDir": "./nwapp",
+        "mode": "run",
+        "version": "0.70.1",
+        "flavour": "sdk",
     }
 }
-
 ```
 
-### Tips
+### Build your first application
+
+Module usage
+
+```javascript
+import { nwbuild } from "nw-builder";
+
+nwbuild({
+    srcDir: "./nwapp",
+    mode: "run",
+    version: "0.70.1",
+    flavour: "normal",
+    platform: "linux",
+    arch: "x64",
+    outDir: "./out",
+});
+```
+
+CLI usage
+```shell
+nwbuild ./nwapp --mode=build --version=0.70.1 --flavour=normal --platform=linux --arch=x64 --outDir=./out
+```
+
+package.json usage
+
+`./nwapp/package.json`
+```json
+{
+    "name": "nwdemo",
+    "main": "./index.html",
+    "nwbuild": {
+        "srcDir": "./nwapp",
+        "mode": "build",
+        "version": "0.70.1",
+        "flavour": "normal",
+        "platform": "linux",
+        "arch": "x64",
+        "outDir": "./out",
+    }
+}
+```
+
+## API Reference
