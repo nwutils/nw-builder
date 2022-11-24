@@ -96,6 +96,6 @@ package.json usage
 
 ## API Reference
 
-| Name   | Type     | Default    | Descriptions |
-| ------ | -------- | ---------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| srcDir | `string` | `string[]` |              | When `noGlob` is `true`, `srcDir` is the directory that holds NW related files. When `noGlob` is `false`, `srcDir` is an array of file glob patterns |
+| Name   | Type    | Default   | Descriptions |
+| ------ | ------- | --------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| srcDir | `string | string[]` |              | When `noGlob` is `true`, `srcDir` is the directory that holds NW related files. When `noGlob` is `false`, `srcDir` is an array of file glob patterns |
