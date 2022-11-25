@@ -4,6 +4,7 @@
     "product_string": "nwdemo",
     "nwbuild": {
         "srcDir": "./nwapp",
+        "mode": "build",
         "version": "0.70.1",
         "flavour": "sdk",
         "platform": "linux",

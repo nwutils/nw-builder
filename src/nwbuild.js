@@ -1,5 +1,4 @@
-import { access, constants, readFile, rm } from "node:fs/promises";
-import { cwd } from "node:process";
+import { access, constants, mkdir, rm } from "node:fs/promises";
 
 import { decompress } from "./get/decompress.js";
 import { develop } from "./run/develop.js";
@@ -7,67 +6,30 @@ import { download } from "./get/download.js";
 import { getReleaseInfo } from "./get/getReleaseInfo.js";
 import { remove } from "./get/remove.js";
 import { packager } from "./bld/package.js";
+import { parseOptions } from "./util/parse.js";
+import { validateOptions } from "./util/validate.js";
 
-/**
- * Options schema
- *
- * @typedef {Object} OptionsSchema
- * @property {string}                  srcDir
- * @property {string}                  cacheDir
- * @property {string}                  version
- * @property {"sdk" | "normal"}        flavour
- * @property {"linux" | "osx" | "win"} platform
- * @property {"ia32" | "x64"}          arch
- * @property {string}                  outDir
- */
+import { log } from "./log.js";
 
-/**
- *
- * @param  {OptionsSchema} obj
- * @return {void}
- */
-const nwbuild = async ({
-  srcDir,
-  cacheDir = `${cwd()}/cache`,
-  version,
-  flavour,
-  platform,
-  arch,
-  outDir,
-  // flags
-  downloadUrl = "https://dl.nwjs.io",
-  manifestUrl = "https://nwjs.io/versions",
-  noCache = false,
-  zip = false,
-  run = false,
-}) => {
-  let pkgPath = `${srcDir}/package.json`;
-  let pkgExist = true;
-  let pkgData = null;
+export const nwbuild = async (options) => {
+
+  options = await parseOptions(options);
 
   try {
-    await access(pkgPath, constants.F_OK);
-  } catch (e) {
-    pkgExist = false;
+    await mkdir(`${options.cacheDir}`, { recursive: false });
+  } catch(e) {
+    log.warn(e);
   }
 
-  if (pkgExist === true) {
-    pkgData = await readFile(pkgPath, "utf8");
-    pkgData = JSON.parse(pkgData);
-    if (pkgData.nwbuild !== undefined) {
-      srcDir = pkgData.nwbuild.srcDir ?? srcDir;
-      cacheDir = pkgData.nwbuild.cacheDir ?? cacheDir;
-      version = pkgData.nwbuild.version ?? version;
-      flavour = pkgData.nwbuild.flavour ?? flavour;
-      platform = pkgData.nwbuild.platform ?? platform;
-      arch = pkgData.nwbuild.arch ?? arch;
-      outDir = pkgData.nwbuild.outDir ?? outDir;
-    }
-  }
+  let releaseInfo = await getReleaseInfo(options.version, options.cacheDir, options.manifestUrl);
 
-  let nwDir = `${cacheDir}/nwjs${
-    flavour === "sdk" ? "-sdk" : ""
-  }-v${version}-${platform}-${arch}`;
+  console.log(releaseInfo)
+
+  options = await validateOptions(options, releaseInfo);
+
+  let nwDir = `${options.cacheDir}/nwjs${
+    options.flavour === "sdk" ? "-sdk" : ""
+  }-v${options.version}-${options.platform}-${options.arch}`;
 
   let fileExists = true;
 
@@ -77,20 +39,19 @@ const nwbuild = async ({
     fileExists = false;
   }
 
-  if (noCache === true || fileExists === false) {
+  if (options.cache === false || fileExists === false) {
     await rm(nwDir, { force: true, recursive: true });
-    await download(version, flavour, platform, arch, downloadUrl, cacheDir);
-    await decompress(platform, cacheDir);
-    await remove(platform, cacheDir);
+    await download(options.version, options.flavour, options.platform, options.arch, options.downloadUrl, options.cacheDir);
+    await decompress(options.platform, options.cacheDir);
+    await remove(options.platform, options.cacheDir);
   }
 
-  let releaseInfo = await getReleaseInfo(version, cacheDir, manifestUrl);
-
-  if (run === true) {
-    await develop(srcDir, nwDir, platform);
+  if (options.mode === "run") {
+    await develop(options.srcDir, options.nwDir, options.platform);
+  }
+  if (options.mode === "build") {
+    await packager(options.srcDir, nwDir, options.outDir, options.platform, options.zip, releaseInfo);
   } else {
-    await packager(srcDir, nwDir, outDir, platform, zip, releaseInfo);
+    log.error("Invalid value used for mode. Expected either `run` or `build`");
   }
 };
-
-export { nwbuild };

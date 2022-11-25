@@ -25,7 +25,7 @@
     "format": "prettier --write \"**/*.{js,md}\"",
     "lint": "eslint ./src",
     "docs": "jsdoc ./src/nwbuild.js -d docs",
-    "demo": "cd ./test/demo && nwbuild ./nwapp --version=0.69.1 --flavour=sdk --platform=linux --arch=x64 --outDir=./build"
+    "demo": "cd ./test/demo && nwbuild ./nwapp --mode=build --version=0.69.1 --flavour=sdk --platform=linux --arch=x64 --outDir=./build"
   },
   "devDependencies": {
     "eslint": "^8.25.0",
