@@ -1,6 +1,6 @@
 {
   "name": "nw-builder",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Build NW.js desktop applications for Mac, Windows and Linux.",
   "keywords": [
     "NW.js",
@@ -15,10 +15,6 @@
   },
   "license": "MIT",
   "main": "./src/nwbuild.js",
-  "exports": {
-    "import": "./src/nwbuild.js",
-    "require": "./src/nwbuild.cjs"
-  },
   "type": "module",
   "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
@@ -29,8 +25,7 @@
     "format": "prettier --write \"**/*.{js,md}\"",
     "lint": "eslint ./src",
     "docs": "jsdoc ./src/nwbuild.js -d docs",
-    "demo": "cd ./test/demo && nwbuild ./nwapp --version=0.69.1 --flavour=sdk --platform=linux --arch=x64 --outDir=./build",
-    "demo:cjs": "node ./test/bld.cjs"
+    "demo": "cd ./test/demo && nwbuild ./nwapp --version=0.69.1 --flavour=sdk --platform=linux --arch=x64 --outDir=./build"
   },
   "devDependencies": {
     "eslint": "^8.25.0",
