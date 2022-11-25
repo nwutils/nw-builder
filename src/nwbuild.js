@@ -12,18 +12,21 @@ import { validateOptions } from "./util/validate.js";
 import { log } from "./log.js";
 
 export const nwbuild = async (options) => {
-
   options = await parseOptions(options);
 
   try {
     await mkdir(`${options.cacheDir}`, { recursive: false });
-  } catch(e) {
+  } catch (e) {
     log.warn(e);
   }
 
-  let releaseInfo = await getReleaseInfo(options.version, options.cacheDir, options.manifestUrl);
+  let releaseInfo = await getReleaseInfo(
+    options.version,
+    options.cacheDir,
+    options.manifestUrl,
+  );
 
-  console.log(releaseInfo)
+  console.log(releaseInfo);
 
   options = await validateOptions(options, releaseInfo);
 
@@ -41,7 +44,14 @@ export const nwbuild = async (options) => {
 
   if (options.cache === false || fileExists === false) {
     await rm(nwDir, { force: true, recursive: true });
-    await download(options.version, options.flavour, options.platform, options.arch, options.downloadUrl, options.cacheDir);
+    await download(
+      options.version,
+      options.flavour,
+      options.platform,
+      options.arch,
+      options.downloadUrl,
+      options.cacheDir,
+    );
     await decompress(options.platform, options.cacheDir);
     await remove(options.platform, options.cacheDir);
   }
@@ -50,7 +60,14 @@ export const nwbuild = async (options) => {
     await develop(options.srcDir, options.nwDir, options.platform);
   }
   if (options.mode === "build") {
-    await packager(options.srcDir, nwDir, options.outDir, options.platform, options.zip, releaseInfo);
+    await packager(
+      options.srcDir,
+      nwDir,
+      options.outDir,
+      options.platform,
+      options.zip,
+      releaseInfo,
+    );
   } else {
     log.error("Invalid value used for mode. Expected either `run` or `build`");
   }
