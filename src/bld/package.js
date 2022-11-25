@@ -1,5 +1,6 @@
-import { cp, readFile, rm } from "node:fs/promises";
+import { cp, readFile, rename, rm } from "node:fs/promises";
 
+import { getPlatformSpecificName } from "../run/getPlatformSpecificName.js"
 import { log } from "../log.js";
 
 import { compress } from "./compress.js";
@@ -42,6 +43,9 @@ const packager = async (srcDir, nwDir, outDir, platform, zip, releaseInfo) => {
   );
   log.debug("Convert package.json buffer into JSON");
   let pkg = JSON.parse(buffer);
+
+  log.debug(`Rename NW executable to ${pkg.name}`);
+  await rename(`${outDir}/${getPlatformSpecificName(platform)}`, `${outDir}/${pkg.name}`);
 
   log.debug(`Starting platform specific config steps for ${platform}`);
   switch (platform) {
