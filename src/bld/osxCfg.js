@@ -2,6 +2,13 @@ import fs from "node:fs/promises";
 
 import plist from "plist";
 
+/**
+ * OSX specific configuration steps
+ *
+ * @param {object} pkg          The srcDir/package.json as a JSON
+ * @param {string} outDir       The directory to hold build artifacts
+ * @param {object} releaseInfo  NW binary release metadata
+ */
 const setOsxConfig = async (pkg, outDir, releaseInfo) => {
 
   await fs.rename(`${outDir}/nwjs.app`, `${outDir}/${pkg.name}.app`);
