@@ -1,4 +1,4 @@
-import {  writeFile } from "node:fs/promises";
+import { rename, writeFile } from "node:fs/promises";
 
 import { log } from "../log.js";
 
@@ -16,6 +16,7 @@ export const setLinuxConfig = async (pkg, outDir) => {
     Name: pkg.name,
     Exec: pkg.name,
   };
+  await rename(`${outDir}/nw`, `${outDir}/${pkg.name}`);
   if (typeof pkg.nwbuild.linuxCfg === "object") {
     Object.keys(pkg.nwbuild.linuxCfg).forEach((key) => {
       if (key !== "Type") {

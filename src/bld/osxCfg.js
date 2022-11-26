@@ -3,6 +3,9 @@ import fs from "node:fs/promises";
 import plist from "plist";
 
 const setOsxConfig = async (pkg, outDir, releaseInfo) => {
+
+  await fs.rename(`${outDir}/nwjs.app`, `${outDir}/${pkg.name}.app`);
+
   // Rename CFBundleDisplayName in Contents/Info.plist
   let contents_info_plist_path = `${outDir}/nwjs.app/Contents/Info.plist`;
   let contents_info_plist_json = plist.parse(

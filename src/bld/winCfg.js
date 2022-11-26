@@ -1,7 +1,12 @@
+import { rename } from "node:fs/promises";
+
 import rcedit from "rcedit";
 
 const setWinConfig = async (pkg, outDir) => {
-  return rcedit(`${outDir}/nw.exe`, {
+
+  await rename(`${outDir}/nw`, `${outDir}/${pkg.name}.exe`);
+
+  return rcedit(`${outDir}/${pkg.name}.exe`, {
     "file-version": pkg.version,
     "product-version": pkg.version,
     "icon": pkg.icon,

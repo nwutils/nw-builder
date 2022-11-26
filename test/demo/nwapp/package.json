@@ -6,7 +6,7 @@
         "srcDir": "./nwapp",
         "version": "0.70.1",
         "flavour": "sdk",
-        "platform": "linux",
+        "platform": "osx",
         "arch": "x64",
         "outDir": "./build",
         "run": false,
