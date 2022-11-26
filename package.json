@@ -26,11 +26,11 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
-    "format": "prettier --write \"**/*.{js,md}\"",
+    "format": "prettier --write \"**/*.{js,cjs,md}\"",
     "lint": "eslint ./src",
     "docs": "jsdoc ./src/nwbuild.js -d docs",
     "demo": "cd ./test/demo && nwbuild ./nwapp --version=0.69.1 --flavour=sdk --platform=linux --arch=x64 --outDir=./build",
-    "demo:cjs": "cd ./test/demo && node demo.cjs",
+    "demo:cjs": "cd ./test/demo && node bld.cjs",
     "cjs": "esbuild ./src/nwbuild.js --bundle --minify --legal-comments=inline --platform=node --outfile=./nwbuild.cjs"
   },
   "devDependencies": {

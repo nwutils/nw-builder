@@ -2,9 +2,18 @@ import fs from "node:fs/promises";
 
 import plist from "plist";
 
+/**
+ * OSX specific configuration steps
+ *
+ * @param {object} pkg          The srcDir/package.json as a JSON
+ * @param {string} outDir       The directory to hold build artifacts
+ * @param {object} releaseInfo  NW binary release metadata
+ */
 const setOsxConfig = async (pkg, outDir, releaseInfo) => {
+  await fs.rename(`${outDir}/nwjs.app`, `${outDir}/${pkg.name}.app`);
+
   // Rename CFBundleDisplayName in Contents/Info.plist
-  let contents_info_plist_path = `${outDir}/nwjs.app/Contents/Info.plist`;
+  let contents_info_plist_path = `${outDir}/${pkg.name}.app/Contents/Info.plist`;
   let contents_info_plist_json = plist.parse(
     await fs.readFile(contents_info_plist_path, "utf-8"),
   );
@@ -16,15 +25,15 @@ const setOsxConfig = async (pkg, outDir, releaseInfo) => {
 
   // Rename Helper apps in Contents/Framework.framework/Versions/n.n.n.n/Helpers
   let helper_app_path_alerts = (name = "nwjs") =>
-    `${outDir}/nwjs.app/Contents/Frameworks/nwjs Framework.framework/Versions/${releaseInfo.components.chromium}/Helpers/${name} Helper (Alerts).app`;
+    `${outDir}/${pkg.name}.app/Contents/Frameworks/nwjs Framework.framework/Versions/${releaseInfo.components.chromium}/Helpers/${name} Helper (Alerts).app`;
   let helper_app_path_gpu = (name = "nwjs") =>
-    `${outDir}/nwjs.app/Contents/Frameworks/nwjs Framework.framework/Versions/${releaseInfo.components.chromium}/Helpers/${name} Helper (GPU).app`;
+    `${outDir}/${pkg.name}.app/Contents/Frameworks/nwjs Framework.framework/Versions/${releaseInfo.components.chromium}/Helpers/${name} Helper (GPU).app`;
   let helper_app_path_plugin = (name = "nwjs") =>
-    `${outDir}/nwjs.app/Contents/Frameworks/nwjs Framework.framework/Versions/${releaseInfo.components.chromium}/Helpers/${name} Helper (Plugin).app`;
+    `${outDir}/${pkg.name}.app/Contents/Frameworks/nwjs Framework.framework/Versions/${releaseInfo.components.chromium}/Helpers/${name} Helper (Plugin).app`;
   let helper_app_path_renderer = (name = "nwjs") =>
-    `${outDir}/nwjs.app/Contents/Frameworks/nwjs Framework.framework/Versions/${releaseInfo.components.chromium}/Helpers/${name} Helper (Renderer).app`;
+    `${outDir}/${pkg.name}.app/Contents/Frameworks/nwjs Framework.framework/Versions/${releaseInfo.components.chromium}/Helpers/${name} Helper (Renderer).app`;
   let helper_app_path = (name = "nwjs") =>
-    `${outDir}/nwjs.app/Contents/Frameworks/nwjs Framework.framework/Versions/${releaseInfo.components.chromium}/Helpers/${name} Helper.app`;
+    `${outDir}/${pkg.name}.app/Contents/Frameworks/nwjs Framework.framework/Versions/${releaseInfo.components.chromium}/Helpers/${name} Helper.app`;
   await fs.rename(helper_app_path_alerts(), helper_app_path_alerts(pkg.name));
   await fs.rename(helper_app_path_gpu(), helper_app_path_gpu(pkg.name));
   await fs.rename(helper_app_path_plugin(), helper_app_path_plugin(pkg.name));
