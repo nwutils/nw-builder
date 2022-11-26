@@ -15,6 +15,10 @@
   },
   "license": "MIT",
   "main": "./src/nwbuild.js",
+  "exports": {
+    "import": "./src/nwbuild.js",
+    "require": "./nwbuild.cjs"
+  },
   "type": "module",
   "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
@@ -25,9 +29,12 @@
     "format": "prettier --write \"**/*.{js,md}\"",
     "lint": "eslint ./src",
     "docs": "jsdoc ./src/nwbuild.js -d docs",
-    "demo": "cd ./test/demo && nwbuild ./nwapp --version=0.69.1 --flavour=sdk --platform=linux --arch=x64 --outDir=./build"
+    "demo": "cd ./test/demo && nwbuild ./nwapp --version=0.69.1 --flavour=sdk --platform=linux --arch=x64 --outDir=./build",
+    "demo:cjs": "cd ./test/demo && node demo.cjs",
+    "cjs": "esbuild ./src/nwbuild.js --bundle --minify --legal-comments=inline --platform=node --outfile=./nwbuild.cjs"
   },
   "devDependencies": {
+    "esbuild": "^0.15.15",
     "eslint": "^8.25.0",
     "eslint-config-tjw-jsdoc": "^1.0.3",
     "jest": "^29.2.0",
