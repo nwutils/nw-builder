@@ -8,7 +8,6 @@ const compress = (outDir, type = "zip") => {
   const archive = archiver("zip");
 
   return new Promise((res, rej) => {
-
     output.on("close", () => {
       res(0);
     });

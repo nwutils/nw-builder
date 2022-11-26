@@ -10,7 +10,6 @@ import plist from "plist";
  * @param {object} releaseInfo  NW binary release metadata
  */
 const setOsxConfig = async (pkg, outDir, releaseInfo) => {
-
   await fs.rename(`${outDir}/nwjs.app`, `${outDir}/${pkg.name}.app`);
 
   // Rename CFBundleDisplayName in Contents/Info.plist

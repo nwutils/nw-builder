@@ -9,7 +9,6 @@ import rcedit from "rcedit";
  * @param {string} outDir  The directory to hold build artifacts
  */
 const setWinConfig = async (pkg, outDir) => {
-
   await rename(`${outDir}/nw.exe`, `${outDir}/${pkg.name}.exe`);
 
   // https://learn.microsoft.com/en-gb/windows/win32/menurc/versioninfo-resource?redirectedfrom=MSDN#string-name
