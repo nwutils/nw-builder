@@ -17,7 +17,7 @@ export const setLinuxConfig = async (pkg, outDir) => {
     Exec: pkg.name,
   };
   await rename(`${outDir}/nw`, `${outDir}/${pkg.name}`);
-  if (typeof pkg.nwbuild.linuxCfg === "object") {
+  if (typeof pkg.nwbuild?.linuxCfg === "object") {
     Object.keys(pkg.nwbuild.linuxCfg).forEach((key) => {
       if (key !== "Type") {
         desktopEntryFile[key] = pkg.nwbuild.linuxCfg[key];

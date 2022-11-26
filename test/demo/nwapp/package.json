@@ -1,18 +1,4 @@
 {
     "name": "nwdemo",
-    "main": "index.html",
-    "product_string": "nwdemo",
-    "nwbuild": {
-        "srcDir": "./nwapp",
-        "version": "0.70.1",
-        "flavour": "sdk",
-        "platform": "osx",
-        "arch": "x64",
-        "outDir": "./build",
-        "run": false,
-        "linuxCfg": {
-            "Type": "Application",
-            "Name": "nwdemo"
-        }
-    }
+    "main": "index.html"
 }
