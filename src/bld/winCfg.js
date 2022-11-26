@@ -4,7 +4,7 @@ import rcedit from "rcedit";
 
 const setWinConfig = async (pkg, outDir) => {
 
-  await rename(`${outDir}/nw`, `${outDir}/${pkg.name}.exe`);
+  await rename(`${outDir}/nw.exe`, `${outDir}/${pkg.name}.exe`);
 
   return rcedit(`${outDir}/${pkg.name}.exe`, {
     "file-version": pkg.version,
