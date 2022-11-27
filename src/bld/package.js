@@ -27,7 +27,7 @@ const packager = async (srcDir, nwDir, outDir, platform, zip, releaseInfo) => {
   await cp(
     srcDir,
     `${outDir}/${
-      platform !== "osx" ? "package.nw" : "nwjs.app/Contents/Resources/nw.app"
+      platform !== "osx" ? "package.nw" : "nwjs.app/Contents/Resources/app.nw"
     }`,
     {
       recursive: true,
@@ -37,7 +37,7 @@ const packager = async (srcDir, nwDir, outDir, platform, zip, releaseInfo) => {
   log.debug("Get NW's package.json as a buffer");
   let buffer = await readFile(
     `${outDir}/${
-      platform !== "osx" ? "package.nw" : "nwjs.app/Contents/Resources/nw.app"
+      platform !== "osx" ? "package.nw" : "nwjs.app/Contents/Resources/app.nw"
     }/package.json`,
   );
   log.debug("Convert package.json buffer into JSON");
