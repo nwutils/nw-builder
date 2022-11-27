@@ -10,7 +10,8 @@ import plist from "plist";
  * @param {string} outDir       The directory to hold build artifacts
  * @param {object} releaseInfo  NW binary release metadata
  */
-const setOsxConfig = async (pkg, outDir, releaseInfo) => {
+const setOsxConfig = async (pkg, outDir) => {
+// const setOsxConfig = async (pkg, outDir, releaseInfo) => {
   const outApp = path.resolve(outDir, `${pkg.name}.app`);
   await fs.rename(path.resolve(outDir, "nwjs.app"), outApp);
 
