@@ -1,4 +1,5 @@
 import fs from "node:fs/promises";
+import path from "node:path";
 
 import plist from "plist";
 
@@ -10,88 +11,46 @@ import plist from "plist";
  * @param {object} releaseInfo  NW binary release metadata
  */
 const setOsxConfig = async (pkg, outDir, releaseInfo) => {
-  await fs.rename(`${outDir}/nwjs.app`, `${outDir}/${pkg.name}.app`);
+  const outApp = path.resolve(outDir, `${pkg.name}.app`);
+  await fs.rename(path.resolve(outDir, "nwjs.app"), outApp);
 
   // Rename CFBundleDisplayName in Contents/Info.plist
-  let contents_info_plist_path = `${outDir}/${pkg.name}.app/Contents/Info.plist`;
-  let contents_info_plist_json = plist.parse(
-    await fs.readFile(contents_info_plist_path, "utf-8"),
-  );
-  contents_info_plist_json.CFBundleDisplayName = pkg.name;
-  let contents_info_plist = plist.build(contents_info_plist_json);
-  await fs.writeFile(contents_info_plist_path, contents_info_plist);
+  const contentsInfoPlistPath = path.resolve(outApp, "Contents/Info.plist");
+  const contentsInfoPlistJson = plist.parse(await fs.readFile(contentsInfoPlistPath, "utf-8"));
+  contentsInfoPlistJson.CFBundleDisplayName = pkg.name;
+  const contentsInfoPlist = plist.build(contentsInfoPlistJson);
+  await fs.writeFile(contentsInfoPlistPath, contentsInfoPlist);
 
   // Rename CFBundleDisplayName in Contents/Resources/en.lproj/InfoPlist.strings
+  const contentsInfoPlistStringsPath = path.resolve(outApp, "Contents/Resources/en.lproj/InfoPlist.strings");
+  const contentsInfoPlistStrings = await fs.readFile(contentsInfoPlistStringsPath, "utf-8");
+  const newPlistStrings = contentsInfoPlistStrings.replace(/CFBundleGetInfoString = "nwjs /, `CFBundleGetInfoString = "${pkg.name} `);
+  await fs.writeFile(contentsInfoPlistStringsPath, newPlistStrings);
 
-  // Rename Helper apps in Contents/Framework.framework/Versions/n.n.n.n/Helpers
-  let helper_app_path_alerts = (name = "nwjs") =>
-    `${outDir}/${pkg.name}.app/Contents/Frameworks/nwjs Framework.framework/Versions/${releaseInfo.components.chromium}/Helpers/${name} Helper (Alerts).app`;
-  let helper_app_path_gpu = (name = "nwjs") =>
-    `${outDir}/${pkg.name}.app/Contents/Frameworks/nwjs Framework.framework/Versions/${releaseInfo.components.chromium}/Helpers/${name} Helper (GPU).app`;
-  let helper_app_path_plugin = (name = "nwjs") =>
-    `${outDir}/${pkg.name}.app/Contents/Frameworks/nwjs Framework.framework/Versions/${releaseInfo.components.chromium}/Helpers/${name} Helper (Plugin).app`;
-  let helper_app_path_renderer = (name = "nwjs") =>
-    `${outDir}/${pkg.name}.app/Contents/Frameworks/nwjs Framework.framework/Versions/${releaseInfo.components.chromium}/Helpers/${name} Helper (Renderer).app`;
-  let helper_app_path = (name = "nwjs") =>
-    `${outDir}/${pkg.name}.app/Contents/Frameworks/nwjs Framework.framework/Versions/${releaseInfo.components.chromium}/Helpers/${name} Helper.app`;
-  await fs.rename(helper_app_path_alerts(), helper_app_path_alerts(pkg.name));
-  await fs.rename(helper_app_path_gpu(), helper_app_path_gpu(pkg.name));
-  await fs.rename(helper_app_path_plugin(), helper_app_path_plugin(pkg.name));
-  await fs.rename(
-    helper_app_path_renderer(),
-    helper_app_path_renderer(pkg.name),
-  );
-  await fs.rename(helper_app_path(), helper_app_path(pkg.name));
+  // Add product_string property to package.json
+  // const packageJsonPath = path.resolve(outApp, "Contents/Resources/app.nw/package.json");
+  // pkg.product_string = pkg.name;
+  // await fs.writeFile(packageJsonPath, JSON.stringify(pkg, null, 4));
 
-  let helper_app_alerts_plist_path = `${helper_app_path_alerts(
-    pkg.name,
-  )}/Contents/Info.plist`;
-  let helper_app_gpu_plist_path = `${helper_app_path_gpu(
-    pkg.name,
-  )}/Contents/Info.plist`;
-  let helper_app_plugin_plist_path = `${helper_app_path_plugin(
-    pkg.name,
-  )}/Contents/Info.plist`;
-  let helper_app_render_plist_path = `${helper_app_path_renderer(
-    pkg.name,
-  )}/Contents/Info.plist`;
-  let helper_app_plist_path = `${helper_app_path(
-    pkg.name,
-  )}/Contents/Info.plist`;
+  // Update Helper apps
+  // TODO: determine why this prevents app from launching
+  // for (const helperName of [" (Alerts)", " (GPU)", " (Plugin)", " (Renderer)", ""]) {
+  //   const helperPath = (name = "nwjs") => path.resolve(
+  //     outApp,
+  //     `Contents/Frameworks/nwjs Framework.framework/Versions/${releaseInfo.components.chromium}/Helpers/`,
+  //     `${name} Helper${helperName}.app`
+  //   );
 
-  let helper_app_alerts_plist_json = plist.parse(
-    await fs.readFile(helper_app_alerts_plist_path, "utf-8"),
-  );
-  let helper_app_gpu_plist_json = plist.parse(
-    await fs.readFile(helper_app_gpu_plist_path, "utf-8"),
-  );
-  let helper_app_plugin_plist_json = plist.parse(
-    await fs.readFile(helper_app_plugin_plist_path, "utf-8"),
-  );
-  let helper_app_render_plist_json = plist.parse(
-    await fs.readFile(helper_app_render_plist_path, "utf-8"),
-  );
-  let helper_app_plist_json = plist.parse(
-    await fs.readFile(helper_app_plist_path, "utf-8"),
-  );
+  //   // Rename Helper apps in Contents/Framework.framework/Versions/n.n.n.n/Helpers
+  //   await fs.rename(helperPath(), helperPath(pkg.name));
 
-  helper_app_alerts_plist_json.CFBundleDisplayName = pkg.name;
-  helper_app_gpu_plist_json.CFBundleDisplayName = pkg.name;
-  helper_app_render_plist_json.CFBundleDisplayName = pkg.name;
-  helper_app_plugin_plist_json.CFBundleDisplayName = pkg.name;
-  helper_app_plist_json.CFBundleDisplayName = pkg.name;
-
-  let helper_app_alerts_plist = plist.build(helper_app_alerts_plist_json);
-  let helper_app_gpu_plist = plist.build(helper_app_gpu_plist_json);
-  let helper_app_render_plist = plist.build(helper_app_render_plist_json);
-  let helper_app_plugin_plist = plist.build(helper_app_plugin_plist_json);
-  let helper_app_plist = plist.build(helper_app_plist_json);
-
-  await fs.writeFile(helper_app_alerts_plist_path, helper_app_alerts_plist);
-  await fs.writeFile(helper_app_gpu_plist_path, helper_app_gpu_plist);
-  await fs.writeFile(helper_app_plugin_plist_path, helper_app_plugin_plist);
-  await fs.writeFile(helper_app_render_plist_path, helper_app_render_plist);
-  await fs.writeFile(helper_app_plist_path, helper_app_plist);
+  //   // Update Helper app Info.plist files in Contents/Framework.framework/Versions/n.n.n.n/Helpers
+  //   const helperPlistPath = path.resolve(helperPath(pkg.name), "Contents/Info.plist");
+  //   const helperPlistJson = plist.parse(await fs.readFile(helperPlistPath, "utf-8"));
+  //   helperPlistJson.CFBundleDisplayName = pkg.name;
+  //   const helperPlist = plist.build(helperPlistJson);
+  //   await fs.writeFile(helperPlistPath, helperPlist);
+  // }
 };
 
 export { setOsxConfig };
