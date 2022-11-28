@@ -28,6 +28,7 @@
   "scripts": {
     "format": "prettier --write \"**/*.{js,cjs,md}\"",
     "lint": "eslint ./src",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "docs": "jsdoc ./src/nwbuild.js -d docs",
     "demo": "cd ./test/demo && nwbuild ./nwapp --version=0.69.1 --flavour=sdk --platform=linux --arch=x64 --outDir=./build",
     "demo:cjs": "cd ./test/demo && node bld.cjs",
@@ -80,7 +81,8 @@
     },
     "env": {
       "es6": true,
-      "node": true
+      "node": true,
+      "jest": true
     },
     "extends": [
       "eslint:recommended",

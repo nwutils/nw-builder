@@ -11,21 +11,32 @@ import plist from "plist";
  * @param {object} releaseInfo  NW binary release metadata
  */
 const setOsxConfig = async (pkg, outDir) => {
-// const setOsxConfig = async (pkg, outDir, releaseInfo) => {
+  // const setOsxConfig = async (pkg, outDir, releaseInfo) => {
   const outApp = path.resolve(outDir, `${pkg.name}.app`);
   await fs.rename(path.resolve(outDir, "nwjs.app"), outApp);
 
   // Rename CFBundleDisplayName in Contents/Info.plist
   const contentsInfoPlistPath = path.resolve(outApp, "Contents/Info.plist");
-  const contentsInfoPlistJson = plist.parse(await fs.readFile(contentsInfoPlistPath, "utf-8"));
+  const contentsInfoPlistJson = plist.parse(
+    await fs.readFile(contentsInfoPlistPath, "utf-8"),
+  );
   contentsInfoPlistJson.CFBundleDisplayName = pkg.name;
   const contentsInfoPlist = plist.build(contentsInfoPlistJson);
   await fs.writeFile(contentsInfoPlistPath, contentsInfoPlist);
 
   // Rename CFBundleDisplayName in Contents/Resources/en.lproj/InfoPlist.strings
-  const contentsInfoPlistStringsPath = path.resolve(outApp, "Contents/Resources/en.lproj/InfoPlist.strings");
-  const contentsInfoPlistStrings = await fs.readFile(contentsInfoPlistStringsPath, "utf-8");
-  const newPlistStrings = contentsInfoPlistStrings.replace(/CFBundleGetInfoString = "nwjs /, `CFBundleGetInfoString = "${pkg.name} `);
+  const contentsInfoPlistStringsPath = path.resolve(
+    outApp,
+    "Contents/Resources/en.lproj/InfoPlist.strings",
+  );
+  const contentsInfoPlistStrings = await fs.readFile(
+    contentsInfoPlistStringsPath,
+    "utf-8",
+  );
+  const newPlistStrings = contentsInfoPlistStrings.replace(
+    /CFBundleGetInfoString = "nwjs /,
+    `CFBundleGetInfoString = "${pkg.name} `,
+  );
   await fs.writeFile(contentsInfoPlistStringsPath, newPlistStrings);
 
   // Add product_string property to package.json
