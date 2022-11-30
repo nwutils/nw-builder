@@ -1,5 +1,5 @@
-import { access, constants, readFile, rm } from "node:fs/promises";
-import { cwd } from "node:process";
+import { access, constants, mkdir, readFile, rm } from "node:fs/promises";
+import { readFileSync } from "node:fs";
 
 import { decompress } from "./get/decompress.js";
 import { develop } from "./run/develop.js";
@@ -7,89 +7,89 @@ import { download } from "./get/download.js";
 import { getReleaseInfo } from "./get/getReleaseInfo.js";
 import { remove } from "./get/remove.js";
 import { packager } from "./bld/package.js";
+import { parse } from "./util/parse.js";
+import { validate } from "./util/validate.js";
 
-/**
- * Options schema
- *
- * @typedef {Object} OptionsSchema
- * @property {string}                  srcDir
- * @property {string}                  cacheDir
- * @property {string}                  version
- * @property {"sdk" | "normal"}        flavour
- * @property {"linux" | "osx" | "win"} platform
- * @property {"ia32" | "x64"}          arch
- * @property {string}                  outDir
- */
+import { log } from "./log.js";
 
-/**
- *
- * @param  {OptionsSchema} obj
- * @return {void}
- */
-const nwbuild = async ({
-  srcDir,
-  cacheDir = `${cwd()}/cache`,
-  version,
-  flavour,
-  platform,
-  arch,
-  outDir,
-  // flags
-  downloadUrl = "https://dl.nwjs.io",
-  manifestUrl = "https://nwjs.io/versions",
-  noCache = false,
-  zip = false,
-  run = false,
-}) => {
-  let pkgPath = `${srcDir}/package.json`;
-  let pkgExist = true;
-  let pkgData = null;
-
+const nwbuild = async (options) => {
+  let hasCache = true;
+  let nwDir = "";
+  let releaseInfo = {};
   try {
-    await access(pkgPath, constants.F_OK);
-  } catch (e) {
-    pkgExist = false;
-  }
-
-  if (pkgExist === true) {
-    pkgData = await readFile(pkgPath, "utf8");
-    pkgData = JSON.parse(pkgData);
-    if (pkgData.nwbuild !== undefined) {
-      srcDir = pkgData.nwbuild.srcDir ?? srcDir;
-      cacheDir = pkgData.nwbuild.cacheDir ?? cacheDir;
-      version = pkgData.nwbuild.version ?? version;
-      flavour = pkgData.nwbuild.flavour ?? flavour;
-      platform = pkgData.nwbuild.platform ?? platform;
-      arch = pkgData.nwbuild.arch ?? arch;
-      outDir = pkgData.nwbuild.outDir ?? outDir;
+    if ((await access(options.srcDir), constants.F_OK)) {
+      let pkgFile = await readFile(`${options.src}/package.json`);
+      let pkgJSON = JSON.parse(pkgFile);
+      if (pkgJSON === "object") {
+        if (pkgJSON.name && pkgJSON.main) {
+          if (typeof pkgJSON.nwbuild === "object") {
+            options = { ...pkgJSON.nwbuild };
+          } else {
+            throw new Error(
+              `The nwbuild property in the ${options.srcDir}/package.json is not an object.`,
+            );
+          }
+        } else {
+          throw new Error(
+            `${options.srcDir}/package.json either does not have a name or main property`,
+          );
+        }
+      } else {
+        throw new Error(`${options.srcDir}/package.json is not a JSON format`);
+      }
     }
-  }
 
-  let nwDir = `${cacheDir}/nwjs${
-    flavour === "sdk" ? "-sdk" : ""
-  }-v${version}-${platform}-${arch}`;
+    options = await parse(options);
 
-  let fileExists = true;
+    await mkdir(options.cacheDir, { recursive: true });
 
-  try {
-    await access(nwDir, constants.F_OK);
-  } catch (e) {
-    fileExists = false;
-  }
+    releaseInfo = await getReleaseInfo(
+      options.version,
+      options.cacheDir,
+      options.manifestUrl,
+    );
 
-  if (noCache === true || fileExists === false) {
-    await rm(nwDir, { force: true, recursive: true });
-    await download(version, flavour, platform, arch, downloadUrl, cacheDir);
-    await decompress(platform, cacheDir);
-    await remove(platform, cacheDir);
-  }
+    nwDir = `${options.cacheDir}/nwjs${
+      options.flavour === "sdk" ? "-sdk" : ""
+    }-v${options.version}-${options.platform}-${options.arch}`;
 
-  let releaseInfo = await getReleaseInfo(version, cacheDir, manifestUrl);
+    const e = readFileSync(nwDir);
 
-  if (run === true) {
-    await develop(srcDir, nwDir, platform);
-  } else {
-    await packager(srcDir, nwDir, outDir, platform, zip, releaseInfo);
+    console.log("hello", e);
+
+    await validate(options, releaseInfo);
+  } catch (error) {
+    log.error(error);
+  } finally {
+    if (options?.noCache === true || hasCache === false) {
+      await rm(nwDir, { force: true, recursive: true });
+      await download(
+        options.version,
+        options.flavour,
+        options.platform,
+        options.arch,
+        options.downloadUrl,
+        options.cacheDir,
+      );
+      await decompress(options.platform, options.cacheDir);
+      await remove(options.platform, options.cacheDir);
+    }
+
+    if (options?.mode === "run") {
+      await develop(options.srcDir, nwDir, options.platform);
+    }
+    if (options?.mode === "build") {
+      await packager(
+        options.srcDir,
+        nwDir,
+        options.outDir,
+        options.platform,
+        options.zip,
+        releaseInfo,
+      );
+    } else {
+      log.error("Invalid mode. Expected `run` or `build`");
+    }
   }
 };
 

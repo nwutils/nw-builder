@@ -8,6 +8,10 @@ import { nwbuild } from "./nwbuild.js";
 const cli = yargs(hideBin(process.argv))
   .version(false)
   .command("[srcDir] [options]")
+  .option("mode", {
+    type: "string",
+    description: "`run` or `build` application",
+  })
   .option("version", {
     type: "string",
     description: "NW.js version",
@@ -28,7 +32,6 @@ const cli = yargs(hideBin(process.argv))
     type: "string",
     description: "NW.js build artifacts",
   })
-  .demandOption(["version", "flavour", "platform", "arch", "outDir"])
   .parse();
 
 nwbuild({
