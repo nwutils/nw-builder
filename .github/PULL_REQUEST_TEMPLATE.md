@@ -4,8 +4,8 @@ Fixes: #
 
 - [ ] Format
 - [ ] Lint
-- [ ] Add tests
-- [ ] Update docs
+- [ ] Tested
+- [ ] Docs updated
 
 ### Changes
 
