@@ -5,10 +5,6 @@
 
 Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and Linux.
 
-## Contributing
-
-Contributions are welcome, thanks!
-
 ## License
 
 [MIT](https://github.com/nwutils/nw-builder/blob/master/.github/LICENSE)
