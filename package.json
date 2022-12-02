@@ -92,7 +92,8 @@
     "rules": {
       "jsdoc/require-file-overview": "off",
       "jsdoc/match-description": "off"
-    }
+    },
+    "ignorePatterns": ["./nwbuild.cjs"]
   },
   "jest": {
     "testEnvironment": "jsdom"
