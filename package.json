@@ -30,8 +30,9 @@
     "lint": "eslint ./src",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "docs": "jsdoc ./src/nwbuild.js -d docs",
-    "demo": "cd ./test/demo && nwbuild ./nwapp --mode=run --version=0.69.1 --flavour=sdk --platform=linux --arch=x64 --outDir=./build",
-    "demo:cjs": "cd ./test/demo && node bld.cjs",
+    "demo:cli": "cd ./test/demo && nwbuild ./nwapp --mode=run --version=0.69.1 --flavour=sdk --platform=linux --arch=x64 --outDir=./build",
+    "demo:bld": "cd ./test/demo && node bld.cjs",
+    "demo:run": "cd ./test/demo && node run.cjs",
     "cjs": "esbuild ./src/nwbuild.js --bundle --minify --legal-comments=inline --platform=node --outfile=./nwbuild.cjs"
   },
   "devDependencies": {

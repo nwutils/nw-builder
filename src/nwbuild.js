@@ -75,10 +75,10 @@ const nwbuild = async (options) => {
       await remove(options.platform, options.cacheDir);
     }
 
-    if (options?.mode === "run") {
+    if (options && options.mode === "run") {
       await develop(options.srcDir, nwDir, options.platform);
     }
-    if (options?.mode === "build") {
+    if (options && options.mode === "build") {
       await packager(
         options.srcDir,
         nwDir,
