@@ -33,7 +33,8 @@
     "demo:cli": "cd ./test/demo && nwbuild ./nwapp --mode=run --version=0.69.1 --flavour=sdk --platform=linux --arch=x64 --outDir=./build",
     "demo:bld": "cd ./test/demo && node bld.cjs",
     "demo:run": "cd ./test/demo && node run.cjs",
-    "cjs": "esbuild ./src/nwbuild.js --bundle --minify --legal-comments=inline --platform=node --outfile=./nwbuild.cjs"
+    "cjs": "esbuild ./src/nwbuild.js --bundle --minify --legal-comments=inline --platform=node --outfile=./nwbuild.cjs",
+    "precommit": "npm run cjs && npm run format && npm run lint && npm run test"
   },
   "devDependencies": {
     "esbuild": "^0.15.15",

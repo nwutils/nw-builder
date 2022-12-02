@@ -1,5 +1,4 @@
 import { access, constants, mkdir, readFile, rm } from "node:fs/promises";
-import { readFileSync } from "node:fs";
 
 import { decompress } from "./get/decompress.js";
 import { develop } from "./run/develop.js";
@@ -52,10 +51,6 @@ const nwbuild = async (options) => {
     nwDir = `${options.cacheDir}/nwjs${
       options.flavour === "sdk" ? "-sdk" : ""
     }-v${options.version}-${options.platform}-${options.arch}`;
-
-    const e = readFileSync(nwDir);
-
-    console.log("hello", e);
 
     await validate(options, releaseInfo);
   } catch (error) {
