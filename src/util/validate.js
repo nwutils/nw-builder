@@ -1,4 +1,4 @@
 export const validate = async (options, releaseInfo) => {
-  console.log(releaseInfo);
-  return options;
+  if (options && releaseInfo) return true;
+  else return false;
 };

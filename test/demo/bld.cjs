@@ -3,6 +3,7 @@ const { nwbuild } = require("nw-builder");
 const bld = async () => {
   await nwbuild({
     srcDir: "./nwapp",
+    mode: "build",
     version: "0.70.1",
     flavour: "normal",
     platform: "linux",
@@ -11,6 +12,7 @@ const bld = async () => {
   });
   await nwbuild({
     srcDir: "./nwapp",
+    mode: "build",
     version: "0.70.1",
     flavour: "normal",
     platform: "osx",
@@ -19,6 +21,7 @@ const bld = async () => {
   });
   await nwbuild({
     srcDir: "./nwapp",
+    mode: "build",
     version: "0.70.1",
     flavour: "normal",
     platform: "win",
