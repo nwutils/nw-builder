@@ -43,26 +43,6 @@ const setOsxConfig = async (pkg, outDir) => {
   // const packageJsonPath = path.resolve(outApp, "Contents/Resources/app.nw/package.json");
   // pkg.product_string = pkg.name;
   // await fs.writeFile(packageJsonPath, JSON.stringify(pkg, null, 4));
-
-  // Update Helper apps
-  // TODO: determine why this prevents app from launching
-  // for (const helperName of [" (Alerts)", " (GPU)", " (Plugin)", " (Renderer)", ""]) {
-  //   const helperPath = (name = "nwjs") => path.resolve(
-  //     outApp,
-  //     `Contents/Frameworks/nwjs Framework.framework/Versions/${releaseInfo.components.chromium}/Helpers/`,
-  //     `${name} Helper${helperName}.app`
-  //   );
-
-  //   // Rename Helper apps in Contents/Framework.framework/Versions/n.n.n.n/Helpers
-  //   await fs.rename(helperPath(), helperPath(pkg.name));
-
-  //   // Update Helper app Info.plist files in Contents/Framework.framework/Versions/n.n.n.n/Helpers
-  //   const helperPlistPath = path.resolve(helperPath(pkg.name), "Contents/Info.plist");
-  //   const helperPlistJson = plist.parse(await fs.readFile(helperPlistPath, "utf-8"));
-  //   helperPlistJson.CFBundleDisplayName = pkg.name;
-  //   const helperPlist = plist.build(helperPlistJson);
-  //   await fs.writeFile(helperPlistPath, helperPlist);
-  // }
 };
 
 export { setOsxConfig };
