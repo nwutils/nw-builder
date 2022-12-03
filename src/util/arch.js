@@ -3,11 +3,11 @@ import { log } from "../log.js";
 /**
  * Get user's computer architecture
  *
- * @param  {string}                                      arch  Node's process.arch
- * @return {Promise<"osx"| "win" | "linux" | undefined>}       NW.js supported return types
+ * @param  {string}                             arch  Node's process.arch
+ * @return {Promise<"ia32"| "x64" | undefined>}       NW.js supported architectures
  */
 export const getArch = async (arch) => {
-  switch (process.arch) {
+  switch (arch) {
     case "ia32":
       return "ia32";
     case "x64":

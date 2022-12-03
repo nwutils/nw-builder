@@ -1,7 +1,7 @@
 import { getPlatform } from "./platform.js";
 
 test("invalid/unsupported platform", () => {
-    expect(getPlatform("arm")).rejects.toThrow();
+    expect(getPlatform("aix")).rejects.toThrow();
 });
 
 test("linux platform support", () => {

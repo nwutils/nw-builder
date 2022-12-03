@@ -4,7 +4,7 @@ import { log } from "../log.js";
  * Get user's computer platform
  *
  * @param  {string}                                      platform  Node's process.platform
- * @return {Promise<"osx"| "win" | "linux" | undefined>}           NW.js supported return types
+ * @return {Promise<"osx"| "win" | "linux" | undefined>}           NW.js supported platforms
  */
 export const getPlatform = async (platform) => {
   switch (platform) {
