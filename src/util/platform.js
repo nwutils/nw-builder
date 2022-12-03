@@ -3,7 +3,7 @@ import { log } from "../log.js";
 /**
  * Get user's computer platform
  *
- * @param  {NodeJS.process.platform}                     platform  Node's process
+ * @param  {string}                                      platform  Node's process.platform
  * @return {Promise<"osx"| "win" | "linux" | undefined>}           NW.js supported return types
  */
 export const getPlatform = async (platform) => {

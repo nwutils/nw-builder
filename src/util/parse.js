@@ -2,22 +2,10 @@ import { readFile } from "node:fs/promises";
 import { cwd } from "node:process";
 
 /**
- * Parse options from user input via module or cli
+ * Parse options
  *
- * @param  {object}                       options              lorem ipsum
- * @param  {"run" | "build"}              options.mode         lorem ipsum
- * @param  {"latest" | "stable" | string} options.version      lorem ipsum
- * @param  {"normal" | "sdk"}             options.flavour      lorem ipsum
- * @param  {"normal" | "sdk"}             options.flavor       lorem ipsum
- * @param  {"linux" | "osx" | "win"}      options.platform     lorem ipsum
- * @param  {"ia32" | "x64"}               options.arch         lorem ipsum
- * @param  {string}                       options.outDir       lorem ipsum
- * @param  {"./cache" | string}           options.cacheDir     lorem ipsum
- * @param  {"https://dl.nwjs.io"}         options.downloadUrl  lorem ipsum
- * @param  {"https://nwjs.io/versions"}   options.manifestUrl  lorem ipsum
- * @param  {boolean}                      options.cache        lorem ipsum
- * @param  {boolean}                      options.zip          lorem ipsum
- * @return {Promise<object | Error>}                           lorem ipsum
+ * @param  {object}          options  Options
+ * @return {Promise<object>}          Options
  */
 export const parse = async (options) => {
   let pkg = undefined;

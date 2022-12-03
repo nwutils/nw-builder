@@ -18,7 +18,20 @@ import { log } from "./log.js";
 /**
  * Entry point for nw-builder application
  *
- * @param {object} options  Options to customise nw-builder behaviour
+ * @param  {object}                       options              lorem ipsum
+ * @param  {"run" | "build"}              options.mode         lorem ipsum
+ * @param  {"latest" | "stable" | string} options.version      lorem ipsum
+ * @param  {"normal" | "sdk"}             options.flavour      lorem ipsum
+ * @param  {"normal" | "sdk"}             options.flavor       lorem ipsum
+ * @param  {"linux" | "osx" | "win"}      options.platform     lorem ipsum
+ * @param  {"ia32" | "x64"}               options.arch         lorem ipsum
+ * @param  {string}                       options.outDir       lorem ipsum
+ * @param  {"./cache" | string}           options.cacheDir     lorem ipsum
+ * @param  {"https://dl.nwjs.io"}         options.downloadUrl  lorem ipsum
+ * @param  {"https://nwjs.io/versions"}   options.manifestUrl  lorem ipsum
+ * @param  {boolean}                      options.cache        lorem ipsum
+ * @param  {boolean}                      options.zip          lorem ipsum
+ * @return {Promise<undefined | Error>}                        lorem ipsum
  */
 export const nwbuild = async (options) => {
   let nwDir = "";
@@ -47,7 +60,7 @@ export const nwbuild = async (options) => {
       options = { ...nwPkg.nwbuild };
     }
     if (typeof nwPkg.nwbuild === "undefined") {
-      log.debug("nwbuild property is not defined in srcDir/package.json");
+      log.debug(`nwbuild property is not defined in ${options.srcDir}/package.json`);
     } else {
       throw new Error(
         `nwbuild property in the ${
@@ -60,7 +73,7 @@ export const nwbuild = async (options) => {
     options = await parse(options);
 
     // Create cacheDir if it does not exist
-    await mkdir(options.cacheDir, { recursive: true });
+    await mkdir(options.cacheDir, { recursive: false });
 
     // Validate options.version here
     // We need to do this to get the version specific release info

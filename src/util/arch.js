@@ -3,7 +3,7 @@ import { log } from "../log.js";
 /**
  * Get user's computer architecture
  *
- * @param  {NodeJS.process.arch}                         arch  Node's process
+ * @param  {string}                                      arch  Node's process.arch
  * @return {Promise<"osx"| "win" | "linux" | undefined>}       NW.js supported return types
  */
 export const getArch = async (arch) => {
