@@ -1,12 +1,10 @@
-import { log } from "../log.js";
-
 /**
  * Get user's computer platform
  *
- * @param  {string}                                      platform  Node's process.platform
- * @return {Promise<"osx"| "win" | "linux" | undefined>}           NW.js supported platforms
+ * @param  {string}                             platform  Node's process.platform
+ * @return {"osx"| "win" | "linux" | undefined}           NW.js supported platforms
  */
-export const getPlatform = async (platform) => {
+export const getPlatform = (platform) => {
   switch (platform) {
     case "darwin":
       return "osx";
@@ -15,7 +13,6 @@ export const getPlatform = async (platform) => {
     case "linux":
       return "linux";
     default:
-      log.error(`The platform ${platform} is not supported`);
       return undefined;
   }
 };

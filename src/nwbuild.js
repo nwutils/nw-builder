@@ -60,7 +60,9 @@ export const nwbuild = async (options) => {
       options = { ...nwPkg.nwbuild };
     }
     if (typeof nwPkg.nwbuild === "undefined") {
-      log.debug(`nwbuild property is not defined in ${options.srcDir}/package.json`);
+      log.debug(
+        `nwbuild property is not defined in ${options.srcDir}/package.json`,
+      );
     } else {
       throw new Error(
         `nwbuild property in the ${
