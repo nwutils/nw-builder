@@ -6,7 +6,7 @@
  */
 export const getArch = (arch) => {
   if (!["ia32", "x64"].includes(arch)) {
-    return undefined;
+    throw new Error(`The architecture ${arch} is either invalid or not supported.`);
   }
   return arch;
 };

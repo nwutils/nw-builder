@@ -13,6 +13,6 @@ export const getPlatform = (platform) => {
     case "linux":
       return "linux";
     default:
-      return undefined;
+      throw new Error(`The platform ${platform} is either invalid or not supported.`);
   }
 };

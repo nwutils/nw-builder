@@ -1,5 +1,5 @@
 /**
- * Validate options
+ * TODO Validate options
  *
  * @param  {object}  options      Options
  * @param  {object}  releaseInfo  Version specific NW release info
