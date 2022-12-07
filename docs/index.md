@@ -97,13 +97,13 @@ package.json usage
 ## API Reference
 
 | Name        | Type      | Default                    | Description                                                                    |
-| ----------- | --------- | -------------------------- | ------------------------------------------------------------------------------ | -------------------------------------------------------------------- | ---------------------- |
-| srcDir      | `string`                  |                                                                                | Directory to hold NW app files unless or array of file glob patterns |
-| mode        | `run      | build`                     |                                                                                | Run or build application                                             |
-| version     | `latest   | stable                     | string`                                                                        |                                                                      | NW runtime version     |
-| flavour     | `sdk      | normal`                    |                                                                                | NW runtime build flavour.                                            |
-| platform    | `linux    | osx                        | win`                                                                           |                                                                      | NW supported platforms |
-| arch        | `ia32     | x64`                       |                                                                                | NW supported architectures                                           |
+| ----------- | --------- | -------------------------- | ------------------------------------------------------------------------------ | -------------------------- | ---------------------- |
+| srcDir      | `string`  |                            | Directory to hold NW app files unless or array of file glob patterns           |
+| mode        | `run      | build`                     |                                                                                | Run or build application   |
+| version     | `latest   | stable                     | string`                                                                        |                            | NW runtime version     |
+| flavour     | `sdk      | normal`                    |                                                                                | NW runtime build flavour.  |
+| platform    | `linux    | osx                        | win`                                                                           |                            | NW supported platforms |
+| arch        | `ia32     | x64`                       |                                                                                | NW supported architectures |
 | outDir      | `string`  |                            | Directory to store build artifacts                                             |
 | cacheDir    | `string`  | `./cacheDir`               | Directory to store NW binaries                                                 |
 | downloadUrl | `string`  | `https://dl.nwjs.io`       | URI to download NW binaries from                                               |
