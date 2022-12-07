@@ -102,7 +102,7 @@ package.json usage
 
 | Name        | Type                         | Default                    | Description                                                                    |
 | ----------- | ---------------------------- | -------------------------- | ------------------------------------------------------------------------------ |
-| srcDir      | `string`                     |                            | Directory to hold NW app files unless or array of file glob patterns           |
+| srcDir      | `string`                     |                            | Directory to hold NW app files                                                 |
 | mode        | `run \| build`               |                            | Run or build application                                                       |
 | version     | `latest \| stable \| string` |                            | NW runtime version                                                             |
 | flavour     | `sdk \| normal`              |                            | NW runtime build flavour.                                                      |
