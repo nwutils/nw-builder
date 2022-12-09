@@ -18,20 +18,20 @@ import { log } from "./log.js";
 /**
  * Entry point for nw-builder application
  *
- * @param  {object}                       options              lorem ipsum
- * @param  {"run" | "build"}              options.mode         lorem ipsum
- * @param  {"latest" | "stable" | string} options.version      lorem ipsum
- * @param  {"normal" | "sdk"}             options.flavour      lorem ipsum
- * @param  {"normal" | "sdk"}             options.flavor       lorem ipsum
- * @param  {"linux" | "osx" | "win"}      options.platform     lorem ipsum
- * @param  {"ia32" | "x64"}               options.arch         lorem ipsum
- * @param  {string}                       options.outDir       lorem ipsum
- * @param  {"./cache" | string}           options.cacheDir     lorem ipsum
- * @param  {"https://dl.nwjs.io"}         options.downloadUrl  lorem ipsum
- * @param  {"https://nwjs.io/versions"}   options.manifestUrl  lorem ipsum
- * @param  {boolean}                      options.cache        lorem ipsum
- * @param  {boolean}                      options.zip          lorem ipsum
- * @return {Promise<undefined | Error>}                        lorem ipsum
+ * @param  {object}                       options              Directory to hold NW app files unless or array of file glob patterns
+ * @param  {"run" | "build"}              options.mode         Run or build application
+ * @param  {"latest" | "stable" | string} options.version      NW runtime version
+ * @param  {"normal" | "sdk"}             options.flavour      NW runtime build flavour
+ * @param  {"normal" | "sdk"}             options.flavor       NW supported platforms
+ * @param  {"linux" | "osx" | "win"}      options.platform     NW supported platforms
+ * @param  {"ia32" | "x64"}               options.arch         NW supported architectures
+ * @param  {string}                       options.outDir       Directory to store build artifacts
+ * @param  {"./cache" | string}           options.cacheDir     Directory to store NW binaries
+ * @param  {"https://dl.nwjs.io"}         options.downloadUrl  URI to download NW binaries from
+ * @param  {"https://nwjs.io/versions"}   options.manifestUrl  URI to download manifest from
+ * @param  {boolean}                      options.cache        If true the existing cache is used. Otherwise it removes and redownloads it.
+ * @param  {boolean}                      options.zip          If true the outDir directory is zipped
+ * @return {Promise<undefined>}
  */
 export const nwbuild = async (options) => {
   let nwDir = "";
@@ -86,15 +86,15 @@ export const nwbuild = async (options) => {
     );
 
     // TODO: validate options
-    const e = await validate(options, releaseInfo);
+    const e = validate(options, releaseInfo);
     if (e === false) {
       throw new Error("Some option was invalid.");
     }
 
     // Get current platform and arch if mode is run
     if (options.mode === "run") {
-      let tmpPlatform = await getPlatform(platform);
-      let tmpArch = await getArch(arch);
+      let tmpPlatform = getPlatform(platform);
+      let tmpArch = getArch(arch);
       if (tmpPlatform === undefined) {
         throw new Error(`Platform ${platform} is not supported. Sorry!`);
       }
@@ -113,7 +113,7 @@ export const nwbuild = async (options) => {
 
     // Download relevant NW.js binaries
     let cached = await isCached(nwDir);
-    if (options?.noCache === true || cached === false) {
+    if (options?.cache === true || cached === false) {
       await rm(nwDir, { force: true, recursive: true });
       await download(
         options.version,
