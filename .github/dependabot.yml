@@ -8,10 +8,8 @@ updates:
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
-      interval: "weekly"
-      day: "friday"
+      interval: "daily"
   - package-ecosystem: "github-actions" # See documentation for possible values
     directory: ".github/" # Location of package manifests
     schedule:
-      interval: "weekly"
-      day: "friday"
+      interval: "daily"
