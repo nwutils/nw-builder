@@ -28,6 +28,10 @@ export const getReleaseInfo = async (version, cacheDir, manifestUrl) => {
     log.debug("Convert manifest data into JSON");
     let manifestJson = JSON.parse(manifestData);
     log.debug(`Search for ${version} specific release data`);
+    if (version === "latest" || version === "stable" || version === "lts") {
+      version = manifestData[version].slice(1);
+    }
+
     releaseData = manifestJson.versions.find(
       (release) => release.version === `v${version}`,
     );

@@ -16,7 +16,7 @@ import { setWinConfig } from "./winCfg.js";
  * @param  {"linux" | "osx" | "win"} platform     Platform is the operating system type
  * @param  {"zip" | boolean}         zip          Specify if the build artifacts are to be zipped
  * @param  {object}                  releaseInfo  NW version specific release information
- * @return {undefined}
+ * @return {Promise<undefined>}
  */
 const packager = async (srcDir, nwDir, outDir, platform, zip, releaseInfo) => {
   log.debug(`Remove any files at ${outDir} directory`);

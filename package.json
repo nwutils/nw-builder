@@ -26,12 +26,15 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
-    "format": "prettier --write \"**/*.{js,cjs,md}\"",
+    "format": "prettier --write \"./**/*.{js,md}\"",
     "lint": "eslint ./src",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "docs": "jsdoc ./src/nwbuild.js -d docs",
-    "demo": "cd ./test/demo && nwbuild ./nwapp --version=0.69.1 --flavour=sdk --platform=linux --arch=x64 --outDir=./build",
-    "demo:cjs": "cd ./test/demo && node bld.cjs",
-    "cjs": "esbuild ./src/nwbuild.js --bundle --minify --legal-comments=inline --platform=node --outfile=./nwbuild.cjs"
+    "demo:cli": "cd ./test/demo && nwbuild ./nwapp --mode=build --version=0.70.1 --flavour=normal --platform=win --arch=x64 --outDir=./build",
+    "demo:bld": "cd ./test/demo && node bld.cjs",
+    "demo:run": "cd ./test/demo && node run.cjs",
+    "cjs": "esbuild ./src/nwbuild.js --bundle --minify --legal-comments=inline --platform=node --outfile=./nwbuild.cjs",
+    "checklist": "npm run cjs && npm run format && npm run lint && npm run test"
   },
   "devDependencies": {
     "esbuild": "^0.16.3",
@@ -80,7 +83,8 @@
     },
     "env": {
       "es6": true,
-      "node": true
+      "node": true,
+      "jest": true
     },
     "extends": [
       "eslint:recommended",
