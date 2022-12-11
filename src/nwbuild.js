@@ -10,8 +10,6 @@ import { develop } from "./run/develop.js";
 import { isCached } from "./util/cache.js";
 import { parse } from "./util/parse.js";
 import { validate } from "./util/validate.js";
-import { getArch } from "./util/arch.js";
-import { getPlatform } from "./util/platform.js";
 
 import { log } from "./log.js";
 
@@ -93,16 +91,11 @@ export const nwbuild = async (options) => {
 
     // Get current platform and arch if mode is run
     if (options.mode === "run") {
-      let tmpPlatform = getPlatform(platform);
-      let tmpArch = getArch(arch);
-      if (tmpPlatform === undefined) {
+      if (options.platform === undefined) {
         throw new Error(`Platform ${platform} is not supported. Sorry!`);
       }
-      if (tmpArch === undefined) {
+      if (options.arch === undefined) {
         throw new Error(`Architecture ${arch} is not supported. Sorry!`);
-      } else {
-        options.platform = tmpPlatform;
-        options.arch = tmpArch;
       }
     }
 

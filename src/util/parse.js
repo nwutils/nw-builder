@@ -1,5 +1,8 @@
 import { readFile } from "node:fs/promises";
-import { cwd } from "node:process";
+import { arch, cwd, platform } from "node:process";
+
+import { getArch } from "./arch.js";
+import { getPlatform } from "./platform.js";
 
 /**
  * Parse options
@@ -23,12 +26,13 @@ export const parse = async (options) => {
     options.flavour = options.flavor;
   }
 
-  options.srcDir = options.srcDir ?? undefined;
-  options.version = options.version ?? undefined;
-  options.flavour = options.flavour ?? undefined;
-  options.platform = options.platform ?? undefined;
-  options.arch = options.arch ?? undefined;
-  options.outDir = options.outDir ?? undefined;
+  options.srcDir = options.srcDir ?? "./";
+  options.mode = options.mode ?? "build";
+  options.version = options.version ?? "latest";
+  options.flavour = options.flavour ?? "sdk";
+  options.platform = options.platform ?? getPlatform(platform);
+  options.arch = options.arch ?? getArch(arch);
+  options.outDir = options.outDir ?? "./out";
   options.cacheDir = options.cacheDir ?? `${cwd()}/cache`;
   options.downloadUrl = options.downloadUrl ?? "https://dl.nwjs.io";
   options.manifestUrl = options.manifestUrl ?? "https://nwjs.io/versions";
