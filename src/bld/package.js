@@ -1,4 +1,4 @@
-import { cp, readFile, rm } from "node:fs/promises";
+import { cp, rm } from "node:fs/promises";
 
 import { log } from "../log.js";
 
@@ -16,9 +16,10 @@ import { setWinConfig } from "./winCfg.js";
  * @param  {"linux" | "osx" | "win"} platform     Platform is the operating system type
  * @param  {"zip" | boolean}         zip          Specify if the build artifacts are to be zipped
  * @param  {object}                  releaseInfo  NW version specific release information
+ * @param  {object}                  app          Multi platform configuration options
  * @return {Promise<undefined>}
  */
-const packager = async (srcDir, nwDir, outDir, platform, zip, releaseInfo) => {
+const packager = async (srcDir, nwDir, outDir, platform, zip, releaseInfo, app) => {
   log.debug(`Remove any files at ${outDir} directory`);
   await rm(outDir, { force: true, recursive: true });
   log.debug(`Copy ${nwDir} files to ${outDir} directory`);
@@ -34,25 +35,16 @@ const packager = async (srcDir, nwDir, outDir, platform, zip, releaseInfo) => {
     },
   );
 
-  log.debug("Get NW's package.json as a buffer");
-  let buffer = await readFile(
-    `${outDir}/${
-      platform !== "osx" ? "package.nw" : "nwjs.app/Contents/Resources/app.nw"
-    }/package.json`,
-  );
-  log.debug("Convert package.json buffer into JSON");
-  let pkg = JSON.parse(buffer);
-
   log.debug(`Starting platform specific config steps for ${platform}`);
   switch (platform) {
     case "linux":
-      setLinuxConfig(pkg, outDir);
+      setLinuxConfig(app, outDir);
       break;
     case "win":
-      setWinConfig(pkg, outDir);
+      setWinConfig(app, outDir);
       break;
     case "osx":
-      setOsxConfig(pkg, outDir, releaseInfo);
+      setOsxConfig(app, outDir, releaseInfo);
       break;
     default:
       break;

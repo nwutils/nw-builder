@@ -27,6 +27,7 @@ import { log } from "./log.js";
  * @param  {"./cache" | string}           options.cacheDir     Directory to store NW binaries
  * @param  {"https://dl.nwjs.io"}         options.downloadUrl  URI to download NW binaries from
  * @param  {"https://nwjs.io/versions"}   options.manifestUrl  URI to download manifest from
+ * @param  {object}                       options.app          Multi platform configuration options
  * @param  {boolean}                      options.cache        If true the existing cache is used. Otherwise it removes and redownloads it.
  * @param  {boolean}                      options.zip          If true the outDir directory is zipped
  * @return {Promise<undefined>}
@@ -34,6 +35,7 @@ import { log } from "./log.js";
 export const nwbuild = async (options) => {
   let nwDir = "";
   let nwPkg = {};
+  let cached;
   let releaseInfo = {};
   try {
     //Check if package.json exists in the srcDir
@@ -72,8 +74,16 @@ export const nwbuild = async (options) => {
     // Parse options, set required values to undefined and flags with default values unless specified by user
     options = await parse(options);
 
+    // Variable to store nwDir file path
+    nwDir = `${options.cacheDir}/nwjs${
+      options.flavour === "sdk" ? "-sdk" : ""
+    }-v${options.version}-${options.platform}-${options.arch}`;
+
     // Create cacheDir if it does not exist
-    await mkdir(options.cacheDir, { recursive: false });
+    cached = await isCached(nwDir);
+    if (cached === false) {
+      await mkdir(nwDir, { recursive: true });
+    }
 
     // Validate options.version here
     // We need to do this to get the version specific release info
@@ -99,14 +109,11 @@ export const nwbuild = async (options) => {
       }
     }
 
-    // Variable to store nwDir file path
-    nwDir = `${options.cacheDir}/nwjs${
-      options.flavour === "sdk" ? "-sdk" : ""
-    }-v${options.version}-${options.platform}-${options.arch}`;
+    console.log(options.cache, cached)
 
     // Download relevant NW.js binaries
-    let cached = await isCached(nwDir);
-    if (options?.cache === true || cached === false) {
+    if (options.cache === false || cached === false) {
+      log.debug('Remove cached NW binary');
       await rm(nwDir, { force: true, recursive: true });
       await download(
         options.version,
@@ -134,6 +141,7 @@ export const nwbuild = async (options) => {
         options.platform,
         options.zip,
         releaseInfo,
+        options.app,
       );
     }
   } catch (error) {

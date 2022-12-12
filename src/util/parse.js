@@ -11,12 +11,7 @@ import { getPlatform } from "./platform.js";
  * @return {Promise<object>}          Options
  */
 export const parse = async (options) => {
-  let pkg = undefined;
-  try {
-    pkg = await readFile(`${options.srcDir}/package.json`);
-  } catch (e) {
-    // log.warn(e);
-  }
+  let pkg = JSON.parse(await readFile(`${options.srcDir}/package.json`));
 
   if (typeof pkg?.nwbuild === "object") {
     options = { ...pkg.nwbuild };
@@ -36,6 +31,9 @@ export const parse = async (options) => {
   options.cacheDir = options.cacheDir ?? `${cwd()}/cache`;
   options.downloadUrl = options.downloadUrl ?? "https://dl.nwjs.io";
   options.manifestUrl = options.manifestUrl ?? "https://nwjs.io/versions";
+  options.app = {};
+  options.app.name = options.app.name ?? pkg.name;
+  options.app.icon = options.app.icon ?? undefined;
   options.cache = options.cache ?? true;
   options.zip = options.zip ?? false;
   return options;
