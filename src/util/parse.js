@@ -32,8 +32,30 @@ export const parse = async (options) => {
   options.downloadUrl = options.downloadUrl ?? "https://dl.nwjs.io";
   options.manifestUrl = options.manifestUrl ?? "https://nwjs.io/versions";
   options.app = {};
-  options.app.name = options.app.name ?? pkg.name;
+  // desktop entry file configurations options
+  options.name = options.app.name ?? pkg.name;
+  options.app.genericName = options.app.genericName ?? undefined;
+  options.app.noDisplay = options.app.noDisplay ?? undefined;
+  options.app.comment = options.app.comment ?? undefined;
   options.app.icon = options.app.icon ?? undefined;
+  options.app.hidden = options.app.hidden ?? undefined;
+  options.app.onlyShowIn = options.app.onlyShowIn ?? undefined;
+  options.app.notShowIn = options.app.notShowIn ?? undefined;
+  options.app.dBusActivatable = options.app.dBusActivatable ?? undefined;
+  options.app.tryExec = options.app.tryExec ?? undefined;
+  options.app.exec = options.app.name ?? undefined;
+  options.app.path = options.app.path ?? undefined;
+  options.app.terminal = options.app.terminal ?? undefined;
+  options.app.actions = options.app.actions ?? undefined;
+  options.app.mimeType = options.app.mimeType ?? undefined;
+  options.app.Categories = options.app.categories ?? undefined;
+  options.app.Implements = options.app.implements ?? undefined;
+  options.app.keywords = options.app.keywords ?? undefined;
+  options.app.startupNotify = options.app.startupNotify ?? undefined;
+  options.app.startupWMClass = options.app.startupWMClass ?? undefined;
+  options.app.prefersNonDefaultGPU =
+    options.app.prefersNonDefaultGPU ?? undefined;
+  options.app.singleMainWindow = options.app.singleMainWindow ?? undefined;
   options.cache = options.cache ?? true;
   options.zip = options.zip ?? false;
   return options;
