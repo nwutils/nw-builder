@@ -19,7 +19,15 @@ import { setWinConfig } from "./winCfg.js";
  * @param  {object}                  app          Multi platform configuration options
  * @return {Promise<undefined>}
  */
-const packager = async (srcDir, nwDir, outDir, platform, zip, releaseInfo, app) => {
+const packager = async (
+  srcDir,
+  nwDir,
+  outDir,
+  platform,
+  zip,
+  releaseInfo,
+  app,
+) => {
   log.debug(`Remove any files at ${outDir} directory`);
   await rm(outDir, { force: true, recursive: true });
   log.debug(`Copy ${nwDir} files to ${outDir} directory`);

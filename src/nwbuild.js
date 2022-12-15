@@ -109,11 +109,11 @@ export const nwbuild = async (options) => {
       }
     }
 
-    console.log(options.cache, cached)
+    console.log(options.cache, cached);
 
     // Download relevant NW.js binaries
     if (options.cache === false || cached === false) {
-      log.debug('Remove cached NW binary');
+      log.debug("Remove cached NW binary");
       await rm(nwDir, { force: true, recursive: true });
       await download(
         options.version,
