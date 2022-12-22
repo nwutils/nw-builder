@@ -57,11 +57,11 @@ export const parse = async (options, pkg) => {
   // windows configuration options
   options.app.comments = options.app.comments ?? undefined;
   options.app.company = options.app.company ?? pkg.author;
-  options.app.description = options.app.description ?? pkg.description;
-  options.app.version = options.app.version ?? pkg.version;
+  options.app.fileDescription = options.app.fileDescription ?? pkg.description;
+  options.app.fileVersion = options.app.fileVersion ?? pkg.version;
   options.app.internalName = options.app.internalName ?? pkg.name;
-  options.app.copyright = options.app.copyright ?? undefined;
-  options.app.trademark = options.app.trademark ?? undefined;
+  options.app.legalCopyright = options.app.legalCopyright ?? undefined;
+  options.app.legalTrademark = options.app.legalTrademark ?? undefined;
   options.app.originalFilename = options.app.originalFilename ?? pkg.name;
   options.app.privateBuild = options.app.privateBuild ?? undefined;
   options.app.productName = options.app.productName ?? pkg.name;
