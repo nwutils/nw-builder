@@ -31,8 +31,9 @@
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "docs": "jsdoc ./src/nwbuild.js -d docs",
     "demo:cli": "cd ./test/demo && nwbuild ./nwapp --mode=build --version=0.70.1 --flavour=normal --platform=win --arch=x64 --outDir=./build",
-    "demo:bld": "npm run cjs && cd ./test/demo && node bld.cjs",
-    "demo:run": "npm run cjs && cd ./test/demo && node run.cjs",
+    "demo:nux": "npm run cjs && cd ./test/demo && node nux.js",
+    "demo:osx": "npm run cjs && cd ./test/demo && node osx.js",
+    "demo:win": "npm run cjs && cd ./test/demo && node win.js",
     "cjs": "esbuild ./src/nwbuild.js --bundle --minify --legal-comments=inline --platform=node --outfile=./dist/nwbuild.cjs",
     "checklist": "npm run cjs && npm run format && npm run lint && npm run test"
   },
