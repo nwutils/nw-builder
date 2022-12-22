@@ -15,8 +15,8 @@ jobs:
   test:
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
-        node-version: [16, 18]
+        os: [windows-latest]
+        node-version: [18]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
@@ -25,6 +25,4 @@ jobs:
           node-version: ${{ matrix.node-version }}
           npm-version: '8.5.0'
       - run: npm ci
-      - run: npm run format
-      - run: npm run lint
-      - run: npm run test
+      - run: npm run demo:bld
