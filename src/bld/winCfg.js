@@ -4,24 +4,14 @@ import rcedit from "rcedit";
 
 /**
  * Windows specific configuration steps
- * https://learn.microsoft.com/en-gb/windows/win32/menurc/versioninfo-resource?redirectedfrom=MSDN#string-name
+ * https://learn.microsoft.com/en-gb/windows/win32/menurc/versioninfo-resource
  *
- * @param {object} pkg     The srcDir/package.json as a JSON
+ * @param {object} app     Multi platform configuration options
  * @param {string} outDir  The directory to hold build artifacts
  */
-const setWinConfig = async (pkg, outDir) => {
-  await rename(`${outDir}/nw.exe`, `${outDir}/${pkg.name}.exe`);
-  await rcedit(`${outDir}/${pkg.name}.exe`, {
-    "file-version": pkg.version,
-    "product-version": pkg.version,
-    "icon": pkg.icon,
-    "version-string": {
-      FileDescription: pkg.description,
-      LegalCopyright: pkg.copyright,
-      ProductName: pkg.name,
-      OriginalFilename: pkg.name,
-    },
-  });
+const setWinConfig = async (app, outDir) => {
+  await rename(`${outDir}/nw.exe`, `${outDir}/${app.name}.exe`);
+  await rcedit(`${outDir}/${app.name}.exe`);
 };
 
 export { setWinConfig };

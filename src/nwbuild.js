@@ -109,8 +109,6 @@ export const nwbuild = async (options) => {
       }
     }
 
-    console.log(options.cache, cached);
-
     // Download relevant NW.js binaries
     if (options.cache === false || cached === false) {
       log.debug("Remove cached NW binary");

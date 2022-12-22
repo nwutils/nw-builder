@@ -32,7 +32,7 @@ export const parse = async (options) => {
   options.downloadUrl = options.downloadUrl ?? "https://dl.nwjs.io";
   options.manifestUrl = options.manifestUrl ?? "https://nwjs.io/versions";
   options.app = {};
-  // desktop entry file configurations options
+  // linux desktop entry file configurations options
   options.name = options.app.name ?? pkg.name;
   options.app.genericName = options.app.genericName ?? undefined;
   options.app.noDisplay = options.app.noDisplay ?? undefined;
@@ -56,6 +56,8 @@ export const parse = async (options) => {
   options.app.prefersNonDefaultGPU =
     options.app.prefersNonDefaultGPU ?? undefined;
   options.app.singleMainWindow = options.app.singleMainWindow ?? undefined;
+  // windows configuration options
+
   options.cache = options.cache ?? true;
   options.zip = options.zip ?? false;
   return options;
