@@ -1,4 +1,3 @@
-import { readFile } from "node:fs/promises";
 import { arch, cwd, platform } from "node:process";
 
 import { getArch } from "./arch.js";
@@ -8,11 +7,10 @@ import { getPlatform } from "./platform.js";
  * Parse options
  *
  * @param  {object}          options  Options
+ * @param  {object}          pkg      Package.json as JSON
  * @return {Promise<object>}          Options
  */
-export const parse = async (options) => {
-  let pkg = JSON.parse(await readFile(`${options.srcDir}/package.json`));
-
+export const parse = async (options, pkg) => {
   if (typeof pkg?.nwbuild === "object") {
     options = { ...pkg.nwbuild };
   }
@@ -33,7 +31,7 @@ export const parse = async (options) => {
   options.manifestUrl = options.manifestUrl ?? "https://nwjs.io/versions";
   options.app = {};
   // linux desktop entry file configurations options
-  options.name = options.app.name ?? pkg.name;
+  options.app.name = options.app.name ?? pkg.name;
   options.app.genericName = options.app.genericName ?? undefined;
   options.app.noDisplay = options.app.noDisplay ?? undefined;
   options.app.comment = options.app.comment ?? undefined;
@@ -48,8 +46,8 @@ export const parse = async (options) => {
   options.app.terminal = options.app.terminal ?? undefined;
   options.app.actions = options.app.actions ?? undefined;
   options.app.mimeType = options.app.mimeType ?? undefined;
-  options.app.Categories = options.app.categories ?? undefined;
-  options.app.Implements = options.app.implements ?? undefined;
+  options.app.categories = options.app.categories ?? undefined;
+  options.app.implements = options.app.implements ?? undefined;
   options.app.keywords = options.app.keywords ?? undefined;
   options.app.startupNotify = options.app.startupNotify ?? undefined;
   options.app.startupWMClass = options.app.startupWMClass ?? undefined;
@@ -57,7 +55,8 @@ export const parse = async (options) => {
     options.app.prefersNonDefaultGPU ?? undefined;
   options.app.singleMainWindow = options.app.singleMainWindow ?? undefined;
   // windows configuration options
-
+  options.app.comments = options.app.comments ?? undefined;
+  options.app.company = options.app.company ?? pkg.author;
   options.cache = options.cache ?? true;
   options.zip = options.zip ?? false;
   return options;

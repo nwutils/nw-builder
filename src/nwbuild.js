@@ -72,7 +72,7 @@ export const nwbuild = async (options) => {
     }
 
     // Parse options, set required values to undefined and flags with default values unless specified by user
-    options = await parse(options);
+    options = await parse(options, nwPkg);
 
     // Variable to store nwDir file path
     nwDir = `${options.cacheDir}/nwjs${

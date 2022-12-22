@@ -1,4 +1,5 @@
 {
     "name": "nwdemo",
-    "main": "index.html"
+    "main": "index.html",
+    "author": "ABC Corp"
 }
