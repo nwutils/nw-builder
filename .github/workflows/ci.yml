@@ -15,10 +15,12 @@ jobs:
   test:
     strategy:
       matrix:
-        os: [ubuntu-latest]
-        node-version: [18]
+        os: [macos-latest, ubuntu-latest, windows-latest]
+        node-version: [16, 18]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
       - run: npm ci
-      - run: npm run demo:win
+      - run: npm run format
+      - run: npm run lint
+      - run: npm run test
