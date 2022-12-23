@@ -105,7 +105,7 @@ package.json usage
 | srcDir      | `string`                            | `./`                       | Directory to hold NW app files                                                 |
 | mode        | `run \| build`                      | `build`                    | Run or build application                                                       |
 | version     | `latest \| stable \| string \| lts` | `latest`                   | NW runtime version                                                             |
-| flavour     | `sdk \| normal`                     | `sdk`                      | NW runtime build flavour.                                                      |
+| flavor      | `sdk \| normal`                     | `normal`                   | NW runtime build flavour.                                                      |
 | platform    | `linux \| osx \| win`               | `<current platform>`       | NW supported platforms                                                         |
 | arch        | `ia32 \| x64`                       | `<current architecture>`   | NW supported architectures                                                     |
 | outDir      | `string`                            | `./out`                    | Directory to store build artifacts                                             |
