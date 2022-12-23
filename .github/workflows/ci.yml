@@ -20,10 +20,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
-      - uses: volta-cli/action@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-          npm-version: '8.5.0'
       - run: npm ci
       - run: npm run format
       - run: npm run lint

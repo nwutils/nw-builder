@@ -17,7 +17,7 @@
   "main": "./src/nwbuild.js",
   "exports": {
     "import": "./src/nwbuild.js",
-    "require": "./nwbuild.cjs"
+    "require": "./dist/nwbuild.cjs"
   },
   "type": "module",
   "homepage": "https://github.com/nwutils/nw-builder",
@@ -33,7 +33,7 @@
     "demo:cli": "cd ./test/demo && nwbuild ./nwapp --mode=build --version=0.70.1 --flavour=normal --platform=win --arch=x64 --outDir=./build",
     "demo:bld": "cd ./test/demo && node bld.cjs",
     "demo:run": "cd ./test/demo && node run.cjs",
-    "cjs": "esbuild ./src/nwbuild.js --bundle --minify --legal-comments=inline --platform=node --outfile=./nwbuild.cjs",
+    "cjs": "esbuild ./src/nwbuild.js --bundle --minify --legal-comments=inline --platform=node --outfile=./dist/nwbuild.cjs",
     "checklist": "npm run cjs && npm run format && npm run lint && npm run test"
   },
   "devDependencies": {
