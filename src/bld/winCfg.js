@@ -40,7 +40,6 @@ const setWinConfig = async (app, outDir) => {
     "icon": app.icon,
     "product-version": app.version,
     "version-string": versionString,
-    "requested-execution-level": "asInvoker",
   });
 };
 
