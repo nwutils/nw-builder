@@ -15,14 +15,10 @@ export const parse = async (options, pkg) => {
     options = { ...pkg.nwbuild };
   }
 
-  if (options.flavor !== undefined) {
-    options.flavour = options.flavor;
-  }
-
   options.srcDir = options.srcDir ?? "./";
   options.mode = options.mode ?? "build";
   options.version = options.version ?? "latest";
-  options.flavour = options.flavour || options.flavor || "normal";
+  options.flavor = options.flavor || "normal";
   options.platform = options.platform ?? getPlatform(platform);
   options.arch = options.arch ?? getArch(arch);
   options.outDir = options.outDir ?? "./out";

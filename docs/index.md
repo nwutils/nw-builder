@@ -23,14 +23,14 @@ nwbuild({
   srcDir: "./nwapp",
   mode: "run",
   version: "0.70.1",
-  flavour: "sdk",
+  flavor: "sdk",
 });
 ```
 
 CLI usage
 
 ```shell
-nwbuild ./nwapp --mode=run --version=0.70.1 --flavour=sdk
+nwbuild ./nwapp --mode=run --version=0.70.1 --flavor=sdk
 ```
 
 package.json usage
@@ -45,7 +45,7 @@ package.json usage
     "srcDir": "./nwapp",
     "mode": "run",
     "version": "0.70.1",
-    "flavour": "sdk"
+    "flavor": "sdk"
   }
 }
 ```
@@ -61,7 +61,7 @@ nwbuild({
   srcDir: "./nwapp",
   mode: "build",
   version: "0.70.1",
-  flavour: "normal",
+  flavor: "normal",
   platform: "linux",
   arch: "x64",
   outDir: "./out",
@@ -71,7 +71,7 @@ nwbuild({
 CLI usage
 
 ```shell
-nwbuild ./nwapp --mode=build --version=0.70.1 --flavour=normal --platform=linux --arch=x64 --outDir=./out
+nwbuild ./nwapp --mode=build --version=0.70.1 --flavor=normal --platform=linux --arch=x64 --outDir=./out
 ```
 
 package.json usage
@@ -86,7 +86,7 @@ package.json usage
     "srcDir": "./nwapp",
     "mode": "build",
     "version": "0.70.1",
-    "flavour": "normal",
+    "flavor": "normal",
     "platform": "linux",
     "arch": "x64",
     "outDir": "./out"
@@ -105,7 +105,7 @@ package.json usage
 | srcDir      | `string`                            | `./`                       | Directory to hold NW app files                                                 |
 | mode        | `run \| build`                      | `build`                    | Run or build application                                                       |
 | version     | `latest \| stable \| string \| lts` | `latest`                   | NW runtime version                                                             |
-| flavor      | `sdk \| normal`                     | `normal`                   | NW runtime build flavour.                                                      |
+| flavor      | `sdk \| normal`                     | `normal`                   | NW runtime build flavor.                                                      |
 | platform    | `linux \| osx \| win`               | `<current platform>`       | NW supported platforms                                                         |
 | arch        | `ia32 \| x64`                       | `<current architecture>`   | NW supported architectures                                                     |
 | outDir      | `string`                            | `./out`                    | Directory to store build artifacts                                             |

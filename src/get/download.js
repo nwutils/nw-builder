@@ -7,7 +7,7 @@ const bar = new progress.SingleBar({}, progress.Presets.rect);
 
 const download = (
   version,
-  flavour,
+  flavor,
   platform,
   architecture,
   downloadUrl,
@@ -20,7 +20,7 @@ const download = (
     }
 
     let url = `${downloadUrl}/v${version}/nwjs${
-      flavour === "sdk" ? "-sdk" : ""
+      flavor === "sdk" ? "-sdk" : ""
     }-v${version}-${platform}-${architecture}.${
       platform === "linux" ? "tar.gz" : "zip"
     }`;

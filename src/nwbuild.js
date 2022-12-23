@@ -19,8 +19,7 @@ import { log } from "./log.js";
  * @param  {object}                       options              Directory to hold NW app files unless or array of file glob patterns
  * @param  {"run" | "build"}              options.mode         Run or build application
  * @param  {"latest" | "stable" | string} options.version      NW runtime version
- * @param  {"normal" | "sdk"}             options.flavour      NW runtime build flavour
- * @param  {"normal" | "sdk"}             options.flavor       NW supported platforms
+ * @param  {"normal" | "sdk"}             options.flavor       NW runtime build flavor
  * @param  {"linux" | "osx" | "win"}      options.platform     NW supported platforms
  * @param  {"ia32" | "x64"}               options.arch         NW supported architectures
  * @param  {string}                       options.outDir       Directory to store build artifacts
@@ -76,7 +75,7 @@ export const nwbuild = async (options) => {
 
     // Variable to store nwDir file path
     nwDir = `${options.cacheDir}/nwjs${
-      options.flavour === "sdk" ? "-sdk" : ""
+      options.flavor === "sdk" ? "-sdk" : ""
     }-v${options.version}-${options.platform}-${options.arch}`;
 
     // Create cacheDir if it does not exist
@@ -115,7 +114,7 @@ export const nwbuild = async (options) => {
       await rm(nwDir, { force: true, recursive: true });
       await download(
         options.version,
-        options.flavour,
+        options.flavor,
         options.platform,
         options.arch,
         options.downloadUrl,
