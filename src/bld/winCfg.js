@@ -1,6 +1,6 @@
 import { rename } from "node:fs/promises";
 
-import rcedit from "rcedit";
+// import rcedit from "rcedit";
 
 /**
  * Windows specific configuration steps
