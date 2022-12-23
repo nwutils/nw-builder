@@ -31,7 +31,7 @@
     "docs": "jsdoc ./src/nwbuild.js -d docs",
     "test:cli": "cd ./test/e2e && nwbuild ./nwapp --mode=build --version=0.70.1 --flavour=normal --platform=win --arch=x64 --outDir=./build",
     "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "test:e2e": "cd ./test/demo && node bld.cjs",
+    "test:e2e": "cd ./test/e2e && node bld.cjs",
     "cjs": "esbuild ./src/nwbuild.js --bundle --minify --legal-comments=inline --platform=node --outfile=./dist/nwbuild.cjs",
     "checklist": "npm run cjs && npm run format && npm run lint && npm run test"
   },
