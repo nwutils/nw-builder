@@ -92,11 +92,7 @@ export const nwbuild = async (options) => {
       options.manifestUrl,
     );
 
-    // TODO: validate options
-    const e = validate(options, releaseInfo);
-    if (e === false) {
-      throw new Error("Some option was invalid.");
-    }
+    validate(options, releaseInfo);
 
     // Get current platform and arch if mode is run
     if (options.mode === "run") {
