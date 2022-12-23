@@ -1,7 +1,8 @@
+const { platform } = require("node:process");
 const { nwbuild } = require("nw-builder");
 
-const bld = async () => {
-  await nwbuild({
+if (platform === "linux") {
+  nwbuild({
     srcDir: "./nwapp",
     mode: "build",
     version: "0.70.1",
@@ -10,7 +11,10 @@ const bld = async () => {
     arch: "x64",
     outDir: "./build/nix",
   });
-  await nwbuild({
+}
+
+if (platform === "darwin") {
+  nwbuild({
     srcDir: "./nwapp",
     mode: "build",
     version: "0.70.1",
@@ -19,7 +23,10 @@ const bld = async () => {
     arch: "x64",
     outDir: "./build/osx",
   });
-  await nwbuild({
+}
+
+if (platform === "win32") {
+  nwbuild({
     srcDir: "./nwapp",
     mode: "build",
     version: "0.70.1",
@@ -28,6 +35,4 @@ const bld = async () => {
     arch: "x64",
     outDir: "./build/win",
   });
-};
-
-bld();
+}
