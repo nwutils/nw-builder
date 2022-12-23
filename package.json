@@ -26,7 +26,7 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
-    "format": "prettier --write \"./**/*.{js,md}\"",
+    "format": "prettier --write \"./**/*.{js,cjs,md}\"",
     "lint": "eslint ./src",
     "docs": "jsdoc ./src/nwbuild.js -d docs",
     "test:cli": "cd ./test/e2e && nwbuild ./nwapp --mode=build --version=0.70.1 --flavour=normal --platform=win --arch=x64 --outDir=./build",
