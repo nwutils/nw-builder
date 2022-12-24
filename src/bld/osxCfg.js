@@ -7,7 +7,6 @@ import { log } from "../log.js";
 
 /**
  * OSX specific configuration steps
- * https://developer.apple.com/documentation/bundleresources/information_property_list
  *
  * @param  {object}             pkg     The srcDir/package.json as a JSON
  * @param  {string}             outDir  The directory to hold build artifacts
