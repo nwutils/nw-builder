@@ -94,16 +94,6 @@ export const nwbuild = async (options) => {
 
     validate(options, releaseInfo);
 
-    // Get current platform and arch if mode is run
-    if (options.mode === "run") {
-      if (options.platform === undefined) {
-        throw new Error(`Platform ${platform} is not supported. Sorry!`);
-      }
-      if (options.arch === undefined) {
-        throw new Error(`Architecture ${arch} is not supported. Sorry!`);
-      }
-    }
-
     // Download relevant NW.js binaries
     if (options.cache === false || cached === false) {
       log.debug("Remove cached NW binary");
