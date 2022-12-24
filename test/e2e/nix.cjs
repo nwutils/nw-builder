@@ -2,7 +2,10 @@ const { nwbuild } = require("nw-builder");
 
 nwbuild({
   srcDir: "./nwapp",
-  mode: "run",
+  mode: "build",
   version: "0.70.1",
-  flavour: "sdk",
+  flavour: "normal",
+  platform: "linux",
+  arch: "x64",
+  outDir: "./build/nix",
 });

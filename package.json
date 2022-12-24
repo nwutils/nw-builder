@@ -17,7 +17,7 @@
   "main": "./src/nwbuild.js",
   "exports": {
     "import": "./src/nwbuild.js",
-    "require": "./nwbuild.cjs"
+    "require": "./dist/nwbuild.cjs"
   },
   "type": "module",
   "homepage": "https://github.com/nwutils/nw-builder",
@@ -26,14 +26,16 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
-    "format": "prettier --write \"./**/*.{js,md}\"",
+    "format": "prettier --write \"./**/*.{js,cjs,md}\"",
     "lint": "eslint ./src",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "docs": "jsdoc ./src/nwbuild.js -d docs",
-    "demo:cli": "cd ./test/demo && nwbuild ./nwapp --mode=build --version=0.70.1 --flavour=normal --platform=win --arch=x64 --outDir=./build",
-    "demo:bld": "cd ./test/demo && node bld.cjs",
-    "demo:run": "cd ./test/demo && node run.cjs",
-    "cjs": "esbuild ./src/nwbuild.js --bundle --minify --legal-comments=inline --platform=node --outfile=./nwbuild.cjs",
+    "test:cli": "cd ./test/e2e && nwbuild ./nwapp --mode=build --version=0.70.1 --flavour=normal --platform=win --arch=x64 --outDir=./build",
+    "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:e2e": "npm run cjs && cd ./test/e2e && node bld.cjs",
+    "demo:nix": "npm run cjs && cd ./test/e2e && node nix.cjs",
+    "demo:osx": "npm run cjs && cd ./test/e2e && node osx.cjs",
+    "demo:win": "npm run cjs && cd ./test/e2e && node win.cjs",
+    "cjs": "esbuild ./src/nwbuild.js --bundle --minify --legal-comments=inline --platform=node --outfile=./dist/nwbuild.cjs",
     "checklist": "npm run cjs && npm run format && npm run lint && npm run test"
   },
   "devDependencies": {

@@ -8,5 +8,6 @@ coverage
 # project files
 build
 cache
+dist
 *.zip
 nwbuild.log
