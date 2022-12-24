@@ -1,9 +1,5 @@
 import { getPlatform } from "./platform.js";
 
-test("invalid/unsupported platform", () => {
-  expect(() => getPlatform("aix")).toThrow();
-});
-
 test("linux platform support", () => {
   expect(getPlatform("linux")).toBe("linux");
 });
