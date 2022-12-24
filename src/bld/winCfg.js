@@ -28,11 +28,11 @@ const setWinConfig = async (app, outDir) => {
     SpecialBuild: app.name,
   };
 
-   Object.keys(versionString).forEach((option) => {
+  Object.keys(versionString).forEach((option) => {
     if (versionString[option] === undefined) {
       delete versionString[option];
     }
-   });
+  });
 
   await rename(`${outDir}/nw.exe`, `${outDir}/${app.name}.exe`);
   await rcedit(`${outDir}/${app.name}.exe`, {
