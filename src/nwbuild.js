@@ -1,4 +1,3 @@
-import { platform, arch } from "node:process";
 import { mkdir, readFile, rm } from "node:fs/promises";
 
 import { decompress } from "./get/decompress.js";
