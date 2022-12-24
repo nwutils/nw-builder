@@ -23,4 +23,6 @@ jobs:
       - run: npm ci
       - run: npm run format
       - run: npm run lint
-      - run: npm run test
+      - run: npm run test:unit
+      - run: npm run cjs
+      - run: npm run test:e2e
