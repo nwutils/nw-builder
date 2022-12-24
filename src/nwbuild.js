@@ -109,9 +109,6 @@ export const nwbuild = async (options) => {
       await remove(options.platform, options.cacheDir);
     }
 
-    if (options.mode !== "run" && options.mode !== "build") {
-      throw new Error("Invalid mode value. Expected run or build.");
-    }
     if (options.mode === "run") {
       await develop(options.srcDir, nwDir, options.platform);
     }

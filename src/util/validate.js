@@ -11,7 +11,7 @@ export const validate = (options, releaseInfo) => {
   if (options.srcDir && readdir(options.srcDir).length === 0) {
     throw new Error("srcDir is empty");
   }
-  if (options.mode !== "run" || options.mode !== "build") {
+  if (options.mode !== "run" && options.mode !== "build") {
     throw new Error("Invalid mode value. Expected run or build.");
   }
   if (
