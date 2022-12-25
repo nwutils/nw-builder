@@ -1,6 +1,9 @@
 import { rename } from "node:fs/promises";
+import { platform } from "node:process";
 
 import rcedit from "rcedit";
+
+import { log } from "../log.js";
 
 /**
  * Windows specific configuration steps
@@ -34,13 +37,24 @@ const setWinConfig = async (app, outDir) => {
     }
   });
 
-  await rename(`${outDir}/nw.exe`, `${outDir}/${app.name}.exe`);
-  await rcedit(`${outDir}/${app.name}.exe`, {
-    "file-version": app.version,
-    "icon": app.icon,
-    "product-version": app.version,
-    "version-string": versionString,
-  });
+  try {
+    await rename(`${outDir}/nw.exe`, `${outDir}/${app.name}.exe`);
+
+    if (platform === "win32") {
+      await rcedit(`${outDir}/${app.name}.exe`, {
+        "file-version": app.version,
+        "icon": app.icon,
+        "product-version": app.version,
+        "version-string": versionString,
+      });
+    } else {
+      throw new Error(
+        `The exe cannot be modified on platform ${platform}. Either install Wine or build on a Windows OS. `,
+      );
+    }
+  } catch (error) {
+    log.error(error);
+  }
 };
 
 export { setWinConfig };
