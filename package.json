@@ -35,7 +35,8 @@
     "demo:nix": "npm run cjs && cd ./test/e2e && node nix.cjs",
     "demo:osx": "npm run cjs && cd ./test/e2e && node osx.cjs",
     "demo:win": "npm run cjs && cd ./test/e2e && node win.cjs",
-    "cjs": "esbuild ./src/nwbuild.js --bundle --minify --legal-comments=inline --platform=node --outfile=./dist/nwbuild.cjs"
+    "cjs": "esbuild ./src/nwbuild.js --bundle --minify --legal-comments=inline --platform=node --outfile=./dist/nwbuild.cjs",
+    "checklist": "npm run cjs && npm run format && npm run lint && npm run test"
   },
   "devDependencies": {
     "esbuild": "^0.16.3",
