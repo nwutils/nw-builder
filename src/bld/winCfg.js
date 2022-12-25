@@ -1,28 +1,46 @@
 import { rename } from "node:fs/promises";
 
-// import rcedit from "rcedit";
+import rcedit from "rcedit";
 
 /**
  * Windows specific configuration steps
+ * https://learn.microsoft.com/en-us/windows/win32/msi/version
+ * https://learn.microsoft.com/en-gb/windows/win32/sbscs/application-manifests
+ * https://learn.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2015/deployment/trustinfo-element-clickonce-application?view=vs-2015#requestedexecutionlevel
+ * https://learn.microsoft.com/en-gb/windows/win32/menurc/versioninfo-resource
  *
- * @param {object} pkg     The srcDir/package.json as a JSON
+ * @param {object} app     Multi platform configuration options
  * @param {string} outDir  The directory to hold build artifacts
  */
-const setWinConfig = async (pkg, outDir) => {
-  await rename(`${outDir}/nw.exe`, `${outDir}/${pkg.name}.exe`);
+const setWinConfig = async (app, outDir) => {
+  let versionString = {
+    Comments: app.comments,
+    CompanyName: app.author,
+    FileDescription: app.fileDescription,
+    FileVersion: app.fileVersion,
+    InternalName: app.name,
+    LegalCopyright: app.legalCopyright,
+    LegalTrademarks: app.legalTrademark,
+    OriginalFilename: app.name,
+    PrivateBuild: app.name,
+    ProductName: app.name,
+    ProductVersion: app.version,
+    SpecialBuild: app.name,
+  };
 
-  // https://learn.microsoft.com/en-gb/windows/win32/menurc/versioninfo-resource?redirectedfrom=MSDN#string-name
-  // await rcedit(`${outDir}/${pkg.name}.exe`, {
-  //   "file-version": pkg.version,
-  //   "product-version": pkg.version,
-  //   "icon": pkg.icon,
-  //   "version-string": {
-  //     FileDescription: pkg.description,
-  //     LegalCopyright: pkg.copyright,
-  //     ProductName: pkg.name,
-  //     OriginalFilename: pkg.name,
-  //   },
-  // });
+  Object.keys(versionString).forEach((option) => {
+    if (versionString[option] === undefined) {
+      delete versionString[option];
+    }
+  });
+
+  await rename(`${outDir}/nw.exe`, `${outDir}/${app.name}.exe`);
+  await rcedit(`${outDir}/${app.name}.exe`, {
+    "file-version": app.version,
+    "icon": app.icon,
+    "product-version": app.version,
+    "version-string": versionString,
+  });
 };
 
 export { setWinConfig };

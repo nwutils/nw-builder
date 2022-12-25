@@ -1,8 +1,8 @@
 /**
  * Get user's computer platform
  *
- * @param  {string}                             platform  Node's process.platform
- * @return {"osx"| "win" | "linux" | undefined}           NW.js supported platforms
+ * @param  {string}                            platform  Node's process.platform
+ * @return {"osx"| "win" | "linux" | "string"}           Platform types
  */
 export const getPlatform = (platform) => {
   switch (platform) {
@@ -13,8 +13,6 @@ export const getPlatform = (platform) => {
     case "linux":
       return "linux";
     default:
-      throw new Error(
-        `The platform ${platform} is either invalid or not supported.`,
-      );
+      return platform;
   }
 };

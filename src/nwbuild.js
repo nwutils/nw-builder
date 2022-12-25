@@ -1,4 +1,3 @@
-import { platform, arch } from "node:process";
 import { mkdir, readFile, rm } from "node:fs/promises";
 
 import { decompress } from "./get/decompress.js";
@@ -10,8 +9,6 @@ import { develop } from "./run/develop.js";
 import { isCached } from "./util/cache.js";
 import { parse } from "./util/parse.js";
 import { validate } from "./util/validate.js";
-import { getArch } from "./util/arch.js";
-import { getPlatform } from "./util/platform.js";
 
 import { log } from "./log.js";
 
@@ -21,14 +18,14 @@ import { log } from "./log.js";
  * @param  {object}                       options              Directory to hold NW app files unless or array of file glob patterns
  * @param  {"run" | "build"}              options.mode         Run or build application
  * @param  {"latest" | "stable" | string} options.version      NW runtime version
- * @param  {"normal" | "sdk"}             options.flavour      NW runtime build flavour
- * @param  {"normal" | "sdk"}             options.flavor       NW supported platforms
+ * @param  {"normal" | "sdk"}             options.flavor       NW runtime build flavor
  * @param  {"linux" | "osx" | "win"}      options.platform     NW supported platforms
  * @param  {"ia32" | "x64"}               options.arch         NW supported architectures
  * @param  {string}                       options.outDir       Directory to store build artifacts
  * @param  {"./cache" | string}           options.cacheDir     Directory to store NW binaries
  * @param  {"https://dl.nwjs.io"}         options.downloadUrl  URI to download NW binaries from
  * @param  {"https://nwjs.io/versions"}   options.manifestUrl  URI to download manifest from
+ * @param  {object}                       options.app          Multi platform configuration options
  * @param  {boolean}                      options.cache        If true the existing cache is used. Otherwise it removes and redownloads it.
  * @param  {boolean}                      options.zip          If true the outDir directory is zipped
  * @return {Promise<undefined>}
@@ -36,6 +33,8 @@ import { log } from "./log.js";
 export const nwbuild = async (options) => {
   let nwDir = "";
   let nwPkg = {};
+  let cached;
+  let built;
   let releaseInfo = {};
   try {
     //Check if package.json exists in the srcDir
@@ -72,10 +71,24 @@ export const nwbuild = async (options) => {
     }
 
     // Parse options, set required values to undefined and flags with default values unless specified by user
-    options = await parse(options);
+    options = await parse(options, nwPkg);
+
+    // Variable to store nwDir file path
+    nwDir = `${options.cacheDir}/nwjs${
+      options.flavor === "sdk" ? "-sdk" : ""
+    }-v${options.version}-${options.platform}-${options.arch}`;
 
     // Create cacheDir if it does not exist
-    await mkdir(options.cacheDir, { recursive: false });
+    cached = await isCached(nwDir);
+    if (cached === false) {
+      await mkdir(nwDir, { recursive: true });
+    }
+
+    // Create outDir if it does not exist
+    built = await isCached(options.outDir);
+    if (built === false) {
+      await mkdir(options.outDir, { recursive: true });
+    }
 
     // Validate options.version here
     // We need to do this to get the version specific release info
@@ -85,39 +98,20 @@ export const nwbuild = async (options) => {
       options.manifestUrl,
     );
 
-    // TODO: validate options
-    const e = validate(options, releaseInfo);
-    if (e === false) {
-      throw new Error("Some option was invalid.");
-    }
+    validate(options, releaseInfo);
 
-    // Get current platform and arch if mode is run
-    if (options.mode === "run") {
-      let tmpPlatform = getPlatform(platform);
-      let tmpArch = getArch(arch);
-      if (tmpPlatform === undefined) {
-        throw new Error(`Platform ${platform} is not supported. Sorry!`);
-      }
-      if (tmpArch === undefined) {
-        throw new Error(`Architecture ${arch} is not supported. Sorry!`);
-      } else {
-        options.platform = tmpPlatform;
-        options.arch = tmpArch;
-      }
-    }
-
-    // Variable to store nwDir file path
-    nwDir = `${options.cacheDir}/nwjs${
-      options.flavour === "sdk" ? "-sdk" : ""
-    }-v${options.version}-${options.platform}-${options.arch}`;
-
-    // Download relevant NW.js binaries
-    let cached = await isCached(nwDir);
-    if (options?.cache === true || cached === false) {
+    // Remove cached NW binary
+    if (options.cache === false && cached === true) {
+      log.debug("Remove cached NW binary");
       await rm(nwDir, { force: true, recursive: true });
+    }
+    // Download relevant NW.js binaries
+    if (cached === false) {
+      log.debug("Download relevant NW.js binaries");
+      log.debug(options.downloadUrl)
       await download(
         options.version,
-        options.flavour,
+        options.flavor,
         options.platform,
         options.arch,
         options.downloadUrl,
@@ -127,9 +121,6 @@ export const nwbuild = async (options) => {
       await remove(options.platform, options.cacheDir);
     }
 
-    if (options.mode !== "run" && options.mode !== "build") {
-      throw new Error("Invalid mode value. Expected run or build.");
-    }
     if (options.mode === "run") {
       await develop(options.srcDir, nwDir, options.platform);
     }
@@ -141,6 +132,7 @@ export const nwbuild = async (options) => {
         options.platform,
         options.zip,
         releaseInfo,
+        options.app,
       );
     }
   } catch (error) {

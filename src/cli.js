@@ -16,9 +16,9 @@ const cli = yargs(hideBin(process.argv))
     type: "string",
     description: "NW.js version",
   })
-  .option("flavour", {
+  .option("flavor", {
     type: "string",
-    description: "NW.js build flavour",
+    description: "NW.js build flavor",
   })
   .option("platform", {
     type: "string",

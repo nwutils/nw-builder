@@ -1,9 +1,5 @@
 import { getArch } from "./arch.js";
 
-test("invalid/unsupported arch", () => {
-  expect(() => getArch("arm64")).toThrow();
-});
-
 test("x32 arch support", () => {
   expect(getArch("ia32")).toBe("ia32");
 });
