@@ -34,6 +34,7 @@ export const nwbuild = async (options) => {
   let nwDir = "";
   let nwPkg = {};
   let cached;
+  let built;
   let releaseInfo = {};
   try {
     //Check if package.json exists in the srcDir
@@ -81,6 +82,12 @@ export const nwbuild = async (options) => {
     cached = await isCached(nwDir);
     if (cached === false) {
       await mkdir(nwDir, { recursive: true });
+    }
+
+    // Create outDir if it does not exist
+    built = await isCached(options.outDir);
+    if (built === false) {
+      await mkdir(options.outDir, { recursive: true });
     }
 
     // Validate options.version here

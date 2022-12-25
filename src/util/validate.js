@@ -7,7 +7,7 @@ import { readdir } from "node:fs/promises";
  * @param  {object}    releaseInfo  Version specific NW release info
  * @return {undefined}              True if options are valid. False otherwise
  */
-export const validate = (options, releaseInfo) => {
+export const validate = async (options, releaseInfo) => {
   if (options.srcDir && readdir(options.srcDir).length === 0) {
     throw new Error("srcDir is empty");
   }
@@ -23,8 +23,8 @@ export const validate = (options, releaseInfo) => {
       `Platform ${options.platform} and architecture ${options.arch} is not supported. Sorry!`,
     );
   }
-  if (options.outDir && readdir(options.outDir).length === 0) {
-    throw new Error("outDir is empty");
+  if (options.outDir) {
+    await readdir(options.outDir);
   }
   return undefined;
 };
