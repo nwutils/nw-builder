@@ -1,5 +1,4 @@
 import { rename } from "node:fs/promises";
-import { platform } from "node:process";
 
 import rcedit from "rcedit";
 
@@ -40,19 +39,16 @@ const setWinConfig = async (app, outDir) => {
   try {
     await rename(`${outDir}/nw.exe`, `${outDir}/${app.name}.exe`);
 
-    if (platform === "win32") {
-      await rcedit(`${outDir}/${app.name}.exe`, {
-        "file-version": app.version,
-        "icon": app.icon,
-        "product-version": app.version,
-        "version-string": versionString,
-      });
-    } else {
-      throw new Error(
-        `The exe cannot be modified on platform ${platform}. Either install Wine or build on a Windows OS. `,
-      );
-    }
+    await rcedit(`${outDir}/${app.name}.exe`, {
+      "file-version": app.version,
+      "icon": app.icon,
+      "product-version": app.version,
+      "version-string": versionString,
+    });
   } catch (error) {
+    log.warn(
+      "Unable to modify EXE. Ensure WINE is installed or build in Windows",
+    );
     log.error(error);
   }
 };
