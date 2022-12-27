@@ -5,7 +5,7 @@ nwbuild({
   mode: "build",
   version: "0.70.1",
   flavour: "normal",
-  platform: "linux",
+  platform: "osx",
   arch: "x64",
   outDir: "./build/osx",
 });

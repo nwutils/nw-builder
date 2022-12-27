@@ -2,6 +2,8 @@ import { rename } from "node:fs/promises";
 
 import rcedit from "rcedit";
 
+import { log } from "../log.js";
+
 /**
  * Windows specific configuration steps
  * https://learn.microsoft.com/en-us/windows/win32/msi/version
@@ -34,13 +36,21 @@ const setWinConfig = async (app, outDir) => {
     }
   });
 
-  await rename(`${outDir}/nw.exe`, `${outDir}/${app.name}.exe`);
-  await rcedit(`${outDir}/${app.name}.exe`, {
-    "file-version": app.version,
-    "icon": app.icon,
-    "product-version": app.version,
-    "version-string": versionString,
-  });
+  try {
+    await rename(`${outDir}/nw.exe`, `${outDir}/${app.name}.exe`);
+
+    await rcedit(`${outDir}/${app.name}.exe`, {
+      "file-version": app.version,
+      "icon": app.icon,
+      "product-version": app.version,
+      "version-string": versionString,
+    });
+  } catch (error) {
+    log.warn(
+      "Unable to modify EXE. Ensure WINE is installed or build in Windows",
+    );
+    log.error(error);
+  }
 };
 
 export { setWinConfig };
