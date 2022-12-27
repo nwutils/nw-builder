@@ -5,8 +5,6 @@
 
 Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and Linux.
 
-> Please note that the latest stable version is [v3.8.6](https://github.com/nwutils/nw-builder/tree/v3.8.6).
-
 ## Contributing
 
 1. Pick and install a Node version manager
