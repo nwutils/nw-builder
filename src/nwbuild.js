@@ -121,7 +121,7 @@ export const nwbuild = async (options) => {
     }
 
     if (options.mode === "run") {
-      await develop(options.srcDir, nwDir, options.platform);
+      await develop(options.srcDir, nwDir, options.platform, options.argv);
     }
     if (options.mode === "build") {
       await packager(
