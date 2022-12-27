@@ -5,19 +5,19 @@
 With npm:
 
 ```shell
-npm update @nw-builder@^4.0.0
+npm update nw-builder@^4.0.0
 ```
 
 With yarn:
 
 ```shell
-yarn upgrade @nw-builder@^4.0.0
+yarn upgrade nw-builder@^4.0.0
 ```
 
-With npm:
+With pnpm:
 
 ```shell
-pnpm update @nw-builder@^4.0.0
+pnpm update nw-builder@^4.0.0
 ```
 
 > Note: `nw-builder` has been tested on Node 16 and 18 only.
@@ -68,11 +68,11 @@ Replace the `NwBuilder` initialization with a function
 +nwbuild({
 ```
 
-The `files` property has been renamed to `srcDir`. As the name suggests, it does not taken in any globbing patterns. The processing of how users want to structure their NW app directory is left up to the user.
+The `files` property has been renamed to `srcDir`. As the name suggests, it does not taken in any globbing patterns. Structure of the NW app if left up to the user.
 
 ```patch
 -  files: ["./nwapp", "./other/**/*.js"],
-+  srcDir: "./nwapp"
++  srcDir: "./nwapp",
 ```
 
 Add the `mode` option.
@@ -81,7 +81,7 @@ Add the `mode` option.
 +  mode: "build",
 ```
 
-The `platforms` option has been removed and replaced with `platform` and `arch`. Notice that one `nwbuild` function call now creates one build only. Refer to the docs for valid `platform` and `arch` values.
+The `platforms` option has been removed and replaced with `platform` and `arch`. Notice that one `nwbuild` function call now creates one build only. Refer to the [documentation](./index.md) for valid `platform` and `arch` values.
 
 ```patch
 -  platforms: ["win32", "win64", "osx32", "osx64", "linux32", "linux64"],
@@ -89,7 +89,7 @@ The `platforms` option has been removed and replaced with `platform` and `arch`.
 +  arch: "x64",
 ```
 
-The `buildDir` has been rename to `outDir`
+The `buildDir` option has been rename to `outDir`.
 
 ```patch
 -  buildDir: "./build",
@@ -116,7 +116,7 @@ The `appName` option has been changed to `app.name`.
 +  app: { name: "nwdemo" },
 ```
 
-The `appVersion` option has been removed. The version is automatically taken from `srcDir/package.json`.
+The `appVersion` option has been removed. The `version` is automatically taken from `srcDir/package.json`.
 
 ```patch
 -  appVersion: "0.1.0",
@@ -141,7 +141,7 @@ The `macPlist` option has been removed.
 -  macPlist: { ... },
 ```
 
-The `winVersionString` option has been replaced with `app.*`.
+The `winVersionString` option has been replaced with `app`.
 
 ```patch
 -  winVersionString: {
@@ -158,11 +158,11 @@ The `winVersionString` option has been replaced with `app.*`.
 +  }
 ```
 
-The `winIco` option has been replaced by `icon`.
+The `winIco` option has been replaced by `app.icon`.
 
 ```patch
 -  winIco: "./nwapp/win.ico",
-+  icon: "./nwapp/win.ico",
++  app: { icon: "./nwapp/win.ico" },
 ```
 
 The `macZip` option has been removed.
