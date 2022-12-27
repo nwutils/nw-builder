@@ -82,12 +82,18 @@ The `files` property has been renamed to `srcDir`. As the name suggests, it does
 +  srcDir: "./nwapp"
 ```
 
+Add the `mode` option.
+
+```patch
++  mode: "build",
+```
+
 The `platforms` option has been removed and replaced with `platform` and `arch`. Notice that one `nwbuild` function call now creates one build only. Refer to the docs for valid `platform` and `arch` values.
 
 ```patch
 -  platforms: ["win32", "win64", "osx32", "osx64", "linux32", "linux64"],
-+  platform: "linux"
-+  arch: "x64"
++  platform: "linux",
++  arch: "x64",
 ```
 
 The `buildDir` has been rename to `outDir`
@@ -155,7 +161,7 @@ The `winVersionString` option has been replaced with `app.*`.
 +    company: "Some Company",
 +    fileDescription: "Process Name",
 +    productName: "Some Product",
-+    legalCopyright: "Copyright 2017"
++    legalCopyright: "Copyright 2017",
 +  }
 ```
 
@@ -176,4 +182,29 @@ The `mergeZip` option has been removed.
 
 ```patch
 -  mergeZip: false,
+```
+
+The final code should look like this.
+
+```javascript
+const { nwbuild } = require("nw-builder");
+
+nwbuild({
+  srcDir: "./nwapp",
+  mode: "build",
+  version: "latest",
+  flavor: "normal",
+  platform: "linux",
+  arch: "x64",
+  outDir: "./build",
+  cache: false,
+  app: {
+    name: "Some Product",
+    icon: "./nwapp/icon.png",
+    company: "Some Company",
+    fileDescription: "Process Name",
+    productName: "Some Product",
+    legalCopyright: "Copyright 2017",
+  },
+});
 ```
