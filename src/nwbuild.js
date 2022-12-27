@@ -108,7 +108,6 @@ export const nwbuild = async (options) => {
     // Download relevant NW.js binaries
     if (cached === false) {
       log.debug("Download relevant NW.js binaries");
-      log.debug(options.downloadUrl)
       await download(
         options.version,
         options.flavor,
