@@ -1,13 +1,6 @@
 # Migration to v4
 
-## Why you should migrate
-
-- Generate Desktop Entry file for Linux builds
-- Edit executable for Windows builds
-- Improve compression of build artifacts
-- ES Modules support
-
-### Update `nw-builder`
+## Update `nw-builder`
 
 With npm:
 
@@ -15,7 +8,7 @@ With npm:
 npm update @nw-builder@^4.0.0
 ```
 
-With parn:
+With yarn:
 
 ```shell
 yarn upgrade @nw-builder@^4.0.0
@@ -29,7 +22,7 @@ pnpm update @nw-builder@^4.0.0
 
 > Note: `nw-builder` has been tested on Node 16 and 18 only.
 
-### Module usage
+## Update options
 
 Let's take an example of v3 code and migrate it to v4.
 
