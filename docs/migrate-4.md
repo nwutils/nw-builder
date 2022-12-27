@@ -129,14 +129,51 @@ The `macCredit` option has been removed.
 -  macCredits: "./nwapp/credits.html",
 ```
 
-The `macIcns` option has been removed.
+The `macIcns` option has been replaced with `icon`.
 
 ```patch
 -  macIcns: "./nwapp/mac.icns",
++  icon: "./nwapp/mac.icns",
 ```
 
-The `macIcns` option has been removed.
+The `macPlist` option has been removed.
 
 ```patch
 -  macPlist: { ... },
+```
+
+The `winVersionString` option has been replaced with `app.*`.
+
+```patch
+-  winVersionString: {
+-    'CompanyName': 'Some Company',
+-    'FileDescription': 'Process Name',
+-    'ProductName': 'Some Product',
+-    'LegalCopyright': 'Copyright 2017',
+-  }
++  app: {
++    company: "Some Company",
++    fileDescription: "Process Name",
++    productName: "Some Product",
++    legalCopyright: "Copyright 2017"
++  }
+```
+
+The `winIco` option has been replaced by `icon`.
+
+```patch
+-  winIco: "./nwapp/win.ico",
++  icon: "./nwapp/win.ico",
+```
+
+The `macZip` option has been removed.
+
+```patch
+-  macZip: false,
+```
+
+The `mergeZip` option has been removed.
+
+```patch
+-  mergeZip: false,
 ```

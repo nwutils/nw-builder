@@ -2,6 +2,8 @@
 
 > This assumes you know how to [write an NW.js application](https://nwjs.readthedocs.io/en/latest/For%20Users/Getting%20Started/).
 
+[Migrate to v4](./migrate-4.md)
+
 ## Install
 
 Install `nw-builder` via `npm` or your preferred Node package manager of choice.
