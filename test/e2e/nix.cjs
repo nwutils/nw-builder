@@ -1,4 +1,4 @@
-const { nwbuild } = require("nw-builder");
+const nwbuild = require("nw-builder");
 
 nwbuild({
   srcDir: "./nwapp",

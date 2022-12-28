@@ -1,5 +1,5 @@
 const { platform } = require("node:process");
-const { nwbuild } = require("nw-builder");
+const nwbuild = require("nw-builder");
 
 if (platform === "linux") {
   nwbuild({
