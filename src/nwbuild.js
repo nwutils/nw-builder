@@ -13,21 +13,66 @@ import { validate } from "./util/validate.js";
 import { log } from "./log.js";
 
 /**
+ * @typedef {object} App
+ * @property {string}  name                  Application name
+ *                                           Linux configuration options
+ * @property {string}  genericName           Generic name
+ * @property {boolean} noDisplay             If true the application is not displayed
+ * @property {string}  comment               Comment
+ * @property {string}  icon                  Icon
+ * @property {boolean} hidden                If true the application is hidden
+ * @property {string}  onlyShowIn            Only show in
+ * @property {string}  notShowIn             Not show in
+ * @property {boolean} dBusActivatable       If true the application is dBus activatable
+ * @property {string}  tryExec               Try exec
+ * @property {string}  exec                  Exec
+ * @property {string}  path                  Path
+ * @property {string}  terminal              Terminal
+ * @property {string}  actions               Actions
+ * @property {string}  mimeType              Mime type
+ * @property {string}  categories            Categories
+ * @property {string}  implements            Implements
+ * @property {string}  keywords              Keywords
+ * @property {string}  startupNotify         Startup notify
+ * @property {string}  startupWMClass        Startup WM class
+ * @property {string}  prefersNonDefaultGPU  Prefers non default GPU
+ * @property {string}  singleMainWindow      Single main window
+ *                                           Windows configuration options
+ * @property {string}  comments              Comments
+ * @property {string}  company               Company
+ * @property {string}  fileDescription       File description
+ * @property {string}  fileVersion           File version
+ * @property {string}  internalName          Internal name
+ * @property {string}  legalCopyright        Legal copyright
+ * @property {string}  legalTrademark        Legal trademark
+ * @property {string}  originalFilename      Original filename
+ * @property {string}  privateBuild          Private build
+ * @property {string}  productName           Product name
+ * @property {string}  productVersion        Product version
+ * @property {string}  specialBuild          Special build
+ */
+
+/**
+ * @typedef {object} Options
+ * @property {string}                       srcDir       Directory to hold NW app files unless or array of file glob patterns
+ * @property {"run" | "build"}              mode         Run or build application
+ * @property {"latest" | "stable" | string} version      NW runtime version
+ * @property {"normal" | "sdk"}             flavor       NW runtime build flavor
+ * @property {"linux" | "osx" | "win"}      platform     NW supported platforms
+ * @property {"ia32" | "x64"}               arch         NW supported architectures
+ * @property {string}                       outDir       Directory to store build artifacts
+ * @property {"./cache" | string}           cacheDir     Directory to store NW binaries
+ * @property {"https://dl.nwjs.io"}         downloadUrl  URI to download NW binaries from
+ * @property {"https://nwjs.io/versions"}   manifestUrl  URI to download manifest from
+ * @property {App}                          app          Multi platform configuration options
+ * @property {boolean}                      cache        If true the existing cache is used. Otherwise it removes and redownloads it.
+ * @property {boolean}                      zip          If true the outDir directory is zipped
+ */
+
+/**
  * Entry point for nw-builder application
  *
- * @param  {object}                       options              Directory to hold NW app files unless or array of file glob patterns
- * @param  {"run" | "build"}              options.mode         Run or build application
- * @param  {"latest" | "stable" | string} options.version      NW runtime version
- * @param  {"normal" | "sdk"}             options.flavor       NW runtime build flavor
- * @param  {"linux" | "osx" | "win"}      options.platform     NW supported platforms
- * @param  {"ia32" | "x64"}               options.arch         NW supported architectures
- * @param  {string}                       options.outDir       Directory to store build artifacts
- * @param  {"./cache" | string}           options.cacheDir     Directory to store NW binaries
- * @param  {"https://dl.nwjs.io"}         options.downloadUrl  URI to download NW binaries from
- * @param  {"https://nwjs.io/versions"}   options.manifestUrl  URI to download manifest from
- * @param  {object}                       options.app          Multi platform configuration options
- * @param  {boolean}                      options.cache        If true the existing cache is used. Otherwise it removes and redownloads it.
- * @param  {boolean}                      options.zip          If true the outDir directory is zipped
+ * @param  {...Options}         options  Options
  * @return {Promise<undefined>}
  */
 export const nwbuild = async (options) => {
