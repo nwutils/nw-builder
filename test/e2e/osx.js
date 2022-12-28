@@ -1,11 +1,11 @@
-const nwbuild = require("nw-builder");
+import nwbuild from "nw-builder";
 
-nwbuild({
+await nwbuild({
   srcDir: "./nwapp",
   mode: "build",
   version: "0.70.1",
   flavour: "normal",
-  platform: "win",
+  platform: "osx",
   arch: "x64",
-  outDir: "./build/win",
+  outDir: "./build/osx",
 });
