@@ -22,7 +22,7 @@ npm i -D nw-builder
 Module usage
 
 ```javascript
-import { nwbuild } from "nw-builder";
+import nwbuild from "nw-builder";
 
 nwbuild({
   srcDir: "./nwapp",
@@ -60,7 +60,7 @@ package.json usage
 Module usage
 
 ```javascript
-import { nwbuild } from "nw-builder";
+import nwbuild from "nw-builder";
 
 nwbuild({
   srcDir: "./nwapp",
