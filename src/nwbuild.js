@@ -75,7 +75,7 @@ import { log } from "./log.js";
  * @param  {...Options}         options  Options
  * @return {Promise<undefined>}
  */
-export const nwbuild = async (options) => {
+const nwbuild = async (options) => {
   let nwDir = "";
   let nwPkg = {};
   let cached;
@@ -184,3 +184,5 @@ export const nwbuild = async (options) => {
     return error;
   }
 };
+
+export default nwbuild;

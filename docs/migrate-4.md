@@ -5,19 +5,19 @@
 With npm:
 
 ```shell
-npm update nw-builder@^4.0.0
+npm update nw-builder@^4.0.3
 ```
 
 With yarn:
 
 ```shell
-yarn upgrade nw-builder@^4.0.0
+yarn upgrade nw-builder@^4.0.3
 ```
 
 With pnpm:
 
 ```shell
-pnpm update nw-builder@^4.0.0
+pnpm update nw-builder@^4.0.3
 ```
 
 > Note: `nw-builder` has been tested on Node 16 and 18 only.
@@ -58,14 +58,14 @@ Update the import path
 
 ```patch
 -const NwBuilder = require("nw-builder");
-+const { nwbuild } = require("nw-builder");
++const nwbuild = require("nw-builder");
 ```
 
 Replace the `NwBuilder` initialization with a function
 
 ```patch
 -const nw = new NwBuilder({
-+nwbuild({
++await nwbuild({
 ```
 
 The `files` property has been renamed to `srcDir`. As the name suggests, it does not taken in any globbing patterns. Structure of the NW app if left up to the user.
@@ -182,7 +182,7 @@ The final code should look like this.
 ```javascript
 const { nwbuild } = require("nw-builder");
 
-nwbuild({
+await nwbuild({
   srcDir: "./nwapp",
   mode: "build",
   version: "latest",
