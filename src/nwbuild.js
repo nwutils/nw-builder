@@ -14,42 +14,42 @@ import { log } from "./log.js";
 
 /**
  * @typedef {object} App
- * @property {string}  name                  Application name
- *                                           Linux configuration options
- * @property {string}  genericName           Generic name
- * @property {boolean} noDisplay             If true the application is not displayed
- * @property {string}  comment               Comment
- * @property {string}  icon                  Icon
- * @property {boolean} hidden                If true the application is hidden
- * @property {string}  onlyShowIn            Only show in
- * @property {string}  notShowIn             Not show in
- * @property {boolean} dBusActivatable       If true the application is dBus activatable
- * @property {string}  tryExec               Try exec
- * @property {string}  exec                  Exec
- * @property {string}  path                  Path
- * @property {string}  terminal              Terminal
- * @property {string}  actions               Actions
- * @property {string}  mimeType              Mime type
- * @property {string}  categories            Categories
- * @property {string}  implements            Implements
- * @property {string}  keywords              Keywords
- * @property {string}  startupNotify         Startup notify
- * @property {string}  startupWMClass        Startup WM class
- * @property {string}  prefersNonDefaultGPU  Prefers non default GPU
- * @property {string}  singleMainWindow      Single main window
- *                                           Windows configuration options
- * @property {string}  comments              Comments
- * @property {string}  company               Company
- * @property {string}  fileDescription       File description
- * @property {string}  fileVersion           File version
- * @property {string}  internalName          Internal name
- * @property {string}  legalCopyright        Legal copyright
- * @property {string}  legalTrademark        Legal trademark
- * @property {string}  originalFilename      Original filename
- * @property {string}  privateBuild          Private build
- * @property {string}  productName           Product name
- * @property {string}  productVersion        Product version
- * @property {string}  specialBuild          Special build
+ * @property {string}   name                  Name of the application
+ *                                            Linux configuration options
+ * @property {string}   genericName           Generic name of the application
+ * @property {boolean}  noDisplay             If true the application is not displayed
+ * @property {string}   comment               Tooltip for the entry, for example "View sites on the Internet".
+ * @property {string}   icon                  Icon to display in file manager, menus, etc.
+ * @property {boolean}  hidden                TBD
+ * @property {string[]} onlyShowIn            A list of strings identifying the desktop environments that should (/not) display a given desktop entry
+ * @property {string[]} notShowIn             A list of strings identifying the desktop environments that should (/not) display a given desktop entry
+ * @property {boolean}  dBusActivatable       A boolean value specifying if D-Bus activation is supported for this application
+ * @property {string}   tryExec               Path to an executable file on disk used to determine if the program is actually installed
+ * @property {string}   exec                  Program to execute, possibly with arguments.
+ * @property {string}   path                  If entry is of type Application, the working directory to run the program in.
+ * @property {boolean}  terminal              Whether the program runs in a terminal window.
+ * @property {string[]} actions               Identifiers for application actions.
+ * @property {string[]} mimeType              The MIME type(s) supported by this application.
+ * @property {string[]} categories            Categories in which the entry should be shown in a menu
+ * @property {string[]} implements            A list of interfaces that this application implements.
+ * @property {string[]} keywords              A list of strings which may be used in addition to other metadata to describe this entry.
+ * @property {boolean}  startupNotify         If true, it is KNOWN that the application will send a "remove" message when started with the DESKTOP_STARTUP_ID environment variable set. If false, it is KNOWN that the application does not work with startup notification at all.
+ * @property {string}   startupWMClass        If specified, it is known that the application will map at least one window with the given string as its WM class or WM name hin
+ * @property {boolean}  prefersNonDefaultGPU  If true, the application prefers to be run on a more powerful discrete GPU if available.
+ * @property {string}   singleMainWindow      If true, the application has a single main window, and does not support having an additional one opened.
+ *                                            Windows configuration options
+ * @property {string}   comments              Comments
+ * @property {string}   company               Company
+ * @property {string}   fileDescription       File description
+ * @property {string}   fileVersion           File version
+ * @property {string}   internalName          Internal name
+ * @property {string}   legalCopyright        Legal copyright
+ * @property {string}   legalTrademark        Legal trademark
+ * @property {string}   originalFilename      Original filename
+ * @property {string}   privateBuild          Private build
+ * @property {string}   productName           Product name
+ * @property {string}   productVersion        Product version
+ * @property {string}   specialBuild          Special build
  */
 
 /**
