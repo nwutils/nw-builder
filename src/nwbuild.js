@@ -180,7 +180,7 @@ const nwbuild = async (options) => {
     }
     if (options.mode === "build") {
       await packager(
-        options.srcDir,
+        files,
         nwDir,
         options.outDir,
         options.platform,
