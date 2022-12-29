@@ -39,7 +39,7 @@
     "checklist": "npm run cjs && npm run format && npm run lint && npm run test:unit && npm run test:e2e"
   },
   "devDependencies": {
-    "esbuild": "0.15.18",
+    "esbuild": "^0.16.12",
     "eslint": "^8.25.0",
     "eslint-config-tjw-jsdoc": "^1.0.3",
     "jest": "^29.2.0",
