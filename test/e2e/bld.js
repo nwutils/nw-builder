@@ -1,8 +1,8 @@
-const { platform } = require("node:process");
-const { nwbuild } = require("nw-builder");
+import { platform } from "node:process";
+import nwbuild from "nw-builder";
 
 if (platform === "linux") {
-  nwbuild({
+  await nwbuild({
     srcDir: "./nwapp",
     mode: "build",
     version: "0.70.1",
@@ -14,7 +14,7 @@ if (platform === "linux") {
 }
 
 if (platform === "darwin") {
-  nwbuild({
+  await nwbuild({
     srcDir: "./nwapp",
     mode: "build",
     version: "0.70.1",
@@ -26,7 +26,7 @@ if (platform === "darwin") {
 }
 
 if (platform === "win32") {
-  nwbuild({
+  await nwbuild({
     srcDir: "./nwapp",
     mode: "build",
     version: "0.70.1",

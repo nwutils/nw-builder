@@ -13,24 +13,69 @@ import { validate } from "./util/validate.js";
 import { log } from "./log.js";
 
 /**
+ * @typedef {object} App
+ * @property {string}   name                  Name of the application
+ *                                            Linux configuration options
+ * @property {string}   genericName           Generic name of the application
+ * @property {boolean}  noDisplay             If true the application is not displayed
+ * @property {string}   comment               Tooltip for the entry, for example "View sites on the Internet".
+ * @property {string}   icon                  Icon to display in file manager, menus, etc.
+ * @property {boolean}  hidden                TBD
+ * @property {string[]} onlyShowIn            A list of strings identifying the desktop environments that should (/not) display a given desktop entry
+ * @property {string[]} notShowIn             A list of strings identifying the desktop environments that should (/not) display a given desktop entry
+ * @property {boolean}  dBusActivatable       A boolean value specifying if D-Bus activation is supported for this application
+ * @property {string}   tryExec               Path to an executable file on disk used to determine if the program is actually installed
+ * @property {string}   exec                  Program to execute, possibly with arguments.
+ * @property {string}   path                  If entry is of type Application, the working directory to run the program in.
+ * @property {boolean}  terminal              Whether the program runs in a terminal window.
+ * @property {string[]} actions               Identifiers for application actions.
+ * @property {string[]} mimeType              The MIME type(s) supported by this application.
+ * @property {string[]} categories            Categories in which the entry should be shown in a menu
+ * @property {string[]} implements            A list of interfaces that this application implements.
+ * @property {string[]} keywords              A list of strings which may be used in addition to other metadata to describe this entry.
+ * @property {boolean}  startupNotify         If true, it is KNOWN that the application will send a "remove" message when started with the DESKTOP_STARTUP_ID environment variable set. If false, it is KNOWN that the application does not work with startup notification at all.
+ * @property {string}   startupWMClass        If specified, it is known that the application will map at least one window with the given string as its WM class or WM name hin
+ * @property {boolean}  prefersNonDefaultGPU  If true, the application prefers to be run on a more powerful discrete GPU if available.
+ * @property {string}   singleMainWindow      If true, the application has a single main window, and does not support having an additional one opened.
+ *                                            Windows configuration options
+ * @property {string}   comments              Additional information that should be displayed for diagnostic purposes.
+ * @property {string}   company               Company that produced the file—for example, Microsoft Corporation or Standard Microsystems Corporation, Inc. This string is required.
+ * @property {string}   fileDescription       File description to be presented to users. This string may be displayed in a list box when the user is choosing files to install. For example, Keyboard Driver for AT-Style Keyboards. This string is required.
+ * @property {string}   fileVersion           Version number of the file. For example, 3.10 or 5.00.RC2. This string is required.
+ * @property {string}   internalName          Internal name of the file, if one exists—for example, a module name if the file is a dynamic-link library. If the file has no internal name, this string should be the original filename, without extension. This string is required.
+ * @property {string}   legalCopyright        Copyright notices that apply to the file. This should include the full text of all notices, legal symbols, copyright dates, and so on. This string is optional.
+ * @property {string}   legalTrademark        Trademarks and registered trademarks that apply to the file. This should include the full text of all notices, legal symbols, trademark numbers, and so on. This string is optional.
+ * @property {string}   originalFilename      Original name of the file, not including a path. This information enables an application to determine whether a file has been renamed by a user. The format of the name depends on the file system for which the file was created. This string is required.
+ * @property {string}   privateBuild          Information about a private version of the file—for example, Built by TESTER1 on \\TESTBED. This string should be present only if VS_FF_PRIVATEBUILD is specified in the fileflags parameter of the root block.
+ * @property {string}   productName           Name of the product with which the file is distributed. This string is required.
+ * @property {string}   productVersion        Version of the product with which the file is distributed—for example, 3.10 or 5.00.RC2. This string is required.
+ * @property {string}   specialBuild          Text that specifies how this version of the file differs from the standard version—for example, Private build for TESTER1 solving mouse problems on M250 and M250E computers. This string should be present only if VS_FF_SPECIALBUILD is specified in the fileflags parameter of the root block.
+ */
+
+/**
+ * @typedef {object} Options
+ * @property {string}                       srcDir       Directory to hold NW app files unless or array of file glob patterns
+ * @property {"run" | "build"}              mode         Run or build application
+ * @property {"latest" | "stable" | string} version      NW runtime version
+ * @property {"normal" | "sdk"}             flavor       NW runtime build flavor
+ * @property {"linux" | "osx" | "win"}      platform     NW supported platforms
+ * @property {"ia32" | "x64"}               arch         NW supported architectures
+ * @property {string}                       outDir       Directory to store build artifacts
+ * @property {"./cache" | string}           cacheDir     Directory to store NW binaries
+ * @property {"https://dl.nwjs.io"}         downloadUrl  URI to download NW binaries from
+ * @property {"https://nwjs.io/versions"}   manifestUrl  URI to download manifest from
+ * @property {App}                          app          Multi platform configuration options
+ * @property {boolean}                      cache        If true the existing cache is used. Otherwise it removes and redownloads it.
+ * @property {boolean}                      zip          If true the outDir directory is zipped
+ */
+
+/**
  * Entry point for nw-builder application
  *
- * @param  {object}                       options              Directory to hold NW app files unless or array of file glob patterns
- * @param  {"run" | "build"}              options.mode         Run or build application
- * @param  {"latest" | "stable" | string} options.version      NW runtime version
- * @param  {"normal" | "sdk"}             options.flavor       NW runtime build flavor
- * @param  {"linux" | "osx" | "win"}      options.platform     NW supported platforms
- * @param  {"ia32" | "x64"}               options.arch         NW supported architectures
- * @param  {string}                       options.outDir       Directory to store build artifacts
- * @param  {"./cache" | string}           options.cacheDir     Directory to store NW binaries
- * @param  {"https://dl.nwjs.io"}         options.downloadUrl  URI to download NW binaries from
- * @param  {"https://nwjs.io/versions"}   options.manifestUrl  URI to download manifest from
- * @param  {object}                       options.app          Multi platform configuration options
- * @param  {boolean}                      options.cache        If true the existing cache is used. Otherwise it removes and redownloads it.
- * @param  {boolean}                      options.zip          If true the outDir directory is zipped
+ * @param  {...Options}         options  Options
  * @return {Promise<undefined>}
  */
-export const nwbuild = async (options) => {
+const nwbuild = async (options) => {
   let nwDir = "";
   let nwPkg = {};
   let cached;
@@ -121,7 +166,7 @@ export const nwbuild = async (options) => {
     }
 
     if (options.mode === "run") {
-      await develop(options.srcDir, nwDir, options.platform);
+      await develop(options.srcDir, nwDir, options.platform, options.argv);
     }
     if (options.mode === "build") {
       await packager(
@@ -139,3 +184,5 @@ export const nwbuild = async (options) => {
     return error;
   }
 };
+
+export default nwbuild;
