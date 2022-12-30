@@ -5,8 +5,8 @@ import { log } from "../log.js";
 /**
  * Get manifest (array of NW release metadata) from URL
  *
- * @param  {string}                       manifestUrl  Url to manifest
- * @return {Promise <object | undefined>}
+ * @param  {string}          manifestUrl  Url to manifest
+ * @return {Promise<object>}
  */
 export const getManifest = (manifestUrl) => {
   let chunks = undefined;
@@ -19,7 +19,7 @@ export const getManifest = (manifestUrl) => {
 
       res.on("error", (e) => {
         log.error(e);
-        reject(undefined);
+        reject(e);
       });
 
       res.on("end", () => {
