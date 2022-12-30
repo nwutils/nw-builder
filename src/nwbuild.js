@@ -93,7 +93,6 @@ const nwbuild = async (options) => {
       for (const content of contents) {
         if (basename(content) === "package.json" && nwPkg === undefined) {
           nwPkg = JSON.parse(await readFile(content));
-          console.log(nwPkg);
         }
         files.push(...contents);
       }
