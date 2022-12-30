@@ -11,23 +11,23 @@ import { log } from "../log.js";
  * https://learn.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2015/deployment/trustinfo-element-clickonce-application?view=vs-2015#requestedexecutionlevel
  * https://learn.microsoft.com/en-gb/windows/win32/menurc/versioninfo-resource
  *
- * @param {object} app     Multi platform configuration options
- * @param {string} outDir  The directory to hold build artifacts
+ * @param {import("../nwbuild").App} app     Multi platform configuration options
+ * @param {string}                   outDir  The directory to hold build artifacts
  */
 const setWinConfig = async (app, outDir) => {
   let versionString = {
     Comments: app.comments,
-    CompanyName: app.author,
+    CompanyName: app.companyName,
     FileDescription: app.fileDescription,
     FileVersion: app.fileVersion,
-    InternalName: app.name,
+    InternalName: app.internalName,
     LegalCopyright: app.legalCopyright,
     LegalTrademarks: app.legalTrademark,
-    OriginalFilename: app.name,
-    PrivateBuild: app.name,
-    ProductName: app.name,
-    ProductVersion: app.version,
-    SpecialBuild: app.name,
+    OriginalFilename: app.originalFilename,
+    PrivateBuild: app.privateBuild,
+    ProductName: app.productName,
+    ProductVersion: app.productVersion,
+    SpecialBuild: app.specialBuild,
   };
 
   Object.keys(versionString).forEach((option) => {
