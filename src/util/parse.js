@@ -38,7 +38,7 @@ export const parse = async (options, pkg) => {
   options.app.notShowIn = options.app.notShowIn ?? undefined;
   options.app.dBusActivatable = options.app.dBusActivatable ?? undefined;
   options.app.tryExec = options.app.tryExec ?? undefined;
-  options.app.exec = options.app.name ?? undefined;
+  options.app.exec = options.app.exec ?? pkg.name;
   options.app.path = options.app.path ?? undefined;
   options.app.terminal = options.app.terminal ?? undefined;
   options.app.actions = options.app.actions ?? undefined;
