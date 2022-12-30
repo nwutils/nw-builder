@@ -53,7 +53,7 @@ export const parse = async (options, pkg) => {
   options.app.singleMainWindow = options.app.singleMainWindow ?? undefined;
   // windows configuration options
   options.app.comments = options.app.comments ?? undefined;
-  options.app.company = options.app.company ?? pkg.author;
+  options.app.companyName = options.app.companyName ?? pkg.author;
   options.app.fileDescription = options.app.fileDescription ?? pkg.description;
   options.app.fileVersion = options.app.fileVersion ?? pkg.version;
   options.app.internalName = options.app.internalName ?? pkg.name;
