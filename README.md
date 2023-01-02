@@ -278,7 +278,7 @@ The `winVersionString` option has been replaced with `app`.
 -    'LegalCopyright': 'Copyright 2017',
 -  }
 +  app: {
-+    companyName: "Some Company",
++    company: "Some Company",
 +    fileDescription: "Process Name",
 +    productName: "Some Product",
 +    legalCopyright: "Copyright 2017",
