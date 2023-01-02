@@ -42,7 +42,7 @@ import { log } from "./log.js";
  * @property {string}   singleMainWindow      If true, the application has a single main window, and does not support having an additional one opened.
  *                                            Windows configuration options
  * @property {string}   comments              Additional information that should be displayed for diagnostic purposes.
- * @property {string}   companyName           Company that produced the file—for example, Microsoft Corporation or Standard Microsystems Corporation, Inc. This string is required.
+ * @property {string}   company               Company that produced the file—for example, Microsoft Corporation or Standard Microsystems Corporation, Inc. This string is required.
  * @property {string}   fileDescription       File description to be presented to users. This string may be displayed in a list box when the user is choosing files to install. For example, Keyboard Driver for AT-Style Keyboards. This string is required.
  * @property {string}   fileVersion           Version number of the file. For example, 3.10 or 5.00.RC2. This string is required.
  * @property {string}   internalName          Internal name of the file, if one exists—for example, a module name if the file is a dynamic-link library. If the file has no internal name, this string should be the original filename, without extension. This string is required.
