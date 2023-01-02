@@ -23,7 +23,7 @@ const setWinConfig = async (app, outDir) => {
     InternalName: app.name,
     LegalCopyright: app.legalCopyright,
     LegalTrademarks: app.legalTrademark,
-    OriginalFilename: app.originalFilename,
+    OriginalFilename: app.name,
     PrivateBuild: app.name,
     ProductName: app.name,
     ProductVersion: app.version,

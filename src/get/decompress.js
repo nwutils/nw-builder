@@ -22,7 +22,7 @@ const decompress = (platform, outDir) => {
         dir: path.resolve(`${outDir}`),
       })
         .then(() => {
-          resolve();
+          resolve(0);
         })
         .catch(() => {
           reject(1);
