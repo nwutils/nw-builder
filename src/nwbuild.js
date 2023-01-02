@@ -1,4 +1,7 @@
 import { mkdir, readFile, rm } from "node:fs/promises";
+import { basename } from "node:path";
+
+import glob from "glob-promise";
 
 import { decompress } from "./get/decompress.js";
 import { download } from "./get/download.js";
@@ -77,26 +80,36 @@ import { log } from "./log.js";
  */
 const nwbuild = async (options) => {
   let nwDir = "";
-  let nwPkg = {};
+  let nwPkg = undefined;
   let cached;
   let built;
   let releaseInfo = {};
   try {
-    //Check if package.json exists in the srcDir
-    nwPkg = JSON.parse(await readFile(`${options.srcDir}/package.json`));
+    let files = [];
+    let patterns = options.srcDir.split(" ");
+
+    for (const pattern of patterns) {
+      let contents = await glob(pattern);
+      for (const content of contents) {
+        if (basename(content) === "package.json" && nwPkg === undefined) {
+          nwPkg = JSON.parse(await readFile(content));
+        }
+        files.push(...contents);
+      }
+    }
+
+    if (files.length === 0) {
+      throw new Error(`The globbing pattern ${options.srcDir} is invalid.`);
+    }
 
     // The name property is required for NW.js applications
     if (nwPkg.name === undefined) {
-      throw new Error(
-        `name property is missing from ${options.srcDir}/package.json`,
-      );
+      throw new Error(`name property is missing from package.json`);
     }
 
     // The main property is required for NW.js applications
     if (nwPkg.main === undefined) {
-      throw new Error(
-        `main property is missing from ${options.srcDir}/package.json`,
-      );
+      throw new Error(`main property is missing from package.json`);
     }
 
     // If the nwbuild property exists in srcDir/package.json, then they take precedence
@@ -104,14 +117,10 @@ const nwbuild = async (options) => {
       options = { ...nwPkg.nwbuild };
     }
     if (typeof nwPkg.nwbuild === "undefined") {
-      log.debug(
-        `nwbuild property is not defined in ${options.srcDir}/package.json`,
-      );
+      log.debug(`nwbuild property is not defined in package.json`);
     } else {
       throw new Error(
-        `nwbuild property in the ${
-          options.srcDir
-        }/package.json is of type ${typeof nwPkg.nwbuild}. Expected type object.`,
+        `nwbuild property in the package.json is of type ${typeof nwPkg.nwbuild}. Expected type object.`,
       );
     }
 
@@ -170,7 +179,7 @@ const nwbuild = async (options) => {
     }
     if (options.mode === "build") {
       await packager(
-        options.srcDir,
+        files,
         nwDir,
         options.outDir,
         options.platform,

@@ -25,7 +25,8 @@ Module usage
 import nwbuild from "nw-builder";
 
 nwbuild({
-  srcDir: "./nwapp",
+  // Globing does not matter since a process is spawned against the nwapp directory
+  srcDir: "./nwapp/**/*",
   mode: "run",
   version: "0.70.1",
   flavor: "sdk",
@@ -47,7 +48,7 @@ package.json usage
   "name": "nwdemo",
   "main": "./index.html",
   "nwbuild": {
-    "srcDir": "./nwapp",
+    "srcDir": "./nwapp/**/*",
     "mode": "run",
     "version": "0.70.1",
     "flavor": "sdk"
@@ -63,7 +64,7 @@ Module usage
 import nwbuild from "nw-builder";
 
 nwbuild({
-  srcDir: "./nwapp",
+  srcDir: "./nwapp/**/*",
   mode: "build",
   version: "0.70.1",
   flavor: "normal",
@@ -88,7 +89,7 @@ package.json usage
   "name": "nwdemo",
   "main": "./index.html",
   "nwbuild": {
-    "srcDir": "./nwapp",
+    "srcDir": "./nwapp/**/*",
     "mode": "build",
     "version": "0.70.1",
     "flavor": "normal",
@@ -107,7 +108,7 @@ package.json usage
 
 | Name        | Type                                | Default                    | Description                                                                    |
 | ----------- | ----------------------------------- | -------------------------- | ------------------------------------------------------------------------------ |
-| srcDir      | `string`                            | `./`                       | Directory to hold NW app files                                                 |
+| srcDir      | `string`                            | `./`                       | Directories which hold NW app code                                             |
 | mode        | `run \| build`                      | `build`                    | Run or build application                                                       |
 | version     | `latest \| stable \| string \| lts` | `latest`                   | NW runtime version                                                             |
 | flavor      | `sdk \| normal`                     | `normal`                   | NW runtime build flavor.                                                       |
@@ -152,7 +153,7 @@ Let's take an example of v3 code and migrate it to v4.
 const NwBuilder = require("nw-builder");
 
 const nw = new NwBuilder({
-  files: ["./nwapp", "./other/**/*.js"],
+  files: ["./nwapp/**/*", "./other/**/*.js"],
   version: "latest",
   flavor: "normal",
   platforms: ["win32", "win64", "osx32", "osx64", "linux32", "linux64"],
@@ -190,17 +191,19 @@ Replace the `NwBuilder` initialization with a function
 +await nwbuild({
 ```
 
-The `files` property has been renamed to `srcDir`. As the name suggests, it does not taken in any globbing patterns. Structure of the NW app if left up to the user.
+The `files` property has been renamed to `srcDir`.S
 
 ```patch
--  files: ["./nwapp", "./other/**/*.js"],
-+  srcDir: "./nwapp",
+-  files: ["./nwapp/**/*", "./other/**/*.js"],
++  srcDir: "./nwapp/**/* ./other/**/*.js",
 ```
 
-Add the `mode` option.
+Add the `mode` option and remove the now redundant `nw.build` function call.
 
 ```patch
 +  mode: "build",
+
+-nw.build();
 ```
 
 The `platforms` option has been removed and replaced with `platform` and `arch`. Notice that one `nwbuild` function call now creates one build only. Refer to the [documentation](./index.md) for valid `platform` and `arch` values.
@@ -210,6 +213,8 @@ The `platforms` option has been removed and replaced with `platform` and `arch`.
 +  platform: "linux",
 +  arch: "x64",
 ```
+
+> If platform is Linux then even if Windows or MacOS specific `app.*` properties are defined, only the Linux `app.*` properties will be parsed. Multiple platform `app.*` properties have been shown in this guide to cater to all platforms.
 
 The `buildDir` option has been rename to `outDir`.
 

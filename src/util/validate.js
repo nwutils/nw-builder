@@ -8,7 +8,7 @@ import { readdir } from "node:fs/promises";
  * @return {undefined}              True if options are valid. False otherwise
  */
 export const validate = async (options, releaseInfo) => {
-  if (options.srcDir && readdir(options.srcDir).length === 0) {
+  if (options.srcDir === "") {
     throw new Error("srcDir is empty");
   }
   if (options.mode !== "run" && options.mode !== "build") {

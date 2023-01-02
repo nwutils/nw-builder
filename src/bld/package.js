@@ -1,4 +1,5 @@
 import { cp, rm } from "node:fs/promises";
+import { basename } from "node:path";
 
 import { log } from "../log.js";
 
@@ -10,7 +11,7 @@ import { setWinConfig } from "./winCfg.js";
 /**
  * Generate NW build artifacts
  *
- * @param  {string}                  srcDir       Directory to hold NW development files
+ * @param  {string[]}                files        Array of NW app files
  * @param  {string}                  nwDir        Directory to hold NW binaries
  * @param  {string}                  outDir       Directory to store build artifacts
  * @param  {"linux" | "osx" | "win"} platform     Platform is the operating system type
@@ -20,7 +21,7 @@ import { setWinConfig } from "./winCfg.js";
  * @return {Promise<undefined>}
  */
 const packager = async (
-  srcDir,
+  files,
   nwDir,
   outDir,
   platform,
@@ -32,16 +33,19 @@ const packager = async (
   await rm(outDir, { force: true, recursive: true });
   log.debug(`Copy ${nwDir} files to ${outDir} directory`);
   await cp(nwDir, outDir, { recursive: true });
-  log.debug(`Copy ${srcDir} files to ${outDir} directory`);
-  await cp(
-    srcDir,
-    `${outDir}/${
-      platform !== "osx" ? "package.nw" : "nwjs.app/Contents/Resources/app.nw"
-    }`,
-    {
-      recursive: true,
-    },
-  );
+
+  for (const file of files) {
+    log.debug(`Copy ${file} file to ${outDir} directory`);
+    await cp(
+      file,
+      `${outDir}/${
+        platform !== "osx" ? "package.nw" : "nwjs.app/Contents/Resources/app.nw"
+      }/${basename(file)}`,
+      {
+        recursive: true,
+      },
+    );
+  }
 
   log.debug(`Starting platform specific config steps for ${platform}`);
   switch (platform) {
