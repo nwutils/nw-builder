@@ -3,7 +3,7 @@
 import yargs from "yargs/yargs";
 import { hideBin } from "yargs/helpers";
 
-import { nwbuild } from "./nwbuild.js";
+import nwbuild from "./nwbuild.js";
 
 const cli = yargs(hideBin(process.argv))
   .version(false)
@@ -36,5 +36,5 @@ const cli = yargs(hideBin(process.argv))
 
 nwbuild({
   ...cli,
-  srcDir: cli._[0],
+  srcDir: cli._.join(" "),
 });
