@@ -6,8 +6,8 @@ import { log } from "../log.js";
  * Generates a Desktop Entry file for Linux
  * https://specifications.freedesktop.org/desktop-entry-spec/latest/ar01s06.html
  *
- * @param  {import("../nwbuild").App} app     Multi platform configuration options
- * @param  {string}                   outDir  Directory which stores build artifacts
+ * @param  {object}    app     Multi platform configuration options
+ * @param  {string}    outDir  Directory which stores build artifacts
  * @return {undefined}
  */
 export const setLinuxConfig = async (app, outDir) => {
@@ -24,7 +24,7 @@ export const setLinuxConfig = async (app, outDir) => {
     NotShowIn: app.notShowIn,
     DBusActivatable: app.dBusActivatable,
     TryExec: app.tryExec,
-    Exec: app.exec,
+    Exec: app.name,
     Path: app.path,
     Terminal: app.terminal,
     Actions: app.actions,

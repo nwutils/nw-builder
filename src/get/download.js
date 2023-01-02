@@ -3,21 +3,8 @@ import https from "node:https";
 
 import progress from "cli-progress";
 
-import { log } from "../log.js";
-
 const bar = new progress.SingleBar({}, progress.Presets.rect);
 
-/**
- * Downloads a zip or tar.gz file from a url
- *
- * @param  {string}                  version       The version of nw.js to download
- * @param  {"normal" | "sdk"}        flavor        The flavor of nw.js to download
- * @param  {"win" | "osx" | "linux"} platform      The platform to download for
- * @param  {"x64" | "ia32"}          architecture  The architecture to download for
- * @param  {string}                  downloadUrl   The url to download from
- * @param  {string}                  outDir        The directory to download into
- * @return {Promise<undefined>}                    The exit code
- */
 const download = (
   version,
   flavor,
@@ -28,7 +15,6 @@ const download = (
 ) => {
   return new Promise((resolve, reject) => {
     if (downloadUrl !== "https://dl.nwjs.io") {
-      log.error("Invalid download url. Please try again.");
       reject(new Error("Invalid download url. Please try again."));
     }
 
@@ -49,7 +35,6 @@ const download = (
       });
 
       res.on("error", (error) => {
-        log.error(error);
         reject(error);
       });
 

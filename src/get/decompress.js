@@ -3,15 +3,6 @@ import path from "node:path";
 import extract from "extract-zip";
 import tar from "tar";
 
-import { log } from "../log.js";
-
-/**
- * Decompresses a zip or tar.gz file into a directory
- *
- * @param  {string}             platform  The platform to decompress for
- * @param  {string}             outDir    The directory to decompress into
- * @return {Promise<undefined>}           The exit code
- */
 const decompress = (platform, outDir) => {
   return new Promise((resolve, reject) => {
     if (platform === "linux") {
@@ -21,11 +12,10 @@ const decompress = (platform, outDir) => {
           C: `${outDir}`,
         })
         .then(() => {
-          resolve();
+          resolve(0);
         })
-        .catch((error) => {
-          log.error(error);
-          reject(error);
+        .catch(() => {
+          reject(1);
         });
     } else {
       extract(path.resolve(`${outDir}/nw.zip`), {
@@ -34,9 +24,8 @@ const decompress = (platform, outDir) => {
         .then(() => {
           resolve();
         })
-        .catch((error) => {
-          log.error(error);
-          reject(error);
+        .catch(() => {
+          reject(1);
         });
     }
   });
