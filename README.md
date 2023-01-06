@@ -108,7 +108,7 @@ package.json usage
 
 | Name        | Type                                | Default                    | Description                                                                    |
 | ----------- | ----------------------------------- | -------------------------- | ------------------------------------------------------------------------------ |
-| srcDir      | `string`                            | `./`                       | Directories which hold NW app code                                             |
+| srcDir      | `string`                            | `./`                       | String of glob patterns which correspond to NW app code                                             |
 | mode        | `run \| build`                      | `build`                    | Run or build application                                                       |
 | version     | `latest \| stable \| string \| lts` | `latest`                   | NW runtime version                                                             |
 | flavor      | `sdk \| normal`                     | `normal`                   | NW runtime build flavor.                                                       |

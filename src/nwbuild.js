@@ -57,7 +57,7 @@ import { log } from "./log.js";
 
 /**
  * @typedef {object} Options
- * @property {string}                       srcDir       Directory to hold NW app files unless or array of file glob patterns
+ * @property {string}                       srcDir       String of glob patterns which correspond to NW app code
  * @property {"run" | "build"}              mode         Run or build application
  * @property {"latest" | "stable" | string} version      NW runtime version
  * @property {"normal" | "sdk"}             flavor       NW runtime build flavor
