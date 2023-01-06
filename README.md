@@ -100,26 +100,7 @@ package.json usage
 }
 ```
 
-## API Reference
-
-### Methods
-
-`nwbuild(options) :Promise<undefined>`
-
-| Name        | Type                                | Default                    | Description                                                                    |
-| ----------- | ----------------------------------- | -------------------------- | ------------------------------------------------------------------------------ |
-| srcDir      | `string`                            | `./`                       | String of glob patterns which correspond to NW app code                                             |
-| mode        | `run \| build`                      | `build`                    | Run or build application                                                       |
-| version     | `latest \| stable \| string \| lts` | `latest`                   | NW runtime version                                                             |
-| flavor      | `sdk \| normal`                     | `normal`                   | NW runtime build flavor.                                                       |
-| platform    | `linux \| osx \| win`               | `<current platform>`       | NW supported platforms                                                         |
-| arch        | `ia32 \| x64`                       | `<current architecture>`   | NW supported architectures                                                     |
-| outDir      | `string`                            | `./out`                    | Directory to store build artifacts                                             |
-| cacheDir    | `string`                            | `./cacheDir`               | Directory to store NW binaries                                                 |
-| downloadUrl | `string`                            | `https://dl.nwjs.io`       | URI to download NW binaries from                                               |
-| manifestUrl | `string`                            | `https://nwjs.io/versions` | URI to download manifest from                                                  |
-| cache       | `boolean`                           | `true`                     | If `true` the existing cache is used. Otherwise it removes and redownloads it. |
-| zip         | `boolean`                           | `false`                    | If `true` the `outDir` directory is zipped                                     |
+For more options, check out the [API reference](https://nwutils.io/nw-builder/global#nwbuild).
 
 ## Migration to v4
 
@@ -334,7 +315,7 @@ await nwbuild({
 1. Pick and install a Node version manager
    - Linux/OSX - [nvm](https://github.com/nvm-sh/nvm)
    - Win 7+/Linux/OSX - [volta](https://volta.sh)
-1. Use your version manager to install Node 14.19 or above
+1. Use your version manager to install Node 16.19 or above
 1. Run `npm install`
 1. `npm run demo` to test your changes at first glance
 1. `npm t` to run unit tests
