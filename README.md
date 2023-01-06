@@ -7,7 +7,14 @@ Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and L
 
 > Before using `nw-builder`, please go through how to [write an NW.js application](https://nwjs.readthedocs.io/en/latest/For%20Users/Getting%20Started/).
 
-## Install
+- [Installation](https://github.com/nwutils/nw-builder#installation)
+- [Usage](https://github.com/nwutils/nw-builder#usage)
+- [Limitations](https://github.com/nwutils/nw-builder#limitations)
+- [API Reference](https://nwutils.io/nw-builder/global#nwbuild)
+- [Contributing](https://github.com/nwutils/nw-builder#contributing)
+- [License](https://github.com/nwutils/nw-builder#license)
+
+## Installation
 
 Install `nw-builder` via `npm` or your preferred Node package manager of choice.
 
@@ -101,6 +108,10 @@ package.json usage
 ```
 
 For more options, check out the [API reference](https://nwutils.io/nw-builder/global#nwbuild).
+
+## Limitations
+
+- #716 File permissions are incorrectly set for Linux or MacOS apps built on Windows platform.
 
 ## Migration to v4
 

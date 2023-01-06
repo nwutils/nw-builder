@@ -1,3 +1,4 @@
+import { platform } from "node:process";
 import { rename, writeFile } from "node:fs/promises";
 
 import { log } from "../log.js";
@@ -11,6 +12,9 @@ import { log } from "../log.js";
  * @return {undefined}
  */
 export const setLinuxConfig = async (app, outDir) => {
+  if (platform === "win32") {
+    log.warn("Linux apps built on Windows platform do not preserve all file permissions. See #716");
+  }
   let desktopEntryFile = {
     Type: "Application",
     Version: "1.5",

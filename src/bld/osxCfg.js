@@ -1,3 +1,4 @@
+import { platform } from "node:process";
 import fs from "node:fs/promises";
 import path from "node:path";
 
@@ -13,6 +14,9 @@ import { log } from "../log.js";
  * @return {Promise<undefined>}
  */
 const setOsxConfig = async (pkg, outDir) => {
+  if (platform === "win32") {
+    log.warn("MacOS apps built on Windows platform do not preserve all file permissions. See #716");
+  }
   try {
     const outApp = path.resolve(outDir, `${pkg.name}.app`);
     await fs.rename(path.resolve(outDir, "nwjs.app"), outApp);
