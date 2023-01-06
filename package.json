@@ -15,10 +15,6 @@
   },
   "license": "MIT",
   "main": "./src/nwbuild.js",
-  "exports": {
-    "import": "./src/nwbuild.js",
-    "require": "./dist/nwbuild.cjs"
-  },
   "type": "module",
   "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
@@ -34,12 +30,9 @@
     "demo:cli": "cd ./test/e2e && nwbuild ./nwapp/**/* ./node_modules/**/* --mode=build --version=0.70.1 --flavour=normal --platform=win --arch=x64 --outDir=./build",
     "demo:nix": "cd ./test/e2e && node nix.js",
     "demo:osx": "cd ./test/e2e && node osx.js",
-    "demo:win": "cd ./test/e2e && node win.js",
-    "cjs": "esbuild ./src/nwbuild.js --bundle --minify --legal-comments=inline --platform=node --outfile=./dist/nwbuild.cjs",
-    "checklist": "npm run cjs && npm run format && npm run lint && npm run test:unit && npm run test:e2e"
+    "demo:win": "cd ./test/e2e && node win.js"
   },
   "devDependencies": {
-    "esbuild": "^0.16.12",
     "eslint": "^8.25.0",
     "eslint-config-tjw-jsdoc": "^1.0.3",
     "jest": "^29.2.0",
