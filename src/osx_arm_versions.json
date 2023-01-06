@@ -1,0 +1,17 @@
+{
+  "latest": "0.70.0",
+  "stable": "0.70.0",
+  "lts": "0.70.0",
+  "versions": [
+    {
+      "version": "v0.70.0",
+      "date": "2022-10-30",
+      "files": ["osx-arm64"],
+      "flavors": ["normal", "sdk"],
+      "components": {
+        "node": "18.10.0",
+        "chromium": "107.0.5304.68"
+      }
+    }
+  ]
+}
