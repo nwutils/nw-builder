@@ -90,11 +90,16 @@ const nwbuild = async (options) => {
 
     for (const pattern of patterns) {
       let contents = await glob(pattern);
+      files.push(...contents);
+      // Try to find the first instance of the package.json
       for (const content of contents) {
         if (basename(content) === "package.json" && nwPkg === undefined) {
           nwPkg = JSON.parse(await readFile(content));
         }
-        files.push(...contents);
+      }
+
+      if (nwPkg === undefined) {
+        throw new Error("package.json not found in srcDir file glob patterns.");
       }
     }
 
