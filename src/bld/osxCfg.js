@@ -15,7 +15,9 @@ import { log } from "../log.js";
  */
 const setOsxConfig = async (pkg, outDir) => {
   if (platform === "win32") {
-    log.warn("MacOS apps built on Windows platform do not preserve all file permissions. See #716");
+    log.warn(
+      "MacOS apps built on Windows platform do not preserve all file permissions. See #716",
+    );
   }
   try {
     const outApp = path.resolve(outDir, `${pkg.name}.app`);

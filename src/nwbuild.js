@@ -2,6 +2,9 @@ import { mkdir, readFile, rm } from "node:fs/promises";
 import { basename } from "node:path";
 
 import glob from "glob-promise";
+import updateNotifier from "update-notifier";
+
+import packageJson from "../package.json" assert { type: "json" };
 
 import { decompress } from "./get/decompress.js";
 import { download } from "./get/download.js";
@@ -79,6 +82,7 @@ import { log } from "./log.js";
  * @return {Promise<undefined>}
  */
 const nwbuild = async (options) => {
+  updateNotifier({ pkg: packageJson }).notify();
   let nwDir = "";
   let nwPkg = undefined;
   let cached;
