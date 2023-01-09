@@ -1,8 +1,7 @@
 import { mkdir, readFile, rm } from "node:fs/promises";
-import { basename, resolve } from "node:path";
+import { basename } from "node:path";
 
 import glob from "glob-promise";
-import updateNotifier from "update-notifier";
 
 import { decompress } from "./get/decompress.js";
 import { download } from "./get/download.js";
@@ -11,6 +10,7 @@ import { remove } from "./get/remove.js";
 import { packager } from "./bld/package.js";
 import { develop } from "./run/develop.js";
 import { isCached } from "./util/cache.js";
+import { notify } from "./util/notify.js";
 import { parse } from "./util/parse.js";
 import { validate } from "./util/validate.js";
 
@@ -80,16 +80,12 @@ import { log } from "./log.js";
  * @return {Promise<undefined>}
  */
 const nwbuild = async (options) => {
-  const packageJson = JSON.parse(
-    await readFile(resolve("..", "..", "package.json")),
-  );
-
-  updateNotifier({ pkg: packageJson }).notify();
   let nwDir = "";
   let nwPkg = undefined;
   let cached;
   let built;
   let releaseInfo = {};
+  notify();
   try {
     let files = [];
     let patterns = options.srcDir.split(" ");
