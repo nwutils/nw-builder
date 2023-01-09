@@ -24,17 +24,18 @@ export const getReleaseInfo = async (version, cacheDir, manifestUrl) => {
     await writeFile(`${cacheDir}/manifest.json`, data.slice(9));
   } finally {
     log.debug("Store manifest metadata in memory");
-    let manifestData = await readFile(`${cacheDir}/manifest.json`);
-    log.debug("Convert manifest data into JSON");
-    let manifestJson = JSON.parse(manifestData);
+    let manifest = JSON.parse(await readFile(`${cacheDir}/manifest.json`));
     log.debug(`Search for ${version} specific release data`);
     if (version === "latest" || version === "stable" || version === "lts") {
-      version = manifestData[version].slice(1);
+      // Remove leading "v" from version string
+      version = manifest[version].slice(1);
     }
 
-    releaseData = manifestJson.versions.find(
+    releaseData = manifest.versions.find(
       (release) => release.version === `v${version}`,
     );
+
+    releaseData.version = version;
   }
   return releaseData;
 };

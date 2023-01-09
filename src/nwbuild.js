@@ -134,6 +134,17 @@ const nwbuild = async (options) => {
     // Parse options, set required values to undefined and flags with default values unless specified by user
     options = await parse(options, nwPkg);
 
+    // Validate options.version here
+    // We need to do this to get the version specific release info
+    releaseInfo = await getReleaseInfo(
+      options.version,
+      options.cacheDir,
+      options.manifestUrl,
+    );
+    options.version = releaseInfo.version;
+
+    validate(options, releaseInfo);
+
     // Variable to store nwDir file path
     nwDir = `${options.cacheDir}/nwjs${
       options.flavor === "sdk" ? "-sdk" : ""
@@ -150,16 +161,6 @@ const nwbuild = async (options) => {
     if (built === false) {
       await mkdir(options.outDir, { recursive: true });
     }
-
-    // Validate options.version here
-    // We need to do this to get the version specific release info
-    releaseInfo = await getReleaseInfo(
-      options.version,
-      options.cacheDir,
-      options.manifestUrl,
-    );
-
-    validate(options, releaseInfo);
 
     // Remove cached NW binary
     if (options.cache === false && cached === true) {
