@@ -14,7 +14,9 @@
     "url": "https://github.com/steffenmllr"
   },
   "license": "MIT",
-  "main": "./src/nwbuild.js",
+  "exports": {
+    "default": "./src/nwbuild.js"
+  },
   "type": "module",
   "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
