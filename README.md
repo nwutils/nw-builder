@@ -35,7 +35,7 @@ nwbuild({
   // Globing does not matter since a process is spawned against the nwapp directory
   srcDir: "./nwapp/**/*",
   mode: "run",
-  version: "0.70.1",
+  version: "latest",
   flavor: "sdk",
 });
 ```
@@ -43,7 +43,7 @@ nwbuild({
 CLI usage
 
 ```shell
-nwbuild ./nwapp --mode=run --version=0.70.1 --flavor=sdk
+nwbuild ./nwapp --mode=run --version=latest --flavor=sdk
 ```
 
 package.json usage
@@ -57,7 +57,7 @@ package.json usage
   "nwbuild": {
     "srcDir": "./nwapp/**/*",
     "mode": "run",
-    "version": "0.70.1",
+    "version": "latest",
     "flavor": "sdk"
   }
 }
@@ -73,7 +73,7 @@ import nwbuild from "nw-builder";
 nwbuild({
   srcDir: "./nwapp/**/*",
   mode: "build",
-  version: "0.70.1",
+  version: "latest",
   flavor: "normal",
   platform: "linux",
   arch: "x64",
@@ -84,7 +84,7 @@ nwbuild({
 CLI usage
 
 ```shell
-nwbuild ./nwapp --mode=build --version=0.70.1 --flavor=normal --platform=linux --arch=x64 --outDir=./out
+nwbuild ./nwapp --mode=build --version=latest --flavor=normal --platform=linux --arch=x64 --outDir=./out
 ```
 
 package.json usage
@@ -98,7 +98,7 @@ package.json usage
   "nwbuild": {
     "srcDir": "./nwapp/**/*",
     "mode": "build",
-    "version": "0.70.1",
+    "version": "latest",
     "flavor": "normal",
     "platform": "linux",
     "arch": "x64",

@@ -5,7 +5,7 @@ if (platform === "linux") {
   await nwbuild({
     srcDir: "./nwapp",
     mode: "build",
-    version: "0.70.1",
+    version: "latest",
     flavour: "normal",
     platform: "linux",
     arch: "x64",
@@ -17,7 +17,7 @@ if (platform === "darwin") {
   await nwbuild({
     srcDir: "./nwapp",
     mode: "build",
-    version: "0.70.1",
+    version: "latest",
     flavour: "normal",
     platform: "osx",
     arch: "x64",
@@ -29,7 +29,7 @@ if (platform === "win32") {
   await nwbuild({
     srcDir: "./nwapp",
     mode: "build",
-    version: "0.70.1",
+    version: "latest",
     flavour: "normal",
     platform: "win",
     arch: "x64",
