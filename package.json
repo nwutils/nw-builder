@@ -18,6 +18,11 @@
     "default": "./src/nwbuild.js"
   },
   "type": "module",
+  "files": [
+    "./src",
+    "./LICENSE"
+
+  ],
   "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
     "type": "git",

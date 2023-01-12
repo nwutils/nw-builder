@@ -15,7 +15,7 @@ export const parse = async (options, pkg) => {
     options = { ...pkg.nwbuild };
   }
 
-  options.srcDir = options.srcDir ?? `${cwd()}/**/*`;
+  options.srcDir = `${cwd()}/${options.srcDir}` ?? `${cwd()}/**/*`;
   options.mode = options.mode ?? "build";
   options.version = options.version ?? "latest";
   options.flavor = options.flavor || "normal";
