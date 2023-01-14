@@ -122,8 +122,7 @@ const nwbuild = async (options) => {
     // If the nwbuild property exists in srcDir/package.json, then they take precedence
     if (typeof nwPkg.nwbuild === "object") {
       options = { ...nwPkg.nwbuild };
-    }
-    if (typeof nwPkg.nwbuild === "undefined") {
+    } else if (typeof nwPkg.nwbuild === "undefined") {
       log.debug(`nwbuild property is not defined in package.json`);
     } else {
       throw new Error(
