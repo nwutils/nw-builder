@@ -6,3 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## 4.0.7 - 2023-01-14
+
+### Changed
+
+- Do not throw error if `nwbuild` is of `object` type. #769
