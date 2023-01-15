@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [4.0.7] - 2023-01-14
 
+### Added
+
+- Create cache directory if it does not exist. [#771](https://github.com/nwutils/nw-builder/pull/771)
+
 ### Changed
 
 - Do not throw error if `nwbuild` is of `object` type. [#769](https://github.com/nwutils/nw-builder/pull/769)
