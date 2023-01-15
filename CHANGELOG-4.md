@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.0.8] - 2023-01-15
+
 ### Added
 
 - Flag to check if specific `nw` release is cached. [#772](https://github.com/nwutils/nw-builder/pull/772)
