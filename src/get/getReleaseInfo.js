@@ -1,4 +1,4 @@
-import { access, readFile, writeFile } from "node:fs/promises";
+import { access, mkdir, readFile, writeFile } from "node:fs/promises";
 
 import { log } from "../log.js";
 
@@ -18,6 +18,9 @@ export const getReleaseInfo = async (version, cacheDir, manifestUrl) => {
     await access(`${cacheDir}/manifest.json`);
     log.debug(`Manifest file already exists locally under ${cacheDir}`);
   } catch (e) {
+    log.debug(`Cache directory does not exist locally`);
+    log.debug(`Creating cache directory ${cacheDir}`);
+    await mkdir(cacheDir, { recursive: true })
     log.debug(`Manifest file does not exist locally`);
     log.debug(`Downloading latest manifest file under ${cacheDir}`);
     const data = await getManifest(manifestUrl);
