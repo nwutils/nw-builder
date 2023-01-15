@@ -80,6 +80,7 @@ import { log } from "./log.js";
 const nwbuild = async (options) => {
   let nwDir = "";
   let cached;
+  let nwCached;
   let built;
   let releaseInfo = {};
 
@@ -115,13 +116,19 @@ const nwbuild = async (options) => {
 
     await validate(options, releaseInfo);
 
+    // Variable to store nwDir file path
+    nwDir = `${options.cacheDir}/nwjs${
+      options.flavor === "sdk" ? "-sdk" : ""
+    }-v${options.version}-${options.platform}-${options.arch}`;
+
+    nwCached = await isCached(nwDir);
     // Remove cached NW binary
-    if (options.cache === false && cached === true) {
+    if (options.cache === false && nwCached === true) {
       log.debug("Remove cached NW binary");
       await rm(nwDir, { force: true, recursive: true });
     }
     // Download relevant NW.js binaries
-    if (cached === false) {
+    if (nwCached === false) {
       log.debug("Download relevant NW.js binaries");
       await download(
         options.version,
@@ -134,13 +141,6 @@ const nwbuild = async (options) => {
       await decompress(options.platform, options.cacheDir);
       await remove(options.platform, options.cacheDir);
     }
-
-    // Variable to store nwDir file path
-    nwDir = `${options.cacheDir}/nwjs${
-      options.flavor === "sdk" ? "-sdk" : ""
-    }-v${options.version}-${options.platform}-${options.arch}`;
-
-    console.log(nwDir);
 
     if (options.mode === "run") {
       await develop(options.srcDir, nwDir, options.platform, options.argv);
