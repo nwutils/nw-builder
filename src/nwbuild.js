@@ -86,33 +86,16 @@ const nwbuild = async (options) => {
   notify();
 
   try {
-
     const { opts, files, nwPkg } = await getOptions(options);
     options = opts;
 
-    // Parse options, set required values to undefined and flags with default values unless specified by user
+    // Parse options
     options = await parse(options, nwPkg);
 
-    // Validate options.version here
-    // We need to do this to get the version specific release info
-    releaseInfo = await getReleaseInfo(
-      options.version,
-      options.cacheDir,
-      options.manifestUrl,
-    );
-    options.version = releaseInfo.version;
-
-    validate(options, releaseInfo);
-
-    // Variable to store nwDir file path
-    nwDir = `${options.cacheDir}/nwjs${
-      options.flavor === "sdk" ? "-sdk" : ""
-    }-v${options.version}-${options.platform}-${options.arch}`;
-
     // Create cacheDir if it does not exist
-    cached = await isCached(nwDir);
+    cached = await isCached(options.cacheDir);
     if (cached === false) {
-      await mkdir(nwDir, { recursive: true });
+      await mkdir(options.cacheDir, { recursive: true });
     }
 
     // Create outDir if it does not exist
@@ -120,6 +103,17 @@ const nwbuild = async (options) => {
     if (built === false) {
       await mkdir(options.outDir, { recursive: true });
     }
+
+    // Validate options.version to get the version specific release info
+    releaseInfo = await getReleaseInfo(
+      options.version,
+      options.cacheDir,
+      options.manifestUrl,
+    );
+    // Remove leading "v" from version string
+    options.version = releaseInfo.version.slice(1);
+
+    await validate(options, releaseInfo);
 
     // Remove cached NW binary
     if (options.cache === false && cached === true) {
@@ -140,6 +134,13 @@ const nwbuild = async (options) => {
       await decompress(options.platform, options.cacheDir);
       await remove(options.platform, options.cacheDir);
     }
+
+    // Variable to store nwDir file path
+    nwDir = `${options.cacheDir}/nwjs${
+      options.flavor === "sdk" ? "-sdk" : ""
+    }-v${options.version}-${options.platform}-${options.arch}`;
+
+    console.log(nwDir);
 
     if (options.mode === "run") {
       await develop(options.srcDir, nwDir, options.platform, options.argv);

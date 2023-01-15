@@ -3,9 +3,9 @@ import { readdir } from "node:fs/promises";
 /**
  * Validate options
  *
- * @param  {object}    options      Options
- * @param  {object}    releaseInfo  Version specific NW release info
- * @return {undefined}              True if options are valid. False otherwise
+ * @param  {object}             options      Options
+ * @param  {object}             releaseInfo  Version specific NW release info
+ * @return {Promise<undefined>}              True if options are valid. False otherwise
  */
 export const validate = async (options, releaseInfo) => {
   if (options.srcDir === "") {
