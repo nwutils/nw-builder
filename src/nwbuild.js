@@ -1,7 +1,4 @@
-import { mkdir, readFile, rm } from "node:fs/promises";
-import { basename } from "node:path";
-
-import glob from "glob-promise";
+import { mkdir, rm } from "node:fs/promises";
 
 import { decompress } from "./get/decompress.js";
 import { download } from "./get/download.js";
@@ -11,6 +8,7 @@ import { packager } from "./bld/package.js";
 import { develop } from "./run/develop.js";
 import { isCached } from "./util/cache.js";
 import { notify } from "./util/notify.js";
+import { getOptions } from "./util/options.js";
 import { parse } from "./util/parse.js";
 import { validate } from "./util/validate.js";
 
@@ -81,54 +79,16 @@ import { log } from "./log.js";
  */
 const nwbuild = async (options) => {
   let nwDir = "";
-  let nwPkg = undefined;
   let cached;
   let built;
   let releaseInfo = {};
+
   notify();
+
   try {
-    let files = [];
-    let patterns = options.srcDir.split(" ");
 
-    for (const pattern of patterns) {
-      let contents = await glob(pattern);
-      files.push(...contents);
-      // Try to find the first instance of the package.json
-      for (const content of contents) {
-        if (basename(content) === "package.json" && nwPkg === undefined) {
-          nwPkg = JSON.parse(await readFile(content));
-        }
-      }
-
-      if (nwPkg === undefined) {
-        throw new Error("package.json not found in srcDir file glob patterns.");
-      }
-    }
-
-    if (files.length === 0) {
-      throw new Error(`The globbing pattern ${options.srcDir} is invalid.`);
-    }
-
-    // The name property is required for NW.js applications
-    if (nwPkg.name === undefined) {
-      throw new Error(`name property is missing from package.json`);
-    }
-
-    // The main property is required for NW.js applications
-    if (nwPkg.main === undefined) {
-      throw new Error(`main property is missing from package.json`);
-    }
-
-    // If the nwbuild property exists in srcDir/package.json, then they take precedence
-    if (typeof nwPkg.nwbuild === "object") {
-      options = { ...nwPkg.nwbuild };
-    } else if (typeof nwPkg.nwbuild === "undefined") {
-      log.debug(`nwbuild property is not defined in package.json`);
-    } else {
-      throw new Error(
-        `nwbuild property in the package.json is of type ${typeof nwPkg.nwbuild}. Expected type object.`,
-      );
-    }
+    const { opts, files, nwPkg } = await getOptions(options);
+    options = opts;
 
     // Parse options, set required values to undefined and flags with default values unless specified by user
     options = await parse(options, nwPkg);
