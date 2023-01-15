@@ -34,8 +34,6 @@ export const getReleaseInfo = async (version, cacheDir, manifestUrl) => {
     releaseData = manifest.versions.find(
       (release) => release.version === `v${version}`,
     );
-
-    releaseData.version = version;
   }
   return releaseData;
 };

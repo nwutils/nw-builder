@@ -80,39 +80,23 @@ import { log } from "./log.js";
 const nwbuild = async (options) => {
   let nwDir = "";
   let cached;
+  let nwCached;
   let built;
   let releaseInfo = {};
 
   notify();
 
   try {
-
     const { opts, files, nwPkg } = await getOptions(options);
     options = opts;
 
-    // Parse options, set required values to undefined and flags with default values unless specified by user
+    // Parse options
     options = await parse(options, nwPkg);
 
-    // Validate options.version here
-    // We need to do this to get the version specific release info
-    releaseInfo = await getReleaseInfo(
-      options.version,
-      options.cacheDir,
-      options.manifestUrl,
-    );
-    options.version = releaseInfo.version;
-
-    validate(options, releaseInfo);
-
-    // Variable to store nwDir file path
-    nwDir = `${options.cacheDir}/nwjs${
-      options.flavor === "sdk" ? "-sdk" : ""
-    }-v${options.version}-${options.platform}-${options.arch}`;
-
     // Create cacheDir if it does not exist
-    cached = await isCached(nwDir);
+    cached = await isCached(options.cacheDir);
     if (cached === false) {
-      await mkdir(nwDir, { recursive: true });
+      await mkdir(options.cacheDir, { recursive: true });
     }
 
     // Create outDir if it does not exist
@@ -121,13 +105,30 @@ const nwbuild = async (options) => {
       await mkdir(options.outDir, { recursive: true });
     }
 
+    // Validate options.version to get the version specific release info
+    releaseInfo = await getReleaseInfo(
+      options.version,
+      options.cacheDir,
+      options.manifestUrl,
+    );
+    // Remove leading "v" from version string
+    options.version = releaseInfo.version.slice(1);
+
+    await validate(options, releaseInfo);
+
+    // Variable to store nwDir file path
+    nwDir = `${options.cacheDir}/nwjs${
+      options.flavor === "sdk" ? "-sdk" : ""
+    }-v${options.version}-${options.platform}-${options.arch}`;
+
+    nwCached = await isCached(nwDir);
     // Remove cached NW binary
-    if (options.cache === false && cached === true) {
+    if (options.cache === false && nwCached === true) {
       log.debug("Remove cached NW binary");
       await rm(nwDir, { force: true, recursive: true });
     }
     // Download relevant NW.js binaries
-    if (cached === false) {
+    if (nwCached === false) {
       log.debug("Download relevant NW.js binaries");
       await download(
         options.version,
