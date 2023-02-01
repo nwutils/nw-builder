@@ -4,7 +4,7 @@ await nwbuild({
   srcDir: "./nwapp/**/*",
   mode: "build",
   version: "latest",
-  flavour: "normal",
+  flavor: "normal",
   platform: "win",
   arch: "x64",
   outDir: "./build/win",
