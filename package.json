@@ -33,7 +33,7 @@
     "lint": "eslint ./src",
     "docs": "jsdoc ./src/nwbuild.js -d docs",
     "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "test:e2e": "cd ./test/e2e && node bld.js",
+    "test:e2e": "cd ./test/e2e && node bld.js && node run.js",
     "demo:cli": "cd ./test/e2e && node cli.js",
     "demo:nix": "cd ./test/e2e && node nix.js",
     "demo:osx": "cd ./test/e2e && node osx.js",
