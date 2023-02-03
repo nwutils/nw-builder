@@ -21,7 +21,7 @@ const execute = (srcDir, nwPath, argv) => {
     });
 
     nwProcess.on("nw_app_running", () => {
-      nwProcess.kill();
+      nwProcess.kill("SIGHUP");
     });
 
     if (process.env.NODE_ENV !== "production") {
