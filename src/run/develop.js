@@ -12,7 +12,7 @@ import { log } from "../log.js";
  * @param  {string[]}                argv      The arguments to pass to the nw.js development server
  * @return {Promise<undefined>}
  */
-const develop = async (srcDir, nwDir, platform, argv, emitter) => {
+const develop = async (srcDir, nwDir, platform, argv) => {
   try {
     if (getPlatformSpecificName(platform) === null) {
       throw new Error("Unsupported platform.");
@@ -21,7 +21,6 @@ const develop = async (srcDir, nwDir, platform, argv, emitter) => {
       srcDir,
       `${nwDir}/${getPlatformSpecificName(platform)}`,
       argv,
-      emitter,
     );
   } catch (error) {
     log.error(error);
