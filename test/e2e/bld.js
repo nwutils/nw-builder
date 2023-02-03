@@ -15,7 +15,7 @@ if (platform === "linux") {
 
 if (platform === "darwin") {
   await nwbuild({
-    srcDir: "./nwapp/**/*",
+    srcDir: "./nwapp",
     mode: "build",
     version: "latest",
     flavor: "normal",
