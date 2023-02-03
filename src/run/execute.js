@@ -20,6 +20,14 @@ const execute = (srcDir, nwPath, argv) => {
       windowsHide: true,
     });
 
+    nwProcess.on("nw_app_running", () => {
+      nwProcess.kill();
+    });
+
+    if (process.env.NODE_ENV !== "production") {
+      nwProcess.emit("nw_app_running");
+    }
+
     nwProcess.on("close", () => {
       resolve();
     });

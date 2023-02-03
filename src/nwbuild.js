@@ -1,4 +1,5 @@
 import { mkdir, rm } from "node:fs/promises";
+import EventEmitter from "node:events";
 
 import { decompress } from "./get/decompress.js";
 import { download } from "./get/download.js";
@@ -78,6 +79,7 @@ import { log } from "./log.js";
  * @return {Promise<undefined>}
  */
 const nwbuild = async (options) => {
+  const emitter = new EventEmitter();
   let nwDir = "";
   let cached;
   let nwCached;
@@ -143,7 +145,7 @@ const nwbuild = async (options) => {
     }
 
     if (options.mode === "run") {
-      await develop(options.srcDir, nwDir, options.platform, options.argv);
+      await develop(options.srcDir, nwDir, options.platform, options.argv, emitter);
     }
     if (options.mode === "build") {
       await packager(
