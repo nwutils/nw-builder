@@ -1,5 +1,4 @@
 import { cp, rm } from "node:fs/promises";
-import { basename } from "node:path";
 
 import { log } from "../log.js";
 
@@ -40,7 +39,7 @@ const packager = async (
       file,
       `${outDir}/${
         platform !== "osx" ? "package.nw" : "nwjs.app/Contents/Resources/app.nw"
-      }/${basename(file)}`,
+      }/${file}`,
       {
         recursive: true,
       },
