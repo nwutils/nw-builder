@@ -34,7 +34,7 @@
     "docs": "jsdoc ./src/nwbuild.js -d docs",
     "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:e2e": "cd ./test/e2e && node bld.js && node run.js",
-    "demo:cli": "cd ./test/e2e && nwbuild ./nwapp/* --mode=build --version=latest --flavor=normal --platform=linux --arch=x64 --outDir=./build/cli",
+    "demo:cli": "cd ./test/e2e && nwbuild ./nwapp/**/* --mode=build --version=latest --flavor=normal --platform=linux --arch=x64 --outDir=./build/cli",
     "demo:nix": "cd ./test/e2e && node nix.js",
     "demo:osx": "cd ./test/e2e && node osx.js",
     "demo:win": "cd ./test/e2e && node win.js"
