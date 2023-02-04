@@ -158,7 +158,7 @@ const nwbuild = async (options) => {
     }
   } catch (error) {
     log.error(error);
-    return error;
+    throw error;
   }
 };
 

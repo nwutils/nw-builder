@@ -4,7 +4,7 @@ import nwbuild from "nw-builder";
 if (platform === "linux") {
   await nwbuild({
     srcDir: "./nwapp/**/*",
-    mode: "build",
+    mode: "run",
     version: "latest",
     flavor: "normal",
     platform: "linux",
@@ -16,7 +16,7 @@ if (platform === "linux") {
 if (platform === "darwin") {
   await nwbuild({
     srcDir: "./nwapp/**/*",
-    mode: "build",
+    mode: "run",
     version: "latest",
     flavor: "normal",
     platform: "osx",
@@ -28,7 +28,7 @@ if (platform === "darwin") {
 if (platform === "win32") {
   await nwbuild({
     srcDir: "./nwapp/**/*",
-    mode: "build",
+    mode: "run",
     version: "latest",
     flavor: "normal",
     platform: "win",

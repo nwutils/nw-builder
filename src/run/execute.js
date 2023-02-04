@@ -20,6 +20,15 @@ const execute = (srcDir, nwPath, argv) => {
       windowsHide: true,
     });
 
+    nwProcess.on("nw_app_running", () => {
+      log.debug("Kill NW process after confirming that it runs in CI.");
+      nwProcess.kill("SIGKILL");
+    });
+
+    if (process.env.NODE_ENV !== "production") {
+      nwProcess.emit("nw_app_running");
+    }
+
     nwProcess.on("close", () => {
       resolve();
     });

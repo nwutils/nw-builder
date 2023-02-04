@@ -32,7 +32,6 @@ Module usage
 import nwbuild from "nw-builder";
 
 nwbuild({
-  // Globbing does not matter since a process is spawned against the nwapp directory
   srcDir: "./nwapp/**/*",
   mode: "run",
   version: "latest",

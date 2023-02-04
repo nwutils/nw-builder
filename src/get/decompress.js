@@ -12,20 +12,20 @@ const decompress = (platform, outDir) => {
           C: `${outDir}`,
         })
         .then(() => {
-          resolve(0);
+          resolve();
         })
-        .catch(() => {
-          reject(1);
+        .catch((error) => {
+          reject(error);
         });
     } else {
       extract(path.resolve(`${outDir}/nw.zip`), {
         dir: path.resolve(`${outDir}`),
       })
         .then(() => {
-          resolve(0);
+          resolve();
         })
-        .catch(() => {
-          reject(1);
+        .catch((error) => {
+          reject(error);
         });
     }
   });

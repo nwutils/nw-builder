@@ -1,6 +1,6 @@
 {
-    "name": "nwdemo",
-    "version": "0.0.1",
-    "main": "index.html",
-    "author": "ABC Corp"
+  "name": "nwdemo",
+  "version": "0.0.1",
+  "main": "index.html",
+  "author": "ABC Corp"
 }

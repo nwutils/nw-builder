@@ -6,7 +6,7 @@ const remove = (platform, outDir) => {
       `${outDir}/nw.${platform === "linux" ? "tar.gz" : "zip"}`,
       (error) => {
         if (error) {
-          reject(1);
+          reject(error);
         }
       },
     );
