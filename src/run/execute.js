@@ -22,7 +22,7 @@ const execute = (srcDir, nwPath, argv) => {
 
     nwProcess.on("nw_app_running", () => {
       log.debug("Kill NW process after confirming that it runs in CI.");
-      nwProcess.kill("SIGHUP");
+      nwProcess.kill("SIGKILL");
     });
 
     if (process.env.NODE_ENV !== "production") {
