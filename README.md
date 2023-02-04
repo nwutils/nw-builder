@@ -42,7 +42,7 @@ nwbuild({
 CLI usage
 
 ```shell
-nwbuild ./nwapp --mode=run --version=latest --flavor=sdk
+nwbuild ./nwapp/**/* --mode=run --version=latest --flavor=sdk
 ```
 
 package.json usage
@@ -83,7 +83,7 @@ nwbuild({
 CLI usage
 
 ```shell
-nwbuild ./nwapp --mode=build --version=latest --flavor=normal --platform=linux --arch=x64 --outDir=./out
+nwbuild ./nwapp/**/* --mode=build --version=latest --flavor=normal --platform=linux --arch=x64 --outDir=./out
 ```
 
 package.json usage
@@ -301,7 +301,7 @@ The final code should look like this.
 const { nwbuild } = require("nw-builder");
 
 await nwbuild({
-  srcDir: "./nwapp",
+  srcDir: "./nwapp/**/*",
   mode: "build",
   version: "latest",
   flavor: "normal",
