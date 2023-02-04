@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.0.9] - 2023-02-03
+
+### Added
+
+- Run and build demo app in CI.
+
+### Changed
+
+- Fixed false positives in CI
+- Throw errors instead of returning them
+- Reject error object instead of exit code
+
 ## [4.0.8] - 2023-01-15
 
 ### Added
