@@ -36,3 +36,4 @@ if (platform === "win32") {
     outDir: "./build/win",
   });
 }
+
