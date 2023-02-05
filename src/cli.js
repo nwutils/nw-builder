@@ -34,9 +34,8 @@ const cli = yargs(hideBin(process.argv))
   })
   .parse();
 
-console.log(cli._)
-
 nwbuild({
   ...cli,
   srcDir: cli._.join(" "),
+  cli: true,
 });
