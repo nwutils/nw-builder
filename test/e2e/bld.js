@@ -23,6 +23,10 @@ if (platform === "linux") {
     windowsHide: true,
   });
 
+  nwProcess.on("error", (error) => {
+    log.error(error);
+  });
+
   nwProcess.on("nw_demo_running", () => {
     log.debug("Kill NW build after confirming that it runs in CI.");
     nwProcess.kill("SIGKILL");
@@ -47,6 +51,10 @@ if (platform === "darwin") {
     windowsHide: true,
   });
 
+  nwProcess.on("error", (error) => {
+    log.error(error);
+  });
+
   nwProcess.on("nw_demo_running", () => {
     log.debug("Kill NW build after confirming that it runs in CI.");
     nwProcess.kill("SIGKILL");
@@ -69,6 +77,10 @@ if (platform === "win32") {
   nwProcess = spawn("./build/win/nwdemo", {
     detached: true,
     windowsHide: true,
+  });
+
+  nwProcess.on("error", (error) => {
+    log.error(error);
   });
 
   nwProcess.on("nw_demo_running", () => {
