@@ -32,7 +32,7 @@ Module usage
 import nwbuild from "nw-builder";
 
 nwbuild({
-  srcDir: "./nwapp/**/*",
+  srcDir: "./nwapp/*",
   mode: "run",
   version: "latest",
   flavor: "sdk",
@@ -42,7 +42,7 @@ nwbuild({
 CLI usage
 
 ```shell
-nwbuild ./nwapp/**/* --mode=run --version=latest --flavor=sdk
+nwbuild ./nwapp/* --mode=run --version=latest --flavor=sdk
 ```
 
 package.json usage
@@ -54,7 +54,7 @@ package.json usage
   "name": "nwdemo",
   "main": "./index.html",
   "nwbuild": {
-    "srcDir": "./nwapp/**/*",
+    "srcDir": "./nwapp/*",
     "mode": "run",
     "version": "latest",
     "flavor": "sdk"
@@ -70,7 +70,7 @@ Module usage
 import nwbuild from "nw-builder";
 
 nwbuild({
-  srcDir: "./nwapp/**/*",
+  srcDir: "./nwapp/*",
   mode: "build",
   version: "latest",
   flavor: "normal",
@@ -83,7 +83,7 @@ nwbuild({
 CLI usage
 
 ```shell
-nwbuild ./nwapp/**/* --mode=build --version=latest --flavor=normal --platform=linux --arch=x64 --outDir=./out
+nwbuild ./nwapp/* --mode=build --version=latest --flavor=normal --platform=linux --arch=x64 --outDir=./out
 ```
 
 package.json usage
@@ -95,7 +95,7 @@ package.json usage
   "name": "nwdemo",
   "main": "./index.html",
   "nwbuild": {
-    "srcDir": "./nwapp/**/*",
+    "srcDir": "./nwapp/*",
     "mode": "build",
     "version": "latest",
     "flavor": "normal",
@@ -144,7 +144,7 @@ Let's take an example of v3 code and migrate it to v4.
 const NwBuilder = require("nw-builder");
 
 const nw = new NwBuilder({
-  files: ["./nwapp/**/*", "./other/**/*.js"],
+  files: ["./nwapp/*", "./other/**/*.js"],
   version: "latest",
   flavor: "normal",
   platforms: ["win32", "win64", "osx32", "osx64", "linux32", "linux64"],
@@ -185,8 +185,8 @@ Replace the `NwBuilder` initialization with a function
 The `files` property has been renamed to `srcDir`.S
 
 ```patch
--  files: ["./nwapp/**/*", "./other/**/*.js"],
-+  srcDir: "./nwapp/**/* ./other/**/*.js",
+-  files: ["./nwapp/*", "./other/**/*.js"],
++  srcDir: "./nwapp/* ./other/**/*.js",
 ```
 
 Add the `mode` option and remove the now redundant `nw.build` function call.
@@ -301,7 +301,7 @@ The final code should look like this.
 const { nwbuild } = require("nw-builder");
 
 await nwbuild({
-  srcDir: "./nwapp/**/*",
+  srcDir: "./nwapp/*",
   mode: "build",
   version: "latest",
   flavor: "normal",

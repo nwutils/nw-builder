@@ -3,7 +3,7 @@ import nwbuild from "nw-builder";
 
 if (platform === "linux") {
   await nwbuild({
-    srcDir: "./nwapp/**/*",
+    srcDir: "./nwapp/*",
     mode: "run",
     version: "latest",
     flavor: "normal",
