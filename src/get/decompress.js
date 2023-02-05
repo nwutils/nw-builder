@@ -8,7 +8,7 @@ const decompress = (platform, outDir) => {
     if (platform === "linux") {
       tar
         .x({
-          file: `${outDir}/nw.tar.gz`,
+          file: path.resolve(`${outDir}/nw.tar.gz`),
           C: `${outDir}`,
         })
         .then(() => {
