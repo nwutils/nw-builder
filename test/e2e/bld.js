@@ -9,7 +9,7 @@ let nwProcess = null;
 
 if (platform === "linux") {
   await nwbuild({
-    srcDir: "./nwapp/**/*",
+    srcDir: "./nwapp/*",
     mode: "build",
     version: "latest",
     flavor: "normal",
@@ -33,7 +33,7 @@ if (platform === "linux") {
 
 if (platform === "darwin") {
   await nwbuild({
-    srcDir: "./nwapp/**/*",
+    srcDir: "./nwapp/*",
     mode: "build",
     version: "latest",
     flavor: "normal",
@@ -57,7 +57,7 @@ if (platform === "darwin") {
 
 if (platform === "win32") {
   await nwbuild({
-    srcDir: "./nwapp/**/*",
+    srcDir: "./nwapp/*",
     mode: "build",
     version: "latest",
     flavor: "normal",
