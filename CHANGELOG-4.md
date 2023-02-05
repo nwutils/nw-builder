@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.0.10] - 2023-02-05
+
+### Added
+
+- `options.cli` flag to prevent `node-glob` from globbing already globbed files and erroring out with a `package.json not found in srcDir file glob patterns` message.
+
+### Changed
+
+- Copy subdirectories of `options.srDir` in the correct location.
+
 ## [4.0.9] - 2023-02-03
 
 ### Added

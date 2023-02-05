@@ -1,5 +1,5 @@
+import { sep } from "node:path";
 import { cp, rm } from "node:fs/promises";
-import { basename } from "node:path";
 
 import { log } from "../log.js";
 
@@ -34,13 +34,13 @@ const packager = async (
   log.debug(`Copy ${nwDir} files to ${outDir} directory`);
   await cp(nwDir, outDir, { recursive: true });
 
-  for (const file of files) {
+  for (let file of files) {
     log.debug(`Copy ${file} file to ${outDir} directory`);
     await cp(
       file,
       `${outDir}/${
         platform !== "osx" ? "package.nw" : "nwjs.app/Contents/Resources/app.nw"
-      }/${basename(file)}`,
+      }/${file.split(sep).splice(2).join(sep)}`,
       {
         recursive: true,
       },

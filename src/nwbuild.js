@@ -69,6 +69,7 @@ import { log } from "./log.js";
  * @property {App}                          app                                       Multi platform configuration options
  * @property {boolean}                      [cache=true]                              If true the existing cache is used. Otherwise it removes and redownloads it.
  * @property {boolean}                      [zip=false]                               If true the outDir directory is zipped
+ * @property {boolean}                      [cli=false]                               If true the CLI is used to glob srcDir and parse other options
  */
 
 /**

@@ -29,10 +29,7 @@
         <article>
           <pre
             class="prettyprint source linenums"
-          ><code>import { mkdir, readFile, rm } from "node:fs/promises";
-import { basename } from "node:path";
-
-import glob from "glob-promise";
+          ><code>import { mkdir, rm } from "node:fs/promises";
 
 import { decompress } from "./get/decompress.js";
 import { download } from "./get/download.js";
@@ -41,6 +38,8 @@ import { remove } from "./get/remove.js";
 import { packager } from "./bld/package.js";
 import { develop } from "./run/develop.js";
 import { isCached } from "./util/cache.js";
+import { notify } from "./util/notify.js";
+import { getOptions } from "./util/options.js";
 import { parse } from "./util/parse.js";
 import { validate } from "./util/validate.js";
 
@@ -88,7 +87,7 @@ import { log } from "./log.js";
 
 /**
  * @typedef {object} Options
- * @property {string}                       [srcDir="./"]                             String of glob patterns which correspond to NW app code
+ * @property {string}                       [srcDir="./"]                             String of space separated glob patterns which correspond to NW app code
  * @property {"run" | "build"}              [mode="build"]                            Run or build application
  * @property {"latest" | "stable" | string} [version="latest"]                        NW runtime version
  * @property {"normal" | "sdk"}             [flavor="normal"]                         NW runtime build flavor
@@ -101,6 +100,7 @@ import { log } from "./log.js";
  * @property {App}                          app                                       Multi platform configuration options
  * @property {boolean}                      [cache=true]                              If true the existing cache is used. Otherwise it removes and redownloads it.
  * @property {boolean}                      [zip=false]                               If true the outDir directory is zipped
+ * @property {boolean}                      [cli=false]                               If true the CLI is used to glob srcDir and parse other options
  */
 
 /**
@@ -111,67 +111,24 @@ import { log } from "./log.js";
  */
 const nwbuild = async (options) => {
   let nwDir = "";
-  let nwPkg = undefined;
   let cached;
+  let nwCached;
   let built;
   let releaseInfo = {};
+
+  notify();
+
   try {
-    let files = [];
-    let patterns = options.srcDir.split(" ");
+    const { opts, files, nwPkg } = await getOptions(options);
+    options = opts;
 
-    for (const pattern of patterns) {
-      let contents = await glob(pattern);
-      files.push(...contents);
-      // Try to find the first instance of the package.json
-      for (const content of contents) {
-        if (basename(content) === "package.json" &amp;&amp; nwPkg === undefined) {
-          nwPkg = JSON.parse(await readFile(content));
-        }
-      }
-
-      if (nwPkg === undefined) {
-        throw new Error("package.json not found in srcDir file glob patterns.");
-      }
-    }
-
-    if (files.length === 0) {
-      throw new Error(`The globbing pattern ${options.srcDir} is invalid.`);
-    }
-
-    // The name property is required for NW.js applications
-    if (nwPkg.name === undefined) {
-      throw new Error(`name property is missing from package.json`);
-    }
-
-    // The main property is required for NW.js applications
-    if (nwPkg.main === undefined) {
-      throw new Error(`main property is missing from package.json`);
-    }
-
-    // If the nwbuild property exists in srcDir/package.json, then they take precedence
-    if (typeof nwPkg.nwbuild === "object") {
-      options = { ...nwPkg.nwbuild };
-    }
-    if (typeof nwPkg.nwbuild === "undefined") {
-      log.debug(`nwbuild property is not defined in package.json`);
-    } else {
-      throw new Error(
-        `nwbuild property in the package.json is of type ${typeof nwPkg.nwbuild}. Expected type object.`,
-      );
-    }
-
-    // Parse options, set required values to undefined and flags with default values unless specified by user
+    // Parse options
     options = await parse(options, nwPkg);
 
-    // Variable to store nwDir file path
-    nwDir = `${options.cacheDir}/nwjs${
-      options.flavor === "sdk" ? "-sdk" : ""
-    }-v${options.version}-${options.platform}-${options.arch}`;
-
     // Create cacheDir if it does not exist
-    cached = await isCached(nwDir);
+    cached = await isCached(options.cacheDir);
     if (cached === false) {
-      await mkdir(nwDir, { recursive: true });
+      await mkdir(options.cacheDir, { recursive: true });
     }
 
     // Create outDir if it does not exist
@@ -180,23 +137,30 @@ const nwbuild = async (options) => {
       await mkdir(options.outDir, { recursive: true });
     }
 
-    // Validate options.version here
-    // We need to do this to get the version specific release info
+    // Validate options.version to get the version specific release info
     releaseInfo = await getReleaseInfo(
       options.version,
       options.cacheDir,
       options.manifestUrl,
     );
+    // Remove leading "v" from version string
+    options.version = releaseInfo.version.slice(1);
 
-    validate(options, releaseInfo);
+    await validate(options, releaseInfo);
 
+    // Variable to store nwDir file path
+    nwDir = `${options.cacheDir}/nwjs${
+      options.flavor === "sdk" ? "-sdk" : ""
+    }-v${options.version}-${options.platform}-${options.arch}`;
+
+    nwCached = await isCached(nwDir);
     // Remove cached NW binary
-    if (options.cache === false &amp;&amp; cached === true) {
+    if (options.cache === false &amp;&amp; nwCached === true) {
       log.debug("Remove cached NW binary");
       await rm(nwDir, { force: true, recursive: true });
     }
     // Download relevant NW.js binaries
-    if (cached === false) {
+    if (nwCached === false) {
       log.debug("Download relevant NW.js binaries");
       await download(
         options.version,
@@ -226,7 +190,7 @@ const nwbuild = async (options) => {
     }
   } catch (error) {
     log.error(error);
-    return error;
+    throw error;
   }
 };
 
@@ -248,8 +212,8 @@ export default nwbuild;
 
     <footer>
       Documentation generated by
-      <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Fri Jan 06
-      2023 17:15:41 GMT-0500 (Eastern Standard Time)
+      <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Sun Feb 05
+      2023 17:00:04 GMT-0500 (Eastern Standard Time)
     </footer>
 
     <script>
