@@ -21,7 +21,6 @@
   "files": [
     "./src",
     "./LICENSE"
-
   ],
   "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
