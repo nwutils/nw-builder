@@ -6,8 +6,5 @@ node_modules
 coverage
 
 # project files
-build
-cache
-dist
-*.zip
-nwbuild.log
+out
+tmp

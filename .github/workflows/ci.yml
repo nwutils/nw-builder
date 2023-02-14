@@ -15,13 +15,12 @@ jobs:
   test:
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
-        node-version: [16, 18]
+        os: [macos-12, ubuntu-22.04, windows-2022]
+        node-version: 19.3
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3.3.0
       - run: npm ci
-      - run: npm run format
-      - run: npm run lint
-      - run: npm run test:unit
-      - run: npm run test:e2e
+      - run: npm run fmt
+      - run: npm run lnt
+      - run: npm run e2e
