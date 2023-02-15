@@ -30,7 +30,7 @@ describe("run mode", async () => {
         const options = new Options();
         const args = [
             `nwapp=./e2e/app`,
-            "--headless",
+            "--headless=new",
         ]
         options.addArguments(args);
 
