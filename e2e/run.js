@@ -38,7 +38,7 @@ describe("run mode", async () => {
             }-v${nwOptions.version}-${nwOptions.platform}-${nwOptions.arch}`;
 
         const service = new ServiceBuilder(
-            `${cwd()}/e2e/${nwDir}/chromedriver}`
+            `${nwDir}/chromedriver}`
         ).build();
 
         driver = Driver.createSession(options, service);
