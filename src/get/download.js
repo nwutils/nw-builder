@@ -1,10 +1,22 @@
 import fs from "node:fs";
+import { resolve } from "node:path";
 import https from "node:https";
 
 import progress from "cli-progress";
 
 const bar = new progress.SingleBar({}, progress.Presets.rect);
 
+/**
+ * Download NW.js binary
+ *
+ * @param  {string}        version       Version
+ * @param  {string}        flavor        Flavor
+ * @param  {string}        platform      Platform
+ * @param  {string}        architecture  Architecture
+ * @param  {string}        downloadUrl   Download url
+ * @param  {string}        outDir        Output directory
+ * @return {Promise<void>}
+ */
 const download = (
   version,
   flavor,
@@ -13,9 +25,9 @@ const download = (
   downloadUrl,
   outDir,
 ) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((res, rej) => {
     if (downloadUrl !== "https://dl.nwjs.io") {
-      reject(new Error("Invalid download url. Please try again."));
+      rej(new Error("Invalid download url. Please try again."));
     }
 
     let url = `${downloadUrl}/v${version}/nwjs${
@@ -35,17 +47,17 @@ const download = (
       });
 
       res.on("error", (error) => {
-        reject(error);
+        rej(error);
       });
 
       res.on("end", () => {
         bar.stop();
-        resolve();
+        res();
       });
 
       fs.mkdirSync(outDir, { recursive: true });
       const stream = fs.createWriteStream(
-        `${outDir}/nw.${platform === "linux" ? "tar.gz" : "zip"}`,
+        resolve(outDir, `nw.${platform === "linux" ? "tar.gz" : "zip"}`),
       );
       res.pipe(stream);
     });

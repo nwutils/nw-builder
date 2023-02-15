@@ -1,34 +1,33 @@
-import path from "node:path";
+import { resolve } from "node:path";
 
 import extract from "extract-zip";
 import tar from "tar";
 
-const decompress = (platform, outDir) => {
-  return new Promise((resolve, reject) => {
+import { log } from "../log.js";
+
+/**
+ * Decompress NW.js binary
+ *
+ * @param  {string}        platform  Platform
+ * @param  {string}        outDir    Output directory
+ * @return {Promise<void>}
+ */
+const decompress = async (platform, outDir) => {
+  try {
     if (platform === "linux") {
-      tar
+      await tar
         .x({
-          file: `${outDir}/nw.tar.gz`,
-          C: `${outDir}`,
+          file: resolve(outDir, "nw.tar.gz"),
+          C: outDir,
         })
-        .then(() => {
-          resolve();
-        })
-        .catch((error) => {
-          reject(error);
-        });
     } else {
-      extract(path.resolve(`${outDir}/nw.zip`), {
-        dir: path.resolve(`${outDir}`),
+      await extract(resolve(outDir, "nw.zip"), {
+        dir: outDir,
       })
-        .then(() => {
-          resolve();
-        })
-        .catch((error) => {
-          reject(error);
-        });
     }
-  });
+  } catch (error) {
+    log.error(error);
+  }
 };
 
 export { decompress };
