@@ -34,11 +34,10 @@ export function testRun() {
             ]
             options.addArguments(args);
 
-            const nwDir = `${nwOptions.cacheDir}/nwjs${nwOptions.flavor === "sdk" ? "-sdk" : ""
-                }-v${nwOptions.version}-${nwOptions.platform}-${nwOptions.arch}`;
+            const nwDir = resolve(nwOptions.cacheDir, `nwjs${nwOptions.flavor === "sdk" ? "-sdk" : ""}-v${nwOptions.version}-${nwOptions.platform}-${nwOptions.arch}`);
 
             const service = new ServiceBuilder(
-                resolve(`${nwDir}/chromedriver`)
+                resolve(`${nwDir}`, "chromedriver")
             ).build();
 
             driver = Driver.createSession(options, service);
