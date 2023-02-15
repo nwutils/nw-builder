@@ -28,15 +28,14 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
-    "format": "prettier --write \"./**/*.{css,html,js,json,md}\"",
-    "lint": "eslint ./src",
-    "docs": "jsdoc ./src/nwbuild.js -d docs",
+    "fmt": "prettier --write \"./**/*.{css,html,js,json,md,yml}\"",
+    "lnt": "eslint ./src",
+    "doc": "jsdoc ./src/nwbuild.js -d docs",
+    "e2e": "node --test e2e/index.js",
     "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "test:e2e": "cd ./test/e2e && node bld.js && node run.js",
-    "demo:cli": "cd ./test/e2e && nwbuild ./nwapp/* ./nwapp/**/* --mode=build --version=latest --flavor=normal --platform=linux --arch=x64 --outDir=./build/cli",
-    "demo:nix": "cd test/e2e && node nix.js",
-    "demo:osx": "cd ./test/e2e && node osx.js",
-    "demo:win": "cd ./test/e2e && node win.js"
+    "demo:esm": "cd test && node demo.js",
+    "demo:cjs": "cd test && node demo.cjs",
+    "demo:cli": "cd ./test && nwbuild ./nwapp/* --mode=build --version=latest --flavor=normal --platform=linux --arch=x64 --outDir=./build/cli"
   },
   "devDependencies": {
     "eslint": "^8.25.0",
@@ -45,7 +44,8 @@
     "jest-environment-jsdom": "^29.2.0",
     "jsdoc": "^4.0.0",
     "jsdom": "^21.0.0",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "selenium-webdriver": "^4.8.0"
   },
   "dependencies": {
     "archiver": "^5.3.1",

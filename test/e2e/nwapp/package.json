@@ -1,9 +1,0 @@
-{
-  "name": "nwdemo",
-  "version": "0.0.1",
-  "main": "index.html",
-  "author": "ABC Corp",
-  "dependencies": {
-    "express": "^4.18.2"
-  }
-}
