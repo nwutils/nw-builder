@@ -1,5 +1,5 @@
 import { equal } from "node:assert";
-import { cwd } from "node:process";
+import { resolve } from "node:path";
 import { before, describe, it } from "node:test";
 
 import nwbuild from "nw-builder";
@@ -13,14 +13,14 @@ describe("run mode", async () => {
     let driver = undefined;
 
     let nwOptions = {
-        srcDir: `${cwd()}/e2e/app/*`,
+        srcDir: "./e2e/app/*",
         mode: "build",
         version: "0.72.0",
         flavor: "sdk",
         platform: "linux",
         arch: "x64",
-        outDir: `${cwd()}/e2e/out`,
-        cacheDir: `${cwd()}/e2e/tmp`
+        outDir: "./e2e/out",
+        cacheDir: "./e2e/tmp"
     };
 
     before(async () => await nwbuild({ ...nwOptions }));
@@ -29,7 +29,7 @@ describe("run mode", async () => {
 
         const options = new Options();
         const args = [
-            `nwapp=${cwd()}/e2e/app`,
+            `nwapp=./e2e/app`,
             "--headless",
         ]
         options.addArguments(args);
@@ -38,7 +38,7 @@ describe("run mode", async () => {
             }-v${nwOptions.version}-${nwOptions.platform}-${nwOptions.arch}`;
 
         const service = new ServiceBuilder(
-            `${nwDir}/chromedriver}`
+            resolve(`${nwDir}/chromedriver`)
         ).build();
 
         driver = Driver.createSession(options, service);
