@@ -16,7 +16,7 @@ export function mode() {
         let nwOptions = {
             srcDir: "./e2e/app/*",
             mode: "build",
-            version: "0.72.0",
+            version: "0.73.0",
             flavor: "sdk",
             outDir: "./e2e/out",
             cacheDir: "./e2e/tmp"
