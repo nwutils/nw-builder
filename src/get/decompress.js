@@ -1,31 +1,31 @@
-import path from "node:path";
+import { resolve } from "node:path";
 
 import extract from "extract-zip";
 import tar from "tar";
 
 const decompress = (platform, outDir) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((res, rej) => {
     if (platform === "linux") {
       tar
         .x({
-          file: path.resolve(`${outDir}/nw.tar.gz`),
-          C: path.resolve(`${outDir}`),
+          file: resolve(outDir, "nw.tar.gz"),
+          C: resolve(outDir),
         })
         .then(() => {
-          resolve();
+          res();
         })
         .catch((error) => {
-          reject(error);
+          rej(error);
         });
     } else {
-      extract(path.resolve(`${outDir}/nw.zip`), {
-        dir: path.resolve(`${outDir}`),
+      extract(resolve(outDir, "nw.zip"), {
+        dir: resolve(outDir),
       })
         .then(() => {
-          resolve();
+          res();
         })
         .catch((error) => {
-          reject(error);
+          rej(error);
         });
     }
   });
