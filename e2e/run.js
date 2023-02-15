@@ -1,6 +1,6 @@
 import { equal } from "node:assert";
 import { resolve } from "node:path";
-import { before, describe, it } from "node:test";
+import { describe, it } from "node:test";
 
 import nwbuild from "nw-builder";
 import { By } from "selenium-webdriver";
@@ -22,8 +22,6 @@ describe("run mode", async () => {
         outDir: "./e2e/out",
         cacheDir: "./e2e/tmp"
     };
-
-    // before(async () => {});
 
     it("should run", async () => {
         await nwbuild({ ...nwOptions })
