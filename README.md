@@ -32,7 +32,7 @@ Module usage
 import nwbuild from "nw-builder";
 
 nwbuild({
-  srcDir: "./nwapp/**/*",
+  srcDir: "./nwapp/*",
   mode: "run",
   version: "latest",
   flavor: "sdk",
@@ -42,7 +42,7 @@ nwbuild({
 CLI usage
 
 ```shell
-nwbuild ./nwapp/**/* --mode=run --version=latest --flavor=sdk
+nwbuild ./nwapp/* --mode=run --version=latest --flavor=sdk
 ```
 
 package.json usage
@@ -54,7 +54,7 @@ package.json usage
   "name": "nwdemo",
   "main": "./index.html",
   "nwbuild": {
-    "srcDir": "./nwapp/**/*",
+    "srcDir": "./nwapp/*",
     "mode": "run",
     "version": "latest",
     "flavor": "sdk"
@@ -70,7 +70,7 @@ Module usage
 import nwbuild from "nw-builder";
 
 nwbuild({
-  srcDir: "./nwapp/**/*",
+  srcDir: "./nwapp/*",
   mode: "build",
   version: "latest",
   flavor: "normal",
@@ -83,7 +83,7 @@ nwbuild({
 CLI usage
 
 ```shell
-nwbuild ./nwapp/**/* --mode=build --version=latest --flavor=normal --platform=linux --arch=x64 --outDir=./out
+nwbuild ./nwapp/* --mode=build --version=latest --flavor=normal --platform=linux --arch=x64 --outDir=./out
 ```
 
 package.json usage
@@ -95,7 +95,7 @@ package.json usage
   "name": "nwdemo",
   "main": "./index.html",
   "nwbuild": {
-    "srcDir": "./nwapp/**/*",
+    "srcDir": "./nwapp/*",
     "mode": "build",
     "version": "latest",
     "flavor": "normal",

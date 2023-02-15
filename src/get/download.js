@@ -36,21 +36,21 @@ const download = (
       platform === "linux" ? "tar.gz" : "zip"
     }`;
 
-    https.get(url, (res) => {
+    https.get(url, (response) => {
       let chunks = 0;
-      bar.start(Number(res.headers["content-length"]), 0);
+      bar.start(Number(response.headers["content-length"]), 0);
 
-      res.on("data", (chunk) => {
+      response.on("data", (chunk) => {
         chunks += chunk.length;
         bar.increment();
         bar.update(chunks);
       });
 
-      res.on("error", (error) => {
+      response.on("error", (error) => {
         rej(error);
       });
 
-      res.on("end", () => {
+      response.on("end", () => {
         bar.stop();
         res();
       });
@@ -59,7 +59,7 @@ const download = (
       const stream = fs.createWriteStream(
         resolve(outDir, `nw.${platform === "linux" ? "tar.gz" : "zip"}`),
       );
-      res.pipe(stream);
+      response.pipe(stream);
     });
   });
 };
