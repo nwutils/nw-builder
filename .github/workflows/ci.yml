@@ -24,9 +24,6 @@ jobs:
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
-      # - uses: actions/setup-node@v3.6.0
-      #   with:
-      #     node-version: "19.3.0"
       - uses: actions/checkout@v3.3.0
       - run: npm ci
       - run: npm link
