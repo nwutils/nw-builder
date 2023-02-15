@@ -13,40 +13,40 @@ import { getPlatform } from "../src/util/platform.js";
 const { Driver, ServiceBuilder, Options } = chrome;
 
 export function mode() {
-    describe("test modes", async () => {
+  describe("test modes", async () => {
+    let driver = undefined;
 
-        let driver = undefined;
+    let nwOptions = {
+      srcDir: "./e2e/app/*",
+      mode: "build",
+      version: "0.73.0",
+      flavor: "sdk",
+      platform: getPlatform(platform),
+      arch: getArch(arch),
+      outDir: "./e2e/out",
+      cacheDir: "./e2e/tmp",
+    };
 
-        let nwOptions = {
-            srcDir: "./e2e/app/*",
-            mode: "build",
-            version: "0.73.0",
-            flavor: "sdk",
-            platform: getPlatform(platform),
-            arch: getArch(arch),
-            outDir: "./e2e/out",
-            cacheDir: "./e2e/tmp"
-        };
+    it("should run", async () => {
+      await nwbuild({ ...nwOptions });
 
-        it("should run", async () => {
-            await nwbuild({ ...nwOptions })
+      const options = new Options();
+      const args = [`--nwapp=${resolve("e2e", "app")}`, "--headless=new"];
+      options.addArguments(args);
 
-            const options = new Options();
-            const args = [
-                `--nwapp=${resolve("e2e", "app")}`,
-                "--headless=new",
-            ]
-            options.addArguments(args);
+      const chromedriverPath = resolve(
+        nwOptions.cacheDir,
+        `nwjs${nwOptions.flavor === "sdk" ? "-sdk" : ""}-v${
+          nwOptions.version
+        }-${nwOptions.platform}-${nwOptions.arch}`,
+        "chromedriver",
+      );
 
-            const chromedriverPath = resolve(nwOptions.cacheDir, `nwjs${nwOptions.flavor === "sdk" ? "-sdk" : ""}-v${nwOptions.version}-${nwOptions.platform}-${nwOptions.arch}`, "chromedriver");
+      const service = new ServiceBuilder(chromedriverPath).build();
 
-            const service = new ServiceBuilder(
-                chromedriverPath
-            ).build();
-
-            driver = Driver.createSession(options, service);
-            const text = await driver.findElement(By.id("test")).getText();
-            equal(text, "Hello, World!");
-        });
+      driver = Driver.createSession(options, service);
+      const text = await driver.findElement(By.id("test")).getText();
+      equal(text, "Hello, World!");
     });
+  });
 }
