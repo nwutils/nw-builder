@@ -56,7 +56,6 @@
     "progress": "^2.0.3",
     "rcedit": "^3.0.1",
     "tar": "^6.1.11",
-    "update-notifier": "^6.0.2",
     "winston": "^3.8.2",
     "yargs": "^17.5.1"
   },

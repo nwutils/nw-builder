@@ -7,7 +7,6 @@ import { remove } from "./get/remove.js";
 import { packager } from "./bld/package.js";
 import { develop } from "./run/develop.js";
 import { isCached } from "./util/cache.js";
-import { notify } from "./util/notify.js";
 import { getOptions } from "./util/options.js";
 import { parse } from "./util/parse.js";
 import { validate } from "./util/validate.js";
@@ -84,8 +83,6 @@ const nwbuild = async (options) => {
   let nwCached;
   let built;
   let releaseInfo = {};
-
-  notify();
 
   try {
     const { opts, files, nwPkg } = await getOptions(options);
