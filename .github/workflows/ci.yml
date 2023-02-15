@@ -25,6 +25,7 @@ jobs:
       #     node-version: "19.3.0"
       - uses: actions/checkout@v3.3.0
       - run: npm ci
+      - run: npm link
       - run: npm run fmt
       - run: npm run lnt
       - run: npm run e2e
