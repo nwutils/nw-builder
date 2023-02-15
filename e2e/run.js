@@ -29,7 +29,7 @@ export function testRun() {
 
             const options = new Options();
             const args = [
-                `nwapp=./e2e/app`,
+                `--nwapp=${resolve("e2e", "app")}`,
                 "--headless=new",
             ]
             options.addArguments(args);
