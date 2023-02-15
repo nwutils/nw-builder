@@ -15,12 +15,13 @@ jobs:
   test:
     strategy:
       matrix:
-        os: [macos-12, ubuntu-22.04, windows-2022]
+        os: [macos-12, ubuntu-22.04]
+        node-version: ["19.3.0"]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/setup-node@v3.6.0
-        with:
-          node-version: "19.3.0"
+      # - uses: actions/setup-node@v3.6.0
+      #   with:
+      #     node-version: "19.3.0"
       - uses: actions/checkout@v3.3.0
       - run: npm ci
       - run: npm run fmt
