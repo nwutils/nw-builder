@@ -23,9 +23,10 @@ describe("run mode", async () => {
         cacheDir: "./e2e/tmp"
     };
 
-    before(async () => await nwbuild({ ...nwOptions }));
+    // before(async () => {});
 
     it("should run", async () => {
+        await nwbuild({ ...nwOptions })
 
         const options = new Options();
         const args = [
