@@ -50,13 +50,13 @@ const packager = async (
   log.debug(`Starting platform specific config steps for ${platform}`);
   switch (platform) {
     case "linux":
-      setLinuxConfig(app, outDir);
+      await setLinuxConfig(app, outDir);
       break;
     case "win":
-      setWinConfig(app, outDir);
+      await setWinConfig(app, outDir);
       break;
     case "osx":
-      setOsxConfig(app, outDir, releaseInfo);
+      await setOsxConfig(app, outDir, releaseInfo);
       break;
     default:
       break;
