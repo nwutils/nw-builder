@@ -15,18 +15,18 @@ import { log } from "../log.js";
 const decompress = async (platform, outDir) => {
   try {
     if (platform === "linux") {
-      await tar
-        .x({
-          file: resolve(outDir, "nw.tar.gz"),
-          C: outDir,
-        })
+      await tar.x({
+        file: resolve(outDir, "nw.tar.gz"),
+        C: outDir,
+      });
     } else {
       await extract(resolve(outDir, "nw.zip"), {
         dir: outDir,
-      })
+      });
     }
   } catch (error) {
     log.error(error);
+    throw error;
   }
 };
 

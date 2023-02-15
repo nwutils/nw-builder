@@ -1,17 +1,22 @@
-import fs from "node:fs";
+import { rm } from "node:fs/promises";
+import { resolve } from "node:path";
 
-const remove = (platform, outDir) => {
-  return new Promise((resolve, reject) => {
-    fs.rm(
-      `${outDir}/nw.${platform === "linux" ? "tar.gz" : "zip"}`,
-      (error) => {
-        if (error) {
-          reject(error);
-        }
-      },
-    );
-    resolve(0);
-  });
+import { log } from "../log.js";
+
+/**
+ * Remove NW.js binary
+ *
+ * @param  {string}        platform  - linux, macos, win32
+ * @param  {string}        outDir    - Output directory
+ * @return {Promise<void>}           - Promise
+ */
+const remove = async (platform, outDir) => {
+  try {
+    await rm(resolve(outDir, `nw.${platform === "linux" ? "tar.gz" : "zip"}`));
+  } catch (error) {
+    log.error(error);
+    throw error;
+  }
 };
 
 export { remove };
