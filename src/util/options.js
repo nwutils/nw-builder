@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { basename } from "node:path";
+import { basename, resolve } from "node:path";
 
 import glob from "glob-promise";
 
@@ -25,6 +25,10 @@ export const getOptions = async (opts) => {
   } else {
     files = [...patterns];
   }
+
+  files.forEach((file, index) => {
+    files[index] = resolve(file);
+  });
 
   // Try to find the first instance of the package.json
   for (const file of files) {
