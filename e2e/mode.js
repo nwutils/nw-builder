@@ -12,6 +12,9 @@ import { getPlatform } from "../src/util/platform.js";
 
 const { Driver, ServiceBuilder, Options } = chrome;
 
+/**
+ * Test modes
+ */
 export function mode() {
   describe("test modes", async () => {
     let driver = undefined;
@@ -39,7 +42,7 @@ export function mode() {
         `nwjs${nwOptions.flavor === "sdk" ? "-sdk" : ""}-v${
           nwOptions.version
         }-${nwOptions.platform}-${nwOptions.arch}`,
-        `chromedriver${platform === "win" ? ".exe" : ""}`,
+        `chromedriver${nwOptions.platform === "win" ? ".exe" : ""}`,
       );
 
       const service = new ServiceBuilder(chromedriverPath).build();
