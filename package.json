@@ -93,7 +93,8 @@
     "rules": {
       "jsdoc/require-file-overview": "off",
       "jsdoc/require-returns-description": "off",
-      "jsdoc/match-description": "off"
+      "jsdoc/match-description": "off",
+      "jsdoc/valid-types": "off"
     }
   },
   "jest": {

@@ -39,7 +39,12 @@ const packager = async (
     log.debug(`Copy ${file} file to ${outDir} directory`);
     await cp(
       file,
-      resolve(outDir, platform !== "osx" ? "package.nw" : "nwjs.app/Contents/Resources/app.nw"),
+      resolve(
+        outDir,
+        platform !== "osx"
+          ? "package.nw"
+          : "nwjs.app/Contents/Resources/app.nw",
+      ),
       {
         recursive: true,
       },

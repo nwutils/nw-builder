@@ -1,5 +1,5 @@
 import { resolve } from "node:path";
-  
+
 import Decompress from "decompress";
 
 import { log } from "../log.js";
