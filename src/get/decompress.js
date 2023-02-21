@@ -16,7 +16,7 @@ const decompress = async (platform, outDir) => {
     if (platform === "linux") {
       await Decompress(resolve(outDir, "nw.tar.gz"), outDir);
     } else {
-      await Decompress(resolve(outDir, "nw.zip", outDir));
+      await Decompress(resolve(outDir, "nw.zip"), outDir);
     }
   } catch (error) {
     log.error(error);
