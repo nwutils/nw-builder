@@ -1,4 +1,5 @@
 import { mkdir, rm } from "node:fs/promises";
+import { resolve } from "node:path";
 
 import { decompress } from "./get/decompress.js";
 import { download } from "./get/download.js";
@@ -7,7 +8,6 @@ import { remove } from "./get/remove.js";
 import { packager } from "./bld/package.js";
 import { develop } from "./run/develop.js";
 import { isCached } from "./util/cache.js";
-import { notify } from "./util/notify.js";
 import { getOptions } from "./util/options.js";
 import { parse } from "./util/parse.js";
 import { validate } from "./util/validate.js";
@@ -85,8 +85,6 @@ const nwbuild = async (options) => {
   let built;
   let releaseInfo = {};
 
-  notify();
-
   try {
     const { opts, files, nwPkg } = await getOptions(options);
     options = opts;
@@ -118,9 +116,12 @@ const nwbuild = async (options) => {
     await validate(options, releaseInfo);
 
     // Variable to store nwDir file path
-    nwDir = `${options.cacheDir}/nwjs${
-      options.flavor === "sdk" ? "-sdk" : ""
-    }-v${options.version}-${options.platform}-${options.arch}`;
+    nwDir = resolve(
+      options.cacheDir,
+      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${
+        options.platform
+      }-${options.arch}`,
+    );
 
     nwCached = await isCached(nwDir);
     // Remove cached NW binary
