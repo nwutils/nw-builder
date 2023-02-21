@@ -1,7 +1,6 @@
 import { resolve } from "node:path";
-
-import extract from "extract-zip";
-import tar from "tar";
+  
+import Decompress from "decompress";
 
 import { log } from "../log.js";
 
@@ -15,14 +14,9 @@ import { log } from "../log.js";
 const decompress = async (platform, outDir) => {
   try {
     if (platform === "linux") {
-      await tar.x({
-        file: resolve(outDir, "nw.tar.gz"),
-        C: outDir,
-      });
+      await Decompress(resolve(outDir, "nw.tar.gz"), outDir);
     } else {
-      await extract(resolve(outDir, "nw.zip"), {
-        dir: outDir,
-      });
+      await Decompress(resolve(outDir, "nw.zip", outDir));
     }
   } catch (error) {
     log.error(error);
