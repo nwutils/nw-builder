@@ -25,16 +25,17 @@ const download = (
   downloadUrl,
   outDir,
 ) => {
+  let url;
+  let out;
   return new Promise((res, rej) => {
-    if (downloadUrl !== "https://dl.nwjs.io") {
+    if (downloadUrl === "https://dl.nwjs.io") {
+      url = `${downloadUrl}/v${version}/nwjs${flavor === "sdk" ? "-sdk" : ""
+        }-v${version}-${platform}-${architecture}.${platform === "linux" ? "tar.gz" : "zip"
+        }`;
+      out = resolve(outDir, `nw.${platform === "linux" ? "tar.gz" : "zip"}`);
+    } else {
       rej(new Error("Invalid download url. Please try again."));
     }
-
-    let url = `${downloadUrl}/v${version}/nwjs${
-      flavor === "sdk" ? "-sdk" : ""
-    }-v${version}-${platform}-${architecture}.${
-      platform === "linux" ? "tar.gz" : "zip"
-    }`;
 
     https.get(url, (response) => {
       let chunks = 0;
@@ -56,9 +57,7 @@ const download = (
       });
 
       fs.mkdirSync(outDir, { recursive: true });
-      const stream = fs.createWriteStream(
-        resolve(outDir, `nw.${platform === "linux" ? "tar.gz" : "zip"}`),
-      );
+      const stream = fs.createWriteStream(out);
       response.pipe(stream);
     });
   });
