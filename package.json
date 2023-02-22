@@ -30,7 +30,7 @@
   "scripts": {
     "fmt": "prettier --write \"./**/*.{css,html,js,json,md,yml}\"",
     "lnt": "eslint ./src",
-    "doc": "jsdoc ./src/nwbuild.js -d docs",
+    "doc": "jsdoc ./src/nwbuild.js -d doc",
     "e2e": "node --test e2e/index.js",
     "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "demo:esm": "cd e2e && node demo.js",
