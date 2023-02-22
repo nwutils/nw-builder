@@ -29,10 +29,18 @@ const download = (
   let out;
   return new Promise((res, rej) => {
     if (downloadUrl === "https://dl.nwjs.io") {
-      url = `${downloadUrl}/v${version}/nwjs${flavor === "sdk" ? "-sdk" : ""
-        }-v${version}-${platform}-${architecture}.${platform === "linux" ? "tar.gz" : "zip"
-        }`;
+      url = `${downloadUrl}/v${version}/nwjs${
+        flavor === "sdk" ? "-sdk" : ""
+      }-v${version}-${platform}-${architecture}.${
+        platform === "linux" ? "tar.gz" : "zip"
+      }`;
       out = resolve(outDir, `nw.${platform === "linux" ? "tar.gz" : "zip"}`);
+    } else if (
+      downloadUrl ===
+      "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download"
+    ) {
+      url = `${downloadUrl}/${version}/${version}-${platform}-${architecture}.zip`;
+      out = resolve(outDir, `ffmpeg.zip`);
     } else {
       rej(new Error("Invalid download url. Please try again."));
     }

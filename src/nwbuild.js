@@ -80,6 +80,7 @@ import { log } from "./log.js";
  */
 const nwbuild = async (options) => {
   let nwDir = "";
+  let ffmpegDir = "";
   let cached;
   let nwCached;
   let built;
@@ -140,8 +141,35 @@ const nwbuild = async (options) => {
         options.downloadUrl,
         options.cacheDir,
       );
-      await decompress(options.platform, options.cacheDir);
-      await remove(options.platform, options.cacheDir);
+      await decompress(options.platform, options.cacheDir, options.downloadUrl);
+      await remove(options.platform, options.cacheDir, options.downloadUrl);
+    }
+
+    ffmpegDir = resolve(options.cacheDir, "ffmpeg.so");
+    const ffmpegCached = await isCached(ffmpegDir);
+    // Remove cached ffmpeg binary
+    if (options.cache === false && ffmpegCached === true) {
+      log.debug("Remove cached ffmpeg binary");
+      await rm(ffmpegDir, { force: true, recursive: true });
+    }
+
+    // Download relevant ffmpeg binaries
+    if (ffmpegCached === false) {
+      log.debug("Download relevant ffmpeg binaries");
+      await download(
+        options.version,
+        options.flavor,
+        options.platform,
+        options.arch,
+        "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download",
+        options.cacheDir,
+      );
+      await decompress(
+        options.platform,
+        options.cacheDir,
+        "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download",
+      );
+      // await remove(options.platform, options.cacheDir, "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download");
     }
 
     if (options.mode === "run") {
