@@ -5,7 +5,7 @@ nwbuild({
   mode: "build",
   version: "0.73.0",
   flavor: "normal",
-  platform: "llinux",
+  platform: "linux",
   outDir: "./out/nix",
   cacheDir: "./tmp",
 });
