@@ -8,11 +8,7 @@
     "Desktop",
     "Application"
   ],
-  "author": {
-    "name": "Steffen Müller",
-    "email": "steffen@mllrsohn.com",
-    "url": "https://github.com/steffenmllr"
-  },
+  "author": "nw-builder Authors",
   "license": "MIT",
   "exports": {
     "default": "./src/nwbuild.js"
