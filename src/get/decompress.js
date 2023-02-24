@@ -1,8 +1,6 @@
-import fs from "node:fs";
 import { resolve } from "node:path";
 
 import Decompress from "decompress";
-import { open } from "yauzl";
 
 import { log } from "../log.js";
 
@@ -27,28 +25,6 @@ const decompress = async (platform, cacheDir, downloadUrl) => {
       "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download"
     ) {
       await Decompress(resolve(cacheDir, "ffmpeg.zip"), cacheDir);
-      // open(resolve(cacheDir, "ffmpeg.zip"), { lazyEntries: true }, (error, zipfile) => {
-      //   if (error) {
-      //     throw error;
-      //   }
-      //   zipfile.readEntry();
-      //   zipfile.on("entry", (entry) => {
-      //     if (/\/$/.test(entry.fileName)) {
-      //       zipfile.readEntry();
-      //     } else {
-      //       zipfile.openReadStream(entry, (err, readStream) => {
-      //         if (err) {
-      //           throw err;
-      //         } else {
-      //           readStream.on("end", () => {
-      //             zipfile.readEntry();
-      //           });
-      //           readStream.pipe(fs.createWriteStream(resolve(cacheDir, entry.fileName)));
-      //         }
-      //       });
-      //     }
-      //   });
-      // });
     }
   } catch (error) {
     log.error(error);

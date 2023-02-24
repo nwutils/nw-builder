@@ -67,5 +67,6 @@ export const parse = async (options, pkg) => {
   options.app.specialBuild = options.app.specialBuild ?? undefined;
   options.cache = options.cache ?? true;
   options.zip = options.zip ?? false;
+  options.ffmpeg = options.ffmpeg ?? false;
   return options;
 };
