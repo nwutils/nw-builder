@@ -176,7 +176,11 @@ const nwbuild = async (options) => {
         options.cacheDir,
         "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download",
       );
-      // await remove(options.platform, options.cacheDir, "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download");
+      await remove(
+        options.platform,
+        options.cacheDir,
+        "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download",
+      );
     }
 
     if (options.mode === "run") {

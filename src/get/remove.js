@@ -7,23 +7,23 @@ import { log } from "../log.js";
  * Remove NW.js binary
  *
  * @param  {string}        platform     - linux, macos, win32
- * @param  {string}        outDir       - Output directory
+ * @param  {string}        cacheDir     - Output directory
  * @param  {string}        downloadUrl  - Download URL
  * @return {Promise<void>}              - Promise
  */
-const remove = async (platform, outDir, downloadUrl) => {
+const remove = async (platform, cacheDir, downloadUrl) => {
   try {
     if (downloadUrl === "https://dl.nwjs.io/") {
       if (platform === "linux") {
-        await rm(resolve(outDir, "nw.tar.gz"));
+        await rm(resolve(cacheDir, "nw.tar.gz"));
       } else {
-        await rm(resolve(outDir, "nw.zip"));
+        await rm(resolve(cacheDir, "nw.zip"));
       }
     } else if (
       downloadUrl ===
       "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download"
     ) {
-      await rm(resolve(outDir, "ffmpeg.zip"));
+      await rm(resolve(cacheDir, "ffmpeg.zip"));
     }
   } catch (error) {
     log.error(error);
