@@ -80,7 +80,7 @@ import { log } from "./log.js";
  */
 const nwbuild = async (options) => {
   let nwDir = "";
-  let ffmpegDir = "";
+  let ffmpegFile = "";
   let cached;
   let nwCached;
   let built;
@@ -145,12 +145,19 @@ const nwbuild = async (options) => {
       await remove(options.platform, options.cacheDir, options.downloadUrl);
     }
 
-    ffmpegDir = resolve(options.cacheDir, "ffmpeg.so");
-    const ffmpegCached = await isCached(ffmpegDir);
+    if (options.platform === "win") {
+      ffmpegFile = ".dll";
+    } else if (options.platform === "osx") {
+      ffmpegFile = ".dylib";
+    } else if (options.platform === "linux") {
+      ffmpegFile = "libffmpeg.so";
+    }
+    ffmpegFile = resolve(options.cacheDir, ffmpegFile);
+    const ffmpegCached = await isCached(ffmpegFile);
     // Remove cached ffmpeg binary
     if (options.cache === false && ffmpegCached === true) {
       log.debug("Remove cached ffmpeg binary");
-      await rm(ffmpegDir, { force: true, recursive: true });
+      await rm(ffmpegFile, { force: true, recursive: true });
     }
 
     // Download relevant ffmpeg binaries
