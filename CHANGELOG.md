@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.1.0] - 2023-02-23
+
+## Added
+
+- Use (community) prebuilt version of `ffmpeg` if the `ffmpeg` flag is `true` (defaults to `false`).
+
+## Changed
+
+- `await` platform specific config steps
+
+## [4.0.11] - 2023-02-5
+
+## Changed
+
+- Security update `http-cache-semantics` to `v4.1.1`.
+
 ## [4.0.10] - 2023-02-05
 
 ### Added

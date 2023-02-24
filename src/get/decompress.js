@@ -7,16 +7,24 @@ import { log } from "../log.js";
 /**
  * Decompress NW.js binary
  *
- * @param  {string}        platform  Platform
- * @param  {string}        outDir    Output directory
+ * @param  {string}        platform     Platform
+ * @param  {string}        cacheDir     Output directory
+ * @param  {string}        downloadUrl  Download url
  * @return {Promise<void>}
  */
-const decompress = async (platform, outDir) => {
+const decompress = async (platform, cacheDir, downloadUrl) => {
   try {
-    if (platform === "linux") {
-      await Decompress(resolve(outDir, "nw.tar.gz"), outDir);
-    } else {
-      await Decompress(resolve(outDir, "nw.zip"), outDir);
+    if (downloadUrl === "https://dl.nwjs.io") {
+      if (platform === "linux") {
+        await Decompress(resolve(cacheDir, "nw.tar.gz"), cacheDir);
+      } else {
+        await Decompress(resolve(cacheDir, "nw.zip"), cacheDir);
+      }
+    } else if (
+      downloadUrl ===
+      "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download"
+    ) {
+      await Decompress(resolve(cacheDir, "ffmpeg.zip"), cacheDir);
     }
   } catch (error) {
     log.error(error);

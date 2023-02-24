@@ -1,6 +1,6 @@
 {
   "name": "nw-builder",
-  "version": "4.0.11",
+  "version": "4.1.0",
   "description": "Build NW.js desktop applications for MacOS, Windows and Linux.",
   "keywords": [
     "NW.js",
@@ -8,11 +8,7 @@
     "Desktop",
     "Application"
   ],
-  "author": {
-    "name": "Steffen Müller",
-    "email": "steffen@mllrsohn.com",
-    "url": "https://github.com/steffenmllr"
-  },
+  "author": "nw-builder Authors",
   "license": "MIT",
   "exports": {
     "default": "./src/nwbuild.js"
@@ -33,8 +29,8 @@
     "doc": "jsdoc ./src/nwbuild.js -d docs",
     "e2e": "node --test e2e/index.js",
     "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "demo:esm": "cd test && node demo.js",
-    "demo:cjs": "cd test && node demo.cjs",
+    "demo:esm": "cd e2e && node demo.js",
+    "demo:cjs": "cd e2e && node demo.cjs",
     "demo:cli": "cd ./test && nwbuild ./nwapp/* --mode=build --version=latest --flavor=normal --platform=linux --arch=x64 --outDir=./build/cli"
   },
   "devDependencies": {
@@ -78,7 +74,7 @@
   },
   "eslintConfig": {
     "parserOptions": {
-      "ecmaVersion": 2021,
+      "ecmaVersion": 2023,
       "sourceType": "module"
     },
     "env": {
