@@ -45,44 +45,40 @@ const download = (
       rej(new Error("Invalid download url. Please try again."));
     }
 
-    if (
-      downloadUrl ===
-      "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download"
-    ) {
-      console.log("here");
-      https.get(url, (response) => {
+    https.get(url, (response) => {
+      if (
+        downloadUrl ===
+        "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download"
+      ) {
         url = response.headers.location;
-        console.log(url);
-        response.destroy();
+      }
+
+      https.get(url, (response) => {
+        let chunks = 0;
+        bar.start(Number(response.headers["content-length"]), 0);
+        response.on("data", (chunk) => {
+          chunks += chunk.length;
+          bar.increment();
+          bar.update(chunks);
+        });
 
         response.on("error", (error) => {
           rej(error);
         });
-      });
-    }
 
-    https.get(url, (response) => {
-      console.log(url);
-      let chunks = 0;
-      bar.start(Number(response.headers["content-length"]), 0);
-      response.on("data", (chunk) => {
-        chunks += chunk.length;
-        bar.increment();
-        bar.update(chunks);
+        response.on("end", () => {
+          bar.stop();
+          res();
+        });
+
+        fs.mkdirSync(cacheDir, { recursive: true });
+        const stream = fs.createWriteStream(out);
+        response.pipe(stream);
       });
 
       response.on("error", (error) => {
         rej(error);
       });
-
-      response.on("end", () => {
-        bar.stop();
-        res();
-      });
-
-      fs.mkdirSync(cacheDir, { recursive: true });
-      const stream = fs.createWriteStream(out);
-      response.pipe(stream);
     });
   });
 };
