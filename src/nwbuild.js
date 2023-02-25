@@ -1,4 +1,5 @@
 import { mkdir, rm } from "node:fs/promises";
+import { resolve } from "node:path";
 
 import { decompress } from "./get/decompress.js";
 import { download } from "./get/download.js";
@@ -7,7 +8,7 @@ import { remove } from "./get/remove.js";
 import { packager } from "./bld/package.js";
 import { develop } from "./run/develop.js";
 import { isCached } from "./util/cache.js";
-import { notify } from "./util/notify.js";
+import { replaceFfmpeg } from "./util/ffmpeg.js";
 import { getOptions } from "./util/options.js";
 import { parse } from "./util/parse.js";
 import { validate } from "./util/validate.js";
@@ -69,6 +70,8 @@ import { log } from "./log.js";
  * @property {App}                          app                                       Multi platform configuration options
  * @property {boolean}                      [cache=true]                              If true the existing cache is used. Otherwise it removes and redownloads it.
  * @property {boolean}                      [zip=false]                               If true the outDir directory is zipped
+ * @property {boolean}                      [cli=false]                               If true the CLI is used to glob srcDir and parse other options
+ * @property {boolean}                      [ffmpeg=false]                            If true the chromium ffmpeg is replaced by community version
  */
 
 /**
@@ -79,12 +82,11 @@ import { log } from "./log.js";
  */
 const nwbuild = async (options) => {
   let nwDir = "";
+  let ffmpegFile = "";
   let cached;
   let nwCached;
   let built;
   let releaseInfo = {};
-
-  notify();
 
   try {
     const { opts, files, nwPkg } = await getOptions(options);
@@ -117,9 +119,11 @@ const nwbuild = async (options) => {
     await validate(options, releaseInfo);
 
     // Variable to store nwDir file path
-    nwDir = `${options.cacheDir}/nwjs${
-      options.flavor === "sdk" ? "-sdk" : ""
-    }-v${options.version}-${options.platform}-${options.arch}`;
+    nwDir = resolve(
+      options.cacheDir,
+      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform
+      }-${options.arch}`,
+    );
 
     nwCached = await isCached(nwDir);
     // Remove cached NW binary
@@ -138,8 +142,51 @@ const nwbuild = async (options) => {
         options.downloadUrl,
         options.cacheDir,
       );
-      await decompress(options.platform, options.cacheDir);
-      await remove(options.platform, options.cacheDir);
+      await decompress(options.platform, options.cacheDir, options.downloadUrl);
+      await remove(options.platform, options.cacheDir, options.downloadUrl);
+    }
+
+    if (options.ffmpeg === true) {
+      log.warn("Using MP3 and H.264 codecs requires you to pay attention to the patent royalties and the license of the source code. Consult a lawyer if you do not understand the licensing constraints and using patented media formats in your app. See https://chromium.googlesource.com/chromium/third_party/ffmpeg.git/+/master/CREDITS.chromium for more information.");
+      if (options.platform === "win") {
+        ffmpegFile = "libffmpeg.dll";
+      } else if (options.platform === "osx") {
+        ffmpegFile = "libffmpeg.dylib";
+      } else if (options.platform === "linux") {
+        ffmpegFile = "libffmpeg.so";
+      }
+      ffmpegFile = resolve(options.cacheDir, ffmpegFile);
+      const ffmpegCached = await isCached(ffmpegFile);
+      // Remove cached ffmpeg binary
+      if (options.cache === false && ffmpegCached === true) {
+        log.debug("Remove cached ffmpeg binary");
+        await rm(ffmpegFile, { force: true, recursive: true });
+      }
+
+      // Download relevant ffmpeg binaries
+      if (ffmpegCached === false) {
+        log.debug("Download relevant ffmpeg binaries");
+        await download(
+          options.version,
+          options.flavor,
+          options.platform,
+          options.arch,
+          "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download",
+          options.cacheDir,
+        );
+        await decompress(
+          options.platform,
+          options.cacheDir,
+          "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download",
+        );
+        await remove(
+          options.platform,
+          options.cacheDir,
+          "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download",
+        );
+
+        await replaceFfmpeg(options.platform, nwDir, ffmpegFile);
+      }
     }
 
     if (options.mode === "run") {

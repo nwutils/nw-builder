@@ -1,3 +1,9 @@
+/**
+ * Get platform specific name of the executable
+ *
+ * @param  {string} platform  - Platform
+ * @return {string}           - Platform specific name
+ */
 const getPlatformSpecificName = (platform) => {
   switch (platform) {
     case "linux":

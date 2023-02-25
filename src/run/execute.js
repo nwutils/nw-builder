@@ -4,6 +4,7 @@ import { log } from "../log.js";
 
 /**
  * Executes the NW.js process
+ *
  * @param  {string}             srcDir  The source directory
  * @param  {string}             nwPath  The path to the NW.js executable
  * @param  {string}             argv    The arguments to pass to the NW.js process

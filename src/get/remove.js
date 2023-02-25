@@ -1,17 +1,34 @@
-import fs from "node:fs";
+import { rm } from "node:fs/promises";
+import { resolve } from "node:path";
 
-const remove = (platform, outDir) => {
-  return new Promise((resolve, reject) => {
-    fs.rm(
-      `${outDir}/nw.${platform === "linux" ? "tar.gz" : "zip"}`,
-      (error) => {
-        if (error) {
-          reject(error);
-        }
-      },
-    );
-    resolve(0);
-  });
+import { log } from "../log.js";
+
+/**
+ * Remove NW.js binary
+ *
+ * @param  {string}        platform     - linux, macos, win32
+ * @param  {string}        cacheDir     - Output directory
+ * @param  {string}        downloadUrl  - Download URL
+ * @return {Promise<void>}              - Promise
+ */
+const remove = async (platform, cacheDir, downloadUrl) => {
+  try {
+    if (downloadUrl === "https://dl.nwjs.io/") {
+      if (platform === "linux") {
+        await rm(resolve(cacheDir, "nw.tar.gz"));
+      } else {
+        await rm(resolve(cacheDir, "nw.zip"));
+      }
+    } else if (
+      downloadUrl ===
+      "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download"
+    ) {
+      await rm(resolve(cacheDir, "ffmpeg.zip"));
+    }
+  } catch (error) {
+    log.error(error);
+    throw error;
+  }
 };
 
 export { remove };

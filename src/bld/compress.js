@@ -3,13 +3,20 @@ import archiver from "archiver";
 
 import { log } from "../log.js";
 
+/**
+ * Compress a out directory
+ *
+ * @param  {string}             outDir  - Output directory
+ * @param  {string}             type    - Compression type
+ * @return {Promise<undefined>}
+ */
 const compress = (outDir, type = "zip") => {
   const output = fs.createWriteStream(`${outDir}.${type}`);
   const archive = archiver("zip");
 
   return new Promise((res, rej) => {
     output.on("close", () => {
-      res(0);
+      res();
     });
 
     archive.on("warning", (err) => {

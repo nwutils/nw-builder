@@ -1,4 +1,5 @@
-import { arch, cwd, platform } from "node:process";
+import { resolve } from "node:path";
+import { arch, platform } from "node:process";
 
 import { getArch } from "./arch.js";
 import { getPlatform } from "./platform.js";
@@ -15,14 +16,14 @@ export const parse = async (options, pkg) => {
     options = { ...pkg.nwbuild };
   }
 
-  options.srcDir = `${cwd()}/${options.srcDir}` ?? `${cwd()}/**/*`;
+  options.srcDir = resolve(options.srcDir) ?? resolve("./*");
   options.mode = options.mode ?? "build";
   options.version = options.version ?? "latest";
   options.flavor = options.flavor || "normal";
   options.platform = options.platform ?? getPlatform(platform);
   options.arch = options.arch ?? getArch(arch);
-  options.outDir = options.outDir ?? "./out";
-  options.cacheDir = options.cacheDir ?? `${cwd()}/cache`;
+  options.outDir = resolve(options.outDir) ?? resolve("./out");
+  options.cacheDir = resolve(options.cacheDir) ?? resolve("./cache");
   options.downloadUrl = options.downloadUrl ?? "https://dl.nwjs.io";
   options.manifestUrl = options.manifestUrl ?? "https://nwjs.io/versions";
   options.app = {};
@@ -66,5 +67,6 @@ export const parse = async (options, pkg) => {
   options.app.specialBuild = options.app.specialBuild ?? undefined;
   options.cache = options.cache ?? true;
   options.zip = options.zip ?? false;
+  options.ffmpeg = options.ffmpeg ?? false;
   return options;
 };

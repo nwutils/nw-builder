@@ -1,5 +1,5 @@
+import { resolve } from "node:path";
 import { cp, rm } from "node:fs/promises";
-import { basename } from "node:path";
 
 import { log } from "../log.js";
 
@@ -34,13 +34,17 @@ const packager = async (
   log.debug(`Copy ${nwDir} files to ${outDir} directory`);
   await cp(nwDir, outDir, { recursive: true });
 
-  for (const file of files) {
+  log.debug(`Copy ${nwDir} files to ${outDir} directory`);
+  for (let file of files) {
     log.debug(`Copy ${file} file to ${outDir} directory`);
     await cp(
       file,
-      `${outDir}/${
-        platform !== "osx" ? "package.nw" : "nwjs.app/Contents/Resources/app.nw"
-      }/${basename(file)}`,
+      resolve(
+        outDir,
+        platform !== "osx"
+          ? "package.nw"
+          : "nwjs.app/Contents/Resources/app.nw",
+      ),
       {
         recursive: true,
       },
@@ -50,13 +54,13 @@ const packager = async (
   log.debug(`Starting platform specific config steps for ${platform}`);
   switch (platform) {
     case "linux":
-      setLinuxConfig(app, outDir);
+      await setLinuxConfig(app, outDir);
       break;
     case "win":
-      setWinConfig(app, outDir);
+      await setWinConfig(app, outDir);
       break;
     case "osx":
-      setOsxConfig(app, outDir, releaseInfo);
+      await setOsxConfig(app, outDir, releaseInfo);
       break;
     default:
       break;

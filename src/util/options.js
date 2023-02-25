@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { basename } from "node:path";
+import { basename, resolve } from "node:path";
 
 import glob from "glob-promise";
 
@@ -16,19 +16,29 @@ export const getOptions = async (opts) => {
   let nwPkg;
   const patterns = opts.srcDir.split(" ");
 
-  for (const pattern of patterns) {
-    let contents = await glob(pattern);
-    files.push(...contents);
-    // Try to find the first instance of the package.json
-    for (const content of contents) {
-      if (basename(content) === "package.json" && nwPkg === undefined) {
-        nwPkg = JSON.parse(await readFile(content));
-      }
+  // If the cli option is not true, then the srcDir glob patterns have not been parsed
+  if (opts.cli !== true) {
+    for (const pattern of patterns) {
+      let contents = await glob(pattern);
+      files.push(...contents);
     }
+  } else {
+    files = [...patterns];
+  }
 
-    if (nwPkg === undefined) {
-      throw new Error("package.json not found in srcDir file glob patterns.");
+  files.forEach((file, index) => {
+    files[index] = resolve(file);
+  });
+
+  // Try to find the first instance of the package.json
+  for (const file of files) {
+    if (basename(file) === "package.json" && nwPkg === undefined) {
+      nwPkg = JSON.parse(await readFile(file));
     }
+  }
+
+  if (nwPkg === undefined) {
+    throw new Error("package.json not found in srcDir file glob patterns.");
   }
 
   if (files.length === 0) {

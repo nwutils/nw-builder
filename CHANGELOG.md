@@ -7,6 +7,32 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.1.0] - 2023-02-23
+
+## Added
+
+- Use (community) prebuilt version of `ffmpeg` if the `ffmpeg` flag is `true` (defaults to `false`).
+
+## Changed
+
+- `await` platform specific config steps
+
+## [4.0.11] - 2023-02-5
+
+## Changed
+
+- Security update `http-cache-semantics` to `v4.1.1`.
+
+## [4.0.10] - 2023-02-05
+
+### Added
+
+- `options.cli` flag to prevent `node-glob` from globbing already globbed files and erroring out with a `package.json not found in srcDir file glob patterns` message.
+
+### Changed
+
+- Copy subdirectories of `options.srDir` in the correct location.
+
 ## [4.0.9] - 2023-02-03
 
 ### Added
