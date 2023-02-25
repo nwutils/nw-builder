@@ -110,6 +110,8 @@ const nwbuild = async (options) => {
     // Validate options.version to get the version specific release info
     releaseInfo = await getReleaseInfo(
       options.version,
+      options.platform,
+      options.arch,
       options.cacheDir,
       options.manifestUrl,
     );
