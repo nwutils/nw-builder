@@ -20,7 +20,10 @@ const decompress = async (platform, cacheDir, downloadUrl) => {
       } else {
         await Decompress(resolve(cacheDir, "nw.zip"), cacheDir);
       }
-    } else if (downloadUrl === "https://github.com/corwin-of-amber/nw.js/releases/download") {
+    } else if (
+      downloadUrl ===
+      "https://github.com/corwin-of-amber/nw.js/releases/download"
+    ) {
       await Decompress(resolve(cacheDir, "nw.zip"), cacheDir);
     } else if (
       downloadUrl ===

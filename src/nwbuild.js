@@ -121,7 +121,8 @@ const nwbuild = async (options) => {
     // Variable to store nwDir file path
     nwDir = resolve(
       options.cacheDir,
-      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform
+      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${
+        options.platform
       }-${options.arch}`,
     );
 
@@ -147,7 +148,9 @@ const nwbuild = async (options) => {
     }
 
     if (options.ffmpeg === true) {
-      log.warn("Using MP3 and H.264 codecs requires you to pay attention to the patent royalties and the license of the source code. Consult a lawyer if you do not understand the licensing constraints and using patented media formats in your app. See https://chromium.googlesource.com/chromium/third_party/ffmpeg.git/+/master/CREDITS.chromium for more information.");
+      log.warn(
+        "Using MP3 and H.264 codecs requires you to pay attention to the patent royalties and the license of the source code. Consult a lawyer if you do not understand the licensing constraints and using patented media formats in your app. See https://chromium.googlesource.com/chromium/third_party/ffmpeg.git/+/master/CREDITS.chromium for more information.",
+      );
       if (options.platform === "win") {
         ffmpegFile = "libffmpeg.dll";
       } else if (options.platform === "osx") {
