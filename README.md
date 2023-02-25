@@ -11,6 +11,7 @@ Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and L
 - [Usage](https://github.com/nwutils/nw-builder#usage)
 - [Limitations](https://github.com/nwutils/nw-builder#limitations)
 - [API Reference](https://nwutils.io/nw-builder/global#nwbuild)
+- [Migration Guide](https://github.com/nwutils/nw-builder#migration)
 - [Contributing](https://github.com/nwutils/nw-builder#contributing)
 - [License](https://github.com/nwutils/nw-builder#license)
 
@@ -112,7 +113,9 @@ For more options, check out the [API reference](https://nwutils.io/nw-builder/gl
 
 - #716 File permissions are incorrectly set for Linux or MacOS apps built on Windows platform.
 
-## Migration to v4
+## Migration
+
+Migrate from v3 to v4
 
 ### Update `nw-builder`
 
