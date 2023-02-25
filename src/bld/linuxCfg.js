@@ -7,9 +7,9 @@ import { log } from "../log.js";
  * Generates a Desktop Entry file for Linux
  * https://specifications.freedesktop.org/desktop-entry-spec/latest/ar01s06.html
  *
- * @param  {object}    app     Multi platform configuration options
- * @param  {string}    outDir  Directory which stores build artifacts
- * @return {undefined}
+ * @param  {object}        app     Multi platform configuration options
+ * @param  {string}        outDir  Directory which stores build artifacts
+ * @return {Promise<void>}
  */
 export const setLinuxConfig = async (app, outDir) => {
   if (platform === "win32") {
