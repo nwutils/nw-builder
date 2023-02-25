@@ -62,7 +62,7 @@ import { log } from "./log.js";
  * @property {"latest" | "stable" | string} [version="latest"]                        NW runtime version
  * @property {"normal" | "sdk"}             [flavor="normal"]                         NW runtime build flavor
  * @property {"linux" | "osx" | "win"}      platform                                  NW supported platforms
- * @property {"ia32" | "x64"}               arch                                      NW supported architectures
+ * @property {"ia32" | "x64" | "arm64"}     arch                                      NW supported architectures
  * @property {string}                       [outDir="./out"]                          Directory to store build artifacts
  * @property {"./cache" | string}           [cacheDir="./cache"]                      Directory to store NW binaries
  * @property {"https://dl.nwjs.io"}         [downloadUrl="https://dl.nwjs.io"]        URI to download NW binaries from
