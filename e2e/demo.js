@@ -11,5 +11,5 @@ nwbuild({
   cacheDir: "./tmp",
   downloadUrl: "https://github.com/corwin-of-amber/nw.js/releases/download",
   manifestUrl:
-    "https://raw.githubusercontent.com/nwutils/nw-builder/dev-494/src/util/osx.arm.versions.json",
+    "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json",
 });
