@@ -125,8 +125,7 @@ const nwbuild = async (options) => {
     // Variable to store nwDir file path
     nwDir = resolve(
       options.cacheDir,
-      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${
-        options.platform
+      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform
       }-${options.arch}`,
     );
 
@@ -149,7 +148,6 @@ const nwbuild = async (options) => {
       );
       await decompress(options.platform, options.cacheDir, options.downloadUrl);
       await remove(options.platform, options.cacheDir, options.downloadUrl);
-      await xattr(options.platform, options.arch, nwDir);
     }
 
     if (options.ffmpeg === true) {
@@ -196,6 +194,8 @@ const nwbuild = async (options) => {
         await replaceFfmpeg(options.platform, nwDir, ffmpegFile);
       }
     }
+
+    await xattr(options.platform, options.arch, nwDir);
 
     if (options.mode === "run") {
       await develop(options.srcDir, nwDir, options.platform, options.argv);
