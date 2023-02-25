@@ -1,1849 +1,929 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
     <title>JSDoc: Global</title>
 
-    <script src="scripts/prettify/prettify.js"> </script>
-    <script src="scripts/prettify/lang-css.js"> </script>
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
-</head>
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="styles/prettify-tomorrow.css"
+    />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="styles/jsdoc-default.css"
+    />
+  </head>
 
-<body>
+  <body>
+    <div id="main">
+      <h1 class="page-title">Global</h1>
 
-<div id="main">
+      <section>
+        <header>
+          <h2></h2>
+        </header>
 
-    <h1 class="page-title">Global</h1>
+        <article>
+          <div class="container-overview">
+            <dl class="details"> </dl>
+          </div>
 
-    
+          <h3 class="subsection-title">Methods</h3>
 
+          <h4
+            class="name"
+            id="nwbuild"
+            ><span class="type-signature">(async) </span>nwbuild<span
+              class="signature"
+              >(&hellip;options)</span
+            ><span class="type-signature">
+              &rarr; {Promise.&lt;undefined>}</span
+            ></h4
+          >
 
+          <div class="description">
+            Entry point for nw-builder application
+          </div>
 
+          <h5>Parameters:</h5>
 
-<section>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
 
-<header>
-    
-        <h2></h2>
-        
-    
-</header>
+                <th>Type</th>
 
-<article>
-    <div class="container-overview">
-    
-        
+                <th>Attributes</th>
 
-        
+                <th class="last">Description</th>
+              </tr>
+            </thead>
 
+            <tbody>
+              <tr>
+                <td class="name"><code>options</code></td>
 
-<dl class="details">
+                <td class="type">
+                  <span class="param-type"
+                    ><a href="global.html#Options">Options</a></span
+                  >
+                </td>
 
-    
+                <td class="attributes"> &lt;repeatable><br /> </td>
 
-    
+                <td class="description last">Options</td>
+              </tr>
+            </tbody>
+          </table>
 
-    
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source"
+              ><ul class="dummy"
+                ><li>
+                  <a href="nwbuild.js.html">nwbuild.js</a>,
+                  <a href="nwbuild.js.html#line84">line 84</a>
+                </li></ul
+              ></dd
+            >
+          </dl>
 
-    
+          <h5>Returns:</h5>
 
-    
+          <dl>
+            <dt> Type </dt>
+            <dd>
+              <span class="param-type">Promise.&lt;undefined></span>
+            </dd>
+          </dl>
 
-    
+          <h3 class="subsection-title">Type Definitions</h3>
 
-    
+          <h4
+            class="name"
+            id="App"
+            >App</h4
+          >
 
-    
+          <h5>Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type">object</span>
+            </li>
+          </ul>
 
-    
+          <h5 class="subsection-title">Properties:</h5>
 
-    
+          <table class="props">
+            <thead>
+              <tr>
+                <th>Name</th>
 
-    
+                <th>Type</th>
 
-    
+                <th class="last">Description</th>
+              </tr>
+            </thead>
 
-    
+            <tbody>
+              <tr>
+                <td class="name"><code>name</code></td>
 
-    
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
 
-    
+                <td class="description last"
+                  >Name of the application Linux configuration options</td
+                >
+              </tr>
 
-    
-</dl>
+              <tr>
+                <td class="name"><code>genericName</code></td>
 
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
 
-        
-    
+                <td class="description last"
+                  >Generic name of the application</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>noDisplay</code></td>
+
+                <td class="type">
+                  <span class="param-type">boolean</span>
+                </td>
+
+                <td class="description last"
+                  >If true the application is not displayed</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>comment</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last"
+                  >Tooltip for the entry, for example "View sites on the
+                  Internet".</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>icon</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last"
+                  >Icon to display in file manager, menus, etc.</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>hidden</code></td>
+
+                <td class="type">
+                  <span class="param-type">boolean</span>
+                </td>
+
+                <td class="description last">TBD</td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>onlyShowIn</code></td>
+
+                <td class="type">
+                  <span class="param-type">Array.&lt;string></span>
+                </td>
+
+                <td class="description last"
+                  >A list of strings identifying the desktop environments that
+                  should (/not) display a given desktop entry</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>notShowIn</code></td>
+
+                <td class="type">
+                  <span class="param-type">Array.&lt;string></span>
+                </td>
+
+                <td class="description last"
+                  >A list of strings identifying the desktop environments that
+                  should (/not) display a given desktop entry</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>dBusActivatable</code></td>
+
+                <td class="type">
+                  <span class="param-type">boolean</span>
+                </td>
+
+                <td class="description last"
+                  >A boolean value specifying if D-Bus activation is supported
+                  for this application</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>tryExec</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last"
+                  >Path to an executable file on disk used to determine if the
+                  program is actually installed</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>exec</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last"
+                  >Program to execute, possibly with arguments.</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>path</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last"
+                  >If entry is of type Application, the working directory to run
+                  the program in.</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>terminal</code></td>
+
+                <td class="type">
+                  <span class="param-type">boolean</span>
+                </td>
+
+                <td class="description last"
+                  >Whether the program runs in a terminal window.</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>actions</code></td>
+
+                <td class="type">
+                  <span class="param-type">Array.&lt;string></span>
+                </td>
+
+                <td class="description last"
+                  >Identifiers for application actions.</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>mimeType</code></td>
+
+                <td class="type">
+                  <span class="param-type">Array.&lt;string></span>
+                </td>
+
+                <td class="description last"
+                  >The MIME type(s) supported by this application.</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>categories</code></td>
+
+                <td class="type">
+                  <span class="param-type">Array.&lt;string></span>
+                </td>
+
+                <td class="description last"
+                  >Categories in which the entry should be shown in a menu</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>implements</code></td>
+
+                <td class="type">
+                  <span class="param-type">Array.&lt;string></span>
+                </td>
+
+                <td class="description last"
+                  >A list of interfaces that this application implements.</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>keywords</code></td>
+
+                <td class="type">
+                  <span class="param-type">Array.&lt;string></span>
+                </td>
+
+                <td class="description last"
+                  >A list of strings which may be used in addition to other
+                  metadata to describe this entry.</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>startupNotify</code></td>
+
+                <td class="type">
+                  <span class="param-type">boolean</span>
+                </td>
+
+                <td class="description last"
+                  >If true, it is KNOWN that the application will send a
+                  "remove" message when started with the DESKTOP_STARTUP_ID
+                  environment variable set. If false, it is KNOWN that the
+                  application does not work with startup notification at
+                  all.</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>startupWMClass</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last"
+                  >If specified, it is known that the application will map at
+                  least one window with the given string as its WM class or WM
+                  name hin</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>prefersNonDefaultGPU</code></td>
+
+                <td class="type">
+                  <span class="param-type">boolean</span>
+                </td>
+
+                <td class="description last"
+                  >If true, the application prefers to be run on a more powerful
+                  discrete GPU if available.</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>singleMainWindow</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last"
+                  >If true, the application has a single main window, and does
+                  not support having an additional one opened. Windows
+                  configuration options</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>comments</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last"
+                  >Additional information that should be displayed for
+                  diagnostic purposes.</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>company</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last"
+                  >Company that produced the file—for example, Microsoft
+                  Corporation or Standard Microsystems Corporation, Inc. This
+                  string is required.</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>fileDescription</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last"
+                  >File description to be presented to users. This string may be
+                  displayed in a list box when the user is choosing files to
+                  install. For example, Keyboard Driver for AT-Style Keyboards.
+                  This string is required.</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>fileVersion</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last"
+                  >Version number of the file. For example, 3.10 or 5.00.RC2.
+                  This string is required.</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>internalName</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last"
+                  >Internal name of the file, if one exists—for example, a
+                  module name if the file is a dynamic-link library. If the file
+                  has no internal name, this string should be the original
+                  filename, without extension. This string is required.</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>legalCopyright</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last"
+                  >Copyright notices that apply to the file. This should include
+                  the full text of all notices, legal symbols, copyright dates,
+                  and so on. This string is optional.</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>legalTrademark</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last"
+                  >Trademarks and registered trademarks that apply to the file.
+                  This should include the full text of all notices, legal
+                  symbols, trademark numbers, and so on. This string is
+                  optional.</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>originalFilename</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last"
+                  >Original name of the file, not including a path. This
+                  information enables an application to determine whether a file
+                  has been renamed by a user. The format of the name depends on
+                  the file system for which the file was created. This string is
+                  required.</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>privateBuild</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last"
+                  >Information about a private version of the file—for example,
+                  Built by TESTER1 on \\TESTBED. This string should be present
+                  only if VS_FF_PRIVATEBUILD is specified in the fileflags
+                  parameter of the root block.</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>productName</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last"
+                  >Name of the product with which the file is distributed. This
+                  string is required.</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>productVersion</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last"
+                  >Version of the product with which the file is distributed—for
+                  example, 3.10 or 5.00.RC2. This string is required.</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>specialBuild</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last"
+                  >Text that specifies how this version of the file differs from
+                  the standard version—for example, Private build for TESTER1
+                  solving mouse problems on M250 and M250E computers. This
+                  string should be present only if VS_FF_SPECIALBUILD is
+                  specified in the fileflags parameter of the root block.</td
+                >
+              </tr>
+            </tbody>
+          </table>
+
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source"
+              ><ul class="dummy"
+                ><li>
+                  <a href="nwbuild.js.html">nwbuild.js</a>,
+                  <a href="nwbuild.js.html#line19">line 19</a>
+                </li></ul
+              ></dd
+            >
+          </dl>
+
+          <h4
+            class="name"
+            id="Options"
+            >Options</h4
+          >
+
+          <h5>Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type">object</span>
+            </li>
+          </ul>
+
+          <h5 class="subsection-title">Properties:</h5>
+
+          <table class="props">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th>Attributes</th>
+
+                <th>Default</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>srcDir</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="attributes"> &lt;optional><br /> </td>
+
+                <td class="default"> "./" </td>
+
+                <td class="description last"
+                  >String of space separated glob patterns which correspond to
+                  NW app code</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>mode</code></td>
+
+                <td class="type">
+                  <span class="param-type">"run"</span>
+                  |
+
+                  <span class="param-type">"build"</span>
+                </td>
+
+                <td class="attributes"> &lt;optional><br /> </td>
+
+                <td class="default"> "build" </td>
+
+                <td class="description last">Run or build application</td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>version</code></td>
+
+                <td class="type">
+                  <span class="param-type">"latest"</span>
+                  |
+
+                  <span class="param-type">"stable"</span>
+                  |
+
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="attributes"> &lt;optional><br /> </td>
+
+                <td class="default"> "latest" </td>
+
+                <td class="description last">NW runtime version</td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>flavor</code></td>
+
+                <td class="type">
+                  <span class="param-type">"normal"</span>
+                  |
+
+                  <span class="param-type">"sdk"</span>
+                </td>
+
+                <td class="attributes"> &lt;optional><br /> </td>
+
+                <td class="default"> "normal" </td>
+
+                <td class="description last">NW runtime build flavor</td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>platform</code></td>
+
+                <td class="type">
+                  <span class="param-type">"linux"</span>
+                  |
+
+                  <span class="param-type">"osx"</span>
+                  |
+
+                  <span class="param-type">"win"</span>
+                </td>
+
+                <td class="attributes"> </td>
+
+                <td class="default"> </td>
+
+                <td class="description last">NW supported platforms</td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>arch</code></td>
+
+                <td class="type">
+                  <span class="param-type">"ia32"</span>
+                  |
+
+                  <span class="param-type">"x64"</span>
+                  |
+
+                  <span class="param-type">"arm64"</span>
+                </td>
+
+                <td class="attributes"> </td>
+
+                <td class="default"> </td>
+
+                <td class="description last">NW supported architectures</td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>outDir</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="attributes"> &lt;optional><br /> </td>
+
+                <td class="default"> "./out" </td>
+
+                <td class="description last"
+                  >Directory to store build artifacts</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>cacheDir</code></td>
+
+                <td class="type">
+                  <span class="param-type">"./cache"</span>
+                  |
+
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="attributes"> &lt;optional><br /> </td>
+
+                <td class="default"> "./cache" </td>
+
+                <td class="description last">Directory to store NW binaries</td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>downloadUrl</code></td>
+
+                <td class="type">
+                  <span class="param-type">"https://dl.nwjs.io"</span>
+                </td>
+
+                <td class="attributes"> &lt;optional><br /> </td>
+
+                <td class="default"> "https://dl.nwjs.io" </td>
+
+                <td class="description last"
+                  >URI to download NW binaries from</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>manifestUrl</code></td>
+
+                <td class="type">
+                  <span class="param-type">"https://nwjs.io/versions"</span>
+                </td>
+
+                <td class="attributes"> &lt;optional><br /> </td>
+
+                <td class="default"> "https://nwjs.io/versions" </td>
+
+                <td class="description last">URI to download manifest from</td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>app</code></td>
+
+                <td class="type">
+                  <span class="param-type"
+                    ><a href="global.html#App">App</a></span
+                  >
+                </td>
+
+                <td class="attributes"> </td>
+
+                <td class="default"> </td>
+
+                <td class="description last"
+                  >Multi platform configuration options</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>cache</code></td>
+
+                <td class="type">
+                  <span class="param-type">boolean</span>
+                </td>
+
+                <td class="attributes"> &lt;optional><br /> </td>
+
+                <td class="default"> true </td>
+
+                <td class="description last"
+                  >If true the existing cache is used. Otherwise it removes and
+                  redownloads it.</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>zip</code></td>
+
+                <td class="type">
+                  <span class="param-type">boolean</span>
+                </td>
+
+                <td class="attributes"> &lt;optional><br /> </td>
+
+                <td class="default"> false </td>
+
+                <td class="description last"
+                  >If true the outDir directory is zipped</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>cli</code></td>
+
+                <td class="type">
+                  <span class="param-type">boolean</span>
+                </td>
+
+                <td class="attributes"> &lt;optional><br /> </td>
+
+                <td class="default"> false </td>
+
+                <td class="description last"
+                  >If true the CLI is used to glob srcDir and parse other
+                  options</td
+                >
+              </tr>
+
+              <tr>
+                <td class="name"><code>ffmpeg</code></td>
+
+                <td class="type">
+                  <span class="param-type">boolean</span>
+                </td>
+
+                <td class="attributes"> &lt;optional><br /> </td>
+
+                <td class="default"> false </td>
+
+                <td class="description last"
+                  >If true the chromium ffmpeg is replaced by community
+                  version</td
+                >
+              </tr>
+            </tbody>
+          </table>
+
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source"
+              ><ul class="dummy"
+                ><li>
+                  <a href="nwbuild.js.html">nwbuild.js</a>,
+                  <a href="nwbuild.js.html#line59">line 59</a>
+                </li></ul
+              ></dd
+            >
+          </dl>
+        </article>
+      </section>
     </div>
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="nwbuild"><span class="type-signature">(async) </span>nwbuild<span class="signature">(&hellip;options)</span><span class="type-signature"> &rarr; {Promise.&lt;undefined>}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Entry point for nw-builder application
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>options</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Options">Options</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                    &lt;repeatable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Options</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nwbuild.js.html">nwbuild.js</a>, <a href="nwbuild.js.html#line83">line 83</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;undefined></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-    
-
-    
-        <h3 class="subsection-title">Type Definitions</h3>
-
-        
-                
-<h4 class="name" id="App">App</h4>
-
-
-
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Name of the application
-                                           Linux configuration options</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>genericName</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Generic name of the application</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>noDisplay</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">If true the application is not displayed</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>comment</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Tooltip for the entry, for example "View sites on the Internet".</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>icon</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Icon to display in file manager, menus, etc.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>hidden</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">TBD</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>onlyShowIn</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;string></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">A list of strings identifying the desktop environments that should (/not) display a given desktop entry</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>notShowIn</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;string></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">A list of strings identifying the desktop environments that should (/not) display a given desktop entry</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>dBusActivatable</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">A boolean value specifying if D-Bus activation is supported for this application</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>tryExec</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Path to an executable file on disk used to determine if the program is actually installed</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>exec</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Program to execute, possibly with arguments.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>path</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">If entry is of type Application, the working directory to run the program in.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>terminal</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Whether the program runs in a terminal window.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>actions</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;string></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Identifiers for application actions.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>mimeType</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;string></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The MIME type(s) supported by this application.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>categories</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;string></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Categories in which the entry should be shown in a menu</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>implements</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;string></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">A list of interfaces that this application implements.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>keywords</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;string></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">A list of strings which may be used in addition to other metadata to describe this entry.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>startupNotify</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">If true, it is KNOWN that the application will send a "remove" message when started with the DESKTOP_STARTUP_ID environment variable set. If false, it is KNOWN that the application does not work with startup notification at all.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>startupWMClass</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">If specified, it is known that the application will map at least one window with the given string as its WM class or WM name hin</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>prefersNonDefaultGPU</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">If true, the application prefers to be run on a more powerful discrete GPU if available.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>singleMainWindow</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">If true, the application has a single main window, and does not support having an additional one opened.
-                                           Windows configuration options</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>comments</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Additional information that should be displayed for diagnostic purposes.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>company</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Company that produced the file—for example, Microsoft Corporation or Standard Microsystems Corporation, Inc. This string is required.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>fileDescription</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">File description to be presented to users. This string may be displayed in a list box when the user is choosing files to install. For example, Keyboard Driver for AT-Style Keyboards. This string is required.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>fileVersion</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Version number of the file. For example, 3.10 or 5.00.RC2. This string is required.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>internalName</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Internal name of the file, if one exists—for example, a module name if the file is a dynamic-link library. If the file has no internal name, this string should be the original filename, without extension. This string is required.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>legalCopyright</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Copyright notices that apply to the file. This should include the full text of all notices, legal symbols, copyright dates, and so on. This string is optional.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>legalTrademark</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Trademarks and registered trademarks that apply to the file. This should include the full text of all notices, legal symbols, trademark numbers, and so on. This string is optional.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>originalFilename</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Original name of the file, not including a path. This information enables an application to determine whether a file has been renamed by a user. The format of the name depends on the file system for which the file was created. This string is required.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>privateBuild</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Information about a private version of the file—for example, Built by TESTER1 on \\TESTBED. This string should be present only if VS_FF_PRIVATEBUILD is specified in the fileflags parameter of the root block.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>productName</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Name of the product with which the file is distributed. This string is required.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>productVersion</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Version of the product with which the file is distributed—for example, 3.10 or 5.00.RC2. This string is required.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>specialBuild</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Text that specifies how this version of the file differs from the standard version—for example, Private build for TESTER1 solving mouse problems on M250 and M250E computers. This string should be present only if VS_FF_SPECIALBUILD is specified in the fileflags parameter of the root block.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nwbuild.js.html">nwbuild.js</a>, <a href="nwbuild.js.html#line18">line 18</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-            
-                
-<h4 class="name" id="Options">Options</h4>
-
-
-
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>srcDir</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    "./"
-                
-                </td>
-            
-
-            <td class="description last">String of space separated glob patterns which correspond to NW app code</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>mode</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">"run"</span>
-|
-
-<span class="param-type">"build"</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    "build"
-                
-                </td>
-            
-
-            <td class="description last">Run or build application</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>version</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">"latest"</span>
-|
-
-<span class="param-type">"stable"</span>
-|
-
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    "latest"
-                
-                </td>
-            
-
-            <td class="description last">NW runtime version</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>flavor</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">"normal"</span>
-|
-
-<span class="param-type">"sdk"</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    "normal"
-                
-                </td>
-            
-
-            <td class="description last">NW runtime build flavor</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>platform</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">"linux"</span>
-|
-
-<span class="param-type">"osx"</span>
-|
-
-<span class="param-type">"win"</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">NW supported platforms</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>arch</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">"ia32"</span>
-|
-
-<span class="param-type">"x64"</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">NW supported architectures</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>outDir</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    "./out"
-                
-                </td>
-            
-
-            <td class="description last">Directory to store build artifacts</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>cacheDir</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">"./cache"</span>
-|
-
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    "./cache"
-                
-                </td>
-            
-
-            <td class="description last">Directory to store NW binaries</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>downloadUrl</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">"https://dl.nwjs.io"</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    "https://dl.nwjs.io"
-                
-                </td>
-            
-
-            <td class="description last">URI to download NW binaries from</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>manifestUrl</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">"https://nwjs.io/versions"</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    "https://nwjs.io/versions"
-                
-                </td>
-            
-
-            <td class="description last">URI to download manifest from</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>app</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#App">App</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Multi platform configuration options</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>cache</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    true
-                
-                </td>
-            
-
-            <td class="description last">If true the existing cache is used. Otherwise it removes and redownloads it.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>zip</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last">If true the outDir directory is zipped</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>cli</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last">If true the CLI is used to glob srcDir and parse other options</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>ffmpeg</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last">If true the chromium ffmpeg is replaced by community version</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nwbuild.js.html">nwbuild.js</a>, <a href="nwbuild.js.html#line58">line 58</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-            
-    
-
-    
-</article>
-
-</section>
-
-
-
-
-</div>
-
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#nwbuild">nwbuild</a></li></ul>
-</nav>
-
-<br class="clear">
-
-<footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Feb 23 2023 22:29:58 GMT-0500 (Eastern Standard Time)
-</footer>
-
-<script> prettyPrint(); </script>
-<script src="scripts/linenumber.js"> </script>
-</body>
+    <nav>
+      <h2><a href="index.html">Home</a></h2
+      ><h3>Global</h3
+      ><ul
+        ><li><a href="global.html#nwbuild">nwbuild</a></li></ul
+      >
+    </nav>
+
+    <br class="clear" />
+
+    <footer>
+      Documentation generated by
+      <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sat Feb 25
+      2023 01:17:41 GMT-0500 (Eastern Standard Time)
+    </footer>
+
+    <script>
+      prettyPrint();
+    </script>
+    <script src="scripts/linenumber.js"></script>
+  </body>
 </html>

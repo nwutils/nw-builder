@@ -12,6 +12,7 @@ import { replaceFfmpeg } from "./util/ffmpeg.js";
 import { getOptions } from "./util/options.js";
 import { parse } from "./util/parse.js";
 import { validate } from "./util/validate.js";
+import { xattr } from "./util/xattr.js";
 
 import { log } from "./log.js";
 
@@ -62,7 +63,7 @@ import { log } from "./log.js";
  * @property {"latest" | "stable" | string} [version="latest"]                        NW runtime version
  * @property {"normal" | "sdk"}             [flavor="normal"]                         NW runtime build flavor
  * @property {"linux" | "osx" | "win"}      platform                                  NW supported platforms
- * @property {"ia32" | "x64"}               arch                                      NW supported architectures
+ * @property {"ia32" | "x64" | "arm64"}     arch                                      NW supported architectures
  * @property {string}                       [outDir="./out"]                          Directory to store build artifacts
  * @property {"./cache" | string}           [cacheDir="./cache"]                      Directory to store NW binaries
  * @property {"https://dl.nwjs.io"}         [downloadUrl="https://dl.nwjs.io"]        URI to download NW binaries from
@@ -110,6 +111,8 @@ const nwbuild = async (options) => {
     // Validate options.version to get the version specific release info
     releaseInfo = await getReleaseInfo(
       options.version,
+      options.platform,
+      options.arch,
       options.cacheDir,
       options.manifestUrl,
     );
@@ -121,7 +124,8 @@ const nwbuild = async (options) => {
     // Variable to store nwDir file path
     nwDir = resolve(
       options.cacheDir,
-      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform
+      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${
+        options.platform
       }-${options.arch}`,
     );
 
@@ -147,7 +151,9 @@ const nwbuild = async (options) => {
     }
 
     if (options.ffmpeg === true) {
-      log.warn("Using MP3 and H.264 codecs requires you to pay attention to the patent royalties and the license of the source code. Consult a lawyer if you do not understand the licensing constraints and using patented media formats in your app. See https://chromium.googlesource.com/chromium/third_party/ffmpeg.git/+/master/CREDITS.chromium for more information.");
+      log.warn(
+        "Using MP3 and H.264 codecs requires you to pay attention to the patent royalties and the license of the source code. Consult a lawyer if you do not understand the licensing constraints and using patented media formats in your app. See https://chromium.googlesource.com/chromium/third_party/ffmpeg.git/+/master/CREDITS.chromium for more information.",
+      );
       if (options.platform === "win") {
         ffmpegFile = "libffmpeg.dll";
       } else if (options.platform === "osx") {
@@ -188,6 +194,8 @@ const nwbuild = async (options) => {
         await replaceFfmpeg(options.platform, nwDir, ffmpegFile);
       }
     }
+
+    await xattr(options.platform, options.arch, nwDir);
 
     if (options.mode === "run") {
       await develop(options.srcDir, nwDir, options.platform, options.argv);

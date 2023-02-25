@@ -37,6 +37,14 @@ const download = (
       out = resolve(cacheDir, `nw.${platform === "linux" ? "tar.gz" : "zip"}`);
     } else if (
       downloadUrl ===
+      "https://github.com/corwin-of-amber/nw.js/releases/download"
+    ) {
+      url = `${downloadUrl}/nw-v${version}/nwjs-${
+        flavor === "sdk" ? "sdk-" : ""
+      }v${version}-${platform}-${architecture}.zip`;
+      out = resolve(cacheDir, `nw.zip`);
+    } else if (
+      downloadUrl ===
       "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download"
     ) {
       url = `${downloadUrl}/${version}/${version}-${platform}-${architecture}.zip`;
@@ -46,9 +54,12 @@ const download = (
     }
 
     https.get(url, (response) => {
+      // For GitHub releases, we need to follow the redirect
       if (
         downloadUrl ===
-        "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download"
+          "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download" ||
+        downloadUrl ===
+          "https://github.com/corwin-of-amber/nw.js/releases/download"
       ) {
         url = response.headers.location;
       }

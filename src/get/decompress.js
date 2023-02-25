@@ -22,6 +22,11 @@ const decompress = async (platform, cacheDir, downloadUrl) => {
       }
     } else if (
       downloadUrl ===
+      "https://github.com/corwin-of-amber/nw.js/releases/download"
+    ) {
+      await Decompress(resolve(cacheDir, "nw.zip"), cacheDir);
+    } else if (
+      downloadUrl ===
       "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download"
     ) {
       await Decompress(resolve(cacheDir, "ffmpeg.zip"), cacheDir);
