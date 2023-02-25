@@ -1,6 +1,8 @@
 import { exec } from 'node:child_process';
 import { resolve } from 'node:path';
 
+import { log } from '../log.js';
+
 /**
  * Remove the quarantine attribute from the app bundle
  *
@@ -14,7 +16,7 @@ export const xattr = (platform, arch, nwDir) => {
         if (platform === "osx" && arch === "arm64") {
             let app = resolve(nwDir, "nwjs.app");
             exec(`sudo xattr -d com.apple.quarantine ${app}`, (err, stdout, stderr) => {
-                console.log("here", stdout, stderr);
+                log.debug(stdout);
                 if (err) {
                     rej(err);
                 } else {
