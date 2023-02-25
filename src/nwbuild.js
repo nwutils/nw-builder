@@ -1,3 +1,4 @@
+
 import { mkdir, rm } from "node:fs/promises";
 import { resolve } from "node:path";
 
@@ -12,6 +13,7 @@ import { replaceFfmpeg } from "./util/ffmpeg.js";
 import { getOptions } from "./util/options.js";
 import { parse } from "./util/parse.js";
 import { validate } from "./util/validate.js";
+import { xattr } from "./util/xattr.js";
 
 import { log } from "./log.js";
 
@@ -147,6 +149,7 @@ const nwbuild = async (options) => {
       );
       await decompress(options.platform, options.cacheDir, options.downloadUrl);
       await remove(options.platform, options.cacheDir, options.downloadUrl);
+      await xattr(options.platform, options.arch, nwDir);
     }
 
     if (options.ffmpeg === true) {
