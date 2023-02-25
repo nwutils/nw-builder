@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.1.0-beta.0] - 2023-02-25
+
+## Added
+
+- MacOS ARM support
+
 ## [4.1.0] - 2023-02-23
 
 ## Added

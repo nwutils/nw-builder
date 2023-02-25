@@ -15,7 +15,13 @@ import { getManifest } from "./getManifest.js";
  * @param  {string} manifestUrl  Url to manifest
  * @return {object}              Version specific release info
  */
-export const getReleaseInfo = async (version, platform, arch, cacheDir, manifestUrl) => {
+export const getReleaseInfo = async (
+  version,
+  platform,
+  arch,
+  cacheDir,
+  manifestUrl,
+) => {
   let releaseData = undefined;
   let manifestPath = undefined;
   if (platform === "osx" && arch === "arm64") {
@@ -33,9 +39,7 @@ export const getReleaseInfo = async (version, platform, arch, cacheDir, manifest
     await writeFile(manifestPath, data.slice(9));
   } finally {
     log.debug("Store manifest metadata in memory");
-    let manifest = JSON.parse(
-      await readFile(resolve(manifestPath))
-    );
+    let manifest = JSON.parse(await readFile(resolve(manifestPath)));
     log.debug(`Search for ${version} specific release data`);
     if (version === "latest" || version === "stable" || version === "lts") {
       // Remove leading "v" from version string

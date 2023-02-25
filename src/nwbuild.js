@@ -1,4 +1,3 @@
-
 import { mkdir, rm } from "node:fs/promises";
 import { resolve } from "node:path";
 
@@ -125,7 +124,8 @@ const nwbuild = async (options) => {
     // Variable to store nwDir file path
     nwDir = resolve(
       options.cacheDir,
-      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform
+      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${
+        options.platform
       }-${options.arch}`,
     );
 

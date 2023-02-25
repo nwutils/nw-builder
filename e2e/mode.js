@@ -31,9 +31,9 @@ export function mode() {
     };
 
     it("should run", async () => {
-
       if (nwOptions.platform === "osx" && nwOptions.arch === "arm64") {
-        nwOptions.downloadUrl = "https://github.com/corwin-of-amber/nw.js/releases/download";
+        nwOptions.downloadUrl =
+          "https://github.com/corwin-of-amber/nw.js/releases/download";
         nwOptions.manifestUrl =
           "https://raw.githubusercontent.com/nwutils/nw-builder/dev-494/src/util/osx.arm.versions.json";
       }
@@ -46,7 +46,8 @@ export function mode() {
 
       const chromedriverPath = resolve(
         nwOptions.cacheDir,
-        `nwjs${nwOptions.flavor === "sdk" ? "-sdk" : ""}-v${nwOptions.version
+        `nwjs${nwOptions.flavor === "sdk" ? "-sdk" : ""}-v${
+          nwOptions.version
         }-${nwOptions.platform}-${nwOptions.arch}`,
         `chromedriver${nwOptions.platform === "win" ? ".exe" : ""}`,
       );
