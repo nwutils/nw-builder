@@ -16,7 +16,7 @@ export const parse = async (options, pkg) => {
     options = { ...pkg.nwbuild };
   }
 
-  console.log(options.cacheDir)
+  console.log(options.cacheDir);
 
   options.srcDir = resolve(options.srcDir ?? "./*");
   options.mode = options.mode ?? "build";

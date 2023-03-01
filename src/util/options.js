@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { basename, resolve } from "node:path";
+import { basename } from "node:path";
 
 import glob from "glob-promise";
 
