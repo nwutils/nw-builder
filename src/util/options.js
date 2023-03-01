@@ -26,10 +26,6 @@ export const getOptions = async (opts) => {
     files = [...patterns];
   }
 
-  files.forEach((file, index) => {
-    files[index] = resolve(file);
-  });
-
   // Try to find the first instance of the package.json
   for (const file of files) {
     if (basename(file) === "package.json" && nwPkg === undefined) {

@@ -7,15 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.1.0-beta.2] - 2023-02-29
+
+### Changed
+
+- Do not convert srcDir files to absolute paths.
+- Copy files to correct location.
+
 ## [4.1.0-beta.1] - 2023-02-28
 
-## Changed
+### Changed
 
 - Resolve path iff file path type is valid.
 
 ## [4.1.0-beta.0] - 2023-02-25
 
-## Added
+### Added
 
 - MacOS ARM support
 
@@ -25,13 +32,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Use (community) prebuilt version of `ffmpeg` if the `ffmpeg` flag is `true` (defaults to `false`).
 
-## Changed
+### Changed
 
 - `await` platform specific config steps
 
 ## [4.0.11] - 2023-02-5
 
-## Changed
+### Changed
 
 - Security update `http-cache-semantics` to `v4.1.1`.
 

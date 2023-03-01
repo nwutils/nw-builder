@@ -44,6 +44,7 @@ const packager = async (
         platform !== "osx"
           ? "package.nw"
           : "nwjs.app/Contents/Resources/app.nw",
+          file.split("/").splice(2).join("/"),
       ),
       {
         recursive: true,

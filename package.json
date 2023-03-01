@@ -1,6 +1,6 @@
 {
   "name": "nw-builder",
-  "version": "4.1.0-beta.1",
+  "version": "4.1.0-beta.2",
   "description": "Build NW.js desktop applications for MacOS, Windows and Linux.",
   "keywords": [
     "NW.js",
@@ -31,7 +31,7 @@
     "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "demo:esm": "cd e2e && node demo.js",
     "demo:cjs": "cd e2e && node demo.cjs",
-    "demo:cli": "cd ./test && nwbuild ./nwapp/* --mode=build --version=latest --flavor=normal --platform=linux --arch=x64 --outDir=./build/cli"
+    "demo:cli": "cd e2e && nwbuild ./app/* --mode=build --version=0.73.0 --flavor=normal --platform=win --arch=x64 --outDir=./out --cacheDir=./tmp"
   },
   "devDependencies": {
     "eslint": "^8.34.0",

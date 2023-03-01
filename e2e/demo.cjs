@@ -13,7 +13,9 @@
         mode: "build",
         version: "0.73.0",
         flavor: "normal",
-        outDir: "./out/nix",
+        platforms: "win",
+        arch: "x64",
+        outDir: "./out",
         cacheDir: "./tmp"
       });
     }
