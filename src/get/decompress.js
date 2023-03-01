@@ -14,7 +14,11 @@ import { log } from "../log.js";
  */
 const decompress = async (platform, cacheDir, downloadUrl) => {
   try {
-    if (downloadUrl === "https://dl.nwjs.io") {
+    if (
+      downloadUrl === "https://dl.nwjs.io" ||
+      downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
+      downloadUrl === "https://npmmirror.com/mirrors/nwjs"
+    ) {
       if (platform === "linux") {
         await Decompress(resolve(cacheDir, "nw.tar.gz"), cacheDir);
       } else {

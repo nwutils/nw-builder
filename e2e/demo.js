@@ -5,11 +5,9 @@ nwbuild({
   mode: "build",
   version: "latest",
   flavor: "sdk",
-  platform: "osx",
-  arch: "arm64",
+  platform: "linux",
+  arch: "x64",
   outDir: "./out",
   cacheDir: "./tmp",
-  downloadUrl: "https://github.com/corwin-of-amber/nw.js/releases/download",
-  manifestUrl:
-    "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json",
+  downloadUrl: "https://npm.taobao.org/mirrors/nwjs",
 });

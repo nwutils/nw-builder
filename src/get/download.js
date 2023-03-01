@@ -28,7 +28,11 @@ const download = (
   let url;
   let out;
   return new Promise((res, rej) => {
-    if (downloadUrl === "https://dl.nwjs.io") {
+    if (
+      downloadUrl === "https://dl.nwjs.io" ||
+      downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
+      downloadUrl === "https://npmmirror.com/mirrors/nwjs"
+    ) {
       url = `${downloadUrl}/v${version}/nwjs${
         flavor === "sdk" ? "-sdk" : ""
       }-v${version}-${platform}-${architecture}.${
@@ -59,7 +63,9 @@ const download = (
         downloadUrl ===
           "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download" ||
         downloadUrl ===
-          "https://github.com/corwin-of-amber/nw.js/releases/download"
+          "https://github.com/corwin-of-amber/nw.js/releases/download" ||
+        downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
+        downloadUrl === "https://npmmirror.com/mirrors/nwjs"
       ) {
         url = response.headers.location;
       }

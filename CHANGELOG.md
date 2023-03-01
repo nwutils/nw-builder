@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.1.0-beta.3] - 2023-03-01
+
+### Added
+
+- Allow list `https://npmmirror.com/mirrors/nwjs/` and `https://npm.taobao.org/mirrors/nwjs/` mirrors.
+
 ## [4.1.0-beta.2] - 2023-02-29
 
 ### Changed
