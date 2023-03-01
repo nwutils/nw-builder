@@ -16,14 +16,16 @@ export const parse = async (options, pkg) => {
     options = { ...pkg.nwbuild };
   }
 
-  options.srcDir = resolve(options.srcDir) ?? resolve("./*");
+  console.log(options.cacheDir)
+
+  options.srcDir = resolve(options.srcDir ?? "./*");
   options.mode = options.mode ?? "build";
   options.version = options.version ?? "latest";
   options.flavor = options.flavor || "normal";
   options.platform = options.platform ?? getPlatform(platform);
   options.arch = options.arch ?? getArch(arch);
-  options.outDir = resolve(options.outDir) ?? resolve("./out");
-  options.cacheDir = resolve(options.cacheDir) ?? resolve("./cache");
+  options.outDir = resolve(options.outDir ?? "./out");
+  options.cacheDir = resolve(options.cacheDir ?? "./cache");
   options.downloadUrl = options.downloadUrl ?? "https://dl.nwjs.io";
   options.manifestUrl = options.manifestUrl ?? "https://nwjs.io/versions";
   options.app = {};

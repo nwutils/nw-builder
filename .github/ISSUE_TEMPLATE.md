@@ -1,7 +1,7 @@
 ### Issue Type
 
-- [ ] Bug Fix
-- [ ] Feature
+- [ ] Bug Report
+- [ ] Feature Request
 - [ ] Other
 
 ### Current/Missing Behaviour
@@ -10,6 +10,7 @@
 
 ### Additional Info
 
+- Package version:
 - Operating System:
 - Node version:
 - NW.js version:
