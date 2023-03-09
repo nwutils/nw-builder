@@ -28,7 +28,7 @@ export const parse = async (options, pkg) => {
   options.cacheDir = resolve(options.cacheDir ?? "./cache");
   options.downloadUrl = options.downloadUrl ?? "https://dl.nwjs.io";
   options.manifestUrl = options.manifestUrl ?? "https://nwjs.io/versions";
-  options.app = {};
+  options.app = options.app ?? {};
   options.argv = options.argv ?? [];
   // linux desktop entry file configurations options
   options.app.name = options.app.name ?? pkg.name;
