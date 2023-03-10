@@ -34,7 +34,7 @@ const packager = async (
   log.debug(`Copy ${nwDir} files to ${outDir} directory`);
   await cp(nwDir, outDir, { recursive: true });
 
-  log.debug(`Copy ${nwDir} files to ${outDir} directory`);
+  log.debug(`Copy files in srcDir to ${outDir} directory`);
   for (let file of files) {
     log.debug(`Copy ${file} file to ${outDir} directory`);
     await cp(
