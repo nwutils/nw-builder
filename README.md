@@ -122,22 +122,20 @@ Migrate from v3 to v4
 With npm:
 
 ```shell
-npm update nw-builder@^4.0.3
+npm update nw-builder@^4.1.1
 ```
 
 With yarn:
 
 ```shell
-yarn upgrade nw-builder@^4.0.3
+yarn upgrade nw-builder@^4.1.1
 ```
 
 With pnpm:
 
 ```shell
-pnpm update nw-builder@^4.0.3
+pnpm update nw-builder@^4.1.1
 ```
-
-> Note: `nw-builder` has been tested on Node 16 and 18 only.
 
 ### Update options
 

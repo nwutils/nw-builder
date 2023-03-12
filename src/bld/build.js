@@ -20,7 +20,7 @@ import { setWinConfig } from "./winCfg.js";
  * @param  {object}                  app          Multi platform configuration options
  * @return {Promise<undefined>}
  */
-const packager = async (
+export const build = async (
   files,
   nwDir,
   outDir,
@@ -36,6 +36,12 @@ const packager = async (
 
   log.debug(`Copy files in srcDir to ${outDir} directory`);
   for (let file of files) {
+    let filePath = "";
+    if (file.split("/").length === 2) {
+      filePath = file;
+    } else {
+      filePath = file.split("/").splice(2).join("/")
+    }
     log.debug(`Copy ${file} file to ${outDir} directory`);
     await cp(
       file,
@@ -44,11 +50,8 @@ const packager = async (
         platform !== "osx"
           ? "package.nw"
           : "nwjs.app/Contents/Resources/app.nw",
-        file.split("/").splice(2).join("/"),
-      ),
-      {
-        recursive: true,
-      },
+          filePath,
+      )
     );
   }
 
@@ -73,5 +76,3 @@ const packager = async (
     await compress(outDir, zip);
   }
 };
-
-export { packager };

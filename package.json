@@ -1,6 +1,6 @@
 {
   "name": "nw-builder",
-  "version": "4.1.0-beta.3",
+  "version": "4.1.1",
   "description": "Build NW.js desktop applications for MacOS, Windows and Linux.",
   "keywords": [
     "NW.js",
@@ -8,7 +8,16 @@
     "Desktop",
     "Application"
   ],
-  "author": "nw-builder Authors",
+  "author": {
+    "name": "Steffen Müller",
+    "url": "https://www.mllrsohn.com/"
+  },
+  "contributors": [
+    {
+      "name": "The nw-builder Authors",
+      "url": "https://github.com/nwutil/nw-builder/graphs/contributors"
+    }
+  ],
   "license": "MIT",
   "exports": {
     "default": "./src/nwbuild.js"

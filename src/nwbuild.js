@@ -5,7 +5,7 @@ import { decompress } from "./get/decompress.js";
 import { download } from "./get/download.js";
 import { getReleaseInfo } from "./get/getReleaseInfo.js";
 import { remove } from "./get/remove.js";
-import { packager } from "./bld/package.js";
+import { build } from "./bld/build.js";
 import { develop } from "./run/develop.js";
 import { isCached } from "./util/cache.js";
 import { replaceFfmpeg } from "./util/ffmpeg.js";
@@ -201,7 +201,7 @@ const nwbuild = async (options) => {
       await develop(options.srcDir, nwDir, options.platform, options.argv);
     }
     if (options.mode === "build") {
-      await packager(
+      await build(
         files,
         nwDir,
         options.outDir,
