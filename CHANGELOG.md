@@ -7,11 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.1.1-beta.0] - 2023-03-12
+
+### Changed
+
+- Remove false test for run mode.
+
 ## [4.1.1] - 2023-03-12
 
 ### Changed
 
-- Glob file and directory differently
+- Glob file and directory differently.
 - MacOS ARM build is no longer behind `beta` version.
 
 ## [4.1.0-beta.3] - 2023-03-01
