@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.1.1-beta.2] - 2023-03-15
+
+### Changed
+
+- Parse the first `package.json` file and treat it as the NW.js manifest. Copy it to `outDir/package.nw/package.json` for Linux and Windows and `outDir/nwjs.app/Contents/Resources/app.nw/package.json` for MacOS.
+
+To simplify your workflow, you can pass the path to the `package.json` first:
+
+```shell
+nwbuild ./path/to/package.json ./app/**/* ./node_modules/**/*
+```
+
+Make sure your manifest file's `main` property points to a valid file path. In this case it might be:
+
+```json
+{
+  "main": "app/index.html"
+}
+```
+
 ## [4.1.1-beta.1] - 2023-03-14
 
 ### Added

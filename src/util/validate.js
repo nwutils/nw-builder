@@ -32,7 +32,11 @@ export const validate = async (options, releaseInfo) => {
     await readdir(options.outDir);
   }
   if (releaseInfo.components.node !== version.slice(1)) {
-    return new Error(`NW.js ${releaseInfo.version} requires Node.js v${releaseInfo.components.node} but you are using Node.js ${version.slice(1)}.`);
+    return new Error(
+      `NW.js ${releaseInfo.version} requires Node.js v${
+        releaseInfo.components.node
+      } but you are using Node.js ${version.slice(1)}.`,
+    );
   }
   return undefined;
 };

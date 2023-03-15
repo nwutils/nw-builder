@@ -1,5 +1,5 @@
 import { resolve } from "node:path";
-import { cp, rm } from "node:fs/promises";
+import { cp, rm, writeFile } from "node:fs/promises";
 
 import { log } from "../log.js";
 
@@ -18,6 +18,7 @@ import { setWinConfig } from "./winCfg.js";
  * @param  {"zip" | boolean}         zip          Specify if the build artifacts are to be zipped
  * @param  {object}                  releaseInfo  NW version specific release information
  * @param  {object}                  app          Multi platform configuration options
+ * @param  {string}                  nwPkg        NW.js manifest file
  * @return {Promise<undefined>}
  */
 export const build = async (
@@ -28,6 +29,7 @@ export const build = async (
   zip,
   releaseInfo,
   app,
+  nwPkg,
 ) => {
   log.debug(`Remove any files at ${outDir} directory`);
   await rm(outDir, { force: true, recursive: true });
@@ -36,12 +38,6 @@ export const build = async (
 
   log.debug(`Copy files in srcDir to ${outDir} directory`);
   for (let file of files) {
-    let filePath = "";
-    if (file.split("/").length === 2) {
-      filePath = file;
-    } else {
-      filePath = file.split("/").splice(2).join("/");
-    }
     log.debug(`Copy ${file} file to ${outDir} directory`);
     await cp(
       file,
@@ -50,10 +46,23 @@ export const build = async (
         platform !== "osx"
           ? "package.nw"
           : "nwjs.app/Contents/Resources/app.nw",
-        filePath,
+        file,
       ),
     );
   }
+
+  // Write NW.js manifest file to outDir
+  // TODO: Allow user to specify manifest file config options
+  log.debug(`Write NW.js manifest file to ${outDir} directory`);
+  await writeFile(
+    resolve(
+      outDir,
+      platform !== "osx" ? "package.nw" : "nwjs.app/Contents/Resources/app.nw",
+      "package.json",
+    ),
+    JSON.stringify(nwPkg, null, 2),
+    "utf8",
+  );
 
   log.debug(`Starting platform specific config steps for ${platform}`);
   switch (platform) {

@@ -217,6 +217,7 @@ const nwbuild = async (options) => {
         options.zip,
         releaseInfo,
         options.app,
+        nwPkg,
       );
     }
   } catch (error) {
