@@ -58,21 +58,21 @@ import { log } from "./log.js";
 
 /**
  * @typedef {object} Options
- * @property {string}                       [srcDir="./"]                             String of space separated glob patterns which correspond to NW app code
- * @property {"run" | "build"}              [mode="build"]                            Run or build application
- * @property {"latest" | "stable" | string} [version="latest"]                        NW runtime version
- * @property {"normal" | "sdk"}             [flavor="normal"]                         NW runtime build flavor
- * @property {"linux" | "osx" | "win"}      platform                                  NW supported platforms
- * @property {"ia32" | "x64" | "arm64"}     arch                                      NW supported architectures
- * @property {string}                       [outDir="./out"]                          Directory to store build artifacts
- * @property {"./cache" | string}           [cacheDir="./cache"]                      Directory to store NW binaries
- * @property {"https://dl.nwjs.io"}         [downloadUrl="https://dl.nwjs.io"]        URI to download NW binaries from
- * @property {"https://nwjs.io/versions"}   [manifestUrl="https://nwjs.io/versions"]  URI to download manifest from
- * @property {App}                          app                                       Multi platform configuration options
- * @property {boolean}                      [cache=true]                              If true the existing cache is used. Otherwise it removes and redownloads it.
- * @property {boolean}                      [zip=false]                               If true the outDir directory is zipped
- * @property {boolean}                      [cli=false]                               If true the CLI is used to glob srcDir and parse other options
- * @property {boolean}                      [ffmpeg=false]                            If true the chromium ffmpeg is replaced by community version
+ * @property {string}                                                                                              [srcDir="./"]                             String of space separated glob patterns which correspond to NW app code
+ * @property {"get" | "run" | "build"}                                                                             [mode="build"]                            Run or build application
+ * @property {"latest" | "stable" | string}                                                                        [version="latest"]                        NW runtime version
+ * @property {"normal" | "sdk"}                                                                                    [flavor="normal"]                         NW runtime build flavor
+ * @property {"linux" | "osx" | "win"}                                                                             platform                                  NW supported platforms
+ * @property {"ia32" | "x64" | "arm64"}                                                                            arch                                      NW supported architectures
+ * @property {string}                                                                                              [outDir="./out"]                          Directory to store build artifacts
+ * @property {"./cache" | string}                                                                                  [cacheDir="./cache"]                      Directory to store NW binaries
+ * @property {"https://dl.nwjs.io" | "https://npmmirror.com/mirrors/nwjs" | "https://npm.taobao.org/mirrors/nwjs"} [downloadUrl="https://dl.nwjs.io"]        URI to download NW binaries from
+ * @property {"https://nwjs.io/versions"}                                                                          [manifestUrl="https://nwjs.io/versions"]  URI to download manifest from
+ * @property {App}                                                                                                 app                                       Multi platform configuration options
+ * @property {boolean}                                                                                             [cache=true]                              If true the existing cache is used. Otherwise it removes and redownloads it.
+ * @property {boolean}                                                                                             [zip=false]                               If true the outDir directory is zipped
+ * @property {boolean}                                                                                             [cli=false]                               If true the CLI is used to glob srcDir and parse other options
+ * @property {boolean}                                                                                             [ffmpeg=false]                            If true the chromium ffmpeg is replaced by community version
  */
 
 /**
@@ -148,6 +148,8 @@ const nwbuild = async (options) => {
       );
       await decompress(options.platform, options.cacheDir, options.downloadUrl);
       await remove(options.platform, options.cacheDir, options.downloadUrl);
+    } else {
+      log.debug("Using cached NW.js binaries");
     }
 
     if (options.ffmpeg === true) {
@@ -196,6 +198,12 @@ const nwbuild = async (options) => {
     }
 
     await xattr(options.platform, options.arch, nwDir);
+
+    // Downloading binaries is required for run and build modes
+    // If mode is get, exit function since we have gotten the binaries
+    if (options.mode === "get") {
+      return undefined;
+    }
 
     if (options.mode === "run") {
       await develop(options.srcDir, nwDir, options.platform, options.argv);

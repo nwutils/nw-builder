@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.1.1-beta.1] - 2023-03-14
+
+### Added
+
+- `get` mode to only download NW.js binaries. Example use case: download during Node's `postinstall` hook:
+
+```json
+{
+  "scripts": {
+    "postinstall": "nwbuild --mode=get --flavor=sdk"
+  }
+}
+```
+
+- Check if NW.js's Node version matches host's Node version
+
+## Changed
+
+- Fix undefined import for Windows configuration
+
 ## [4.1.1-beta.0] - 2023-03-12
 
 ### Changed

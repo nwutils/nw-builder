@@ -1,4 +1,5 @@
 import { rename } from "node:fs/promises";
+import { resolve } from "node:path";
 
 import rcedit from "rcedit";
 
@@ -38,16 +39,13 @@ const setWinConfig = async (app, outDir) => {
 
   try {
     const outDirAppExe = resolve(outDir, `${app.name}.exe`);
-    await rename(resolve(outDir, 'nw.exe'), outDirAppExe);
-    await rcedit(
-      outDirAppExe,
-      {
-        "file-version": app.version,
-        "icon": app.icon,
-        "product-version": app.version,
-        "version-string": versionString,
-      },
-    );
+    await rename(resolve(outDir, "nw.exe"), outDirAppExe);
+    await rcedit(outDirAppExe, {
+      "file-version": app.version,
+      "icon": app.icon,
+      "product-version": app.version,
+      "version-string": versionString,
+    });
   } catch (error) {
     log.warn(
       "Renaming EXE failed or unable to modify EXE. If it's the latter, ensure WINE is installed or build in Windows",

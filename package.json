@@ -1,6 +1,6 @@
 {
   "name": "nw-builder",
-  "version": "4.1.1-beta.0",
+  "version": "4.1.1-beta.1",
   "description": "Build NW.js desktop applications for MacOS, Windows and Linux.",
   "keywords": [
     "NW.js",
@@ -34,9 +34,9 @@
   },
   "scripts": {
     "fmt": "prettier --write \"./**/*.{css,html,js,json,md,yml}\"",
-    "lnt": "eslint ./src",
+    "lnt": "eslint --fix ./src",
     "doc": "jsdoc ./src/nwbuild.js -d docs",
-    "e2e": "node --test e2e/index.js",
+    "e2e": "node --test-reporter=spec --test e2e/index.js",
     "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "demo:esm": "cd e2e && node demo.js",
     "demo:cjs": "cd e2e && node demo.cjs",

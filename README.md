@@ -7,6 +7,15 @@ Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and L
 
 > Before using `nw-builder`, please go through how to [write an NW.js application](https://nwjs.readthedocs.io/en/latest/For%20Users/Getting%20Started/).
 
+## Major Features
+
+- Build for Linux, MacOS, and Windows
+- Support downloading [from](https://npm.taobao.org/mirrors/nwjs) [mirrors](https://npmmirror.com/mirrors/nwjs)
+- Integrate [`nwjs-ffmpeg-prebuilt`](https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt)
+- Configure executable fields and icons
+
+## Table of Contents
+
 - [Installation](https://github.com/nwutils/nw-builder#installation)
 - [Usage](https://github.com/nwutils/nw-builder#usage)
 - [Limitations](https://github.com/nwutils/nw-builder#limitations)

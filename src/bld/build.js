@@ -40,7 +40,7 @@ export const build = async (
     if (file.split("/").length === 2) {
       filePath = file;
     } else {
-      filePath = file.split("/").splice(2).join("/")
+      filePath = file.split("/").splice(2).join("/");
     }
     log.debug(`Copy ${file} file to ${outDir} directory`);
     await cp(
@@ -50,8 +50,8 @@ export const build = async (
         platform !== "osx"
           ? "package.nw"
           : "nwjs.app/Contents/Resources/app.nw",
-          filePath,
-      )
+        filePath,
+      ),
     );
   }
 
