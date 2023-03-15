@@ -25,6 +25,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3.3.0
+      - uses: actions/setup-node@3.6.0
+        with:
+          node-version: "19.7.0"
       - run: npm ci
       - run: npm run fmt
       - run: npm run lnt
