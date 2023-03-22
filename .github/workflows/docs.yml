@@ -24,10 +24,10 @@ jobs:
       - run: npm ci
       - name: Build Vitepress docs
         run: npm run doc:bld
-      - uses: actions/configure-pages@v2
-      - uses: actions/upload-pages-artifact@v1
+      - uses: actions/configure-pages@v3.0.5
+      - uses: actions/upload-pages-artifact@v1.0.7
         with:
           path: docs/.vitepress/dist
       - name: Deploy Vitepress docs
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v2.0.0
