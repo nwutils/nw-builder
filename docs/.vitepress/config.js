@@ -3,6 +3,10 @@ export default {
   themeConfig: {
     siteTitle: "nw-builder",
     base: "/nw-builder/",
+    nav: [
+      { text: "npm", link: "https://www.npmjs.com/package/nw-builder" },
+      { text: "NW.js Utils", link: "https://nwutils.io/" },
+    ],
     sidebar: [
       {
         text: "Getting Started",
