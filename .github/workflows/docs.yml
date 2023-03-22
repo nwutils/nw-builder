@@ -1,0 +1,33 @@
+name: docs
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v3.3.0
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3.6.0
+        with:
+          node-version: "19.7"
+          cache: npm
+      - run: npm ci
+      - name: Build Vitepress docs
+        run: npm run doc:bld
+      - uses: actions/configure-pages@v2
+      - uses: actions/upload-pages-artifact@v1
+        with:
+          path: docs/.vitepress/dist
+      - name: Deploy Vitepress docs
+        id: deployment
+        uses: actions/deploy-pages@v1

@@ -35,9 +35,9 @@
   "scripts": {
     "fmt": "prettier --write \"./**/*.{css,html,js,json,md,yml}\"",
     "lnt": "eslint --fix ./src",
-    "doc": "jsdoc ./src/nwbuild.js -d docs",
-    "doc:vite:dev": "vitepress dev docs",
-    "doc:vite:bld": "vitepress build docs",
+    "doc:js": "jsdoc ./src/nwbuild.js -d jsdocs",
+    "doc:dev": "vitepress dev docs",
+    "doc:bld": "vitepress build docs",
     "e2e": "node --test-reporter=spec --test e2e/index.js",
     "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "demo:esm": "cd e2e && node demo.js",
