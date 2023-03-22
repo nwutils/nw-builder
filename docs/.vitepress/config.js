@@ -2,6 +2,7 @@ export default {
   title: "Build NW.js apps",
   themeConfig: {
     siteTitle: "nw-builder",
+    base: "nw-builder",
     sidebar: [
       {
         text: "Getting Started",
