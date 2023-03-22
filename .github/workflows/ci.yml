@@ -28,7 +28,7 @@ jobs:
       - uses: actions/setup-node@v3.6.0
         with:
           node-version: "19.7.0"
-          cache: 'npm'
+          cache: "npm"
       - run: npm ci
       - run: npm run fmt
       - run: npm run lnt
