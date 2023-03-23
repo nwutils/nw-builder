@@ -20,7 +20,6 @@ jobs:
     strategy:
       matrix:
         os: [macos-12, ubuntu-22.04, windows-2022]
-        node-version: ["19.7.0"]
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
@@ -33,5 +32,6 @@ jobs:
       - run: npm run fmt
       - run: npm run lnt
       - run: npm link
-      # - run: npm run test:unit
-      - run: npm run e2e
+      - run: npm run test:jest
+      - run: npm run test:unit
+      # - run: npm run e2e

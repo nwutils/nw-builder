@@ -45,9 +45,10 @@
     "doc:dev": "vitepress dev docs",
     "doc:bld": "vitepress build docs",
     "doc:pkg": "gh-pages -d docs/.vitepress/dist",
-    "e2e": "node --test-reporter=spec --test e2e/index.js",
     "test:jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "test:unit": "node --test-reporter=spec --test e2e/unit/*.js",
+    "test:unit": "node --test-reporter=spec --test test/unit/*.js",
+    "test:e2e": "node --test-reporter=spec --test e2e/index.js",
+    "test:manual": "",
     "demo:esm": "cd e2e && node demo.js",
     "demo:cjs": "cd e2e && node demo.cjs",
     "demo:cli": "cd e2e && nwbuild ./app/* --mode=build --version=0.74.0 --flavor=normal --platform=win --arch=x64 --outDir=./out --cacheDir=./tmp"
