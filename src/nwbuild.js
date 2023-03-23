@@ -1,5 +1,6 @@
 import { mkdir, rm } from "node:fs/promises";
 import { resolve } from "node:path";
+import { version as nodeVersion } from "node:process"; 
 
 import { decompress } from "./get/decompress.js";
 import { download } from "./get/download.js";
@@ -119,7 +120,7 @@ const nwbuild = async (options) => {
     // Remove leading "v" from version string
     options.version = releaseInfo.version.slice(1);
 
-    await validate(options, releaseInfo);
+    await validate(options, releaseInfo, nodeVersion);
 
     // Variable to store nwDir file path
     nwDir = resolve(
