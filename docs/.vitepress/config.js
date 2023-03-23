@@ -3,6 +3,7 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   title: "nw-builder",
   description: "Build NW.js applications",
+  base: "/nw-builder/",
   themeConfig: {
     nav: [
       { text: "npm", link: "https://www.npmjs.com/package/nw-builder" },
