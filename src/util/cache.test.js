@@ -5,5 +5,5 @@ test("directory does not exist", () => {
 });
 
 test("directory exists", () => {
-  expect(isCached("./test/fixture/cacheDir")).resolves.toBe(true);
+  expect(isCached("./e2e/fixture/cacheDir")).resolves.toBe(true);
 });
