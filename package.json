@@ -44,6 +44,7 @@
     "doc:js": "jsdoc ./src/nwbuild.js -d jsdocs",
     "doc:dev": "vitepress dev docs",
     "doc:bld": "vitepress build docs",
+    "doc:pkg": "gh-pages -d docs/.vitepress/dist",
     "e2e": "node --test-reporter=spec --test e2e/index.js",
     "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "demo:esm": "cd e2e && node demo.js",
@@ -53,6 +54,7 @@
   "devDependencies": {
     "eslint": "^8.36.0",
     "eslint-config-tjw-jsdoc": "^1.0.3",
+    "gh-pages": "^5.0.0",
     "jest": "^29.4.3",
     "jest-environment-jsdom": "^29.4.3",
     "jsdoc": "^4.0.2",
