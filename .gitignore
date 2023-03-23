@@ -7,5 +7,6 @@ coverage
 
 # project files
 cache
+dist
 out
 tmp
