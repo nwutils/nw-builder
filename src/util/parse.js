@@ -67,7 +67,8 @@ export const parse = async (options, pkg) => {
     // windows configuration options
     options.app.comments = options.app.comments ?? undefined;
     options.app.company = options.app.company ?? pkg.author;
-    options.app.fileDescription = options.app.fileDescription ?? pkg.description;
+    options.app.fileDescription =
+      options.app.fileDescription ?? pkg.description;
     options.app.fileVersion = options.app.fileVersion ?? pkg.version;
     options.app.internalName = options.app.internalName ?? pkg.name;
     options.app.legalCopyright = options.app.legalCopyright ?? undefined;
@@ -82,5 +83,5 @@ export const parse = async (options, pkg) => {
     options.ffmpeg = options.ffmpeg ?? false;
   }
 
-  return {...options};
+  return { ...options };
 };

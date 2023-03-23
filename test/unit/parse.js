@@ -46,7 +46,8 @@ describe("get mode", () => {
       arch: "arm64",
       cacheDir: resolve("./cache"),
       downloadUrl: "https://github.com/corwin-of-amber/nw.js/releases/download",
-      manifestUrl: "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json",
+      manifestUrl:
+        "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json",
       ffmpeg: false,
     };
 
@@ -115,5 +116,4 @@ describe("get mode", () => {
 
     deepStrictEqual(actualOptions, expectedOptions);
   });
-
 });

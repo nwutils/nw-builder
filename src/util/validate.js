@@ -28,8 +28,7 @@ export const validate = async (options, releaseInfo, version) => {
     }
     if (releaseInfo.components.node !== version.slice(1)) {
       return new Error(
-        `NW.js ${releaseInfo.version} requires Node.js v${releaseInfo.components.node
-        } but you are using Node.js ${version}.`,
+        `NW.js ${releaseInfo.version} requires Node.js v${releaseInfo.components.node} but you are using Node.js ${version}.`,
       );
     }
   } else if (options.mode === "run" || options.mode === "build") {
@@ -46,12 +45,15 @@ export const validate = async (options, releaseInfo, version) => {
     }
     if (releaseInfo.components.node !== version.slice(1)) {
       return new Error(
-        `NW.js ${releaseInfo.version} requires Node.js v${releaseInfo.components.node
+        `NW.js ${releaseInfo.version} requires Node.js v${
+          releaseInfo.components.node
         } but you are using Node.js ${version.slice(1)}.`,
       );
     }
   } else {
-    throw new Error(`Unknown mode ${options.mode}. Expected "get", "run" or "build".`);
+    throw new Error(
+      `Unknown mode ${options.mode}. Expected "get", "run" or "build".`,
+    );
   }
   return undefined;
 };
