@@ -9,9 +9,9 @@ import { getPlatform } from "./platform.js";
  *
  * @param  {import("../nwbuild").Options} options  Options
  * @param  {object}                       pkg      Package.json as JSON
- * @return {object}                       Options
+ * @return {Promise<object>}                       Options
  */
-export const parse = (options, pkg) => {
+export const parse = async (options, pkg) => {
   if (typeof pkg?.nwbuild === "object") {
     options = { ...pkg.nwbuild };
   }
@@ -82,5 +82,5 @@ export const parse = (options, pkg) => {
     options.ffmpeg = options.ffmpeg ?? false;
   }
 
-  return options;
+  return {...options};
 };
