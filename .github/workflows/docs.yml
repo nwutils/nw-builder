@@ -3,30 +3,28 @@ on:
   push:
     branches:
       - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   deploy:
-    runs-on: ubuntu-22.04
-    permissions:
-      pages: write
-      id-token: write
     environment:
-      name: github-pages
+      name: github-names
       url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3.3.0
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v3.6.0
-        with:
-          node-version: "19.7"
-          cache: npm
-      - run: npm ci
-      - name: Build Vitepress docs
-        run: npm run doc:bld
       - uses: actions/configure-pages@v3.0.5
       - uses: actions/upload-pages-artifact@v1.0.7
         with:
           path: docs/.vitepress/dist
-      - name: Deploy Vitepress docs
+      - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2.0.0
+        uses: actions/deploy-pages@v1
