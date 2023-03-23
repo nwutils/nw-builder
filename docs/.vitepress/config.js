@@ -1,12 +1,14 @@
-export default {
-  title: "Build NW.js apps",
+import { defineConfig } from "vitepress";
+
+export default defineConfig({
+  title: "nw-builder",
+  description: "Build NW.js applications",
   themeConfig: {
-    siteTitle: "nw-builder",
-    base: "/nw-builder/",
     nav: [
       { text: "npm", link: "https://www.npmjs.com/package/nw-builder" },
       { text: "NW.js Utils", link: "https://nwutils.io/" },
     ],
+
     sidebar: [
       {
         text: "Getting Started",
@@ -18,5 +20,9 @@ export default {
         ],
       },
     ],
+
+    socialLinks: [
+      { icon: "github", link: "https://github.com/nwutils/nw-builder" },
+    ],
   },
-};
+});

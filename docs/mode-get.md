@@ -83,7 +83,6 @@ nwbuild --mode=get --downloadUrl=https://cnpmjs.org/mirrors/nwjs/
 
 > Using the H.264 codec requires you to pay attention to the patent royalties and the license of the source code. Consult a lawyer if you do not understand the licensing constraints and using patented media formats in your application. For more information about the license of the source code, check [here](https://chromium.googlesource.com/chromium/third_party/ffmpeg.git/+/master/CREDITS.chromium).
 
-
 `nw-builder` by default does not download the prebuilt `ffmpeg`. The user has to explicitly enable this:
 
 ```javascript
