@@ -1,6 +1,6 @@
 {
   "name": "nw-builder",
-  "version": "4.1.1-beta.2",
+  "version": "4.1.1-beta.3",
   "description": "Build NW.js desktop applications for MacOS, Windows and Linux.",
   "keywords": [
     "NW.js",
@@ -61,7 +61,7 @@
     "jest-environment-jsdom": "^29.4.3",
     "jsdoc": "^4.0.2",
     "jsdom": "^21.1.1",
-    "prettier": "^2.8.4",
+    "prettier": "^2.8.6",
     "selenium-webdriver": "^4.8.0",
     "vitepress": "^1.0.0-alpha.61"
   },
