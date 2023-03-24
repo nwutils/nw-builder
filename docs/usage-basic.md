@@ -29,7 +29,7 @@ let nwbuild = undefined;
 Module usage:
 
 ```javascript
-nwbuild({...options});
+nwbuild({ ...options });
 ```
 
 CLI usage:

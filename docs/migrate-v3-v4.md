@@ -1,6 +1,6 @@
 # Migrate from v3 to v4
 
-### Update `nw-builder`
+## Update `nw-builder`
 
 With npm:
 
@@ -20,7 +20,7 @@ With pnpm:
 pnpm update nw-builder@^4.1.1-beta.2
 ```
 
-### Update options
+## Update options
 
 Let's take an example of v3 code and migrate it to v4.
 
