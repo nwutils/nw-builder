@@ -25,6 +25,13 @@ export default defineConfig({
           { text: "Get mode", link: "/mode-get" },
         ],
       },
+      {
+        text: "Migration Guide",
+        collapsible: true,
+        items: [
+          { text: "Migrate from v3 to v4", link: "./migrate-v3-v4" },
+        ],
+      },
     ],
 
     socialLinks: [
