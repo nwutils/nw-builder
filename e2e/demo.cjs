@@ -11,7 +11,7 @@
       nwbuild({
         srcDir: "./app/*",
         mode: "build",
-        version: "0.73.0",
+        version: "0.74.0",
         flavor: "normal",
         platforms: "win",
         arch: "x64",

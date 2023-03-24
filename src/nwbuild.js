@@ -1,5 +1,6 @@
 import { mkdir, rm } from "node:fs/promises";
 import { resolve } from "node:path";
+import { version as nodeVersion } from "node:process";
 
 import { decompress } from "./get/decompress.js";
 import { download } from "./get/download.js";
@@ -9,7 +10,8 @@ import { build } from "./bld/build.js";
 import { develop } from "./run/develop.js";
 import { isCached } from "./util/cache.js";
 import { replaceFfmpeg } from "./util/ffmpeg.js";
-import { getOptions } from "./util/options.js";
+import { getFiles } from "./util/files.js";
+import { getManifest } from "./util/manifest.js";
 import { parse } from "./util/parse.js";
 import { validate } from "./util/validate.js";
 import { xattr } from "./util/xattr.js";
@@ -88,13 +90,20 @@ const nwbuild = async (options) => {
   let nwCached;
   let built;
   let releaseInfo = {};
+  let files = [];
+  let manifest = {};
 
   try {
-    const { opts, files, nwPkg } = await getOptions(options);
-    options = opts;
+    if (options.mode !== "get") {
+      files = await getFiles(options.srcDir);
+      manifest = await getManifest(files);
+      if (typeof manifest?.nwbuild === "object") {
+        options = manifest.nwbuild;
+      }
+    }
 
     // Parse options
-    options = await parse(options, nwPkg);
+    options = await parse(options, manifest);
 
     // Create cacheDir if it does not exist
     cached = await isCached(options.cacheDir);
@@ -102,10 +111,12 @@ const nwbuild = async (options) => {
       await mkdir(options.cacheDir, { recursive: true });
     }
 
-    // Create outDir if it does not exist
-    built = await isCached(options.outDir);
-    if (built === false) {
-      await mkdir(options.outDir, { recursive: true });
+    if (options.mode !== "get") {
+      // Create outDir if it does not exist
+      built = await isCached(options.outDir);
+      if (built === false) {
+        await mkdir(options.outDir, { recursive: true });
+      }
     }
 
     // Validate options.version to get the version specific release info
@@ -119,7 +130,7 @@ const nwbuild = async (options) => {
     // Remove leading "v" from version string
     options.version = releaseInfo.version.slice(1);
 
-    await validate(options, releaseInfo);
+    await validate(options, releaseInfo, nodeVersion);
 
     // Variable to store nwDir file path
     nwDir = resolve(
@@ -217,7 +228,7 @@ const nwbuild = async (options) => {
         options.zip,
         releaseInfo,
         options.app,
-        nwPkg,
+        manifest,
       );
     }
   } catch (error) {
