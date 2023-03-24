@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## Changed
+
+- Fixed `get` mode
+
 ## [4.1.1-beta.2] - 2023-03-15
 
 ### Changed
