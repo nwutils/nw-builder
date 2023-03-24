@@ -5,8 +5,6 @@
 
 Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and Linux.
 
-> Before using `nw-builder`, please go through how to [write an NW.js application](https://nwjs.readthedocs.io/en/latest/For%20Users/Getting%20Started/).
-
 ## Major Features
 
 - Build for Linux, MacOS, and Windows

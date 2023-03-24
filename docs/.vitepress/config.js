@@ -6,10 +6,13 @@ export default defineConfig({
   base: "/nw-builder/",
   themeConfig: {
     nav: [
+      { text: "NW.js Utils", link: "https://nwutils.io/" },
       { text: "npm", link: "https://www.npmjs.com/package/nw-builder" },
       { text: "Changelog", link: "./changelog"},
       { text: "Contributing", link: "./contributing"},
-      { text: "NW.js Utils", link: "https://nwutils.io/" },
+      { text: "Code of Conduct", link: "https://github.com/nwutils/.github/blob/main/CODE_OF_CONDUCT.md"},
+      { text: "License", link: "./license"},
+      
     ],
 
     sidebar: [
