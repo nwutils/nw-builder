@@ -7,6 +7,8 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: "npm", link: "https://www.npmjs.com/package/nw-builder" },
+      { text: "Changelog", link: "./changelog"},
+      { text: "Contributing", link: "./contributing"},
       { text: "NW.js Utils", link: "https://nwutils.io/" },
     ],
 
