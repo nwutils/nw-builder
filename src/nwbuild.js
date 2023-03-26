@@ -75,7 +75,7 @@ import { log } from "./log.js";
  * @property {boolean}                                                                                             [zip=false]                               If true the outDir directory is zipped
  * @property {boolean}                                                                                             [cli=false]                               If true the CLI is used to glob srcDir and parse other options
  * @property {boolean}                                                                                             [ffmpeg=false]                            If true the chromium ffmpeg is replaced by community version
- * @property {boolean}                                                                                             [glob=true]                              If true globbing is enabled
+ * @property {boolean}                                                                                             [glob=true]                               If true globbing is enabled
  */
 
 /**
@@ -137,7 +137,8 @@ const nwbuild = async (options) => {
     // Variable to store nwDir file path
     nwDir = resolve(
       options.cacheDir,
-      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform
+      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${
+        options.platform
       }-${options.arch}`,
     );
 
@@ -218,11 +219,17 @@ const nwbuild = async (options) => {
     }
 
     if (options.mode === "run") {
-      await develop(options.srcDir, nwDir, options.platform, options.argv, options.glob);
+      await develop(
+        options.srcDir,
+        nwDir,
+        options.platform,
+        options.argv,
+        options.glob,
+      );
     }
     if (options.mode === "build") {
       await build(
-        files,
+        options.glob === true ? files : options.srcDir,
         nwDir,
         options.outDir,
         options.platform,

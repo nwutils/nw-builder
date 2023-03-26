@@ -39,20 +39,28 @@ export const validate = async (options, releaseInfo, version) => {
   //   throw new Error("Expected options.cacheDir to be a string. Got " + typeof options.cacheDir);
   // }
   if (typeof options.cache !== "boolean") {
-    return new Error("Expected options.cache to be a boolean. Got " + typeof options.cache);
+    return new Error(
+      "Expected options.cache to be a boolean. Got " + typeof options.cache,
+    );
   }
   if (typeof options.ffmpeg !== "boolean") {
-    return new Error("Expected options.ffmpeg to be a boolean. Got " + typeof options.ffmpeg);
+    return new Error(
+      "Expected options.ffmpeg to be a boolean. Got " + typeof options.ffmpeg,
+    );
   }
 
   if (options.mode === "get") {
     return undefined;
   }
-  if (typeof options.argv !== "array") {
-    return new Error("Expected options.argv to be an array. Got " + typeof options.argv);
+  if (Array.isArray(options.argv)) {
+    return new Error(
+      "Expected options.argv to be an array. Got " + typeof options.argv,
+    );
   }
   if (typeof options.glob !== "boolean") {
-    return new Error("Expected options.glob to be a boolean. Got " + typeof options.glob);
+    return new Error(
+      "Expected options.glob to be a boolean. Got " + typeof options.glob,
+    );
   }
 
   if (options.srcDir) {

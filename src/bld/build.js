@@ -1,4 +1,4 @@
-import { resolve } from "node:path";
+import { basename, relative, resolve } from "node:path";
 import { cp, rm, writeFile } from "node:fs/promises";
 
 import { log } from "../log.js";
@@ -11,7 +11,7 @@ import { setWinConfig } from "./winCfg.js";
 /**
  * Generate NW build artifacts
  *
- * @param  {string[]}                files        Array of NW app files
+ * @param  {string | string[]}       files        Array of NW app files
  * @param  {string}                  nwDir        Directory to hold NW binaries
  * @param  {string}                  outDir       Directory to store build artifacts
  * @param  {"linux" | "osx" | "win"} platform     Platform is the operating system type
@@ -37,33 +37,51 @@ export const build = async (
   await cp(nwDir, outDir, { recursive: true });
 
   log.debug(`Copy files in srcDir to ${outDir} directory`);
-  for (let file of files) {
-    log.debug(`Copy ${file} file to ${outDir} directory`);
+
+  if (typeof files === "string") {
+    console.log("YOLO", basename(relative(outDir, files)));
+    // process.exit(1);
     await cp(
-      file,
+      files,
       resolve(
         outDir,
         platform !== "osx"
           ? "package.nw"
           : "nwjs.app/Contents/Resources/app.nw",
-        file,
       ),
-      { recursive: true }
+      { recursive: true },
+    );
+  } else {
+    for (let file of files) {
+      log.debug(`Copy ${file} file to ${outDir} directory`);
+      await cp(
+        file,
+        resolve(
+          outDir,
+          platform !== "osx"
+            ? "package.nw"
+            : "nwjs.app/Contents/Resources/app.nw",
+          file,
+        ),
+        { recursive: true },
+      );
+    }
+
+    // Write NW.js manifest file to outDir
+    // TODO: Allow user to specify manifest file config options
+    log.debug(`Write NW.js manifest file to ${outDir} directory`);
+    await writeFile(
+      resolve(
+        outDir,
+        platform !== "osx"
+          ? "package.nw"
+          : "nwjs.app/Contents/Resources/app.nw",
+        "package.json",
+      ),
+      JSON.stringify(nwPkg, null, 2),
+      "utf8",
     );
   }
-
-  // Write NW.js manifest file to outDir
-  // TODO: Allow user to specify manifest file config options
-  log.debug(`Write NW.js manifest file to ${outDir} directory`);
-  await writeFile(
-    resolve(
-      outDir,
-      platform !== "osx" ? "package.nw" : "nwjs.app/Contents/Resources/app.nw",
-      "package.json",
-    ),
-    JSON.stringify(nwPkg, null, 2),
-    "utf8",
-  );
 
   log.debug(`Starting platform specific config steps for ${platform}`);
   switch (platform) {

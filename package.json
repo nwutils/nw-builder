@@ -50,7 +50,7 @@
     "test:e2e": "node --test-reporter=spec --test e2e/index.js",
     "test:manual:get": "cd test/fixture && nwbuild --mode=get",
     "test:manual:dev": "cd test/fixture && nwbuild --mode=run ./app --no-glob",
-    "test:manual:bld": "cd test/fixture && nwbuild --mode=build ./app/*"
+    "test:manual:bld": "cd test/fixture && nwbuild --mode=build ./app --no-glob"
   },
   "devDependencies": {
     "eslint": "^8.36.0",
