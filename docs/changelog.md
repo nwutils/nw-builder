@@ -7,9 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## Added
+
+- Glob flag defaulting to false. Currently file globbing is broken and it is recommended to set `glob` to true.
+
 ## Changed
 
 - Fixed `get` mode
+- Updated `get` mode docs
 
 ## [4.1.1-beta.2] - 2023-03-15
 
