@@ -11,7 +11,7 @@ import { readdir } from "node:fs/promises";
  */
 export const validate = async (options, releaseInfo, version) => {
   if (releaseInfo.components.node !== version.slice(1)) {
-    return new Error(
+    throw new Error(
       `NW.js ${releaseInfo.version} requires Node.js v${releaseInfo.components.node} but you are using Node.js ${version}.`,
     );
   }
@@ -35,9 +35,9 @@ export const validate = async (options, releaseInfo, version) => {
       `Platform ${options.platform} and architecture ${options.arch} is not supported by this download server.`,
     );
   }
-  if (options.cacheDir) {
-    await readdir(options.cacheDir);
-  }
+  // if (typeof options.cacheDir !== "string") {
+  //   throw new Error("Expected options.cacheDir to be a string. Got " + typeof options.cacheDir);
+  // }
   if (typeof options.cache !== "boolean") {
     return new Error("Expected options.cache to be a boolean. Got " + typeof options.cache);
   }
@@ -48,9 +48,11 @@ export const validate = async (options, releaseInfo, version) => {
   if (options.mode === "get") {
     return undefined;
   }
-
   if (typeof options.argv !== "array") {
     return new Error("Expected options.argv to be an array. Got " + typeof options.argv);
+  }
+  if (typeof options.glob !== "boolean") {
+    return new Error("Expected options.glob to be a boolean. Got " + typeof options.glob);
   }
 
   if (options.srcDir) {

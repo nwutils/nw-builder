@@ -30,6 +30,7 @@ export const parse = async (options, pkg) => {
 
   options.argv = options.argv ?? [];
   options.srcDir = resolve(options.srcDir ?? "./*");
+  options.glob = options.glob ?? true;
 
   if (options.mode === "run") {
     return { ...options };

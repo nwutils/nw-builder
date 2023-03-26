@@ -75,6 +75,7 @@ import { log } from "./log.js";
  * @property {boolean}                                                                                             [zip=false]                               If true the outDir directory is zipped
  * @property {boolean}                                                                                             [cli=false]                               If true the CLI is used to glob srcDir and parse other options
  * @property {boolean}                                                                                             [ffmpeg=false]                            If true the chromium ffmpeg is replaced by community version
+ * @property {boolean}                                                                                             [glob=true]                              If true globbing is enabled
  */
 
 /**
@@ -94,16 +95,17 @@ const nwbuild = async (options) => {
   let manifest = {};
 
   try {
-    if (options.mode !== "get") {
+    // Parse options
+    options = await parse(options, manifest);
+
+    if (options.mode !== "get" && options.glob === true) {
       files = await getFiles(options.srcDir);
       manifest = await getManifest(files);
       if (typeof manifest?.nwbuild === "object") {
         options = manifest.nwbuild;
+        options = await parse(options, manifest);
       }
     }
-
-    // Parse options
-    options = await parse(options, manifest);
 
     // Create cacheDir if it does not exist
     cached = await isCached(options.cacheDir);
@@ -111,7 +113,7 @@ const nwbuild = async (options) => {
       await mkdir(options.cacheDir, { recursive: true });
     }
 
-    if (options.mode !== "get") {
+    if (options.mode !== "get" && options.mode !== "run") {
       // Create outDir if it does not exist
       built = await isCached(options.outDir);
       if (built === false) {
@@ -135,8 +137,7 @@ const nwbuild = async (options) => {
     // Variable to store nwDir file path
     nwDir = resolve(
       options.cacheDir,
-      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${
-        options.platform
+      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform
       }-${options.arch}`,
     );
 
@@ -217,7 +218,7 @@ const nwbuild = async (options) => {
     }
 
     if (options.mode === "run") {
-      await develop(options.srcDir, nwDir, options.platform, options.argv);
+      await develop(options.srcDir, nwDir, options.platform, options.argv, options.glob);
     }
     if (options.mode === "build") {
       await build(
