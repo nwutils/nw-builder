@@ -48,6 +48,7 @@ export const build = async (
           : "nwjs.app/Contents/Resources/app.nw",
         file,
       ),
+      { recursive: true }
     );
   }
 
