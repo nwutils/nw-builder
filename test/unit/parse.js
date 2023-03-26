@@ -7,7 +7,7 @@ import { parse } from "../../src/util/parse.js";
 import { getArch } from "../../src/util/arch.js";
 import { getPlatform } from "../../src/util/platform.js";
 
-describe("get mode", () => {
+describe("parse - get mode", () => {
   it("default values", async () => {
     const actualOptions = await parse({
       mode: "get",
@@ -22,6 +22,7 @@ describe("get mode", () => {
       cacheDir: resolve("./cache"),
       downloadUrl: "https://dl.nwjs.io",
       manifestUrl: "https://nwjs.io/versions",
+      cache: true,
       ffmpeg: false,
     };
 
@@ -48,6 +49,7 @@ describe("get mode", () => {
       downloadUrl: "https://github.com/corwin-of-amber/nw.js/releases/download",
       manifestUrl:
         "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json",
+      cache: true,
       ffmpeg: false,
     };
 
@@ -69,6 +71,7 @@ describe("get mode", () => {
       cacheDir: resolve("./cache"),
       downloadUrl: "https://npm.taobao.org/mirrors/nwjs/",
       manifestUrl: "https://nwjs.io/versions",
+      cache: true,
       ffmpeg: false,
     };
 
@@ -90,6 +93,7 @@ describe("get mode", () => {
       cacheDir: resolve("./cache"),
       downloadUrl: "https://cnpmjs.org/mirrors/nwjs/",
       manifestUrl: "https://nwjs.io/versions",
+      cache: true,
       ffmpeg: false,
     };
 
@@ -111,6 +115,7 @@ describe("get mode", () => {
       cacheDir: resolve("./cache"),
       downloadUrl: "https://dl.nwjs.io",
       manifestUrl: "https://nwjs.io/versions",
+      cache: true,
       ffmpeg: true,
     };
 
