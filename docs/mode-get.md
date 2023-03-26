@@ -37,6 +37,8 @@ This is equivalent to:
 nwbuild --mode=get --version=latest --flavor=normal --platform=linux --arch=x64 --downloadUrl=https://dl.nwjs.io --manifestUrl=https://nwjs.io/versions --cacheDir=./cache --cache=true --ffmpeg=false
 ```
 
+> When the `platform` and `arch` are not specified, they default to the host platform and arch. For this guide, we are assumed to be using Linux x64.
+
 This might be useful as a `postInstall` step in your `package.json` or when running `Chromedriver` tests you don't want to run or build your app. Here are some other use cases:
 
 ## Download unofficial MacOS ARM builds:
@@ -74,6 +76,8 @@ nwbuild({
   downloadUrl: "https://npm.taobao.org/mirrors/nwjs/",
 });
 ```
+
+CLI usage:
 
 ```shell
 nwbuild --mode=get --downloadUrl=https://npm.taobao.org/mirrors/nwjs/
