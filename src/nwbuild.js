@@ -98,14 +98,15 @@ const nwbuild = async (options) => {
     // Parse options
     options = await parse(options, manifest);
 
-    if (options.mode !== "get" && options.glob === true) {
+    if (options.mode !== "get") {
       files = await getFiles(options.srcDir);
-      manifest = await getManifest(files);
+      manifest = await getManifest(files, options.glob);
       if (typeof manifest?.nwbuild === "object") {
         options = manifest.nwbuild;
-        options = await parse(options, manifest);
       }
     }
+
+    options = await parse(options, manifest);
 
     // Create cacheDir if it does not exist
     cached = await isCached(options.cacheDir);

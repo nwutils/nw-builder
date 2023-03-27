@@ -1,4 +1,4 @@
-import { basename, relative, resolve } from "node:path";
+import { resolve } from "node:path";
 import { cp, rm, writeFile } from "node:fs/promises";
 
 import { log } from "../log.js";
@@ -39,8 +39,6 @@ export const build = async (
   log.debug(`Copy files in srcDir to ${outDir} directory`);
 
   if (typeof files === "string") {
-    console.log("YOLO", basename(relative(outDir, files)));
-    // process.exit(1);
     await cp(
       files,
       resolve(
