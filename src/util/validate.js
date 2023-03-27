@@ -10,7 +10,7 @@ import { readdir } from "node:fs/promises";
  * @throws {Error}                                     Throw error if options are invalid
  */
 export const validate = async (options, releaseInfo, version) => {
-  if (releaseInfo.components.node !== version.slice(1)) {
+  if (releaseInfo.components.node > version.slice(1)) {
     throw new Error(
       `NW.js ${releaseInfo.version} requires Node.js v${releaseInfo.components.node} but you are using Node.js ${version}.`,
     );
