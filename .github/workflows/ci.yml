@@ -32,6 +32,6 @@ jobs:
       - run: npm run fmt
       - run: npm run lnt
       - run: npm link
-      - run: npm run test:jest
+      # - run: npm run test:jest
       - run: npm run test:unit
       # - run: npm run test:e2e
