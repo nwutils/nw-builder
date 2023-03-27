@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Added
 
-- Glob flag defaulting to trye. Currently file globbing is broken and it is recommended to set `glob` to false.
+- Glob flag defaulting to true. Currently file globbing is broken and it is recommended to set `glob` to false.
 
 ## Changed
 
