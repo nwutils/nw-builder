@@ -5,16 +5,10 @@ import { readdir } from "node:fs/promises";
  *
  * @param  {import("../nwbuild").Options} options      Options
  * @param  {object}                       releaseInfo  Version specific NW release info
- * @param  {string}                       version      Node.js version
  * @return {Promise<undefined>}                        Return undefined if options are valid
  * @throws {Error}                                     Throw error if options are invalid
  */
-export const validate = async (options, releaseInfo, version) => {
-  if (releaseInfo.components.node > version.slice(1)) {
-    throw new Error(
-      `NW.js ${releaseInfo.version} requires Node.js v${releaseInfo.components.node} but you are using Node.js ${version}.`,
-    );
-  }
+export const validate = async (options, releaseInfo) => {
   if (!["get", "run", "build"].includes(options.mode)) {
     throw new Error(
       `Unknown mode ${options.mode}. Expected "get", "run" or "build".`,
