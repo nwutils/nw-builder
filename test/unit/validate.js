@@ -7,7 +7,7 @@ import { validate } from "../../src/util/validate.js";
 import { getArch } from "../../src/util/arch.js";
 import { getPlatform } from "../../src/util/platform.js";
 
-describe("get mode", () => {
+describe("validate - get mode", () => {
   const mockReleaseInfo = {
     version: "v0.74.0",
     date: "2023/03/13",
@@ -44,6 +44,7 @@ describe("get mode", () => {
         cacheDir: resolve("./cache"),
         downloadUrl: "https://dl.nwjs.io",
         manifestUrl: "https://nwjs.io/versions",
+        cache: true,
         ffmpeg: false,
       },
       mockReleaseInfo,
@@ -66,6 +67,7 @@ describe("get mode", () => {
           "https://github.com/corwin-of-amber/nw.js/releases/download",
         manifestUrl:
           "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json",
+        cache: true,
         ffmpeg: false,
       },
       mockArmReleaseInfo,
@@ -86,6 +88,7 @@ describe("get mode", () => {
         cacheDir: resolve("./cache"),
         downloadUrl: "https://npm.taobao.org/mirrors/nwjs/",
         manifestUrl: "https://nwjs.io/versions",
+        cache: true,
         ffmpeg: false,
       },
       mockReleaseInfo,
@@ -106,6 +109,7 @@ describe("get mode", () => {
         cacheDir: resolve("./cache"),
         downloadUrl: "https://cnpmjs.org/mirrors/nwjs/",
         manifestUrl: "https://nwjs.io/versions",
+        cache: true,
         ffmpeg: false,
       },
       mockReleaseInfo,
@@ -126,6 +130,7 @@ describe("get mode", () => {
         cacheDir: resolve("./cache"),
         downloadUrl: "https://dl.nwjs.io",
         manifestUrl: "https://nwjs.io/versions",
+        cache: true,
         ffmpeg: true,
       },
       mockReleaseInfo,

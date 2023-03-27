@@ -8,7 +8,7 @@ import glob from "glob-promise";
  * @return {Promise<string[]>}
  */
 export const getFiles = async (srcDir, cli) => {
-  let files;
+  let files = [];
   const patterns = srcDir.split(" ");
   if (cli !== true) {
     for (const pattern of patterns) {

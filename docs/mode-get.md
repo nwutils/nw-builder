@@ -1,12 +1,27 @@
 # Get NW.js binaries
 
-There are multiple ways to get NW.js binaries.
-
 Module usage:
 
 ```javascript
 nwbuild({
   mode: "get",
+});
+```
+
+This is equivalent to:
+
+```javascript
+nwbuild({
+  mode: "get",
+  version: "latest",
+  flavor: "normal",
+  platform: "linux",
+  arch: "x64",
+  downloadUrl: "https://dl.nwjs.io",
+  manifestUrl: "https://nwjs.io/versions",
+  cacheDir: "./cache",
+  cache: true,
+  ffmpeg: false,
 });
 ```
 
@@ -16,9 +31,15 @@ CLI usage:
 nwbuild --mode=get
 ```
 
-This downloads the latest version of the normal build flavor for the host platform and architecture. This might be useful as a `postInstall` step in your `package.json` or when running `Chromedriver` tests you don't want to run or build your app.
+This is equivalent to:
 
-There are some more options/flags which allow you to customise this behaviour. Let's look at what these options allow us to do:
+```shell
+nwbuild --mode=get --version=latest --flavor=normal --platform=linux --arch=x64 --downloadUrl=https://dl.nwjs.io --manifestUrl=https://nwjs.io/versions --cacheDir=./cache --cache=true --ffmpeg=false
+```
+
+> When the `platform` and `arch` are not specified, they default to the host platform and arch. For this guide, we are assumed to be using Linux x64.
+
+This might be useful as a `postInstall` step in your `package.json` or when running `Chromedriver` tests you don't want to run or build your app. Here are some other use cases:
 
 ## Download unofficial MacOS ARM builds:
 
@@ -55,6 +76,8 @@ nwbuild({
   downloadUrl: "https://npm.taobao.org/mirrors/nwjs/",
 });
 ```
+
+CLI usage:
 
 ```shell
 nwbuild --mode=get --downloadUrl=https://npm.taobao.org/mirrors/nwjs/

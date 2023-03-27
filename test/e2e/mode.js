@@ -7,8 +7,8 @@ import nwbuild from "nw-builder";
 import { By } from "selenium-webdriver";
 import chrome from "selenium-webdriver/chrome.js";
 
-import { getArch } from "../src/util/arch.js";
-import { getPlatform } from "../src/util/platform.js";
+import { getArch } from "../../src/util/arch.js";
+import { getPlatform } from "../../src/util/platform.js";
 
 const { Driver, ServiceBuilder, Options } = chrome;
 

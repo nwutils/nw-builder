@@ -1,6 +1,5 @@
 import { mkdir, rm } from "node:fs/promises";
 import { resolve } from "node:path";
-import { version as nodeVersion } from "node:process";
 
 import { decompress } from "./get/decompress.js";
 import { download } from "./get/download.js";
@@ -75,6 +74,7 @@ import { log } from "./log.js";
  * @property {boolean}                                                                                             [zip=false]                               If true the outDir directory is zipped
  * @property {boolean}                                                                                             [cli=false]                               If true the CLI is used to glob srcDir and parse other options
  * @property {boolean}                                                                                             [ffmpeg=false]                            If true the chromium ffmpeg is replaced by community version
+ * @property {boolean}                                                                                             [glob=true]                               If true globbing is enabled
  */
 
 /**
@@ -94,15 +94,17 @@ const nwbuild = async (options) => {
   let manifest = {};
 
   try {
+    // Parse options
+    options = await parse(options, manifest);
+
     if (options.mode !== "get") {
       files = await getFiles(options.srcDir);
-      manifest = await getManifest(files);
+      manifest = await getManifest(files, options.glob);
       if (typeof manifest?.nwbuild === "object") {
         options = manifest.nwbuild;
       }
     }
 
-    // Parse options
     options = await parse(options, manifest);
 
     // Create cacheDir if it does not exist
@@ -111,7 +113,7 @@ const nwbuild = async (options) => {
       await mkdir(options.cacheDir, { recursive: true });
     }
 
-    if (options.mode !== "get") {
+    if (options.mode !== "get" && options.mode !== "run") {
       // Create outDir if it does not exist
       built = await isCached(options.outDir);
       if (built === false) {
@@ -130,7 +132,7 @@ const nwbuild = async (options) => {
     // Remove leading "v" from version string
     options.version = releaseInfo.version.slice(1);
 
-    await validate(options, releaseInfo, nodeVersion);
+    await validate(options, releaseInfo);
 
     // Variable to store nwDir file path
     nwDir = resolve(
@@ -217,11 +219,17 @@ const nwbuild = async (options) => {
     }
 
     if (options.mode === "run") {
-      await develop(options.srcDir, nwDir, options.platform, options.argv);
+      await develop(
+        options.srcDir,
+        nwDir,
+        options.platform,
+        options.argv,
+        options.glob,
+      );
     }
     if (options.mode === "build") {
       await build(
-        files,
+        options.glob === true ? files : options.srcDir,
         nwDir,
         options.outDir,
         options.platform,

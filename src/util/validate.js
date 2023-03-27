@@ -5,55 +5,70 @@ import { readdir } from "node:fs/promises";
  *
  * @param  {import("../nwbuild").Options} options      Options
  * @param  {object}                       releaseInfo  Version specific NW release info
- * @param  {string}                       version      Node.js version
  * @return {Promise<undefined>}                        Return undefined if options are valid
  * @throws {Error}                                     Throw error if options are invalid
  */
-export const validate = async (options, releaseInfo, version) => {
-  if (options.mode === "get") {
-    if (!releaseInfo.flavors.includes(options.flavor)) {
-      throw new Error(
-        `${options.flavor} flavor is not supported by this download server.`,
-      );
-    }
-    // We don't validate version since getReleaseInfo already does that
-    if (
-      options.platform &&
-      options.arch &&
-      !releaseInfo.files.includes(`${options.platform}-${options.arch}`)
-    ) {
-      throw new Error(
-        `Platform ${options.platform} and architecture ${options.arch} is not supported by this download server.`,
-      );
-    }
-    if (releaseInfo.components.node !== version.slice(1)) {
-      return new Error(
-        `NW.js ${releaseInfo.version} requires Node.js v${releaseInfo.components.node} but you are using Node.js ${version}.`,
-      );
-    }
-  } else if (options.mode === "run" || options.mode === "build") {
-    if (options.srcDir === "") {
-      throw new Error("srcDir is empty");
-    }
-    if (!releaseInfo.files.includes(`${options.platform}-${options.arch}`)) {
-      throw new Error(
-        `Platform ${options.platform} and architecture ${options.arch} is not supported by this download server. Sorry!`,
-      );
-    }
-    if (options.outDir) {
-      await readdir(options.outDir);
-    }
-    if (releaseInfo.components.node !== version.slice(1)) {
-      return new Error(
-        `NW.js ${releaseInfo.version} requires Node.js v${
-          releaseInfo.components.node
-        } but you are using Node.js ${version.slice(1)}.`,
-      );
-    }
-  } else {
+export const validate = async (options, releaseInfo) => {
+  if (!["get", "run", "build"].includes(options.mode)) {
     throw new Error(
       `Unknown mode ${options.mode}. Expected "get", "run" or "build".`,
     );
   }
+  // We don't validate version since getReleaseInfo already does that
+  if (!releaseInfo.flavors.includes(options.flavor)) {
+    throw new Error(
+      `${options.flavor} flavor is not supported by this download server.`,
+    );
+  }
+  if (
+    options.platform &&
+    options.arch &&
+    !releaseInfo.files.includes(`${options.platform}-${options.arch}`)
+  ) {
+    throw new Error(
+      `Platform ${options.platform} and architecture ${options.arch} is not supported by this download server.`,
+    );
+  }
+  // if (typeof options.cacheDir !== "string") {
+  //   throw new Error("Expected options.cacheDir to be a string. Got " + typeof options.cacheDir);
+  // }
+  if (typeof options.cache !== "boolean") {
+    return new Error(
+      "Expected options.cache to be a boolean. Got " + typeof options.cache,
+    );
+  }
+  if (typeof options.ffmpeg !== "boolean") {
+    return new Error(
+      "Expected options.ffmpeg to be a boolean. Got " + typeof options.ffmpeg,
+    );
+  }
+
+  if (options.mode === "get") {
+    return undefined;
+  }
+  if (Array.isArray(options.argv)) {
+    return new Error(
+      "Expected options.argv to be an array. Got " + typeof options.argv,
+    );
+  }
+  if (typeof options.glob !== "boolean") {
+    return new Error(
+      "Expected options.glob to be a boolean. Got " + typeof options.glob,
+    );
+  }
+
+  if (options.srcDir) {
+    await readdir(options.srcDir);
+  }
+
+  if (options.mode === "run") {
+    return undefined;
+  }
+
+  if (options.outDir) {
+    await readdir(options.outDir);
+  }
+
+  // TODO: Validate app options
   return undefined;
 };

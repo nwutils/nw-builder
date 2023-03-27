@@ -1,6 +1,6 @@
 # Installation Guide
 
-Every NW.js release includes a modified Node.js at a specific version. Native Node modules are not compatible with the NW.js ABI. To prevent this scenario, `nw-builder` requires the host Node version to be identical to NW.js's Node version. It is recommended to use a [Node Version Manager](https://nodejs.org/en/download/package-manager) to manage multiple Node installations. Consult the [manifest](https://nwjs.io/versions) for what Node version to install.
+Every NW.js release includes a modified Node.js at a specific version. By installing a version greater/equal to NW.js's Node version, you get to use the latest features. In that case tt is recommended to use a [Node Version Manager](https://nodejs.org/en/download/package-manager) to manage multiple Node installations. Consult the [manifest](https://nwjs.io/versions) for what Node version to install.
 
 With the environment setup, install `nw-builder` using npm:
 
