@@ -7,13 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.2.1] - 2023-03-28
+
+### Changed
+
+- Set `files` to `options.srcDir` if glob disabled preventing a `package.json` not found error.
+
 ## [4.2.0] - 2023-03-27
 
 ## Added
 
 - Glob flag defaulting to true. Currently file globbing is broken and it is recommended to set `glob` to false.
 
-## Changed
+### Changed
 
 - Fixed `get` mode
 - Fixed `run` mode
