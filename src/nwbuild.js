@@ -98,7 +98,7 @@ const nwbuild = async (options) => {
     options = await parse(options, manifest);
 
     if (options.mode !== "get") {
-      files = await getFiles(options.srcDir);
+      files = options.glob ? await getFiles(options.srcDir) : options.srcDir;
       manifest = await getManifest(files, options.glob);
       if (typeof manifest?.nwbuild === "object") {
         options = manifest.nwbuild;
