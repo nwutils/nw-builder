@@ -1,6 +1,6 @@
 # Basic Usage
 
-Depending on your needs, `nw-builder` can be used via a JavaScript module, via command line interface or via `package.json`. Please note that if `package.json` is used, it will override the module or CLI configuration. A single function is exported which performs a single build using a specific [build flavor](https://nwjs.readthedocs.io/en/latest/For%20Users/Advanced/Build%20Flavors/) for a specific platform and architecture.
+Depending on your use case, `nw-builder` can be used via a JavaScript module, command line interface or `package.json`. Please note that if `package.json` is used, it will override the module or CLI configuration.
 
 ## Import package
 
@@ -29,7 +29,7 @@ let nwbuild = undefined;
 Module usage:
 
 ```javascript
-nwbuild({ ...options });
+nwbuild();
 ```
 
 CLI usage:
@@ -42,8 +42,10 @@ npx nwbuild
 
 ```json
 {
-    "nwbuild": {
-        ...
-    }
+    "nwbuild": {}
 }
 ```
+
+By default, it performs a build using latest version, a normal [build flavor](https://nwjs.readthedocs.io/en/latest/For%20Users/Advanced/Build%20Flavors/) for the host platform and architecture.
+
+The next few guides will show you how to customize this behaviour
