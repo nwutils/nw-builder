@@ -8,7 +8,7 @@ import { basename } from "node:path";
  * @param  {boolean}         glob   Whether or not the files are glob patterns
  * @return {Promise<object>}        NW.js manifest file
  */
-export const getManifest = async (files, glob) => {
+export const getVersionManifest = async (files, glob) => {
   let manifest;
 
   if (glob === false) {

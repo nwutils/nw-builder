@@ -1,8 +1,8 @@
 # Installation Guide
 
-Every NW.js release includes a modified Node.js at a specific version. By installing a version greater/equal to NW.js's Node version, you get to use the latest features. In that case tt is recommended to use a [Node Version Manager](https://nodejs.org/en/download/package-manager) to manage multiple Node installations. Consult the [manifest](https://nwjs.io/versions) for what Node version to install.
+Every NW.js release includes a modified Node.js at a specific version. It is recommended to [install](https://nodejs.org/en/download/package-manager) a version greater than or equal to NW.js's Node version. Consult the [version manifest](https://nwjs.io/versions) on the version to install.
 
-With the environment setup, install `nw-builder` using npm:
+With the environment set up, install `nw-builder` using npm:
 
 Using npm:
 
@@ -14,13 +14,13 @@ npm i -D nw-builder
 
 You may use alternate package managers:
 
-Enable `corepack` if your Node version is above `v14.19.0` or `v16.9.0`:
+Enable `corepack`:
 
 ```shell
 corepack enable
 ```
 
-You may install it via npm if your version does not match:
+Or install it if your version does not include it:
 
 ```shell
 npm i -g corepack

@@ -12,6 +12,7 @@ import { getPlatform } from "./platform.js";
  * @return {Promise<object>}                       Options
  */
 export const parse = async (options, pkg) => {
+  options = options ?? {};
   options.mode = options.mode ?? "build";
 
   options.version = options.version ?? "latest";

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Validation for `options.version`.
+
 ## [4.2.1] - 2023-03-28
 
 ### Changed
