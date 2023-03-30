@@ -46,6 +46,4 @@ npx nwbuild
 }
 ```
 
-By default, it performs a build using latest version, a normal [build flavor](https://nwjs.readthedocs.io/en/latest/For%20Users/Advanced/Build%20Flavors/) for the host platform and architecture.
-
-The next few guides will show you how to customize this behaviour
+By default, it performs a build using the latest version for the host platform and architecture. The next few guides will show you how to customize this behaviour.
