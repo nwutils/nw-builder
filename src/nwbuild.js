@@ -10,7 +10,7 @@ import { develop } from "./run/develop.js";
 import { isCached } from "./util/cache.js";
 import { replaceFfmpeg } from "./util/ffmpeg.js";
 import { getFiles } from "./util/files.js";
-import { getManifest } from "./util/manifest.js";
+import { getVersionManifest } from "./util/versionManifest.js";
 import { parse } from "./util/parse.js";
 import { validate } from "./util/validate.js";
 import { xattr } from "./util/xattr.js";
@@ -99,7 +99,7 @@ const nwbuild = async (options) => {
 
     if (options.mode !== "get") {
       files = options.glob ? await getFiles(options.srcDir) : options.srcDir;
-      manifest = await getManifest(files, options.glob);
+      manifest = await getVersionManifest(files, options.glob);
       if (typeof manifest?.nwbuild === "object") {
         options = manifest.nwbuild;
       }
@@ -129,16 +129,16 @@ const nwbuild = async (options) => {
       options.cacheDir,
       options.manifestUrl,
     );
-    // Remove leading "v" from version string
-    options.version = releaseInfo.version.slice(1);
 
     await validate(options, releaseInfo);
+
+    // Remove leading "v" from version string
+    options.version = releaseInfo.version.slice(1);
 
     // Variable to store nwDir file path
     nwDir = resolve(
       options.cacheDir,
-      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${
-        options.platform
+      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform
       }-${options.arch}`,
     );
 

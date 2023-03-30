@@ -14,7 +14,9 @@ export const validate = async (options, releaseInfo) => {
       `Unknown mode ${options.mode}. Expected "get", "run" or "build".`,
     );
   }
-  // We don't validate version since getReleaseInfo already does that
+  if (typeof releaseInfo === "undefined") {
+    throw new Error("The specified version does not exist in the version manifest. Disable cache to redownload the version manifest. If you still get this error, that means the version you've specified is incorrect.");
+  }
   if (!releaseInfo.flavors.includes(options.flavor)) {
     throw new Error(
       `${options.flavor} flavor is not supported by this download server.`,
