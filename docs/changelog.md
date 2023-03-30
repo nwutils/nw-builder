@@ -7,8 +7,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## [4.2.2] - 2023-03-30
-
 ### Added
 
 - Validation for `options.version`.
