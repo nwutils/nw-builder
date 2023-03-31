@@ -27,6 +27,7 @@ export default defineConfig({
           { text: "Get mode", link: "/mode-get" },
           { text: "Run mode", link: "/mode-run" },
           { text: "Build mode", link: "/mode-build" },
+          { text: "API Reference", link: "/api" },
         ],
       },
       {
