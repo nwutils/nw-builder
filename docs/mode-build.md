@@ -43,4 +43,8 @@ This is equivalent to:
 nwbuild --mode=build --version=latest --flavor=normal --platform=linux --arch=x64 --downloadUrl=https://dl.nwjs.io --manifestUrl=https://nwjs.io/versions --cacheDir=./cache --outDir=./out --cache=true --ffmpeg=false --glob=false .
 ```
 
-> When the `platform` and `arch` are not specified, they default to the host platform and arch. For this guide, we are assumed to be using Linux x64.
+Note: File permissions are incorrectly set for Linux or MacOS apps built on Windows platform.
+
+> [The Windows platform only supports the changing of the write permission. It also does not support the distinction between the permissions of user, group, or others.](https://www.geeksforgeeks.org/node-js-fs-chmod-method/)
+
+When the `platform` and `arch` are not specified, they default to the host platform and arch. For this guide, we are assumed to be using Linux x64.
