@@ -15,7 +15,9 @@ export const validate = async (options, releaseInfo) => {
     );
   }
   if (typeof releaseInfo === "undefined") {
-    throw new Error("The specified version does not exist in the version manifest. Disable cache to redownload the version manifest. If you still get this error, that means the version you've specified is incorrect.");
+    throw new Error(
+      "The specified version does not exist in the version manifest. Disable cache to redownload the version manifest. If you still get this error, that means the version you've specified is incorrect.",
+    );
   }
   if (!releaseInfo.flavors.includes(options.flavor)) {
     throw new Error(

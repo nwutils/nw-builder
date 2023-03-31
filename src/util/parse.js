@@ -42,7 +42,7 @@ export const parse = async (options, pkg) => {
 
   options.app = options.app ?? {};
 
-  // TODO: move this out to 
+  // TODO: move this out to
   if (options.platform === "linux") {
     // linux desktop entry file configurations options
     options.app.name = options.app.name ?? pkg.name;
@@ -73,7 +73,8 @@ export const parse = async (options, pkg) => {
     // windows configuration options
     options.app.comments = options.app.comments ?? undefined;
     options.app.company = options.app.company ?? pkg.author;
-    options.app.fileDescription = options.app.fileDescription ?? pkg.description;
+    options.app.fileDescription =
+      options.app.fileDescription ?? pkg.description;
     options.app.fileVersion = options.app.fileVersion ?? pkg.version;
     options.app.internalName = options.app.internalName ?? pkg.name;
     options.app.legalCopyright = options.app.legalCopyright ?? undefined;
