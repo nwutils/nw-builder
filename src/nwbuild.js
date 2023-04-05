@@ -18,7 +18,7 @@ import { xattr } from "./util/xattr.js";
 import { log } from "./log.js";
 
 /**
- * @typedef {object} App
+ * @typedef  {object}   APP
  * @property {string}   name                  Name of the application
  *                                            Linux configuration options
  * @property {string}   genericName           Generic name of the application
@@ -58,7 +58,7 @@ import { log } from "./log.js";
  */
 
 /**
- * @typedef {object} Options
+ * @typedef  {object} OPTIONS 
  * @property {string}                                                                                              [srcDir="./"]                             String of space separated glob patterns which correspond to NW app code
  * @property {"get" | "run" | "build"}                                                                             [mode="build"]                            Run or build application
  * @property {"latest" | "stable" | string}                                                                        [version="latest"]                        NW runtime version
@@ -69,7 +69,7 @@ import { log } from "./log.js";
  * @property {"./cache" | string}                                                                                  [cacheDir="./cache"]                      Directory to store NW binaries
  * @property {"https://dl.nwjs.io" | "https://npmmirror.com/mirrors/nwjs" | "https://npm.taobao.org/mirrors/nwjs"} [downloadUrl="https://dl.nwjs.io"]        URI to download NW binaries from
  * @property {"https://nwjs.io/versions"}                                                                          [manifestUrl="https://nwjs.io/versions"]  URI to download manifest from
- * @property {App}                                                                                                 app                                       Multi platform configuration options
+ * @property {APP}                                                                                                 app                                       Multi platform configuration options
  * @property {boolean}                                                                                             [cache=true]                              If true the existing cache is used. Otherwise it removes and redownloads it.
  * @property {boolean}                                                                                             [zip=false]                               If true the outDir directory is zipped
  * @property {boolean}                                                                                             [cli=false]                               If true the CLI is used to glob srcDir and parse other options
@@ -78,9 +78,9 @@ import { log } from "./log.js";
  */
 
 /**
- * Entry point for nw-builder application
+ * Automates building an NW.js application.
  *
- * @param  {...Options}         options  Options
+ * @param  {OPTIONS}            options  NW-Builder user options
  * @return {Promise<undefined>}
  */
 const nwbuild = async (options) => {
