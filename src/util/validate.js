@@ -3,7 +3,7 @@ import { readdir } from "node:fs/promises";
 /**
  * Validate options
  *
- * @param  {import("../../index.js").Options} options      Options
+ * @param  {import("../../index.js").OPTIONS} options      Options
  * @param  {object}                           releaseInfo  Version specific NW release info
  * @return {Promise<undefined>}                            Return undefined if options are valid
  * @throws {Error}                                         Throw error if options are invalid

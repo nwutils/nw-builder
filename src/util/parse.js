@@ -7,7 +7,7 @@ import { getPlatform } from "./platform.js";
 /**
  * Parse options
  *
- * @param  {import("../../index.js").Options} options  Options
+ * @param  {import("../../index.js").OPTIONS} options  Options
  * @param  {object}                           pkg      Package.json as JSON
  * @return {Promise<object>}                           Options
  */
