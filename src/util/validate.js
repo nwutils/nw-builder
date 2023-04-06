@@ -3,10 +3,10 @@ import { readdir } from "node:fs/promises";
 /**
  * Validate options
  *
- * @param  {import("../nwbuild").Options} options      Options
- * @param  {object}                       releaseInfo  Version specific NW release info
- * @return {Promise<undefined>}                        Return undefined if options are valid
- * @throws {Error}                                     Throw error if options are invalid
+ * @param  {import("../../index.js").Options} options      Options
+ * @param  {object}                           releaseInfo  Version specific NW release info
+ * @return {Promise<undefined>}                            Return undefined if options are valid
+ * @throws {Error}                                         Throw error if options are invalid
  */
 export const validate = async (options, releaseInfo) => {
   if (!["get", "run", "build"].includes(options.mode)) {

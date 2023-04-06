@@ -7,9 +7,9 @@ import { getPlatform } from "./platform.js";
 /**
  * Parse options
  *
- * @param  {import("../nwbuild").Options} options  Options
- * @param  {object}                       pkg      Package.json as JSON
- * @return {Promise<object>}                       Options
+ * @param  {import("../../index.js").Options} options  Options
+ * @param  {object}                           pkg      Package.json as JSON
+ * @return {Promise<object>}                           Options
  */
 export const parse = async (options, pkg) => {
   options = options ?? {};
