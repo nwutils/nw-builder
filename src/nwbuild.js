@@ -65,13 +65,13 @@ import { log } from "./log.js";
 
 /**
  * @typedef {object} Options
- * @property {string}                                                                                              [srcDir="./"]                             String of space separated glob patterns which correspond to NW app code
+ * @property {"./" | string}                                                                                       [srcDir="./"]                             String of space separated glob patterns which correspond to NW app code
  * @property {"get" | "run" | "build"}                                                                             [mode="build"]                            Run or build application
  * @property {"latest" | "stable" | string}                                                                        [version="latest"]                        NW runtime version
  * @property {"normal" | "sdk"}                                                                                    [flavor="normal"]                         NW runtime build flavor
  * @property {"linux" | "osx" | "win"}                                                                             platform                                  NW supported platforms
  * @property {"ia32" | "x64" | "arm64"}                                                                            arch                                      NW supported architectures
- * @property {string}                                                                                              [outDir="./out"]                          Directory to store build artifacts
+ * @property {"./out" | string}                                                                                    [outDir="./out"]                          Directory to store build artifacts
  * @property {"./cache" | string}                                                                                  [cacheDir="./cache"]                      Directory to store NW binaries
  * @property {"https://dl.nwjs.io" | "https://npmmirror.com/mirrors/nwjs" | "https://npm.taobao.org/mirrors/nwjs"} [downloadUrl="https://dl.nwjs.io"]        URI to download NW binaries from
  * @property {"https://nwjs.io/versions"}                                                                          [manifestUrl="https://nwjs.io/versions"]  URI to download manifest from
@@ -144,8 +144,7 @@ const nwbuild = async (options) => {
     // Variable to store nwDir file path
     nwDir = resolve(
       options.cacheDir,
-      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${
-        options.platform
+      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform
       }-${options.arch}`,
     );
 
