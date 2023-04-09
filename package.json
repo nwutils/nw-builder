@@ -69,7 +69,7 @@
     "archiver": "^5.3.1",
     "cli-progress": "^3.12.0",
     "decompress": "^4.2.1",
-    "glob-promise": "^6.0.2",
+    "glob": "^9.3.4",
     "plist": "^3.0.6",
     "rcedit": "^3.0.1",
     "winston": "^3.8.2",
