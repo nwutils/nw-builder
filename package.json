@@ -30,7 +30,7 @@
   },
   "type": "module",
   "files": [
-    "./index.js"
+    "./index.js",
     "./src",
     "./LICENSE"
   ],
