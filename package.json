@@ -63,7 +63,7 @@
     "jsdom": "^21.1.1",
     "prettier": "^2.8.6",
     "selenium-webdriver": "^4.8.0",
-    "vitepress": "^1.0.0-alpha.61"
+    "vitepress": "^1.0.0-alpha.65"
   },
   "dependencies": {
     "archiver": "^5.3.1",
