@@ -1,4 +1,4 @@
-import glob from "glob-promise";
+import glob from "glob";
 
 /**
  * Get file paths from a srcDir glob pattern
