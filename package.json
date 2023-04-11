@@ -26,10 +26,11 @@
   ],
   "license": "MIT",
   "exports": {
-    "default": "./src/nwbuild.js"
+    "default": "./index.js"
   },
   "type": "module",
   "files": [
+    "./index.js",
     "./src",
     "./LICENSE"
   ],
@@ -41,7 +42,7 @@
   "scripts": {
     "fmt": "prettier --write \"./**/*.{css,html,js,json,md,yml}\"",
     "lnt": "eslint --fix ./src",
-    "doc:js": "jsdoc ./src/nwbuild.js -d jsdocs",
+    "doc:js": "jsdoc ./index.js -d jsdocs",
     "doc:dev": "vitepress dev docs",
     "doc:bld": "vitepress build docs",
     "doc:pkg": "gh-pages -d docs/.vitepress/dist",
