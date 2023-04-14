@@ -28,6 +28,8 @@ export default defineConfig({
           { text: "Run mode", link: "/mode-run" },
           { text: "Build mode", link: "/mode-build" },
           { text: "API Reference", link: "/api" },
+          { text: "Linux Specific Options", link: "/api-nux.md" },
+          { text: "Windows Specific Options", link: "/api-win.md" },
         ],
       },
       {

@@ -41,7 +41,7 @@
   "scripts": {
     "fmt": "prettier --write \"./**/*.{css,html,js,json,md,yml}\"",
     "lnt": "eslint --fix ./src",
-    "doc:js": "jsdoc2md ./src/nwbuild.js > ./docs/api.md",
+    "doc:api": "jsdoc2md ./src/nwbuild.js > ./docs/api.md && jsdoc2md ./src/bld/linuxCfg.js > ./docs/api-nux.md && jsdoc2md ./src/bld/winCfg.js > ./docs/api-win.md",
     "doc:dev": "vitepress dev docs",
     "doc:bld": "vitepress build docs",
     "doc:pkg": "gh-pages -d docs/.vitepress/dist",
