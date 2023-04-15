@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.2.2] - 2023-04-14
+
 ### Added
 
 - Validation for `options.version`.
+- Type definition file for `nwbuild` function.
 
 ## [4.2.1] - 2023-03-28
 
