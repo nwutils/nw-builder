@@ -1,21 +1,21 @@
 import { mkdir, rm } from "node:fs/promises";
 import { resolve } from "node:path";
 
-import { decompress } from "./get/decompress.js";
-import { download } from "./get/download.js";
-import { getReleaseInfo } from "./get/getReleaseInfo.js";
-import { remove } from "./get/remove.js";
-import { build } from "./bld/build.js";
-import { develop } from "./run/develop.js";
-import { isCached } from "./util/cache.js";
-import { replaceFfmpeg } from "./util/ffmpeg.js";
-import { getFiles } from "./util/files.js";
-import { getVersionManifest } from "./util/versionManifest.js";
-import { parse } from "./util/parse.js";
-import { validate } from "./util/validate.js";
-import { xattr } from "./util/xattr.js";
+import { decompress } from "./src/get/decompress.js";
+import { download } from "./src/get/download.js";
+import { getReleaseInfo } from "./src/get/getReleaseInfo.js";
+import { remove } from "./src/get/remove.js";
+import { build } from "./src/bld/build.js";
+import { develop } from "./src/run/develop.js";
+import { isCached } from "./src/util/cache.js";
+import { replaceFfmpeg } from "./src/util/ffmpeg.js";
+import { getFiles } from "./src/util/files.js";
+import { getVersionManifest } from "./src/util/versionManifest.js";
+import { parse } from "./src/util/parse.js";
+import { validate } from "./src/util/validate.js";
+import { xattr } from "./src/util/xattr.js";
 
-import { log } from "./log.js";
+import { log } from "./src/log.js";
 
 /**
  * @typedef  {object}   APP

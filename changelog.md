@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.2.3] - 2023-04-19
+
+### Changed
+
+- Fix module imports which broke in [04ccd51](https://github.com/nwutils/nw-builder/commit/04ccd514f264f5590e5f86c42288904fe027901f)
+
 ## [4.2.2] - 2023-04-14
 
 ### Added
