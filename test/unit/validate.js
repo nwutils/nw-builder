@@ -20,18 +20,18 @@ describe("validate - get mode", () => {
   };
 
   const mockArmReleaseInfo = {
-    version: "v0.70.0",
-    date: "2022/11/30",
-    files: ["osx-arm64"],
-    flavors: ["normal", "sdk"],
-    components: {
-      node: "19.0.0",
-      chromium: "107.0.5304.88",
-    },
+    "version": "v0.75.0",
+    "date": "2023/04/15",
+    "files": ["osx-arm64"],
+    "flavors": ["normal", "sdk"],
+    "components": {
+      "node": "19.7.0",
+      "chromium": "112.0.5615.49"
+    }
   };
 
   const mockNodeVersion = "v19.7.0";
-  const mockArmNodeVersion = "v19.0.0";
+  const mockArmNodeVersion = "v19.7.0";
 
   it("default values", async () => {
     const output = await validate(

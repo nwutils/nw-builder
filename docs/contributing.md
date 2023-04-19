@@ -6,7 +6,7 @@ Thank you for considering to contribute!
 
 Install a [Node Version Manager](https://nodejs.org/en/download/package-manager).
 
-Install Node. Consult the [version manifest](https://nwjs.io/versions) before installing. `nw-builder` matches the Node version included in NW.js's latest release. For example, if 0.74.0 is the latest version, the Node version is 19.7.0.
+Install Node. Consult the [version manifest](https://nwjs.io/versions) before installing. `nw-builder` matches the Node version included in NW.js's latest release. For example, if 0.75.0 is the latest version, the Node version is 19.7.0.
 
 [Fork](https://github.com/nwutils/nw-builder/fork) the repo.
 
