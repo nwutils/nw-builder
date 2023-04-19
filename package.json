@@ -65,13 +65,13 @@
     "jsdom": "^21.1.1",
     "prettier": "^2.8.6",
     "selenium-webdriver": "^4.8.0",
-    "vitepress": "^1.0.0-alpha.65"
+    "vitepress": "^1.0.0-alpha.72"
   },
   "dependencies": {
     "archiver": "^5.3.1",
     "cli-progress": "^3.12.0",
     "decompress": "^4.2.1",
-    "glob": "^9.3.4",
+    "glob": "^10.0.0",
     "plist": "^3.0.6",
     "rcedit": "^3.0.1",
     "winston": "^3.8.2",
