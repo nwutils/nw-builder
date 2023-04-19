@@ -9,14 +9,14 @@ import { getPlatform } from "../../src/util/platform.js";
 
 describe("validate - get mode", () => {
   const mockReleaseInfo = {
-    version: "v0.74.0",
-    date: "2023/03/13",
-    files: ["win-x64", "win-ia32", "linux-x64", "linux-ia32", "osx-x64"],
-    flavors: ["normal", "sdk"],
-    components: {
-      node: "19.7.0",
-      chromium: "111.0.5563.65",
-    },
+    "version": "v0.75.0",
+    "date": "2023/04/05",
+    "files": ["win-x64", "win-ia32", "linux-x64", "linux-ia32", "osx-x64"],
+    "flavors": ["normal", "sdk"],
+    "components": {
+      "node": "19.7.0",
+      "chromium": "112.0.5615.49"
+    }
   };
 
   const mockArmReleaseInfo = {

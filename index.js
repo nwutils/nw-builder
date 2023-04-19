@@ -29,7 +29,7 @@ import { log } from "./src/log.js";
  * @property {"./cache" | string}                  [cacheDir="./cache"]                      Directory to store NW binaries
  * @property {"https://dl.nwjs.io" | string}       [downloadUrl="https://dl.nwjs.io"]        URI to download NW binaries from
  * @property {"https://nwjs.io/versions" | string} [manifestUrl="https://nwjs.io/versions"]  URI to download manifest from
- * @property {object}                              app                                       Multi platform configuration options
+ * @property {object}                              app                                       Refer to Linux/Windows Specific Options under Getting Started in the docs
  * @property {boolean}                             [cache=true]                              If true the existing cache is used. Otherwise it removes and redownloads it.
  * @property {boolean}                             [zip=false]                               If true the outDir directory is zipped
  * @property {boolean}                             [cli=false]                               If true the CLI is used to glob srcDir and parse other options
@@ -98,7 +98,8 @@ const nwbuild = async (options) => {
     // Variable to store nwDir file path
     nwDir = resolve(
       options.cacheDir,
-      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform
+      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${
+        options.platform
       }-${options.arch}`,
     );
 

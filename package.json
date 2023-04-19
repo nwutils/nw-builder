@@ -43,16 +43,16 @@
   "scripts": {
     "fmt": "prettier --write \"./**/*.{css,html,js,json,md,yml}\"",
     "lnt": "eslint --fix ./src",
-    "doc:api": "jsdoc2md ./src/nwbuild.js > ./docs/api.md && jsdoc2md ./src/bld/linuxCfg.js > ./docs/api-nux.md && jsdoc2md ./src/bld/winCfg.js > ./docs/api-win.md",
+    "doc:api": "jsdoc2md ./index.js > ./docs/api.md && jsdoc2md ./src/bld/linuxCfg.js > ./docs/api-nux.md && jsdoc2md ./src/bld/winCfg.js > ./docs/api-win.md",
     "doc:dev": "vitepress dev docs",
     "doc:bld": "vitepress build docs",
     "doc:pkg": "gh-pages -d docs/.vitepress/dist",
     "test:jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:unit": "node --test-reporter=spec --test test/unit/index.js",
     "test:e2e": "node --test-reporter=spec --test e2e/index.js",
-    "test:manual:get": "cd test/fixture && nwbuild --mode=get --version=0.74.0",
-    "test:manual:dev": "cd test/fixture && nwbuild --mode=run --version=0.74.0 ./app --no-glob",
-    "test:manual:bld": "cd test/fixture && nwbuild --mode=build --version=0.74.0 ./app --no-glob"
+    "test:manual:get": "cd test/fixture && nwbuild --mode=get --version=0.75.0",
+    "test:manual:dev": "cd test/fixture && nwbuild --mode=run --version=0.75.0 ./app --no-glob",
+    "test:manual:bld": "cd test/fixture && nwbuild --mode=build --version=0.75.0 ./app --no-glob"
   },
   "devDependencies": {
     "eslint": "^8.36.0",

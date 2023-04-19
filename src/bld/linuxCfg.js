@@ -4,7 +4,7 @@ import { rename, writeFile } from "node:fs/promises";
 import { log } from "../log.js";
 
 /**
- * @typedef  {object}   LinuxRc
+ * @typedef  {object}   LinuxRc               Linux configuration options
  * @property {string}   genericName           Generic name of the application
  * @property {boolean}  noDisplay             If true the application is not displayed
  * @property {string}   comment               Tooltip for the entry, for example "View sites on the Internet".
