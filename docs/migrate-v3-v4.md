@@ -5,19 +5,19 @@
 With npm:
 
 ```shell
-npm update nw-builder@^4.1.1-beta.2
+npm update nw-builder@^4.2.3
 ```
 
 With yarn:
 
 ```shell
-yarn upgrade nw-builder@^4.1.1-beta.2
+yarn upgrade nw-builder@^4.2.3
 ```
 
 With pnpm:
 
 ```shell
-pnpm update nw-builder@^4.1.1-beta.2
+pnpm update nw-builder@^4.2.3
 ```
 
 ## Update options
