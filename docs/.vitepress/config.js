@@ -8,7 +8,7 @@ export default defineConfig({
     nav: [
       { text: "NW.js Utils", link: "https://nwutils.io/" },
       { text: "npm", link: "https://www.npmjs.com/package/nw-builder" },
-      { text: "Changelog", link: "./changelog" },
+      { text: "Changelog", link: "https://github.com/nwutils/nw-builder/blob/main/changelog.md" },
       { text: "Contributing", link: "./contributing" },
       {
         text: "Code of Conduct",
