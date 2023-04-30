@@ -12,7 +12,7 @@ Install Node. Consult the [version manifest](https://nwjs.io/versions) before in
 
 Clone the fork.
 
-Creat a new branch. If you are addressing a specific issue (for example #54), then name the branch `dev-54`. If you encounter a problem which has not been documented (even after searching all closed issues), either open a new issue or create a branch such as `fix/glob-nested-dirs`.
+Create a new branch. If you are addressing a specific issue (for example #54), then name the branch `dev-54`. If you encounter a problem which has not been documented (even after searching all closed issues), either open a new issue or create a branch such as `fix/glob-nested-dirs`.
 
 ## General Tips
 
