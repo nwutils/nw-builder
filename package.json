@@ -62,7 +62,7 @@
     "jest-environment-jsdom": "^29.4.3",
     "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
-    "jsdom": "^21.1.1",
+    "jsdom": "^22.0.0",
     "prettier": "^2.8.6",
     "selenium-webdriver": "^4.8.0",
     "vitepress": "^1.0.0-alpha.65"
