@@ -54,28 +54,28 @@ nw.build();
 
 Update the import path
 
-```patch
+```diff
 -const NwBuilder = require("nw-builder");
 +const nwbuild = require("nw-builder");
 ```
 
 Replace the `NwBuilder` initialization with a function
 
-```patch
+```diff
 -const nw = new NwBuilder({
 +await nwbuild({
 ```
 
 The `files` property has been renamed to `srcDir`.S
 
-```patch
+```diff
 -  files: ["./nwapp/**/*", "./other/**/*.js"],
 +  srcDir: "./nwapp/**/* ./other/**/*.js",
 ```
 
 Add the `mode` option and remove the now redundant `nw.build` function call.
 
-```patch
+```diff
 +  mode: "build",
 
 -nw.build();
@@ -83,7 +83,7 @@ Add the `mode` option and remove the now redundant `nw.build` function call.
 
 The `platforms` option has been removed and replaced with `platform` and `arch`. Notice that one `nwbuild` function call now creates one build only. Refer to the [documentation](./index.md) for valid `platform` and `arch` values.
 
-```patch
+```diff
 -  platforms: ["win32", "win64", "osx32", "osx64", "linux32", "linux64"],
 +  platform: "linux",
 +  arch: "x64",
@@ -93,59 +93,59 @@ The `platforms` option has been removed and replaced with `platform` and `arch`.
 
 The `buildDir` option has been rename to `outDir`.
 
-```patch
+```diff
 -  buildDir: "./build",
 +  outDir: "./build",
 ```
 
 The `buildType` option has been removed.
 
-```patch
+```diff
 -  buildType: "versioned",
 ```
 
 The `forceDownload` option has been changed to `cache`.
 
-```patch
+```diff
 -  forceDownload: true,
 +  cache: false,
 ```
 
 The `appName` option has been changed to `app.name`.
 
-```patch
+```diff
 -  appName: "nwdemo",
 +  app: { name: "nwdemo" },
 ```
 
 The `appVersion` option has been removed. The `version` is automatically taken from `srcDir/package.json`.
 
-```patch
+```diff
 -  appVersion: "0.1.0",
 ```
 
 The `macCredit` option has been removed.
 
-```patch
+```diff
 -  macCredits: "./nwapp/credits.html",
 ```
 
 The `macIcns` option has been replaced with `icon`.
 
-```patch
+```diff
 -  macIcns: "./nwapp/mac.icns",
 +  icon: "./nwapp/mac.icns",
 ```
 
 The `macPlist` option has been removed.
 
-```patch
+```diff
 -  macPlist: { ... },
 ```
 
 The `winVersionString` option has been replaced with `app`.
 
-```patch
+```diff
 -  winVersionString: {
 -    'CompanyName': 'Some Company',
 -    'FileDescription': 'Process Name',
@@ -162,20 +162,20 @@ The `winVersionString` option has been replaced with `app`.
 
 The `winIco` option has been replaced by `app.icon`.
 
-```patch
+```diff
 -  winIco: "./nwapp/win.ico",
 +  app: { icon: "./nwapp/win.ico" },
 ```
 
 The `macZip` option has been removed.
 
-```patch
+```diff
 -  macZip: false,
 ```
 
 The `mergeZip` option has been removed.
 
-```patch
+```diff
 -  mergeZip: false,
 ```
 

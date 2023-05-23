@@ -43,7 +43,7 @@
   "scripts": {
     "fmt": "prettier --write \"./**/*.{css,html,js,json,md,yml}\"",
     "lnt": "eslint --fix ./src",
-    "doc:js": "jsdoc ./index.js -d jsdocs",
+    "doc:api": "jsdoc2md ./index.js > ./docs/api.md && jsdoc2md ./src/bld/linuxCfg.js > ./docs/api-nux.md && jsdoc2md ./src/bld/winCfg.js > ./docs/api-win.md",
     "doc:dev": "vitepress dev docs",
     "doc:bld": "vitepress build docs",
     "doc:pkg": "gh-pages -d docs/.vitepress/dist",
@@ -61,10 +61,11 @@
     "jest": "^29.4.3",
     "jest-environment-jsdom": "^29.4.3",
     "jsdoc": "^4.0.2",
+    "jsdoc-to-markdown": "^8.0.0",
     "jsdom": "^22.0.0",
     "prettier": "^2.8.6",
     "selenium-webdriver": "^4.8.0",
-    "vitepress": "^1.0.0-alpha.61"
+    "vitepress": "^1.0.0-alpha.65"
   },
   "dependencies": {
     "archiver": "^5.3.1",

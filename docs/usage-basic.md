@@ -42,7 +42,7 @@ npx nwbuild
 
 ```json
 {
-    "nwbuild": {}
+  "nwbuild": {}
 }
 ```
 

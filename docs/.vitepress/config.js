@@ -8,7 +8,10 @@ export default defineConfig({
     nav: [
       { text: "NW.js Utils", link: "https://nwutils.io/" },
       { text: "npm", link: "https://www.npmjs.com/package/nw-builder" },
-      { text: "Changelog", link: "./changelog" },
+      {
+        text: "Changelog",
+        link: "https://github.com/nwutils/nw-builder/blob/main/changelog.md",
+      },
       { text: "Contributing", link: "./contributing" },
       {
         text: "Code of Conduct",
@@ -27,6 +30,15 @@ export default defineConfig({
           { text: "Get mode", link: "/mode-get" },
           { text: "Run mode", link: "/mode-run" },
           { text: "Build mode", link: "/mode-build" },
+          { text: "API Reference", link: "/api" },
+          {
+            text: "Linux Specific Options",
+            link: "/api-nux.html#linuxrc-object",
+          },
+          {
+            text: "Windows Specific Options",
+            link: "/api-win.md#winrc-object",
+          },
         ],
       },
       {
