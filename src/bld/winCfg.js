@@ -58,13 +58,13 @@ const setWinConfig = async (app, outDir) => {
     await rename(resolve(outDir, "nw.exe"), outDirAppExe);
     await rcedit(outDirAppExe, {
       "file-version": app.version,
-      "icon": app.icon,
+      icon: app.icon,
       "product-version": app.version,
       "version-string": versionString,
     });
   } catch (error) {
     log.warn(
-      "Renaming EXE failed or unable to modify EXE. If it's the latter, ensure WINE is installed or build in Windows",
+      "Renaming EXE failed or unable to modify EXE. If it's the latter, ensure WINE is installed or build in Windows"
     );
     log.error(error);
   }

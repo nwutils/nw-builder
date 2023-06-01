@@ -49,7 +49,7 @@ export function mode() {
         `nwjs${nwOptions.flavor === "sdk" ? "-sdk" : ""}-v${
           nwOptions.version
         }-${nwOptions.platform}-${nwOptions.arch}`,
-        `chromedriver${nwOptions.platform === "win" ? ".exe" : ""}`,
+        `chromedriver${nwOptions.platform === "win" ? ".exe" : ""}`
       );
 
       const service = new ServiceBuilder(chromedriverPath).build();

@@ -9,25 +9,25 @@ import { getPlatform } from "../../src/util/platform.js";
 
 describe("validate - get mode", () => {
   const mockReleaseInfo = {
-    "version": "v0.75.0",
-    "date": "2023/04/05",
-    "files": ["win-x64", "win-ia32", "linux-x64", "linux-ia32", "osx-x64"],
-    "flavors": ["normal", "sdk"],
-    "components": {
-      "node": "19.7.0",
-      "chromium": "112.0.5615.49"
-    }
+    version: "v0.75.0",
+    date: "2023/04/05",
+    files: ["win-x64", "win-ia32", "linux-x64", "linux-ia32", "osx-x64"],
+    flavors: ["normal", "sdk"],
+    components: {
+      node: "19.7.0",
+      chromium: "112.0.5615.49",
+    },
   };
 
   const mockArmReleaseInfo = {
-    "version": "v0.75.0",
-    "date": "2023/04/15",
-    "files": ["osx-arm64"],
-    "flavors": ["normal", "sdk"],
-    "components": {
-      "node": "19.7.0",
-      "chromium": "112.0.5615.49"
-    }
+    version: "v0.75.0",
+    date: "2023/04/15",
+    files: ["osx-arm64"],
+    flavors: ["normal", "sdk"],
+    components: {
+      node: "19.7.0",
+      chromium: "112.0.5615.49",
+    },
   };
 
   const mockNodeVersion = "v19.7.0";
@@ -48,7 +48,7 @@ describe("validate - get mode", () => {
         ffmpeg: false,
       },
       mockReleaseInfo,
-      mockNodeVersion,
+      mockNodeVersion
     );
 
     equal(output, undefined);
@@ -71,7 +71,7 @@ describe("validate - get mode", () => {
         ffmpeg: false,
       },
       mockArmReleaseInfo,
-      mockArmNodeVersion,
+      mockArmNodeVersion
     );
 
     equal(output, undefined);
@@ -92,7 +92,7 @@ describe("validate - get mode", () => {
         ffmpeg: false,
       },
       mockReleaseInfo,
-      mockNodeVersion,
+      mockNodeVersion
     );
 
     equal(output, undefined);
@@ -113,7 +113,7 @@ describe("validate - get mode", () => {
         ffmpeg: false,
       },
       mockReleaseInfo,
-      mockNodeVersion,
+      mockNodeVersion
     );
 
     equal(output, undefined);
@@ -134,7 +134,7 @@ describe("validate - get mode", () => {
         ffmpeg: true,
       },
       mockReleaseInfo,
-      mockNodeVersion,
+      mockNodeVersion
     );
     equal(output, undefined);
   });

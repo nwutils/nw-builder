@@ -23,8 +23,8 @@ export const replaceFfmpeg = async (platform, nwDir, ffmpegFile) => {
         "nwjs Framework.framework",
         "Versions",
         "Current",
-        ffmpegFile,
-      ),
+        ffmpegFile
+      )
     );
   }
 };

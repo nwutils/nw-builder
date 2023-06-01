@@ -23,7 +23,7 @@ const download = (
   platform,
   architecture,
   downloadUrl,
-  cacheDir,
+  cacheDir
 ) => {
   let url;
   let out;

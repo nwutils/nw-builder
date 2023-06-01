@@ -20,7 +20,7 @@ export const getReleaseInfo = async (
   platform,
   arch,
   cacheDir,
-  manifestUrl,
+  manifestUrl
 ) => {
   let releaseData = undefined;
   let manifestPath = undefined;
@@ -47,7 +47,7 @@ export const getReleaseInfo = async (
     }
 
     releaseData = manifest.versions.find(
-      (release) => release.version === `v${version}`,
+      (release) => release.version === `v${version}`
     );
   }
   return releaseData;

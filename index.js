@@ -87,7 +87,7 @@ const nwbuild = async (options) => {
       options.platform,
       options.arch,
       options.cacheDir,
-      options.manifestUrl,
+      options.manifestUrl
     );
 
     await validate(options, releaseInfo);
@@ -100,7 +100,7 @@ const nwbuild = async (options) => {
       options.cacheDir,
       `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${
         options.platform
-      }-${options.arch}`,
+      }-${options.arch}`
     );
 
     nwCached = await isCached(nwDir);
@@ -118,7 +118,7 @@ const nwbuild = async (options) => {
         options.platform,
         options.arch,
         options.downloadUrl,
-        options.cacheDir,
+        options.cacheDir
       );
       await decompress(options.platform, options.cacheDir, options.downloadUrl);
       await remove(options.platform, options.cacheDir, options.downloadUrl);
@@ -128,7 +128,7 @@ const nwbuild = async (options) => {
 
     if (options.ffmpeg === true) {
       log.warn(
-        "Using MP3 and H.264 codecs requires you to pay attention to the patent royalties and the license of the source code. Consult a lawyer if you do not understand the licensing constraints and using patented media formats in your app. See https://chromium.googlesource.com/chromium/third_party/ffmpeg.git/+/master/CREDITS.chromium for more information.",
+        "Using MP3 and H.264 codecs requires you to pay attention to the patent royalties and the license of the source code. Consult a lawyer if you do not understand the licensing constraints and using patented media formats in your app. See https://chromium.googlesource.com/chromium/third_party/ffmpeg.git/+/master/CREDITS.chromium for more information."
       );
       if (options.platform === "win") {
         ffmpegFile = "libffmpeg.dll";
@@ -154,17 +154,17 @@ const nwbuild = async (options) => {
           options.platform,
           options.arch,
           "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download",
-          options.cacheDir,
+          options.cacheDir
         );
         await decompress(
           options.platform,
           options.cacheDir,
-          "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download",
+          "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download"
         );
         await remove(
           options.platform,
           options.cacheDir,
-          "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download",
+          "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download"
         );
 
         await replaceFfmpeg(options.platform, nwDir, ffmpegFile);
@@ -185,7 +185,7 @@ const nwbuild = async (options) => {
         nwDir,
         options.platform,
         options.argv,
-        options.glob,
+        options.glob
       );
     }
     if (options.mode === "build") {
@@ -197,7 +197,7 @@ const nwbuild = async (options) => {
         options.zip,
         releaseInfo,
         options.app,
-        manifest,
+        manifest
       );
     }
   } catch (error) {
