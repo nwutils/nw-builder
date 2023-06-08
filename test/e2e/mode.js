@@ -42,7 +42,7 @@ export function mode() {
       await nwbuild({ ...nwOptions });
 
       const options = new Options();
-      const args = [`--nwapp=${resolve("e2e", "app")}`, "--headless=new"];
+      const args = [`--nwapp=${resolve("test", "fixture", "app")}`, "--headless=new"];
       options.addArguments(args);
 
       const chromedriverPath = resolve(
