@@ -48,7 +48,7 @@
     "doc:bld": "vitepress build docs",
     "doc:pkg": "gh-pages -d docs/.vitepress/dist",
     "test:unit": "node --test-reporter=spec --test test/unit/index.js",
-    "test:e2e": "node --test-reporter=spec --test e2e/index.js",
+    "test:e2e": "node --test-reporter=spec --test test/e2e/index.js",
     "test:manual:get": "cd test/fixture && nwbuild --mode=get --version=0.75.0",
     "test:manual:dev": "cd test/fixture && nwbuild --mode=run --version=0.75.0 ./app --no-glob",
     "test:manual:bld": "cd test/fixture && nwbuild --mode=build --version=0.75.0 ./app --no-glob"
