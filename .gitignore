@@ -8,6 +8,6 @@ coverage
 # project files
 cache
 dist
-docs/api*.md
+doc/api*.md
 out
 tmp

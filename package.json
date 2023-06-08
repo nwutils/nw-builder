@@ -41,10 +41,9 @@
   "scripts": {
     "fmt": "prettier --write \"./**/*.{css,html,js,json,md,yml}\"",
     "lnt": "eslint --config=cfg/eslint.config.cjs --fix src",
-    "doc:api": "jsdoc2md ./index.js > ./docs/api.md && jsdoc2md ./src/bld/linuxCfg.js > ./docs/api-nux.md && jsdoc2md ./src/bld/winCfg.js > ./docs/api-win.md",
-    "doc:dev": "vitepress dev docs",
-    "doc:bld": "vitepress build docs",
-    "doc:pkg": "gh-pages -d docs/.vitepress/dist",
+    "doc:api": "jsdoc2md ./src/index.js > ./doc/api.md && jsdoc2md ./src/bld/linuxCfg.js > ./doc/api-nux.md && jsdoc2md ./src/bld/winCfg.js > ./doc/api-win.md",
+    "doc:dev": "vitepress dev doc",
+    "doc:bld": "vitepress build doc",
     "test:unit": "node --test-reporter=spec --test test/unit/index.js",
     "test:e2e": "node --test-reporter=spec --test test/e2e/index.js",
     "test:manual:get": "cd test/fixture && nwbuild --mode=get --version=0.75.0",
