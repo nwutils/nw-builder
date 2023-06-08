@@ -1,0 +1,99 @@
+{
+  "name": "nw-builder",
+  "version": "4.2.3",
+  "description": "Build NW.js desktop applications for MacOS, Windows and Linux.",
+  "keywords": [
+    "NW.js",
+    "node-webkit",
+    "Desktop",
+    "Application"
+  ],
+  "author": {
+    "name": "Steffen Müller",
+    "url": "https://www.mllrsohn.com/"
+  },
+  "maintainers": [
+    {
+      "name": "Ayushman Chhabra",
+      "url": "https://ayushmanchhabra.com/"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "The nw-builder Authors",
+      "url": "https://github.com/nwutil/nw-builder/graphs/contributors"
+    }
+  ],
+  "license": "MIT",
+  "exports": {
+    "default": "./index.js",
+    "types": "./index.d.ts"
+  },
+  "type": "module",
+  "files": [
+    "./index.js",
+    "./src",
+    "./LICENSE"
+  ],
+  "homepage": "https://github.com/nwutils/nw-builder",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nwutils/nw-builder.git"
+  },
+  "scripts": {
+    "fmt": "prettier --write \"./**/*.{css,html,js,json,md,yml}\"",
+    "lnt": "eslint --fix ./src",
+    "doc:api": "jsdoc2md ./index.js > ./docs/api.md && jsdoc2md ./src/bld/linuxCfg.js > ./docs/api-nux.md && jsdoc2md ./src/bld/winCfg.js > ./docs/api-win.md",
+    "doc:dev": "vitepress dev docs",
+    "doc:bld": "vitepress build docs",
+    "doc:pkg": "gh-pages -d docs/.vitepress/dist",
+    "test:unit": "node --test-reporter=spec --test test/unit/index.js",
+    "test:e2e": "node --test-reporter=spec --test test/e2e/index.js",
+    "test:manual:get": "cd test/fixture && nwbuild --mode=get --version=0.75.0",
+    "test:manual:dev": "cd test/fixture && nwbuild --mode=run --version=0.75.0 ./app --no-glob",
+    "test:manual:bld": "cd test/fixture && nwbuild --mode=build --version=0.75.0 ./app --no-glob"
+  },
+  "devDependencies": {
+    "eslint": "^8.42.0",
+    "eslint-config-tjw-jsdoc": "^1.0.3",
+    "gh-pages": "^5.0.0",
+    "jsdoc": "^4.0.2",
+    "jsdoc-to-markdown": "^8.0.0",
+    "prettier": "^2.8.6",
+    "selenium-webdriver": "^4.10.0",
+    "vitepress": "^1.0.0-beta.1"
+  },
+  "dependencies": {
+    "archiver": "^5.3.1",
+    "cli-progress": "^3.12.0",
+    "decompress": "^4.2.1",
+    "glob": "^10.2.7",
+    "plist": "^3.0.6",
+    "rcedit": "^3.0.1",
+    "winston": "^3.8.2",
+    "yargs": "^17.7.1"
+  },
+  "bin": {
+    "nwbuild": "./src/cli.js"
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": 2023,
+      "sourceType": "module"
+    },
+    "env": {
+      "es6": true,
+      "node": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "tjw-jsdoc"
+    ],
+    "rules": {
+      "jsdoc/require-file-overview": "off",
+      "jsdoc/require-returns-description": "off",
+      "jsdoc/match-description": "off",
+      "jsdoc/valid-types": "off"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+name: ci
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [macos-12, ubuntu-22.04, windows-2022]
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3.3.0
+      - uses: actions/setup-node@v3.6.0
+        with:
+          node-version: "20.2.0"
+          cache: "npm"
+      - run: npm ci
+      - run: npm run fmt
+      - run: npm run lnt
+      - run: npm link
+      - run: npm run test:unit
+      - run: npm run test:e2e

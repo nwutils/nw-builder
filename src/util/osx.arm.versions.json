@@ -1,0 +1,27 @@
+{
+  "latest": "v0.75.0",
+  "stable": "v0.75.0",
+  "lts": "v0.75.0",
+  "versions": [
+    {
+      "version": "v0.75.0",
+      "date": "2023/04/15",
+      "files": ["osx-arm64"],
+      "flavors": ["normal", "sdk"],
+      "components": {
+        "node": "19.7.0",
+        "chromium": "112.0.5615.49"
+      }
+    },
+    {
+      "version": "v0.70.0",
+      "date": "2022/11/30",
+      "files": ["osx-arm64"],
+      "flavors": ["normal", "sdk"],
+      "components": {
+        "node": "19.0.0",
+        "chromium": "107.0.5304.88"
+      }
+    }
+  ]
+}
