@@ -12,10 +12,13 @@ jobs:
     - uses: actions/setup-node@v3.6.0
       with:
         node-version: "20.2.0"
-    - run: npm ci
-    - run: npm run doc:api
-    - run: npm run doc:bld
-    - name:
+    - name: Install Node modules
+      run: npm ci
+    - name: Convert JSDoc to Markdown
+      run: npm run doc:api
+    - name: Build documentation
+      run: npm run doc:bld
+    - name: Publish documentation to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
