@@ -1,19 +1,8 @@
-name: ci
+name: e2e
+
 on:
   pull_request:
-    branches:
-      - main
-  workflow_dispatch:
-    branches:
-      - main
-
-concurrency:
-  group: ${{ github.ref }}
-  cancel-in-progress: true
-
-defaults:
-  run:
-    shell: bash
+    branches: [main]
 
 jobs:
   test:

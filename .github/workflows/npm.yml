@@ -1,17 +1,17 @@
 name: cd
+
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v3.3.0
+      - uses: actions/setup-node@v3.6.0
         with:
-          node-version: "18"
+          node-version: "20.2.0"
 
       - run: npm ci
       - uses: JS-DevTools/npm-publish@v2
