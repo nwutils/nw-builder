@@ -2,7 +2,7 @@ name: doc
 
 on:
   push:
-    branches: ["*"]
+    branches: [main]
 
 jobs:
   doc:
