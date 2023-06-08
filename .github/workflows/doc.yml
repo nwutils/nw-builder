@@ -15,8 +15,8 @@ jobs:
     - run: npm ci
     - run: npm run doc:api
     - run: npm run doc:bld
-    - run: |
-        git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/nwutils/nw-builder.git
-        npx gh-pages -d doc/.vitepress/dist -e docs -u "github-actions-bot <support+actions@github.com>"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name:
+      uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
