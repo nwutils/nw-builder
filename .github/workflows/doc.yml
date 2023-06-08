@@ -3,15 +3,10 @@ name: doc
 on:
   push:
     branches: ["*"]
-  pull_request:
-    branches: ["*"]
 
 jobs:
   doc:
     runs-on: ubuntu-22.04
-    strategy:
-      matrix:
-        pwd: [doc, src]
     steps:
     - uses: actions/checkout@v3.3.0
     - uses: actions/setup-node@v3.6.0
@@ -19,15 +14,11 @@ jobs:
         node-version: "20.2.0"
     - name: Generate Markdown from JSDoc definitions
       run: npm run doc:api
-      working-directory: ${{ matrix.pwd }}
     - name: Build Vitepress documentation
       run: npm run doc:bld
-      working-directory: ${{ matrix.pwd }}
     - name: Publish Vitepress documentation to GitHub Pages
       run: |
         git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
         npx gh-pages -d docs/.vitepress/dist -u "github-actions-bot <support+actions@github.com>"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      working-directory: ${{ matrix.pwd }}
-
