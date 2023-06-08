@@ -47,9 +47,8 @@
     "doc:dev": "vitepress dev docs",
     "doc:bld": "vitepress build docs",
     "doc:pkg": "gh-pages -d docs/.vitepress/dist",
-    "test:jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:unit": "node --test-reporter=spec --test test/unit/index.js",
-    "test:e2e": "node --test-reporter=spec --test e2e/index.js",
+    "test:e2e": "node --test-reporter=spec --test test/e2e/index.js",
     "test:manual:get": "cd test/fixture && nwbuild --mode=get --version=0.75.0",
     "test:manual:dev": "cd test/fixture && nwbuild --mode=run --version=0.75.0 ./app --no-glob",
     "test:manual:bld": "cd test/fixture && nwbuild --mode=build --version=0.75.0 ./app --no-glob"
@@ -58,11 +57,8 @@
     "eslint": "^8.42.0",
     "eslint-config-tjw-jsdoc": "^1.0.3",
     "gh-pages": "^5.0.0",
-    "jest": "^29.4.3",
-    "jest-environment-jsdom": "^29.4.3",
     "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
-    "jsdom": "^22.0.0",
     "prettier": "^2.8.6",
     "selenium-webdriver": "^4.10.0",
     "vitepress": "^1.0.0-beta.1"
@@ -87,8 +83,7 @@
     },
     "env": {
       "es6": true,
-      "node": true,
-      "jest": true
+      "node": true
     },
     "extends": [
       "eslint:recommended",
@@ -100,8 +95,5 @@
       "jsdoc/match-description": "off",
       "jsdoc/valid-types": "off"
     }
-  },
-  "jest": {
-    "testEnvironment": "jsdom"
   }
 }

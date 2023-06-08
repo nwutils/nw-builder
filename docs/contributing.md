@@ -16,7 +16,7 @@ Create a new branch. If you are addressing a specific issue (for example #54), t
 
 ## General Tips
 
-Add inline code comments if the change you make may not be obvious to others. Add tests that cover the behaviour change. We use Node's test runner and Jest (slowly migrating away from it) for unit tests and Chromedriver for e2e tests.
+Add inline code comments if the change you make may not be obvious to others. Add tests that cover the behaviour change. We use Node's test runner for unit tests and Chromedriver for e2e tests.
 
 Our test coverage is not great. Do not assume the package works even if all tests pass. Dependency updates are handled by `dependabot` unless your code change requires a version bump. If certain behaviour can be implemented using Node's standard library, that is always preferred over a third party library.
 

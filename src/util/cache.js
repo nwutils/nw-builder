@@ -1,4 +1,4 @@
-import { access, constants } from "node:fs/promises";
+import { readdir } from "node:fs/promises";
 
 /**
  * Check if NW binaries are cached
@@ -9,7 +9,7 @@ import { access, constants } from "node:fs/promises";
 export const isCached = async (nwDir) => {
   let exists = true;
   try {
-    await access(nwDir, constants.F_OK);
+    await readdir(nwDir);
   } catch (e) {
     exists = false;
   }

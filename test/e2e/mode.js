@@ -20,14 +20,15 @@ export function mode() {
     let driver = undefined;
 
     let nwOptions = {
-      srcDir: "./e2e/app/*",
+      srcDir: "test/fixture/app",
       mode: "build",
       version: "0.75.0",
       flavor: "sdk",
       platform: getPlatform(platform),
       arch: getArch(arch),
-      outDir: "./e2e/out",
-      cacheDir: "./e2e/tmp",
+      outDir: "test/fixture/out",
+      cacheDir: "test/fixture/tmp",
+      glob: false
     };
 
     it("should run", async () => {
@@ -41,7 +42,7 @@ export function mode() {
       await nwbuild({ ...nwOptions });
 
       const options = new Options();
-      const args = [`--nwapp=${resolve("e2e", "app")}`, "--headless=new"];
+      const args = [`--nwapp=${resolve("test", "fixture", "app")}`, "--headless=new"];
       options.addArguments(args);
 
       const chromedriverPath = resolve(
