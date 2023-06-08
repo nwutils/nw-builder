@@ -20,20 +20,18 @@
   ],
   "contributors": [
     {
-      "name": "The nw-builder Authors",
+      "name": "nw-builder Contributors",
       "url": "https://github.com/nwutil/nw-builder/graphs/contributors"
     }
   ],
   "license": "MIT",
   "exports": {
-    "default": "./index.js",
-    "types": "./index.d.ts"
+    "default": "./src/index.js",
+    "types": "./src/index.d.ts"
   },
   "type": "module",
   "files": [
-    "./index.js",
-    "./src",
-    "./LICENSE"
+    "./src"
   ],
   "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
@@ -42,7 +40,7 @@
   },
   "scripts": {
     "fmt": "prettier --write \"./**/*.{css,html,js,json,md,yml}\"",
-    "lnt": "eslint --fix ./src",
+    "lnt": "eslint --config=cfg/eslint.config.cjs --fix src",
     "doc:api": "jsdoc2md ./index.js > ./docs/api.md && jsdoc2md ./src/bld/linuxCfg.js > ./docs/api-nux.md && jsdoc2md ./src/bld/winCfg.js > ./docs/api-win.md",
     "doc:dev": "vitepress dev docs",
     "doc:bld": "vitepress build docs",
@@ -75,25 +73,5 @@
   },
   "bin": {
     "nwbuild": "./src/cli.js"
-  },
-  "eslintConfig": {
-    "parserOptions": {
-      "ecmaVersion": 2023,
-      "sourceType": "module"
-    },
-    "env": {
-      "es6": true,
-      "node": true
-    },
-    "extends": [
-      "eslint:recommended",
-      "tjw-jsdoc"
-    ],
-    "rules": {
-      "jsdoc/require-file-overview": "off",
-      "jsdoc/require-returns-description": "off",
-      "jsdoc/match-description": "off",
-      "jsdoc/valid-types": "off"
-    }
   }
 }

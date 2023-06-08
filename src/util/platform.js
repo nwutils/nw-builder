@@ -1,7 +1,7 @@
 /**
  * Get user's computer platform
  *
- * @param  {string}                            platform  Node's process.platform
+ * @param  {string}                          platform  Node's process.platform
  * @return {"osx"| "win" | "linux" | string}           Platform types
  */
 export const getPlatform = (platform) => {

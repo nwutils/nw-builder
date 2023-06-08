@@ -28,7 +28,7 @@ export function mode() {
       arch: getArch(arch),
       outDir: "test/fixture/out",
       cacheDir: "test/fixture/tmp",
-      glob: false
+      glob: false,
     };
 
     it("should run", async () => {
@@ -42,7 +42,10 @@ export function mode() {
       await nwbuild({ ...nwOptions });
 
       const options = new Options();
-      const args = [`--nwapp=${resolve("test", "fixture", "app")}`, "--headless=new"];
+      const args = [
+        `--nwapp=${resolve("test", "fixture", "app")}`,
+        "--headless=new",
+      ];
       options.addArguments(args);
 
       const chromedriverPath = resolve(
