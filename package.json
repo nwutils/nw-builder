@@ -55,7 +55,7 @@
     "test:manual:bld": "cd test/fixture && nwbuild --mode=build --version=0.75.0 ./app --no-glob"
   },
   "devDependencies": {
-    "eslint": "^8.36.0",
+    "eslint": "^8.42.0",
     "eslint-config-tjw-jsdoc": "^1.0.3",
     "gh-pages": "^5.0.0",
     "jest": "^29.4.3",
@@ -64,14 +64,14 @@
     "jsdoc-to-markdown": "^8.0.0",
     "jsdom": "^22.0.0",
     "prettier": "^2.8.6",
-    "selenium-webdriver": "^4.8.0",
-    "vitepress": "^1.0.0-alpha.65"
+    "selenium-webdriver": "^4.10.0",
+    "vitepress": "^1.0.0-beta.1"
   },
   "dependencies": {
     "archiver": "^5.3.1",
     "cli-progress": "^3.12.0",
     "decompress": "^4.2.1",
-    "glob": "^10.0.0",
+    "glob": "^10.2.7",
     "plist": "^3.0.6",
     "rcedit": "^3.0.1",
     "winston": "^3.8.2",
