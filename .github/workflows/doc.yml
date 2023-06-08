@@ -16,7 +16,7 @@ jobs:
     - run: npm run doc:api
     - run: npm run doc:bld
     - run: |
-        git remote set-url origin https://git:${secrets.GITHUB_TOKEN}@github.com/${env.GITHUB_REPOSITORY}.git
+        git remote set-url origin https://git:${{ secrets.GITHUB_TOKEN }}@github.com/${{ env.GITHUB_REPOSITORY }}.git
         npx gh-pages -d doc/.vitepress/dist -e docs -u "github-actions-bot <support+actions@github.com>"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
