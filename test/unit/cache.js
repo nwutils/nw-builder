@@ -9,6 +9,6 @@ describe("cache tests", () => {
   });
 
   it("directory exists", async () => {
-    equal(await isCached("./e2e/fixture/cacheDir"), true);
+    equal(await isCached("./test/fixture/cacheDir"), true);
   });
 });
