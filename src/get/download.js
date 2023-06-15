@@ -38,7 +38,7 @@ const download = (
       }-v${version}-${platform}-${architecture}.${
         platform === "linux" ? "tar.gz" : "zip"
       }`;
-      out = resolve(cacheDir, `nw.${platform === "linux" ? "tar.gz" : "zip"}`);
+      out = resolve(cacheDir, `nw.${platform === "linux" ? "tgz" : "zip"}`);
     } else if (
       downloadUrl ===
       "https://github.com/corwin-of-amber/nw.js/releases/download"

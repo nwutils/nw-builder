@@ -15,7 +15,7 @@ const remove = async (platform, cacheDir, downloadUrl) => {
   try {
     if (downloadUrl === "https://dl.nwjs.io/") {
       if (platform === "linux") {
-        await rm(resolve(cacheDir, "nw.tar.gz"));
+        await rm(resolve(cacheDir, "nw.tgz"));
       } else {
         await rm(resolve(cacheDir, "nw.zip"));
       }
