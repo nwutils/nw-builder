@@ -3,7 +3,7 @@
 import yargs from "yargs/yargs";
 import { hideBin } from "yargs/helpers";
 
-import nwbuild from "../index.js";
+import nwbuild from "./index.js";
 
 const cli = yargs(hideBin(process.argv))
   .version(false)
