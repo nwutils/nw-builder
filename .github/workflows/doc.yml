@@ -8,19 +8,19 @@ jobs:
   doc:
     runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v3.3.0
-    - uses: actions/setup-node@v3.6.0
-      with:
-        node-version: "20.2.0"
-    - name: Install Node modules
-      run: npm ci
-    - name: Convert JSDoc to Markdown
-      run: npm run doc:api
-    - name: Build documentation
-      run: npm run doc:bld
-    - name: Publish documentation to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_branch: gh-pages
-        publish_dir: ./doc/.vitepress/dist
+      - uses: actions/checkout@v3.3.0
+      - uses: actions/setup-node@v3.6.0
+        with:
+          node-version: "20.2.0"
+      - name: Install Node modules
+        run: npm ci
+      - name: Convert JSDoc to Markdown
+        run: npm run doc:api
+      - name: Build documentation
+        run: npm run doc:bld
+      - name: Publish documentation to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./doc/.vitepress/dist

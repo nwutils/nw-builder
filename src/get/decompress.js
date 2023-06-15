@@ -1,6 +1,6 @@
 import { resolve } from "node:path";
 
-import Decompress from "decompress";
+import compressing from "compressing";
 
 import { log } from "../log.js";
 
@@ -17,23 +17,26 @@ const decompress = async (platform, cacheDir, downloadUrl) => {
     if (
       downloadUrl === "https://dl.nwjs.io" ||
       downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
-      downloadUrl === "https://npmmirror.com/mirrors/nwjs"
+      downloadUrl === "https://npmmirror.com/mirrors/nwjs" ||
+      downloadUrl ===
+        "https://github.com/corwin-of-amber/nw.js/releases/download"
     ) {
       if (platform === "linux") {
-        await Decompress(resolve(cacheDir, "nw.tar.gz"), cacheDir);
+        await compressing.tar.uncompress(
+          resolve(cacheDir, "nw.tar.gz"),
+          cacheDir
+        );
       } else {
-        await Decompress(resolve(cacheDir, "nw.zip"), cacheDir);
+        compressing.zip.uncompress(resolve(cacheDir, "nw.zip"), cacheDir);
       }
-    } else if (
-      downloadUrl ===
-      "https://github.com/corwin-of-amber/nw.js/releases/download"
-    ) {
-      await Decompress(resolve(cacheDir, "nw.zip"), cacheDir);
     } else if (
       downloadUrl ===
       "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download"
     ) {
-      await Decompress(resolve(cacheDir, "ffmpeg.zip"), cacheDir);
+      await compressing.zip.uncompress(
+        resolve(cacheDir, "ffmpeg.zip"),
+        cacheDir
+      );
     }
   } catch (error) {
     log.error(error);
