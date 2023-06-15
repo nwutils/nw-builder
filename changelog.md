@@ -7,9 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-### [4.2.3-beta.0] - 2023-06-15
+## [4.2.3-beta.2]
 
-## Changed
+### Changed
+
+- Migrate from `decompress` to `compressing`
+
+## [4.2.3-beta.1] - 2023-06-15
+
+### Changed
 
 - Do not resolve `options.srcDir` when parsing `options` object.
 
