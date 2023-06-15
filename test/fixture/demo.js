@@ -1,7 +1,7 @@
 import nwbuild from "nw-builder";
 
 await nwbuild({
-    srcDir: "app/**/*",
+    srcDir: "app/**/* cacheDir/*",
     mode: "build",
     outDir: "out"
 });
