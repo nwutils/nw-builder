@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### [4.2.3-beta.0] - 2023-06-15
+
+## Changed
+
+- Do not resolve `options.srcDir` when parsing `options` object.
+
 ## [4.2.3] - 2023-04-19
 
 ### Changed
