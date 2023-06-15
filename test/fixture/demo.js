@@ -1,6 +1,6 @@
 import nwbuild from "nw-builder";
 
 await nwbuild({
-  mode: "build",
+  mode: "get",
   outDir: "out",
 });
