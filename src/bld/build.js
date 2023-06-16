@@ -45,7 +45,7 @@ export const build = async (
         outDir,
         platform !== "osx" ? "package.nw" : "nwjs.app/Contents/Resources/app.nw"
       ),
-      { recursive: true }
+      { recursive: true, verbatimSymlinks: true }
     );
   } else {
     for (let file of files) {
@@ -59,7 +59,7 @@ export const build = async (
             : "nwjs.app/Contents/Resources/app.nw",
           file
         ),
-        { recursive: true }
+        { recursive: true, verbatimSymlinks: true }
       );
     }
 
