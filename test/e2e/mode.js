@@ -20,7 +20,7 @@ export function mode() {
     let driver = undefined;
 
     let nwOptions = {
-      srcDir: "test/fixture/app",
+      srcDir: "test/fixture/app/**/*",
       mode: "build",
       version: "0.75.0",
       flavor: "sdk",
@@ -28,7 +28,6 @@ export function mode() {
       arch: getArch(arch),
       outDir: "test/fixture/out",
       cacheDir: "test/fixture/tmp",
-      glob: false,
     };
 
     it("should run", async () => {
