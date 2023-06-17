@@ -1,14 +1,10 @@
 import { equal } from "node:assert";
 import { resolve } from "node:path";
-import { arch, platform } from "node:process";
-import { before, describe, it } from "node:test";
+import { describe, it } from "node:test";
 
 import nwbuild from "nw-builder";
 import { By } from "selenium-webdriver";
 import chrome from "selenium-webdriver/chrome.js";
-
-import { getArch } from "../../src/util/arch.js";
-import { getPlatform } from "../../src/util/platform.js";
 
 const { Driver, ServiceBuilder, Options } = chrome;
 
@@ -28,11 +24,9 @@ export function mode() {
       cacheDir: "test/fixture/tmp",
     };
 
-    before(async () => {
-      await nwbuild({ ...nwOptions });
-    });
-
     it("should run", async () => {
+
+      await nwbuild({ ...nwOptions });
 
       const options = new Options();
       const args = [
