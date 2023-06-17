@@ -55,7 +55,7 @@ export function mode() {
         `chromedriver${nwOptions.platform === "win" ? ".exe" : ""}`
       );
 
-      const service = new ServiceBuilder(chromedriverPath).build();
+      const service = await new ServiceBuilder(chromedriverPath).build();
 
       driver = Driver.createSession(options, service);
       const text = await driver.findElement(By.id("test")).getText();
