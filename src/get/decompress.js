@@ -22,9 +22,9 @@ const decompress = async (platform, cacheDir, downloadUrl) => {
         "https://github.com/corwin-of-amber/nw.js/releases/download"
     ) {
       if (platform === "linux") {
-        compressing.tgz.uncompress(resolve(cacheDir, "nw.tgz"), cacheDir);
+        await compressing.tgz.uncompress(resolve(cacheDir, "nw.tgz"), cacheDir);
       } else {
-        compressing.zip.uncompress(resolve(cacheDir, "nw.zip"), cacheDir);
+        await compressing.zip.uncompress(resolve(cacheDir, "nw.zip"), cacheDir);
       }
     } else if (
       downloadUrl ===
