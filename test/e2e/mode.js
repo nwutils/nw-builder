@@ -24,8 +24,6 @@ export function mode() {
       mode: "build",
       version: "0.77.0",
       flavor: "sdk",
-      platform: getPlatform(platform),
-      arch: getArch(arch),
       outDir: "test/fixture/out",
       cacheDir: "test/fixture/tmp",
     };
