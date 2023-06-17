@@ -21,7 +21,7 @@ export const parse = async (options, pkg) => {
   options.arch = options.arch ?? getArch(arch);
   options.downloadUrl = options.downloadUrl ?? "https://dl.nwjs.io";
   options.manifestUrl = options.manifestUrl ?? "https://nwjs.io/versions";
-  options.cacheDir = resolve(options.cacheDir ?? "./cache");
+  options.cacheDir = options.cacheDir ?? "./cache";
   options.cache = options.cache ?? true;
   options.ffmpeg = options.ffmpeg ?? false;
 

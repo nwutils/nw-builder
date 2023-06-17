@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  e2e:
     strategy:
       matrix:
         os: [macos-12, ubuntu-22.04, windows-2022]
@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v3.3.0
       - uses: actions/setup-node@v3.6.0
         with:
-          node-version: "20.2.0"
+          node-version: "20.3.0"
           cache: "npm"
       - run: npm ci
       - run: npm run fmt

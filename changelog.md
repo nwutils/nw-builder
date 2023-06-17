@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.2.3-beta.3]  - 2023-06-19
+
+### Changed
+
+- Migrate from `decompress` to `compressing`
+
 ## [4.2.3-beta.2] - 2023-06-16
 
 ### Changed
