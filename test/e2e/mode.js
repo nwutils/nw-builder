@@ -31,7 +31,6 @@ export function mode() {
     };
 
     it("should run", async () => {
-
       await nwbuild({ ...nwOptions });
 
       const options = new Options();
@@ -43,7 +42,8 @@ export function mode() {
 
       const chromedriverPath = resolve(
         nwOptions.cacheDir,
-        `nwjs${nwOptions.flavor === "sdk" ? "-sdk" : ""}-v${nwOptions.version
+        `nwjs${nwOptions.flavor === "sdk" ? "-sdk" : ""}-v${
+          nwOptions.version
         }-${nwOptions.platform}-${nwOptions.arch}`,
         `chromedriver${nwOptions.platform === "win" ? ".exe" : ""}`
       );
