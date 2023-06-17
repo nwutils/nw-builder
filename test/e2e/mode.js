@@ -1,7 +1,7 @@
 import { equal } from "node:assert";
 import { resolve } from "node:path";
 import { arch, platform } from "node:process";
-import { describe, it } from "node:test";
+import { before, describe, it } from "node:test";
 
 import nwbuild from "nw-builder";
 import { By } from "selenium-webdriver";
@@ -22,7 +22,7 @@ export function mode() {
     let nwOptions = {
       srcDir: "test/fixture/app/**/*",
       mode: "build",
-      version: "0.75.0",
+      version: "0.77.0",
       flavor: "sdk",
       platform: getPlatform(platform),
       arch: getArch(arch),
@@ -30,9 +30,11 @@ export function mode() {
       cacheDir: "test/fixture/tmp",
     };
 
-    it("should run", async () => {
-
+    before(async () => {
       await nwbuild({ ...nwOptions });
+    });
+
+    it("should run", async () => {
 
       const options = new Options();
       const args = [
