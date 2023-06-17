@@ -31,12 +31,6 @@ export function mode() {
     };
 
     it("should run", async () => {
-      if (nwOptions.platform === "osx" && nwOptions.arch === "arm64") {
-        nwOptions.downloadUrl =
-          "https://github.com/corwin-of-amber/nw.js/releases/download";
-        nwOptions.manifestUrl =
-          "https://raw.githubusercontent.com/nwutils/nw-builder/dev-494/src/util/osx.arm.versions.json";
-      }
 
       await nwbuild({ ...nwOptions });
 
@@ -55,7 +49,7 @@ export function mode() {
         `chromedriver${nwOptions.platform === "win" ? ".exe" : ""}`
       );
 
-      const service = await new ServiceBuilder(chromedriverPath).build();
+      const service = new ServiceBuilder(chromedriverPath).build();
 
       driver = Driver.createSession(options, service);
       const text = await driver.findElement(By.id("test")).getText();
