@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.2.4] - 2023-06-20
+
+### Changed
+
+- Rename executable using `options.app.name` value.
+
 ## [4.2.4] - 2023-06-18
 
 ### Changed

@@ -195,7 +195,6 @@ const nwbuild = async (options) => {
         options.outDir,
         options.platform,
         options.zip,
-        releaseInfo,
         options.app,
         manifest
       );

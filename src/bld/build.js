@@ -11,14 +11,13 @@ import { setWinConfig } from "./winCfg.js";
 /**
  * Generate NW build artifacts
  *
- * @param  {string | string[]}       files        Array of NW app files
- * @param  {string}                  nwDir        Directory to hold NW binaries
- * @param  {string}                  outDir       Directory to store build artifacts
- * @param  {"linux" | "osx" | "win"} platform     Platform is the operating system type
- * @param  {"zip" | boolean}         zip          Specify if the build artifacts are to be zipped
- * @param  {object}                  releaseInfo  NW version specific release information
- * @param  {object}                  app          Multi platform configuration options
- * @param  {string}                  nwPkg        NW.js manifest file
+ * @param  {string | string[]}       files     Array of NW app files
+ * @param  {string}                  nwDir     Directory to hold NW binaries
+ * @param  {string}                  outDir    Directory to store build artifacts
+ * @param  {"linux" | "osx" | "win"} platform  Platform is the operating system type
+ * @param  {"zip" | boolean}         zip       Specify if the build artifacts are to be zipped
+ * @param  {object}                  app       Multi platform configuration options
+ * @param  {string}                  nwPkg     NW.js manifest file
  * @return {Promise<undefined>}
  */
 export const build = async (
@@ -27,7 +26,6 @@ export const build = async (
   outDir,
   platform,
   zip,
-  releaseInfo,
   app,
   nwPkg
 ) => {
@@ -88,7 +86,7 @@ export const build = async (
       await setWinConfig(app, outDir);
       break;
     case "osx":
-      await setOsxConfig(app, outDir, releaseInfo);
+      await setOsxConfig(app, outDir);
       break;
     default:
       break;

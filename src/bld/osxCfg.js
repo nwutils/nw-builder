@@ -9,18 +9,18 @@ import { log } from "../log.js";
 /**
  * OSX specific configuration steps
  *
- * @param  {object}             pkg     The srcDir/package.json as a JSON
+ * @param  {object}             app     Resource configuration options for MacOS
  * @param  {string}             outDir  The directory to hold build artifacts
  * @return {Promise<undefined>}
  */
-const setOsxConfig = async (pkg, outDir) => {
+const setOsxConfig = async (app, outDir) => {
   if (platform === "win32") {
     log.warn(
       "MacOS apps built on Windows platform do not preserve all file permissions. See #716"
     );
   }
   try {
-    const outApp = path.resolve(outDir, `${pkg.name}.app`);
+    const outApp = path.resolve(outDir, `${app.name}.app`);
     await fs.rename(path.resolve(outDir, "nwjs.app"), outApp);
 
     // Rename CFBundleDisplayName in Contents/Info.plist
@@ -28,7 +28,7 @@ const setOsxConfig = async (pkg, outDir) => {
     const contentsInfoPlistJson = plist.parse(
       await fs.readFile(contentsInfoPlistPath, "utf-8")
     );
-    contentsInfoPlistJson.CFBundleDisplayName = pkg.name;
+    contentsInfoPlistJson.CFBundleDisplayName = app.name;
     const contentsInfoPlist = plist.build(contentsInfoPlistJson);
     await fs.writeFile(contentsInfoPlistPath, contentsInfoPlist);
 
@@ -43,14 +43,14 @@ const setOsxConfig = async (pkg, outDir) => {
     );
     const newPlistStrings = contentsInfoPlistStrings.replace(
       /CFBundleGetInfoString = "nwjs /,
-      `CFBundleGetInfoString = "${pkg.name} `
+      `CFBundleGetInfoString = "${app.name} `
     );
     await fs.writeFile(contentsInfoPlistStringsPath, newPlistStrings);
 
     // Add product_string property to package.json
     // const packageJsonPath = path.resolve(outApp, "Contents/Resources/app.nw/package.json");
-    // pkg.product_string = pkg.name;
-    // await fs.writeFile(packageJsonPath, JSON.stringify(pkg, null, 4));
+    // app.product_string = app.name;
+    // await fs.writeFile(packageJsonPath, JSON.stringify(app, null, 4));
   } catch (error) {
     log.error(error);
   }

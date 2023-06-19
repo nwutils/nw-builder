@@ -41,6 +41,7 @@ export const parse = async (options, pkg) => {
   options.zip = options.zip ?? false;
 
   options.app = options.app ?? {};
+  options.app.name = options.app.name ?? pkg.name;
 
   // TODO: move this out to
   if (options.platform === "linux") {
