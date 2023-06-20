@@ -48,3 +48,5 @@ Note: File permissions are incorrectly set for Linux or MacOS apps built on Wind
 > [The Windows platform only supports the changing of the write permission. It also does not support the distinction between the permissions of user, group, or others.](https://www.geeksforgeeks.org/node-js-fs-chmod-method/)
 
 When the `platform` and `arch` are not specified, they default to the host platform and arch. For this guide, we are assumed to be using Linux x64.
+
+Note: To edit Windows executable resources, we use [`rcedit`](https://github.com/electron/node-rcedit). To use rcedit on non-Windows platforms, you will have to install [Wine](https://www.winehq.org/).

@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## [4.2.4] - 2023-06-20
+## [4.2.6] - 2023-06-20
+
+### Changed
+
+- Preserve relative symbolic links of NW.js files during build mode
+
+## [4.2.5] - 2023-06-20
 
 ### Changed
 
