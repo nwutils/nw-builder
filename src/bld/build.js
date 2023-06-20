@@ -34,7 +34,7 @@ export const build = async (
   log.debug(`Remove any files at ${outDir} directory`);
   await rm(outDir, { force: true, recursive: true });
   log.debug(`Copy ${nwDir} files to ${outDir} directory`);
-  await cp(nwDir, outDir, { recursive: true });
+  await cp(nwDir, outDir, { recursive: true, verbatimSymlinks: true });
 
   log.debug(`Copy files in srcDir to ${outDir} directory`);
 
