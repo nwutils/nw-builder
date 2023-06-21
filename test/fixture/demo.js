@@ -2,8 +2,6 @@ import nwbuild from "nw-builder";
 
 await nwbuild({
   mode: "build",
-  srcDir: "app",
-  platform: "linux",
+  srcDir: "app/package.json app/src/**/*",
   outDir: "out",
-  glob: false,
 });

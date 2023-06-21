@@ -1,13 +1,10 @@
 # Run NW.js applications
 
-> Currently file globbing is broken and it is recommended to disable it.
-
 Module usage:
 
 ```javascript
 nwbuild({
   mode: "run",
-  glob: false,
 });
 ```
 
@@ -26,7 +23,6 @@ nwbuild({
   srcDir: ".",
   cache: true,
   ffmpeg: false,
-  glob: false,
 });
 ```
 
