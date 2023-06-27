@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.2.7] - 2023-06-27
+
+### Changed
+
+- Redownload `manifest.json` every time the `nwbuild` function is executed.
+- If `manifest.json` already exists and we are unable to connect to the `nwjs.io` domain, then use the existing manifest.
+
 ## [4.2.6] - 2023-06-20
 
 ### Changed
