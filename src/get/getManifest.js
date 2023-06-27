@@ -11,7 +11,7 @@ import { log } from "../log.js";
 export const getManifest = (manifestUrl) => {
   let chunks = undefined;
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const req = get(manifestUrl, (res) => {
       res.on("data", (chunk) => {
         chunks += chunk;
