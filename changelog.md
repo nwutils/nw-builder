@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Redownload `manifest.json` every time the `nwbuild` function is executed.
 - If `manifest.json` already exists and we are unable to connect to the `nwjs.io` domain, then use the existing manifest.
+- If no `manifest.json` exists in the cache dir, then the `validate` function will cache this and throw an error - preventing the build.
 
 ## [4.2.6] - 2023-06-20
 
