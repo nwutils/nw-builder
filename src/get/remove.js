@@ -15,15 +15,18 @@ const remove = async (platform, cacheDir, downloadUrl) => {
   try {
     if (downloadUrl === "https://dl.nwjs.io/") {
       if (platform === "linux") {
-        await rm(resolve(cacheDir, "nw.tgz"));
+        await rm(resolve(cacheDir, "nw.tgz"), { recursive: true, force: true });
       } else {
-        await rm(resolve(cacheDir, "nw.zip"));
+        await rm(resolve(cacheDir, "nw.zip"), { recursive: true, force: true });
       }
     } else if (
       downloadUrl ===
       "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download"
     ) {
-      await rm(resolve(cacheDir, "ffmpeg.zip"));
+      await rm(resolve(cacheDir, "ffmpeg.zip"), {
+        recursive: true,
+        force: true,
+      });
     }
   } catch (error) {
     log.error(error);
