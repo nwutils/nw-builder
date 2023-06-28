@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.2.8] - 2023-06-29
+
 ### Changed
 
 - Refactor `zip` implementation. Use `compressing` instead of `archiver` package.
