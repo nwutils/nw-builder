@@ -1,4 +1,4 @@
-import { access, readFile, writeFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 import { log } from "../log.js";
@@ -29,18 +29,14 @@ export const getReleaseInfo = async (
   } else {
     manifestPath = resolve(cacheDir, "manifest.json");
   }
+
   try {
-    await access(manifestPath);
-    log.debug(`Manifest file already exists locally under ${cacheDir}`);
-  } catch (e) {
-    log.debug(`Manifest file does not exist locally`);
-    log.debug(`Downloading latest manifest file under ${cacheDir}`);
     const data = await getManifest(manifestUrl);
-    await writeFile(manifestPath, data.slice(9));
-  } finally {
-    log.debug("Store manifest metadata in memory");
-    let manifest = JSON.parse(await readFile(resolve(manifestPath)));
-    log.debug(`Search for ${version} specific release data`);
+    if (data !== undefined) {
+      await writeFile(manifestPath, data.slice(9));
+    }
+
+    let manifest = JSON.parse(await readFile(manifestPath));
     if (version === "latest" || version === "stable" || version === "lts") {
       // Remove leading "v" from version string
       version = manifest[version].slice(1);
@@ -48,6 +44,10 @@ export const getReleaseInfo = async (
 
     releaseData = manifest.versions.find(
       (release) => release.version === `v${version}`
+    );
+  } catch (e) {
+    log.debug(
+      "The version manifest does not exist/was not downloaded. Please try again in some time."
     );
   }
   return releaseData;
