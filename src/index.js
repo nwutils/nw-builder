@@ -31,7 +31,7 @@ import { log } from "./log.js";
  * @property {"https://nwjs.io/versions" | string} [manifestUrl="https://nwjs.io/versions"]  URI to download manifest from
  * @property {object}                              app                                       Refer to Linux/Windows Specific Options under Getting Started in the docs
  * @property {boolean}                             [cache=true]                              If true the existing cache is used. Otherwise it removes and redownloads it.
- * @property {boolean}                             [zip=false]                               If true the outDir directory is zipped
+ * @property {boolean | "zip" | "tar" | "tgz"}     [zip=false]                               If true, "zip", "tar" or "tgz" the outDir directory is compressed.
  * @property {boolean}                             [cli=false]                               If true the CLI is used to glob srcDir and parse other options
  * @property {boolean}                             [ffmpeg=false]                            If true the chromium ffmpeg is replaced by community version
  * @property {boolean}                             [glob=true]                               If true globbing is enabled
