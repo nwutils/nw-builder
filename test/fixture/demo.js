@@ -4,4 +4,5 @@ await nwbuild({
   mode: "build",
   srcDir: "app/package.json app/src/**/*",
   outDir: "out",
+  zip: "zip",
 });

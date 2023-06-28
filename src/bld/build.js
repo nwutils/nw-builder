@@ -1,9 +1,10 @@
 import { resolve } from "node:path";
 import { cp, rm, writeFile } from "node:fs/promises";
 
+import compressing from "compressing";
+
 import { log } from "../log.js";
 
-import { compress } from "./compress.js";
 import { setLinuxConfig } from "./linuxCfg.js";
 import { setOsxConfig } from "./osxCfg.js";
 import { setWinConfig } from "./winCfg.js";
@@ -92,9 +93,8 @@ export const build = async (
       break;
   }
 
-  if (zip === true) {
-    await compress(outDir);
-  } else if (zip === "zip") {
-    await compress(outDir, zip);
+  if (zip === true || zip === "zip") {
+    await compressing.zip.compressDir(outDir, `${outDir}.zip`);
+    await rm(outDir, { recursive: true, force: true });
   }
 };

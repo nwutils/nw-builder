@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.2.8] - 2023-06-29
+
+### Changed
+
+- Refactor `zip` implementation. Use `compressing` instead of `archiver` package.
+- If `zip` is `true` or `"zip"`, then remove outDir after compression. (This was supposed to be the intented behavior all along).
+
 ## [4.2.7] - 2023-06-27
 
 ### Changed
