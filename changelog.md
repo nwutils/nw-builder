@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## Added
+
+- Compress `outDir` to `zip`, `tar` and `tgz` formats.
+
 ## [4.2.8] - 2023-06-29
 
 ### Changed

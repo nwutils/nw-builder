@@ -104,9 +104,4 @@ export const build = async (
 
     await rm(outDir, { recursive: true, force: true });
   }
-
-  if (zip === true || zip === "zip") {
-    await compressing.zip.compressDir(outDir, `${outDir}.zip`);
-    await rm(outDir, { recursive: true, force: true });
-  }
 };
