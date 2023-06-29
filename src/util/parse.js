@@ -24,7 +24,7 @@ export const parse = async (options, pkg) => {
   options.cacheDir = options.cacheDir ?? "./cache";
   options.cache = options.cache ?? true;
   options.ffmpeg = options.ffmpeg ?? false;
-  options.glob = options.glob ?? "info";
+  options.logLevel = options.logLevel ?? "info";
 
   if (options.mode === "get") {
     return { ...options };
