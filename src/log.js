@@ -2,11 +2,11 @@ import { createLogger, format, transports } from "winston";
 
 const { combine, timestamp, printf } = format;
 
-const customFormat = printf(({ level, message, timestamp }) => {
-  return `[ ${level.toUpperCase()} ] ${timestamp} ${message}`;
+const customFormat = printf(({ level, message }) => {
+  return `[ ${level.toUpperCase()} ] ${message}`;
 });
 
-export const log = createLogger({
+export let log = createLogger({
   format: combine(timestamp(), customFormat),
   transports: [
     new transports.Console({
@@ -15,10 +15,18 @@ export const log = createLogger({
   ],
 });
 
-// if (process.env.NODE_ENV !== "production") {
-//   log.add(
-//     new transports.Console({
-//       level: "debug",
-//     }),
-//   );
-// }
+/**
+ * Sets the log level
+ *
+ * @param {import("./index.js").Options.logLevel} level  Log level
+ */
+export function setLogLevel(level) {
+  log = createLogger({
+    format: combine(timestamp(), customFormat),
+    transports: [
+      new transports.Console({
+        level: level,
+      }),
+    ],
+  });
+}
