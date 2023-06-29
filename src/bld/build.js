@@ -93,8 +93,15 @@ export const build = async (
       break;
   }
 
-  if (zip === true || zip === "zip") {
-    await compressing.zip.compressDir(outDir, `${outDir}.zip`);
+  if (zip !== false) {
+    if (zip === true || zip === "zip") {
+      await compressing.zip.compressDir(outDir, `${outDir}.zip`);
+    } else if (zip === "tar") {
+      await compressing.tar.compressDir(outDir, `${outDir}.tar`);
+    } else if (zip === "tgz") {
+      await compressing.tgz.compressDir(outDir, `${outDir}.tgz`);
+    }
+
     await rm(outDir, { recursive: true, force: true });
   }
 };
