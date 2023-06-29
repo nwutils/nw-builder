@@ -47,6 +47,17 @@ export const validate = async (options, releaseInfo) => {
     );
   }
 
+  if (
+    options.logLevel !== "error" &&
+    options.logLevel !== "warn" &&
+    options.logLevel !== "info" &&
+    options.logLevel !== "debug"
+  ) {
+    throw new Error(
+      "Expected 'error', 'warn', 'info' or 'debug'. Got " + options.logLevel
+    );
+  }
+
   if (options.mode === "get") {
     return undefined;
   }

@@ -24,6 +24,7 @@ export const parse = async (options, pkg) => {
   options.cacheDir = options.cacheDir ?? "./cache";
   options.cache = options.cache ?? true;
   options.ffmpeg = options.ffmpeg ?? false;
+  options.logLevel = options.logLevel ?? "info";
 
   if (options.mode === "get") {
     return { ...options };
@@ -43,7 +44,7 @@ export const parse = async (options, pkg) => {
   options.app = options.app ?? {};
   options.app.name = options.app.name ?? pkg.name;
 
-  // TODO: move this out to
+  // TODO(#737): move this out
   if (options.platform === "linux") {
     // linux desktop entry file configurations options
     options.app.name = options.app.name ?? pkg.name;

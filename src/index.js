@@ -1,5 +1,6 @@
 import { mkdir, rm } from "node:fs/promises";
 import { resolve } from "node:path";
+import { arch, platform, version } from "node:process";
 
 import { decompress } from "./get/decompress.js";
 import { download } from "./get/download.js";
@@ -15,7 +16,7 @@ import { parse } from "./util/parse.js";
 import { validate } from "./util/validate.js";
 import { xattr } from "./util/xattr.js";
 
-import { log } from "./log.js";
+import { log, setLogLevel } from "./log.js";
 
 /**
  * @typedef {object} Options Configuration options
@@ -35,6 +36,7 @@ import { log } from "./log.js";
  * @property {boolean}                             [cli=false]                               If true the CLI is used to glob srcDir and parse other options
  * @property {boolean}                             [ffmpeg=false]                            If true the chromium ffmpeg is replaced by community version
  * @property {boolean}                             [glob=true]                               If true globbing is enabled
+ * @property {"error" | "warn" | "info" | "debug"} [logLevel="info"]                         Specified log level.
  */
 
 /**
@@ -92,8 +94,17 @@ const nwbuild = async (options) => {
 
     await validate(options, releaseInfo);
 
+    setLogLevel(options.logLevel);
+
     // Remove leading "v" from version string
     options.version = releaseInfo.version.slice(1);
+
+    if (options.logLevel === "debug") {
+      log.debug(`Platform: ${platform}`);
+      log.debug(`Archicture: ${arch}`);
+      log.debug(`Node Version: ${version}`);
+      log.debug(`NW.js Version: ${options.version}\n`);
+    }
 
     // Variable to store nwDir file path
     nwDir = resolve(

@@ -15,6 +15,7 @@ type Options = {
     cli: boolean,
     ffmpeg: boolean,
     glob: boolean,
+    logLevel: "error" | "warn" | "info" | "debug"
 };
 
 declare function nwbuild(options: Options): Promise<unknown>;

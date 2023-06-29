@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Added
 
 - Compress `outDir` to `zip`, `tar` and `tgz` formats.
+- Specify log level via `options.logLevel`.
+- Add platform, arch, Node and NW.js info in debug log.
 
 ## [4.2.8] - 2023-06-29
 
