@@ -8,14 +8,14 @@ import { log } from "../log.js";
 
 /**
  * @typedef {object}  OsxRc                      OSX resource configuration options
- * @property {string} LSApplicationCategoryType  The category that best describes your app for the App Store.
- * @property {string} CFBundleIdentifier         A unique identifier for a bundle usually in reverse DNS format.
- * @property {string} CFBundleName               A user-visible short name for the bundle.
- * @property {string} CFBundleDisplayName        The user-visible name for the bundle.
- * @property {string} CFBundleSpokenName         A replacement for the app name in text-to-speech operations.
- * @property {string} CFBundleVersion            The version of the build that identifies an iteration of the bundle.
- * @property {string} CFBundleShortVersionString The release or version number of the bundle.
- * @property {string} NSHumanReadableCopyright   A human-readable copyright notice for the bundle.
+ * @property {string} LSApplicationCategoryType   The category that best describes your app for the App Store.
+ * @property {string} CFBundleIdentifier          A unique identifier for a bundle usually in reverse DNS format.
+ * @property {string} CFBundleName                A user-visible short name for the bundle.
+ * @property {string} CFBundleDisplayName         The user-visible name for the bundle.
+ * @property {string} CFBundleSpokenName          A replacement for the app name in text-to-speech operations.
+ * @property {string} CFBundleVersion             The version of the build that identifies an iteration of the bundle.
+ * @property {string} CFBundleShortVersionString  The release or version number of the bundle.
+ * @property {string} NSHumanReadableCopyright    A human-readable copyright notice for the bundle.
  */
 
 /**
