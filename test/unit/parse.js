@@ -24,7 +24,7 @@ describe("parse - get mode", () => {
       manifestUrl: "https://nwjs.io/versions",
       cache: true,
       ffmpeg: false,
-      logLevel: "info"
+      logLevel: "info",
     };
 
     deepStrictEqual(actualOptions, expectedOptions);
@@ -52,7 +52,7 @@ describe("parse - get mode", () => {
         "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json",
       cache: true,
       ffmpeg: false,
-      logLevel: "info"
+      logLevel: "info",
     };
 
     deepStrictEqual(actualOptions, expectedOptions);
@@ -75,7 +75,7 @@ describe("parse - get mode", () => {
       manifestUrl: "https://nwjs.io/versions",
       cache: true,
       ffmpeg: false,
-      logLevel: "info"
+      logLevel: "info",
     };
 
     deepStrictEqual(actualOptions, expectedOptions);
@@ -98,7 +98,7 @@ describe("parse - get mode", () => {
       manifestUrl: "https://nwjs.io/versions",
       cache: true,
       ffmpeg: false,
-      logLevel: "info"
+      logLevel: "info",
     };
 
     deepStrictEqual(actualOptions, expectedOptions);
@@ -121,7 +121,7 @@ describe("parse - get mode", () => {
       manifestUrl: "https://nwjs.io/versions",
       cache: true,
       ffmpeg: true,
-      logLevel: "info"
+      logLevel: "info",
     };
 
     deepStrictEqual(actualOptions, expectedOptions);

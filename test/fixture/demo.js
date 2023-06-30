@@ -6,4 +6,7 @@ await nwbuild({
   platform: "osx",
   outDir: "out",
   glob: false,
+  app: {
+    name: "Random",
+  },
 });

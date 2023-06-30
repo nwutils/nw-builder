@@ -88,5 +88,22 @@ export const parse = async (options, pkg) => {
     options.app.specialBuild = options.app.specialBuild ?? undefined;
   }
 
+  if (options.platform === "osx") {
+    options.app.LSApplicationCategoryType =
+      options.app.LSApplicationCategoryType ?? undefined;
+    options.app.CFBundleIdentifier =
+      options.app.CFBundleIdentifier ?? undefined;
+    options.app.CFBundleName = options.app.CFBundleName ?? pkg.name;
+    options.app.CFBundleDisplayName =
+      options.app.CFBundleDisplayName ?? pkg.name;
+    options.app.CFBundleSpokenName = options.app.CFBundleSpokenName ?? pkg.name;
+    options.app.CFBundleShortVersionString =
+      options.app.CFBundleVersion ?? pkg.version;
+    options.app.CFBundleVersion =
+      options.app.CFBundleShortVersionString ?? pkg.version;
+    options.app.NSHumanReadableCopyright =
+      options.app.NSHumanReadableCopyright ?? undefined;
+  }
+
   return { ...options };
 };
