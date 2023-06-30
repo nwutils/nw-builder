@@ -103,6 +103,7 @@ export const parse = async (options, pkg) => {
       options.app.CFBundleShortVersionString ?? pkg.version;
     options.app.NSHumanReadableCopyright =
       options.app.NSHumanReadableCopyright ?? undefined;
+    options.app.CFBundleIconFile = options.app.CFBundleIconFile ?? "app.icns";
   }
 
   return { ...options };
