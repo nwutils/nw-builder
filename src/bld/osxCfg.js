@@ -41,7 +41,14 @@ const setOsxConfig = async (app, outDir) => {
       await fs.readFile(infoPlistPath, "utf-8")
     );
 
-    infoPlistJson.CFBundleDisplayName = app.name;
+    infoPlistJson.LSApplicationCategoryType = app.LSApplicationCategoryType;
+    infoPlistJson.CFBundleIdentifier = app.CFBundleIdentifier;
+    infoPlistJson.CFBundleName = app.CFBundleName;
+    infoPlistJson.CFBundleDisplayName = app.CFBundleDisplayName;
+    infoPlistJson.CFBundleSpokenName = app.CFBundleSpokenName;
+    infoPlistJson.CFBundleVersion = app.CFBundleVersion;
+    infoPlistJson.CFBundleShortVersionString = app.CFBundleShortVersionString;
+    infoPlistJson.NSHumanReadableCopyright = app.NSHumanReadableCopyright;
 
     await fs.writeFile(infoPlistPath, plist.build(infoPlistJson));
   } catch (error) {
