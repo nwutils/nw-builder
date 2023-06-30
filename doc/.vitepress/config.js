@@ -39,6 +39,10 @@ export default defineConfig({
             text: "Windows Specific Options",
             link: "/api-win.md#winrc-object",
           },
+          {
+            text: "MacOS Specific Options",
+            link: "/api-osx.md#osxrc-object",
+          },
         ],
       },
       {
