@@ -47,7 +47,6 @@ export const parse = async (options, pkg) => {
   // TODO(#737): move this out
   if (options.platform === "linux") {
     // linux desktop entry file configurations options
-    options.app.name = options.app.name ?? pkg.name;
     options.app.genericName = options.app.genericName ?? undefined;
     options.app.noDisplay = options.app.noDisplay ?? undefined;
     options.app.comment = options.app.comment ?? undefined;
@@ -73,6 +72,7 @@ export const parse = async (options, pkg) => {
   }
   if (options.platform === "win") {
     // windows configuration options
+    options.app.icon = options.app.icon ?? undefined;
     options.app.comments = options.app.comments ?? undefined;
     options.app.company = options.app.company ?? pkg.author;
     options.app.fileDescription =
@@ -103,7 +103,7 @@ export const parse = async (options, pkg) => {
       options.app.CFBundleShortVersionString ?? pkg.version;
     options.app.NSHumanReadableCopyright =
       options.app.NSHumanReadableCopyright ?? undefined;
-    options.app.CFBundleIconFile = options.app.CFBundleIconFile ?? "app.icns";
+    options.app.CFBundleIconFile = options.app.CFBundleIconFile ?? undefined;
   }
 
   return { ...options };
