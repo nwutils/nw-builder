@@ -60,7 +60,6 @@ const setWinConfig = async (app, outDir) => {
     await rename(resolve(outDir, "nw.exe"), outDirAppExe);
     await rcedit(outDirAppExe, {
       "file-version": app.version,
-      "icon": app.icon,
       "product-version": app.version,
       "version-string": versionString,
     });

@@ -1,7 +1,7 @@
 import nwbuild from "nw-builder";
 
 await nwbuild({
-  mode: "build",
+  mode: "run",
   version: "0.70.0",
   srcDir: "app",
   platform: "win",
@@ -9,6 +9,5 @@ await nwbuild({
   glob: false,
   app: {
     name: "demo",
-    icon: "app/icon.ico",
-  }
+  },
 });

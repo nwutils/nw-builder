@@ -17,7 +17,6 @@ import { log } from "../log.js";
  * @property {string} CFBundleVersion             The version of the build that identifies an iteration of the bundle.
  * @property {string} CFBundleShortVersionString  The release or version number of the bundle.
  * @property {string} NSHumanReadableCopyright    A human-readable copyright notice for the bundle.
- * @property {string} CFBundleIconFile            The file containing the bundle's icon.
  */
 
 /**
