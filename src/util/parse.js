@@ -72,7 +72,7 @@ export const parse = async (options, pkg) => {
   }
   if (options.platform === "win") {
     // windows configuration options
-    options.app.icon = options.app.icon;
+    options.app.icon = options.app.icon ?? undefined;
     options.app.version = options.app.version ?? pkg.version;
     options.app.comments = options.app.comments ?? undefined;
     options.app.company = options.app.company ?? pkg.author;
