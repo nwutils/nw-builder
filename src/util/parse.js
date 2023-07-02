@@ -72,7 +72,8 @@ export const parse = async (options, pkg) => {
   }
   if (options.platform === "win") {
     // windows configuration options
-    options.app.icon = options.app.icon ?? undefined;
+    options.app.icon = options.app.icon;
+    options.app.version = options.app.version ?? pkg.version;
     options.app.comments = options.app.comments ?? undefined;
     options.app.company = options.app.company ?? pkg.author;
     options.app.fileDescription =
@@ -92,7 +93,7 @@ export const parse = async (options, pkg) => {
     options.app.LSApplicationCategoryType =
       options.app.LSApplicationCategoryType ?? undefined;
     options.app.CFBundleIdentifier =
-      options.app.CFBundleIdentifier ?? undefined;
+      options.app.CFBundleIdentifier ?? options.app.name;
     options.app.CFBundleName = options.app.CFBundleName ?? pkg.name;
     options.app.CFBundleDisplayName =
       options.app.CFBundleDisplayName ?? pkg.name;
