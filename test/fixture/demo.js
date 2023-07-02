@@ -2,7 +2,7 @@ import nwbuild from "nw-builder";
 
 await nwbuild({
   mode: "run",
-  version: "0.70.0",
+  version: "0.72.0",
   srcDir: "app",
   platform: "win",
   outDir: "out",
