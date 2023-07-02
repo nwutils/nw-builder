@@ -7,6 +7,8 @@ import { log } from "../log.js";
 
 /**
  * @typedef {object} WinRc              Windows configuration options
+ * @property {string} name              The name of the application
+ * @property {string} version           The version of the application
  * @property {string} comments          Additional information that should be displayed for diagnostic purposes.
  * @property {string} company           Company that produced the file—for example, Microsoft Corporation or Standard Microsystems Corporation, Inc. This string is required.
  * @property {string} fileDescription   File description to be presented to users. This string may be displayed in a list box when the user is choosing files to install. For example, Keyboard Driver for AT-Style Keyboards. This string is required.
@@ -58,7 +60,6 @@ const setWinConfig = async (app, outDir) => {
     await rename(resolve(outDir, "nw.exe"), outDirAppExe);
     await rcedit(outDirAppExe, {
       "file-version": app.version,
-      icon: app.icon,
       "product-version": app.version,
       "version-string": versionString,
     });

@@ -5,6 +5,7 @@ import { log } from "../log.js";
 
 /**
  * @typedef  {object}   LinuxRc               Linux configuration options
+ * @typedef  {string}   name                  Name of the application
  * @property {string}   genericName           Generic name of the application
  * @property {boolean}  noDisplay             If true the application is not displayed
  * @property {string}   comment               Tooltip for the entry, for example "View sites on the Internet".

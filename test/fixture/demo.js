@@ -1,10 +1,13 @@
 import nwbuild from "nw-builder";
 
 await nwbuild({
-  mode: "build",
+  mode: "run",
+  version: "0.72.0",
   srcDir: "app",
+  platform: "win",
   outDir: "out",
-  zip: "zip",
-  logLevel: "debug",
   glob: false,
+  app: {
+    name: "demo",
+  },
 });

@@ -47,7 +47,6 @@ export const parse = async (options, pkg) => {
   // TODO(#737): move this out
   if (options.platform === "linux") {
     // linux desktop entry file configurations options
-    options.app.name = options.app.name ?? pkg.name;
     options.app.genericName = options.app.genericName ?? undefined;
     options.app.noDisplay = options.app.noDisplay ?? undefined;
     options.app.comment = options.app.comment ?? undefined;
@@ -73,6 +72,7 @@ export const parse = async (options, pkg) => {
   }
   if (options.platform === "win") {
     // windows configuration options
+    options.app.version = options.app.version ?? pkg.version;
     options.app.comments = options.app.comments ?? undefined;
     options.app.company = options.app.company ?? pkg.author;
     options.app.fileDescription =
@@ -86,6 +86,23 @@ export const parse = async (options, pkg) => {
     options.app.productName = options.app.productName ?? pkg.name;
     options.app.productVersion = options.app.productVersion ?? pkg.version;
     options.app.specialBuild = options.app.specialBuild ?? undefined;
+  }
+
+  if (options.platform === "osx") {
+    options.app.LSApplicationCategoryType =
+      options.app.LSApplicationCategoryType ?? undefined;
+    options.app.CFBundleIdentifier =
+      options.app.CFBundleIdentifier ?? options.app.name;
+    options.app.CFBundleName = options.app.CFBundleName ?? pkg.name;
+    options.app.CFBundleDisplayName =
+      options.app.CFBundleDisplayName ?? pkg.name;
+    options.app.CFBundleSpokenName = options.app.CFBundleSpokenName ?? pkg.name;
+    options.app.CFBundleShortVersionString =
+      options.app.CFBundleVersion ?? pkg.version;
+    options.app.CFBundleVersion =
+      options.app.CFBundleShortVersionString ?? pkg.version;
+    options.app.NSHumanReadableCopyright =
+      options.app.NSHumanReadableCopyright ?? undefined;
   }
 
   return { ...options };
