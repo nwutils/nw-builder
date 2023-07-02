@@ -52,6 +52,12 @@ const setOsxConfig = async (app, outDir) => {
     infoPlistJson.NSHumanReadableCopyright = app.NSHumanReadableCopyright;
     infoPlistJson.CFBundleIconFile = app.CFBundleIconFile;
 
+    Object.keys(infoPlistJson).forEach((option) => {
+      if (infoPlistJson[option] === undefined) {
+        delete infoPlistJson[option];
+      }
+    });
+
     await fs.writeFile(infoPlistPath, plist.build(infoPlistJson));
   } catch (error) {
     log.error(error);
