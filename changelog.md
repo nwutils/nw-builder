@@ -7,11 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.3.0] - 2023-07-03
+
 ## Added
 
 - Compress `outDir` to `zip`, `tar` and `tgz` formats.
 - Specify log level via `options.logLevel`.
 - Add platform, arch, Node and NW.js info in debug log.
+- Add MacOS name, version, description and legal metadata
+- Removed redundant `options.app.icon` property (Refer to NW.js docs on how to set icon)
 
 ## [4.2.8] - 2023-06-29
 
