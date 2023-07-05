@@ -136,6 +136,7 @@ export async function get({
       });
     });
 
+    // Remove compressed file after download and decompress.
     request.then(async () => {
       await rm(resolve(cacheDir, "ffmpeg.zip"), {
         recursive: true,
