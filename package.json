@@ -41,6 +41,7 @@
   "scripts": {
     "fmt": "prettier --write \"./**/*.{css,html,js,json,md,yml}\"",
     "lnt": "eslint --config=cfg/eslint.config.cjs --fix src",
+    "jsdoc": "node cfg/jsdoc.config.cjs",
     "doc:api": "jsdoc2md ./src/index.js > ./doc/api.md && jsdoc2md ./src/bld/linuxCfg.js > ./doc/api-nux.md && jsdoc2md ./src/bld/winCfg.js > ./doc/api-win.md && jsdoc2md ./src/bld/osxCfg.js > ./doc/api-osx.md",
     "doc:dev": "vitepress dev doc",
     "doc:bld": "vitepress build doc",
