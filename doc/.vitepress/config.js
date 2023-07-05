@@ -28,7 +28,6 @@ export default defineConfig({
           { text: "Installation Guide", link: "/install" },
           { text: "Basic Usage", link: "/usage-basic" },
           { text: "Get mode", link: "/mode-get" },
-          { text: "Get", link: "/get" },
           { text: "Run mode", link: "/mode-run" },
           { text: "Build mode", link: "/mode-build" },
           { text: "API Reference", link: "/api" },

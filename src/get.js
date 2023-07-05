@@ -1,6 +1,6 @@
 import { createWriteStream } from "node:fs";
 
-import { readdir, rm, rmdir } from "node:fs/promises";
+import { mkdir, readdir, rm, rmdir } from "node:fs/promises";
 import { get as getRequest } from "node:https";
 import { resolve } from "node:path";
 import { arch as ARCH, platform as PLATFORM } from "node:process";
@@ -89,8 +89,9 @@ export async function get({
 
   // If not cached, then download.
   if (nwCached === false) {
-    const stream = createWriteStream(out);
+    await mkdir(nwDir, { recursive: true });
 
+    const stream = createWriteStream(out);
     const request = new Promise((resolve, reject) => {
       getRequest(url, (response) => {
         // For GitHub releases and mirrors, we need to follow the redirect.
