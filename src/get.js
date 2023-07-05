@@ -11,7 +11,7 @@ import compressing from "compressing";
 const PLATFORM_KV = {
   darwin: "osx",
   linux: "linux",
-  win32: "windows",
+  win32: "win",
 };
 
 const ARCH_KV = {
@@ -23,16 +23,15 @@ const ARCH_KV = {
 /**
  * Get NW.js binaries
  *
- * @param  {object}                       options
- * @param  {"latest" | "stable" | string} options.version      [options.version="latest"]
- * @param  {"normal" | "sdk"}             options.flavor       [options.flavor="normal"]
- * @param  {"linux" | "osx" | "win"}      options.platform     options.platform
- * @param  {"ia32" | "x64" | "arm64"}     options.arch         options.arch
- * @param  {string}                       options.downloadUrl  [options.downloadUrl="https://dl.nwjs.io"]
- * @param  {string}                       options.manifestUrl  [options.manifestUrl="https://nwjs.io/versions"]
- * @param  {string}                       options.cacheDir     [options.cacheDir="./cache"]
- * @param  {boolean}                      options.cache        [options.cache=true]
- * @param  {boolean}                      options.ffmpeg       [options.ffmpeg=false]
+ * @param  {object}                   options              Get mode options
+ * @param  {string}                   options.version      NW.js runtime version. Defaults to "latest".
+ * @param  {"normal" | "sdk"}         options.flavor       NW.js build flavor. Defaults to "normal".
+ * @param  {"linux" | "osx" | "win"}  options.platform     Target platform. Defaults to host platform.
+ * @param  {"ia32" | "x64" | "arm64"} options.arch         Target architecture. Defaults to host architecture.
+ * @param  {string}                   options.downloadUrl  File server to download from. Defaults to "https://dl.nwjs.io".
+ * @param  {string}                   options.cacheDir     Cache directory path. Defaults to "./cache"
+ * @param  {boolean}                  options.cache        If false, remove cache before download. Defaults to true.
+ * @param  {boolean}                  options.ffmpeg       If true, download ffmpeg. Defaults to false.
  * @return {Promise<void>}
  */
 export async function get({
@@ -41,13 +40,12 @@ export async function get({
   platform = PLATFORM_KV[PLATFORM],
   arch = ARCH_KV[ARCH],
   downloadUrl = "https://dl.nwjs.io",
-  manifestUrl = "https://nwjs.io/versions",
   cacheDir = "./cache",
   cache = true,
   ffmpeg = false,
 }) {
   let nwCached = true;
-  let nwDir = resolve(
+  const nwDir = resolve(
     cacheDir,
     `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}`
   );
@@ -61,9 +59,11 @@ export async function get({
     downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
     downloadUrl === "https://npmmirror.com/mirrors/nwjs"
   ) {
-    url = `${downloadUrl}/v${version}/nwjs${flavor === "sdk" ? "-sdk" : ""
-      }-v${version}-${platform}-${arch}.${platform === "linux" ? "tar.gz" : "zip"
-      }`;
+    url = `${downloadUrl}/v${version}/nwjs${
+      flavor === "sdk" ? "-sdk" : ""
+    }-v${version}-${platform}-${arch}.${
+      platform === "linux" ? "tar.gz" : "zip"
+    }`;
     out = resolve(cacheDir, `nw.${platform === "linux" ? "tgz" : "zip"}`);
   }
 
@@ -96,7 +96,7 @@ export async function get({
         // For GitHub releases and mirrors, we need to follow the redirect.
         if (
           downloadUrl ===
-          "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download" ||
+            "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download" ||
           downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
           downloadUrl === "https://npmmirror.com/mirrors/nwjs"
         ) {
