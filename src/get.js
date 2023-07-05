@@ -28,10 +28,10 @@ const ARCH_KV = {
  * @param  {"normal" | "sdk"}         options.flavor       NW.js build flavor. Defaults to "normal".
  * @param  {"linux" | "osx" | "win"}  options.platform     Target platform. Defaults to host platform.
  * @param  {"ia32" | "x64" | "arm64"} options.arch         Target architecture. Defaults to host architecture.
- * @param  {string}                   options.downloadUrl  File server to download from. Defaults to "https://dl.nwjs.io".
+ * @param  {string}                   options.downloadUrl  File server to download from. Defaults to "https://dl.nwjs.io". Set "https://npm.taobao.org/mirrors/nwjs" for China mirror or "https://cnpmjs.org/mirrors/nwjs/" for Singapore mirror.
  * @param  {string}                   options.cacheDir     Cache directory path. Defaults to "./cache"
  * @param  {boolean}                  options.cache        If false, remove cache before download. Defaults to true.
- * @param  {boolean}                  options.ffmpeg       If true, download ffmpeg. Defaults to false.
+ * @param  {boolean}                  options.ffmpeg       If true, download ffmpeg. Defaults to false since it contains proprietary codecs. Please read the license's constraints: https://nwjs.readthedocs.io/en/latest/For%20Developers/Enable%20Proprietary%20Codecs/#get-ffmpeg-binaries-from-the-community
  * @return {Promise<void>}
  */
 export async function get({
