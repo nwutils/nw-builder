@@ -12,7 +12,7 @@ This is equivalent to:
 
 ```javascript
 nwbuild({
-  mode: "build",
+  mode: "get",
   version: "latest",
   flavor: "normal",
   platform: "linux",

@@ -28,7 +28,7 @@ import { log } from "../log.js";
  * @param  {string}             outDir  The directory to hold build artifacts
  * @return {Promise<undefined>}
  */
-export const setOsxConfig = async (app, outDir) => {
+const setOsxConfig = async (app, outDir) => {
   if (platform === "win32") {
     log.warn(
       "MacOS apps built on Windows platform do not preserve all file permissions. See #716"
@@ -41,7 +41,7 @@ export const setOsxConfig = async (app, outDir) => {
     if (app.icon !== undefined) {
       await copyFile(
         resolve(app.icon),
-        resolve(outApp, "Contents", "Resources", "app.icns"),
+        resolve(outApp, "Contents", "Resources", "app.icns")
       );
     }
 
@@ -68,3 +68,5 @@ export const setOsxConfig = async (app, outDir) => {
     log.error(error);
   }
 };
+
+export { setOsxConfig };

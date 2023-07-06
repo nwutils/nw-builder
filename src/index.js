@@ -182,7 +182,10 @@ const nwbuild = async (options) => {
       }
     }
 
-    if (options.downloadUrl === "https://github.com/corwin-of-amber/nw.js/releases/download") {
+    if (
+      options.downloadUrl ===
+      "https://github.com/corwin-of-amber/nw.js/releases/download"
+    ) {
       await xattr(options.platform, options.arch, nwDir);
     }
 
