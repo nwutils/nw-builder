@@ -182,7 +182,9 @@ const nwbuild = async (options) => {
       }
     }
 
-    await xattr(options.platform, options.arch, nwDir);
+    if (options.downloadUrl === "https://github.com/corwin-of-amber/nw.js/releases/download") {
+      await xattr(options.platform, options.arch, nwDir);
+    }
 
     // Downloading binaries is required for run and build modes
     // If mode is get, exit function since we have gotten the binaries
