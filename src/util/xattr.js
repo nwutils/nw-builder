@@ -15,7 +15,7 @@ export const xattr = (platform, arch, nwDir) => {
   return new Promise((res, rej) => {
     if (platform === "osx" && arch === "arm64") {
       let app = resolve(nwDir, "nwjs.app");
-      exec(`sudo xattr -d com.apple.quarantine ${app}`, (err, stdout) => {
+      exec(`xattr -d com.apple.quarantine ${app}`, (err, stdout) => {
         log.debug(stdout);
         if (err) {
           rej(err);
