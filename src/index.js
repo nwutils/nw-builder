@@ -14,7 +14,6 @@ import { getFiles } from "./util/files.js";
 import { getVersionManifest } from "./util/versionManifest.js";
 import { parse } from "./util/parse.js";
 import { validate } from "./util/validate.js";
-import { xattr } from "./util/xattr.js";
 
 import { log, setLogLevel } from "./log.js";
 
@@ -180,13 +179,6 @@ const nwbuild = async (options) => {
 
         await replaceFfmpeg(options.platform, nwDir, ffmpegFile);
       }
-    }
-
-    if (
-      options.downloadUrl ===
-      "https://github.com/corwin-of-amber/nw.js/releases/download"
-    ) {
-      await xattr(options.platform, options.arch, nwDir);
     }
 
     // Downloading binaries is required for run and build modes
