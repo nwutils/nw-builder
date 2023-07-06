@@ -69,3 +69,9 @@ nwbuild({
   srcDir: "nw/package.json web/**/*",
 });
 ```
+
+Note: If you are using the MacOS ARM unofficial builds, you will need to [remove the `com.apple.qurantine` flag](https://github.com/corwin-of-amber/nw.js/releases/tag/nw-v0.75.0):
+
+```shell
+sudo xattr -r -d com.apple.quarantine nwjs.app
+```
