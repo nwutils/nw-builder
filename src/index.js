@@ -16,6 +16,7 @@ import { parse } from "./util/parse.js";
 import { validate } from "./util/validate.js";
 import { xattr } from "./util/xattr.js";
 
+import { get } from "./get.js";
 import { log, setLogLevel } from "./log.js";
 
 /**
@@ -106,88 +107,32 @@ const nwbuild = async (options) => {
       log.debug(`NW.js Version: ${options.version}\n`);
     }
 
-    // Variable to store nwDir file path
-    nwDir = resolve(
-      options.cacheDir,
-      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${
-        options.platform
-      }-${options.arch}`
-    );
-
-    nwCached = await isCached(nwDir);
-    // Remove cached NW binary
-    if (options.cache === false && nwCached === true) {
-      log.debug("Remove cached NW binary");
-      await rm(nwDir, { force: true, recursive: true });
-    }
-    // Download relevant NW.js binaries
-    if (nwCached === false) {
-      log.debug("Download relevant NW.js binaries");
-      await download(
-        options.version,
-        options.flavor,
-        options.platform,
-        options.arch,
-        options.downloadUrl,
-        options.cacheDir
-      );
-      await decompress(options.platform, options.cacheDir, options.downloadUrl);
-      await remove(options.platform, options.cacheDir, options.downloadUrl);
-    } else {
-      log.debug("Using cached NW.js binaries");
-    }
-
-    if (options.ffmpeg === true) {
-      log.warn(
-        "Using MP3 and H.264 codecs requires you to pay attention to the patent royalties and the license of the source code. Consult a lawyer if you do not understand the licensing constraints and using patented media formats in your app. See https://chromium.googlesource.com/chromium/third_party/ffmpeg.git/+/master/CREDITS.chromium for more information."
-      );
-      if (options.platform === "win") {
-        ffmpegFile = "libffmpeg.dll";
-      } else if (options.platform === "osx") {
-        ffmpegFile = "libffmpeg.dylib";
-      } else if (options.platform === "linux") {
-        ffmpegFile = "libffmpeg.so";
-      }
-      ffmpegFile = resolve(options.cacheDir, ffmpegFile);
-      const ffmpegCached = await isCached(ffmpegFile);
-      // Remove cached ffmpeg binary
-      if (options.cache === false && ffmpegCached === true) {
-        log.debug("Remove cached ffmpeg binary");
-        await rm(ffmpegFile, { force: true, recursive: true });
-      }
-
-      // Download relevant ffmpeg binaries
-      if (ffmpegCached === false) {
-        log.debug("Download relevant ffmpeg binaries");
-        await download(
-          options.version,
-          options.flavor,
-          options.platform,
-          options.arch,
-          "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download",
-          options.cacheDir
-        );
-        await decompress(
-          options.platform,
-          options.cacheDir,
-          "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download"
-        );
-        await remove(
-          options.platform,
-          options.cacheDir,
-          "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download"
-        );
-
-        await replaceFfmpeg(options.platform, nwDir, ffmpegFile);
-      }
-    }
-
-    await xattr(options.platform, options.arch, nwDir);
-
-    // Downloading binaries is required for run and build modes
-    // If mode is get, exit function since we have gotten the binaries
     if (options.mode === "get") {
-      return undefined;
+      // Download NW.js binaries
+      await get({
+        version: options.version,
+        flavor: options.flavor,
+        platform: options.platform,
+        arch: options.arch,
+        downloadUrl: options.downloadUrl,
+        cacheDir: options.cacheDir,
+        cache: options.cache,
+        ffmpeg: false,
+      })
+
+      // Download ffmpeg binaries and replace chromium ffmpeg
+      if (options.ffmpeg === true) {
+        await get({
+          version: options.version,
+          flavor: options.flavor,
+          platform: options.platform,
+          arch: options.arch,
+          downloadUrl: options.downloadUrl,
+          cacheDir: options.cacheDir,
+          cache: options.cache,
+          ffmpeg: true,
+        })
+      }
     }
 
     if (options.mode === "run") {

@@ -117,15 +117,13 @@ export async function get({
             reject(error);
           });
 
-          response.on("end", async () => {
+          response.on("end", () => {
             bar.stop();
             if (platform === "linux") {
-              await compressing.tgz.uncompress(out, cacheDir);
+              compressing.tgz.uncompress(out, ffmpeg ? nwDir : cacheDir).then(() => resolve());
             } else {
-              await compressing.zip.uncompress(out, cacheDir);
+              compressing.zip.uncompress(out, ffmpeg ? nwDir : cacheDir).then(() => resolve());
             }
-
-            resolve();
           });
 
           response.pipe(stream);
@@ -151,11 +149,3 @@ export async function get({
     });
   }
 }
-
-get({
-  version: "0.73.0",
-  flavor: "normal",
-  platform: "win",
-  arch: "x64",
-  cacheDir: "./test/fixture/cache",
-});
