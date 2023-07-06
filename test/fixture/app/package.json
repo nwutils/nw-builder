@@ -2,7 +2,8 @@
   "name": "nwapp",
   "main": "index.html",
   "version": "0.0.0",
+  "chromium-args": "--show-icons",
   "window": {
-    "icon": "icon.ico"
+    "icon": "icon.png"
   }
 }

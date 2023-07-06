@@ -1,5 +1,5 @@
 import { platform } from "node:process";
-import fs from "node:fs/promises";
+import { copyFile, rename, readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 import plist from "plist";
@@ -33,14 +33,17 @@ const setOsxConfig = async (app, outDir) => {
       "MacOS apps built on Windows platform do not preserve all file permissions. See #716"
     );
   }
+
   try {
     const outApp = resolve(outDir, `${app.name}.app`);
-    await fs.rename(resolve(outDir, "nwjs.app"), outApp);
-
-    const infoPlistPath = resolve(outApp, "Contents/Info.plist");
-    const infoPlistJson = plist.parse(
-      await fs.readFile(infoPlistPath, "utf-8")
+    await rename(resolve(outDir, "nwjs.app"), outApp);
+    await copyFile(
+      resolve(app.icon),
+      resolve(outApp, "Contents", "Resources", "app.icns")
     );
+
+    const infoPlistPath = resolve(outApp, "Contents", "Info.plist");
+    const infoPlistJson = plist.parse(await readFile(infoPlistPath, "utf-8"));
 
     infoPlistJson.LSApplicationCategoryType = app.LSApplicationCategoryType;
     infoPlistJson.CFBundleIdentifier = app.CFBundleIdentifier;
@@ -58,7 +61,7 @@ const setOsxConfig = async (app, outDir) => {
       }
     });
 
-    await fs.writeFile(infoPlistPath, plist.build(infoPlistJson));
+    await writeFile(infoPlistPath, plist.build(infoPlistJson));
   } catch (error) {
     log.error(error);
   }
