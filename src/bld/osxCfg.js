@@ -9,6 +9,7 @@ import { log } from "../log.js";
 /**
  * @typedef {object}  OsxRc                      OSX resource configuration options
  * @property {string} name                        The name of the application
+ * @property {string} icon                        The path to the icon file. It should be a .icns file.
  * @property {string} LSApplicationCategoryType   The category that best describes your app for the App Store.
  * @property {string} CFBundleIdentifier          A unique identifier for a bundle usually in reverse DNS format.
  * @property {string} CFBundleName                A user-visible short name for the bundle.
@@ -55,7 +56,6 @@ export const setOsxConfig = async (app, outDir) => {
     infoPlistJson.CFBundleVersion = app.CFBundleVersion;
     infoPlistJson.CFBundleShortVersionString = app.CFBundleShortVersionString;
     infoPlistJson.NSHumanReadableCopyright = app.NSHumanReadableCopyright;
-    infoPlistJson.CFBundleIconFile = app.CFBundleIconFile;
 
     Object.keys(infoPlistJson).forEach((option) => {
       if (infoPlistJson[option] === undefined) {
