@@ -43,6 +43,7 @@ export const parse = async (options, pkg) => {
 
   options.app = options.app ?? {};
   options.app.name = options.app.name ?? pkg.name;
+  options.app.icon = options.app.icon ?? undefined;
 
   // TODO(#737): move this out
   if (options.platform === "linux") {
@@ -50,7 +51,6 @@ export const parse = async (options, pkg) => {
     options.app.genericName = options.app.genericName ?? undefined;
     options.app.noDisplay = options.app.noDisplay ?? undefined;
     options.app.comment = options.app.comment ?? undefined;
-    options.app.icon = options.app.icon ?? undefined;
     options.app.hidden = options.app.hidden ?? undefined;
     options.app.onlyShowIn = options.app.onlyShowIn ?? undefined;
     options.app.notShowIn = options.app.notShowIn ?? undefined;

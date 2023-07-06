@@ -27,7 +27,7 @@ import { log } from "../log.js";
  * @param  {string}             outDir  The directory to hold build artifacts
  * @return {Promise<undefined>}
  */
-const setOsxConfig = async (app, outDir) => {
+export const setOsxConfig = async (app, outDir) => {
   if (platform === "win32") {
     log.warn(
       "MacOS apps built on Windows platform do not preserve all file permissions. See #716"
@@ -37,10 +37,12 @@ const setOsxConfig = async (app, outDir) => {
   try {
     const outApp = resolve(outDir, `${app.name}.app`);
     await rename(resolve(outDir, "nwjs.app"), outApp);
-    await copyFile(
-      resolve(app.icon),
-      resolve(outApp, "Contents", "Resources", "app.icns")
-    );
+    if (app.icon !== undefined) {
+      await copyFile(
+        resolve(app.icon),
+        resolve(outApp, "Contents", "Resources", "app.icns"),
+      );
+    }
 
     const infoPlistPath = resolve(outApp, "Contents", "Info.plist");
     const infoPlistJson = plist.parse(await readFile(infoPlistPath, "utf-8"));
@@ -66,5 +68,3 @@ const setOsxConfig = async (app, outDir) => {
     log.error(error);
   }
 };
-
-export { setOsxConfig };
