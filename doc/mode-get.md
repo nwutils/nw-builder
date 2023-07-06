@@ -64,6 +64,8 @@ CLI usage:
 nwbuild --mode=get --platform=osx --arch=arm64 --downloadUrl=https://github.com/corwin-of-amber/nw.js/releases/download --manifestUrl=https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json
 ```
 
+Note: Make sure you have [`xattr`](https://ss64.com/osx/xattr.html) installed in your system. This is needed to remove the `com.apple.quarantine` property.
+
 ## Download from mirrors
 
 China:
