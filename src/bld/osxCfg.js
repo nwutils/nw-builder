@@ -47,17 +47,6 @@ const setOsxConfig = async (app, outDir) => {
 
     const infoPlistPath = resolve(outApp, "Contents", "Info.plist");
     const infoPlistJson = plist.parse(await readFile(infoPlistPath, "utf-8"));
-    
-    const infoPlistStringsPath = resolve(outApp, "Contents", "Resources", "en.lproj", "InfoPlist.strings");
-    const infoPlistStringsData = await readFile(infoPlistStringsPath, "utf-8");
-
-    let infoPlistStringsDataArray = infoPlistStringsData.split("\n");
-
-    infoPlistStringsDataArray.forEach((line, idx, arr) => {
-      if (line.includes("NSHumanReadableCopyright")) {
-        arr[idx] = `NSHumanReadableCopyright = "${app.NSHumanReadableCopyright}";`;
-      }
-    });
 
     infoPlistJson.LSApplicationCategoryType = app.LSApplicationCategoryType;
     infoPlistJson.CFBundleIdentifier = app.CFBundleIdentifier;
@@ -66,6 +55,10 @@ const setOsxConfig = async (app, outDir) => {
     infoPlistJson.CFBundleSpokenName = app.CFBundleSpokenName;
     infoPlistJson.CFBundleVersion = app.CFBundleVersion;
     infoPlistJson.CFBundleShortVersionString = app.CFBundleShortVersionString;
+    infoPlistJson.NSHumanReadableCopyright = app.NSHumanReadableCopyright;
+
+    console.log(infoPlistJson);
+    process.exit(1);
 
     Object.keys(infoPlistJson).forEach((option) => {
       if (infoPlistJson[option] === undefined) {
