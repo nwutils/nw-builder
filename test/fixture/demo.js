@@ -11,6 +11,7 @@ await nwbuild({
   app: {
     name: "demo",
     icon: "app/icon.icns",
-    NSHumanReadableCopyright: "Copyright 2023 NW.js Utils. All Rights Reserved."
+    NSHumanReadableCopyright:
+      "Copyright 2023 NW.js Utils. All Rights Reserved.",
   },
 });

@@ -57,9 +57,6 @@ const setOsxConfig = async (app, outDir) => {
     infoPlistJson.CFBundleShortVersionString = app.CFBundleShortVersionString;
     infoPlistJson.NSHumanReadableCopyright = app.NSHumanReadableCopyright;
 
-    console.log(infoPlistJson);
-    process.exit(1);
-
     Object.keys(infoPlistJson).forEach((option) => {
       if (infoPlistJson[option] === undefined) {
         delete infoPlistJson[option];
@@ -67,7 +64,6 @@ const setOsxConfig = async (app, outDir) => {
     });
 
     await writeFile(infoPlistPath, plist.build(infoPlistJson));
-    await writeFile(infoPlistStringsPath, infoPlistStringsDataArray.toString().replace(/,/g, "\n"));
   } catch (error) {
     log.error(error);
   }
