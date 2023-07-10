@@ -1,8 +1,9 @@
 import nwbuild from "nw-builder";
 
 await nwbuild({
-  mode: "get",
+  mode: "build",
   version: "0.77.0",
+  srcDir: "app",
   outDir: "out",
-  ffmpeg: true,
+  glob: false,
 });
