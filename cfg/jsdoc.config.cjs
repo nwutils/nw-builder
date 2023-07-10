@@ -12,3 +12,47 @@ jsdoc2md
     .catch((error) => {
         console.log(error);
     });
+
+jsdoc2md
+    .render({
+        files: "src/index.js",
+    })
+    .then(async (output) => {
+        await writeFile("doc/api.md", output);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+
+jsdoc2md
+    .render({
+        files: "src/bld/linuxCfg.js",
+    })
+    .then(async (output) => {
+        await writeFile("doc/api-nux.md", output);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+
+jsdoc2md
+    .render({
+        files: "src/bld/winCfg.js",
+    })
+    .then(async (output) => {
+        await writeFile("doc/api-win.md", output);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+
+jsdoc2md
+    .render({
+        files: "src/bld/osxCfg.js",
+    })
+    .then(async (output) => {
+        await writeFile("doc/api-osx.md", output);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
