@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.3.1] - 2023-07-07
+
+## Changed
+
+- Replace the icon at `nwjs.app/Contents/Resources/app.icns` with the icon at `options.app.icon` file path.
+
+## Removed
+
+- `xattr` package. The `com.apple.quarantine` flag should be handled by the developer.
+
 ## [4.3.0] - 2023-07-03
 
 ## Added

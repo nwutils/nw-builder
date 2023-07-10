@@ -1,5 +1,5 @@
 import { platform } from "node:process";
-import fs from "node:fs/promises";
+import { copyFile, rename, readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 import plist from "plist";
@@ -9,6 +9,7 @@ import { log } from "../log.js";
 /**
  * @typedef {object}  OsxRc                      OSX resource configuration options
  * @property {string} name                        The name of the application
+ * @property {string} icon                        The path to the icon file. It should be a .icns file.
  * @property {string} LSApplicationCategoryType   The category that best describes your app for the App Store.
  * @property {string} CFBundleIdentifier          A unique identifier for a bundle usually in reverse DNS format.
  * @property {string} CFBundleName                A user-visible short name for the bundle.
@@ -33,14 +34,19 @@ const setOsxConfig = async (app, outDir) => {
       "MacOS apps built on Windows platform do not preserve all file permissions. See #716"
     );
   }
+
   try {
     const outApp = resolve(outDir, `${app.name}.app`);
-    await fs.rename(resolve(outDir, "nwjs.app"), outApp);
+    await rename(resolve(outDir, "nwjs.app"), outApp);
+    if (app.icon !== undefined) {
+      await copyFile(
+        resolve(app.icon),
+        resolve(outApp, "Contents", "Resources", "app.icns")
+      );
+    }
 
-    const infoPlistPath = resolve(outApp, "Contents/Info.plist");
-    const infoPlistJson = plist.parse(
-      await fs.readFile(infoPlistPath, "utf-8")
-    );
+    const infoPlistPath = resolve(outApp, "Contents", "Info.plist");
+    const infoPlistJson = plist.parse(await readFile(infoPlistPath, "utf-8"));
 
     infoPlistJson.LSApplicationCategoryType = app.LSApplicationCategoryType;
     infoPlistJson.CFBundleIdentifier = app.CFBundleIdentifier;
@@ -50,7 +56,6 @@ const setOsxConfig = async (app, outDir) => {
     infoPlistJson.CFBundleVersion = app.CFBundleVersion;
     infoPlistJson.CFBundleShortVersionString = app.CFBundleShortVersionString;
     infoPlistJson.NSHumanReadableCopyright = app.NSHumanReadableCopyright;
-    infoPlistJson.CFBundleIconFile = app.CFBundleIconFile;
 
     Object.keys(infoPlistJson).forEach((option) => {
       if (infoPlistJson[option] === undefined) {
@@ -58,7 +63,7 @@ const setOsxConfig = async (app, outDir) => {
       }
     });
 
-    await fs.writeFile(infoPlistPath, plist.build(infoPlistJson));
+    await writeFile(infoPlistPath, plist.build(infoPlistJson));
   } catch (error) {
     log.error(error);
   }
