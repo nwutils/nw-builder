@@ -14,8 +14,6 @@ jobs:
           node-version: "20.2.0"
       - name: Install Node modules
         run: npm ci
-      - name: Convert JSDoc descriptions to Docs
-        run: npm run jsdoc
       - name: Convert JSDoc to Markdown
         run: npm run doc:api
       - name: Build documentation
