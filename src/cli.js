@@ -32,6 +32,42 @@ const cli = yargs(hideBin(process.argv))
     type: "string",
     description: "NW.js build artifacts",
   })
+  .option("cacheDir", {
+    type: "string",
+    description: "Cache NW.js binaries",
+  })
+  .option("downloadUrl", {
+    type: "string",
+    description: "NW.js download server",
+  })
+  .option("manifestUrl", {
+    type: "string",
+    description: "NW.js version info",
+  })
+  .option("glob", {
+    type: "boolean",
+    description: "Flag to enable/disable globbing",
+  })
+  .option("app", {
+    type: "object",
+    description: "Platform specific app metadata. Refer to docs for more info",
+  })
+  .option("cache", {
+    type: "boolean",
+    description: "Flag to enable/disable caching",
+  })
+  .option("zip", {
+    type: "string",
+    description: "Flag to enable/disable compression",
+  })
+  .option("ffmpeg", {
+    type: "string",
+    description: "Flag to enable/disable downloading community ffmpeg",
+  })
+  .option("logLevel", {
+    type: "string",
+    description: "Specify log level",
+  })
   .parse();
 
 nwbuild({
