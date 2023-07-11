@@ -46,8 +46,8 @@
     "doc:bld": "vitepress build doc",
     "test:unit": "node --test-reporter=spec --test test/unit/index.js",
     "test:e2e": "node --test-reporter=spec --test test/e2e/index.js",
-    "test:demo": "cd test/fixture && node demo.js",
-    "test:cli": "cd test/fixture && nwbuild --platform win --arch x64 --outDir out --glob=false app"
+    "test:mod": "cd test/fixture && node demo.js",
+    "test:cli": "cd test/fixture && nwbuild --platform win --arch x64 --outDir out --no-glob app"
   },
   "devDependencies": {
     "eslint": "^8.44.0",
