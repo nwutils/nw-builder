@@ -9,9 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [4.3.2] - 2023-07-11
 
-## Changed
+## Added
 
-- Added descriptions and argument types for remaining cli arguments.
+- Descriptions and argument types for remaining cli arguments.
 
 ## [4.3.1] - 2023-07-07
 
