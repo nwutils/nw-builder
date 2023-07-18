@@ -2,7 +2,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { get } from "node:https";
 import { resolve } from "node:path";
 
-import { log } from "../log.js";
+import { log } from "./log.js";
 
 /**
  * Get manifest (array of NW release metadata) from URL
