@@ -2,7 +2,6 @@ import { mkdir } from "node:fs/promises";
 import { resolve } from "node:path";
 import { arch, platform, version } from "node:process";
 
-import { getReleaseInfo } from "./get/getReleaseInfo.js";
 import { build } from "./bld/build.js";
 import { develop } from "./run/develop.js";
 import { isCached } from "./util/cache.js";
@@ -13,6 +12,7 @@ import { validate } from "./util/validate.js";
 
 import { get } from "./get.js";
 import { log, setLogLevel } from "./log.js";
+import { getReleaseInfo } from "./util";
 
 /**
  * @typedef {object} Options Configuration options
