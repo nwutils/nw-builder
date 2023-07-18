@@ -12,7 +12,7 @@ import { validate } from "./util/validate.js";
 
 import { get } from "./get.js";
 import { log, setLogLevel } from "./log.js";
-import { getReleaseInfo } from "./util";
+import { getReleaseInfo } from "./util.js";
 
 /**
  * @typedef {object} Options Configuration options
