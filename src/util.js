@@ -4,8 +4,6 @@ import { resolve } from "node:path";
 
 import { log } from "../log.js";
 
-import { getManifest } from "./getManifest.js";
-
 /**
  * Get manifest (array of NW release metadata) from URL
  *
