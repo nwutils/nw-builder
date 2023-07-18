@@ -43,7 +43,6 @@ import { getReleaseInfo } from "./util";
  */
 const nwbuild = async (options) => {
   let nwDir = "";
-  let cached;
   let built;
   let releaseInfo = {};
   let files = [];
