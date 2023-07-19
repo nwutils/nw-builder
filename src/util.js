@@ -10,31 +10,31 @@ import { log } from "./log.js";
  * @param  {string}                       manifestUrl  Url to manifest
  * @return {Promise <object | undefined>}
  */
-export const getManifest = (manifestUrl) => {
-    let chunks = undefined;
-  
-    return new Promise((resolve) => {
-      const req = get(manifestUrl, (res) => {
-        res.on("data", (chunk) => {
-          chunks += chunk;
-        });
-  
-        res.on("error", (e) => {
-          log.error(e);
-          resolve(undefined);
-        });
-  
-        res.on("end", () => {
-          log.debug("Succesfully cached manifest metadata");
-          resolve(chunks);
-        });
+function getManifest(manifestUrl) {
+  let chunks = undefined;
+
+  return new Promise((resolve) => {
+    const req = get(manifestUrl, (res) => {
+      res.on("data", (chunk) => {
+        chunks += chunk;
       });
-      req.on("error", (e) => {
-        log.warn(e);
+
+      res.on("error", (e) => {
+        log.error(e);
         resolve(undefined);
       });
+
+      res.on("end", () => {
+        log.debug("Succesfully cached manifest metadata");
+        resolve(chunks);
+      });
     });
-  };  
+    req.on("error", (e) => {
+      log.warn(e);
+      resolve(undefined);
+    });
+  });
+}
 
 /**
  * Get version specific release metadata
@@ -46,13 +46,13 @@ export const getManifest = (manifestUrl) => {
  * @param  {string} manifestUrl  Url to manifest
  * @return {object}              Version specific release info
  */
-export const getReleaseInfo = async (
+export async function getReleaseInfo(
   version,
   platform,
   arch,
   cacheDir,
   manifestUrl
-) => {
+) {
   let releaseData = undefined;
   let manifestPath = undefined;
   if (platform === "osx" && arch === "arm64") {
@@ -82,4 +82,4 @@ export const getReleaseInfo = async (
     );
   }
   return releaseData;
-};
+}

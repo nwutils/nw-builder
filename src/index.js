@@ -112,7 +112,7 @@ const nwbuild = async (options) => {
         cacheDir: options.cacheDir,
         cache: options.cache,
         ffmpeg: false,
-      })
+      });
 
       // Download ffmpeg binaries and replace chromium ffmpeg
       if (options.ffmpeg === true) {
@@ -125,7 +125,7 @@ const nwbuild = async (options) => {
           cacheDir: options.cacheDir,
           cache: options.cache,
           ffmpeg: true,
-        })
+        });
       }
     }
 

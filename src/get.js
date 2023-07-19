@@ -120,9 +120,13 @@ export async function get({
           response.on("end", () => {
             bar.stop();
             if (platform === "linux") {
-              compressing.tgz.uncompress(out, ffmpeg ? nwDir : cacheDir).then(() => resolve());
+              compressing.tgz
+                .uncompress(out, ffmpeg ? nwDir : cacheDir)
+                .then(() => resolve());
             } else {
-              compressing.zip.uncompress(out, ffmpeg ? nwDir : cacheDir).then(() => resolve());
+              compressing.zip
+                .uncompress(out, ffmpeg ? nwDir : cacheDir)
+                .then(() => resolve());
             }
           });
 
