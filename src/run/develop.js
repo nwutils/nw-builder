@@ -24,7 +24,7 @@ const develop = async (srcDir, nwDir, platform, argv, glob) => {
     await execute(
       srcDir,
       `${nwDir}/${getPlatformSpecificName(platform)}`,
-      argv
+      argv,
     );
   } catch (error) {
     log.error(error);

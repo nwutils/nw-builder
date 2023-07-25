@@ -1,5 +1,4 @@
 import { deepStrictEqual } from "node:assert";
-import { resolve } from "node:path";
 import { arch, platform } from "node:process";
 import { describe, it } from "node:test";
 

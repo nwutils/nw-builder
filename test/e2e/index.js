@@ -1,7 +1,3 @@
-import { mode } from "./mode.js";
+import * as modeTests from "./mode.js";
 
-const test = async () => {
-  await mode();
-};
-
-test();
+modeTests;

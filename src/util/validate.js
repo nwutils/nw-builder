@@ -11,17 +11,17 @@ import { readdir } from "node:fs/promises";
 export const validate = async (options, releaseInfo) => {
   if (!["get", "run", "build"].includes(options.mode)) {
     throw new Error(
-      `Unknown mode ${options.mode}. Expected "get", "run" or "build".`
+      `Unknown mode ${options.mode}. Expected "get", "run" or "build".`,
     );
   }
   if (typeof releaseInfo === "undefined") {
     throw new Error(
-      "Either the specific version info does not exist or the version manifest itself does not exist. In case of the latter, please check your internet connection and try again later."
+      "Either the specific version info does not exist or the version manifest itself does not exist. In case of the latter, please check your internet connection and try again later.",
     );
   }
   if (!releaseInfo.flavors.includes(options.flavor)) {
     throw new Error(
-      `${options.flavor} flavor is not supported by this download server.`
+      `${options.flavor} flavor is not supported by this download server.`,
     );
   }
   if (
@@ -30,7 +30,7 @@ export const validate = async (options, releaseInfo) => {
     !releaseInfo.files.includes(`${options.platform}-${options.arch}`)
   ) {
     throw new Error(
-      `Platform ${options.platform} and architecture ${options.arch} is not supported by this download server.`
+      `Platform ${options.platform} and architecture ${options.arch} is not supported by this download server.`,
     );
   }
   // if (typeof options.cacheDir !== "string") {
@@ -38,12 +38,12 @@ export const validate = async (options, releaseInfo) => {
   // }
   if (typeof options.cache !== "boolean") {
     return new Error(
-      "Expected options.cache to be a boolean. Got " + typeof options.cache
+      "Expected options.cache to be a boolean. Got " + typeof options.cache,
     );
   }
   if (typeof options.ffmpeg !== "boolean") {
     return new Error(
-      "Expected options.ffmpeg to be a boolean. Got " + typeof options.ffmpeg
+      "Expected options.ffmpeg to be a boolean. Got " + typeof options.ffmpeg,
     );
   }
 
@@ -54,7 +54,7 @@ export const validate = async (options, releaseInfo) => {
     options.logLevel !== "debug"
   ) {
     throw new Error(
-      "Expected 'error', 'warn', 'info' or 'debug'. Got " + options.logLevel
+      "Expected 'error', 'warn', 'info' or 'debug'. Got " + options.logLevel,
     );
   }
 
@@ -63,12 +63,12 @@ export const validate = async (options, releaseInfo) => {
   }
   if (Array.isArray(options.argv)) {
     return new Error(
-      "Expected options.argv to be an array. Got " + typeof options.argv
+      "Expected options.argv to be an array. Got " + typeof options.argv,
     );
   }
   if (typeof options.glob !== "boolean") {
     return new Error(
-      "Expected options.glob to be a boolean. Got " + typeof options.glob
+      "Expected options.glob to be a boolean. Got " + typeof options.glob,
     );
   }
 

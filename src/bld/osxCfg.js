@@ -31,7 +31,7 @@ import { log } from "../log.js";
 const setOsxConfig = async (app, outDir) => {
   if (platform === "win32") {
     log.warn(
-      "MacOS apps built on Windows platform do not preserve all file permissions. See #716"
+      "MacOS apps built on Windows platform do not preserve all file permissions. See #716",
     );
   }
 
@@ -41,7 +41,7 @@ const setOsxConfig = async (app, outDir) => {
     if (app.icon !== undefined) {
       await copyFile(
         resolve(app.icon),
-        resolve(outApp, "Contents", "Resources", "app.icns")
+        resolve(outApp, "Contents", "Resources", "app.icns"),
       );
     }
 
@@ -53,7 +53,7 @@ const setOsxConfig = async (app, outDir) => {
       "Contents",
       "Resources",
       "en.lproj",
-      "InfoPlist.strings"
+      "InfoPlist.strings",
     );
     const infoPlistStringsData = await readFile(infoPlistStringsPath, "utf-8");
 
@@ -84,7 +84,7 @@ const setOsxConfig = async (app, outDir) => {
     await writeFile(infoPlistPath, plist.build(infoPlistJson));
     await writeFile(
       infoPlistStringsPath,
-      infoPlistStringsDataArray.toString().replace(/,/g, "\n")
+      infoPlistStringsDataArray.toString().replace(/,/g, "\n"),
     );
   } catch (error) {
     log.error(error);

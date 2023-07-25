@@ -17,9 +17,10 @@ jobs:
         with:
           node-version: "20.2.0"
           cache: "npm"
+      - run: corepack enable
       - run: npm ci
       - run: npm run fmt
       - run: npm run lnt
-      - run: npm link
+      - run: npm link nw-builder
       - run: npm run test:unit
       - run: npm run test:e2e

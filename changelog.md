@@ -7,35 +7,39 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## Changed
+
+- Refactor `get` mode into a single file. 
+
 ## [4.3.3] - 2023-07-25
 
-## Changed
+### Changed
 
 - Set `NSHumanReadableCopyright` property in `*.app/Resources/en.lproj/InfoPlist.strings` to update copyright
 
-## Removed
+### Removed
 
 - `NSHumanReadableCopyright` from `Info.plist`
 
 ## [4.3.2] - 2023-07-11
 
-## Added
+### Added
 
 - Descriptions and argument types for remaining cli arguments.
 
 ## [4.3.1] - 2023-07-07
 
-## Changed
+### Changed
 
 - Replace the icon at `nwjs.app/Contents/Resources/app.icns` with the icon at `options.app.icon` file path.
 
-## Removed
+### Removed
 
 - `xattr` package. The `com.apple.quarantine` flag should be handled by the developer.
 
 ## [4.3.0] - 2023-07-03
 
-## Added
+### Added
 
 - Compress `outDir` to `zip`, `tar` and `tgz` formats.
 - Specify log level via `options.logLevel`.

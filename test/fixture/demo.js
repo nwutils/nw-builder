@@ -2,16 +2,8 @@ import nwbuild from "nw-builder";
 
 await nwbuild({
   mode: "build",
-  version: "latest",
+  version: "0.77.0",
   srcDir: "app",
-  platform: "osx",
-  arch: "x64",
   outDir: "out",
   glob: false,
-  app: {
-    name: "demo",
-    icon: "app/icon.icns",
-    NSHumanReadableCopyright:
-      "Copyright 2023 NW.js Utils. All Rights Reserved.",
-  },
 });

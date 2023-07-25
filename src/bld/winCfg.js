@@ -65,7 +65,7 @@ const setWinConfig = async (app, outDir) => {
     });
   } catch (error) {
     log.warn(
-      "Renaming EXE failed or unable to modify EXE. If it's the latter, ensure WINE is installed or build your application Windows platform"
+      "Renaming EXE failed or unable to modify EXE. If it's the latter, ensure WINE is installed or build your application Windows platform",
     );
     log.error(error);
   }
