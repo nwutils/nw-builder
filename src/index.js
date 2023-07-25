@@ -62,6 +62,11 @@ const nwbuild = async (options) => {
 
     options = await parse(options, manifest);
 
+    built = await isCached(options.cacheDir);
+    if (built === false) {
+      await mkdir(options.cacheDir, { recursive: true });
+    }
+
     if (options.mode !== "get" && options.mode !== "run") {
       // Create outDir if it does not exist
       built = await isCached(options.outDir);
@@ -95,8 +100,7 @@ const nwbuild = async (options) => {
 
     nwDir = resolve(
       options.cacheDir,
-      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${
-        options.platform
+      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform
       }-${options.arch}`
     );
 
