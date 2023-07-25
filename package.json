@@ -25,10 +25,11 @@
     }
   ],
   "license": "MIT",
-  "exports": {
-    "default": "./src/index.js",
-    "types": "./src/index.d.ts"
+  "main": "./src/index.js",
+  "bin": {
+    "nwbuild": "./src/cli.js"
   },
+  "types": "./src/index.d.ts",
   "type": "module",
   "files": [
     "./src"
@@ -67,8 +68,5 @@
     "rcedit": "^3.0.1",
     "winston": "^3.9.0",
     "yargs": "^17.7.2"
-  },
-  "bin": {
-    "nwbuild": "./src/cli.js"
   }
 }

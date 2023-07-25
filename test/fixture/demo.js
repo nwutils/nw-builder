@@ -6,4 +6,5 @@ await nwbuild({
   srcDir: "app",
   outDir: "out",
   glob: false,
+  cache: false,
 });
