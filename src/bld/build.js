@@ -28,7 +28,7 @@ export const build = async (
   platform,
   zip,
   app,
-  nwPkg
+  nwPkg,
 ) => {
   log.debug(`Remove any files at ${outDir} directory`);
   await rm(outDir, { force: true, recursive: true });
@@ -42,9 +42,11 @@ export const build = async (
       files,
       resolve(
         outDir,
-        platform !== "osx" ? "package.nw" : "nwjs.app/Contents/Resources/app.nw"
+        platform !== "osx"
+          ? "package.nw"
+          : "nwjs.app/Contents/Resources/app.nw",
       ),
-      { recursive: true, verbatimSymlinks: true }
+      { recursive: true, verbatimSymlinks: true },
     );
   } else {
     for (let file of files) {
@@ -56,9 +58,9 @@ export const build = async (
           platform !== "osx"
             ? "package.nw"
             : "nwjs.app/Contents/Resources/app.nw",
-          file
+          file,
         ),
-        { recursive: true, verbatimSymlinks: true }
+        { recursive: true, verbatimSymlinks: true },
       );
     }
 
@@ -71,10 +73,10 @@ export const build = async (
         platform !== "osx"
           ? "package.nw"
           : "nwjs.app/Contents/Resources/app.nw",
-        "package.json"
+        "package.json",
       ),
       JSON.stringify(nwPkg, null, 2),
-      "utf8"
+      "utf8",
     );
   }
 

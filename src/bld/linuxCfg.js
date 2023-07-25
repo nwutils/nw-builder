@@ -40,7 +40,7 @@ import { log } from "../log.js";
 export const setLinuxConfig = async (app, outDir) => {
   if (platform === "win32") {
     log.warn(
-      "Linux apps built on Windows platform do not preserve all file permissions. See #716"
+      "Linux apps built on Windows platform do not preserve all file permissions. See #716",
     );
   }
   let desktopEntryFile = {

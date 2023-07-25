@@ -49,7 +49,7 @@ describe("validate - get mode", () => {
         logLevel: "info",
       },
       mockReleaseInfo,
-      mockNodeVersion
+      mockNodeVersion,
     );
 
     equal(output, undefined);
@@ -73,7 +73,7 @@ describe("validate - get mode", () => {
         logLevel: "info",
       },
       mockArmReleaseInfo,
-      mockArmNodeVersion
+      mockArmNodeVersion,
     );
 
     equal(output, undefined);
@@ -95,7 +95,7 @@ describe("validate - get mode", () => {
         logLevel: "info",
       },
       mockReleaseInfo,
-      mockNodeVersion
+      mockNodeVersion,
     );
 
     equal(output, undefined);
@@ -117,7 +117,7 @@ describe("validate - get mode", () => {
         logLevel: "info",
       },
       mockReleaseInfo,
-      mockNodeVersion
+      mockNodeVersion,
     );
 
     equal(output, undefined);
@@ -139,7 +139,7 @@ describe("validate - get mode", () => {
         logLevel: "info",
       },
       mockReleaseInfo,
-      mockNodeVersion
+      mockNodeVersion,
     );
     equal(output, undefined);
   });

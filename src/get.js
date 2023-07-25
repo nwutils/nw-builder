@@ -47,7 +47,7 @@ export async function get({
   let nwCached = true;
   const nwDir = resolve(
     cacheDir,
-    `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}`
+    `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}`,
   );
   let out = undefined;
   let url = undefined;
@@ -148,7 +148,7 @@ export async function get({
 
       await rm(
         resolve(cacheDir, `nw.${platform === "linux" ? "tgz" : "zip"}`),
-        { recursive: true, force: true }
+        { recursive: true, force: true },
       );
     });
   }

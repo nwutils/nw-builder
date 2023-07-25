@@ -51,7 +51,7 @@ export async function getReleaseInfo(
   platform,
   arch,
   cacheDir,
-  manifestUrl
+  manifestUrl,
 ) {
   let releaseData = undefined;
   let manifestPath = undefined;
@@ -74,11 +74,11 @@ export async function getReleaseInfo(
     }
 
     releaseData = manifest.versions.find(
-      (release) => release.version === `v${version}`
+      (release) => release.version === `v${version}`,
     );
   } catch (e) {
     log.debug(
-      "The version manifest does not exist/was not downloaded. Please try again in some time."
+      "The version manifest does not exist/was not downloaded. Please try again in some time.",
     );
   }
   return releaseData;

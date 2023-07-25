@@ -81,7 +81,7 @@ const nwbuild = async (options) => {
       options.platform,
       options.arch,
       options.cacheDir,
-      options.manifestUrl
+      options.manifestUrl,
     );
 
     await validate(options, releaseInfo);
@@ -100,8 +100,9 @@ const nwbuild = async (options) => {
 
     nwDir = resolve(
       options.cacheDir,
-      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform
-      }-${options.arch}`
+      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${
+        options.platform
+      }-${options.arch}`,
     );
 
     // Download NW.js binaries
@@ -141,7 +142,7 @@ const nwbuild = async (options) => {
         nwDir,
         options.platform,
         options.argv,
-        options.glob
+        options.glob,
       );
     }
     if (options.mode === "build") {
@@ -152,7 +153,7 @@ const nwbuild = async (options) => {
         options.platform,
         options.zip,
         options.app,
-        manifest
+        manifest,
       );
     }
   } catch (error) {
