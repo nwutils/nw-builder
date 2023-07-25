@@ -54,6 +54,14 @@ const ARCH_KV = {
  *  mode: "get",
  *  downloadUrl: "https://cnpmjs.org/mirrors/nwjs/",
  * });
+ * 
+ * @example
+ * // FFmpeg (proprietary codecs)
+ * // Please read the license's constraints: https://nwjs.readthedocs.io/en/latest/For%20Developers/Enable%20Proprietary%20Codecs/#get-ffmpeg-binaries-from-the-community
+ * nwbuild({
+ *   mode: "get",
+ *   ffmpeg: true,
+ * });
  *
  * @param  {object}                   options              Get mode options
  * @param  {string}                   options.version      NW.js runtime version. Defaults to "latest".
