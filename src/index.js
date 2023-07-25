@@ -104,9 +104,20 @@ const nwbuild = async (options) => {
       }-${options.arch}`
     );
 
-    // Downloading binaries is required for run and build modes
-    if (options.mode === "get") {
-      // Download NW.js binaries
+    // Download NW.js binaries
+    await get({
+      version: options.version,
+      flavor: options.flavor,
+      platform: options.platform,
+      arch: options.arch,
+      downloadUrl: options.downloadUrl,
+      cacheDir: options.cacheDir,
+      cache: options.cache,
+      ffmpeg: false,
+    });
+
+    // Download ffmpeg binaries and replace chromium ffmpeg
+    if (options.ffmpeg === true) {
       await get({
         version: options.version,
         flavor: options.flavor,
@@ -115,22 +126,13 @@ const nwbuild = async (options) => {
         downloadUrl: options.downloadUrl,
         cacheDir: options.cacheDir,
         cache: options.cache,
-        ffmpeg: false,
+        ffmpeg: true,
       });
+    }
 
-      // Download ffmpeg binaries and replace chromium ffmpeg
-      if (options.ffmpeg === true) {
-        await get({
-          version: options.version,
-          flavor: options.flavor,
-          platform: options.platform,
-          arch: options.arch,
-          downloadUrl: options.downloadUrl,
-          cacheDir: options.cacheDir,
-          cache: options.cache,
-          ffmpeg: true,
-        });
-      }
+    if (options.mode === "get") {
+      // Do nothing since we have already downloaded the binaries
+      return;
     }
 
     if (options.mode === "run") {
