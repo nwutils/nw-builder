@@ -51,7 +51,7 @@
     "test:cli": "cd test/fixture && nwbuild --platform win --arch x64 --outDir out --no-glob app"
   },
   "devDependencies": {
-    "eslint": "^8.44.0",
+    "eslint": "^8.45.0",
     "eslint-config-tjw-jsdoc": "^1.0.3",
     "gh-pages": "^5.0.0",
     "jsdoc": "^4.0.2",
