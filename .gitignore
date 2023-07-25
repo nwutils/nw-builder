@@ -9,5 +9,6 @@ coverage
 cache
 dist
 doc/api*.md
+doc/mode-get.md
 out
 tmp

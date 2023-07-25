@@ -21,7 +21,39 @@ const ARCH_KV = {
 };
 
 /**
- * Get NW.js binaries
+ * _Note: This an internal function which is not called directly. Please see example usage below._
+ *
+ * Get NW.js binaries.
+ *
+ * @example
+ * // Minimal Usage (uses default values)
+ * nwbuild({
+ *   mode: "get",
+ * });
+ *
+ * @example
+ * // Unofficial MacOS builds (upto v0.75.0)
+ * nwbuild({
+ *   mode: "get",
+ *   platform: "osx",
+ *   arch: "arm64",
+ *   downloadUrl: "https://github.com/corwin-of-amber/nw.js/releases/download",
+ *   manifestUrl: "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json",
+ * });
+ *
+ * @example
+ * // China mirror
+ * nwbuild({
+ *  mode: "get",
+ *  downloadUrl: "https://npm.taobao.org/mirrors/nwjs",
+ * });
+ *
+ * @example
+ * // Singapore mirror
+ * nwbuild({
+ *  mode: "get",
+ *  downloadUrl: "https://cnpmjs.org/mirrors/nwjs/",
+ * });
  *
  * @param  {object}                   options              Get mode options
  * @param  {string}                   options.version      NW.js runtime version. Defaults to "latest".
