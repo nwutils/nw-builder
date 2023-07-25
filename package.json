@@ -42,8 +42,7 @@
   "scripts": {
     "fmt": "prettier --write \"./**/*.{css,html,js,json,md,yml}\"",
     "lnt": "eslint --config=cfg/eslint.config.cjs --fix src test",
-    "doc:api": "node cfg/jsdoc.config.cjs",
-    "doc:dev": "vitepress dev doc",
+    "doc:dev": "concurrently --kill-others \"node cfg/fswatch.config.js\" \"vitepress dev doc\"",
     "doc:bld": "vitepress build doc",
     "test:unit": "node --test-reporter=spec --test test/unit/index.js",
     "test:e2e": "node --test-reporter=spec --test test/e2e/index.js",
@@ -51,6 +50,7 @@
     "test:cli": "cd test/fixture && nwbuild --platform win --arch x64 --outDir out --no-glob app"
   },
   "devDependencies": {
+    "concurrently": "^8.2.0",
     "eslint": "^8.45.0",
     "eslint-config-tjw-jsdoc": "^1.0.3",
     "gh-pages": "^5.0.0",
