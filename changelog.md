@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.3.3] - 2023-07-11
+
+## Changed
+
+- Set `NSHumanReadableCopyright` property in `*.app/Resources/en.lproj/InfoPlist.strings` to update copyright
+
+## Removed
+
+- `NSHumanReadableCopyright` from `Info.plist`
+
 ## [4.3.2] - 2023-07-11
 
 ## Added

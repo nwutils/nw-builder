@@ -64,7 +64,6 @@ const setOsxConfig = async (app, outDir) => {
         arr[
           idx
         ] = `NSHumanReadableCopyright = "${app.NSHumanReadableCopyright}";`;
-        console.log(arr);
       }
     });
 
