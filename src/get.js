@@ -102,10 +102,10 @@ export async function get({
     downloadUrl === "https://npmmirror.com/mirrors/nwjs"
   ) {
     url = `${downloadUrl}/v${version}/nwjs${
-        flavor === "sdk" ? "-sdk" : ""
-      }-v${version}-${platform}-${arch}.${
-        platform === "linux" ? "tar.gz" : "zip"
-      }`;
+      flavor === "sdk" ? "-sdk" : ""
+    }-v${version}-${platform}-${arch}.${
+      platform === "linux" ? "tar.gz" : "zip"
+    }`;
     out = resolve(cacheDir, `nw.${platform === "linux" ? "tgz" : "zip"}`);
   }
 
