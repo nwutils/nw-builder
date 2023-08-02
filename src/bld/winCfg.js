@@ -60,10 +60,10 @@ const setWinConfig = async (app, outDir) => {
     "file-version": app.version,
     "product-version": app.version,
     "version-string": versionString,
-  }
+  };
 
   if (app.icon) {
-    rcEditOptions.icon = app.icon
+    rcEditOptions.icon = app.icon;
   }
 
   try {

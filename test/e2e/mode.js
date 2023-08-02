@@ -24,7 +24,7 @@ describe("test modes", async () => {
     arch: getArch(arch),
     outDir: "test/fixture/out",
     cacheDir: "test/fixture/cache",
-    glob: false
+    glob: false,
   };
 
   it("should run", async () => {

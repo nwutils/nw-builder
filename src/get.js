@@ -55,7 +55,7 @@ const ARCH_KV = {
  *  mode: "get",
  *  downloadUrl: "https://cnpmjs.org/mirrors/nwjs/",
  * });
- * 
+ *
  * @example
  * // FFmpeg (proprietary codecs)
  * // Please read the license's constraints: https://nwjs.readthedocs.io/en/latest/For%20Developers/Enable%20Proprietary%20Codecs/#get-ffmpeg-binaries-from-the-community
@@ -144,7 +144,7 @@ export async function get({
         // For GitHub releases and mirrors, we need to follow the redirect.
         if (
           downloadUrl ===
-          "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download" ||
+            "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download" ||
           downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
           downloadUrl === "https://npmmirror.com/mirrors/nwjs"
         ) {
