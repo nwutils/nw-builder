@@ -4,6 +4,7 @@ import { mkdir, readdir, rm, rmdir } from "node:fs/promises";
 import { get as getRequest } from "node:https";
 import { resolve } from "node:path";
 import { arch as ARCH, platform as PLATFORM } from "node:process";
+import { log } from "./log.js";
 
 import progress from "cli-progress";
 import compressing from "compressing";
@@ -84,6 +85,7 @@ export async function get({
   cache = true,
   ffmpeg = false,
 }) {
+  log.debug(`Start getting binaries`);
   let nwCached = true;
   const nwDir = resolve(
     cacheDir,
@@ -100,10 +102,10 @@ export async function get({
     downloadUrl === "https://npmmirror.com/mirrors/nwjs"
   ) {
     url = `${downloadUrl}/v${version}/nwjs${
-      flavor === "sdk" ? "-sdk" : ""
-    }-v${version}-${platform}-${arch}.${
-      platform === "linux" ? "tar.gz" : "zip"
-    }`;
+        flavor === "sdk" ? "-sdk" : ""
+      }-v${version}-${platform}-${arch}.${
+        platform === "linux" ? "tar.gz" : "zip"
+      }`;
     out = resolve(cacheDir, `nw.${platform === "linux" ? "tgz" : "zip"}`);
   }
 
@@ -117,27 +119,32 @@ export async function get({
 
   // If options.cache is false, remove cache.
   if (cache === false) {
+    log.debug(`Removing existing binaries`);
     rmdir(nwDir, { recursive: true, force: true });
   }
 
   // Check if cache exists.
   try {
     await readdir(nwDir);
+    log.debug(`Found existing binaries`);
   } catch (error) {
+    log.debug(`No existing binaries`);
     nwCached = false;
   }
 
   // If not cached, then download.
   if (nwCached === false) {
+    log.debug(`Downloading binaries`);
     await mkdir(nwDir, { recursive: true });
 
     const stream = createWriteStream(out);
     const request = new Promise((resolve, reject) => {
       getRequest(url, (response) => {
+        log.debug(`Response from ${url}`);
         // For GitHub releases and mirrors, we need to follow the redirect.
         if (
           downloadUrl ===
-            "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download" ||
+          "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download" ||
           downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
           downloadUrl === "https://npmmirror.com/mirrors/nwjs"
         ) {
@@ -145,6 +152,7 @@ export async function get({
         }
 
         getRequest(url, (response) => {
+          log.debug(`Response from ${url}`);
           let chunks = 0;
           bar.start(Number(response.headers["content-length"]), 0);
           response.on("data", async (chunk) => {
@@ -158,6 +166,7 @@ export async function get({
           });
 
           response.on("end", () => {
+            log.debug(`Binary fully downloaded`);
             bar.stop();
             if (platform === "linux") {
               compressing.tgz
@@ -180,7 +189,8 @@ export async function get({
     });
 
     // Remove compressed file after download and decompress.
-    request.then(async () => {
+    return request.then(async () => {
+      log.debug(`Binary decompressed starting removal`);
       await rm(resolve(cacheDir, "ffmpeg.zip"), {
         recursive: true,
         force: true,
@@ -190,6 +200,7 @@ export async function get({
         resolve(cacheDir, `nw.${platform === "linux" ? "tgz" : "zip"}`),
         { recursive: true, force: true },
       );
+      log.debug(`Binary zip removed`);
     });
   }
 }
