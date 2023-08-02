@@ -144,8 +144,7 @@ const nwbuild = async (options) => {
         options.argv,
         options.glob,
       );
-    }
-    else if (options.mode === "build") {
+    } else if (options.mode === "build") {
       await build(
         options.glob === true ? files : options.srcDir,
         nwDir,

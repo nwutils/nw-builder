@@ -1,16 +1,16 @@
-import { exec } from 'node:child_process';
-import { watch } from 'node:fs/promises';
+import { exec } from "node:child_process";
+import { watch } from "node:fs/promises";
 
-import { log } from '../src/log.js';
+import { log } from "../src/log.js";
 
 try {
-    const watcher = await watch("src", { recursive: true });
+  const watcher = await watch("src", { recursive: true });
 
-    for await (const event of watcher) {
-        if (event) {
-            exec("node cfg/jsdoc.config.cjs");
-        }
+  for await (const event of watcher) {
+    if (event) {
+      exec("node cfg/jsdoc.config.cjs");
     }
+  }
 } catch (e) {
-    log.error(e);
+  log.error(e);
 }

@@ -7,7 +7,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-
 ## [4.3.5] - 2023-08-03
 
 ### Changed
@@ -19,7 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 - Conditonally set Icon for Windows build.
-- Refactor `get` mode into a single file. 
+- Refactor `get` mode into a single file.
 
 ## [4.3.3] - 2023-07-25
 

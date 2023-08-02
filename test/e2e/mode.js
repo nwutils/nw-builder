@@ -16,14 +16,15 @@ describe("test modes", async () => {
   let driver = undefined;
 
   let nwOptions = {
-    srcDir: "test/fixture/app/**/*",
+    srcDir: "test/fixture/app",
     mode: "build",
-    version: "0.77.0",
+    version: "0.78.1",
     flavor: "sdk",
     platform: getPlatform(platform),
     arch: getArch(arch),
     outDir: "test/fixture/out",
-    cacheDir: "test/fixture/tmp",
+    cacheDir: "test/fixture/cache",
+    glob: false,
   };
 
   it("should run", async () => {
