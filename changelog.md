@@ -7,9 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+
+## [4.3.5] - 2023-08-03
+
+### Changed
+
+- Return promise in get mode to await it correctly.
+
 ## [4.3.4] - 2023-08-02
 
-## Changed
+### Changed
 
 - Conditonally set Icon for Windows build.
 - Refactor `get` mode into a single file. 
