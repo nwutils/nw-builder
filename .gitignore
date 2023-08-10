@@ -12,3 +12,4 @@ doc/api*.md
 doc/mode-get.md
 out
 tmp
+.idea

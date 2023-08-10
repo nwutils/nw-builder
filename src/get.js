@@ -9,6 +9,7 @@ import compressing from "compressing";
 
 import { log } from "./log.js";
 import { PLATFORM_KV, ARCH_KV } from "./util.js";
+import { replaceFfmpeg } from "./util/ffmpeg.js";
 
 /**
  * _Note: This an internal function which is not called directly. Please see example usage below._
@@ -122,7 +123,7 @@ export async function get({
   }
 
   // If not cached, then download.
-  if (nwCached === false) {
+  if (nwCached === false || ffmpeg === true) {
     log.debug(`Downloading binaries`);
     await mkdir(nwDir, { recursive: true });
 
@@ -179,6 +180,10 @@ export async function get({
 
     // Remove compressed file after download and decompress.
     return request.then(async () => {
+      if (ffmpeg === true) {
+        await replaceFfmpeg(platform, nwDir, out);
+      }
+
       log.debug(`Binary decompressed starting removal`);
       await rm(resolve(cacheDir, "ffmpeg.zip"), {
         recursive: true,
