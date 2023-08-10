@@ -40,8 +40,10 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
+    "ci:fmt": "prettier --check \"./**/*.{css,html,js,json,md,yml}\"",
+    "ci:lnt": "eslint --config=cfg/eslint.config.cjs cfg src test",
     "fmt": "prettier --write \"./**/*.{css,html,js,json,md,yml}\"",
-    "lnt": "eslint --config=cfg/eslint.config.cjs --fix src test",
+    "lnt": "eslint --config=cfg/eslint.config.cjs --fix cfg src test",
     "doc:dev": "concurrently --kill-others \"node cfg/fswatch.config.js\" \"vitepress dev doc\"",
     "doc:bld": "vitepress build doc",
     "test:unit": "node --test-reporter=spec --test test/unit/index.js",

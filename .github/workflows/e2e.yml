@@ -19,8 +19,8 @@ jobs:
           cache: "npm"
       - run: corepack enable
       - run: npm ci
-      - run: npm run fmt
-      - run: npm run lnt
+      - run: npm run ci:fmt
+      - run: npm run ci:lnt
       - run: npm link nw-builder
       - run: npm run test:unit
       - run: npm run test:e2e
