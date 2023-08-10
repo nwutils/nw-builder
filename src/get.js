@@ -123,7 +123,7 @@ export async function get({
   }
 
   // If not cached, then download.
-  if (nwCached === false) {
+  if (nwCached === false || ffmpeg === true) {
     log.debug(`Downloading binaries`);
     await mkdir(nwDir, { recursive: true });
 
