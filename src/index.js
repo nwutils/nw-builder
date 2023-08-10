@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import { arch, platform, version } from "node:process";
 
 import { build } from "./bld/build.js";
-import { develop } from "./run/develop.js";
+import { run } from "./run.js";
 import { isCached } from "./util/cache.js";
 import { getFiles } from "./util/files.js";
 import { getVersionManifest } from "./util/versionManifest.js";
@@ -137,13 +137,16 @@ const nwbuild = async (options) => {
     }
 
     if (options.mode === "run") {
-      await develop(
-        options.srcDir,
-        nwDir,
-        options.platform,
-        options.argv,
-        options.glob,
-      );
+      await run({
+        version: options.version,
+        flavor: options.flavor,
+        platform: options.platform,
+        arch: options.arch,
+        srcDir: options.srcDir,
+        cacheDir: options.cacheDir,
+        glob: options.glob,
+        argv: options.argv,
+      });
     } else if (options.mode === "build") {
       await build(
         options.glob === true ? files : options.srcDir,

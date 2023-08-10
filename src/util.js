@@ -83,3 +83,21 @@ export async function getReleaseInfo(
   }
   return releaseData;
 }
+
+export const PLATFORM_KV = {
+  darwin: "osx",
+  linux: "linux",
+  win32: "win",
+};
+
+export const ARCH_KV = {
+  x64: "x64",
+  ia32: "ia32",
+  arm64: "arm64",
+};
+
+export const EXE_NAME = {
+  win: "nw.exe",
+  osx: "nwjs.app/Contents/MacOS/nwjs",
+  linux: "nw",
+};

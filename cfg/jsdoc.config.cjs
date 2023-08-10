@@ -15,6 +15,17 @@ jsdoc2md
 
 jsdoc2md
     .render({
+        files: "src/run.js",
+    })
+    .then(async (output) => {
+        await writeFile("doc/mode-run.md", output);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+
+jsdoc2md
+    .render({
         files: "src/index.js",
     })
     .then(async (output) => {

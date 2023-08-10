@@ -1,25 +1,14 @@
 import { createWriteStream } from "node:fs";
-
 import { mkdir, readdir, rm, rmdir } from "node:fs/promises";
 import { get as getRequest } from "node:https";
 import { resolve } from "node:path";
 import { arch as ARCH, platform as PLATFORM } from "node:process";
-import { log } from "./log.js";
 
 import progress from "cli-progress";
 import compressing from "compressing";
 
-const PLATFORM_KV = {
-  darwin: "osx",
-  linux: "linux",
-  win32: "win",
-};
-
-const ARCH_KV = {
-  x64: "x64",
-  ia32: "ia32",
-  arm64: "arm64",
-};
+import { log } from "./log.js";
+import { PLATFORM_KV, ARCH_KV } from "./util.js";
 
 /**
  * _Note: This an internal function which is not called directly. Please see example usage below._
