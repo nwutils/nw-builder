@@ -9,22 +9,25 @@ import { resolve } from "node:path";
  * @param {string} ffmpegFile  The path to the ffmpeg file to replace with
  */
 export const replaceFfmpeg = async (platform, nwDir, ffmpegFile) => {
+  const src = resolve(nwDir, ffmpegFile)
   if (platform === "linux") {
-    await copyFile(ffmpegFile, resolve(nwDir, "lib", ffmpegFile));
+    const dest = resolve(nwDir, "lib", ffmpegFile)
+    await copyFile(src, dest);
   } else if (platform === "win") {
-    await copyFile(ffmpegFile, resolve(nwDir, ffmpegFile));
+    // don't do anything for windows because the extracted file is already in the correct path
+    // await copyFile(src, resolve(nwDir, ffmpegFile));
   } else if (platform === "osx") {
-    await copyFile(
-      ffmpegFile,
-      resolve(
+    const dest = resolve(
         nwDir,
+        "nwjs.app",
         "Contents",
         "Frameworks",
         "nwjs Framework.framework",
         "Versions",
         "Current",
-        ffmpegFile,
-      ),
-    );
+        ffmpegFile
+      );
+
+      await copyFile(src, dest);
   }
 };
