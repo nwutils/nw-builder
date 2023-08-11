@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.3.7] - 2023-08-11
+
+### Changed
+
+- Move community `ffmpeg` in the correct folder.
+
 ## [4.3.6] - 2023-08-11
 
 ### Changed
