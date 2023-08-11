@@ -181,7 +181,15 @@ export async function get({
     // Remove compressed file after download and decompress.
     return request.then(async () => {
       if (ffmpeg === true) {
-        await replaceFfmpeg(platform, nwDir, out);
+        let ffmpegFile;
+        if (platform === "linux") {
+          ffmpegFile = "libffmpeg.so";
+        } else if (platform === "win") {
+          ffmpegFile = "ffmpeg.dll";
+        } else if (platform === "osx") {
+          ffmpegFile = "libffmpeg.dylib";
+        }
+        await replaceFfmpeg(platform, nwDir, ffmpegFile);
       }
 
       log.debug(`Binary decompressed starting removal`);
