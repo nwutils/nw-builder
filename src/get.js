@@ -181,13 +181,13 @@ export async function get({
     // Remove compressed file after download and decompress.
     return request.then(async () => {
       if (ffmpeg === true) {
-        let ffmpegFile
+        let ffmpegFile;
         if (platform === "linux") {
-          ffmpegFile = 'libffmpeg.so'
+          ffmpegFile = "libffmpeg.so";
         } else if (platform === "win") {
-          ffmpegFile = 'ffmpeg.dll'
+          ffmpegFile = "ffmpeg.dll";
         } else if (platform === "osx") {
-          ffmpegFile = 'libffmpeg.dylib'
+          ffmpegFile = "libffmpeg.dylib";
         }
         await replaceFfmpeg(platform, nwDir, ffmpegFile);
       }
