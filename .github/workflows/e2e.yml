@@ -8,13 +8,16 @@ jobs:
   e2e:
     strategy:
       matrix:
-        os: [macos-12, ubuntu-22.04, windows-2022]
-        shell: [bash, bash, powershell]
+        include:
+          - {os: macos-12, shell: bash }
+          - {os: ubuntu-22.04, shell: bash }
+          - {os: windows-2022, shell: powershell }
+          # https://github.com/orgs/community/discussions/27143
       fail-fast: false
     runs-on: ${{ matrix.os }}
     defaults:
       run:
-        shell: powershell
+        shell: ${{ matrix.shell }}
     steps:
       - uses: actions/checkout@v3.3.0
       - uses: actions/setup-node@v3.6.0
