@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.3.8] - 2023-08-14
+
+### Changed
+
+- Handle error during ffmpeg copy on some mac environments
+
 ## [4.3.7] - 2023-08-11
 
 ### Changed
