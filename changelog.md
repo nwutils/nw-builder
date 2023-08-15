@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.3.9] - 2023-08-15
+
+### Changed
+
+- Some mac environments don't restore symlinks when using compressing lib. Now we will use system `unzip` command to extract zip files
+
 ## [4.3.8] - 2023-08-14
 
 ### Changed
