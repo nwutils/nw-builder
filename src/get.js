@@ -10,6 +10,7 @@ import compressing from "compressing";
 import { log } from "./log.js";
 import { PLATFORM_KV, ARCH_KV } from "./util.js";
 import { replaceFfmpeg } from "./util/ffmpeg.js";
+import child_process from "child_process";
 
 /**
  * _Note: This an internal function which is not called directly. Please see example usage below._
@@ -162,6 +163,17 @@ export async function get({
               compressing.tgz
                 .uncompress(out, ffmpeg ? nwDir : cacheDir)
                 .then(() => resolve());
+            } else if (platform === "osx"){
+              const exec = function (cmd) {
+                  log.debug(cmd);
+                  const result = child_process.spawnSync(cmd, {shell: true, stdio: 'inherit'});
+                  if (result.status !== 0) {
+                      log.debug(`Command failed with status ${result.status}`);
+                      if (result.error) console.log(result.error);
+                      process.exit(1);
+                  }
+              }
+              exec(`unzip -o "${out}" -d "${ffmpeg ? nwDir : cacheDir}"`)
             } else {
               compressing.zip
                 .uncompress(out, ffmpeg ? nwDir : cacheDir)
