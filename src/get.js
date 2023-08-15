@@ -163,17 +163,20 @@ export async function get({
               compressing.tgz
                 .uncompress(out, ffmpeg ? nwDir : cacheDir)
                 .then(() => resolve());
-            } else if (platform === "osx"){
+            } else if (platform === "osx") {
               const exec = function (cmd) {
-                  log.debug(cmd);
-                  const result = child_process.spawnSync(cmd, {shell: true, stdio: 'inherit'});
-                  if (result.status !== 0) {
-                      log.debug(`Command failed with status ${result.status}`);
-                      if (result.error) console.log(result.error);
-                      process.exit(1);
-                  }
-              }
-              exec(`unzip -o "${out}" -d "${ffmpeg ? nwDir : cacheDir}"`)
+                log.debug(cmd);
+                const result = child_process.spawnSync(cmd, {
+                  shell: true,
+                  stdio: "inherit",
+                });
+                if (result.status !== 0) {
+                  log.debug(`Command failed with status ${result.status}`);
+                  if (result.error) console.log(result.error);
+                  process.exit(1);
+                }
+              };
+              exec(`unzip -o "${out}" -d "${ffmpeg ? nwDir : cacheDir}"`);
             } else {
               compressing.zip
                 .uncompress(out, ffmpeg ? nwDir : cacheDir)
