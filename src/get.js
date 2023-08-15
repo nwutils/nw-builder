@@ -164,6 +164,7 @@ export async function get({
                 .uncompress(out, ffmpeg ? nwDir : cacheDir)
                 .then(() => resolve());
             } else if (platform === "osx") {
+              //TODO: compressing package does not restore symlinks on some macOS (eg: circleCI)
               const exec = function (cmd) {
                 log.debug(cmd);
                 const result = child_process.spawnSync(cmd, {
