@@ -175,7 +175,7 @@ export async function get({
                   if (result.error) console.log(result.error);
                   process.exit(1);
                 }
-                resolve();
+                return resolve();
               };
               exec(`unzip -o "${out}" -d "${ffmpeg ? nwDir : cacheDir}"`);
             } else {
