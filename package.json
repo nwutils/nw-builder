@@ -1,6 +1,6 @@
 {
   "name": "nw-builder",
-  "version": "3.8.5",
+  "version": "3.8.6-beta.0",
   "description": "Build NW.js desktop applications for Mac, Windows and Linux.",
   "keywords": [
     "NW.js",
@@ -45,7 +45,6 @@
     "graceful-fs-extra": "^2.0.0",
     "inherits": "^2.0.4",
     "lodash": "^4.17.21",
-    "nw-install": "^0.3.4",
     "plist": "^3.0.5",
     "progress": "^2.0.3",
     "rcedit": "^3.0.1",
