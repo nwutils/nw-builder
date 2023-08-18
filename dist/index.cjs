@@ -6838,7 +6838,7 @@ var require_utils = __commonJS({
           error.name = "IlligalDestError";
           throw error;
         }
-        return new Promise((resolve3, reject) => {
+        return new Promise((resolve4, reject) => {
           mkdirp(destDir, (err) => {
             if (err)
               return reject(err);
@@ -6847,7 +6847,7 @@ var require_utils = __commonJS({
             let isFinish = false;
             function done() {
               if (isFinish && entryCount === successCount)
-                resolve3();
+                resolve4();
             }
             new StreamClass(opts).on("finish", () => {
               isFinish = true;
@@ -6880,21 +6880,21 @@ var require_utils = __commonJS({
       };
     };
     exports.streamToBuffer = (stream) => {
-      return new Promise((resolve3, reject) => {
+      return new Promise((resolve4, reject) => {
         const chunks = [];
         stream.on("readable", () => {
           let chunk;
           while (chunk = stream.read())
             chunks.push(chunk);
-        }).on("end", () => resolve3(Buffer.concat(chunks))).on("error", (err) => reject(err));
+        }).on("end", () => resolve4(Buffer.concat(chunks))).on("error", (err) => reject(err));
       });
     };
     function safePipe(streams) {
-      return new Promise((resolve3, reject) => {
+      return new Promise((resolve4, reject) => {
         pump(streams[0], streams[1], (err) => {
           if (err)
             return reject(err);
-          resolve3();
+          resolve4();
         });
       });
     }
@@ -11276,11 +11276,11 @@ var require_get_ready = __commonJS({
       this._ready = !!this._ready;
       this._readyCallbacks = this._readyCallbacks || [];
       if (arguments.length === 0) {
-        return new Promise(function(resolve3) {
+        return new Promise(function(resolve4) {
           if (this._ready) {
-            return resolve3();
+            return resolve4();
           }
-          this._readyCallbacks.push(resolve3);
+          this._readyCallbacks.push(resolve4);
         }.bind(this));
       } else if (typeof flagOrFunction === "function") {
         this._readyCallbacks.push(flagOrFunction);
@@ -20042,14 +20042,14 @@ var require_async_iterator = __commonJS({
       };
     }
     function readAndResolve(iter) {
-      var resolve3 = iter[kLastResolve];
-      if (resolve3 !== null) {
+      var resolve4 = iter[kLastResolve];
+      if (resolve4 !== null) {
         var data = iter[kStream].read();
         if (data !== null) {
           iter[kLastPromise] = null;
           iter[kLastResolve] = null;
           iter[kLastReject] = null;
-          resolve3(createIterResult(data, false));
+          resolve4(createIterResult(data, false));
         }
       }
     }
@@ -20057,13 +20057,13 @@ var require_async_iterator = __commonJS({
       process.nextTick(readAndResolve, iter);
     }
     function wrapForNext(lastPromise, iter) {
-      return function(resolve3, reject) {
+      return function(resolve4, reject) {
         lastPromise.then(function() {
           if (iter[kEnded]) {
-            resolve3(createIterResult(void 0, true));
+            resolve4(createIterResult(void 0, true));
             return;
           }
-          iter[kHandlePromise](resolve3, reject);
+          iter[kHandlePromise](resolve4, reject);
         }, reject);
       };
     }
@@ -20083,12 +20083,12 @@ var require_async_iterator = __commonJS({
           return Promise.resolve(createIterResult(void 0, true));
         }
         if (this[kStream].destroyed) {
-          return new Promise(function(resolve3, reject) {
+          return new Promise(function(resolve4, reject) {
             process.nextTick(function() {
               if (_this[kError]) {
                 reject(_this[kError]);
               } else {
-                resolve3(createIterResult(void 0, true));
+                resolve4(createIterResult(void 0, true));
               }
             });
           });
@@ -20111,13 +20111,13 @@ var require_async_iterator = __commonJS({
       return this;
     }), _defineProperty(_Object$setPrototypeO, "return", function _return() {
       var _this2 = this;
-      return new Promise(function(resolve3, reject) {
+      return new Promise(function(resolve4, reject) {
         _this2[kStream].destroy(null, function(err) {
           if (err) {
             reject(err);
             return;
           }
-          resolve3(createIterResult(void 0, true));
+          resolve4(createIterResult(void 0, true));
         });
       });
     }), _Object$setPrototypeO), AsyncIteratorPrototype);
@@ -20139,15 +20139,15 @@ var require_async_iterator = __commonJS({
         value: stream._readableState.endEmitted,
         writable: true
       }), _defineProperty(_Object$create, kHandlePromise, {
-        value: function value(resolve3, reject) {
+        value: function value(resolve4, reject) {
           var data = iterator[kStream].read();
           if (data) {
             iterator[kLastPromise] = null;
             iterator[kLastResolve] = null;
             iterator[kLastReject] = null;
-            resolve3(createIterResult(data, false));
+            resolve4(createIterResult(data, false));
           } else {
-            iterator[kLastResolve] = resolve3;
+            iterator[kLastResolve] = resolve4;
             iterator[kLastReject] = reject;
           }
         },
@@ -20166,12 +20166,12 @@ var require_async_iterator = __commonJS({
           iterator[kError] = err;
           return;
         }
-        var resolve3 = iterator[kLastResolve];
-        if (resolve3 !== null) {
+        var resolve4 = iterator[kLastResolve];
+        if (resolve4 !== null) {
           iterator[kLastPromise] = null;
           iterator[kLastResolve] = null;
           iterator[kLastReject] = null;
-          resolve3(createIterResult(void 0, true));
+          resolve4(createIterResult(void 0, true));
         }
         iterator[kEnded] = true;
       });
@@ -20186,7 +20186,7 @@ var require_async_iterator = __commonJS({
 var require_from = __commonJS({
   "node_modules/readable-stream/lib/internal/streams/from.js"(exports, module2) {
     "use strict";
-    function asyncGeneratorStep(gen, resolve3, reject, _next, _throw, key, arg) {
+    function asyncGeneratorStep(gen, resolve4, reject, _next, _throw, key, arg) {
       try {
         var info = gen[key](arg);
         var value = info.value;
@@ -20195,7 +20195,7 @@ var require_from = __commonJS({
         return;
       }
       if (info.done) {
-        resolve3(value);
+        resolve4(value);
       } else {
         Promise.resolve(value).then(_next, _throw);
       }
@@ -20203,13 +20203,13 @@ var require_from = __commonJS({
     function _asyncToGenerator(fn) {
       return function() {
         var self2 = this, args = arguments;
-        return new Promise(function(resolve3, reject) {
+        return new Promise(function(resolve4, reject) {
           var gen = fn.apply(self2, args);
           function _next(value) {
-            asyncGeneratorStep(gen, resolve3, reject, _next, _throw, "next", value);
+            asyncGeneratorStep(gen, resolve4, reject, _next, _throw, "next", value);
           }
           function _throw(err) {
-            asyncGeneratorStep(gen, resolve3, reject, _next, _throw, "throw", err);
+            asyncGeneratorStep(gen, resolve4, reject, _next, _throw, "throw", err);
           }
           _next(void 0);
         });
@@ -22080,11 +22080,11 @@ var require_awaitify = __commonJS({
         if (typeof args[arity - 1] === "function") {
           return asyncFn.apply(this, args);
         }
-        return new Promise((resolve3, reject) => {
+        return new Promise((resolve4, reject) => {
           args[arity - 1] = (err, ...cbArgs) => {
             if (err)
               return reject(err);
-            resolve3(cbArgs.length > 1 ? cbArgs : cbArgs[0]);
+            resolve4(cbArgs.length > 1 ? cbArgs : cbArgs[0]);
           };
           asyncFn.apply(this, args);
         });
@@ -22747,13 +22747,13 @@ var require_diagnostics = __commonJS({
       }
       if (!async.length)
         return false;
-      return new Promise(function pinky(resolve3) {
+      return new Promise(function pinky(resolve4) {
         Promise.all(
           async.map(function prebind(fn) {
             return fn(namespace);
           })
         ).then(function resolved(values) {
-          resolve3(values.some(Boolean));
+          resolve4(values.some(Boolean));
         });
       });
     }
@@ -26804,7 +26804,8 @@ __export(src_exports, {
   checkPkgOptions: () => checkPkgOptions_default,
   detectCurrentPlatform: () => detectCurrentPlatform_default,
   get: () => get,
-  parseOptions: () => parseOptions_default
+  parseOptions: () => parseOptions_default,
+  run: () => run
 });
 module.exports = __toCommonJS(src_exports);
 
@@ -27092,6 +27093,11 @@ var ARCH_KV = {
   ia32: "ia32",
   arm64: "arm64"
 };
+var EXE_NAME = {
+  win: "nw.exe",
+  osx: "nwjs.app/Contents/MacOS/nwjs",
+  linux: "nw"
+};
 
 // src/utilities/ffmpeg.js
 var import_promises = require("node:fs/promises");
@@ -27175,7 +27181,7 @@ async function get({
     log.debug(`Downloading binaries`);
     await (0, import_promises2.mkdir)(nwDir, { recursive: true });
     const stream = (0, import_node_fs.createWriteStream)(out);
-    const request = new Promise((resolve3, reject) => {
+    const request = new Promise((resolve4, reject) => {
       (0, import_node_https.get)(url, (response) => {
         log.debug(`Response from ${url}`);
         if (downloadUrl === "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download" || downloadUrl === "https://npm.taobao.org/mirrors/nwjs" || downloadUrl === "https://npmmirror.com/mirrors/nwjs") {
@@ -27197,7 +27203,7 @@ async function get({
             log.debug(`Binary fully downloaded`);
             bar.stop();
             if (platform === "linux") {
-              import_compressing.default.tgz.uncompress(out, ffmpeg ? nwDir : cacheDir).then(() => resolve3());
+              import_compressing.default.tgz.uncompress(out, ffmpeg ? nwDir : cacheDir).then(() => resolve4());
             } else if (platform === "osx") {
               const exec = function(cmd) {
                 log.debug(cmd);
@@ -27211,11 +27217,11 @@ async function get({
                     console.log(result.error);
                   process.exit(1);
                 }
-                return resolve3();
+                return resolve4();
               };
               exec(`unzip -o "${out}" -d "${ffmpeg ? nwDir : cacheDir}"`);
             } else {
-              import_compressing.default.zip.uncompress(out, ffmpeg ? nwDir : cacheDir).then(() => resolve3());
+              import_compressing.default.zip.uncompress(out, ffmpeg ? nwDir : cacheDir).then(() => resolve4());
             }
           });
           response2.pipe(stream);
@@ -27250,6 +27256,53 @@ async function get({
     });
   }
 }
+
+// src/run.js
+var import_node_child_process = require("node:child_process");
+var import_node_path3 = require("node:path");
+var import_node_process2 = require("node:process");
+async function run({
+  version = "latest",
+  flavor = "normal",
+  platform = PLATFORM_KV[import_node_process2.platform],
+  arch = ARCH_KV[import_node_process2.arch],
+  srcDir = "./src",
+  cacheDir = "./cache",
+  glob = false,
+  argv = []
+}) {
+  try {
+    if (EXE_NAME[platform] === void 0) {
+      throw new Error("Unsupported platform.");
+    }
+    if (glob === true) {
+      throw new Error("Globbing is not supported with run mode.");
+    }
+    const nwDir = (0, import_node_path3.resolve)(
+      cacheDir,
+      `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}`
+    );
+    return new Promise((res, rej) => {
+      const nwProcess = (0, import_node_child_process.spawn)(
+        (0, import_node_path3.resolve)(nwDir, EXE_NAME[platform]),
+        [srcDir.replace(/[*]/g, "").concat(argv)],
+        {
+          detached: true,
+          windowsHide: true
+        }
+      );
+      nwProcess.on("close", () => {
+        res();
+      });
+      nwProcess.on("error", (error) => {
+        log.error(error);
+        rej(error);
+      });
+    });
+  } catch (error) {
+    log.error(error);
+  }
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   Options,
@@ -27259,6 +27312,7 @@ async function get({
   checkPkgOptions,
   detectCurrentPlatform,
   get,
-  parseOptions
+  parseOptions,
+  run
 });
 /*! safe-buffer. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
