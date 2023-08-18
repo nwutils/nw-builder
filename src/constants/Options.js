@@ -8,7 +8,7 @@ const Options = {
   cacheDir: "./cache",
   platforms: [],
   currentPlatform: null,
-  downloadUrl: "https://dl.nwjs.io/",
+  downloadUrl: "https://dl.nwjs.io",
   manifestUrl: "https://nwjs.io/versions.json",
   // Build API
   appName: false,
