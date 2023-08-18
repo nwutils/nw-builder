@@ -1,4 +1,4 @@
-const NwBuilder = require("../../lib/index.cjs");
+const NwBuilder = require("../lib/index.cjs");
 
 const nw = new NwBuilder({
     files: "app/*",
