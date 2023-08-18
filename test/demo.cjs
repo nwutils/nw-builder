@@ -1,7 +1,7 @@
 const NwBuilder = require("../lib/index.cjs");
 
 const nw = new NwBuilder({
-    files: "demo/*",
+    files: "test/demo/*",
     version: "0.67.1",
 });
 
