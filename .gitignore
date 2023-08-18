@@ -8,6 +8,7 @@ coverage
 # project files
 build
 cache
+dist
 
 yarn.lock
 

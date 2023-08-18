@@ -17,6 +17,7 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
+    "postinstall": "npm run build",
     "fmt": "prettier --write .github ./bin ./lib ./src ./test",
     "lnt": "eslint ./bin/**.cjs ./lib/**.cjs ./src/**.js",
     "test": "npm run test:unit && tape './test/*.cjs'",
@@ -28,7 +29,6 @@
   "devDependencies": {
     "cli-progress": "^3.12.0",
     "decompress-zip": "^0.3.3",
-    "esbuild": "^0.15.2",
     "eslint": "^8.18.0",
     "eslint-config-tjw-jsdoc": "^1.0.3",
     "eslint-plugin-jsdoc": "^39.3.3",
@@ -44,6 +44,7 @@
     "archiver": "^5.3.1",
     "compressing": "^1.9.1",
     "deprecate": "^1.1.1",
+    "esbuild": "^0.15.2",
     "graceful-fs-extra": "^2.0.0",
     "inherits": "^2.0.4",
     "lodash": "^4.17.21",
