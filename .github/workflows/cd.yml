@@ -5,16 +5,26 @@ on:
       - v3
 
 jobs:
-  publish:
+  npm:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3.3.0
+      - name: Get Node version from Node manifest
+        run: |
+          echo "NODE_VER=$(jq -r '.engines.node' package.json | sed 's/v//' )" >> $GITHUB_ENV
+      - name: Setup Node
+        uses: actions/setup-node@v3.6.0
         with:
-          node-version: 18
+          node-version: ${{ env.NODE_VER }}
+          cache: "npm"
 
-      - run: npm ci
-      - uses: JS-DevTools/npm-publish@v2
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
-          tag: stable
+      - name: Enable corepack
+        run: corepack enable
+      - name: Install dependencies
+        run: npm ci
+      - name: Publish to NPM
+        uses: JS-DevTools/npm-publish@v2
+          with:
+            token: ${{ secrets.NPM_TOKEN }}
+            tag: stable

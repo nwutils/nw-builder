@@ -58,6 +58,10 @@
     "winresourcer": "^0.9.0",
     "yargs": "^17.5.1"
   },
+  "engines": {
+    "node": "v20.5.0"
+  },
+  "packageManager": "npm@9.8.1",
   "bin": {
     "nwbuild": "./bin/nwbuild.cjs"
   },
