@@ -1,4 +1,4 @@
-name: cd
+name: v3-cd
 on:
   push:
     branches:
