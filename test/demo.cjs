@@ -5,4 +5,4 @@ const nw = new NwBuilder({
     version: "0.67.1",
 });
 
-nw.build();
+nw.run();
