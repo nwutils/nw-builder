@@ -9,7 +9,6 @@ import compressing from "compressing";
 
 import { log } from "./log.js";
 import { PLATFORM_KV, ARCH_KV } from "./util.js";
-import { replaceFfmpeg } from "./utilities/ffmpeg.js";
 import child_process from "child_process";
 
 /**
@@ -206,7 +205,6 @@ export async function get({
         } else if (platform === "osx") {
           ffmpegFile = "libffmpeg.dylib";
         }
-        await replaceFfmpeg(platform, nwDir, ffmpegFile);
       }
 
       log.debug(`Binary decompressed starting removal`);
