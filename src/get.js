@@ -1,5 +1,5 @@
 import { createWriteStream } from "node:fs";
-import { mkdir, readdir, rm, rmdir } from "node:fs/promises";
+import { mkdir, readdir, rm } from "node:fs/promises";
 import { get as getRequest } from "node:https";
 import { resolve } from "node:path";
 import { arch as ARCH, platform as PLATFORM } from "node:process";
@@ -111,7 +111,7 @@ export async function get({
   // If options.cache is false, remove cache.
   if (cache === false) {
     log.debug(`Removing existing binaries`);
-    rmdir(nwDir, { recursive: true, force: true });
+    await rm(nwDir, { recursive: true, force: true });
   }
 
   // Check if cache exists.

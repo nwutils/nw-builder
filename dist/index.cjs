@@ -26818,7 +26818,7 @@ var Options = {
   cacheDir: "./cache",
   platforms: [],
   currentPlatform: null,
-  downloadUrl: "https://dl.nwjs.io/",
+  downloadUrl: "https://dl.nwjs.io",
   manifestUrl: "https://nwjs.io/versions.json",
   appName: false,
   appVersion: false,
@@ -27162,7 +27162,7 @@ async function get({
   }
   if (cache === false) {
     log.debug(`Removing existing binaries`);
-    (0, import_promises2.rmdir)(nwDir, { recursive: true, force: true });
+    await (0, import_promises2.rm)(nwDir, { recursive: true, force: true });
   }
   try {
     await (0, import_promises2.readdir)(nwDir);
