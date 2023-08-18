@@ -1,4 +1,4 @@
-name: cd
+name: v3-cd
 on:
   push:
     branches:
@@ -24,7 +24,7 @@ jobs:
         run: npm ci
       - name: Run tests
         run: npm test
-      - name: Publish to NPM
+      - name: Publish to npm
         uses: JS-DevTools/npm-publish@v2.2.1
         with:
           token: ${{ secrets.NPM_TOKEN }}
