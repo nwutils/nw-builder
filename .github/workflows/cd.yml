@@ -22,9 +22,11 @@ jobs:
         run: corepack enable
       - name: Install dependencies
         run: npm ci
+      - name: Prepare for test
+        run: npm run build
       - name: Run tests
         run: npm test
-      - name: Publish to NPM
+      - name: Publish to npm
         uses: JS-DevTools/npm-publish@v2.2.1
         with:
           token: ${{ secrets.NPM_TOKEN }}

@@ -1,8 +1,10 @@
-const { nwbuild } = require("../../lib/index.cjs");
+const NwBuilder = require("../../lib/index.cjs");
 
-nwbuild({
-  files: "./**",
-  version: "0.67.1",
-  platforms: ["linux64"],
-  mode: "build",
+const nw = new NwBuilder({
+    files: "./**",
+    version: "0.67.1",
+    platforms: ["linux64"],
+    mode: "build",
 });
+
+nw.run();

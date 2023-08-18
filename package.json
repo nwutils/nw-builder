@@ -23,9 +23,10 @@
     "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "demo": "cd ./test/demo && npm run start",
     "demo:cli": "nwbuild ./** --mode=build --platforms=linux32,linux64 --version=0.67.1",
-    "build": "esbuild src/index.js --bundle --minify --platform=node --outfile=./dist/index.cjs"
+    "build": "esbuild src/index.js --bundle --platform=node --outfile=./dist/index.cjs"
   },
   "devDependencies": {
+    "cli-progress": "^3.12.0",
     "decompress-zip": "^0.3.3",
     "esbuild": "^0.15.2",
     "eslint": "^8.18.0",
@@ -41,6 +42,7 @@
   },
   "dependencies": {
     "archiver": "^5.3.1",
+    "compressing": "^1.9.1",
     "deprecate": "^1.1.1",
     "graceful-fs-extra": "^2.0.0",
     "inherits": "^2.0.4",
@@ -56,6 +58,7 @@
     "temp": "^0.9.4",
     "thenify": "^3.3.1",
     "winresourcer": "^0.9.0",
+    "winston": "^3.10.0",
     "yargs": "^17.5.1"
   },
   "engines": {
