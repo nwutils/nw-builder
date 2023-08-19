@@ -8,6 +8,7 @@ const nw = new NwBuilder({
         "package.json",
         "test/demo/*"
     ],
+    platforms: ["linux64", "osx64", "win64"],
     version: "0.67.1",
 });
 

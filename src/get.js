@@ -9,7 +9,6 @@ import compressing from "compressing";
 
 import { log } from "./log.js";
 import { PLATFORM_KV, ARCH_KV } from "./util.js";
-import child_process from "child_process";
 
 /**
  * _Note: This an internal function which is not called directly. Please see example usage below._
@@ -91,11 +90,9 @@ export async function get({
     downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
     downloadUrl === "https://npmmirror.com/mirrors/nwjs"
   ) {
-    url = `${downloadUrl}/v${version}/nwjs${
-      flavor === "sdk" ? "-sdk" : ""
-    }-v${version}-${platform}-${arch}.${
-      platform === "linux" ? "tar.gz" : "zip"
-    }`;
+    url = `${downloadUrl}/v${version}/nwjs${flavor === "sdk" ? "-sdk" : ""
+      }-v${version}-${platform}-${arch}.${platform === "linux" ? "tar.gz" : "zip"
+      }`;
     out = resolve(cacheDir, `nw.${platform === "linux" ? "tgz" : "zip"}`);
   }
 
@@ -134,7 +131,7 @@ export async function get({
         // For GitHub releases and mirrors, we need to follow the redirect.
         if (
           downloadUrl ===
-            "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download" ||
+          "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download" ||
           downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
           downloadUrl === "https://npmmirror.com/mirrors/nwjs"
         ) {
@@ -162,22 +159,6 @@ export async function get({
               compressing.tgz
                 .uncompress(out, ffmpeg ? nwDir : cacheDir)
                 .then(() => resolve());
-            } else if (platform === "osx") {
-              //TODO: compressing package does not restore symlinks on some macOS (eg: circleCI)
-              const exec = function (cmd) {
-                log.debug(cmd);
-                const result = child_process.spawnSync(cmd, {
-                  shell: true,
-                  stdio: "inherit",
-                });
-                if (result.status !== 0) {
-                  log.debug(`Command failed with status ${result.status}`);
-                  if (result.error) console.log(result.error);
-                  process.exit(1);
-                }
-                return resolve();
-              };
-              exec(`unzip -o "${out}" -d "${ffmpeg ? nwDir : cacheDir}"`);
             } else {
               compressing.zip
                 .uncompress(out, ffmpeg ? nwDir : cacheDir)
