@@ -67,22 +67,6 @@
   "bin": {
     "nwbuild": "./bin/nwbuild.cjs"
   },
-  "prettier": {
-    "printWidth": 80,
-    "tabWidth": 2,
-    "useTabs": false,
-    "semi": true,
-    "singleQuote": false,
-    "quoteProps": "consistent",
-    "trailingComma": "all",
-    "bracketSpacing": true,
-    "bracketSameLine": false,
-    "arrowParens": "always",
-    "proseWrap": "preserve",
-    "htmlWhitespaceSensitivity": "strict",
-    "endOfLine": "lf",
-    "singleAttributePerLine": true
-  },
   "eslintConfig": {
     "parserOptions": {
       "ecmaVersion": 2021,
