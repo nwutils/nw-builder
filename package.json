@@ -43,7 +43,6 @@
     "archiver": "^6.0.0",
     "cli-progress": "^3.12.0",
     "compressing": "^1.9.1",
-    "deprecate": "^1.1.1",
     "esbuild": "^0.19.2",
     "graceful-fs-extra": "^2.0.0",
     "inherits": "^2.0.4",

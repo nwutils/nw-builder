@@ -7,6 +7,7 @@ import detectCurrentPlatform from "./utilities/detectCurrentPlatform";
 import parseOptions from "./utilities/parseOptions";
 
 import { get } from "./get.js";
+import { log } from "./log";
 import { run } from "./run";
 
 export {
@@ -18,5 +19,6 @@ export {
   checkPkgOptions,
   parseOptions,
   get,
+  log,
   run,
 };
