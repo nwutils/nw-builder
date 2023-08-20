@@ -18,7 +18,7 @@
   },
   "scripts": {
     "postinstall": "npm run build",
-    "lnt": "eslint ./bin/**.cjs ./lib/**.cjs ./src/**.js",
+    "lnt": "eslint --config=cfg/eslint.config.cjs src",
     "e2e": "node --test-reporter=spec --test e2e/test.js",
     "test": "npm run test:unit && tape './test/*.cjs'",
     "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
@@ -31,7 +31,6 @@
     "decompress-zip": "^0.3.3",
     "eslint": "^8.47.0",
     "eslint-config-tjw-jsdoc": "^1.0.3",
-    "eslint-plugin-jsdoc": "^46.4.6",
     "jest": "^29.6.2",
     "jest-environment-jsdom": "^29.6.2",
     "jsdom": "^22.1.0",
@@ -66,28 +65,6 @@
   "packageManager": "npm@9.8.1",
   "bin": {
     "nwbuild": "./bin/nwbuild.cjs"
-  },
-  "eslintConfig": {
-    "parserOptions": {
-      "ecmaVersion": 2021,
-      "sourceType": "module"
-    },
-    "env": {
-      "es6": true,
-      "node": true
-    },
-    "extends": [
-      "eslint:recommended",
-      "tjw-jsdoc"
-    ],
-    "overrides": [
-      {
-        "files": "./src/**/*.js"
-      }
-    ],
-    "plugins": [
-      "jsdoc"
-    ]
   },
   "jest": {
     "testEnvironment": "jsdom"
