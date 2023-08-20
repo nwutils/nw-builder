@@ -19,6 +19,7 @@
   "scripts": {
     "postinstall": "npm run build",
     "lnt": "eslint ./bin/**.cjs ./lib/**.cjs ./src/**.js",
+    "e2e": "node --test-reporter=spec --test e2e/test.js",
     "test": "npm run test:unit && tape './test/*.cjs'",
     "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "demo": "npm run build && node demo.cjs",
@@ -37,6 +38,7 @@
     "nock": "^13.3.3",
     "redtape": "^1.0.0",
     "rimraf": "^3.0.2",
+    "selenium-webdriver": "^4.11.1",
     "tape": "^5.6.6"
   },
   "dependencies": {

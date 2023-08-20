@@ -31,3 +31,5 @@ jobs:
         run: npm ci
       - name: Run test
         run: npm test
+      - name: Run ChromeDriver tests
+        run: npm run e2e
