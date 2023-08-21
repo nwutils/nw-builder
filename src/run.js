@@ -50,10 +50,10 @@ export async function run({
       `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}`,
     );
 
-    // console.log(srcDir.replace(/[*]/g, ''))
-    // process.exit(0)
-
     return new Promise((res, rej) => {
+      if (Array.isArray(srcDir)) {
+        srcDir = srcDir[0];
+      }
       // It is assumed that the package.json is located at srcDir/package.json
       const nwProcess = spawn(
         resolve(nwDir, EXE_NAME[platform]),
@@ -69,7 +69,6 @@ export async function run({
       });
 
       nwProcess.on("error", (error) => {
-        log.error(error);
         rej(error);
       });
     });

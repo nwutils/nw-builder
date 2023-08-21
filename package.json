@@ -23,7 +23,7 @@
     "test:jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:tape": "tape './test/*.cjs'",
     "test:sanity": "node --test-reporter=spec --test e2e/test.js",
-    "demo": "npm run build && node demo.cjs"
+    "demo": "npm run test:prep && node demo.cjs"
   },
   "devDependencies": {
     "decompress-zip": "^0.3.3",

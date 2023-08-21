@@ -2,13 +2,12 @@ import Options from "./constants/Options";
 import Platform from "./constants/Platform";
 import Platforms from "./constants/Platforms";
 import checkCache from "./utilities/checkCache";
-import checkPkgOptions from "./utilities/checkPkgOptions";
 import detectCurrentPlatform from "./utilities/detectCurrentPlatform";
-import parseOptions from "./utilities/parseOptions";
 
 import { get } from "./get.js";
-import { log } from "./log";
-import { run } from "./run";
+import { log, setLogLevel } from "./log.js";
+import { run } from "./run.js";
+import { isCached, parse, getReleaseInfo, validate } from "./util.js";
 
 export {
   Options,
@@ -16,9 +15,12 @@ export {
   Platforms,
   detectCurrentPlatform,
   checkCache,
-  checkPkgOptions,
-  parseOptions,
   get,
+  getReleaseInfo,
+  isCached,
   log,
+  parse,
   run,
+  setLogLevel,
+  validate,
 };
