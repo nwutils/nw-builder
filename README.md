@@ -1,5 +1,8 @@
 # nw-builder
 
+[![npm](https://img.shields.io/npm/v/nw-builder/stable](https://www.npmjs.com/package/nw-builder)
+[![Join the chat at https://gitter.im/nwjs/nw-builder](https://badges.gitter.im/nwjs/nw-builder.svg)](https://gitter.im/nwjs/nw-builder?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and Linux.
 
 ## Table of Contents
@@ -207,6 +210,34 @@ Type: `Boolean`
 Default value: `true`
 
 WINDOWS AND LINUX ONLY: Merge the source file package with the Node Webkit executable.
+
+#### options.downloadUrl
+
+Type: `string`
+Default value: `https://dl.nwjs.io`
+
+Server to download binaries from.
+
+#### options.manifestUrl
+
+Type: `string`
+Default value: `https://nwjs.io/versions`
+
+Server to download binaries from.
+
+#### options.quiet
+
+Type: `string`
+Default: `"info"`
+
+Set the log level. Valid options are `"error"`, `"warn"`, `"info"`, `"debug"` and `"off"`.
+
+#### options.useRcedit
+
+Type: `Boolean`
+Default: `false`
+
+`winresourcer` is used to update Windows executable resources by default. `rcedit` can be used if preferred.
 
 ### Manifest Options
 
