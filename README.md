@@ -5,6 +5,8 @@
 
 Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and Linux.
 
+For version 4, please go to the [corresponding branch](https://github.com/nwutils/nw-builder/tree/main).
+
 ## Table of Contents
 
 - [Installation](https://github.com/nwutils/nw-builder#installation)
