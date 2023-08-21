@@ -12,7 +12,7 @@ const nw = new NwBuilder({
     version: "0.67.1",
 });
 
-nw.build().then(() => {
+nw.run().then(() => {
     let NW_manifest = JSON.parse(fs.readFileSync("package.json", { encoding: "utf8" }));
 
     NW_manifest.main = "test/demo/index.html";
