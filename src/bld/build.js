@@ -63,21 +63,6 @@ export const build = async (
         { recursive: true, verbatimSymlinks: true },
       );
     }
-
-    // Write NW.js manifest file to outDir
-    // TODO: Allow user to specify manifest file config options
-    log.debug(`Write NW.js manifest file to ${outDir} directory`);
-    await writeFile(
-      resolve(
-        outDir,
-        platform !== "osx"
-          ? "package.nw"
-          : "nwjs.app/Contents/Resources/app.nw",
-        "package.json",
-      ),
-      JSON.stringify(nwPkg, null, 2),
-      "utf8",
-    );
   }
 
   log.debug(`Starting platform specific config steps for ${platform}`);
