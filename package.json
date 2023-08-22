@@ -22,7 +22,7 @@
     "test:prep": "esbuild src/index.js --bundle --platform=node --outfile=./dist/index.cjs",
     "test:jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:tape": "tape './test/*.cjs'",
-    "test:sanity": "node --test-reporter=spec --test e2e/test.js",
+    "test:sanity": "npm link nw-builder && node --test-reporter=spec --test e2e/test.js",
     "demo": "npm run test:prep && node demo.cjs"
   },
   "devDependencies": {
