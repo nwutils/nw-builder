@@ -46,11 +46,7 @@ function getManifest(manifestUrl) {
  * @param  {string} manifestUrl  Url to manifest
  * @return {object}              Version specific release info
  */
-export async function getReleaseInfo(
-  version,
-  cacheDir,
-  manifestUrl,
-) {
+export async function getReleaseInfo(version, cacheDir, manifestUrl) {
   let releaseData = undefined;
   let manifestPath = undefined;
   manifestPath = resolve(cacheDir, "manifest.json");
@@ -110,8 +106,13 @@ export async function isCached(cacheDir) {
     exists = false;
   }
   return exists;
-};
+}
 
+/**
+ *
+ * @param options
+ * @param pkg
+ */
 export function parse(options, pkg) {
   options = options || {};
   options.files = options.files ?? null;
@@ -155,9 +156,10 @@ export function parse(options, pkg) {
   if (options.buildType === "default") {
     options.appName = options.appName;
   } else if (options.buildType === "versioned") {
-    options.appName = options.appName + " - v" + options.appVersion
+    options.appName = options.appName + " - v" + options.appVersion;
   } else if (options.buildType === "timestamped") {
-    options.appName = options.appName + " - " + Math.round(Date.now() / 1000).toString();
+    options.appName =
+      options.appName + " - " + Math.round(Date.now() / 1000).toString();
   }
 
   options.buildDir = options.buildDir ?? "./build";
@@ -179,8 +181,13 @@ export function parse(options, pkg) {
   options.quiet = options.quiet ?? "info";
 
   return options;
-};
+}
 
+/**
+ *
+ * @param options
+ * @param releaseInfo
+ */
 export async function validate(options, releaseInfo) {
   if (typeof releaseInfo === "undefined") {
     throw new Error(
@@ -188,8 +195,15 @@ export async function validate(options, releaseInfo) {
     );
   }
 
-  if (typeof options.files !== "string" && !Array.isArray(options.files) && options.files !== null) {
-    throw new Error("Expected options.files to be a string, array or null. Got " + typeof options.files);
+  if (
+    typeof options.files !== "string" &&
+    !Array.isArray(options.files) &&
+    options.files !== null
+  ) {
+    throw new Error(
+      "Expected options.files to be a string, array or null. Got " +
+        typeof options.files,
+    );
   }
 
   if (!releaseInfo.flavors.includes(options.flavor)) {
@@ -198,7 +212,7 @@ export async function validate(options, releaseInfo) {
     );
   }
   for (let platform of options.platforms) {
-    let plat = platform.slice(0, os.length - 2)
+    let plat = platform.slice(0, os.length - 2);
     let arch = "x" + platform.slice(os.length - 2);
     if (!releaseInfo.platforms.includes(`${plat}-${arch}`)) {
       throw new Error(
@@ -215,13 +229,15 @@ export async function validate(options, releaseInfo) {
 
   if (typeof options.appVersion !== "string") {
     throw new Error(
-      "Expected options.appVersion to be a string. Got " + typeof options.appVersion,
+      "Expected options.appVersion to be a string. Got " +
+        typeof options.appVersion,
     );
   }
 
   if (["default", "versioned", "timestamped"].includes(options.buildType)) {
     throw new Error(
-      "Expected 'default', 'versioned' or 'timestamped'. Got " + options.buildType,
+      "Expected 'default', 'versioned' or 'timestamped'. Got " +
+        options.buildType,
     );
   }
 
@@ -235,7 +251,8 @@ export async function validate(options, releaseInfo) {
 
   if (typeof options.forceDownload !== "boolean") {
     return new Error(
-      "Expected options.forceDownload to be a boolean. Got " + typeof options.cache,
+      "Expected options.forceDownload to be a boolean. Got " +
+        typeof options.cache,
     );
   }
 
@@ -245,12 +262,14 @@ export async function validate(options, releaseInfo) {
     );
   }
 
-  if (["error", "warn", "info", "debug", "off"].includes(options.quiet) === false) {
+  if (
+    ["error", "warn", "info", "debug", "off"].includes(options.quiet) === false
+  ) {
     {
       throw new Error(
-        "Expected 'error', 'warn', 'info', 'debug' or 'off'. Got " + options.quiet,
+        "Expected 'error', 'warn', 'info', 'debug' or 'off'. Got " +
+          options.quiet,
       );
     }
   }
-
 }

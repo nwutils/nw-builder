@@ -3,9 +3,9 @@ import path from "path";
 
 /**
  *
- * @param {string} filePath
- * @param {string[]} files
- * @returns {boolean}
+ * @param  {string}   filePath
+ * @param  {string[]} files
+ * @return {boolean}
  */
 const checkCache = (filePath, files) => {
   let missing = false;

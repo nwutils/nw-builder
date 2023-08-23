@@ -90,9 +90,11 @@ export async function get({
     downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
     downloadUrl === "https://npmmirror.com/mirrors/nwjs"
   ) {
-    url = `${downloadUrl}/v${version}/nwjs${flavor === "sdk" ? "-sdk" : ""
-      }-v${version}-${platform}-${arch}.${platform === "linux" ? "tar.gz" : "zip"
-      }`;
+    url = `${downloadUrl}/v${version}/nwjs${
+      flavor === "sdk" ? "-sdk" : ""
+    }-v${version}-${platform}-${arch}.${
+      platform === "linux" ? "tar.gz" : "zip"
+    }`;
     out = resolve(cacheDir, `nw.${platform === "linux" ? "tgz" : "zip"}`);
   }
 
@@ -131,7 +133,7 @@ export async function get({
         // For GitHub releases and mirrors, we need to follow the redirect.
         if (
           downloadUrl ===
-          "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download" ||
+            "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download" ||
           downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
           downloadUrl === "https://npmmirror.com/mirrors/nwjs"
         ) {

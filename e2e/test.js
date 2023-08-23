@@ -1,6 +1,6 @@
 import { equal } from "node:assert";
 import { resolve } from "node:path";
-import {arch as ARCH, platform as PLATFORM} from "node:process";
+import { arch as ARCH, platform as PLATFORM } from "node:process";
 import { describe, it } from "node:test";
 
 import NwBuilder from "nw-builder";
@@ -22,15 +22,12 @@ describe("test modes", async () => {
   };
 
   it("should run", async () => {
-    const nw =  NwBuilder({ ...nwOptions });
+    const nw = NwBuilder({ ...nwOptions });
 
     nw.build();
 
     const options = new Options();
-    const args = [
-      `--nwapp=${resolve("test", "demo")}`,
-      "--headless=new",
-    ];
+    const args = [`--nwapp=${resolve("test", "demo")}`, "--headless=new"];
     options.addArguments(args);
 
     const chromedriverPath = resolve(

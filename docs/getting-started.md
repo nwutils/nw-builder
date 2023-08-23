@@ -72,8 +72,8 @@ Module usage:
 const { nwbuild } = require("nw-builder");
 
 nwbuild({
-    files: "./path/to/nw/app",
-    mode: "run",
+  files: "./path/to/nw/app",
+  mode: "run",
 });
 ```
 
@@ -93,10 +93,10 @@ Module usage:
 const { nwbuild } = require("nw-builder");
 
 nwbuild({
-    files: "./path/to/nw/app/dir/**/*.*",
-    flavor: "normal",
-    platforms: ["win32", "linux64"],
-    mode: "build",
+  files: "./path/to/nw/app/dir/**/*.*",
+  flavor: "normal",
+  platforms: ["win32", "linux64"],
+  mode: "build",
 });
 ```
 

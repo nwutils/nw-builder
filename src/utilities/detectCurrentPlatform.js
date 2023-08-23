@@ -1,8 +1,8 @@
 import Platform from "../constants/Platform.js";
 /**
  *
- * @param {NodeJS.Process} process
- * @returns {Platform | undefined}
+ * @param  {NodeJS.Process}       process
+ * @return {Platform | undefined}
  */
 const detectCurrentPlatform = (process) => {
   switch (process.platform) {
