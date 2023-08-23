@@ -1,5 +1,5 @@
 import { resolve } from "node:path";
-import { cp, rm, writeFile } from "node:fs/promises";
+import { cp, rm } from "node:fs/promises";
 
 import compressing from "compressing";
 
@@ -18,18 +18,9 @@ import { setWinConfig } from "./winCfg.js";
  * @param  {"linux" | "osx" | "win"} platform  Platform is the operating system type
  * @param  {"zip" | boolean}         zip       Specify if the build artifacts are to be zipped
  * @param  {object}                  app       Multi platform configuration options
- * @param  {string}                  nwPkg     NW.js manifest file
  * @return {Promise<undefined>}
  */
-export const build = async (
-  files,
-  nwDir,
-  outDir,
-  platform,
-  zip,
-  app,
-  nwPkg,
-) => {
+export const build = async (files, nwDir, outDir, platform, zip, app) => {
   log.debug(`Remove any files at ${outDir} directory`);
   await rm(outDir, { force: true, recursive: true });
   log.debug(`Copy ${nwDir} files to ${outDir} directory`);
