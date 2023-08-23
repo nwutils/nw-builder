@@ -4,7 +4,3 @@ cache
 build
 dist
 out
-
-*.zip
-*.tar
-*.tgz
