@@ -1,11 +1,25 @@
-# Change Log
+# Changelog
 
-All notable changes to this project will be documented in this file and in the [Releases](https://github.com/nwjs-community/nw-builder/blob/develop/releases) section.
+All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [3.8.6-beta.2] - 2023-08-23
+
+### Changed
+
+- Migrate from function to class implementation.
+- Refactor options parsing and validation logic.
+
+## [3.8.6-beta.1] - 2023-08-19
+
+### Changed
+
+- Migrate from `nw-install` to `node:https`.
+- Refactor executable renaming logic
 
 ## [3.8.6] - 2022-09-22
 
