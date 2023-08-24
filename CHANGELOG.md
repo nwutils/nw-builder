@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
-- `engines` property from `package.json`. This will allow installation on multiple Node environments. The `engines` field would fail for project which have `engine-strict=true` in their `.npmrc` file.
+- `engines` property from `package.json`. The `engines` field would prevent install for projects which have `engine-strict=true` in their `.npmrc` file and don't have Node `v20.5.1` installed.
 
 ## [3.8.7] - 2023-08-24
 
