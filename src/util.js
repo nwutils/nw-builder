@@ -154,7 +154,7 @@ export function parse(options, pkg) {
   options.buildType = options.buildType ?? "default";
 
   if (options.buildType === "default") {
-    options.appName = options.appName;
+    // Don't do anything. options.appName is already set.
   } else if (options.buildType === "versioned") {
     options.appName = options.appName + " - v" + options.appVersion;
   } else if (options.buildType === "timestamped") {
@@ -212,9 +212,9 @@ export async function validate(options, releaseInfo) {
     );
   }
   for (let platform of options.platforms) {
-    let plat = platform.slice(0, os.length - 2);
-    let arch = "x" + platform.slice(os.length - 2);
-    if (!releaseInfo.platforms.includes(`${plat}-${arch}`)) {
+    let plat = platform.slice(0, platform.length - 2);
+    let arch = "x" + platform.slice(platform.length - 2);
+    if (!releaseInfo.files.includes(`${plat}-${arch}`)) {
       throw new Error(
         `$${plat}-${arch} is not supported by this download server.`,
       );
@@ -234,7 +234,7 @@ export async function validate(options, releaseInfo) {
     );
   }
 
-  if (["default", "versioned", "timestamped"].includes(options.buildType)) {
+  if (!["default", "versioned", "timestamped"].includes(options.buildType)) {
     throw new Error(
       "Expected 'default', 'versioned' or 'timestamped'. Got " +
         options.buildType,
