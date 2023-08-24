@@ -1,13 +1,13 @@
 import { createLogger, format, transports } from "winston";
 
-const { combine, timestamp, printf } = format;
+const { combine, errors, timestamp, printf } = format;
 
 const customFormat = printf(({ level, message }) => {
   return `[ ${level.toUpperCase()} ] ${message}`;
 });
 
 export let log = createLogger({
-  format: combine(timestamp(), customFormat),
+  format: combine(errors({stack: true}), timestamp(), customFormat),
   transports: [
     new transports.Console({
       level: "info",
