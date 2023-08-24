@@ -1,16 +1,40 @@
 {
   "name": "nw-builder",
-  "version": "3.8.6-beta.2",
+  "version": "3.8.7",
   "description": "Build NW.js desktop applications for Mac, Windows and Linux.",
   "keywords": [
     "NW.js",
+    "node-webkit",
     "Desktop",
     "Application"
   ],
-  "author": "Steffen Müller <steffen@mllrsohn.com>",
+  "author": {
+    "name": "Steffen Müller",
+    "url": "https://www.mllrsohn.com/"
+  },
+  "maintainers": [
+    {
+      "name": "Ayushman Chhabra",
+      "url": "https://ayushmanchhabra.com/"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "nw-builder Contributors",
+      "url": "https://github.com/nwutil/nw-builder/graphs/contributors"
+    }
+  ],
   "license": "MIT",
   "main": "./lib/index.cjs",
+  "bin": {
+    "nwbuild": "./bin/nwbuild.cjs"
+  },
   "type": "module",
+  "files": [
+    "bin",
+    "lib",
+    "src"
+  ],
   "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
     "type": "git",
@@ -59,12 +83,9 @@
     "yargs": "^17.7.2"
   },
   "engines": {
-    "node": "v20.5.0"
+    "node": "v20.5.1"
   },
   "packageManager": "npm@9.8.1",
-  "bin": {
-    "nwbuild": "./bin/nwbuild.cjs"
-  },
   "jest": {
     "testEnvironment": "jsdom"
   }

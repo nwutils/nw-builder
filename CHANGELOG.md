@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [3.8.7] - 2023-08-24
+
+### Added
+
+- Stack trace to logging
+
+### Changed
+
+- Fix options validation logic
+
 ## [3.8.6-beta.2] - 2023-08-23
 
 ### Changed

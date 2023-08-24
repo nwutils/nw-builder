@@ -16,7 +16,7 @@ describe("test modes", async () => {
 
   let nwOptions = {
     files: "test/demo/**",
-    version: "0.67.1",
+    version: "0.79.1",
     flavor: "sdk",
     cacheDir: "cache",
   };
