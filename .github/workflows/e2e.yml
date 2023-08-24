@@ -2,22 +2,16 @@ name: e2e
 
 on:
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   e2e:
     strategy:
       matrix:
-        include:
-          - { os: macos-12, shell: bash }
-          - { os: ubuntu-22.04, shell: bash }
-          - { os: windows-2022, shell: powershell }
-          # https://github.com/orgs/community/discussions/27143
+        os: [macos-12, ubuntu-22.04, windows-2022]
+        node: [16, 18, 20]
       fail-fast: false
     runs-on: ${{ matrix.os }}
-    defaults:
-      run:
-        shell: ${{ matrix.shell }}
     steps:
       - name: Install packages
         uses: ConorMacBride/install-package@v1.1.0
@@ -28,7 +22,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3.6.0
         with:
-          node-version: "20.5.0"
+          node-version: ${{ matrix.node }}
           cache: "npm"
       - run: corepack enable
       - run: npm ci
