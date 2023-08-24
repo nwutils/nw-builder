@@ -1,6 +1,6 @@
 {
   "name": "nw-builder",
-  "version": "3.8.7",
+  "version": "3.8.8",
   "description": "Build NW.js desktop applications for Mac, Windows and Linux.",
   "keywords": [
     "NW.js",
@@ -81,9 +81,6 @@
     "winresourcer": "^0.9.0",
     "winston": "^3.10.0",
     "yargs": "^17.7.2"
-  },
-  "engines": {
-    "node": "v20.5.1"
   },
   "packageManager": "npm@9.8.1",
   "jest": {

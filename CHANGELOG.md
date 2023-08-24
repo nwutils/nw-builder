@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [3.8.8] - 2023-08-24
+
+### Removed
+
+- `engines` property from `package.json`. This will allow installation on multiple Node environments. The `engines` field would fail for project which have `engine-strict=true` in their `.npmrc` file.
+
 ## [3.8.7] - 2023-08-24
 
 ### Added
