@@ -1,7 +1,7 @@
 # nw-builder
 
 [![npm](https://img.shields.io/npm/v/nw-builder/latest)](https://www.npmjs.com/package/nw-builder)
-[![Join the chat at https://gitter.im/nwjs/nw-builder](https://badges.gitter.im/nwjs/nw-builder.svg)](https://app.gitter.im/#/room/#nwjs_nw-builder:gitter.im)
+[![Join the chat at https://gitter.im/nwjs/nw-builder](https://badges.gitter.im/repo.svg)](https://app.gitter.im/#/room/#nwjs_nw-builder:gitter.im)
 
 Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and Linux.
 
