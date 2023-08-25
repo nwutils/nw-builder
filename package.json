@@ -46,7 +46,7 @@
     "lnt": "eslint --config=cfg/eslint.config.cjs --fix src",
     "test:prep": "esbuild src/index.js --bundle --platform=node --outfile=./dist/index.cjs",
     "test:unit": "node --test test/unit/detectCurrentPlatform.js ",
-    "test:tape": "tape './test/*.cjs'",
+    "test:tape": "tape test/*.tape.cjs",
     "test:sanity": "node --test-reporter=spec --test e2e/test.js",
     "demo": "npm run test:prep && npm link nw-builder && cd test && node demo.cjs"
   },
