@@ -22,7 +22,7 @@ describe("test modes", async () => {
   };
 
   it("should run", async () => {
-    const nw = NwBuilder({ ...nwOptions });
+    const nw = new NwBuilder({ ...nwOptions });
 
     nw.build();
 

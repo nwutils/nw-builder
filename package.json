@@ -44,11 +44,12 @@
     "postinstall": "npm run test:prep",
     "fmt": "prettier --write .",
     "lnt": "eslint --config=cfg/eslint.config.cjs --fix src",
-    "test:prep": "esbuild src/index.js --bundle --platform=node --outfile=./dist/index.cjs",
+    "test:dist": "esbuild src/index.js --bundle --platform=node --outfile=./dist/index.cjs",
+    "test:link": "npm link nw-builder",
     "test:jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js test/unit",
     "test:tape": "tape './test/*.cjs'",
-    "test:sanity": "node --test-reporter=spec --test e2e/test.js",
-    "demo": "npm run test:prep && npm link nw-builder && cd test && node demo.cjs"
+    "test:sanity": "node --test-reporter=spec --test test/chromedriver.mjs",
+    "demo": "cd test && node demo.cjs"
   },
   "devDependencies": {
     "decompress-zip": "^0.3.3",
