@@ -13,7 +13,6 @@ export {
   Platform,
   Platforms,
   detectCurrentPlatform,
-  checkCache,
   get,
   getReleaseInfo,
   isCached,
