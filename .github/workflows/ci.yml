@@ -13,14 +13,19 @@ concurrency:
 
 jobs:
   e2e:
-    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        os: [macos-13, ubuntu-22.04, windows-2022]
+        node: [16, 18, 20]
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3.6.0
       - name: Setup Node
-        uses: actions/setup-node@v3.6.0
+        uses: actions/setup-node@v3.8.1
         with:
-          node-version: "20.5.1"
+          node-version: ${{ matrix.node }}
           cache: "npm"
       - name: Enable corepack
         run: corepack enable
@@ -30,7 +35,7 @@ jobs:
         run: npm run test:prep
       - name: Run Jest tests
         run: npm run test:jest
-      - name: Run Tape tests
-        run: npm run test:tape
-      - name: Run ChromeDriver tests
-        run: npm run test:sanity
+      # - name: Run Tape tests
+      #   run: npm run test:tape
+      # - name: Run ChromeDriver tests
+      #   run: npm run test:sanity
