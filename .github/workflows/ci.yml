@@ -33,8 +33,8 @@ jobs:
         run: npm ci
       - name: Prepare test environment
         run: npm run test:prep
-      - name: Run Jest tests
-        run: npm run test:jest
+      - name: Run unit tests
+        run: npm run test:unit
       # - name: Run Tape tests
       #   run: npm run test:tape
       # - name: Run ChromeDriver tests
