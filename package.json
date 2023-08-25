@@ -47,7 +47,7 @@
     "test:dist": "esbuild src/index.js --bundle --platform=node --outfile=./dist/index.cjs",
     "test:link": "npm link nw-builder",
     "test:jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js test/unit",
-    "test:tape": "tape './test/*.cjs'",
+    "test:tape": "tape test/*.tape.cjs",
     "test:sanity": "node --test-reporter=spec --test test/chromedriver.mjs",
     "demo": "cd test && node demo.cjs"
   },
