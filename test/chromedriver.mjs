@@ -24,7 +24,7 @@ describe("test modes", async () => {
   it("should run", async () => {
     const nw = new NwBuilder({ ...nwOptions });
 
-    nw.build();
+    await nw.build();
 
     const options = new Options();
     const args = [`--nwapp=${resolve("test", "demo")}`, "--headless=new"];
