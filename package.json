@@ -41,7 +41,7 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
-    "postinstall": "npm run test:prep",
+    "postinstall": "npm run test:dist",
     "fmt": "prettier --write .",
     "lnt": "eslint --config=cfg/eslint.config.cjs --fix src",
     "test:dist": "esbuild src/index.js --bundle --platform=node --outfile=./dist/index.cjs",
