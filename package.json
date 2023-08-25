@@ -45,7 +45,7 @@
     "fmt": "prettier --write .",
     "lnt": "eslint --config=cfg/eslint.config.cjs --fix src",
     "test:prep": "esbuild src/index.js --bundle --platform=node --outfile=./dist/index.cjs",
-    "test:jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:unit": "node --test test/unit/detectCurrentPlatform.js ",
     "test:tape": "tape './test/*.cjs'",
     "test:sanity": "node --test-reporter=spec --test e2e/test.js",
     "demo": "npm run test:prep && npm link nw-builder && cd test && node demo.cjs"
@@ -54,9 +54,6 @@
     "decompress-zip": "^0.3.3",
     "eslint": "^8.47.0",
     "eslint-config-tjw-jsdoc": "^1.0.3",
-    "jest": "^29.6.2",
-    "jest-environment-jsdom": "^29.6.2",
-    "jsdom": "^22.1.0",
     "nock": "^13.3.3",
     "prettier": "^3.0.2",
     "redtape": "^1.0.0",
@@ -82,8 +79,5 @@
     "winston": "^3.10.0",
     "yargs": "^17.7.2"
   },
-  "packageManager": "npm@9.8.1",
-  "jest": {
-    "testEnvironment": "jsdom"
-  }
+  "packageManager": "npm@9.8.1"
 }

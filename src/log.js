@@ -7,7 +7,7 @@ const customFormat = printf(({ level, message }) => {
 });
 
 export let log = createLogger({
-  format: combine(errors({stack: true}), timestamp(), customFormat),
+  format: combine(errors({ stack: true }), timestamp(), customFormat),
   transports: [
     new transports.Console({
       level: "info",
