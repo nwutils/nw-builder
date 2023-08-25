@@ -19,6 +19,7 @@ describe("test modes", async () => {
     version: "0.79.1",
     flavor: "sdk",
     cacheDir: "cache",
+    quiet: "debug",
   };
 
   it("should run", async () => {
