@@ -45,7 +45,7 @@
     "fmt": "prettier --write .",
     "lnt": "eslint --config=cfg/eslint.config.cjs --fix src",
     "test:prep": "esbuild src/index.js --bundle --platform=node --outfile=./dist/index.cjs",
-    "test:jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js test/unit",
     "test:tape": "tape './test/*.cjs'",
     "test:sanity": "node --test-reporter=spec --test e2e/test.js",
     "demo": "npm run test:prep && npm link nw-builder && cd test && node demo.cjs"
