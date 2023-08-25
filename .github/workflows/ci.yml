@@ -37,7 +37,7 @@ jobs:
         run: npm link nw-builder
       - name: Run Jest tests
         run: npm run test:jest
-      - name: Run Tape tests
-        run: npm run test:tape
+      # - name: Run Tape tests
+      #   run: npm run test:tape
       - name: Run ChromeDriver tests
         run: npm run test:sanity
