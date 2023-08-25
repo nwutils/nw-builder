@@ -15,7 +15,7 @@ jobs:
   e2e:
     strategy:
       matrix:
-        os: [ubuntu-22.04]
+        os: [windows-2022]
         node: [20]
       fail-fast: false
     runs-on: ${{ matrix.os }}
