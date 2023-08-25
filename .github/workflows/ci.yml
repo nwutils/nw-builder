@@ -37,7 +37,7 @@ jobs:
         run: npm run test:link
       - name: Run Jest tests
         run: npm run test:jest
-      # - name: Run Tape tests
-      #   run: npm run test:tape
-      - name: Run ChromeDriver tests
-        run: npm run test:sanity
+      - name: Run Tape tests
+        run: npm run test:tape
+      # - name: Run ChromeDriver tests
+      #   run: npm run test:sanity
