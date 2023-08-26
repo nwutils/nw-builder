@@ -22,16 +22,23 @@ jobs:
         with:
           brew: unzip
       - name: Checkout repository
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3.6.0
       - name: Setup Node
-        uses: actions/setup-node@v3.6.0
+        uses: actions/setup-node@v3.8.1
         with:
           node-version: ${{ matrix.node }}
           cache: "npm"
-      - run: corepack enable
-      - run: npm ci
-      - run: npm run ci:fmt
-      - run: npm run ci:lnt
-      - run: npm link nw-builder
-      - run: npm run test:unit
-      - run: npm run test:e2e
+      - name: Enable corepack
+        run: corepack enable
+      - name: Install dependencies
+        run: npm ci
+      - name: Check for formatting errors
+        run: npm run ci:fmt
+      - name: Check for linting errors
+        run: npm run ci:lnt
+      - name: Link module
+        run: npm link nw-builder
+      - name: Run unit tests
+        run: npm run test:unit
+      - name: Run Selenium tests
+        run: npm run test:e2e
