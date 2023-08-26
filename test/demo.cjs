@@ -9,4 +9,4 @@ const nw = new NwBuilder({
   buildDir: "../build",
 });
 
-nw.build();
+nw.run();

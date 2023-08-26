@@ -48,7 +48,7 @@
     "test:unit": "node --test test/unit/detectCurrentPlatform.js ",
     "test:tape": "tape test/*.tape.cjs",
     "test:sanity": "node --test-reporter=spec --test e2e/test.js",
-    "demo": "npm run test:prep && npm link nw-builder && cd test && node demo.cjs"
+    "demo": "cd test && node demo.cjs"
   },
   "devDependencies": {
     "decompress-zip": "^0.3.3",
