@@ -43,9 +43,9 @@
   "scripts": {
     "postinstall": "npm run test:prep",
     "ci:fmt": "prettier --check \"./**/*.{css,html,js,json,md,yml}\"",
-    "ci:lnt": "eslint --config=cfg/eslint.config.cjs cfg src test",
+    "ci:lnt": "eslint --config=cfg/eslint.config.cjs src test",
     "fmt": "prettier --write \"./**/*.{css,html,js,json,md,yml}\"",
-    "lnt": "eslint --config=cfg/eslint.config.cjs --fix cfg src test",
+    "lnt": "eslint --config=cfg/eslint.config.cjs --fix src test",
     "test:prep": "esbuild src/index.js --bundle --platform=node --outfile=./dist/index.cjs",
     "test:unit": "node --test test/unit/detectCurrentPlatform.js ",
     "test:tape": "tape './test/*.cjs'",
