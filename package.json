@@ -46,8 +46,8 @@
     "lnt": "eslint --config=cfg/eslint.config.cjs --fix cfg src test",
     "doc:dev": "concurrently --kill-others \"node cfg/fswatch.config.js\" \"vitepress dev doc\"",
     "doc:bld": "vitepress build doc",
-    "test:unit": "node --test-reporter=spec --test test/unit/index.js",
-    "test:e2e": "node --test-reporter=spec --test test/e2e/index.js",
+    "test:unit": "node --test test/unit/index.js",
+    "test:e2e": "node --test test/e2e/index.js",
     "test:mod": "cd test/fixture && node demo.js",
     "test:cli": "cd test/fixture && nwbuild --platform win --arch x64 --outDir out --no-glob app"
   },
