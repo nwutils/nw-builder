@@ -200,11 +200,10 @@ export async function validate(options, releaseInfo) {
     !Array.isArray(options.files) &&
     options.files !== null
   ) {
-    // throw new Error(
-    //   "Expected options.files to be a string, array or null. Got " +
-    //     typeof options.files,
-    // );
-    throw new Error("Check for files");
+    throw new Error(
+      "Expected options.files to be a string, array or null. Got " +
+        typeof options.files,
+    );
   }
 
   if (!releaseInfo.flavors.includes(options.flavor)) {
