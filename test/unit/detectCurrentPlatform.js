@@ -1,14 +1,10 @@
 import { strictEqual } from "node:assert";
-import {
-  describe,
-  it,
-} from "node:test";
+import { describe, it } from "node:test";
 
 import detectCurrentPlatform from "../../src/utilities/detectCurrentPlatform.js";
 import Platform from "../../src/constants/Platform.js";
 
 describe("detectCurrentPlatform", () => {
-
   it("for OSX 32 platform", () => {
     const process = {
       platform: "darwin",
@@ -62,7 +58,6 @@ describe("detectCurrentPlatform", () => {
 
     strictEqual(detectCurrentPlatform(process), Platform.WIN_64);
   });
-
 });
 
-export { };
+export {};
