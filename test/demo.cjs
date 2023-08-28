@@ -11,6 +11,10 @@ const NwBuilder = require("../lib/index.cjs");
 
 // nw.run();
 
-new NwBuilder({
-  files: null,
+const nw = new NwBuilder({
+  files: ["demo/*"],
+  platforms: undefined,
+  buildType: "timestamped"
 });
+
+nw.init()

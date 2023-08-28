@@ -180,7 +180,7 @@ export function parse(options, pkg) {
   options.manifestUrl = options.manifestUrl ?? "https://nwjs.io/versions";
   options.quiet = options.quiet ?? "info";
 
-  return options;
+  return { ...options };
 }
 
 /**
