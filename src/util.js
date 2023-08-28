@@ -141,13 +141,13 @@ export function parse(options, pkg) {
 
   options.appName = options.appName ?? false;
 
-  if (options.appName === false) {
+  if (options.appName === false && pkg !== undefined) {
     options.appName = pkg.name;
   }
 
   options.appVersion = options.appVersion ?? false;
 
-  if (options.appVersion === false) {
+  if (options.appVersion === false && pkg !== undefined) {
     options.appVersion = pkg.version;
   }
 

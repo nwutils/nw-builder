@@ -13,13 +13,6 @@ var xmlFixture =
 var baseUrl = "https://amazon.s3.nw.com";
 nock(baseUrl).get("/xml").reply(200, xmlFixture);
 
-test("Throw files", function (t) {
-  t.plan(1);
-  t.throws(function () {
-    new NwBuilder({ files: null });
-  }, "Check for files");
-});
-
 test("Throw platforms", function (t) {
   t.plan(1);
   t.throws(function () {

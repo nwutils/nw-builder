@@ -47,7 +47,7 @@
     "fmt": "prettier --write \"./**/*.{css,html,js,json,md,yml}\"",
     "lnt": "eslint --config=cfg/eslint.config.cjs --fix src test",
     "test:prep": "esbuild src/index.js --bundle --platform=node --outfile=./dist/index.cjs",
-    "test:unit": "node --test test/unit/detectCurrentPlatform.js ",
+    "test:unit": "node --test test/unit/detectCurrentPlatform.js test/unit/options.js",
     "test:tape": "tape test/tape/*",
     "test:sanity": "node --test-reporter=spec --test e2e/test.js",
     "demo": "cd test && node demo.cjs"
