@@ -1,7 +1,7 @@
 var test = require("tape"),
   nock = require("nock");
 
-var versions = require("../lib/versions.cjs");
+var versions = require("../../lib/versions.cjs");
 
 var root = "http://nwjs.io";
 var dlUrl = "http://dl.nwjs.io/";
