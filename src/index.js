@@ -10,7 +10,8 @@ import { getVersionManifest } from "./util/versionManifest.js";
 import { parse } from "./util/parse.js";
 import { validate } from "./util/validate.js";
 
-import { get } from "./get.js";
+import { get_nwjs } from "./get_nwjs.js";
+import { get_ffmpeg } from "./get_ffmpeg.js";
 import { log, setLogLevel } from "./log.js";
 import { getReleaseInfo } from "./util.js";
 
@@ -106,7 +107,7 @@ const nwbuild = async (options) => {
     );
 
     // Download NW.js binaries
-    await get({
+    await get_nwjs({
       version: options.version,
       flavor: options.flavor,
       platform: options.platform,
@@ -114,20 +115,17 @@ const nwbuild = async (options) => {
       downloadUrl: options.downloadUrl,
       cacheDir: options.cacheDir,
       cache: options.cache,
-      ffmpeg: false,
     });
 
     // Download ffmpeg binaries and replace chromium ffmpeg
     if (options.ffmpeg === true) {
-      await get({
+      await get_ffmpeg({
         version: options.version,
         flavor: options.flavor,
         platform: options.platform,
         arch: options.arch,
-        downloadUrl: options.downloadUrl,
         cacheDir: options.cacheDir,
         cache: options.cache,
-        ffmpeg: true,
       });
     }
 
