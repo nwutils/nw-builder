@@ -4,7 +4,7 @@ import { getPlatform } from "../../src/util/platform.js";
 import { arch, platform } from "node:process";
 import { getArch } from "../../src/util/arch.js";
 
-describe("test modes", async () => {
+describe("test fetch nwjs and ffmpeg", async () => {
   let nwOptions = {
     srcDir: "test/fixture/app",
     mode: "get",
@@ -12,8 +12,7 @@ describe("test modes", async () => {
     flavor: "sdk",
     platform: getPlatform(platform),
     arch: getArch(arch),
-    outDir: "../fixture/out",
-    cacheDir: "../fixture/cache",
+    cacheDir: "./cache",
     glob: false,
     ffmpeg: true,
     logLevel: "debug",
