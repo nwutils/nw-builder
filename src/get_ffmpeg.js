@@ -2,7 +2,7 @@ import { createWriteStream, existsSync } from "node:fs";
 import { rm } from "node:fs/promises";
 import { get as getRequest } from "node:https";
 import { resolve } from "node:path";
-import { arch as ARCH, platform as PLATFORM, exit as EXIT } from "node:process";
+import { arch as ARCH, platform as PLATFORM } from "node:process";
 
 import progress from "cli-progress";
 import compressing from "compressing";
@@ -10,7 +10,6 @@ import compressing from "compressing";
 import { log } from "./log.js";
 import { PLATFORM_KV, ARCH_KV } from "./util.js";
 import { replaceFfmpeg } from "./util/ffmpeg.js";
-import child_process from "child_process";
 
 /**
  * _Note: This an internal function which is not called directly. Please see example usage below._
