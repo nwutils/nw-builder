@@ -4,30 +4,41 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   e2e:
     strategy:
       matrix:
-        include:
-          - { os: macos-12, shell: bash }
-          - { os: ubuntu-22.04, shell: bash }
-          - { os: windows-2022, shell: powershell }
-          # https://github.com/orgs/community/discussions/27143
+        os: [macos-12, ubuntu-22.04, windows-2022]
+        node: [16, 18, 20]
       fail-fast: false
     runs-on: ${{ matrix.os }}
-    defaults:
-      run:
-        shell: ${{ matrix.shell }}
     steps:
-      - uses: actions/checkout@v3.3.0
-      - uses: actions/setup-node@v3.6.0
+      - name: Install packages
+        uses: ConorMacBride/install-package@v1.1.0
         with:
-          node-version: "20.5.0"
+          brew: unzip
+      - name: Checkout repository
+        uses: actions/checkout@v3.6.0
+      - name: Setup Node
+        uses: actions/setup-node@v3.8.1
+        with:
+          node-version: ${{ matrix.node }}
           cache: "npm"
-      - run: corepack enable
-      - run: npm i
-      - run: npm run ci:fmt
-      - run: npm run ci:lnt
-      - run: npm link nw-builder
-      - run: npm run test:unit
-      - run: npm run test:e2e
+      - name: Enable corepack
+        run: corepack enable
+      - name: Install dependencies
+        run: npm ci
+      - name: Check for formatting errors
+        run: npm run ci:fmt
+      - name: Check for linting errors
+        run: npm run ci:lnt
+      - name: Link module
+        run: npm link nw-builder
+      - name: Run unit tests
+        run: npm run test:unit
+      - name: Run Selenium tests
+        run: npm run test:e2e

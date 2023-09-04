@@ -1,9 +1,11 @@
 # nw-builder
 
-[![npm](https://img.shields.io/npm/v/nw-builder.svg?style=flat)](https://www.npmjs.com/package/nw-builder)
-[![Join the chat at https://gitter.im/nwjs/nw-builder](https://badges.gitter.im/nwjs/nw-builder.svg)](https://gitter.im/nwjs/nw-builder?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![npm](https://img.shields.io/npm/v/nw-builder/latest)](https://www.npmjs.com/package/nw-builder/v/latest)
+[![Join the chat at https://gitter.im/nwjs/nw-builder](https://badges.gitter.im/repo.svg)](https://app.gitter.im/#/room/#nwjs_nw-builder:gitter.im)
 
 Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and Linux.
+
+For version 3, please go to the [corresponding branch](https://github.com/nwutils/nw-builder/tree/v3).
 
 ## Major Features
 

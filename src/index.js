@@ -153,7 +153,6 @@ const nwbuild = async (options) => {
         options.platform,
         options.zip,
         options.app,
-        manifest,
       );
     }
   } catch (error) {

@@ -1,11 +1,17 @@
 # Changelog
 
-All notable changes to this project will be documented in this file and in the [Releases](https://github.com/nwjs-community/nw-builder/blob/develop/releases) section.x
+All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [4.3.10] - 2023-08-21
+
+### Removed
+
+- Do not copy the first `package.json` encountered to the root of `options.outDir` when `options.glob` is enabled. This may seem like a breaking change but it is actually reverting incorrect behaviour.
 
 ## [4.3.9] - 2023-08-15
 

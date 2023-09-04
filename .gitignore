@@ -1,15 +1,13 @@
-# computer files
 .DS_Store
 
-# runtime files
+.idea
 node_modules
 coverage
 
 # project files
 cache
+build
 dist
 doc/api*.md
 doc/mode-get.md
 out
-tmp
-.idea

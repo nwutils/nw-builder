@@ -1,8 +1,8 @@
 import nwbuild from "../../src/index.js";
-import {describe, it} from "node:test";
-import {getPlatform} from "../../src/util/platform.js";
-import {arch, platform} from "node:process";
-import {getArch} from "../../src/util/arch.js";
+import { describe, it } from "node:test";
+import { getPlatform } from "../../src/util/platform.js";
+import { arch, platform } from "node:process";
+import { getArch } from "../../src/util/arch.js";
 
 describe("test modes", async () => {
   let nwOptions = {
@@ -16,10 +16,10 @@ describe("test modes", async () => {
     cacheDir: "../fixture/cache",
     glob: false,
     ffmpeg: true,
-    logLevel: "debug"
+    logLevel: "debug",
   };
 
   it("should run", async () => {
-    await nwbuild({...nwOptions});
-  })
+    await nwbuild({ ...nwOptions });
+  });
 });

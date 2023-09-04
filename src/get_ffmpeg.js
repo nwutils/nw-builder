@@ -24,7 +24,7 @@ import child_process from "child_process";
  * });
  *
  * @example
- * // Unofficial MacOS builds (upto v0.75.0)
+ * // Unofficial macOS builds (upto v0.75.0)
  * nwbuild({
  *   mode: "get",
  *   platform: "osx",
@@ -48,20 +48,20 @@ import child_process from "child_process";
  * });
  *
  * @example
- * // FFmpeg (proprietary codecs)
+ * // FFMPEG (proprietary codecs)
  * // Please read the license's constraints: https://nwjs.readthedocs.io/en/latest/For%20Developers/Enable%20Proprietary%20Codecs/#get-ffmpeg-binaries-from-the-community
  * nwbuild({
  *   mode: "get",
  *   ffmpeg: true,
  * });
  *
- * @param  {object}                   options              Get mode options
- * @param  {string}                   options.version      NW.js runtime version. Defaults to "latest".
- * @param  {"normal" | "sdk"}         options.flavor       NW.js build flavor. Defaults to "normal".
- * @param  {"linux" | "osx" | "win"}  options.platform     Target platform. Defaults to host platform.
- * @param  {"ia32" | "x64" | "arm64"} options.arch         Target architecture. Defaults to host architecture.
- * @param  {string}                   options.cacheDir     Cache directory path. Defaults to "./cache"
- * @param  {boolean}                  options.cache        If false, remove cache before download. Defaults to true.
+ * @param  {object}                   options           Get mode options
+ * @param  {string}                   options.version   NW.js runtime version. Defaults to "latest".
+ * @param  {"normal" | "sdk"}         options.flavor    NW.js build flavor. Defaults to "normal".
+ * @param  {"linux" | "osx" | "win"}  options.platform  Target platform. Defaults to host platform.
+ * @param  {"ia32" | "x64" | "arm64"} options.arch      Target architecture. Defaults to host architecture.
+ * @param  {string}                   options.cacheDir  Cache directory path. Defaults to "./cache"
+ * @param  {boolean}                  options.cache     If false, remove cache before download. Defaults to true.
  * @return {Promise<void>}
  */
 export async function get_ffmpeg({
