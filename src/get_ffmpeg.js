@@ -15,37 +15,7 @@ import child_process from "child_process";
 /**
  * _Note: This an internal function which is not called directly. Please see example usage below._
  *
- * Get NW.js binaries.
- *
- * @example
- * // Minimal Usage (uses default values)
- * nwbuild({
- *   mode: "get",
- * });
- *
- * @example
- * // Unofficial macOS builds (upto v0.75.0)
- * nwbuild({
- *   mode: "get",
- *   platform: "osx",
- *   arch: "arm64",
- *   downloadUrl: "https://github.com/corwin-of-amber/nw.js/releases/download",
- *   manifestUrl: "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json",
- * });
- *
- * @example
- * // China mirror
- * nwbuild({
- *  mode: "get",
- *  downloadUrl: "https://npm.taobao.org/mirrors/nwjs",
- * });
- *
- * @example
- * // Singapore mirror
- * nwbuild({
- *  mode: "get",
- *  downloadUrl: "https://cnpmjs.org/mirrors/nwjs/",
- * });
+ * Get FFMPEG binaries.
  *
  * @example
  * // FFMPEG (proprietary codecs)
@@ -134,22 +104,6 @@ export async function get_ffmpeg({
             bar.stop();
             if (platform === "linux") {
               compressing.tgz.uncompress(out, nwDir).then(() => resolve());
-            } else if (platform === "osx") {
-              //TODO: compressing package does not restore symlinks on some macOS (eg: circleCI)
-              const exec = function (cmd) {
-                log.debug(cmd);
-                const result = child_process.spawnSync(cmd, {
-                  shell: true,
-                  stdio: "inherit",
-                });
-                if (result.status !== 0) {
-                  log.debug(`Command failed with status ${result.status}`);
-                  if (result.error) console.log(result.error);
-                  EXIT(1);
-                }
-                return resolve();
-              };
-              exec(`unzip -o "${out}" -d "${nwDir}"`);
             } else {
               compressing.zip.uncompress(out, nwDir).then(() => resolve());
             }
