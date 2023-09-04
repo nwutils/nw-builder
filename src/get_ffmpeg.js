@@ -42,7 +42,6 @@ export async function get_ffmpeg({
   cache = true,
 }) {
   log.debug(`Start getting binaries`);
-  let ffmpegCached = true;
   const nwDir = resolve(
     cacheDir,
     `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}`,
@@ -53,7 +52,7 @@ export async function get_ffmpeg({
   const downloadUrl =
     "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download";
   let url = `${downloadUrl}/${version}/${version}-${platform}-${arch}.zip`;
-  const out = resolve(cacheDir, `ffmpeg.zip`);
+  const out = resolve(cacheDir, `ffmpeg-v${version}-${platform}-${arch}.zip`);
 
   // If options.cache is false, remove cache.
   if (cache === false) {
@@ -68,75 +67,67 @@ export async function get_ffmpeg({
   if (existsSync(out)) {
     log.debug(`Found existing FFMPEG cache`);
     return;
-  } else {
-    log.debug(`No existing FFMPEG cache`);
-    ffmpegCached = false;
   }
 
-  // If not cached, then download.
-  if (ffmpegCached === false) {
-    log.debug(`Downloading FFMPEG`);
+  log.debug(`Downloading FFMPEG`);
+  const stream = createWriteStream(out);
+  const request = new Promise((resolve, reject) => {
+    getRequest(url, (response) => {
+      log.debug(`Response from ${url}`);
+      // For GitHub releases and mirrors, we need to follow the redirect.
+      url = response.headers.location;
 
-    const stream = createWriteStream(out);
-    const request = new Promise((resolve, reject) => {
       getRequest(url, (response) => {
         log.debug(`Response from ${url}`);
-        // For GitHub releases and mirrors, we need to follow the redirect.
-        url = response.headers.location;
-
-        getRequest(url, (response) => {
-          log.debug(`Response from ${url}`);
-          let chunks = 0;
-          bar.start(Number(response.headers["content-length"]), 0);
-          response.on("data", async (chunk) => {
-            chunks += chunk.length;
-            bar.increment();
-            bar.update(chunks);
-          });
-
-          response.on("error", (error) => {
-            reject(error);
-          });
-
-          response.on("end", () => {
-            log.debug(`FFMPEG fully downloaded`);
-            bar.stop();
-            if (platform === "linux") {
-              compressing.tgz.uncompress(out, nwDir).then(() => resolve());
-            } else {
-              compressing.zip.uncompress(out, nwDir).then(() => resolve());
-            }
-          });
-
-          response.pipe(stream);
+        let chunks = 0;
+        bar.start(Number(response.headers["content-length"]), 0);
+        response.on("data", async (chunk) => {
+          chunks += chunk.length;
+          bar.increment();
+          bar.update(chunks);
         });
 
         response.on("error", (error) => {
           reject(error);
         });
+
+        response.on("end", () => {
+          log.debug(`FFMPEG fully downloaded`);
+          bar.stop();
+          if (platform === "linux") {
+            compressing.tgz.uncompress(out, nwDir).then(() => resolve());
+          } else {
+            compressing.zip.uncompress(out, nwDir).then(() => resolve());
+          }
+        });
+
+        response.pipe(stream);
+      });
+
+      response.on("error", (error) => {
+        reject(error);
       });
     });
+  });
 
-    // Remove compressed file after download and decompress.
-    return request.then(async () => {
-      let ffmpegFile;
-      if (platform === "linux") {
-        ffmpegFile = "libffmpeg.so";
-      } else if (platform === "win") {
-        ffmpegFile = "ffmpeg.dll";
-      } else if (platform === "osx") {
-        ffmpegFile = "libffmpeg.dylib";
-      }
-      await replaceFfmpeg(platform, nwDir, ffmpegFile);
+  // Remove compressed file after download and decompress.
+  return request.then(async () => {
+    let ffmpegFile;
+    if (platform === "linux") {
+      ffmpegFile = "libffmpeg.so";
+    } else if (platform === "win") {
+      ffmpegFile = "ffmpeg.dll";
+    } else if (platform === "osx") {
+      ffmpegFile = "libffmpeg.dylib";
+    }
+    await replaceFfmpeg(platform, nwDir, ffmpegFile);
 
-      if (cache === false) {
-        log.debug(`Removing FFMPEG zip cache`);
-        await rm(resolve(cacheDir, "ffmpeg.zip"), {
-          recursive: true,
-          force: true,
-        });
-        log.debug(`FFMPEG zip cache removed`);
-      }
-    });
-  }
-}
+    if (cache === false) {
+      log.debug(`Removing FFMPEG zip cache`);
+      await rm(out, {
+        recursive: true,
+        force: true,
+      });
+      log.debug(`FFMPEG zip cache removed`);
+    }
+  });}
