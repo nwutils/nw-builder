@@ -130,4 +130,5 @@ export async function get_ffmpeg({
       });
       log.debug(`FFMPEG zip cache removed`);
     }
-  });}
+  });
+}
