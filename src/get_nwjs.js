@@ -2,14 +2,13 @@ import { createWriteStream } from "node:fs";
 import { mkdir, readdir, rm, rmdir } from "node:fs/promises";
 import { get as getRequest } from "node:https";
 import { resolve } from "node:path";
-import { arch as ARCH, platform as PLATFORM } from "node:process";
+import { arch as ARCH, platform as PLATFORM, exit as EXIT } from "node:process";
 
 import progress from "cli-progress";
 import compressing from "compressing";
 
 import { log } from "./log.js";
 import { PLATFORM_KV, ARCH_KV } from "./util.js";
-import { replaceFfmpeg } from "./util/ffmpeg.js";
 import child_process from "child_process";
 
 /**
@@ -24,7 +23,7 @@ import child_process from "child_process";
  * });
  *
  * @example
- * // Unofficial MacOS builds (upto v0.75.0)
+ * // Unofficial macOS builds (upto v0.75.0)
  * nwbuild({
  *   mode: "get",
  *   platform: "osx",
@@ -47,14 +46,6 @@ import child_process from "child_process";
  *  downloadUrl: "https://cnpmjs.org/mirrors/nwjs/",
  * });
  *
- * @example
- * // FFmpeg (proprietary codecs)
- * // Please read the license's constraints: https://nwjs.readthedocs.io/en/latest/For%20Developers/Enable%20Proprietary%20Codecs/#get-ffmpeg-binaries-from-the-community
- * nwbuild({
- *   mode: "get",
- *   ffmpeg: true,
- * });
- *
  * @param  {object}                   options              Get mode options
  * @param  {string}                   options.version      NW.js runtime version. Defaults to "latest".
  * @param  {"normal" | "sdk"}         options.flavor       NW.js build flavor. Defaults to "normal".
@@ -63,10 +54,9 @@ import child_process from "child_process";
  * @param  {string}                   options.downloadUrl  File server to download from. Defaults to "https://dl.nwjs.io". Set "https://npm.taobao.org/mirrors/nwjs" for China mirror or "https://cnpmjs.org/mirrors/nwjs/" for Singapore mirror.
  * @param  {string}                   options.cacheDir     Cache directory path. Defaults to "./cache"
  * @param  {boolean}                  options.cache        If false, remove cache before download. Defaults to true.
- * @param  {boolean}                  options.ffmpeg       If true, download ffmpeg. Defaults to false since it contains proprietary codecs. Please read the license's constraints: https://nwjs.readthedocs.io/en/latest/For%20Developers/Enable%20Proprietary%20Codecs/#get-ffmpeg-binaries-from-the-community
  * @return {Promise<void>}
  */
-export async function get({
+export async function get_nwjs({
   version = "latest",
   flavor = "normal",
   platform = PLATFORM_KV[PLATFORM],
@@ -74,7 +64,6 @@ export async function get({
   downloadUrl = "https://dl.nwjs.io",
   cacheDir = "./cache",
   cache = true,
-  ffmpeg = false,
 }) {
   log.debug(`Start getting binaries`);
   let nwCached = true;
@@ -100,14 +89,6 @@ export async function get({
     out = resolve(cacheDir, `nw.${platform === "linux" ? "tgz" : "zip"}`);
   }
 
-  // If options.ffmpeg is true, then download ffmpeg.
-  if (ffmpeg === true) {
-    downloadUrl =
-      "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download";
-    url = `${downloadUrl}/${version}/${version}-${platform}-${arch}.zip`;
-    out = resolve(cacheDir, `ffmpeg.zip`);
-  }
-
   // If options.cache is false, remove cache.
   if (cache === false) {
     log.debug(`Removing existing binaries`);
@@ -124,7 +105,7 @@ export async function get({
   }
 
   // If not cached, then download.
-  if (nwCached === false || ffmpeg === true) {
+  if (nwCached === false) {
     log.debug(`Downloading binaries`);
     await mkdir(nwDir, { recursive: true });
 
@@ -134,8 +115,6 @@ export async function get({
         log.debug(`Response from ${url}`);
         // For GitHub releases and mirrors, we need to follow the redirect.
         if (
-          downloadUrl ===
-            "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download" ||
           downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
           downloadUrl === "https://npmmirror.com/mirrors/nwjs"
         ) {
@@ -160,9 +139,7 @@ export async function get({
             log.debug(`Binary fully downloaded`);
             bar.stop();
             if (platform === "linux") {
-              compressing.tgz
-                .uncompress(out, ffmpeg ? nwDir : cacheDir)
-                .then(() => resolve());
+              compressing.tgz.uncompress(out, cacheDir).then(() => resolve());
             } else if (platform === "osx") {
               //TODO: compressing package does not restore symlinks on some macOS (eg: circleCI)
               const exec = function (cmd) {
@@ -174,15 +151,13 @@ export async function get({
                 if (result.status !== 0) {
                   log.debug(`Command failed with status ${result.status}`);
                   if (result.error) console.log(result.error);
-                  process.exit(1);
+                  EXIT(1);
                 }
                 return resolve();
               };
-              exec(`unzip -o "${out}" -d "${ffmpeg ? nwDir : cacheDir}"`);
+              exec(`unzip -o "${out}" -d "${cacheDir}"`);
             } else {
-              compressing.zip
-                .uncompress(out, ffmpeg ? nwDir : cacheDir)
-                .then(() => resolve());
+              compressing.zip.uncompress(out, cacheDir).then(() => resolve());
             }
           });
 
@@ -197,23 +172,7 @@ export async function get({
 
     // Remove compressed file after download and decompress.
     return request.then(async () => {
-      if (ffmpeg === true) {
-        let ffmpegFile;
-        if (platform === "linux") {
-          ffmpegFile = "libffmpeg.so";
-        } else if (platform === "win") {
-          ffmpegFile = "ffmpeg.dll";
-        } else if (platform === "osx") {
-          ffmpegFile = "libffmpeg.dylib";
-        }
-        await replaceFfmpeg(platform, nwDir, ffmpegFile);
-      }
-
       log.debug(`Binary decompressed starting removal`);
-      await rm(resolve(cacheDir, "ffmpeg.zip"), {
-        recursive: true,
-        force: true,
-      });
 
       await rm(
         resolve(cacheDir, `nw.${platform === "linux" ? "tgz" : "zip"}`),

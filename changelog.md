@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.3.11] - 2023-09-04
+
+### Changed
+
+- Split nwjs and ffmpeg fetch.
+- cache ffmpeg
+
 ## [4.3.10] - 2023-08-21
 
 ### Removed
