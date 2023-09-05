@@ -7,12 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## [4.3.11] - 2023-09-04
+## [4.4.0] - 2023-09-05
+
+## Added
+
+- Cache community FFmpeg.
+
+## [4.3.11] - 2023-09-05
 
 ### Changed
 
-- Split nwjs and ffmpeg fetch.
-- cache ffmpeg
+- Separate download logic for NW.js and FFmpeg.
 
 ## [4.3.10] - 2023-08-21
 

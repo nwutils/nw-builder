@@ -4,10 +4,21 @@ const jsdoc2md = require("jsdoc-to-markdown");
 
 jsdoc2md
     .render({
-        files: "src/get.js",
+        files: "src/get_nwjs.js",
     })
     .then(async (output) => {
-        await writeFile("doc/mode-get.md", output);
+        await writeFile("doc/mode-get-nwjs.md", output);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+
+    jsdoc2md
+    .render({
+        files: "src/get_ffmpeg.js",
+    })
+    .then(async (output) => {
+        await writeFile("doc/mode-get-ffmpeg.md", output);
     })
     .catch((error) => {
         console.log(error);
