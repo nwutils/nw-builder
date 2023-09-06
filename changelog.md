@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.4.1] - 2023-09-06
+
+## Changed
+
+- improve debug logging
+- move ffmpeg decompress to relevant location
+- fixed handling of argv
+
+- Cache community FFmpeg.
+
 ## [4.4.0] - 2023-09-05
 
 ## Added

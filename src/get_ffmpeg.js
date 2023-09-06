@@ -63,9 +63,35 @@ export async function get_ffmpeg({
     });
   }
 
+  const unzipFFMPeg = async () => {
+    if (platform === "linux") {
+      await compressing.tgz.uncompress(out, nwDir);
+    } else {
+      await compressing.zip.uncompress(out, nwDir);
+    }
+    let ffmpegFile;
+    if (platform === "linux") {
+      ffmpegFile = "libffmpeg.so";
+    } else if (platform === "win") {
+      ffmpegFile = "ffmpeg.dll";
+    } else if (platform === "osx") {
+      ffmpegFile = "libffmpeg.dylib";
+    }
+    await replaceFfmpeg(platform, nwDir, ffmpegFile);
+
+    if (cache === false) {
+      log.debug(`Removing FFMPEG zip cache`);
+      await rm(out, {
+        recursive: true,
+        force: true,
+      });
+      log.debug(`FFMPEG zip cache removed`);
+    }
+  };
   // Check if cache exists.
   if (existsSync(out)) {
     log.debug(`Found existing FFMPEG cache`);
+    await unzipFFMPeg();
     return;
   }
 
@@ -94,11 +120,7 @@ export async function get_ffmpeg({
         response.on("end", () => {
           log.debug(`FFMPEG fully downloaded`);
           bar.stop();
-          if (platform === "linux") {
-            compressing.tgz.uncompress(out, nwDir).then(() => resolve());
-          } else {
-            compressing.zip.uncompress(out, nwDir).then(() => resolve());
-          }
+          resolve();
         });
 
         response.pipe(stream);
@@ -111,24 +133,5 @@ export async function get_ffmpeg({
   });
 
   // Remove compressed file after download and decompress.
-  return request.then(async () => {
-    let ffmpegFile;
-    if (platform === "linux") {
-      ffmpegFile = "libffmpeg.so";
-    } else if (platform === "win") {
-      ffmpegFile = "ffmpeg.dll";
-    } else if (platform === "osx") {
-      ffmpegFile = "libffmpeg.dylib";
-    }
-    await replaceFfmpeg(platform, nwDir, ffmpegFile);
-
-    if (cache === false) {
-      log.debug(`Removing FFMPEG zip cache`);
-      await rm(out, {
-        recursive: true,
-        force: true,
-      });
-      log.debug(`FFMPEG zip cache removed`);
-    }
-  });
+  return request.then(unzipFFMPeg);
 }

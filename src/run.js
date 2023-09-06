@@ -54,7 +54,7 @@ export async function run({
       // It is assumed that the package.json is located at srcDir/package.json
       const nwProcess = spawn(
         resolve(nwDir, EXE_NAME[platform]),
-        [srcDir.concat(argv)],
+        [...[srcDir], ...argv],
         {
           detached: true,
           windowsHide: true,
