@@ -93,10 +93,13 @@ const nwbuild = async (options) => {
     options.version = releaseInfo.version.slice(1);
 
     if (options.logLevel === "debug") {
-      log.debug(`Platform: ${platform}`);
-      log.debug(`Archicture: ${arch}`);
+      log.debug(`System Platform: ${platform}`);
+      log.debug(`System Architecture: ${arch}`);
       log.debug(`Node Version: ${version}`);
-      log.debug(`NW.js Version: ${options.version}\n`);
+      log.debug(`Build NW.js Version: ${options.version}`);
+      log.debug(`Build Flavor: ${options.flavor}`);
+      log.debug(`Build Platform: ${options.platform}`);
+      log.debug(`Build Architecture: ${options.arch}`);
     }
 
     nwDir = resolve(

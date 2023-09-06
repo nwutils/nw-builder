@@ -94,11 +94,7 @@ export async function get_ffmpeg({
         response.on("end", () => {
           log.debug(`FFMPEG fully downloaded`);
           bar.stop();
-          if (platform === "linux") {
-            compressing.tgz.uncompress(out, nwDir).then(() => resolve());
-          } else {
-            compressing.zip.uncompress(out, nwDir).then(() => resolve());
-          }
+          resolve();
         });
 
         response.pipe(stream);
@@ -112,6 +108,11 @@ export async function get_ffmpeg({
 
   // Remove compressed file after download and decompress.
   return request.then(async () => {
+    if (platform === "linux") {
+      await compressing.tgz.uncompress(out, nwDir);
+    } else {
+      await compressing.zip.uncompress(out, nwDir);
+    }
     let ffmpegFile;
     if (platform === "linux") {
       ffmpegFile = "libffmpeg.so";
