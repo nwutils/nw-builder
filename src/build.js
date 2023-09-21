@@ -1,15 +1,24 @@
 import { resolve } from "node:path";
 import { platform as PLATFORM } from "node:process";
-import { cp, copyFile, rename, readFile, rm, writeFile } from "node:fs/promises";
+import {
+  cp,
+  copyFile,
+  rename,
+  readFile,
+  rm,
+  writeFile,
+} from "node:fs/promises";
 
 import compressing from "compressing";
+import rcedit from "rcedit";
+import plist from "plist";
 
 import { log } from "./log.js";
 
 /**
  * References:
  * https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html
- * 
+ *
  * @typedef  {object}   LinuxRc               Linux configuration options
  * @property {string}   name                  Name of the application
  * @property {string}   genericName           Generic name of the application
@@ -38,7 +47,7 @@ import { log } from "./log.js";
 /**
  * References:
  * https://developer.apple.com/documentation/bundleresources/information_property_list
- * 
+ *
  * @typedef  {object} OsxRc                       OSX resource configuration options
  * @property {string} name                        The name of the application
  * @property {string} icon                        The path to the icon file. It should be a .icns file.
@@ -58,8 +67,8 @@ import { log } from "./log.js";
  * https://learn.microsoft.com/en-gb/windows/win32/sbscs/application-manifests
  * https://learn.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2015/deployment/trustinfo-element-clickonce-application?view=vs-2015#requestedexecutionlevel
  * https://learn.microsoft.com/en-gb/windows/win32/menurc/versioninfo-resource
- * 
- * @typedef {object} WinRc              Windows configuration options. More info 
+ *
+ * @typedef {object} WinRc              Windows configuration options. More info
  * @property {string} name              The name of the application
  * @property {string} version           The version of the application
  * @property {string} comments          Additional information that should be displayed for diagnostic purposes.
@@ -240,7 +249,10 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         "en.lproj",
         "InfoPlist.strings",
       );
-      const infoPlistStringsData = await readFile(infoPlistStringsPath, "utf-8");
+      const infoPlistStringsData = await readFile(
+        infoPlistStringsPath,
+        "utf-8",
+      );
 
       let infoPlistStringsDataArray = infoPlistStringsData.split("\n");
 
@@ -287,4 +299,4 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
 
     await rm(outDir, { recursive: true, force: true });
   }
-};
+}
