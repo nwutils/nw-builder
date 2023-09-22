@@ -18,7 +18,7 @@ describe("test modes", async () => {
   let nwOptions = {
     srcDir: "test/fixture/app",
     mode: "build",
-    version: "latest",
+    version: "0.80.0",
     flavor: "sdk",
     platform: getPlatform(platform),
     arch: getArch(arch),

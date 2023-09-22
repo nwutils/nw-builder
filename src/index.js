@@ -108,7 +108,7 @@ const nwbuild = async (options) => {
       }-${options.arch}`,
     );
 
-    // Download NW.js binaries
+    // Download binaries
     await get({
       version: options.version,
       flavor: options.flavor,

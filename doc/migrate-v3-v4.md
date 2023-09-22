@@ -1,6 +1,6 @@
 # Migrate from v3 to v4
 
-> We are working on making the migration process smoother. If you encounter any issues with the current guide, please open an issue or discussion.
+> We are working on making the migration process smoother. If you encounter any issues with the current guide, please open an issue or start a discussion.
 
 ## Update `nw-builder`
 
