@@ -2,15 +2,15 @@ import { mkdir } from "node:fs/promises";
 import { resolve } from "node:path";
 import { arch, platform, version } from "node:process";
 
-import { build } from "./build.js";
-import { run } from "./run.js";
 import { isCached } from "./util/cache.js";
 import { getFiles } from "./util/files.js";
 import { getVersionManifest } from "./util/versionManifest.js";
 import { parse } from "./util/parse.js";
 import { validate } from "./util/validate.js";
 
+import { build } from "./build.js";
 import { get } from "./get.js";
+import { run } from "./run.js";
 import { log, setLogLevel } from "./log.js";
 import { getReleaseInfo } from "./util.js";
 
