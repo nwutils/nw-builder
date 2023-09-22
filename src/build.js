@@ -89,6 +89,22 @@ import { log } from "./log.js";
 /**
  * Generate NW build artifacts
  *
+ * Note: File permissions are incorrectly set for Linux or MacOS apps built on Windows platform. For more info: https://www.geeksforgeeks.org/node-js-fs-chmod-method
+ *
+ * Note: To edit Windows executable resources, we use [`rcedit`](https://github.com/electron/node-rcedit). To use rcedit on non-Windows platforms, you will have to install [Wine](https://www.winehq.org/).
+ *
+ * Note: We recursively glob the file patterns given by the user. The first `package.json` parsed is taken to be the NW.js manifest file. If you have multiple manifest files, the first glob pattern should be the path to the NW.js manifest. Choosing a Node manifest at `./package.json` is the most convenient option.
+ *
+ * Note: If you are using the MacOS ARM unofficial builds, you will need to [remove the `com.apple.qurantine` flag](https://github.com/corwin-of-amber/nw.js/releases/tag/nw-v0.75.0):
+ *
+ * `sudo xattr -r -d com.apple.quarantine nwjs.app`
+ *
+ * @example
+ * // Minimal Usage (uses default values)
+ * nwbuild({
+ *   mode: "build",
+ * });
+ *
  * @param  {string | string[]}       files     Array of NW app files
  * @param  {string}                  nwDir     Directory to hold NW binaries
  * @param  {string}                  outDir    Directory to store build artifacts

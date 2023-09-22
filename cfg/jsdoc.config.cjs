@@ -4,6 +4,17 @@ const jsdoc2md = require("jsdoc-to-markdown");
 
 jsdoc2md
     .render({
+        files: "src/build.js",
+    })
+    .then(async (output) => {
+        await writeFile("doc/mode-build.md", output);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+
+jsdoc2md
+    .render({
         files: "src/get.js",
     })
     .then(async (output) => {
