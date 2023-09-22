@@ -45,7 +45,7 @@
     "fmt": "prettier --write \"./**/*.{css,html,js,json,md,yml}\"",
     "lnt": "eslint --config=cfg/eslint.config.cjs --fix cfg src test",
     "doc:dev": "concurrently --kill-others \"node cfg/fswatch.config.js\" \"vitepress dev doc\"",
-    "doc:bld": "vitepress build doc",
+    "doc:bld": "node cfg/jsdoc.config.cjs && vitepress build doc",
     "test:unit": "node --test test/unit/index.js",
     "test:e2e": "node --test test/e2e/index.js",
     "test:mod": "cd test/fixture && node demo.js",
