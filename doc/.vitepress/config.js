@@ -27,8 +27,7 @@ export default defineConfig({
         items: [
           { text: "Installation Guide", link: "/install" },
           { text: "Basic Usage", link: "/usage-basic" },
-          { text: "Get NW.js mode", link: "/mode-get-nwjs" },
-          { text: "Get FFmpeg mode", link: "/mode-get-ffmpeg" },
+          { text: "Get mode", link: "/mode-get" },
           { text: "Run mode", link: "/mode-run" },
           { text: "Build mode", link: "/mode-build" },
           { text: "API Reference", link: "/api" },

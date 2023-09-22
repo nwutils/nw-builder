@@ -15,7 +15,7 @@ import { replaceFfmpeg } from "./util/ffmpeg.js";
 /**
  * _Note: This an internal function which is not called directly. Please see example usage below._
  *
- * Get NW.js binaries.
+ * Get binaries.
  *
  * @example
  * // Minimal Usage (uses default values)
@@ -91,6 +91,8 @@ export async function get({
 }
 
 /**
+ * Note: This an internal function which is not called directly. Please see example usage below.
+ * 
  * Get NW.js binaries
  *
  * @param  {object}                   options              Get mode options
@@ -231,6 +233,9 @@ async function get_nwjs({
 }
 
 /**
+ * 
+ * Note: This an internal function which is not called directly. Please see example usage below.
+ * 
  * Get FFmpeg binary.
  *
  * @param  {object}                   options           Get mode options
