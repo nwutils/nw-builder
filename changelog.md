@@ -7,21 +7,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Refactor build mode.
+- Generate markdown docs from JSDocs.
+
 ## [4.4.1] - 2023-09-06
 
-## Changed
+### Changed
 
-- improve debug logging
-- move ffmpeg decompress to relevant location
-- fixed handling of argv
-
-- Cache community FFmpeg.
+- Improve debug logging.
+- Fixed handling of argv.
 
 ## [4.4.0] - 2023-09-05
 
-## Added
+### Added
 
 - Cache community FFmpeg.
+- Move FFmpeg decompress function to relevant location
 
 ## [4.3.11] - 2023-09-05
 

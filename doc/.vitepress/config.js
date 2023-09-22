@@ -17,7 +17,10 @@ export default defineConfig({
         text: "Code of Conduct",
         link: "https://github.com/nwutils/.github/blob/main/CODE_OF_CONDUCT.md",
       },
-      { text: "License", link: "https://github.com/nwutils/nw-builder/blob/main/LICENSE" },
+      {
+        text: "License",
+        link: "https://github.com/nwutils/nw-builder/blob/main/LICENSE",
+      },
     ],
 
     sidebar: [
