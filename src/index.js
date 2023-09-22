@@ -2,7 +2,7 @@ import { mkdir } from "node:fs/promises";
 import { resolve } from "node:path";
 import { arch, platform, version } from "node:process";
 
-import { build } from "./bld/build.js";
+import { build } from "./build.js";
 import { run } from "./run.js";
 import { isCached } from "./util/cache.js";
 import { getFiles } from "./util/files.js";
