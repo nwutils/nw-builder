@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 - Refactor build mode.
-- Generate docs from
+- Generate markdown docs from JSDocs.
 
 ## [4.4.1] - 2023-09-06
 
