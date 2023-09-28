@@ -9,6 +9,7 @@ updates:
       npm:
         patterns:
           - "*"
+    versioning-strategy: increase
   - package-ecosystem: "github-actions"
     directory: ".github/"
     schedule:
@@ -18,3 +19,4 @@ updates:
       gha:
         patterns:
           - "*"
+    versioning-strategy: increase
