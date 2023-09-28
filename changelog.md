@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+- Fix get mode.
 - Refactor build mode.
 - Generate markdown docs from JSDocs.
 
