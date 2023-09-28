@@ -33,6 +33,7 @@ import { getReleaseInfo } from "./util.js";
  * @property {boolean}                             [ffmpeg=false]                            If true the chromium ffmpeg is replaced by community version
  * @property {boolean}                             [glob=true]                               If true globbing is enabled
  * @property {"error" | "warn" | "info" | "debug"} [logLevel="info"]                         Specified log level.
+ * @property {boolean}                             [managedManifest=false]                   If true managed manifest mode is enabled.
  */
 
 /**
@@ -144,6 +145,8 @@ const nwbuild = async (options) => {
         options.platform,
         options.zip,
         options.app,
+        manifest,
+        options.managedManifest,
       );
     }
   } catch (error) {
