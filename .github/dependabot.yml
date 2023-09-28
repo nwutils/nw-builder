@@ -5,18 +5,18 @@ updates:
     schedule:
       interval: "weekly"
       day: "saturday"
+    versioning-strategy: increase
     groups:
       npm:
         patterns:
           - "*"
-    versioning-strategy: increase
   - package-ecosystem: "github-actions"
     directory: ".github/"
     schedule:
       interval: "weekly"
       day: "saturday"
+    versioning-strategy: increase    
     groups:
       gha:
         patterns:
           - "*"
-    versioning-strategy: increase
