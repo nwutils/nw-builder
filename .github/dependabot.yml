@@ -11,7 +11,7 @@ updates:
         patterns:
           - "*"
   - package-ecosystem: "github-actions"
-    directory: ".github/"
+    directory: ".github/workflows"
     schedule:
       interval: "weekly"
       day: "saturday"
