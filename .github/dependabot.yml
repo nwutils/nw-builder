@@ -5,12 +5,13 @@ updates:
     schedule:
       interval: "weekly"
       day: "saturday"
+    versioning-strategy: increase
     groups:
       npm:
         patterns:
           - "*"
   - package-ecosystem: "github-actions"
-    directory: ".github/"
+    directory: ".github/workflows"
     schedule:
       interval: "weekly"
       day: "saturday"

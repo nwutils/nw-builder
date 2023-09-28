@@ -76,7 +76,15 @@ export async function get({
   cache = true,
   ffmpeg = false,
 }) {
-  await get_nwjs(version, flavor, platform, arch, downloadUrl, cacheDir, cache);
+  await get_nwjs({
+    version,
+    flavor,
+    platform,
+    arch,
+    downloadUrl,
+    cacheDir,
+    cache,
+  });
   if (ffmpeg === true) {
     await get_ffmpeg({
       version,
