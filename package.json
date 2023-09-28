@@ -52,13 +52,13 @@
     "test:cli": "npm link nw-builder && cd test/fixture && nwbuild --platform win --arch x64 --outDir out --no-glob app"
   },
   "devDependencies": {
-    "concurrently": "^8.2.0",
-    "eslint": "^8.45.0",
-    "eslint-config-tjw-jsdoc": "^1.0.3",
+    "concurrently": "^8.2.1",
+    "eslint": "^8.50.0",
+    "eslint-config-tjw-jsdoc": "^1.0.4",
     "gh-pages": "^6.0.0",
     "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
-    "prettier": "^3.0.1",
+    "prettier": "^3.0.3",
     "selenium-webdriver": "^4.13.0",
     "vitepress": "^1.0.0-rc.20"
   },
@@ -68,7 +68,7 @@
     "glob": "^10.3.10",
     "plist": "^3.1.0",
     "rcedit": "^4.0.0",
-    "winston": "^3.9.0",
+    "winston": "^3.10.0",
     "yargs": "^17.7.2"
   },
   "packageManager": "npm@9.8.1",
