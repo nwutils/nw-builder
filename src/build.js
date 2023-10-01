@@ -271,12 +271,191 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
             "InfoPlist.strings",
           ),
         },
+        helper: {
+          alerts: {
+            json: {},
+            path: resolve(
+              outDir,
+              `${app.name}.app`,
+              "Frameworks",
+              "nwjs Framework.framework",
+              "Helpers",
+              `${app.name} Helper (Alerts).app`,
+              "Contents",
+              "Info.plist",
+            ),
+          },
+          gpu: {
+            json: {},
+            path: resolve(
+              outDir,
+              `${app.name}.app`,
+              "Frameworks",
+              "nwjs Framework.framework",
+              "Helpers",
+              `${app.name} Helper (GPU).app`,
+              "Contents",
+              "Info.plist",
+            ),
+          },
+          plugin: {
+            json: {},
+            path: resolve(
+              outDir,
+              `${app.name}.app`,
+              "Frameworks",
+              "nwjs Framework.framework",
+              "Helpers",
+              `${app.name} Helper (Plugin).app`,
+              "Contents",
+              "Info.plist",
+            ),
+          },
+          renderer: {
+            json: {},
+            path: resolve(
+              outDir,
+              `${app.name}.app`,
+              "Frameworks",
+              "nwjs Framework.framework",
+              "Helpers",
+              `${app.name} Helper (Renderer).app`,
+              "Contents",
+              "Info.plist",
+            ),
+          },
+          main: {
+            json: {},
+            path: resolve(
+              outDir,
+              `${app.name}.app`,
+              "Frameworks",
+              "nwjs Framework.framework",
+              "Helpers",
+              `${app.name} Helper.app`,
+              "Contents",
+              "Info.plist",
+            ),
+          },
+        },
       };
 
       // Rename MacOS app
       await rename(
         resolve(outDir, "nwjs.app"),
         resolve(outDir, `${app.name}.app`),
+      );
+
+      // Rename Helper apps
+      await rename(
+        resolve(
+          outDir,
+          `${app.name}.app`,
+          "Frameworks",
+          "nwjs Framework.framework",
+          "Helpers",
+          `nwjs Helper.app`,
+          "Contents",
+          "Info.plist",
+        ),
+        resolve(
+          outDir,
+          `${app.name}.app`,
+          "Frameworks",
+          "nwjs Framework.framework",
+          "Helpers",
+          `${app.name} Helper.app`,
+          "Contents",
+          "Info.plist",
+        ),
+      );
+      await rename(
+        resolve(
+          outDir,
+          `${app.name}.app`,
+          "Frameworks",
+          "nwjs Framework.framework",
+          "Helpers",
+          `nwjs Helper (Alerts).app`,
+          "Contents",
+          "Info.plist",
+        ),
+        resolve(
+          outDir,
+          `${app.name}.app`,
+          "Frameworks",
+          "nwjs Framework.framework",
+          "Helpers",
+          `${app.name} Helper (Alerts).app`,
+          "Contents",
+          "Info.plist",
+        ),
+      );
+      await rename(
+        resolve(
+          outDir,
+          `${app.name}.app`,
+          "Frameworks",
+          "nwjs Framework.framework",
+          "Helpers",
+          `nwjs Helper (GPU).app`,
+          "Contents",
+          "Info.plist",
+        ),
+        resolve(
+          outDir,
+          `${app.name}.app`,
+          "Frameworks",
+          "nwjs Framework.framework",
+          "Helpers",
+          `${app.name} Helper (GPU).app`,
+          "Contents",
+          "Info.plist",
+        ),
+      );
+      await rename(
+        resolve(
+          outDir,
+          `${app.name}.app`,
+          "Frameworks",
+          "nwjs Framework.framework",
+          "Helpers",
+          `nwjs Helper (Plugin).app`,
+          "Contents",
+          "Info.plist",
+        ),
+        resolve(
+          outDir,
+          `${app.name}.app`,
+          "Frameworks",
+          "nwjs Framework.framework",
+          "Helpers",
+          `${app.name} Helper (Plugin).app`,
+          "Contents",
+          "Info.plist",
+        ),
+      );
+      await rename(
+        resolve(
+          outDir,
+          `${app.name}.app`,
+          "Frameworks",
+          "nwjs Framework.framework",
+          "Helpers",
+          `nwjs Helper (Renderer).app`,
+          "Contents",
+          "Info.plist",
+        ),
+        resolve(
+          outDir,
+          `${app.name}.app`,
+          "Frameworks",
+          "nwjs Framework.framework",
+          "Helpers",
+          `${app.name} Helper (Renderer).app`,
+          "Contents",
+          "Info.plist",
+        ),
       );
 
       // Replace default with custom icon
@@ -323,10 +502,36 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         }
       });
 
+      plistInfo.helper.alerts.json.CFBundleDisplayName = app.name;
+      plistInfo.helper.gpu.json.CFBundleDisplayName = app.name;
+      plistInfo.helper.plugin.json.CFBundleDisplayName = app.name;
+      plistInfo.helper.renderer.json.CFBundleDisplayName = app.name;
+      plistInfo.helper.main.json.CFBundleDisplayName = app.name;
+
       await writeFile(plistInfo.app.path, plist.build(plistInfo.app.json));
       await writeFile(
         plistInfo.strings.path,
         plistInfo.strings.array.toString().replace(/,/g, "\n"),
+      );
+      await writeFile(
+        plistInfo.helper.alerts.path,
+        plist.build(plistInfo.helper.alerts.json),
+      );
+      await writeFile(
+        plistInfo.helper.gpu.path,
+        plist.build(plistInfo.helper.gpu.json),
+      );
+      await writeFile(
+        plistInfo.helper.plugin.path,
+        plist.build(plistInfo.helper.plugin.json),
+      );
+      await writeFile(
+        plistInfo.helper.renderer.path,
+        plist.build(plistInfo.helper.renderer.json),
+      );
+      await writeFile(
+        plistInfo.helper.main.path,
+        plist.build(plistInfo.helper.main.json),
       );
     } catch (error) {
       log.error(error);
