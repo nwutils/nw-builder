@@ -351,7 +351,7 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
       );
 
       // Rename Helper apps
-      const e = await rename(
+      await rename(
         resolve(
           outDir,
           `${app.name}.app`,
@@ -359,7 +359,7 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
           "Frameworks",
           "nwjs Framework.framework",
           "Helpers",
-          `nwjs Helper.app`,
+          "nwjs Helper.app",
         ),
         resolve(
           outDir,
@@ -371,6 +371,7 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
           `${app.name} Helper.app`,
         ),
       );
+
       await rename(
         resolve(
           outDir,
@@ -380,8 +381,6 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
           "nwjs Framework.framework",
           "Helpers",
           `nwjs Helper (Alerts).app`,
-          "Contents",
-          "Info.plist",
         ),
         resolve(
           outDir,
@@ -391,8 +390,6 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
           "nwjs Framework.framework",
           "Helpers",
           `${app.name} Helper (Alerts).app`,
-          "Contents",
-          "Info.plist",
         ),
       );
       await rename(
@@ -404,8 +401,6 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
           "nwjs Framework.framework",
           "Helpers",
           `nwjs Helper (GPU).app`,
-          "Contents",
-          "Info.plist",
         ),
         resolve(
           outDir,
@@ -415,8 +410,6 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
           "nwjs Framework.framework",
           "Helpers",
           `${app.name} Helper (GPU).app`,
-          "Contents",
-          "Info.plist",
         ),
       );
       await rename(
@@ -428,8 +421,6 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
           "nwjs Framework.framework",
           "Helpers",
           `nwjs Helper (Plugin).app`,
-          "Contents",
-          "Info.plist",
         ),
         resolve(
           outDir,
@@ -439,8 +430,6 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
           "nwjs Framework.framework",
           "Helpers",
           `${app.name} Helper (Plugin).app`,
-          "Contents",
-          "Info.plist",
         ),
       );
       await rename(
@@ -452,8 +441,6 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
           "nwjs Framework.framework",
           "Helpers",
           `nwjs Helper (Renderer).app`,
-          "Contents",
-          "Info.plist",
         ),
         resolve(
           outDir,
@@ -463,8 +450,6 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
           "nwjs Framework.framework",
           "Helpers",
           `${app.name} Helper (Renderer).app`,
-          "Contents",
-          "Info.plist",
         ),
       );
 
@@ -477,10 +462,25 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         await readFile(plistInfo.app.path, "utf-8"),
       );
 
-      plistInfo.strings.array = await readFile(
-        plistInfo.strings.path,
-        "utf-8",
+      plistInfo.strings.array = (
+        await readFile(plistInfo.strings.path, "utf-8")
       ).split("\n");
+
+      plistInfo.helper.alerts.json = plist.parse(
+        await readFile(plistInfo.helper.alerts.path, "utf-8"),
+      );
+      plistInfo.helper.gpu.json = plist.parse(
+        await readFile(plistInfo.helper.gpu.path, "utf-8"),
+      );
+      plistInfo.helper.plugin.json = plist.parse(
+        await readFile(plistInfo.helper.plugin.path, "utf-8"),
+      );
+      plistInfo.helper.renderer.json = plist.parse(
+        await readFile(plistInfo.helper.renderer.path, "utf-8"),
+      );
+      plistInfo.helper.main.json = plist.parse(
+        await readFile(plistInfo.helper.main.path, "utf-8"),
+      );
 
       plistInfo.strings.array.forEach((line, idx, arr) => {
         if (line.includes("NSHumanReadableCopyright")) {

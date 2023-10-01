@@ -48,7 +48,7 @@
     "doc:bld": "node cfg/jsdoc.config.cjs && vitepress build doc",
     "test:unit": "node --test test/unit/index.js",
     "test:e2e": "node --test test/e2e/index.js",
-    "demo": "npm link nw-builder && cd test/fixture && node demo.js"
+    "demo": "cd test/fixture && node demo.js"
   },
   "devDependencies": {
     "concurrently": "^8.2.0",

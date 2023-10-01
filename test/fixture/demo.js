@@ -1,4 +1,4 @@
-import nwbuild from "nw-builder";
+import nwbuild from "../../src/index.js";
 
 await nwbuild({
   mode: "build",
@@ -7,5 +7,4 @@ await nwbuild({
   srcDir: "app",
   outDir: "out",
   glob: false,
-  logLevel: "debug",
 });
