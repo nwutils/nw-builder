@@ -9,10 +9,10 @@ For version 3, please go to the [corresponding branch](https://github.com/nwutil
 
 ## Major Features
 
-- Build for Linux, MacOS, and Windows
-- Support downloading [from](https://npm.taobao.org/mirrors/nwjs) [mirrors](https://npmmirror.com/mirrors/nwjs)
-- Integrate [`nwjs-ffmpeg-prebuilt`](https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt)
+- Get, run or build applications.
+- Integrate [FFmpeg community builds](https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt)
 - Configure executable fields and icons
+- Support downloading from mirrors
 
 Check out the [documentation](https://nwutils.io/nw-builder/) if you wish to give `nw-builder` a try.
 
