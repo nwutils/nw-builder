@@ -246,33 +246,60 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
     }
 
     try {
-      const outApp = resolve(outDir, `${app.name}.app`);
-      await rename(resolve(outDir, "nwjs.app"), outApp);
+      let plistInfo = {
+        app: {
+          json: {},
+          path: resolve(outDir, `${app.name}.app`, "Contents", "Info.plist"),
+        },
+        icon: {
+          path: resolve(
+            outDir,
+            `${app.name}.app`,
+            "Contents",
+            "Resources",
+            "app.icns",
+          ),
+        },
+        strings: {
+          array: [],
+          path: resolve(
+            outDir,
+            `${app.name}.app`,
+            "Contents",
+            "Resources",
+            "en.lproj",
+            "InfoPlist.strings",
+          ),
+        },
+      };
+
+      // Rename MacOS app
+      await rename(
+        resolve(outDir, "nwjs.app"),
+        resolve(outDir, `${app.name}.app`),
+      );
+
+      // Replace default with custom icon
       if (app.icon !== undefined) {
-        await copyFile(
-          resolve(app.icon),
-          resolve(outApp, "Contents", "Resources", "app.icns"),
-        );
+        await copyFile(resolve(app.icon), plistInfo.icon.path);
       }
 
-      const infoPlistPath = resolve(outApp, "Contents", "Info.plist");
-      const infoPlistJson = plist.parse(await readFile(infoPlistPath, "utf-8"));
-
-      const infoPlistStringsPath = resolve(
-        outApp,
-        "Contents",
-        "Resources",
-        "en.lproj",
-        "InfoPlist.strings",
+      plistInfo.app.json = plist.parse(
+        await readFile(plistInfo.app.path, "utf-8"),
       );
-      const infoPlistStringsData = await readFile(
-        infoPlistStringsPath,
+
+      plistInfo.strings.array = await readFile(
+        resolve(
+          outApp,
+          "Contents",
+          "Resources",
+          "en.lproj",
+          "InfoPlist.strings",
+        ),
         "utf-8",
-      );
+      ).split("\n");
 
-      let infoPlistStringsDataArray = infoPlistStringsData.split("\n");
-
-      infoPlistStringsDataArray.forEach((line, idx, arr) => {
+      plistInfo.strings.array.forEach((line, idx, arr) => {
         if (line.includes("NSHumanReadableCopyright")) {
           arr[
             idx
@@ -280,24 +307,26 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         }
       });
 
-      infoPlistJson.LSApplicationCategoryType = app.LSApplicationCategoryType;
-      infoPlistJson.CFBundleIdentifier = app.CFBundleIdentifier;
-      infoPlistJson.CFBundleName = app.CFBundleName;
-      infoPlistJson.CFBundleDisplayName = app.CFBundleDisplayName;
-      infoPlistJson.CFBundleSpokenName = app.CFBundleSpokenName;
-      infoPlistJson.CFBundleVersion = app.CFBundleVersion;
-      infoPlistJson.CFBundleShortVersionString = app.CFBundleShortVersionString;
+      plistInfo.app.json.LSApplicationCategoryType =
+        app.LSApplicationCategoryType;
+      plistInfo.app.json.CFBundleIdentifier = app.CFBundleIdentifier;
+      plistInfo.app.json.CFBundleName = app.CFBundleName;
+      plistInfo.app.json.CFBundleDisplayName = app.CFBundleDisplayName;
+      plistInfo.app.json.CFBundleSpokenName = app.CFBundleSpokenName;
+      plistInfo.app.json.CFBundleVersion = app.CFBundleVersion;
+      plistInfo.app.json.CFBundleShortVersionString =
+        app.CFBundleShortVersionString;
 
-      Object.keys(infoPlistJson).forEach((option) => {
+      Object.keys(plistInfo.app.json).forEach((option) => {
         if (infoPlistJson[option] === undefined) {
           delete infoPlistJson[option];
         }
       });
 
-      await writeFile(infoPlistPath, plist.build(infoPlistJson));
+      await writeFile(plistInfo.app.path, plist.build(plistInfo.app.json));
       await writeFile(
-        infoPlistStringsPath,
-        infoPlistStringsDataArray.toString().replace(/,/g, "\n"),
+        plistInfo.strings.path,
+        plistInfo.strings.array.toString().replace(/,/g, "\n"),
       );
     } catch (error) {
       log.error(error);
