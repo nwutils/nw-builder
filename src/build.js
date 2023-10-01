@@ -340,7 +340,6 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         },
       };
 
-      // Rename MacOS app
       await rename(
         resolve(outDir, "nwjs.app"),
         resolve(outDir, `${app.name}.app`),
@@ -468,13 +467,7 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
       );
 
       plistInfo.strings.array = await readFile(
-        resolve(
-          outApp,
-          "Contents",
-          "Resources",
-          "en.lproj",
-          "InfoPlist.strings",
-        ),
+        plistInfo.strings.path,
         "utf-8",
       ).split("\n");
 
@@ -497,16 +490,16 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         app.CFBundleShortVersionString;
 
       Object.keys(plistInfo.app.json).forEach((option) => {
-        if (infoPlistJson[option] === undefined) {
-          delete infoPlistJson[option];
+        if (plistInfo.app.json[option] === undefined) {
+          delete plistInfo.app.json[option];
         }
       });
 
-      plistInfo.helper.alerts.json.CFBundleDisplayName = app.name;
-      plistInfo.helper.gpu.json.CFBundleDisplayName = app.name;
-      plistInfo.helper.plugin.json.CFBundleDisplayName = app.name;
-      plistInfo.helper.renderer.json.CFBundleDisplayName = app.name;
-      plistInfo.helper.main.json.CFBundleDisplayName = app.name;
+      plistInfo.helper.alerts.json.CFBundleDisplayName = `${app.name} Helper (Alerts)`;
+      plistInfo.helper.gpu.json.CFBundleDisplayName = `${app.name} Helper (GPU)`;
+      plistInfo.helper.plugin.json.CFBundleDisplayName = `${app.name} Helper (Plugin)`;
+      plistInfo.helper.renderer.json.CFBundleDisplayName = `${app.name} Helper (Renderer)`;
+      plistInfo.helper.main.json.CFBundleDisplayName = `${app.name} Helper`;
 
       await writeFile(plistInfo.app.path, plist.build(plistInfo.app.json));
       await writeFile(
