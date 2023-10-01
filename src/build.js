@@ -1,5 +1,5 @@
 import { resolve } from "node:path";
-import { platform as PLATFORM } from "node:process";
+import { platform as PLATFORM, exit } from "node:process";
 import {
   cp,
   copyFile,
@@ -277,6 +277,7 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
             path: resolve(
               outDir,
               `${app.name}.app`,
+              "Contents",
               "Frameworks",
               "nwjs Framework.framework",
               "Helpers",
@@ -290,6 +291,7 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
             path: resolve(
               outDir,
               `${app.name}.app`,
+              "Contents",
               "Frameworks",
               "nwjs Framework.framework",
               "Helpers",
@@ -303,6 +305,7 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
             path: resolve(
               outDir,
               `${app.name}.app`,
+              "Contents",
               "Frameworks",
               "nwjs Framework.framework",
               "Helpers",
@@ -316,6 +319,7 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
             path: resolve(
               outDir,
               `${app.name}.app`,
+              "Contents",
               "Frameworks",
               "nwjs Framework.framework",
               "Helpers",
@@ -329,6 +333,7 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
             path: resolve(
               outDir,
               `${app.name}.app`,
+              "Contents",
               "Frameworks",
               "nwjs Framework.framework",
               "Helpers",
@@ -346,32 +351,31 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
       );
 
       // Rename Helper apps
-      await rename(
+      const e = await rename(
         resolve(
           outDir,
           `${app.name}.app`,
+          "Contents",
           "Frameworks",
           "nwjs Framework.framework",
           "Helpers",
           `nwjs Helper.app`,
-          "Contents",
-          "Info.plist",
         ),
         resolve(
           outDir,
           `${app.name}.app`,
+          "Contents",
           "Frameworks",
           "nwjs Framework.framework",
           "Helpers",
           `${app.name} Helper.app`,
-          "Contents",
-          "Info.plist",
         ),
       );
       await rename(
         resolve(
           outDir,
           `${app.name}.app`,
+          "Contents",
           "Frameworks",
           "nwjs Framework.framework",
           "Helpers",
@@ -382,6 +386,7 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         resolve(
           outDir,
           `${app.name}.app`,
+          "Contents",
           "Frameworks",
           "nwjs Framework.framework",
           "Helpers",
@@ -394,6 +399,7 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         resolve(
           outDir,
           `${app.name}.app`,
+          "Contents",
           "Frameworks",
           "nwjs Framework.framework",
           "Helpers",
@@ -404,6 +410,7 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         resolve(
           outDir,
           `${app.name}.app`,
+          "Contents",
           "Frameworks",
           "nwjs Framework.framework",
           "Helpers",
@@ -416,6 +423,7 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         resolve(
           outDir,
           `${app.name}.app`,
+          "Contents",
           "Frameworks",
           "nwjs Framework.framework",
           "Helpers",
@@ -426,6 +434,7 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         resolve(
           outDir,
           `${app.name}.app`,
+          "Contents",
           "Frameworks",
           "nwjs Framework.framework",
           "Helpers",
@@ -438,6 +447,7 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         resolve(
           outDir,
           `${app.name}.app`,
+          "Contents",
           "Frameworks",
           "nwjs Framework.framework",
           "Helpers",
@@ -448,6 +458,7 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         resolve(
           outDir,
           `${app.name}.app`,
+          "Contents",
           "Frameworks",
           "nwjs Framework.framework",
           "Helpers",
