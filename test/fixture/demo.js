@@ -9,7 +9,7 @@ await nwbuild({
   glob: false,
   app: {
     name: "Demo",
-    icon: "icon.icns",
+    icon: "app/icon.icns",
     CFBundleIdentifier: "io.nwutils.demo",
     CFBundleName: "Demo",
     CFBundleDisplayName: "Demo",
