@@ -1,5 +1,5 @@
 import { resolve } from "node:path";
-import { platform as PLATFORM, exit } from "node:process";
+import { platform as PLATFORM } from "node:process";
 import {
   cp,
   copyFile,
