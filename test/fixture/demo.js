@@ -7,4 +7,14 @@ await nwbuild({
   srcDir: "app",
   outDir: "out",
   glob: false,
+  app: {
+    name: "Demo",
+    icon: "icon.icns",
+    CFBundleIdentifier: "io.nwutils.demo",
+    CFBundleName: "Demo",
+    CFBundleDisplayName: "Demo",
+    CFBundleVersion: "0.0.0",
+    CFBundleShortVersionString: "0.0.0",
+    NSHumanReadableCopyright: "Copyright (c) 2023",
+  },
 });

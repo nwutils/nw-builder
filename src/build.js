@@ -507,34 +507,39 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
       });
 
       plistInfo.helper.alerts.json.CFBundleDisplayName = `${app.name} Helper (Alerts)`;
-      plistInfo.helper.alerts.json.CFBundleExecutable =  `${app.name} Helper (Alerts)`;
-      plistInfo.helper.alerts.json.CFBundleIdentifier =  `${app.CFBundleIdentifier}.helper.alerts`;
-      plistInfo.helper.alerts.json.CFBundleName =  `${app.name} Helper (Alerts)`;
-      plistInfo.helper.alerts.json.CFBundleShortVersionString =  app.CFBundleShortVersionString;
+      plistInfo.helper.alerts.json.CFBundleExecutable = `${app.name} Helper (Alerts)`;
+      plistInfo.helper.alerts.json.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper.alerts`;
+      plistInfo.helper.alerts.json.CFBundleName = `${app.name} Helper (Alerts)`;
+      plistInfo.helper.alerts.json.CFBundleShortVersionString =
+        app.CFBundleShortVersionString;
 
       plistInfo.helper.gpu.json.CFBundleDisplayName = `${app.name} Helper (GPU)`;
-      plistInfo.helper.gpu.json.CFBundleExecutable =  `${app.name} Helper (GPU)`;
-      plistInfo.helper.gpu.json.CFBundleIdentifier =  `${app.CFBundleIdentifier}.helper.gpu`;
-      plistInfo.helper.gpu.json.CFBundleName =  `${app.name} Helper (GPU)`;
-      plistInfo.helper.gpu.json.CFBundleShortVersionString =  app.CFBundleShortVersionString;
+      plistInfo.helper.gpu.json.CFBundleExecutable = `${app.name} Helper (GPU)`;
+      plistInfo.helper.gpu.json.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper.gpu`;
+      plistInfo.helper.gpu.json.CFBundleName = `${app.name} Helper (GPU)`;
+      plistInfo.helper.gpu.json.CFBundleShortVersionString =
+        app.CFBundleShortVersionString;
 
       plistInfo.helper.plugin.json.CFBundleDisplayName = `${app.name} Helper (Plugin)`;
-      plistInfo.helper.plugin.json.CFBundleExecutable =  `${app.name} Helper (Plugin)`;
-      plistInfo.helper.plugin.json.CFBundleIdentifier =  `${app.CFBundleIdentifier}.helper.plugin`;
-      plistInfo.helper.plugin.json.CFBundleName =  `${app.name} Helper (Plugin)`;
-      plistInfo.helper.plugin.json.CFBundleShortVersionString =  app.CFBundleShortVersionString;
+      plistInfo.helper.plugin.json.CFBundleExecutable = `${app.name} Helper (Plugin)`;
+      plistInfo.helper.plugin.json.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper.plugin`;
+      plistInfo.helper.plugin.json.CFBundleName = `${app.name} Helper (Plugin)`;
+      plistInfo.helper.plugin.json.CFBundleShortVersionString =
+        app.CFBundleShortVersionString;
 
       plistInfo.helper.renderer.json.CFBundleDisplayName = `${app.name} Helper (Renderer)`;
-      plistInfo.helper.renderer.json.CFBundleExecutable =  `${app.name} Helper (Renderer)`;
-      plistInfo.helper.renderer.json.CFBundleIdentifier =  `${app.CFBundleIdentifier}.helper.renderer`;
-      plistInfo.helper.renderer.json.CFBundleName =  `${app.name} Helper (Renderer)`;
-      plistInfo.helper.renderer.json.CFBundleShortVersionString =  app.CFBundleShortVersionString;
+      plistInfo.helper.renderer.json.CFBundleExecutable = `${app.name} Helper (Renderer)`;
+      plistInfo.helper.renderer.json.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper.renderer`;
+      plistInfo.helper.renderer.json.CFBundleName = `${app.name} Helper (Renderer)`;
+      plistInfo.helper.renderer.json.CFBundleShortVersionString =
+        app.CFBundleShortVersionString;
 
       plistInfo.helper.main.json.CFBundleDisplayName = `${app.name} Helper`;
-      plistInfo.helper.main.json.CFBundleExecutable =  `${app.name} Helper`;
-      plistInfo.helper.main.json.CFBundleIdentifier =  `${app.CFBundleIdentifier}.helper`;
-      plistInfo.helper.main.json.CFBundleName =  `${app.name} Helper`;
-      plistInfo.helper.main.json.CFBundleShortVersionString =  app.CFBundleShortVersionString;
+      plistInfo.helper.main.json.CFBundleExecutable = `${app.name} Helper`;
+      plistInfo.helper.main.json.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper`;
+      plistInfo.helper.main.json.CFBundleName = `${app.name} Helper`;
+      plistInfo.helper.main.json.CFBundleShortVersionString =
+        app.CFBundleShortVersionString;
 
       await writeFile(plistInfo.app.path, plist.build(plistInfo.app.json));
       await writeFile(
