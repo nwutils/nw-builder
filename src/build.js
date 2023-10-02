@@ -513,7 +513,6 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
       plistInfo.app.json.CFBundleVersion = app.CFBundleVersion;
       plistInfo.app.json.CFBundleShortVersionString =
         app.CFBundleShortVersionString;
-      plistInfo.app.json.CFBundleExecutable = app.CFBundleExecutable;
 
       Object.keys(plistInfo.app.json).forEach((option) => {
         if (plistInfo.app.json[option] === undefined) {
