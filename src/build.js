@@ -350,7 +350,13 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         resolve(outDir, `${app.name}.app`),
       );
 
-      // Rename Helper apps
+      // Rename `Contents/MacOS/nwjs`
+      await rename(
+        resolve(outDir, `${app.name}.app`, "Contents", "MacOS", "nwjs"),
+        resolve(outDir, `${app.name}.app`, "Contents", "MacOS", `${app.name}`),
+      );
+
+      // Rename Helper app
       await rename(
         resolve(
           outDir,
@@ -372,6 +378,7 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         ),
       );
 
+      // Rename Alerts Helper app
       await rename(
         resolve(
           outDir,
@@ -392,6 +399,8 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
           `${app.name} Helper (Alerts).app`,
         ),
       );
+
+      // Rename GPU Helper app
       await rename(
         resolve(
           outDir,
@@ -412,6 +421,8 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
           `${app.name} Helper (GPU).app`,
         ),
       );
+
+      // Rename Plugin Helper app
       await rename(
         resolve(
           outDir,
@@ -432,6 +443,8 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
           `${app.name} Helper (Plugin).app`,
         ),
       );
+
+      // Rename Renderer Helper app
       await rename(
         resolve(
           outDir,
@@ -495,10 +508,12 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
       plistInfo.app.json.CFBundleIdentifier = app.CFBundleIdentifier;
       plistInfo.app.json.CFBundleName = app.CFBundleName;
       plistInfo.app.json.CFBundleDisplayName = app.CFBundleDisplayName;
+      plistInfo.app.json.CFBundleExecutable = app.name;
       plistInfo.app.json.CFBundleSpokenName = app.CFBundleSpokenName;
       plistInfo.app.json.CFBundleVersion = app.CFBundleVersion;
       plistInfo.app.json.CFBundleShortVersionString =
         app.CFBundleShortVersionString;
+      plistInfo.app.json.CFBundleExecutable = app.CFBundleExecutable;
 
       Object.keys(plistInfo.app.json).forEach((option) => {
         if (plistInfo.app.json[option] === undefined) {
