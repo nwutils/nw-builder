@@ -7,7 +7,7 @@ jsdoc2md
         files: "src/index.js",
     })
     .then(async (output) => {
-        await writeFile("doc/index.md", output);
+        await writeFile("docs/index.md", output);
     })
     .catch((error) => {
         console.log(error);
@@ -18,7 +18,7 @@ jsdoc2md
         files: "src/build.js",
     })
     .then(async (output) => {
-        await writeFile("doc/mode-build.md", output);
+        await writeFile("docs/mode-build.md", output);
     })
     .catch((error) => {
         console.log(error);
@@ -29,7 +29,7 @@ jsdoc2md
         files: "src/get.js",
     })
     .then(async (output) => {
-        await writeFile("doc/mode-get.md", output);
+        await writeFile("docs/mode-get.md", output);
     })
     .catch((error) => {
         console.log(error);
@@ -40,7 +40,7 @@ jsdoc2md
         files: "src/run.js",
     })
     .then(async (output) => {
-        await writeFile("doc/mode-run.md", output);
+        await writeFile("docs/mode-run.md", output);
     })
     .catch((error) => {
         console.log(error);
