@@ -38,9 +38,9 @@ import { getReleaseInfo } from "./util.js";
 /**
  * Installation Guide
  *
- * Every NW.js release includes a modified Node.js binary at a specific version. It is recommended to [install](https://nodejs.org/en/download/package-manager) a version greater than or equal to NW.js's Node version. Consult the [version manifest](https://nwjs.io/versions) on the version to install. Install using the package manager of choice. The recommended method is via [corepack](https://nodejs.org/api/corepack.html).
+ * Every NW.js release includes a modified Node.js binary at a specific version. It is recommended to [install](https://nodejs.org/en/download/package-manager) exactly that version on the host system. Not doing so may download ABI incompatible Node modules. Consult the [version manifest](https://nwjs.io/versions) on the version to install. Install using the package manager of choice via [corepack](https://nodejs.org/api/corepack.html).
  *
- * Basic Usage
+ * Please refer to the examples below for basic usage.
  *
  * @example
  * // ESM usage:
@@ -74,8 +74,6 @@ import { getReleaseInfo } from "./util.js";
  * // Node manifest usage
  *
  * "nwbuild": {}
- *
- *
  *
  * @param  {Options}            options  Options
  * @return {Promise<undefined>}
