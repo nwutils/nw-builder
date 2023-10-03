@@ -38,7 +38,7 @@ import { getReleaseInfo } from "./util.js";
 /**
  * Installation Guide
  *
- * Every NW.js release includes a modified Node.js binary at a specific version. It is recommended to [install](https://nodejs.org/en/download/package-manager) exactly that version on the host system. Not doing so may download ABI incompatible Node modules. Consult the [version manifest](https://nwjs.io/versions) on the version to install. Install using the package manager of choice via [corepack](https://nodejs.org/api/corepack.html).
+ * Every NW.js release includes a modified Node.js binary at a specific version. It is recommended to [install](https://nodejs.org/en/download/package-manager) exactly that version on the host system. Not doing so may download ABI incompatible Node modules. Consult the NW.js [versions manifest](https://nwjs.io/versions) for what Node.js version to install. It is recommended to use a Node version manager (such as [volta](https://volta.sh), n, nvm, or nvm-windows) to be able to easily install and switch between Node versions.
  *
  * Please refer to the examples below for basic usage.
  *
