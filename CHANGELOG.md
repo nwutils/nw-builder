@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+- Auto generate docs from JSDoc comments.
+- Improve TypeScript type definitions.
 - Fix get mode.
 - Refactor build mode.
 - Generate markdown docs from JSDocs.

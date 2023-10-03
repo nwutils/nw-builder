@@ -8,7 +8,7 @@ try {
 
   for await (const event of watcher) {
     if (event) {
-      exec("node cfg/jsdoc.config.cjs");
+      exec("node .github/jsdoc.config.cjs");
     }
   }
 } catch (e) {
