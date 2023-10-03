@@ -182,7 +182,7 @@ async function get_nwjs({
           log.debug(`Response from ${url}`);
           let chunks = 0;
           bar.start(Number(response.headers["content-length"]), 0);
-          response.on("data", async (chunk) => {
+          response.on("data", (chunk) => {
             chunks += chunk.length;
             bar.increment();
             bar.update(chunks);
@@ -197,22 +197,6 @@ async function get_nwjs({
             bar.stop();
             if (platform === "linux") {
               compressing.tgz.uncompress(out, cacheDir).then(() => resolve());
-            } else if (platform === "osx") {
-              //TODO: compressing package does not restore symlinks on some macOS (eg: circleCI)
-              const exec = function (cmd) {
-                log.debug(cmd);
-                const result = spawnSync(cmd, {
-                  shell: true,
-                  stdio: "inherit",
-                });
-                if (result.status !== 0) {
-                  log.debug(`Command failed with status ${result.status}`);
-                  if (result.error) console.log(result.error);
-                  EXIT(1);
-                }
-                return resolve();
-              };
-              exec(`unzip -o "${out}" -d "${cacheDir}"`);
             } else {
               compressing.zip.uncompress(out, cacheDir).then(() => resolve());
             }
@@ -329,7 +313,7 @@ async function get_ffmpeg({
         log.debug(`Response from ${url}`);
         let chunks = 0;
         bar.start(Number(response.headers["content-length"]), 0);
-        response.on("data", async (chunk) => {
+        response.on("data", (chunk) => {
           chunks += chunk.length;
           bar.increment();
           bar.update(chunks);
