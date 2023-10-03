@@ -1,9 +1,8 @@
-import { spawnSync } from "node:child_process";
 import { createWriteStream, existsSync } from "node:fs";
 import { mkdir, readdir, rm, rmdir } from "node:fs/promises";
 import { get as getRequest } from "node:https";
 import { resolve } from "node:path";
-import { arch as ARCH, platform as PLATFORM, exit as EXIT } from "node:process";
+import { arch as ARCH, platform as PLATFORM } from "node:process";
 
 import progress from "cli-progress";
 import compressing from "compressing";
