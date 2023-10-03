@@ -105,26 +105,15 @@ import { log } from "./log.js";
  *   mode: "build",
  * });
  *
- * @param  {string | string[]}       files            Array of NW app files
- * @param  {string}                  nwDir            Directory to hold NW binaries
- * @param  {string}                  outDir           Directory to store build artifacts
- * @param  {"linux" | "osx" | "win"} platform         Platform is the operating system type
- * @param  {"zip" | boolean}         zip              Specify if the build artifacts are to be zipped
- * @param  {LinuxRc | OsxRc | WinRc} app              Multi platform configuration options
- * @param  {object}                  manifest         Node/NW manifest object
- * @param  {boolean}                 managedManifest  Toggle managedManifest mode. Defaults to false.
+ * @param  {string | string[]}       files     Array of NW app files
+ * @param  {string}                  nwDir     Directory to hold NW binaries
+ * @param  {string}                  outDir    Directory to store build artifacts
+ * @param  {"linux" | "osx" | "win"} platform  Platform is the operating system type
+ * @param  {"zip" | boolean}         zip       Specify if the build artifacts are to be zipped
+ * @param  {LinuxRc | OsxRc | WinRc} app       Multi platform configuration options
  * @return {Promise<undefined>}
  */
-export async function build(
-  files,
-  nwDir,
-  outDir,
-  platform,
-  zip,
-  app,
-  manifest,
-  managedManifest,
-) {
+export async function build(files, nwDir, outDir, platform, zip, app) {
   log.debug(`Remove any files at ${outDir} directory`);
   await rm(outDir, { force: true, recursive: true });
   log.debug(`Copy ${nwDir} files to ${outDir} directory`);
@@ -158,20 +147,6 @@ export async function build(
         { recursive: true, verbatimSymlinks: true },
       );
     }
-  }
-
-  if (managedManifest === true) {
-    await writeFile(
-      resolve(
-        outDir,
-        platform !== "osx"
-          ? "package.nw"
-          : "nwjs.app/Contents/Resources/app.nw",
-        "package.json",
-      ),
-      JSON.stringify(manifest, null, 2),
-      "utf8",
-    );
   }
 
   log.debug(`Starting platform specific config steps for ${platform}`);

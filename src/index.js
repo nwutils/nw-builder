@@ -33,24 +33,23 @@ import { getReleaseInfo } from "./util.js";
  * @property {boolean}                             [ffmpeg=false]                            If true the chromium ffmpeg is replaced by community version
  * @property {boolean}                             [glob=true]                               If true globbing is enabled
  * @property {"error" | "warn" | "info" | "debug"} [logLevel="info"]                         Specified log level.
- * @property {boolean}                             [managedManifest=false]                   If true managed manifest mode is enabled.
  */
 
 /**
  * Installation Guide
  *
  * Every NW.js release includes a modified Node.js binary at a specific version. It is recommended to [install](https://nodejs.org/en/download/package-manager) a version greater than or equal to NW.js's Node version. Consult the [version manifest](https://nwjs.io/versions) on the version to install. Install using the package manager of choice. The recommended method is via [corepack](https://nodejs.org/api/corepack.html).
- * 
+ *
  * Basic Usage
  *
  * @example
  * // ESM usage:
- * 
+ *
  * import nwbuild from "nw-builder";
  *
  * @example
  * // CJS usage
- * 
+ *
  * let nwbuild = undefined;
  *
  * (() => {
@@ -60,24 +59,24 @@ import { getReleaseInfo } from "./util.js";
  * console.error(error);
  * }
  * })();
- * 
+ *
  * @example
  * // Module usage
- * 
+ *
  * nwbuild();
- * 
+ *
  * @example
  * // CLI usage
- * 
+ *
  * npx nwbuild
- * 
+ *
  * @example
  * // Node manifest usage
- * 
+ *
  * "nwbuild": {}
- * 
- * 
- * 
+ *
+ *
+ *
  * @param  {Options}            options  Options
  * @return {Promise<undefined>}
  */
@@ -143,7 +142,8 @@ const nwbuild = async (options) => {
 
     nwDir = resolve(
       options.cacheDir,
-      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform
+      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${
+        options.platform
       }-${options.arch}`,
     );
 
@@ -183,8 +183,6 @@ const nwbuild = async (options) => {
         options.platform,
         options.zip,
         options.app,
-        manifest,
-        options.managedManifest,
       );
     }
   } catch (error) {

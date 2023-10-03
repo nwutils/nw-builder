@@ -113,7 +113,7 @@ The `platforms` option has been removed and replaced with `platform` and `arch`.
 ```diff
 -  platforms: ["win32", "win64", "osx32", "osx64", "linux32", "linux64"],
 +  platform: "linux", // "osx" for MacOS "win",  for Windows
-+  arch: "x64", // "ia32" for 32 bit or "arm64" for arm based 65 bit architectures 
++  arch: "x64", // "ia32" for 32 bit or "arm64" for arm based 65 bit architectures
 ```
 
 The `buildDir` option has been rename to `outDir`.
