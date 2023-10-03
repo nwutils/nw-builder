@@ -45,4 +45,3 @@ jsdoc2md
     .catch((error) => {
         console.log(error);
     });
-
