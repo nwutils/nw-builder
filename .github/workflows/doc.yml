@@ -15,7 +15,7 @@ jobs:
       - name: Install Node modules
         run: npm ci
       - name: Convert JSDoc to Markdown
-        run: node cfg/jsdoc.config.cjs
+        run: node .github/jsdoc.config.cjs
       - name: Build documentation
         run: npm run doc:bld
       - name: Publish documentation to GitHub Pages
