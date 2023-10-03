@@ -1,6 +1,6 @@
 {
   "name": "nw-builder",
-  "version": "4.3.10",
+  "version": "4.4.1",
   "description": "Build NW.js desktop applications for MacOS, Windows and Linux.",
   "keywords": [
     "NW.js",
@@ -41,35 +41,38 @@
   },
   "scripts": {
     "ci:fmt": "prettier --check \"./**/*.{css,html,js,json,md,yml}\"",
-    "ci:lnt": "eslint --config=cfg/eslint.config.cjs cfg src test",
+    "ci:lnt": "eslint --config=.github/eslint.config.cjs .github src test",
     "fmt": "prettier --write \"./**/*.{css,html,js,json,md,yml}\"",
-    "lnt": "eslint --config=cfg/eslint.config.cjs --fix cfg src test",
-    "doc:dev": "concurrently --kill-others \"node cfg/fswatch.config.js\" \"vitepress dev doc\"",
-    "doc:bld": "vitepress build doc",
-    "test:unit": "node --test-reporter=spec --test test/unit/index.js",
-    "test:e2e": "node --test-reporter=spec --test test/e2e/index.js",
-    "test:mod": "cd test/fixture && node demo.js",
-    "test:cli": "cd test/fixture && nwbuild --platform win --arch x64 --outDir out --no-glob app"
+    "lnt": "eslint --config=.github/eslint.config.cjs --fix src test",
+    "doc:dev": "concurrently --kill-others \"node .github/fswatch.config.js\" \"vitepress dev doc\"",
+    "doc:bld": "node .github/jsdoc.config.cjs && vitepress build doc",
+    "test:unit": "node --test test/unit/index.js",
+    "test:e2e": "node --test test/e2e/index.js",
+    "test:mod": "npm link nw-builder && cd test/fixture && node demo.js",
+    "test:cli": "npm link nw-builder && cd test/fixture && nwbuild --platform win --arch x64 --outDir out --no-glob app"
   },
   "devDependencies": {
-    "concurrently": "^8.2.0",
-    "eslint": "^8.45.0",
-    "eslint-config-tjw-jsdoc": "^1.0.3",
+    "concurrently": "^8.2.1",
+    "eslint": "^8.50.0",
+    "eslint-config-tjw-jsdoc": "^1.0.4",
     "gh-pages": "^6.0.0",
     "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
-    "prettier": "^3.0.1",
-    "selenium-webdriver": "^4.10.0",
-    "vitepress": "^1.0.0-beta.5"
+    "prettier": "^3.0.3",
+    "selenium-webdriver": "^4.13.0",
+    "vitepress": "^1.0.0-rc.20"
   },
   "dependencies": {
     "cli-progress": "^3.12.0",
     "compressing": "^1.10.0",
-    "glob": "^10.3.3",
+    "glob": "^10.3.10",
     "plist": "^3.1.0",
-    "rcedit": "^3.0.1",
-    "winston": "^3.9.0",
+    "rcedit": "^4.0.0",
+    "winston": "^3.10.0",
     "yargs": "^17.7.2"
   },
-  "packageManager": "npm@9.8.1"
+  "packageManager": "npm@9.8.1",
+  "engines": {
+    "node": ">= v16.20.1 || >= v18.18.0 || >= v20.7.0"
+  }
 }

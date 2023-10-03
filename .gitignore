@@ -8,6 +8,5 @@ coverage
 cache
 build
 dist
-doc/api*.md
-doc/mode-get.md
+doc/*.md
 out

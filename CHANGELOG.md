@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Auto generate docs from JSDoc comments.
+- Improve TypeScript type definitions.
+- Fix get mode.
+- Refactor build mode.
+- Generate markdown docs from JSDocs.
+
+## [4.4.1] - 2023-09-06
+
+### Changed
+
+- Improve debug logging.
+- Fixed handling of argv.
+
+## [4.4.0] - 2023-09-05
+
+### Added
+
+- Cache community FFmpeg.
+- Move FFmpeg decompress function to relevant location
+
+## [4.3.11] - 2023-09-05
+
+### Changed
+
+- Separate download logic for NW.js and FFmpeg.
+
 ## [4.3.10] - 2023-08-21
 
 ### Removed

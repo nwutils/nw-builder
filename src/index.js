@@ -2,15 +2,15 @@ import { mkdir } from "node:fs/promises";
 import { resolve } from "node:path";
 import { arch, platform, version } from "node:process";
 
-import { build } from "./bld/build.js";
-import { run } from "./run.js";
 import { isCached } from "./util/cache.js";
 import { getFiles } from "./util/files.js";
 import { getVersionManifest } from "./util/versionManifest.js";
 import { parse } from "./util/parse.js";
 import { validate } from "./util/validate.js";
 
+import { build } from "./build.js";
 import { get } from "./get.js";
+import { run } from "./run.js";
 import { log, setLogLevel } from "./log.js";
 import { getReleaseInfo } from "./util.js";
 
@@ -36,7 +36,44 @@ import { getReleaseInfo } from "./util.js";
  */
 
 /**
- * Automates building an NW.js application.
+ * Installation Guide
+ *
+ * Every NW.js release includes a modified Node.js binary at a specific version. It is recommended to [install](https://nodejs.org/en/download/package-manager) exactly that version on the host system. Not doing so may download ABI incompatible Node modules. Consult the NW.js [versions manifest](https://nwjs.io/versions) for what Node.js version to install. It is recommended to use a Node version manager (such as [volta](https://volta.sh), n, nvm, or nvm-windows) to be able to easily install and switch between Node versions.
+ *
+ * Please refer to the examples below for basic usage.
+ *
+ * @example
+ * // ESM usage:
+ *
+ * import nwbuild from "nw-builder";
+ *
+ * @example
+ * // CJS usage
+ *
+ * let nwbuild = undefined;
+ *
+ * (() => {
+ * try {
+ * nwbuild = await import("nw-builder");
+ * } catch(error) {
+ * console.error(error);
+ * }
+ * })();
+ *
+ * @example
+ * // Module usage
+ *
+ * nwbuild();
+ *
+ * @example
+ * // CLI usage
+ *
+ * npx nwbuild
+ *
+ * @example
+ * // Node manifest usage
+ *
+ * "nwbuild": {}
  *
  * @param  {Options}            options  Options
  * @return {Promise<undefined>}
@@ -92,10 +129,13 @@ const nwbuild = async (options) => {
     options.version = releaseInfo.version.slice(1);
 
     if (options.logLevel === "debug") {
-      log.debug(`Platform: ${platform}`);
-      log.debug(`Archicture: ${arch}`);
+      log.debug(`System Platform: ${platform}`);
+      log.debug(`System Architecture: ${arch}`);
       log.debug(`Node Version: ${version}`);
-      log.debug(`NW.js Version: ${options.version}\n`);
+      log.debug(`Build NW.js Version: ${options.version}`);
+      log.debug(`Build Flavor: ${options.flavor}`);
+      log.debug(`Build Platform: ${options.platform}`);
+      log.debug(`Build Architecture: ${options.arch}`);
     }
 
     nwDir = resolve(
@@ -105,7 +145,7 @@ const nwbuild = async (options) => {
       }-${options.arch}`,
     );
 
-    // Download NW.js binaries
+    // Download binaries
     await get({
       version: options.version,
       flavor: options.flavor,
@@ -114,25 +154,11 @@ const nwbuild = async (options) => {
       downloadUrl: options.downloadUrl,
       cacheDir: options.cacheDir,
       cache: options.cache,
-      ffmpeg: false,
+      ffmpeg: options.ffmpeg,
     });
 
-    // Download ffmpeg binaries and replace chromium ffmpeg
-    if (options.ffmpeg === true) {
-      await get({
-        version: options.version,
-        flavor: options.flavor,
-        platform: options.platform,
-        arch: options.arch,
-        downloadUrl: options.downloadUrl,
-        cacheDir: options.cacheDir,
-        cache: options.cache,
-        ffmpeg: true,
-      });
-    }
-
     if (options.mode === "get") {
-      // Do nothing since we have already downloaded the binaries
+      // Do nothing else since we have already downloaded the binaries.
       return;
     }
 
