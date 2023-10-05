@@ -199,7 +199,8 @@ async function get_nwjs({
             if (platform === "linux") {
               compressing.tgz.uncompress(out, cacheDir).then(() => resolve());
             } else {
-              // Symlinks are copied as files during decompress of MacOS zip on MacOS platform.
+              // For MacOS build on MacOS platform, Symlinks are copied as files during `compressing.zip.uncompress`.
+              // We instead use yauzl-promise for this specific build and platform.
               if (platform === "osx" && PLATFORM === "darwin") {
                 const zip = await yauzl.open(out);
                 try {
