@@ -218,6 +218,7 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
       }
     });
 
+    // TODO: Add support for more options as specified in rcedit v4 docs.
     const rcEditOptions = {
       "file-version": app.version,
       "product-version": app.version,
