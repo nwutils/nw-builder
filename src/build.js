@@ -246,286 +246,33 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
     }
 
     try {
-      let plistInfo = {
-        app: {
-          json: {},
-          path: resolve(outDir, `${app.name}.app`, "Contents", "Info.plist"),
-        },
-        icon: {
-          path: resolve(
-            outDir,
-            `${app.name}.app`,
-            "Contents",
-            "Resources",
-            "app.icns",
-          ),
-        },
-        strings: {
-          array: [],
-          path: resolve(
-            outDir,
-            `${app.name}.app`,
-            "Contents",
-            "Resources",
-            "en.lproj",
-            "InfoPlist.strings",
-          ),
-        },
-        helper: {
-          alerts: {
-            json: {},
-            path: resolve(
-              outDir,
-              `${app.name}.app`,
-              "Contents",
-              "Frameworks",
-              "nwjs Framework.framework",
-              "Helpers",
-              "nwjs Helper (Alerts).app",
-              "Contents",
-              "Info.plist",
-            ),
-          },
-          gpu: {
-            json: {},
-            path: resolve(
-              outDir,
-              `${app.name}.app`,
-              "Contents",
-              "Frameworks",
-              "nwjs Framework.framework",
-              "Helpers",
-              "nwjs Helper (GPU).app",
-              "Contents",
-              "Info.plist",
-            ),
-          },
-          plugin: {
-            json: {},
-            path: resolve(
-              outDir,
-              `${app.name}.app`,
-              "Contents",
-              "Frameworks",
-              "nwjs Framework.framework",
-              "Helpers",
-              "nwjs Helper (Plugin).app",
-              "Contents",
-              "Info.plist",
-            ),
-          },
-          renderer: {
-            json: {},
-            path: resolve(
-              outDir,
-              `${app.name}.app`,
-              "Contents",
-              "Frameworks",
-              "nwjs Framework.framework",
-              "Helpers",
-              "nwjs Helper (Renderer).app",
-              "Contents",
-              "Info.plist",
-            ),
-          },
-          main: {
-            json: {},
-            path: resolve(
-              outDir,
-              `${app.name}.app`,
-              "Contents",
-              "Frameworks",
-              "nwjs Framework.framework",
-              "Helpers",
-              "nwjs Helper.app",
-              "Contents",
-              "Info.plist",
-            ),
-          },
-        },
-      };
-
-      await rename(
-        resolve(outDir, "nwjs.app"),
-        resolve(outDir, `${app.name}.app`),
-      );
-
-      // Rename `Contents/MacOS/nwjs`
-      await rename(
-        resolve(outDir, `${app.name}.app`, "Contents", "MacOS", "nwjs"),
-        resolve(outDir, `${app.name}.app`, "Contents", "MacOS", `${app.name}`),
-      );
-
-      // Rename Helper app
-      await rename(
-        resolve(
-          outDir,
-          `${app.name}.app`,
-          "Contents",
-          "Frameworks",
-          "nwjs Framework.framework",
-          "Helpers",
-          "nwjs Helper.app",
-          "Contents",
-          "MacOS",
-          "nwjs Helper",
-        ),
-        resolve(
-          outDir,
-          `${app.name}.app`,
-          "Contents",
-          "Frameworks",
-          "nwjs Framework.framework",
-          "Helpers",
-          "nwjs Helper.app",
-          "Contents",
-          "MacOS",
-          `${app.name} Helper`,
-        ),
-      );
-
-      // Rename Alerts Helper app
-      await rename(
-        resolve(
-          outDir,
-          `${app.name}.app`,
-          "Contents",
-          "Frameworks",
-          "nwjs Framework.framework",
-          "Helpers",
-          "nwjs Helper (Alerts).app",
-          "Contents",
-          "MacOS",
-          "nwjs Helper (Alerts)",
-        ),
-        resolve(
-          outDir,
-          `${app.name}.app`,
-          "Contents",
-          "Frameworks",
-          "nwjs Framework.framework",
-          "Helpers",
-          "nwjs Helper (Alerts).app",
-          "Contents",
-          "MacOS",
-          `${app.name} Helper (Alerts)`,
-        ),
-      );
-
-      // Rename GPU Helper app
-      await rename(
-        resolve(
-          outDir,
-          `${app.name}.app`,
-          "Contents",
-          "Frameworks",
-          "nwjs Framework.framework",
-          "Helpers",
-          "nwjs Helper (GPU).app",
-          "Contents",
-          "MacOS",
-          "nwjs Helper (GPU)",
-        ),
-        resolve(
-          outDir,
-          `${app.name}.app`,
-          "Contents",
-          "Frameworks",
-          "nwjs Framework.framework",
-          "Helpers",
-          "nwjs Helper (GPU).app",
-          "Contents",
-          "MacOS",
-          `${app.name} Helper (GPU)`,
-        ),
-      );
-
-      // Rename Plugin Helper app
-      await rename(
-        resolve(
-          outDir,
-          `${app.name}.app`,
-          "Contents",
-          "Frameworks",
-          "nwjs Framework.framework",
-          "Helpers",
-          "nwjs Helper (Plugin).app",
-          "Contents",
-          "MacOS",
-          "nwjs Helper (Plugin)",
-        ),
-        resolve(
-          outDir,
-          `${app.name}.app`,
-          "Contents",
-          "Frameworks",
-          "nwjs Framework.framework",
-          "Helpers",
-          "nwjs Helper (Plugin).app",
-          "Contents",
-          "MacOS",
-          `${app.name} Helper (Plugin)`,
-        ),
-      );
-
-      // Rename Renderer Helper app
-      await rename(
-        resolve(
-          outDir,
-          `${app.name}.app`,
-          "Contents",
-          "Frameworks",
-          "nwjs Framework.framework",
-          "Helpers",
-          "nwjs Helper (Renderer).app",
-          "Contents",
-          "MacOS",
-          "nwjs Helper (Renderer)",
-        ),
-        resolve(
-          outDir,
-          `${app.name}.app`,
-          "Contents",
-          "Frameworks",
-          "nwjs Framework.framework",
-          "Helpers",
-          "nwjs Helper (Renderer).app",
-          "Contents",
-          "MacOS",
-          `${app.name} Helper (Renderer)`,
-        ),
-      );
-
-      // Replace default with custom icon
+      const outApp = resolve(outDir, `${app.name}.app`);
+      await rename(resolve(outDir, "nwjs.app"), outApp);
       if (app.icon !== undefined) {
-        await copyFile(resolve(app.icon), plistInfo.icon.path);
+        await copyFile(
+          resolve(app.icon),
+          resolve(outApp, "Contents", "Resources", "app.icns"),
+        );
       }
 
-      plistInfo.app.json = plist.parse(
-        await readFile(plistInfo.app.path, "utf-8"),
+      const infoPlistPath = resolve(outApp, "Contents", "Info.plist");
+      const infoPlistJson = plist.parse(await readFile(infoPlistPath, "utf-8"));
+
+      const infoPlistStringsPath = resolve(
+        outApp,
+        "Contents",
+        "Resources",
+        "en.lproj",
+        "InfoPlist.strings",
+      );
+      const infoPlistStringsData = await readFile(
+        infoPlistStringsPath,
+        "utf-8",
       );
 
-      plistInfo.strings.array = (
-        await readFile(plistInfo.strings.path, "utf-8")
-      ).split("\n");
+      let infoPlistStringsDataArray = infoPlistStringsData.split("\n");
 
-      plistInfo.helper.alerts.json = plist.parse(
-        await readFile(plistInfo.helper.alerts.path, "utf-8"),
-      );
-      plistInfo.helper.gpu.json = plist.parse(
-        await readFile(plistInfo.helper.gpu.path, "utf-8"),
-      );
-      plistInfo.helper.plugin.json = plist.parse(
-        await readFile(plistInfo.helper.plugin.path, "utf-8"),
-      );
-      plistInfo.helper.renderer.json = plist.parse(
-        await readFile(plistInfo.helper.renderer.path, "utf-8"),
-      );
-      plistInfo.helper.main.json = plist.parse(
-        await readFile(plistInfo.helper.main.path, "utf-8"),
-      );
-
-      plistInfo.strings.array.forEach((line, idx, arr) => {
+      infoPlistStringsDataArray.forEach((line, idx, arr) => {
         if (line.includes("NSHumanReadableCopyright")) {
           arr[
             idx
@@ -533,82 +280,24 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         }
       });
 
-      plistInfo.app.json.LSApplicationCategoryType =
-        app.LSApplicationCategoryType;
-      plistInfo.app.json.CFBundleIdentifier = app.CFBundleIdentifier;
-      plistInfo.app.json.CFBundleName = app.CFBundleName;
-      plistInfo.app.json.CFBundleDisplayName = app.CFBundleDisplayName;
-      plistInfo.app.json.CFBundleExecutable = app.name;
-      plistInfo.app.json.CFBundleSpokenName = app.CFBundleSpokenName;
-      plistInfo.app.json.CFBundleVersion = app.CFBundleVersion;
-      plistInfo.app.json.CFBundleShortVersionString =
-        app.CFBundleShortVersionString;
+      infoPlistJson.LSApplicationCategoryType = app.LSApplicationCategoryType;
+      infoPlistJson.CFBundleIdentifier = app.CFBundleIdentifier;
+      infoPlistJson.CFBundleName = app.CFBundleName;
+      infoPlistJson.CFBundleDisplayName = app.CFBundleDisplayName;
+      infoPlistJson.CFBundleSpokenName = app.CFBundleSpokenName;
+      infoPlistJson.CFBundleVersion = app.CFBundleVersion;
+      infoPlistJson.CFBundleShortVersionString = app.CFBundleShortVersionString;
 
-      Object.keys(plistInfo.app.json).forEach((option) => {
-        if (plistInfo.app.json[option] === undefined) {
-          delete plistInfo.app.json[option];
+      Object.keys(infoPlistJson).forEach((option) => {
+        if (infoPlistJson[option] === undefined) {
+          delete infoPlistJson[option];
         }
       });
 
-      plistInfo.helper.alerts.json.CFBundleDisplayName = `${app.name} Helper (Alerts)`;
-      plistInfo.helper.alerts.json.CFBundleExecutable = `${app.name} Helper (Alerts)`;
-      plistInfo.helper.alerts.json.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper.alerts`;
-      plistInfo.helper.alerts.json.CFBundleName = `${app.name} Helper (Alerts)`;
-      plistInfo.helper.alerts.json.CFBundleShortVersionString =
-        app.CFBundleShortVersionString;
-
-      plistInfo.helper.gpu.json.CFBundleDisplayName = `${app.name} Helper (GPU)`;
-      plistInfo.helper.gpu.json.CFBundleExecutable = `${app.name} Helper (GPU)`;
-      plistInfo.helper.gpu.json.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper.gpu`;
-      plistInfo.helper.gpu.json.CFBundleName = `${app.name} Helper (GPU)`;
-      plistInfo.helper.gpu.json.CFBundleShortVersionString =
-        app.CFBundleShortVersionString;
-
-      plistInfo.helper.plugin.json.CFBundleDisplayName = `${app.name} Helper (Plugin)`;
-      plistInfo.helper.plugin.json.CFBundleExecutable = `${app.name} Helper (Plugin)`;
-      plistInfo.helper.plugin.json.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper.plugin`;
-      plistInfo.helper.plugin.json.CFBundleName = `${app.name} Helper (Plugin)`;
-      plistInfo.helper.plugin.json.CFBundleShortVersionString =
-        app.CFBundleShortVersionString;
-
-      plistInfo.helper.renderer.json.CFBundleDisplayName = `${app.name} Helper (Renderer)`;
-      plistInfo.helper.renderer.json.CFBundleExecutable = `${app.name} Helper (Renderer)`;
-      plistInfo.helper.renderer.json.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper.renderer`;
-      plistInfo.helper.renderer.json.CFBundleName = `${app.name} Helper (Renderer)`;
-      plistInfo.helper.renderer.json.CFBundleShortVersionString =
-        app.CFBundleShortVersionString;
-
-      plistInfo.helper.main.json.CFBundleDisplayName = `${app.name} Helper`;
-      plistInfo.helper.main.json.CFBundleExecutable = `${app.name} Helper`;
-      plistInfo.helper.main.json.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper`;
-      plistInfo.helper.main.json.CFBundleName = `${app.name} Helper`;
-      plistInfo.helper.main.json.CFBundleShortVersionString =
-        app.CFBundleShortVersionString;
-
-      await writeFile(plistInfo.app.path, plist.build(plistInfo.app.json));
+      await writeFile(infoPlistPath, plist.build(infoPlistJson));
       await writeFile(
-        plistInfo.strings.path,
-        plistInfo.strings.array.toString().replace(/,/g, "\n"),
-      );
-      await writeFile(
-        plistInfo.helper.alerts.path,
-        plist.build(plistInfo.helper.alerts.json),
-      );
-      await writeFile(
-        plistInfo.helper.gpu.path,
-        plist.build(plistInfo.helper.gpu.json),
-      );
-      await writeFile(
-        plistInfo.helper.plugin.path,
-        plist.build(plistInfo.helper.plugin.json),
-      );
-      await writeFile(
-        plistInfo.helper.renderer.path,
-        plist.build(plistInfo.helper.renderer.json),
-      );
-      await writeFile(
-        plistInfo.helper.main.path,
-        plist.build(plistInfo.helper.main.json),
+        infoPlistStringsPath,
+        infoPlistStringsDataArray.toString().replace(/,/g, "\n"),
       );
     } catch (error) {
       log.error(error);
