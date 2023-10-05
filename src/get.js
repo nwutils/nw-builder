@@ -139,9 +139,11 @@ async function get_nwjs({
     downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
     downloadUrl === "https://npmmirror.com/mirrors/nwjs"
   ) {
-    url = `${downloadUrl}/v${version}/nwjs${flavor === "sdk" ? "-sdk" : ""
-      }-v${version}-${platform}-${arch}.${platform === "linux" ? "tar.gz" : "zip"
-      }`;
+    url = `${downloadUrl}/v${version}/nwjs${
+      flavor === "sdk" ? "-sdk" : ""
+    }-v${version}-${platform}-${arch}.${
+      platform === "linux" ? "tar.gz" : "zip"
+    }`;
     out = resolve(cacheDir, `nw.${platform === "linux" ? "tgz" : "zip"}`);
   }
 
@@ -202,12 +204,12 @@ async function get_nwjs({
                 const zip = await yauzl.open(out);
                 try {
                   for await (const entry of zip) {
-                    if (entry.filename.endsWith('/')) {
-                      await fs.promises.mkdir(`${cacheDir}/${entry.filename}`);
+                    if (entry.filename.endsWith("/")) {
+                      await mkdir(`${cacheDir}/${entry.filename}`);
                     } else {
                       const readStream = await entry.openReadStream();
                       const writeStream = createWriteStream(
-                        `${cacheDir}/${entry.filename}`
+                        `${cacheDir}/${entry.filename}`,
                       );
                       await pipeline(readStream, writeStream);
                     }
