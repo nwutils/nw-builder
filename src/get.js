@@ -3,9 +3,11 @@ import { mkdir, readdir, rm, rmdir } from "node:fs/promises";
 import { get as getRequest } from "node:https";
 import { resolve } from "node:path";
 import { arch as ARCH, platform as PLATFORM } from "node:process";
+import { pipeline } from "node:stream/promises";
 
 import progress from "cli-progress";
 import compressing from "compressing";
+import yauzl from "yauzl-promise";
 
 import { log } from "./log.js";
 import { PLATFORM_KV, ARCH_KV } from "./util.js";
@@ -137,11 +139,9 @@ async function get_nwjs({
     downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
     downloadUrl === "https://npmmirror.com/mirrors/nwjs"
   ) {
-    url = `${downloadUrl}/v${version}/nwjs${
-      flavor === "sdk" ? "-sdk" : ""
-    }-v${version}-${platform}-${arch}.${
-      platform === "linux" ? "tar.gz" : "zip"
-    }`;
+    url = `${downloadUrl}/v${version}/nwjs${flavor === "sdk" ? "-sdk" : ""
+      }-v${version}-${platform}-${arch}.${platform === "linux" ? "tar.gz" : "zip"
+      }`;
     out = resolve(cacheDir, `nw.${platform === "linux" ? "tgz" : "zip"}`);
   }
 
@@ -191,13 +191,33 @@ async function get_nwjs({
             reject(error);
           });
 
-          response.on("end", () => {
+          response.on("end", async () => {
             log.debug(`Binary fully downloaded`);
             bar.stop();
             if (platform === "linux") {
               compressing.tgz.uncompress(out, cacheDir).then(() => resolve());
             } else {
-              compressing.zip.uncompress(out, cacheDir).then(() => resolve());
+              // Symlinks are copied as files during decompress of MacOS zip on MacOS platform.
+              if (platform === "osx" && PLATFORM === "darwin") {
+                const zip = await yauzl.open(out);
+                try {
+                  for await (const entry of zip) {
+                    if (entry.filename.endsWith('/')) {
+                      await fs.promises.mkdir(`${cacheDir}/${entry.filename}`);
+                    } else {
+                      const readStream = await entry.openReadStream();
+                      const writeStream = createWriteStream(
+                        `${cacheDir}/${entry.filename}`
+                      );
+                      await pipeline(readStream, writeStream);
+                    }
+                  }
+                } finally {
+                  await zip.close();
+                }
+              } else {
+                compressing.zip.uncompress(out, cacheDir).then(() => resolve());
+              }
             }
           });
 
