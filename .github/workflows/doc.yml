@@ -11,11 +11,11 @@ jobs:
       - uses: actions/checkout@v4.1.0
       - uses: actions/setup-node@v3.8.1
         with:
-          node-version: "20.5.1"
+          node-version: 18
       - name: Install Node modules
         run: npm ci
       - name: Convert JSDoc to Markdown
-        run: node cfg/jsdoc.config.cjs
+        run: node .github/jsdoc.config.cjs
       - name: Build documentation
         run: npm run doc:bld
       - name: Publish documentation to GitHub Pages

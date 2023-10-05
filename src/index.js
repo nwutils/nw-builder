@@ -36,7 +36,44 @@ import { getReleaseInfo } from "./util.js";
  */
 
 /**
- * Automates building an NW.js application.
+ * Installation Guide
+ *
+ * Every NW.js release includes a modified Node.js binary at a specific version. It is recommended to [install](https://nodejs.org/en/download/package-manager) exactly that version on the host system. Not doing so may download ABI incompatible Node modules. Consult the NW.js [versions manifest](https://nwjs.io/versions) for what Node.js version to install. It is recommended to use a Node version manager (such as [volta](https://volta.sh), n, nvm, or nvm-windows) to be able to easily install and switch between Node versions.
+ *
+ * Please refer to the examples below for basic usage.
+ *
+ * @example
+ * // ESM usage:
+ *
+ * import nwbuild from "nw-builder";
+ *
+ * @example
+ * // CJS usage
+ *
+ * let nwbuild = undefined;
+ *
+ * (() => {
+ * try {
+ * nwbuild = await import("nw-builder");
+ * } catch(error) {
+ * console.error(error);
+ * }
+ * })();
+ *
+ * @example
+ * // Module usage
+ *
+ * nwbuild();
+ *
+ * @example
+ * // CLI usage
+ *
+ * npx nwbuild
+ *
+ * @example
+ * // Node manifest usage
+ *
+ * "nwbuild": {}
  *
  * @param  {Options}            options  Options
  * @return {Promise<undefined>}

@@ -8,6 +8,7 @@ module.exports = {
     node: true,
   },
   extends: ["eslint:recommended", "tjw-jsdoc"],
+  ignorePatterns: ["node_modules", "build", "cache", "dist", "out"],
   rules: {
     "jsdoc/require-file-overview": "off",
     "jsdoc/require-returns-description": "off",
