@@ -245,34 +245,66 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
       );
     }
 
+    // TODO: do not rely on symlinks - use actual file paths.
+
     try {
-      const outApp = resolve(outDir, `${app.name}.app`);
-      await rename(resolve(outDir, "nwjs.app"), outApp);
+      // Rename nwjs executable to `options.app.name`
+      await rename(
+        resolve(outDir, "nwjs.app"),
+        resolve(outDir, `${app.name}.app`),
+      );
+
+      // Overwrite's nwjs default icon with user specified icon
       if (app.icon !== undefined) {
         await copyFile(
           resolve(app.icon),
-          resolve(outApp, "Contents", "Resources", "app.icns"),
+          resolve(
+            outDir,
+            `${app.name}.app`,
+            "Contents",
+            "Resources",
+            "app.icns",
+          ),
         );
       }
 
-      const infoPlistPath = resolve(outApp, "Contents", "Info.plist");
-      const infoPlistJson = plist.parse(await readFile(infoPlistPath, "utf-8"));
+      let infoPlist = {
+        main: {
+          path: resolve(outDir, `${app.name}.app`, "Contents", "Info.plist"),
+          json: plist.parse(await readFile(infoPlist.main.path, "utf-8")),
+        },
+        // TODO: update localised string values based on language requirements
+        strings: {
+          path: resolve(
+            outDir,
+            `${app.name}.app`,
+            "Contents",
+            "Resources",
+            "en.lproj",
+            "InfoPlist.strings",
+          ),
+          list: await readFile(infoPlist.strings.path, "utf-8").split("\n"),
+        },
+      };
 
-      const infoPlistStringsPath = resolve(
-        outApp,
-        "Contents",
-        "Resources",
-        "en.lproj",
-        "InfoPlist.strings",
-      );
-      const infoPlistStringsData = await readFile(
-        infoPlistStringsPath,
-        "utf-8",
-      );
+      infoPlist.json.LSApplicationCategoryType = app.LSApplicationCategoryType;
+      infoPlist.json.CFBundleIdentifier = app.CFBundleIdentifier;
+      infoPlist.json.CFBundleName = app.CFBundleName;
+      infoPlist.json.CFBundleDisplayName = app.CFBundleDisplayName;
+      infoPlist.json.CFBundleSpokenName = app.CFBundleSpokenName;
+      infoPlist.json.CFBundleVersion = app.CFBundleVersion;
+      infoPlist.json.CFBundleShortVersionString =
+        app.CFBundleShortVersionString;
 
-      let infoPlistStringsDataArray = infoPlistStringsData.split("\n");
+      Object.keys(infoPlist.json).forEach((option) => {
+        if (infoPlist.json[option] === undefined) {
+          delete infoPlist.json[option];
+        }
+      });
 
-      infoPlistStringsDataArray.forEach((line, idx, arr) => {
+      await writeFile(infoPlist.path, plist.build(infoPlist.json));
+
+      infoPlist.strings.list.forEach((line, idx, arr) => {
         if (line.includes("NSHumanReadableCopyright")) {
           arr[
             idx
@@ -280,24 +312,9 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         }
       });
 
-      infoPlistJson.LSApplicationCategoryType = app.LSApplicationCategoryType;
-      infoPlistJson.CFBundleIdentifier = app.CFBundleIdentifier;
-      infoPlistJson.CFBundleName = app.CFBundleName;
-      infoPlistJson.CFBundleDisplayName = app.CFBundleDisplayName;
-      infoPlistJson.CFBundleSpokenName = app.CFBundleSpokenName;
-      infoPlistJson.CFBundleVersion = app.CFBundleVersion;
-      infoPlistJson.CFBundleShortVersionString = app.CFBundleShortVersionString;
-
-      Object.keys(infoPlistJson).forEach((option) => {
-        if (infoPlistJson[option] === undefined) {
-          delete infoPlistJson[option];
-        }
-      });
-
-      await writeFile(infoPlistPath, plist.build(infoPlistJson));
       await writeFile(
-        infoPlistStringsPath,
-        infoPlistStringsDataArray.toString().replace(/,/g, "\n"),
+        infoPlist.strings.path,
+        infoPlist.string.list.toString().replace(/,/g, "\n"),
       );
     } catch (error) {
       log.error(error);
