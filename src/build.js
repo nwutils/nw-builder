@@ -554,10 +554,10 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
       infoPlist.helper_Alerts.json.CFBundleShortVersionString =
         app.CFBundleShortVersionString;
 
-      // GPU Helper app: write updated plist data back to file
+      // ALerts Helper app: write updated plist data back to file
       await writeFile(
-        infoPlist.helper_GPU.path,
-        plist.build(infoPlist.helper_GPU.json),
+        infoPlist.helper_Alerts.path,
+        plist.build(infoPlist.helper_Alerts.json),
       );
 
       // GPU Helper app: read file into memory
