@@ -248,10 +248,16 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
     // TODO: do not rely on symlinks - use actual file paths.
 
     try {
-      // Rename nwjs executable to `options.app.name`
+      // Rename nwjs.app executable to ${options.app.name}.app
       await rename(
         resolve(outDir, "nwjs.app"),
         resolve(outDir, `${app.name}.app`),
+      );
+
+      // Rename Contents/MacOS/nwjs to Contents/MacOS/${options.app.name}
+      await rename(
+        resolve(outDir, `${app.name}.app`, "Contents", "MacOS", "nwjs"),
+        resolve(outDir, `${app.name}.app`, "Contents", "MacOS", app.name),
       );
 
       // Overwrite's nwjs default icon with user specified icon
@@ -270,40 +276,46 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
 
       let infoPlist = {
         main: {
-          path: resolve(outDir, `${app.name}.app`, "Contents", "Info.plist"),
-          json: plist.parse(await readFile(infoPlist.main.path, "utf-8")),
+          path: "",
+          json: {},
         },
         // TODO: update localised string values based on language requirements
         strings: {
-          path: resolve(
-            outDir,
-            `${app.name}.app`,
-            "Contents",
-            "Resources",
-            "en.lproj",
-            "InfoPlist.strings",
-          ),
-          list: await readFile(infoPlist.strings.path, "utf-8").split("\n"),
-        },
+          path: "",
+          list: [],
+        }
       };
 
-      infoPlist.json.LSApplicationCategoryType = app.LSApplicationCategoryType;
-      infoPlist.json.CFBundleIdentifier = app.CFBundleIdentifier;
-      infoPlist.json.CFBundleName = app.CFBundleName;
-      infoPlist.json.CFBundleDisplayName = app.CFBundleDisplayName;
-      infoPlist.json.CFBundleSpokenName = app.CFBundleSpokenName;
-      infoPlist.json.CFBundleVersion = app.CFBundleVersion;
-      infoPlist.json.CFBundleShortVersionString =
+      // Main Info.plist: read plist data into memory
+      infoPlist.main.path = resolve(outDir, `${app.name}.app`, "Contents", "Info.plist");
+      infoPlist.main.json = plist.parse(await readFile(infoPlist.main.path, "utf-8"));
+
+      // Main Info.plist: update plist data
+      infoPlist.main.json.LSApplicationCategoryType = app.LSApplicationCategoryType;
+      infoPlist.main.json.CFBundleIdentifier = app.CFBundleIdentifier;
+      infoPlist.main.json.CFBundleName = app.CFBundleName;
+      infoPlist.main.json.CFBundleDisplayName = app.CFBundleDisplayName;
+      infoPlist.main.json.CFBundleSpokenName = app.CFBundleSpokenName;
+      infoPlist.main.json.CFBundleVersion = app.CFBundleVersion;
+      infoPlist.main.json.CFBundleShortVersionString =
         app.CFBundleShortVersionString;
+      infoPlist.main.json.CFBundleExecutable = app.name;
 
-      Object.keys(infoPlist.json).forEach((option) => {
-        if (infoPlist.json[option] === undefined) {
-          delete infoPlist.json[option];
-        }
-      });
+      // Main Info.plist: write updated plist data back to file
+      await writeFile(infoPlist.main.path, plist.build(infoPlist.main.json));
 
-      await writeFile(infoPlist.path, plist.build(infoPlist.json));
+      // InfoPlist.strings: read file into memory
+      infoPlist.strings.path = resolve(
+        outDir,
+        `${app.name}.app`,
+        "Contents",
+        "Resources",
+        "en.lproj",
+        "InfoPlist.strings",
+      );
+      infoPlist.strings.list = (await readFile(infoPlist.strings.path, "utf-8")).split("\n")
 
+      // InfoPlist.strings: update localised InfoPlist.strings
       infoPlist.strings.list.forEach((line, idx, arr) => {
         if (line.includes("NSHumanReadableCopyright")) {
           arr[
@@ -312,10 +324,12 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         }
       });
 
+      // InfoPlist.strings: write updated localised InfoPlist.strings back to file
       await writeFile(
         infoPlist.strings.path,
-        infoPlist.string.list.toString().replace(/,/g, "\n"),
+        infoPlist.strings.list.toString().replace(/,/g, "\n"),
       );
+
     } catch (error) {
       log.error(error);
     }
