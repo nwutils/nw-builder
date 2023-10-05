@@ -260,6 +260,146 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         resolve(outDir, `${app.name}.app`, "Contents", "MacOS", app.name),
       );
 
+      // Rename main Helper app
+      await rename(
+        resolve(
+          outDir,
+          `${app.name}.app`,
+          "Contents",
+          "Frameworks",
+          "nwjs Framework.framework",
+          "Helpers",
+          "nwjs Helper.app",
+          "Contents",
+          "MacOS",
+          "nwjs Helper",
+        ),
+        resolve(
+          outDir,
+          `${app.name}.app`,
+          "Contents",
+          "Frameworks",
+          "nwjs Framework.framework",
+          "Helpers",
+          "nwjs Helper.app",
+          "Contents",
+          "MacOS",
+          `${app.name} Helper`,
+        ),
+      );
+
+      // Rename Alerts Helper app
+      await rename(
+        resolve(
+          outDir,
+          `${app.name}.app`,
+          "Contents",
+          "Frameworks",
+          "nwjs Framework.framework",
+          "Helpers",
+          "nwjs Helper (Alerts).app",
+          "Contents",
+          "MacOS",
+          "nwjs Helper (Alerts)",
+        ),
+        resolve(
+          outDir,
+          `${app.name}.app`,
+          "Contents",
+          "Frameworks",
+          "nwjs Framework.framework",
+          "Helpers",
+          "nwjs Helper (Alerts).app",
+          "Contents",
+          "MacOS",
+          `${app.name} Helper (Alerts)`,
+        ),
+      );
+
+      // Rename GPU Helper app
+      await rename(
+        resolve(
+          outDir,
+          `${app.name}.app`,
+          "Contents",
+          "Frameworks",
+          "nwjs Framework.framework",
+          "Helpers",
+          "nwjs Helper (GPU).app",
+          "Contents",
+          "MacOS",
+          "nwjs Helper (GPU)",
+        ),
+        resolve(
+          outDir,
+          `${app.name}.app`,
+          "Contents",
+          "Frameworks",
+          "nwjs Framework.framework",
+          "Helpers",
+          "nwjs Helper (GPU).app",
+          "Contents",
+          "MacOS",
+          `${app.name} Helper (GPU)`,
+        ),
+      );
+
+      // Rename Plugin Helper app
+      await rename(
+        resolve(
+          outDir,
+          `${app.name}.app`,
+          "Contents",
+          "Frameworks",
+          "nwjs Framework.framework",
+          "Helpers",
+          "nwjs Helper (Plugin).app",
+          "Contents",
+          "MacOS",
+          "nwjs Helper (Plugin)",
+        ),
+        resolve(
+          outDir,
+          `${app.name}.app`,
+          "Contents",
+          "Frameworks",
+          "nwjs Framework.framework",
+          "Helpers",
+          "nwjs Helper (Plugin).app",
+          "Contents",
+          "MacOS",
+          `${app.name} Helper (Plugin)`,
+        ),
+      );
+
+      // Rename Renderer Helper app
+      await rename(
+        resolve(
+          outDir,
+          `${app.name}.app`,
+          "Contents",
+          "Frameworks",
+          "nwjs Framework.framework",
+          "Helpers",
+          "nwjs Helper (Renderer).app",
+          "Contents",
+          "MacOS",
+          "nwjs Helper (Renderer)",
+        ),
+        resolve(
+          outDir,
+          `${app.name}.app`,
+          "Contents",
+          "Frameworks",
+          "nwjs Framework.framework",
+          "Helpers",
+          "nwjs Helper (Renderer).app",
+          "Contents",
+          "MacOS",
+          `${app.name} Helper (Renderer)`,
+        ),
+      );
+
       // Overwrite's nwjs default icon with user specified icon
       if (app.icon !== undefined) {
         await copyFile(
@@ -283,6 +423,26 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         strings: {
           path: "",
           list: [],
+        },
+        helper_main: {
+          path: "",
+          json: {},
+        },
+        helper_Alerts: {
+          path: "",
+          json: {},
+        },
+        helper_GPU: {
+          path: "",
+          json: {},
+        },
+        helper_Plugin: {
+          path: "",
+          json: {},
+        },
+        helper_Renderer: {
+          path: "",
+          json: {},
         },
       };
 
@@ -338,6 +498,156 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
       await writeFile(
         infoPlist.strings.path,
         infoPlist.strings.list.toString().replace(/,/g, "\n"),
+      );
+
+      // Main Helper app: read file into memory
+      infoPlist.helper_main.path = resolve(
+        outDir,
+        `${app.name}.app`,
+        "Contents",
+        "Frameworks",
+        "nwjs Framework.framework",
+        "Helpers",
+        "nwjs Helper.app",
+        "Contents",
+        "Info.plist",
+      );
+      infoPlist.helper_main.json = plist.parse(
+        await readFile(infoPlist.helper_main.path, "utf-8"),
+      );
+
+      // Main Helper app: update plist data
+      infoPlist.helper_main.json.CFBundleDisplayName = `${app.CFBundleDisplayName} Helper`;
+      infoPlist.helper_main.json.CFBundleExecutable = `${app.name} Helper`;
+      infoPlist.helper_main.json.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper`;
+      infoPlist.helper_main.json.CFBundleName = `${app.name} Helper`;
+      infoPlist.helper_main.json.CFBundleShortVersionString =
+        app.CFBundleShortVersionString;
+
+      // Main Helper app: write updated plist data back to file
+      await writeFile(
+        infoPlist.helper_main.path,
+        plist.build(infoPlist.helper_main.json),
+      );
+
+      // Alerts Helper app: read file into memory
+      infoPlist.helper_Alerts.path = resolve(
+        outDir,
+        `${app.name}.app`,
+        "Contents",
+        "Frameworks",
+        "nwjs Framework.framework",
+        "Helpers",
+        "nwjs Helper (Alerts).app",
+        "Contents",
+        "Info.plist",
+      );
+      infoPlist.helper_Alerts.json = plist.parse(
+        await readFile(infoPlist.helper_Alerts.path, "utf-8"),
+      );
+
+      // Alerts Helper app: update plist data
+      infoPlist.helper_Alerts.json.CFBundleDisplayName = `${app.CFBundleDisplayName} Helper (Alerts)`;
+      infoPlist.helper_Alerts.json.CFBundleExecutable = `${app.name} Helper (Alerts)`;
+      infoPlist.helper_Alerts.json.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper.Alerts`;
+      infoPlist.helper_Alerts.json.CFBundleName = `${app.name} Helper (Alerts)`;
+      infoPlist.helper_Alerts.json.CFBundleShortVersionString =
+        app.CFBundleShortVersionString;
+
+      // GPU Helper app: write updated plist data back to file
+      await writeFile(
+        infoPlist.helper_GPU.path,
+        plist.build(infoPlist.helper_GPU.json),
+      );
+
+      // GPU Helper app: read file into memory
+      infoPlist.helper_GPU.path = resolve(
+        outDir,
+        `${app.name}.app`,
+        "Contents",
+        "Frameworks",
+        "nwjs Framework.framework",
+        "Helpers",
+        "nwjs Helper (GPU).app",
+        "Contents",
+        "Info.plist",
+      );
+      infoPlist.helper_GPU.json = plist.parse(
+        await readFile(infoPlist.helper_GPU.path, "utf-8"),
+      );
+
+      // GPU Helper app: update plist data
+      infoPlist.helper_GPU.json.CFBundleDisplayName = `${app.CFBundleDisplayName} Helper (GPU)`;
+      infoPlist.helper_GPU.json.CFBundleExecutable = `${app.name} Helper (GPU)`;
+      infoPlist.helper_GPU.json.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper.GPU`;
+      infoPlist.helper_GPU.json.CFBundleName = `${app.name} Helper (GPU)`;
+      infoPlist.helper_GPU.json.CFBundleShortVersionString =
+        app.CFBundleShortVersionString;
+
+      // GPU Helper app: write updated plist data back to file
+      await writeFile(
+        infoPlist.helper_GPU.path,
+        plist.build(infoPlist.helper_GPU.json),
+      );
+
+      // Plugin Helper app: read file into memory
+      infoPlist.helper_Plugin.path = resolve(
+        outDir,
+        `${app.name}.app`,
+        "Contents",
+        "Frameworks",
+        "nwjs Framework.framework",
+        "Helpers",
+        "nwjs Helper (Plugin).app",
+        "Contents",
+        "Info.plist",
+      );
+      infoPlist.helper_Plugin.json = plist.parse(
+        await readFile(infoPlist.helper_Plugin.path, "utf-8"),
+      );
+
+      // Plugin Helper app: update plist data
+      infoPlist.helper_Plugin.json.CFBundleDisplayName = `${app.CFBundleDisplayName} Helper (Plugin)`;
+      infoPlist.helper_Plugin.json.CFBundleExecutable = `${app.name} Helper (Plugin)`;
+      infoPlist.helper_Plugin.json.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper.Plugin`;
+      infoPlist.helper_Plugin.json.CFBundleName = `${app.name} Helper (Plugin)`;
+      infoPlist.helper_Plugin.json.CFBundleShortVersionString =
+        app.CFBundleShortVersionString;
+
+      // Plugin Helper app: write updated plist data back to file
+      await writeFile(
+        infoPlist.helper_Plugin.path,
+        plist.build(infoPlist.helper_Plugin.json),
+      );
+
+      // Renderer Helper app: read file into memory
+      infoPlist.helper_Renderer.path = resolve(
+        outDir,
+        `${app.name}.app`,
+        "Contents",
+        "Frameworks",
+        "nwjs Framework.framework",
+        "Helpers",
+        "nwjs Helper (Renderer).app",
+        "Contents",
+        "Info.plist",
+      );
+      infoPlist.helper_Renderer.json = plist.parse(
+        await readFile(infoPlist.helper_Renderer.path, "utf-8"),
+      );
+
+      // Renderer Helper app: update plist data
+      infoPlist.helper_Renderer.json.CFBundleDisplayName = `${app.CFBundleDisplayName} Helper (Renderer)`;
+      infoPlist.helper_Renderer.json.CFBundleExecutable = `${app.name} Helper (Renderer)`;
+      infoPlist.helper_Renderer.json.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper.Renderer`;
+      infoPlist.helper_Renderer.json.CFBundleName = `${app.name} Helper (Renderer)`;
+      infoPlist.helper_Renderer.json.CFBundleShortVersionString =
+        app.CFBundleShortVersionString;
+
+      // Renderer Helper app: write updated plist data back to file
+      await writeFile(
+        infoPlist.helper_Renderer.path,
+        plist.build(infoPlist.helper_Renderer.json),
       );
     } catch (error) {
       log.error(error);
