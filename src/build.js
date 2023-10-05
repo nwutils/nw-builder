@@ -554,7 +554,7 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
       infoPlist.helper_Alerts.json.CFBundleShortVersionString =
         app.CFBundleShortVersionString;
 
-      // ALerts Helper app: write updated plist data back to file
+      // Alerts Helper app: write updated plist data back to file
       await writeFile(
         infoPlist.helper_Alerts.path,
         plist.build(infoPlist.helper_Alerts.json),
