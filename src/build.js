@@ -283,15 +283,23 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         strings: {
           path: "",
           list: [],
-        }
+        },
       };
 
       // Main Info.plist: read plist data into memory
-      infoPlist.main.path = resolve(outDir, `${app.name}.app`, "Contents", "Info.plist");
-      infoPlist.main.json = plist.parse(await readFile(infoPlist.main.path, "utf-8"));
+      infoPlist.main.path = resolve(
+        outDir,
+        `${app.name}.app`,
+        "Contents",
+        "Info.plist",
+      );
+      infoPlist.main.json = plist.parse(
+        await readFile(infoPlist.main.path, "utf-8"),
+      );
 
       // Main Info.plist: update plist data
-      infoPlist.main.json.LSApplicationCategoryType = app.LSApplicationCategoryType;
+      infoPlist.main.json.LSApplicationCategoryType =
+        app.LSApplicationCategoryType;
       infoPlist.main.json.CFBundleIdentifier = app.CFBundleIdentifier;
       infoPlist.main.json.CFBundleName = app.CFBundleName;
       infoPlist.main.json.CFBundleDisplayName = app.CFBundleDisplayName;
@@ -313,7 +321,9 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         "en.lproj",
         "InfoPlist.strings",
       );
-      infoPlist.strings.list = (await readFile(infoPlist.strings.path, "utf-8")).split("\n")
+      infoPlist.strings.list = (
+        await readFile(infoPlist.strings.path, "utf-8")
+      ).split("\n");
 
       // InfoPlist.strings: update localised InfoPlist.strings
       infoPlist.strings.list.forEach((line, idx, arr) => {
@@ -329,7 +339,6 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         infoPlist.strings.path,
         infoPlist.strings.list.toString().replace(/,/g, "\n"),
       );
-
     } catch (error) {
       log.error(error);
     }
