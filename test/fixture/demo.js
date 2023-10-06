@@ -1,4 +1,4 @@
-import nwbuild from "nw-builder";
+import nwbuild from "../../src/index.js";
 
 await nwbuild({
   mode: "build",
