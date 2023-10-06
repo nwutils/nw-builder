@@ -206,7 +206,9 @@ async function get_nwjs({
                 try {
                   for await (const entry of zip) {
                     if (entry.filename.endsWith("/")) {
-                      await mkdir(`${cacheDir}/${entry.filename}`, { recursive: true });
+                      await mkdir(`${cacheDir}/${entry.filename}`, {
+                        recursive: true,
+                      });
                     } else {
                       const readStream = await entry.openReadStream();
                       const writeStream = createWriteStream(
