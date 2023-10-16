@@ -138,11 +138,9 @@ async function get_nwjs({
     downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
     downloadUrl === "https://npmmirror.com/mirrors/nwjs"
   ) {
-    url = `${downloadUrl}/v${version}/nwjs${
-      flavor === "sdk" ? "-sdk" : ""
-    }-v${version}-${platform}-${arch}.${
-      platform === "linux" ? "tar.gz" : "zip"
-    }`;
+    url = `${downloadUrl}/v${version}/nwjs${flavor === "sdk" ? "-sdk" : ""
+      }-v${version}-${platform}-${arch}.${platform === "linux" ? "tar.gz" : "zip"
+      }`;
     out = resolve(cacheDir, `nw.${platform === "linux" ? "tgz" : "zip"}`);
   }
 
@@ -155,7 +153,7 @@ async function get_nwjs({
   // Check if cache exists.
   try {
     await readdir(nwDir);
-    log.debug(`Found existing binaries`);
+    log.debug(`Found existing NW.js binaries`);
   } catch (error) {
     log.debug(`No existing binaries`);
     nwCached = false;
@@ -270,7 +268,6 @@ async function get_ffmpeg({
   );
   const bar = new progress.SingleBar({}, progress.Presets.rect);
 
-  // If options.ffmpeg is true, then download ffmpeg.
   const downloadUrl =
     "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download";
   let url = `${downloadUrl}/${version}/${version}-${platform}-${arch}.zip`;
@@ -283,37 +280,13 @@ async function get_ffmpeg({
       recursive: true,
       force: true,
     });
+    log.debug(`FFMPEG zip cache removed`);
   }
 
-  const unzipFFMPeg = async () => {
-    if (platform === "linux") {
-      await compressing.tgz.uncompress(out, nwDir);
-    } else {
-      await compressing.zip.uncompress(out, nwDir);
-    }
-    let ffmpegFile;
-    if (platform === "linux") {
-      ffmpegFile = "libffmpeg.so";
-    } else if (platform === "win") {
-      ffmpegFile = "ffmpeg.dll";
-    } else if (platform === "osx") {
-      ffmpegFile = "libffmpeg.dylib";
-    }
-    await replaceFfmpeg(platform, nwDir, ffmpegFile);
-
-    if (cache === false) {
-      log.debug(`Removing FFMPEG zip cache`);
-      await rm(out, {
-        recursive: true,
-        force: true,
-      });
-      log.debug(`FFMPEG zip cache removed`);
-    }
-  };
   // Check if cache exists.
-  if (existsSync(out)) {
+  if (existsSync(out) === true) {
     log.debug(`Found existing FFMPEG cache`);
-    await unzipFFMPeg();
+    await compressing.zip.uncompress(out, nwDir);
     return;
   }
 
@@ -355,5 +328,17 @@ async function get_ffmpeg({
   });
 
   // Remove compressed file after download and decompress.
-  return request.then(unzipFFMPeg);
+  return request
+    .then(async () => await compressing.zip.uncompress(out, nwDir))
+    .then(async () => await replaceFfmpeg(platform, nwDir))
+    .then(async () => {
+      if (cache === false) {
+        log.debug(`Removing FFMPEG zip cache`);
+        await rm(out, {
+          recursive: true,
+          force: true,
+        });
+        log.debug(`FFMPEG zip cache removed`);
+      }
+    });
 }
