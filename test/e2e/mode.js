@@ -12,13 +12,11 @@ import { ARCH_KV, PLATFORM_KV } from "../../src/util.js";
 const { Driver, ServiceBuilder, Options } = chrome;
 
 describe("test modes", async () => {
-
   let driver = undefined;
 
   let nwOptions = {};
 
   it("runs application", async () => {
-
     await nwbuild({
       srcDir: "test/fixture/app",
       mode: "build",
@@ -40,7 +38,8 @@ describe("test modes", async () => {
 
     const chromedriverPath = resolve(
       nwOptions.cacheDir,
-      `nwjs${nwOptions.flavor === "sdk" ? "-sdk" : ""}-v${nwOptions.version}-${nwOptions.platform
+      `nwjs${nwOptions.flavor === "sdk" ? "-sdk" : ""}-v${nwOptions.version}-${
+        nwOptions.platform
       }-${nwOptions.arch}`,
       `chromedriver${nwOptions.platform === "win" ? ".exe" : ""}`,
     );
@@ -53,8 +52,7 @@ describe("test modes", async () => {
   });
 
   it("renames MacOS Helper Apps", async () => {
-    if (PLATFORM_KV[platform] === 'darwin') {
-
+    if (PLATFORM_KV[platform] === "darwin") {
       await nwbuild({
         srcDir: "test/fixture/app",
         mode: "build",
@@ -73,12 +71,13 @@ describe("test modes", async () => {
           CFBundleVersion: "0.0.0",
           CFBundleShortVersionString: "0.0.0",
           NSHumanReadableCopyright: "Copyright (c) 2023 NW.js Utilities",
-        }
+        },
       });
 
-      const appName = basename(resolve(nwOptions.outDir, `${nwOptions.app.name}.app`));
+      const appName = basename(
+        resolve(nwOptions.outDir, `${nwOptions.app.name}.app`),
+      );
       equal(appName, "demo.app");
-
     }
   });
 });
