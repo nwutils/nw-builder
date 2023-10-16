@@ -9,8 +9,7 @@ import progress from "cli-progress";
 import compressing from "compressing";
 
 import { log } from "./log.js";
-import { PLATFORM_KV, ARCH_KV } from "./util.js";
-import { replaceFfmpeg } from "./util/ffmpeg.js";
+import { ARCH_KV, PLATFORM_KV, replaceFfmpeg } from "./util.js";
 
 /**
  * _Note: This an internal function which is not called directly. Please see example usage below._
@@ -138,9 +137,11 @@ async function get_nwjs({
     downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
     downloadUrl === "https://npmmirror.com/mirrors/nwjs"
   ) {
-    url = `${downloadUrl}/v${version}/nwjs${flavor === "sdk" ? "-sdk" : ""
-      }-v${version}-${platform}-${arch}.${platform === "linux" ? "tar.gz" : "zip"
-      }`;
+    url = `${downloadUrl}/v${version}/nwjs${
+      flavor === "sdk" ? "-sdk" : ""
+    }-v${version}-${platform}-${arch}.${
+      platform === "linux" ? "tar.gz" : "zip"
+    }`;
     out = resolve(cacheDir, `nw.${platform === "linux" ? "tgz" : "zip"}`);
   }
 
