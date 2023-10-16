@@ -255,8 +255,6 @@ export async function build(
       );
     }
 
-    // TODO: do not rely on symlinks - use actual file paths.
-
     try {
       // Rename nwjs.app executable to ${options.app.name}.app
       await rename(

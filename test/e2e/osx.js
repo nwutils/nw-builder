@@ -32,11 +32,21 @@ describe("osx specific tests", () => {
     await nwbuild(nwOptions);
   });
 
-  it("renames nwjs.app to `options.app.name`", () => {
+  it("renames nwjs.app to `options.app.name`.app", () => {
     const appName = basename(
       resolve(nwOptions.outDir, `${nwOptions.app.name}.app`),
       ".app",
     );
+
     equal(appName, "demo");
   });
+
+  it("renames Contents/MacOS/nwjs to Contents/MacOS/${options.app.name}", () => {
+    const appName = basename(
+      resolve(nwOptions.outDir, `${nwOptions.app.name}.app`, "Contents", "MacOS", nwOptions.app.name)
+    );
+
+    equal(appName, "demo");
+  });
+
 });
