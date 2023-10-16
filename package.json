@@ -1,6 +1,6 @@
 {
   "name": "nw-builder",
-  "version": "4.4.1",
+  "version": "4.4.2",
   "description": "Build NW.js desktop applications for MacOS, Windows and Linux.",
   "keywords": [
     "NW.js",
@@ -48,8 +48,7 @@
     "doc:bld": "node .github/jsdoc.config.cjs && vitepress build doc",
     "test:unit": "node --test test/unit/index.js",
     "test:e2e": "node --test test/e2e/index.js",
-    "test:mod": "npm link nw-builder && cd test/fixture && node demo.js",
-    "test:cli": "npm link nw-builder && cd test/fixture && nwbuild --platform win --arch x64 --outDir out --no-glob app"
+    "demo": "cd test/fixture && node demo.js"
   },
   "devDependencies": {
     "concurrently": "^8.2.1",
@@ -73,6 +72,6 @@
   },
   "packageManager": "npm@9.8.1",
   "engines": {
-    "node": ">= v16.20.1 || >= v18.18.0 || >= v20.7.0"
+    "node": "^16.20.1 || ^18.18.2 || >= 20.8.1"
   }
 }
