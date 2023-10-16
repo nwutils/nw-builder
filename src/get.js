@@ -9,8 +9,7 @@ import progress from "cli-progress";
 import compressing from "compressing";
 
 import { log } from "./log.js";
-import { PLATFORM_KV, ARCH_KV } from "./util.js";
-import { replaceFfmpeg } from "./util/ffmpeg.js";
+import { ARCH_KV, PLATFORM_KV, replaceFfmpeg } from "./util.js";
 
 /**
  * _Note: This an internal function which is not called directly. Please see example usage below._
@@ -155,7 +154,7 @@ async function get_nwjs({
   // Check if cache exists.
   try {
     await readdir(nwDir);
-    log.debug(`Found existing binaries`);
+    log.debug(`Found existing NW.js binaries`);
   } catch (error) {
     log.debug(`No existing binaries`);
     nwCached = false;
@@ -283,37 +282,13 @@ async function get_ffmpeg({
       recursive: true,
       force: true,
     });
+    log.debug(`FFMPEG zip cache removed`);
   }
 
-  const unzipFFMPeg = async () => {
-    if (platform === "linux") {
-      await compressing.tgz.uncompress(out, nwDir);
-    } else {
-      await compressing.zip.uncompress(out, nwDir);
-    }
-    let ffmpegFile;
-    if (platform === "linux") {
-      ffmpegFile = "libffmpeg.so";
-    } else if (platform === "win") {
-      ffmpegFile = "ffmpeg.dll";
-    } else if (platform === "osx") {
-      ffmpegFile = "libffmpeg.dylib";
-    }
-    await replaceFfmpeg(platform, nwDir, ffmpegFile);
-
-    if (cache === false) {
-      log.debug(`Removing FFMPEG zip cache`);
-      await rm(out, {
-        recursive: true,
-        force: true,
-      });
-      log.debug(`FFMPEG zip cache removed`);
-    }
-  };
   // Check if cache exists.
-  if (existsSync(out)) {
+  if (existsSync(out) === true) {
     log.debug(`Found existing FFMPEG cache`);
-    await unzipFFMPeg();
+    await compressing.zip.uncompress(out, nwDir);
     return;
   }
 
@@ -355,5 +330,17 @@ async function get_ffmpeg({
   });
 
   // Remove compressed file after download and decompress.
-  return request.then(unzipFFMPeg);
+  return request
+    .then(async () => await compressing.zip.uncompress(out, nwDir))
+    .then(async () => await replaceFfmpeg(platform, nwDir))
+    .then(async () => {
+      if (cache === false) {
+        log.debug(`Removing FFMPEG zip cache`);
+        await rm(out, {
+          recursive: true,
+          force: true,
+        });
+        log.debug(`FFMPEG zip cache removed`);
+      }
+    });
 }

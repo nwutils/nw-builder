@@ -7,8 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.4.2] - 2023-10-16
+
 ### Changed
 
+- Fix FFmpeg decompression.
 - Auto generate docs from JSDoc comments.
 - Improve TypeScript type definitions.
 - Fix get mode.
