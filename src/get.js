@@ -268,6 +268,7 @@ async function get_ffmpeg({
   );
   const bar = new progress.SingleBar({}, progress.Presets.rect);
 
+  // If options.ffmpeg is true, then download ffmpeg.
   const downloadUrl =
     "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download";
   let url = `${downloadUrl}/${version}/${version}-${platform}-${arch}.zip`;
