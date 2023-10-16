@@ -105,15 +105,24 @@ import { log } from "./log.js";
  *   mode: "build",
  * });
  *
- * @param  {string | string[]}       files     Array of NW app files
- * @param  {string}                  nwDir     Directory to hold NW binaries
- * @param  {string}                  outDir    Directory to store build artifacts
- * @param  {"linux" | "osx" | "win"} platform  Platform is the operating system type
- * @param  {"zip" | boolean}         zip       Specify if the build artifacts are to be zipped
- * @param  {LinuxRc | OsxRc | WinRc} app       Multi platform configuration options
+ * @param  {string | string[]}       files        Array of NW app files
+ * @param  {string}                  nwDir        Directory to hold NW binaries
+ * @param  {string}                  outDir       Directory to store build artifacts
+ * @param  {"linux" | "osx" | "win"} platform     Platform is the operating system type
+ * @param  {"zip" | boolean}         zip          Specify if the build artifacts are to be zipped
+ * @param  {LinuxRc | OsxRc | WinRc} app          Multi platform configuration options
+ * @param  {string}                  chromiumVer  Chromium version
  * @return {Promise<undefined>}
  */
-export async function build(files, nwDir, outDir, platform, zip, app) {
+export async function build(
+  files,
+  nwDir,
+  outDir,
+  platform,
+  zip,
+  app,
+  chromiumVer,
+) {
   log.debug(`Remove any files at ${outDir} directory`);
   await rm(outDir, { force: true, recursive: true });
   log.debug(`Copy ${nwDir} files to ${outDir} directory`);
@@ -269,6 +278,8 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
           "Contents",
           "Frameworks",
           "nwjs Framework.framework",
+          "Versions",
+          chromiumVer,
           "Helpers",
           "nwjs Helper.app",
           "Contents",
@@ -281,6 +292,8 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
           "Contents",
           "Frameworks",
           "nwjs Framework.framework",
+          "Versions",
+          chromiumVer,
           "Helpers",
           "nwjs Helper.app",
           "Contents",
@@ -297,6 +310,8 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
           "Contents",
           "Frameworks",
           "nwjs Framework.framework",
+          "Versions",
+          chromiumVer,
           "Helpers",
           "nwjs Helper (Alerts).app",
           "Contents",
@@ -309,6 +324,8 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
           "Contents",
           "Frameworks",
           "nwjs Framework.framework",
+          "Versions",
+          chromiumVer,
           "Helpers",
           "nwjs Helper (Alerts).app",
           "Contents",
@@ -325,6 +342,8 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
           "Contents",
           "Frameworks",
           "nwjs Framework.framework",
+          "Versions",
+          chromiumVer,
           "Helpers",
           "nwjs Helper (GPU).app",
           "Contents",
@@ -337,6 +356,8 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
           "Contents",
           "Frameworks",
           "nwjs Framework.framework",
+          "Versions",
+          chromiumVer,
           "Helpers",
           "nwjs Helper (GPU).app",
           "Contents",
@@ -353,6 +374,8 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
           "Contents",
           "Frameworks",
           "nwjs Framework.framework",
+          "Versions",
+          chromiumVer,
           "Helpers",
           "nwjs Helper (Plugin).app",
           "Contents",
@@ -365,6 +388,8 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
           "Contents",
           "Frameworks",
           "nwjs Framework.framework",
+          "Versions",
+          chromiumVer,
           "Helpers",
           "nwjs Helper (Plugin).app",
           "Contents",
@@ -381,6 +406,8 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
           "Contents",
           "Frameworks",
           "nwjs Framework.framework",
+          "Versions",
+          chromiumVer,
           "Helpers",
           "nwjs Helper (Renderer).app",
           "Contents",
@@ -393,6 +420,8 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
           "Contents",
           "Frameworks",
           "nwjs Framework.framework",
+          "Versions",
+          chromiumVer,
           "Helpers",
           "nwjs Helper (Renderer).app",
           "Contents",
@@ -508,6 +537,8 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         "Contents",
         "Frameworks",
         "nwjs Framework.framework",
+        "Versions",
+        chromiumVer,
         "Helpers",
         "nwjs Helper.app",
         "Contents",
@@ -538,6 +569,8 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         "Contents",
         "Frameworks",
         "nwjs Framework.framework",
+        "Versions",
+        chromiumVer,
         "Helpers",
         "nwjs Helper (Alerts).app",
         "Contents",
@@ -568,6 +601,8 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         "Contents",
         "Frameworks",
         "nwjs Framework.framework",
+        "Versions",
+        chromiumVer,
         "Helpers",
         "nwjs Helper (GPU).app",
         "Contents",
@@ -598,6 +633,8 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         "Contents",
         "Frameworks",
         "nwjs Framework.framework",
+        "Versions",
+        chromiumVer,
         "Helpers",
         "nwjs Helper (Plugin).app",
         "Contents",
@@ -628,6 +665,8 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         "Contents",
         "Frameworks",
         "nwjs Framework.framework",
+        "Versions",
+        chromiumVer,
         "Helpers",
         "nwjs Helper (Renderer).app",
         "Contents",

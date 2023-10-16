@@ -181,6 +181,7 @@ const nwbuild = async (options) => {
         options.platform,
         options.zip,
         options.app,
+        releaseInfo.components.chromium,
       );
     }
   } catch (error) {
