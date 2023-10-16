@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+- Fix FFmpeg decompression.
 - Auto generate docs from JSDoc comments.
 - Improve TypeScript type definitions.
 - Fix get mode.
