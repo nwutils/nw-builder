@@ -47,7 +47,7 @@
     "doc:dev": "concurrently --kill-others \"node .github/fswatch.config.js\" \"vitepress dev doc\"",
     "doc:bld": "node .github/jsdoc.config.cjs && vitepress build doc",
     "test:unit": "node --test test/unit/index.js",
-    "test:e2e": "node --test test/e2e/index.js",
+    "test:e2e": "node --test test/e2e",
     "demo": "cd test/fixture && node demo.js"
   },
   "devDependencies": {
