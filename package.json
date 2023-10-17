@@ -48,7 +48,8 @@
     "doc:bld": "node .github/jsdoc.config.cjs && vitepress build doc",
     "test:unit": "node --test test/unit/index.js",
     "test:e2e": "node --test test/e2e/index.js",
-    "demo": "cd test/fixture && node demo.js"
+    "demo": "cd test/fixture && node demo.js",
+    "demo:gyp": "cd test/fixture/gyp && npm run cfg && npm run bld && npm run dev"
   },
   "devDependencies": {
     "concurrently": "^8.2.1",
@@ -57,6 +58,7 @@
     "gh-pages": "^6.0.0",
     "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
+    "nw": "^0.80.0",
     "prettier": "^3.0.3",
     "selenium-webdriver": "^4.14.0",
     "vitepress": "^1.0.0-rc.21"
@@ -65,6 +67,7 @@
     "cli-progress": "^3.12.0",
     "compressing": "^1.10.0",
     "glob": "^10.3.10",
+    "node-gyp": "^9.4.0",
     "plist": "^3.1.0",
     "rcedit": "^4.0.0",
     "winston": "^3.11.0",
