@@ -105,39 +105,6 @@ import { log } from "./log.js";
  *   mode: "build",
  * });
  *
- * @example
- * // Managed Manifest mode
- * nwbuild({
- *   mode: "build",
- *   managedManifest: true
- * });
- *
- * This will parse the first `package.json` it encounters as the NW.js manifest.
- * This is a good way to quickly bootstrap a web/node application as a NW.js application.
- * It will remove any development dependencies, autodetect the package manager via `packageManager` and download the relevant dependencies.
- *
- * @example
- * // Managed Manifest JSON
- * nwbuild({
- *   mode: "build",
- *   managedManifest: { name: "demo", "main": "index.html" }
- * });
- *
- * This will ignore the first `package.json` it encounters and use the user input JSON instead.
- * This is good way to customise your existing NW.js application after bootstrapping it.
- * It will remove any development dependencies, autodetect the package manager via `packageManager` and download the relevant dependencies.
- *
- * @example
- * // Managed Manifest File
- * nwbuild({
- *   mode: "build",
- *   managedManifest: "./manifest.json"
- * });
- *
- * Similar to Managed Manifest JSON, this will also ignore the first `package.json` it encounters and use the manifest file provided by the user instead.
- * This is good way to customise your existing NW.js application after bootstrapping it. Using JSON vs file is matter of preference.
- * It will remove any development dependencies, autodetect the package manager via `packageManager` and download the relevant dependencies.
- *
  * @param  {string | string[]}       files     Array of NW app files
  * @param  {string}                  nwDir     Directory to hold NW binaries
  * @param  {string}                  outDir    Directory to store build artifacts
