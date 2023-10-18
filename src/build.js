@@ -106,7 +106,7 @@ import { debug } from "node:console";
  * nwbuild({
  *   mode: "build",
  * });
- * 
+ *
  * @example
  * // Managed Manifest mode
  * nwbuild({
