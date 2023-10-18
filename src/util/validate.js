@@ -90,18 +90,17 @@ export const validate = async (options, releaseInfo) => {
     typeof options.managedManifest !== "string"
   ) {
     return new Error(
-      "Expected options.managedManifest to be a boolean, object or string. Got " + typeof options.managedManifest,
+      "Expected options.managedManifest to be a boolean, object or string. Got " +
+        typeof options.managedManifest,
     );
   }
 
   if (typeof options.managedManifest === "object") {
     if (options.managedManifest.name === undefined) {
-      return new Error(
-        "Expected NW.js Manifest to have a `name` property.");
+      return new Error("Expected NW.js Manifest to have a `name` property.");
     }
     if (options.managedManifest.main === undefined) {
-      return new Error(
-        "Expected NW.js Manifest to have a `main` property.");
+      return new Error("Expected NW.js Manifest to have a `main` property.");
     }
   }
 

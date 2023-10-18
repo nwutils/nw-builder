@@ -116,7 +116,16 @@ import { exec } from "node:child_process";
  * @param  {LinuxRc | OsxRc | WinRc}   app              Multi platform configuration options
  * @return {Promise<undefined>}
  */
-export async function build(files, nwDir, outDir, platform, zip, managedManifest, nwPkg, app) {
+export async function build(
+  files,
+  nwDir,
+  outDir,
+  platform,
+  zip,
+  managedManifest,
+  nwPkg,
+  app,
+) {
   log.debug(`Remove any files at ${outDir} directory`);
   await rm(outDir, { force: true, recursive: true });
   log.debug(`Copy ${nwDir} files to ${outDir} directory`);
@@ -152,12 +161,28 @@ export async function build(files, nwDir, outDir, platform, zip, managedManifest
     }
   }
 
+  let manifest = undefined;
+
   if (
-    typeof managedManifest === "boolean" &&
-    managedManifest === true
+    typeof managedManifest === "boolean" ||
+    typeof managedManifest === "object" ||
+    typeof managedManifest === "string"
   ) {
-    nwPkg.devDependencies = undefined;
-    nwPkg.packageManager = nwPkg.packageManager ?? "npm@*";
+    if (managedManifest === true) {
+      manifest = nwPkg;
+    }
+
+    if (typeof managedManifest === "object") {
+      manifest = managedManifest;
+    }
+
+    if (typeof managedManifest === "string") {
+      manifest = JSON.parse(await readFile(managedManifest));
+    }
+
+    manifest.devDependencies = undefined;
+    manifest.packageManager = manifest.packageManager ?? "npm@*";
+
     log.debug(`Write NW.js manifest file to ${outDir} directory`);
     await writeFile(
       resolve(
@@ -167,7 +192,7 @@ export async function build(files, nwDir, outDir, platform, zip, managedManifest
           : "nwjs.app/Contents/Resources/app.nw",
         "package.json",
       ),
-      JSON.stringify(nwPkg, null, 2),
+      JSON.stringify(manifest, null, 2),
       "utf8",
     );
 
@@ -177,14 +202,14 @@ export async function build(files, nwDir, outDir, platform, zip, managedManifest
         platform !== "osx"
           ? "package.nw"
           : "nwjs.app/Contents/Resources/app.nw",
-      )
+      ),
     );
 
-    if (nwPkg.packageManager.startsWith("npm")) {
+    if (manifest.packageManager.startsWith("npm")) {
       exec(`npm install`);
-    } else if (nwPkg.packageManager.startsWith("yarn")) {
+    } else if (manifest.packageManager.startsWith("yarn")) {
       exec(`yarn install`);
-    } else if (nwPkg.packageManager.startsWith("pnpm")) {
+    } else if (manifest.packageManager.startsWith("pnpm")) {
       exec(`pnpm install`);
     }
   }
