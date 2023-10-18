@@ -15,6 +15,7 @@ import plist from "plist";
 
 import { log } from "./log.js";
 import { exec } from "node:child_process";
+import { debug } from "node:console";
 
 /**
  * References:
@@ -203,18 +204,23 @@ export async function build(
     typeof managedManifest === "string"
   ) {
     if (managedManifest === true) {
+      log.debug("Enable Managed Manifest Mode.");
       manifest = nwPkg;
     }
 
     if (typeof managedManifest === "object") {
+      log.debug("Enable Managed Manifest JSON.");
       manifest = managedManifest;
     }
 
     if (typeof managedManifest === "string") {
+      log.debug("Enable Managed Manifest File.");
       manifest = JSON.parse(await readFile(managedManifest));
     }
 
+    log.debug("Remove development dependencies.");
     manifest.devDependencies = undefined;
+    log.debug("Detect Node package manager.");
     manifest.packageManager = manifest.packageManager ?? "npm@*";
 
     log.debug(`Write NW.js manifest file to ${outDir} directory`);
@@ -230,6 +236,7 @@ export async function build(
       "utf8",
     );
 
+    log.debug("Change directory into NW.js application.");
     chdir(
       resolve(
         outDir,
@@ -240,10 +247,13 @@ export async function build(
     );
 
     if (manifest.packageManager.startsWith("npm")) {
+      log.debug("Install Node modules via npm.");
       exec(`npm install`);
     } else if (manifest.packageManager.startsWith("yarn")) {
+      log.debug("Install Node modules via yarn.");
       exec(`yarn install`);
     } else if (manifest.packageManager.startsWith("pnpm")) {
+      log.debug("Install Node modules via pnpm.");
       exec(`pnpm install`);
     }
   }
