@@ -84,6 +84,26 @@ export const validate = async (options, releaseInfo) => {
     await readdir(options.outDir);
   }
 
+  if (
+    typeof options.managedManifest !== "boolean" &&
+    typeof options.managedManifest !== "object" &&
+    typeof options.managedManifest !== "string"
+  ) {
+    return new Error(
+      "Expected options.managedManifest to be a boolean, object or string. Got " +
+        typeof options.managedManifest,
+    );
+  }
+
+  if (typeof options.managedManifest === "object") {
+    if (options.managedManifest.name === undefined) {
+      return new Error("Expected NW.js Manifest to have a `name` property.");
+    }
+    if (options.managedManifest.main === undefined) {
+      return new Error("Expected NW.js Manifest to have a `main` property.");
+    }
+  }
+
   // TODO: Validate app options
   return undefined;
 };
