@@ -1,5 +1,5 @@
 import { resolve } from "node:path";
-import { platform as PLATFORM } from "node:process";
+import { platform as PLATFORM, chdir } from "node:process";
 import {
   cp,
   copyFile,
@@ -14,6 +14,7 @@ import rcedit from "rcedit";
 import plist from "plist";
 
 import { log } from "./log.js";
+import { exec } from "node:child_process";
 
 /**
  * References:
@@ -105,15 +106,17 @@ import { log } from "./log.js";
  *   mode: "build",
  * });
  *
- * @param  {string | string[]}       files     Array of NW app files
- * @param  {string}                  nwDir     Directory to hold NW binaries
- * @param  {string}                  outDir    Directory to store build artifacts
- * @param  {"linux" | "osx" | "win"} platform  Platform is the operating system type
- * @param  {"zip" | boolean}         zip       Specify if the build artifacts are to be zipped
- * @param  {LinuxRc | OsxRc | WinRc} app       Multi platform configuration options
+ * @param  {string | string[]}         files            Array of NW app files
+ * @param  {string}                    nwDir            Directory to hold NW binaries
+ * @param  {string}                    outDir           Directory to store build artifacts
+ * @param  {"linux" | "osx" | "win"}   platform         Platform is the operating system type
+ * @param  {"zip" | boolean}           zip              Specify if the build artifacts are to be zipped
+ * @param  {boolean | string | object} managedManifest  Managed Manifest mode
+ * @param  {string}                    nwPkg            NW.js manifest file
+ * @param  {LinuxRc | OsxRc | WinRc}   app              Multi platform configuration options
  * @return {Promise<undefined>}
  */
-export async function build(files, nwDir, outDir, platform, zip, app) {
+export async function build(files, nwDir, outDir, platform, zip, managedManifest, nwPkg, app) {
   log.debug(`Remove any files at ${outDir} directory`);
   await rm(outDir, { force: true, recursive: true });
   log.debug(`Copy ${nwDir} files to ${outDir} directory`);
@@ -146,6 +149,43 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         ),
         { recursive: true, verbatimSymlinks: true },
       );
+    }
+  }
+
+  if (
+    typeof managedManifest === "boolean" &&
+    managedManifest === true
+  ) {
+    nwPkg.devDependencies = undefined;
+    nwPkg.packageManager = nwPkg.packageManager ?? "npm@*";
+    log.debug(`Write NW.js manifest file to ${outDir} directory`);
+    await writeFile(
+      resolve(
+        outDir,
+        platform !== "osx"
+          ? "package.nw"
+          : "nwjs.app/Contents/Resources/app.nw",
+        "package.json",
+      ),
+      JSON.stringify(nwPkg, null, 2),
+      "utf8",
+    );
+
+    chdir(
+      resolve(
+        outDir,
+        platform !== "osx"
+          ? "package.nw"
+          : "nwjs.app/Contents/Resources/app.nw",
+      )
+    );
+
+    if (nwPkg.packageManager.startsWith("npm")) {
+      exec(`npm install`);
+    } else if (nwPkg.packageManager.startsWith("yarn")) {
+      exec(`yarn install`);
+    } else if (nwPkg.packageManager.startsWith("pnpm")) {
+      exec(`pnpm install`);
     }
   }
 

@@ -180,6 +180,8 @@ const nwbuild = async (options) => {
         options.outDir,
         options.platform,
         options.zip,
+        options.managedManifest,
+        manifest,
         options.app,
       );
     }
