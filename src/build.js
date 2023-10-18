@@ -15,8 +15,6 @@ import plist from "plist";
 
 import { log } from "./log.js";
 import { exec } from "node:child_process";
-import { debug } from "node:console";
-
 /**
  * References:
  * https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html
