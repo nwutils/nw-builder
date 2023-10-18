@@ -94,6 +94,17 @@ export const validate = async (options, releaseInfo) => {
     );
   }
 
+  if (typeof options.managedManifest === "object") {
+    if (options.managedManifest.name === undefined) {
+      return new Error(
+        "Expected NW.js Manifest to have a `name` property.");
+    }
+    if (options.managedManifest.main === undefined) {
+      return new Error(
+        "Expected NW.js Manifest to have a `main` property.");
+    }
+  }
+
   // TODO: Validate app options
   return undefined;
 };
