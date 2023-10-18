@@ -84,6 +84,16 @@ export const validate = async (options, releaseInfo) => {
     await readdir(options.outDir);
   }
 
+  if (
+    typeof options.managedManifest !== "boolean" &&
+    typeof options.managedManifest !== "object" &&
+    typeof options.managedManifest !== "string"
+  ) {
+    return new Error(
+      "Expected options.managedManifest to be a boolean, object or string. Got " + typeof options.managedManifest,
+    );
+  }
+
   // TODO: Validate app options
   return undefined;
 };
