@@ -1,21 +1,22 @@
 <!doctype html>
 
 <html>
-
-<head>
+  <head>
     <title>NW.js Node Native Addon Demo</title>
     <script>
-        window.onload = () => {
-            const { hello } = require('./build/Release/hello');
-            document.getElementById("test").textContent = hello();
-        };
+      window.onload = () => {
+        const { hello } = require("./build/Release/hello");
+        document.getElementById("test").textContent = hello();
+      };
     </script>
-</head>
+  </head>
 
-<body>
+  <body>
     <span id="test"></span>
-    <br>
-    <span>If you can see the "world" text above, then the Node Native module was successful</span>
-</body>
-
+    <br />
+    <span
+      >If you can see the "world" text above, then the Node Native module was
+      successful</span
+    >
+  </body>
 </html>
