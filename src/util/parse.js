@@ -41,6 +41,8 @@ export const parse = async (options, pkg) => {
   options.outDir = resolve(options.outDir ?? "./out");
   options.zip = options.zip ?? false;
 
+  options.managedManifest = options.managedManifest ?? false;
+
   options.app = options.app ?? {};
   options.app.name = options.app.name ?? pkg.name;
   options.app.icon = options.app.icon ?? undefined;

@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.4.2-beta.1] - 2023-10-16
+
+### Added
+
+- Managed Manifest mode. `options.ManagedManifest` defaults to `false`.
+- If `true`, then first `package.json` globbed is parsed as manifest.
+- If JSON type, object is parsed as manifest.
+- If string type, then resolve as file path to manifest.
+
 ## [4.4.2] - 2023-10-16
 
 ### Changed

@@ -1,5 +1,5 @@
 import { resolve } from "node:path";
-import { platform as PLATFORM } from "node:process";
+import { platform as PLATFORM, chdir } from "node:process";
 import {
   cp,
   copyFile,
@@ -14,7 +14,7 @@ import rcedit from "rcedit";
 import plist from "plist";
 
 import { log } from "./log.js";
-
+import { exec } from "node:child_process";
 /**
  * References:
  * https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html
@@ -105,15 +105,60 @@ import { log } from "./log.js";
  *   mode: "build",
  * });
  *
- * @param  {string | string[]}       files     Array of NW app files
- * @param  {string}                  nwDir     Directory to hold NW binaries
- * @param  {string}                  outDir    Directory to store build artifacts
- * @param  {"linux" | "osx" | "win"} platform  Platform is the operating system type
- * @param  {"zip" | boolean}         zip       Specify if the build artifacts are to be zipped
- * @param  {LinuxRc | OsxRc | WinRc} app       Multi platform configuration options
+ * @example
+ * // Managed Manifest mode
+ * nwbuild({
+ *   mode: "build",
+ *   managedManifest: true
+ * });
+ *
+ * This will parse the first `package.json` it encounters as the NW.js manifest.
+ * This is a good way to quickly bootstrap a web/node application as a NW.js application.
+ * It will remove any development dependencies, autodetect the package manager via `packageManager` and download the relevant dependencies.
+ *
+ * @example
+ * // Managed Manifest JSON
+ * nwbuild({
+ *   mode: "build",
+ *   managedManifest: { name: "demo", "main": "index.html" }
+ * });
+ *
+ * This will ignore the first `package.json` it encounters and use the user input JSON instead.
+ * This is good way to customise your existing NW.js application after bootstrapping it.
+ * It will remove any development dependencies, autodetect the package manager via `packageManager` and download the relevant dependencies.
+ *
+ * @example
+ * // Managed Manifest File
+ * nwbuild({
+ *   mode: "build",
+ *   managedManifest: "./manifest.json"
+ * });
+ *
+ * Similar to Managed Manifest JSON, this will also ignore the first `package.json` it encounters and use the manifest file provided by the user instead.
+ * This is good way to customise your existing NW.js application after bootstrapping it. Using JSON vs file is matter of preference.
+ * It will remove any development dependencies, autodetect the package manager via `packageManager` and download the relevant dependencies.
+ *
+ *
+ * @param  {string | string[]}         files            Array of NW app files
+ * @param  {string}                    nwDir            Directory to hold NW binaries
+ * @param  {string}                    outDir           Directory to store build artifacts
+ * @param  {"linux" | "osx" | "win"}   platform         Platform is the operating system type
+ * @param  {"zip" | boolean}           zip              Specify if the build artifacts are to be zipped
+ * @param  {boolean | string | object} managedManifest  Managed Manifest mode
+ * @param  {string}                    nwPkg            NW.js manifest file
+ * @param  {LinuxRc | OsxRc | WinRc}   app              Multi platform configuration options
  * @return {Promise<undefined>}
  */
-export async function build(files, nwDir, outDir, platform, zip, app) {
+export async function build(
+  files,
+  nwDir,
+  outDir,
+  platform,
+  zip,
+  managedManifest,
+  nwPkg,
+  app,
+) {
   log.debug(`Remove any files at ${outDir} directory`);
   await rm(outDir, { force: true, recursive: true });
   log.debug(`Copy ${nwDir} files to ${outDir} directory`);
@@ -146,6 +191,68 @@ export async function build(files, nwDir, outDir, platform, zip, app) {
         ),
         { recursive: true, verbatimSymlinks: true },
       );
+    }
+  }
+
+  let manifest = undefined;
+
+  if (
+    typeof managedManifest === "boolean" ||
+    typeof managedManifest === "object" ||
+    typeof managedManifest === "string"
+  ) {
+    if (managedManifest === true) {
+      log.debug("Enable Managed Manifest Mode.");
+      manifest = nwPkg;
+    }
+
+    if (typeof managedManifest === "object") {
+      log.debug("Enable Managed Manifest JSON.");
+      manifest = managedManifest;
+    }
+
+    if (typeof managedManifest === "string") {
+      log.debug("Enable Managed Manifest File.");
+      manifest = JSON.parse(await readFile(managedManifest));
+    }
+
+    log.debug("Remove development dependencies.");
+    manifest.devDependencies = undefined;
+    log.debug("Detect Node package manager.");
+    manifest.packageManager = manifest.packageManager ?? "npm@*";
+
+    log.debug(`Write NW.js manifest file to ${outDir} directory`);
+    await writeFile(
+      resolve(
+        outDir,
+        platform !== "osx"
+          ? "package.nw"
+          : "nwjs.app/Contents/Resources/app.nw",
+        "package.json",
+      ),
+      JSON.stringify(manifest, null, 2),
+      "utf8",
+    );
+
+    log.debug("Change directory into NW.js application.");
+    chdir(
+      resolve(
+        outDir,
+        platform !== "osx"
+          ? "package.nw"
+          : "nwjs.app/Contents/Resources/app.nw",
+      ),
+    );
+
+    if (manifest.packageManager.startsWith("npm")) {
+      log.debug("Install Node modules via npm.");
+      exec(`npm install`);
+    } else if (manifest.packageManager.startsWith("yarn")) {
+      log.debug("Install Node modules via yarn.");
+      exec(`yarn install`);
+    } else if (manifest.packageManager.startsWith("pnpm")) {
+      log.debug("Install Node modules via pnpm.");
+      exec(`pnpm install`);
     }
   }
 
