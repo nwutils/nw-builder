@@ -1,6 +1,6 @@
 import { mkdir } from "node:fs/promises";
 import { resolve } from "node:path";
-import { arch, exit, platform, version } from "node:process";
+import { arch, platform, version } from "node:process";
 
 import { isCached } from "./util/cache.js";
 import { getFiles } from "./util/files.js";

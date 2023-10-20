@@ -1,6 +1,6 @@
 import { exec } from "node:child_process";
 import { resolve } from "node:path";
-import { platform as PLATFORM, chdir, exit } from "node:process";
+import { platform as PLATFORM, chdir } from "node:process";
 import {
   cp,
   copyFile,
@@ -146,7 +146,7 @@ import { log } from "./log.js";
  * @param  {string}                    cacheDir         Directory to store NW.js related binaries
  * @param  {string}                    version          NW.js runtime version
  * @param  {"linux" | "osx" | "win"}   platform         Platform is the operating system type
- * @param  {"ia32" | "x64" | "arm64"}            arch                                      NW supported architectures
+ * @param  {"ia32" | "x64" | "arm64"}  arch             NW supported architectures
  * @param  {"zip" | boolean}           zip              Specify if the build artifacts are to be zipped
  * @param  {boolean | string | object} managedManifest  Managed Manifest mode
  * @param  {string}                    nwPkg            NW.js manifest file
