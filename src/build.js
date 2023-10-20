@@ -228,7 +228,9 @@ export async function build(
     }
 
     log.debug("Remove development dependencies.");
-    manifest.devDependencies = undefined;
+    if (manifest.devDependencies) {
+      manifest.devDependencies = undefined;
+    }
     log.debug("Detect Node package manager.");
     manifest.packageManager = manifest.packageManager ?? "npm@*";
 
