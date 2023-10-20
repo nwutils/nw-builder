@@ -170,7 +170,6 @@ export async function build(
   nodeVersion,
   app,
 ) {
-  log.debug("naa", outDir)
   log.debug(`Remove any files at ${outDir} directory`);
   await rm(outDir, { force: true, recursive: true });
   log.debug(`Copy ${nwDir} files to ${outDir} directory`);
@@ -209,12 +208,9 @@ export async function build(
   let manifest = undefined;
 
   if (
-    managedManifest !== false &&
-    (
-      typeof managedManifest === "boolean" ||
+    managedManifest === true ||
       typeof managedManifest === "object" ||
       typeof managedManifest === "string"
-    )
   ) {
     if (managedManifest === true) {
       log.debug("Enable Managed Manifest Mode.");
@@ -440,7 +436,9 @@ export async function build(
 
     log.debug("Rebuilding of Native Node module started");
     exec(`node-gyp rebuild --target=${nodeVersion} --nodedir=${nodePath}`, (error) => {
-      log.error(error);
+      if (error !== null) {
+        log.error(error);
+      }
     });
     log.debug("Rebuilding of Native Node module ended");
   }

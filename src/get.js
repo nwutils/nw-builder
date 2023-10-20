@@ -1,4 +1,4 @@
-import { spawnSync } from "node:child_process";
+import { exec, spawnSync } from "node:child_process";
 import { createWriteStream, existsSync } from "node:fs";
 import { mkdir, readdir, rename, rm } from "node:fs/promises";
 import { get as getRequest } from "node:https";
@@ -401,6 +401,10 @@ export async function getNodeHeaders({
       resolve(cacheDir, "node"),
       resolve(cacheDir, `node-v${version}-${platform}-${arch}`),
     );
+
+    exec("patch " + resolve(cacheDir, `node-v${version}-${platform}-${arch}`, "common.gypi") + " " + resolve("..", "..", "patches", "node_header.patch"), (error) => {
+      log.error(error);
+    });
 
     return;
   }

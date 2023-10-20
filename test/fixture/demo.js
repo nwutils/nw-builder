@@ -1,4 +1,4 @@
-import nwbuild from "../../src/index.js";
+import nwbuild from "nw-builder";
 
 await nwbuild({
   srcDir: "gyp",
