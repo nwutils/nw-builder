@@ -396,15 +396,25 @@ export async function getNodeHeaders({
     await rm(resolve(cacheDir, `node-v${version}-${platform}-${arch}`), {
       recursive: true,
       force: true,
-    })
+    });
     await rename(
       resolve(cacheDir, "node"),
       resolve(cacheDir, `node-v${version}-${platform}-${arch}`),
     );
 
-    exec("patch " + resolve(cacheDir, `node-v${version}-${platform}-${arch}`, "common.gypi") + " " + resolve("..", "..", "patches", "node_header.patch"), (error) => {
-      log.error(error);
-    });
+    exec(
+      "patch " +
+        resolve(
+          cacheDir,
+          `node-v${version}-${platform}-${arch}`,
+          "common.gypi",
+        ) +
+        " " +
+        resolve("..", "..", "patches", "node_header.patch"),
+      (error) => {
+        log.error(error);
+      },
+    );
 
     return;
   }

@@ -188,7 +188,7 @@ const nwbuild = async (options) => {
         manifest,
         options.nativeAddon,
         releaseInfo.components.node,
-        options.app
+        options.app,
       );
     }
   } catch (error) {

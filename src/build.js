@@ -150,7 +150,7 @@ import { log } from "./log.js";
  * @param  {"zip" | boolean}           zip              Specify if the build artifacts are to be zipped
  * @param  {boolean | string | object} managedManifest  Managed Manifest mode
  * @param  {string}                    nwPkg            NW.js manifest file
- * @param  {false | "gyp"}             nativeAddon      Rebuild Node Native Addon 
+ * @param  {false | "gyp"}             nativeAddon      Rebuild Node Native Addon
  * @param  {string}                    nodeVersion      Version of Node included in NW.js release
  * @param  {LinuxRc | OsxRc | WinRc}   app              Multi platform configuration options
  * @return {Promise<undefined>}
@@ -209,8 +209,8 @@ export async function build(
 
   if (
     managedManifest === true ||
-      typeof managedManifest === "object" ||
-      typeof managedManifest === "string"
+    typeof managedManifest === "object" ||
+    typeof managedManifest === "string"
   ) {
     if (managedManifest === true) {
       log.debug("Enable Managed Manifest Mode.");
@@ -435,11 +435,14 @@ export async function build(
     );
 
     log.debug("Rebuilding of Native Node module started");
-    exec(`node-gyp rebuild --target=${nodeVersion} --nodedir=${nodePath}`, (error) => {
-      if (error !== null) {
-        log.error(error);
-      }
-    });
+    exec(
+      `node-gyp rebuild --target=${nodeVersion} --nodedir=${nodePath}`,
+      (error) => {
+        if (error !== null) {
+          log.error(error);
+        }
+      },
+    );
     log.debug("Rebuilding of Native Node module ended");
   }
 
