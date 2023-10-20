@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.4.2-beta.2] - 2023-10-20
+
+### Added
+
+- Node Native Addon support using GYP. To enable, set `options.nativeAddon` to `gyp`.
+
 ## [4.4.2-beta.1] - 2023-10-16
 
 ### Added
