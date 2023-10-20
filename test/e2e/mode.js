@@ -32,7 +32,7 @@ describe("test modes", async () => {
 
     const options = new Options();
     const args = [
-      `--nwapp=${resolve("test", "fixture", "app")}`,
+      `--nwapp=${resolve("test", "fixture", "out", "app", "package.nw")}`,
       "--headless=new",
     ];
     options.addArguments(args);
