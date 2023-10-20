@@ -18,10 +18,11 @@ describe("node native addon", async () => {
   let nwOptions = {
     srcDir: "test/fixture/gyp",
     mode: "build",
+    version: "0.81.0",
     flavor: "sdk",
     platform: getPlatform(platform),
     arch: getArch(arch),
-    outDir: "test/fixture/out",
+    outDir: "test/fixture/out/gyp",
     cacheDir: "test/fixture/cache",
     glob: false,
     nativeAddon: true,
@@ -32,7 +33,7 @@ describe("node native addon", async () => {
 
     const options = new Options();
     const args = [
-      `--nwapp=${resolve("test", "fixture", "out", "package.nw")}`,
+      `--nwapp=${resolve("test", "fixture", "out", "gyp", "package.nw")}`,
       "--headless=new",
     ];
     options.addArguments(args);
