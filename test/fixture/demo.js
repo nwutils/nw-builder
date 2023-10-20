@@ -1,9 +1,9 @@
 import nwbuild from "../../src/index.js";
 
 await nwbuild({
-  srcDir: "app",
+  srcDir: "gyp",
   mode: "build",
   glob: false,
   logLevel: "debug",
-  managedManifest: true,
+  nativeAddon: "gyp",
 });

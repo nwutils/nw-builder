@@ -155,6 +155,7 @@ const nwbuild = async (options) => {
       cacheDir: options.cacheDir,
       cache: options.cache,
       ffmpeg: options.ffmpeg,
+      nativeAddon: options.nativeAddon,
     });
 
     if (options.mode === "get") {
