@@ -42,6 +42,7 @@ export const parse = async (options, pkg) => {
   options.zip = options.zip ?? false;
 
   options.managedManifest = options.managedManifest ?? false;
+  options.nativeAddon = options.nativeAddon ?? false;
 
   options.app = options.app ?? {};
   options.app.name = options.app.name ?? pkg.name;

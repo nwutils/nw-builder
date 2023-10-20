@@ -54,7 +54,8 @@ export const validate = async (options, releaseInfo) => {
     options.logLevel !== "debug"
   ) {
     throw new Error(
-      "Expected 'error', 'warn', 'info' or 'debug'. Got " + options.logLevel,
+      "Expected options.logLevel to be 'error', 'warn', 'info' or 'debug'. Got " +
+        options.logLevel,
     );
   }
 
@@ -97,11 +98,18 @@ export const validate = async (options, releaseInfo) => {
 
   if (typeof options.managedManifest === "object") {
     if (options.managedManifest.name === undefined) {
-      return new Error("Expected NW.js Manifest to have a `name` property.");
+      return new Error(
+        "Expected NW.js Manifest to be a boolean. Got " +
+          typeof options.nativeAddon,
+      );
     }
     if (options.managedManifest.main === undefined) {
       return new Error("Expected NW.js Manifest to have a `main` property.");
     }
+  }
+
+  if (typeof options.nativeAddon !== "boolean") {
+    return new Error("Expected options.nativeAddon to have a `name` property.");
   }
 
   // TODO: Validate app options
