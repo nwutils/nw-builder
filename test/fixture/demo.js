@@ -5,5 +5,5 @@ await nwbuild({
   mode: "build",
   glob: false,
   logLevel: "debug",
-  nativeAddon: "gyp",
+  nativeAddon: "gyp"
 });
