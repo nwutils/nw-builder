@@ -393,6 +393,10 @@ export async function getNodeHeaders({
   if (existsSync(out) === true) {
     log.debug(`Found existing Node headers cache`);
     await compressing.tgz.uncompress(out, cacheDir);
+    await rm(resolve(cacheDir, `node-v${version}-${platform}-${arch}`), {
+      recursive: true,
+      force: true,
+    })
     await rename(
       resolve(cacheDir, "node"),
       resolve(cacheDir, `node-v${version}-${platform}-${arch}`),

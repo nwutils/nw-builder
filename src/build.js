@@ -1,5 +1,6 @@
+import { exec } from "node:child_process";
 import { resolve } from "node:path";
-import { platform as PLATFORM, chdir } from "node:process";
+import { platform as PLATFORM, chdir, exit } from "node:process";
 import {
   cp,
   copyFile,
@@ -14,7 +15,7 @@ import rcedit from "rcedit";
 import plist from "plist";
 
 import { log } from "./log.js";
-import { exec } from "node:child_process";
+
 /**
  * References:
  * https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html
@@ -142,10 +143,15 @@ import { exec } from "node:child_process";
  * @param  {string | string[]}         files            Array of NW app files
  * @param  {string}                    nwDir            Directory to hold NW binaries
  * @param  {string}                    outDir           Directory to store build artifacts
+ * @param  {string}                    cacheDir         Directory to store NW.js related binaries
+ * @param  {string}                    version          NW.js runtime version
  * @param  {"linux" | "osx" | "win"}   platform         Platform is the operating system type
+ * @param  {"ia32" | "x64" | "arm64"}            arch                                      NW supported architectures
  * @param  {"zip" | boolean}           zip              Specify if the build artifacts are to be zipped
  * @param  {boolean | string | object} managedManifest  Managed Manifest mode
  * @param  {string}                    nwPkg            NW.js manifest file
+ * @param  {false | "gyp"}             nativeAddon      Rebuild Node Native Addon 
+ * @param  {string}                    nodeVersion      Version of Node included in NW.js release
  * @param  {LinuxRc | OsxRc | WinRc}   app              Multi platform configuration options
  * @return {Promise<undefined>}
  */
@@ -153,12 +159,18 @@ export async function build(
   files,
   nwDir,
   outDir,
+  cacheDir,
+  version,
   platform,
+  arch,
   zip,
   managedManifest,
   nwPkg,
+  nativeAddon,
+  nodeVersion,
   app,
 ) {
+  log.debug("naa", outDir)
   log.debug(`Remove any files at ${outDir} directory`);
   await rm(outDir, { force: true, recursive: true });
   log.debug(`Copy ${nwDir} files to ${outDir} directory`);
@@ -197,9 +209,12 @@ export async function build(
   let manifest = undefined;
 
   if (
-    typeof managedManifest === "boolean" ||
-    typeof managedManifest === "object" ||
-    typeof managedManifest === "string"
+    managedManifest !== false &&
+    (
+      typeof managedManifest === "boolean" ||
+      typeof managedManifest === "object" ||
+      typeof managedManifest === "string"
+    )
   ) {
     if (managedManifest === true) {
       log.debug("Enable Managed Manifest Mode.");
@@ -409,6 +424,25 @@ export async function build(
     } catch (error) {
       log.error(error);
     }
+  }
+
+  if (nativeAddon === "gyp") {
+    let nodePath = resolve(cacheDir, `node-v${version}-${platform}-${arch}`);
+    log.debug("Native Node Addon (GYP) is enabled.");
+    chdir(
+      resolve(
+        outDir,
+        platform !== "osx"
+          ? "package.nw"
+          : "nwjs.app/Contents/Resources/app.nw",
+      ),
+    );
+
+    log.debug("Rebuilding of Native Node module started");
+    exec(`node-gyp rebuild --target=${nodeVersion} --nodedir=${nodePath}`, (error) => {
+      log.error(error);
+    });
+    log.debug("Rebuilding of Native Node module ended");
   }
 
   if (zip !== false) {

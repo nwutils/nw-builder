@@ -1,9 +1,4 @@
 {
   "name": "gyp",
-  "main": "index.html",
-  "scripts": {
-    "cfg": "node-gyp configure --target=20.5.1 --nodedir=./node",
-    "bld": "node-gyp build --target=20.5.1 --nodedir=./node",
-    "dev": "nw ."
-  }
+  "main": "index.html"
 }

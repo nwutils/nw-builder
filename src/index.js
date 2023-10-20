@@ -1,6 +1,6 @@
 import { mkdir } from "node:fs/promises";
 import { resolve } from "node:path";
-import { arch, platform, version } from "node:process";
+import { arch, exit, platform, version } from "node:process";
 
 import { isCached } from "./util/cache.js";
 import { getFiles } from "./util/files.js";
@@ -179,11 +179,16 @@ const nwbuild = async (options) => {
         options.glob === true ? files : options.srcDir,
         nwDir,
         options.outDir,
+        options.cacheDir,
+        options.version,
         options.platform,
+        options.arch,
         options.zip,
         options.managedManifest,
         manifest,
-        options.app,
+        options.nativeAddon,
+        releaseInfo.components.node,
+        options.app
       );
     }
   } catch (error) {
