@@ -8,12 +8,12 @@ jobs:
   npm:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4.1.0
+      - uses: actions/checkout@v4.1.1
       - uses: actions/setup-node@v3.8.1
         with:
           node-version: 18
 
       - run: npm ci
-      - uses: JS-DevTools/npm-publish@v2.2.2
+      - uses: JS-DevTools/npm-publish@v3.0.0
         with:
           token: ${{ secrets.NPM_TOKEN }}
