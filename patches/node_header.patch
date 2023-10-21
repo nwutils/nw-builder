@@ -1,0 +1,4 @@
+68c68
+<     'v8_host_byteorder': '<!(python -c "import sys; print sys.byteorder")',
+---
+>     'v8_host_byteorder': '<!(python3 -c "import sys; print(sys.byteorder)")',

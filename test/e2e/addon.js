@@ -12,27 +12,28 @@ import { getPlatform } from "../../src/util/platform.js";
 
 const { Driver, ServiceBuilder, Options } = chrome;
 
-describe("test modes", async () => {
+describe("node native addon", async () => {
   let driver = undefined;
 
   let nwOptions = {
-    srcDir: "test/fixture/app",
+    srcDir: "test/fixture/gyp",
     mode: "build",
     version: "0.81.0",
     flavor: "sdk",
     platform: getPlatform(platform),
     arch: getArch(arch),
-    outDir: "test/fixture/out/app",
+    outDir: "test/fixture/out/gyp",
     cacheDir: "test/fixture/cache",
     glob: false,
+    nativeAddon: true,
   };
 
-  it("should run", async () => {
+  it("builds native addon and executes", async () => {
     await nwbuild({ ...nwOptions });
 
     const options = new Options();
     const args = [
-      `--nwapp=${resolve("test", "fixture", "out", "app", "package.nw")}`,
+      `--nwapp=${resolve("test", "fixture", "out", "gyp", "package.nw")}`,
       "--headless=new",
     ];
     options.addArguments(args);
@@ -49,6 +50,6 @@ describe("test modes", async () => {
 
     driver = Driver.createSession(options, service);
     const text = await driver.findElement(By.id("test")).getText();
-    equal(text, "Hello, World!");
+    equal(text, "world");
   });
 });

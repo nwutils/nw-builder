@@ -155,6 +155,7 @@ const nwbuild = async (options) => {
       cacheDir: options.cacheDir,
       cache: options.cache,
       ffmpeg: options.ffmpeg,
+      nativeAddon: options.nativeAddon,
     });
 
     if (options.mode === "get") {
@@ -178,10 +179,15 @@ const nwbuild = async (options) => {
         options.glob === true ? files : options.srcDir,
         nwDir,
         options.outDir,
+        options.cacheDir,
+        options.version,
         options.platform,
+        options.arch,
         options.zip,
         options.managedManifest,
         manifest,
+        options.nativeAddon,
+        releaseInfo.components.node,
         options.app,
       );
     }
