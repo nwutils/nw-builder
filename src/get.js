@@ -21,6 +21,45 @@ import { ARCH_KV, PLATFORM_KV, replaceFfmpeg } from "./util.js";
  * nwbuild({
  *   mode: "get",
  * });
+ * 
+ * @example
+ * // Unofficial macOS builds (upto v0.75.0)
+ * nwbuild({
+ *   mode: "get",
+ *   platform: "osx",
+ *   arch: "arm64",
+ *   downloadUrl: "https://github.com/corwin-of-amber/nw.js/releases/download",
+ *   manifestUrl: "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json",
+ * });
+ *
+ * @example
+ * // China mirror
+ * nwbuild({
+ *  mode: "get",
+ *  downloadUrl: "https://npm.taobao.org/mirrors/nwjs",
+ * });
+ *
+ * @example
+ * // Singapore mirror
+ * nwbuild({
+ *  mode: "get",
+ *  downloadUrl: "https://cnpmjs.org/mirrors/nwjs/",
+ * });
+ * 
+ * @example
+ * // FFMPEG (proprietary codecs)
+ * // Please read the license's constraints: https://nwjs.readthedocs.io/en/latest/For%20Developers/Enable%20Proprietary%20Codecs/#get-ffmpeg-binaries-from-the-community
+ * nwbuild({
+ *   mode: "get",
+ *   ffmpeg: true,
+ * });
+ * 
+ * @example
+ * // Node headers
+ * nwbuild({
+ *   mode: "get",
+ *   nativeAddon: "gyp",
+ * });
  *
  * @param  {object}                   options              Get mode options
  * @param  {string}                   options.version      NW.js runtime version. Defaults to "latest".
@@ -78,32 +117,6 @@ export async function get({
 
 /**
  * Get NW.js binaries
- * 
- * _Note: This an internal function which is not called directly. Please see example usage below._
- * 
- * @example
- * // Unofficial macOS builds (upto v0.75.0)
- * nwbuild({
- *   mode: "get",
- *   platform: "osx",
- *   arch: "arm64",
- *   downloadUrl: "https://github.com/corwin-of-amber/nw.js/releases/download",
- *   manifestUrl: "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json",
- * });
- *
- * @example
- * // China mirror
- * nwbuild({
- *  mode: "get",
- *  downloadUrl: "https://npm.taobao.org/mirrors/nwjs",
- * });
- *
- * @example
- * // Singapore mirror
- * nwbuild({
- *  mode: "get",
- *  downloadUrl: "https://cnpmjs.org/mirrors/nwjs/",
- * });
  *
  * @param  {object}                   options              Get mode options
  * @param  {string}                   options.version      NW.js runtime version. Defaults to "latest".
@@ -253,16 +266,6 @@ async function getNwjs({
 
 /**
  * Get FFmpeg binary.
- * 
- * Note: This an internal function which is not called directly. Please see example usage below.
- * 
- * @example
- * // FFMPEG (proprietary codecs)
- * // Please read the license's constraints: https://nwjs.readthedocs.io/en/latest/For%20Developers/Enable%20Proprietary%20Codecs/#get-ffmpeg-binaries-from-the-community
- * nwbuild({
- *   mode: "get",
- *   ffmpeg: true,
- * });
  *
  * @param  {object}                   options           Get mode options
  * @param  {string}                   options.version   NW.js runtime version. Defaults to "latest".
@@ -367,15 +370,6 @@ async function getFfmpeg({
 /**
  * Get Node headers
  * 
- * _Note: This an internal function which is not called directly. Please see example usage below._
- * 
- * @example
- * // Node headers
- * nwbuild({
- *   mode: "get",
- *   nativeAddon: "gyp",
- * });
- * 
  * @param  {object}                   options           Get mode options
  * @param  {string}                   options.version   NW.js runtime version. Defaults to "latest".
  * @param  {"linux" | "osx" | "win"}  options.platform  Target platform. Defaults to host platform.
@@ -384,11 +378,11 @@ async function getFfmpeg({
  * @param  {string}                   options.cache     If false, remove cache before download. Defaults to true.
  * @return {Promise<void>}
  */
-export async function getNodeHeaders({
-  version,
-  platform,
-  arch,
-  cacheDir,
+async function getNodeHeaders({
+  version = "latest",
+  platform = PLATFORM_KV[PLATFORM],
+  arch = ARCH_KV[ARCH_KV],
+  cacheDir = "./cache",
   cache = true,
 }) {
   const bar = new progress.SingleBar({}, progress.Presets.rect);
@@ -399,16 +393,16 @@ export async function getNodeHeaders({
 
   // If options.cache is false, remove cache.
   if (cache === false) {
-    log.debug(`Removing existing Node headers`);
+    log.debug(`Removing existing Node headers.`);
     await rm(out, {
       recursive: true,
       force: true,
     });
-    log.debug(`Node headers tgz cache removed`);
+    log.debug(`Existing Node headers removed.`);
   }
 
   if (existsSync(out) === true) {
-    log.debug(`Found existing Node headers cache`);
+    log.debug(`Found existing Node headers cache.`);
     await compressing.tgz.uncompress(out, cacheDir);
     await rm(resolve(cacheDir, `node-v${version}-${platform}-${arch}`), {
       recursive: true,
@@ -444,7 +438,7 @@ export async function getNodeHeaders({
       log.debug(`Response from ${url}`);
       let chunks = 0;
       bar.start(Number(response.headers["content-length"]), 0);
-      response.on("data", async (chunk) => {
+      response.on("data", (chunk) => {
         chunks += chunk.length;
         bar.increment();
         bar.update(chunks);
@@ -467,8 +461,6 @@ export async function getNodeHeaders({
   return request
     .then(async () => {
       await compressing.tgz.uncompress(out, cacheDir);
-    })
-    .then(async () => {
       await rename(
         resolve(cacheDir, "node"),
         resolve(cacheDir, `node-v${version}-${platform}-${arch}`),
