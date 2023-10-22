@@ -13,7 +13,7 @@ import { ARCH_KV, PLATFORM_KV, replaceFfmpeg } from "./util.js";
 
 /**
  * Get binaries.
- * 
+ *
  * _Note: This an internal function which is not called directly. Please see example usage below._
  *
  * @example
@@ -21,7 +21,7 @@ import { ARCH_KV, PLATFORM_KV, replaceFfmpeg } from "./util.js";
  * nwbuild({
  *   mode: "get",
  * });
- * 
+ *
  * @example
  * // Unofficial macOS builds (upto v0.75.0)
  * nwbuild({
@@ -45,7 +45,7 @@ import { ARCH_KV, PLATFORM_KV, replaceFfmpeg } from "./util.js";
  *  mode: "get",
  *  downloadUrl: "https://cnpmjs.org/mirrors/nwjs/",
  * });
- * 
+ *
  * @example
  * // FFMPEG (proprietary codecs)
  * // Please read the license's constraints: https://nwjs.readthedocs.io/en/latest/For%20Developers/Enable%20Proprietary%20Codecs/#get-ffmpeg-binaries-from-the-community
@@ -53,7 +53,7 @@ import { ARCH_KV, PLATFORM_KV, replaceFfmpeg } from "./util.js";
  *   mode: "get",
  *   ffmpeg: true,
  * });
- * 
+ *
  * @example
  * // Node headers
  * nwbuild({
@@ -366,7 +366,7 @@ async function getFfmpeg({
 
 /**
  * Get Node headers
- * 
+ *
  * @param  {object}                   options           Get mode options
  * @param  {string}                   options.version   NW.js runtime version. Defaults to "latest".
  * @param  {"linux" | "osx" | "win"}  options.platform  Target platform. Defaults to host platform.
@@ -455,12 +455,11 @@ async function getNodeHeaders({
     });
   });
 
-  return request
-    .then(async () => {
-      await compressing.tgz.uncompress(out, cacheDir);
-      await rename(
-        resolve(cacheDir, "node"),
-        resolve(cacheDir, `node-v${version}-${platform}-${arch}`),
-      );
-    });
+  return request.then(async () => {
+    await compressing.tgz.uncompress(out, cacheDir);
+    await rename(
+      resolve(cacheDir, "node"),
+      resolve(cacheDir, `node-v${version}-${platform}-${arch}`),
+    );
+  });
 }
