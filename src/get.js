@@ -132,122 +132,131 @@ async function get_nwjs({
   cacheDir = "./cache",
   cache = true,
 }) {
-  log.debug(`Start NW.js getting binaries`);
-  let nwCached = true;
-  const nwDir = resolve(
-    cacheDir,
-    `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}`,
-  );
-  let out = undefined;
-  let url = undefined;
   const bar = new progress.SingleBar({}, progress.Presets.rect);
-
-  // Set download url and destination.
-  if (
-    downloadUrl === "https://dl.nwjs.io" ||
-    downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
-    downloadUrl === "https://npmmirror.com/mirrors/nwjs"
-  ) {
-    url = `${downloadUrl}/v${version}/nwjs${
-      flavor === "sdk" ? "-sdk" : ""
-    }-v${version}-${platform}-${arch}.${
+  const out = resolve(
+    cacheDir,
+    `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}.${
       platform === "linux" ? "tar.gz" : "zip"
-    }`;
-    out = resolve(cacheDir, `nw.${platform === "linux" ? "tgz" : "zip"}`);
-  }
-
+    }`,
+  );
   // If options.cache is false, remove cache.
   if (cache === false) {
-    log.debug(`Removing existing NW.js binaries`);
-    await rm(nwDir, { recursive: true, force: true });
+    log.debug(`Removing existing NW.js binaries.`);
+    await rm(out, {
+      recursive: true,
+      force: true,
+    });
+    log.debug(`Existing NW.js binaries removed.`);
   }
 
-  // Check if cache exists.
-  try {
-    await readdir(nwDir);
-    log.debug(`Found existing NW.js binaries`);
-  } catch (error) {
-    log.debug(`No NW.js existing binaries`);
-    nwCached = false;
+  if (existsSync(out) === true) {
+    log.debug(`Found existing NW.js binaries.`);
+    await rm(
+      resolve(
+        cacheDir,
+        `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}`,
+      ),
+      { recursive: true, force: true },
+    );
+    await compressing[platform === "linux" ? "tgz" : "zip"].uncompress(
+      out,
+      cacheDir,
+    );
+
+    return;
   }
 
-  // If not cached, then download.
-  if (nwCached === false) {
-    log.debug(`Downloading NW.js binaries`);
-    await mkdir(nwDir, { recursive: true });
+  const stream = createWriteStream(out);
+  const request = new Promise((resolve, reject) => {
+    let url = "";
 
-    const stream = createWriteStream(out);
-    const request = new Promise((resolve, reject) => {
+    // Set download url and destination.
+    if (
+      downloadUrl === "https://dl.nwjs.io" ||
+      downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
+      downloadUrl === "https://npmmirror.com/mirrors/nwjs"
+    ) {
+      url = `${downloadUrl}/v${version}/nwjs${
+        flavor === "sdk" ? "-sdk" : ""
+      }-v${version}-${platform}-${arch}.${
+        platform === "linux" ? "tar.gz" : "zip"
+      }`;
+    }
+
+    getRequest(url, (response) => {
+      log.debug(`Response from ${url}`);
+      // For GitHub releases and mirrors, we need to follow the redirect.
+      if (
+        downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
+        downloadUrl === "https://npmmirror.com/mirrors/nwjs"
+      ) {
+        url = response.headers.location;
+      }
+
       getRequest(url, (response) => {
         log.debug(`Response from ${url}`);
-        // For GitHub releases and mirrors, we need to follow the redirect.
-        if (
-          downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
-          downloadUrl === "https://npmmirror.com/mirrors/nwjs"
-        ) {
-          url = response.headers.location;
-        }
-
-        getRequest(url, (response) => {
-          log.debug(`Response from ${url}`);
-          let chunks = 0;
-          bar.start(Number(response.headers["content-length"]), 0);
-          response.on("data", async (chunk) => {
-            chunks += chunk.length;
-            bar.increment();
-            bar.update(chunks);
-          });
-
-          response.on("error", (error) => {
-            reject(error);
-          });
-
-          response.on("end", () => {
-            log.debug(`Binary fully downloaded`);
-            bar.stop();
-            if (platform === "linux") {
-              compressing.tgz.uncompress(out, cacheDir).then(() => resolve());
-            } else if (platform === "osx") {
-              //TODO: compressing package does not restore symlinks on some macOS (eg: circleCI)
-              const exec = function (cmd) {
-                log.debug(cmd);
-                const result = spawnSync(cmd, {
-                  shell: true,
-                  stdio: "inherit",
-                });
-                if (result.status !== 0) {
-                  log.debug(`Command failed with status ${result.status}`);
-                  if (result.error) console.log(result.error);
-                  EXIT(1);
-                }
-                return resolve();
-              };
-              exec(`unzip -o "${out}" -d "${cacheDir}"`);
-            } else {
-              compressing.zip.uncompress(out, cacheDir).then(() => resolve());
-            }
-          });
-
-          response.pipe(stream);
+        let chunks = 0;
+        bar.start(Number(response.headers["content-length"]), 0);
+        response.on("data", (chunk) => {
+          chunks += chunk.length;
+          bar.increment();
+          bar.update(chunks);
         });
 
         response.on("error", (error) => {
           reject(error);
         });
+
+        response.on("end", () => {
+          log.debug(`Binary fully downloaded`);
+          bar.stop();
+          resolve();
+        });
+
+        response.pipe(stream);
+      });
+
+      response.on("error", (error) => {
+        reject(error);
       });
     });
+  });
 
-    // Remove compressed file after download and decompress.
-    return request.then(async () => {
-      log.debug(`NW.js binary decompressed starting removal`);
+  return request.then(async () => {
+    await rm(
+      resolve(
+        cacheDir,
+        `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}`,
+      ),
+      { recursive: true, force: true },
+    );
 
-      await rm(
-        resolve(cacheDir, `nw.${platform === "linux" ? "tgz" : "zip"}`),
-        { recursive: true, force: true },
+    if (platform === "osx" && PLATFORM === "darwin") {
+      //TODO: compressing package does not restore symlinks on some macOS (eg: circleCI)
+      //Workaround: Do not reply on symlinks.
+      const exec = function (cmd) {
+        log.debug(cmd);
+        const result = spawnSync(cmd, {
+          shell: true,
+          stdio: "inherit",
+        });
+        if (result.status !== 0) {
+          log.debug(`Command failed with status ${result.status}`);
+          if (result.error) {
+            console.log(result.error);
+          }
+          EXIT(1);
+        }
+        return resolve();
+      };
+      exec(`unzip -o "${out}" -d "${cacheDir}"`);
+    } else {
+      await compressing[platform === "linux" ? "tgz" : "zip"].uncompress(
+        out,
+        cacheDir,
       );
-      log.debug(`NW.js binary zip removed`);
-    });
-  }
+    }
+  });
 }
 
 /**
