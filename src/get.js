@@ -12,46 +12,14 @@ import { log } from "./log.js";
 import { ARCH_KV, PLATFORM_KV, replaceFfmpeg } from "./util.js";
 
 /**
- * _Note: This an internal function which is not called directly. Please see example usage below._
- *
  * Get binaries.
+ * 
+ * _Note: This an internal function which is not called directly. Please see example usage below._
  *
  * @example
  * // Minimal Usage (uses default values)
  * nwbuild({
  *   mode: "get",
- * });
- *
- * @example
- * // Unofficial macOS builds (upto v0.75.0)
- * nwbuild({
- *   mode: "get",
- *   platform: "osx",
- *   arch: "arm64",
- *   downloadUrl: "https://github.com/corwin-of-amber/nw.js/releases/download",
- *   manifestUrl: "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json",
- * });
- *
- * @example
- * // China mirror
- * nwbuild({
- *  mode: "get",
- *  downloadUrl: "https://npm.taobao.org/mirrors/nwjs",
- * });
- *
- * @example
- * // Singapore mirror
- * nwbuild({
- *  mode: "get",
- *  downloadUrl: "https://cnpmjs.org/mirrors/nwjs/",
- * });
- *
- * @example
- * // FFMPEG (proprietary codecs)
- * // Please read the license's constraints: https://nwjs.readthedocs.io/en/latest/For%20Developers/Enable%20Proprietary%20Codecs/#get-ffmpeg-binaries-from-the-community
- * nwbuild({
- *   mode: "get",
- *   ffmpeg: true,
  * });
  *
  * @param  {object}                   options              Get mode options
@@ -77,7 +45,7 @@ export async function get({
   ffmpeg = false,
   nativeAddon = false,
 }) {
-  await get_nwjs({
+  await getNwjs({
     version,
     flavor,
     platform,
@@ -87,7 +55,7 @@ export async function get({
     cache,
   });
   if (ffmpeg === true) {
-    await get_ffmpeg({
+    await getFfmpeg({
       version,
       flavor,
       platform,
@@ -109,9 +77,33 @@ export async function get({
 }
 
 /**
- * Note: This an internal function which is not called directly. Please see example usage below.
- *
  * Get NW.js binaries
+ * 
+ * _Note: This an internal function which is not called directly. Please see example usage below._
+ * 
+ * @example
+ * // Unofficial macOS builds (upto v0.75.0)
+ * nwbuild({
+ *   mode: "get",
+ *   platform: "osx",
+ *   arch: "arm64",
+ *   downloadUrl: "https://github.com/corwin-of-amber/nw.js/releases/download",
+ *   manifestUrl: "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json",
+ * });
+ *
+ * @example
+ * // China mirror
+ * nwbuild({
+ *  mode: "get",
+ *  downloadUrl: "https://npm.taobao.org/mirrors/nwjs",
+ * });
+ *
+ * @example
+ * // Singapore mirror
+ * nwbuild({
+ *  mode: "get",
+ *  downloadUrl: "https://cnpmjs.org/mirrors/nwjs/",
+ * });
  *
  * @param  {object}                   options              Get mode options
  * @param  {string}                   options.version      NW.js runtime version. Defaults to "latest".
@@ -123,7 +115,7 @@ export async function get({
  * @param  {boolean}                  options.cache        If false, remove cache before download. Defaults to true.
  * @return {Promise<void>}
  */
-async function get_nwjs({
+async function getNwjs({
   version = "latest",
   flavor = "normal",
   platform = PLATFORM_KV[PLATFORM],
@@ -260,10 +252,17 @@ async function get_nwjs({
 }
 
 /**
- *
- * Note: This an internal function which is not called directly. Please see example usage below.
- *
  * Get FFmpeg binary.
+ * 
+ * Note: This an internal function which is not called directly. Please see example usage below.
+ * 
+ * @example
+ * // FFMPEG (proprietary codecs)
+ * // Please read the license's constraints: https://nwjs.readthedocs.io/en/latest/For%20Developers/Enable%20Proprietary%20Codecs/#get-ffmpeg-binaries-from-the-community
+ * nwbuild({
+ *   mode: "get",
+ *   ffmpeg: true,
+ * });
  *
  * @param  {object}                   options           Get mode options
  * @param  {string}                   options.version   NW.js runtime version. Defaults to "latest".
@@ -274,7 +273,7 @@ async function get_nwjs({
  * @param  {boolean}                  options.cache     If false, remove cache before download. Defaults to true.
  * @return {Promise<void>}
  */
-async function get_ffmpeg({
+async function getFfmpeg({
   version = "latest",
   flavor = "normal",
   platform = PLATFORM_KV[PLATFORM],
@@ -367,7 +366,16 @@ async function get_ffmpeg({
 
 /**
  * Get Node headers
- *
+ * 
+ * _Note: This an internal function which is not called directly. Please see example usage below._
+ * 
+ * @example
+ * // Node headers
+ * nwbuild({
+ *   mode: "get",
+ *   nativeAddon: "gyp",
+ * });
+ * 
  * @param  {object}                   options           Get mode options
  * @param  {string}                   options.version   NW.js runtime version. Defaults to "latest".
  * @param  {"linux" | "osx" | "win"}  options.platform  Target platform. Defaults to host platform.
