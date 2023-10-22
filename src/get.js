@@ -189,7 +189,6 @@ async function getNwjs({
     }
 
     getRequest(url, (response) => {
-      log.debug(`Response from ${url}`);
       // For GitHub releases and mirrors, we need to follow the redirect.
       if (
         downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
@@ -199,7 +198,7 @@ async function getNwjs({
       }
 
       getRequest(url, (response) => {
-        log.debug(`Response from ${url}`);
+        log.debug(`Downloading from ${url}`);
         let chunks = 0;
         bar.start(Number(response.headers["content-length"]), 0);
         response.on("data", (chunk) => {
@@ -213,7 +212,7 @@ async function getNwjs({
         });
 
         response.on("end", () => {
-          log.debug(`Binary fully downloaded`);
+          log.debug(`NW.js download complete.`);
           bar.stop();
           resolve();
         });
@@ -228,6 +227,7 @@ async function getNwjs({
   });
 
   return request.then(async () => {
+    log.debug("Remove existing NW.js before decompression.");
     await rm(
       resolve(
         cacheDir,
@@ -235,10 +235,10 @@ async function getNwjs({
       ),
       { recursive: true, force: true },
     );
-
+    log.debug("Decompress NW.js binaries.");
     if (platform === "osx" && PLATFORM === "darwin") {
       //TODO: compressing package does not restore symlinks on some macOS (eg: circleCI)
-      //Workaround: Do not reply on symlinks.
+      //Workaround: Do not rely on symlinks.
       const exec = function (cmd) {
         log.debug(cmd);
         const result = spawnSync(cmd, {
@@ -284,7 +284,6 @@ async function getFfmpeg({
   cacheDir = "./cache",
   cache = true,
 }) {
-  log.debug(`Start getting FFmpeg binaries`);
   const nwDir = resolve(
     cacheDir,
     `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}`,
@@ -299,31 +298,29 @@ async function getFfmpeg({
 
   // If options.cache is false, remove cache.
   if (cache === false) {
-    log.debug(`Removing existing FFmpeg binaries`);
+    log.debug(`Removing existing FFmpeg binary.`);
     await rm(out, {
       recursive: true,
       force: true,
     });
-    log.debug(`FFMPEG zip cache removed`);
+    log.debug(`Existing FFmpeg binary removed.`);
   }
 
   // Check if cache exists.
   if (existsSync(out) === true) {
-    log.debug(`Found existing FFMPEG cache`);
+    log.debug(`Found existing FFmpeg binary.`);
     await compressing.zip.uncompress(out, nwDir);
     return;
   }
 
-  log.debug(`Downloading FFmpeg binary`);
   const stream = createWriteStream(out);
   const request = new Promise((resolve, reject) => {
     getRequest(url, (response) => {
-      log.debug(`Response from ${url}`);
       // For GitHub releases and mirrors, we need to follow the redirect.
       url = response.headers.location;
 
       getRequest(url, (response) => {
-        log.debug(`Response from ${url}`);
+        log.debug(`Downloading from ${url}`);
         let chunks = 0;
         bar.start(Number(response.headers["content-length"]), 0);
         response.on("data", async (chunk) => {
@@ -337,7 +334,7 @@ async function getFfmpeg({
         });
 
         response.on("end", () => {
-          log.debug(`FFMPEG fully downloaded`);
+          log.debug(`FFmpeg download complete.`);
           bar.stop();
           resolve();
         });
@@ -357,12 +354,12 @@ async function getFfmpeg({
     .then(async () => await replaceFfmpeg(platform, nwDir))
     .then(async () => {
       if (cache === false) {
-        log.debug(`Removing FFMPEG zip cache`);
+        log.debug(`Removing FFmpeg zip cache.`);
         await rm(out, {
           recursive: true,
           force: true,
         });
-        log.debug(`FFMPEG zip cache removed`);
+        log.debug(`FFmpeg zip cache removed.`);
       }
     });
 }
