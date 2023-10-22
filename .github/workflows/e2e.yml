@@ -20,7 +20,7 @@ jobs:
       - name: Install packages
         uses: ConorMacBride/install-package@v1.1.0
         with:
-          brew: unzip patch
+          brew: unzip gpatch
           choco: patch
           apt: patch
       - name: Checkout repository
