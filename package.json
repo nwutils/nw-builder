@@ -54,7 +54,7 @@
   },
   "devDependencies": {
     "concurrently": "^8.2.1",
-    "eslint": "^8.51.0",
+    "eslint": "^8.52.0",
     "eslint-config-tjw-jsdoc": "^1.0.4",
     "gh-pages": "^6.0.0",
     "jsdoc": "^4.0.2",
