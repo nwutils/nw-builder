@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.4.2-beta.3] - 2023-10-23
+
+### Added
+
+- Align cache implementation with `nwjs/npm-installer`
+- `nw` module can [use the `options.cacheDir`](https://github.com/nwjs/npm-installer#retrieve-binaries-from-custom-download-location-or-file-path) to get cached NW.js binaries.
+
 ## [4.4.2-beta.2] - 2023-10-20
 
 ### Added
