@@ -35,9 +35,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Check for formatting errors
-        run: npm run ci:fmt
+        run: npm run fmt:check
       - name: Check for linting errors
-        run: npm run ci:lnt
+        run: npm run lnt:check
       - name: Link module
         run: npm link nw-builder
       - name: Run unit tests
