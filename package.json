@@ -1,6 +1,6 @@
 {
   "name": "nw-builder",
-  "version": "4.4.2-beta.2",
+  "version": "4.4.2-beta.3",
   "description": "Build NW.js desktop applications for MacOS, Windows and Linux.",
   "keywords": [
     "NW.js",
@@ -42,11 +42,11 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
-    "ci:fmt": "prettier --check \"./**/*.{css,html,js,json,md,yml}\"",
-    "ci:lnt": "eslint --config=.github/eslint.config.cjs .github src test",
     "fmt": "prettier --write \"./**/*.{css,html,js,json,md,yml}\"",
+    "fmt:check": "prettier --check \"./**/*.{css,html,js,json,md,yml}\"",
     "lnt": "eslint --config=.github/eslint.config.cjs --fix src test",
-    "doc:dev": "concurrently --kill-others \"node .github/fswatch.config.js\" \"vitepress dev doc\"",
+    "lnt:check": "eslint --config=.github/eslint.config.cjs .github src test",
+    "doc:dev": "concurrently \"node .github/fswatch.config.js\" \"vitepress dev doc\"",
     "doc:bld": "node .github/jsdoc.config.cjs && vitepress build doc",
     "test:unit": "node --test test/unit/index.js",
     "test:e2e": "node test/e2e/index.js",

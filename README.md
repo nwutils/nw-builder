@@ -12,7 +12,8 @@ For version 3, please go to the [corresponding branch](https://github.com/nwutil
 - Get, run or build applications.
 - Integrate [FFmpeg community builds](https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt)
 - Configure executable fields and icons
-- Support downloading from mirrors
+- Downloading from mirrors
+- Node Native Addon support
 
 Check out the [documentation](https://nwutils.io/nw-builder/) if you wish to give `nw-builder` a try.
 

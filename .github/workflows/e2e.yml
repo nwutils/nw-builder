@@ -20,7 +20,9 @@ jobs:
       - name: Install packages
         uses: ConorMacBride/install-package@v1.1.0
         with:
-          brew: unzip
+          brew: unzip gpatch
+          choco: patch
+          apt: patch
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
       - name: Setup Node
@@ -33,9 +35,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Check for formatting errors
-        run: npm run ci:fmt
+        run: npm run fmt:check
       - name: Check for linting errors
-        run: npm run ci:lnt
+        run: npm run lnt:check
       - name: Link module
         run: npm link nw-builder
       - name: Run unit tests

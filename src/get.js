@@ -1,6 +1,6 @@
 import { exec, spawnSync } from "node:child_process";
 import { createWriteStream, existsSync } from "node:fs";
-import { mkdir, readdir, rename, rm } from "node:fs/promises";
+import { rename, rm } from "node:fs/promises";
 import { get as getRequest } from "node:https";
 import { resolve } from "node:path";
 import { arch as ARCH, platform as PLATFORM, exit as EXIT } from "node:process";
@@ -12,9 +12,9 @@ import { log } from "./log.js";
 import { ARCH_KV, PLATFORM_KV, replaceFfmpeg } from "./util.js";
 
 /**
- * _Note: This an internal function which is not called directly. Please see example usage below._
- *
  * Get binaries.
+ *
+ * _Note: This an internal function which is not called directly. Please see example usage below._
  *
  * @example
  * // Minimal Usage (uses default values)
@@ -54,6 +54,13 @@ import { ARCH_KV, PLATFORM_KV, replaceFfmpeg } from "./util.js";
  *   ffmpeg: true,
  * });
  *
+ * @example
+ * // Node headers
+ * nwbuild({
+ *   mode: "get",
+ *   nativeAddon: "gyp",
+ * });
+ *
  * @param  {object}                   options              Get mode options
  * @param  {string}                   options.version      NW.js runtime version. Defaults to "latest".
  * @param  {"normal" | "sdk"}         options.flavor       NW.js build flavor. Defaults to "normal".
@@ -77,7 +84,7 @@ export async function get({
   ffmpeg = false,
   nativeAddon = false,
 }) {
-  await get_nwjs({
+  await getNwjs({
     version,
     flavor,
     platform,
@@ -87,7 +94,7 @@ export async function get({
     cache,
   });
   if (ffmpeg === true) {
-    await get_ffmpeg({
+    await getFfmpeg({
       version,
       flavor,
       platform,
@@ -109,8 +116,6 @@ export async function get({
 }
 
 /**
- * Note: This an internal function which is not called directly. Please see example usage below.
- *
  * Get NW.js binaries
  *
  * @param  {object}                   options              Get mode options
@@ -123,7 +128,7 @@ export async function get({
  * @param  {boolean}                  options.cache        If false, remove cache before download. Defaults to true.
  * @return {Promise<void>}
  */
-async function get_nwjs({
+async function getNwjs({
   version = "latest",
   flavor = "normal",
   platform = PLATFORM_KV[PLATFORM],
@@ -132,128 +137,134 @@ async function get_nwjs({
   cacheDir = "./cache",
   cache = true,
 }) {
-  log.debug(`Start NW.js getting binaries`);
-  let nwCached = true;
-  const nwDir = resolve(
-    cacheDir,
-    `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}`,
-  );
-  let out = undefined;
-  let url = undefined;
   const bar = new progress.SingleBar({}, progress.Presets.rect);
-
-  // Set download url and destination.
-  if (
-    downloadUrl === "https://dl.nwjs.io" ||
-    downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
-    downloadUrl === "https://npmmirror.com/mirrors/nwjs"
-  ) {
-    url = `${downloadUrl}/v${version}/nwjs${
-      flavor === "sdk" ? "-sdk" : ""
-    }-v${version}-${platform}-${arch}.${
+  const out = resolve(
+    cacheDir,
+    `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}.${
       platform === "linux" ? "tar.gz" : "zip"
-    }`;
-    out = resolve(cacheDir, `nw.${platform === "linux" ? "tgz" : "zip"}`);
-  }
-
+    }`,
+  );
   // If options.cache is false, remove cache.
   if (cache === false) {
-    log.debug(`Removing existing NW.js binaries`);
-    await rm(nwDir, { recursive: true, force: true });
+    log.debug(`Removing existing NW.js binaries.`);
+    await rm(out, {
+      recursive: true,
+      force: true,
+    });
+    log.debug(`Existing NW.js binaries removed.`);
   }
 
-  // Check if cache exists.
-  try {
-    await readdir(nwDir);
-    log.debug(`Found existing NW.js binaries`);
-  } catch (error) {
-    log.debug(`No NW.js existing binaries`);
-    nwCached = false;
+  if (existsSync(out) === true) {
+    log.debug(`Found existing NW.js binaries.`);
+    await rm(
+      resolve(
+        cacheDir,
+        `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}`,
+      ),
+      { recursive: true, force: true },
+    );
+    await compressing[platform === "linux" ? "tgz" : "zip"].uncompress(
+      out,
+      cacheDir,
+    );
+
+    return;
   }
 
-  // If not cached, then download.
-  if (nwCached === false) {
-    log.debug(`Downloading NW.js binaries`);
-    await mkdir(nwDir, { recursive: true });
+  const stream = createWriteStream(out);
+  const request = new Promise((resolve, reject) => {
+    let url = "";
 
-    const stream = createWriteStream(out);
-    const request = new Promise((resolve, reject) => {
+    // Set download url and destination.
+    if (
+      downloadUrl === "https://dl.nwjs.io" ||
+      downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
+      downloadUrl === "https://npmmirror.com/mirrors/nwjs"
+    ) {
+      url = `${downloadUrl}/v${version}/nwjs${
+        flavor === "sdk" ? "-sdk" : ""
+      }-v${version}-${platform}-${arch}.${
+        platform === "linux" ? "tar.gz" : "zip"
+      }`;
+    }
+
+    getRequest(url, (response) => {
+      // For GitHub releases and mirrors, we need to follow the redirect.
+      if (
+        downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
+        downloadUrl === "https://npmmirror.com/mirrors/nwjs"
+      ) {
+        url = response.headers.location;
+      }
+
       getRequest(url, (response) => {
-        log.debug(`Response from ${url}`);
-        // For GitHub releases and mirrors, we need to follow the redirect.
-        if (
-          downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
-          downloadUrl === "https://npmmirror.com/mirrors/nwjs"
-        ) {
-          url = response.headers.location;
-        }
-
-        getRequest(url, (response) => {
-          log.debug(`Response from ${url}`);
-          let chunks = 0;
-          bar.start(Number(response.headers["content-length"]), 0);
-          response.on("data", async (chunk) => {
-            chunks += chunk.length;
-            bar.increment();
-            bar.update(chunks);
-          });
-
-          response.on("error", (error) => {
-            reject(error);
-          });
-
-          response.on("end", () => {
-            log.debug(`Binary fully downloaded`);
-            bar.stop();
-            if (platform === "linux") {
-              compressing.tgz.uncompress(out, cacheDir).then(() => resolve());
-            } else if (platform === "osx") {
-              //TODO: compressing package does not restore symlinks on some macOS (eg: circleCI)
-              const exec = function (cmd) {
-                log.debug(cmd);
-                const result = spawnSync(cmd, {
-                  shell: true,
-                  stdio: "inherit",
-                });
-                if (result.status !== 0) {
-                  log.debug(`Command failed with status ${result.status}`);
-                  if (result.error) console.log(result.error);
-                  EXIT(1);
-                }
-                return resolve();
-              };
-              exec(`unzip -o "${out}" -d "${cacheDir}"`);
-            } else {
-              compressing.zip.uncompress(out, cacheDir).then(() => resolve());
-            }
-          });
-
-          response.pipe(stream);
+        log.debug(`Downloading from ${url}`);
+        let chunks = 0;
+        bar.start(Number(response.headers["content-length"]), 0);
+        response.on("data", (chunk) => {
+          chunks += chunk.length;
+          bar.increment();
+          bar.update(chunks);
         });
 
         response.on("error", (error) => {
           reject(error);
         });
+
+        response.on("end", () => {
+          log.debug(`NW.js download complete.`);
+          bar.stop();
+          resolve();
+        });
+
+        response.pipe(stream);
+      });
+
+      response.on("error", (error) => {
+        reject(error);
       });
     });
+  });
 
-    // Remove compressed file after download and decompress.
-    return request.then(async () => {
-      log.debug(`NW.js binary decompressed starting removal`);
-
-      await rm(
-        resolve(cacheDir, `nw.${platform === "linux" ? "tgz" : "zip"}`),
-        { recursive: true, force: true },
+  return request.then(async () => {
+    log.debug("Remove existing NW.js before decompression.");
+    await rm(
+      resolve(
+        cacheDir,
+        `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}`,
+      ),
+      { recursive: true, force: true },
+    );
+    log.debug("Decompress NW.js binaries.");
+    if (platform === "osx" && PLATFORM === "darwin") {
+      //TODO: compressing package does not restore symlinks on some macOS (eg: circleCI)
+      //Workaround: Do not rely on symlinks.
+      const exec = function (cmd) {
+        log.debug(cmd);
+        const result = spawnSync(cmd, {
+          shell: true,
+          stdio: "inherit",
+        });
+        if (result.status !== 0) {
+          log.debug(`Command failed with status ${result.status}`);
+          if (result.error) {
+            console.log(result.error);
+          }
+          EXIT(1);
+        }
+        return resolve();
+      };
+      exec(`unzip -o "${out}" -d "${cacheDir}"`);
+    } else {
+      await compressing[platform === "linux" ? "tgz" : "zip"].uncompress(
+        out,
+        cacheDir,
       );
-      log.debug(`NW.js binary zip removed`);
-    });
-  }
+    }
+  });
 }
 
 /**
- *
- * Note: This an internal function which is not called directly. Please see example usage below.
- *
  * Get FFmpeg binary.
  *
  * @param  {object}                   options           Get mode options
@@ -265,7 +276,7 @@ async function get_nwjs({
  * @param  {boolean}                  options.cache     If false, remove cache before download. Defaults to true.
  * @return {Promise<void>}
  */
-async function get_ffmpeg({
+async function getFfmpeg({
   version = "latest",
   flavor = "normal",
   platform = PLATFORM_KV[PLATFORM],
@@ -273,7 +284,6 @@ async function get_ffmpeg({
   cacheDir = "./cache",
   cache = true,
 }) {
-  log.debug(`Start getting FFmpeg binaries`);
   const nwDir = resolve(
     cacheDir,
     `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}`,
@@ -288,31 +298,29 @@ async function get_ffmpeg({
 
   // If options.cache is false, remove cache.
   if (cache === false) {
-    log.debug(`Removing existing FFmpeg binaries`);
+    log.debug(`Removing existing FFmpeg binary.`);
     await rm(out, {
       recursive: true,
       force: true,
     });
-    log.debug(`FFMPEG zip cache removed`);
+    log.debug(`Existing FFmpeg binary removed.`);
   }
 
   // Check if cache exists.
   if (existsSync(out) === true) {
-    log.debug(`Found existing FFMPEG cache`);
+    log.debug(`Found existing FFmpeg binary.`);
     await compressing.zip.uncompress(out, nwDir);
     return;
   }
 
-  log.debug(`Downloading FFmpeg binary`);
   const stream = createWriteStream(out);
   const request = new Promise((resolve, reject) => {
     getRequest(url, (response) => {
-      log.debug(`Response from ${url}`);
       // For GitHub releases and mirrors, we need to follow the redirect.
       url = response.headers.location;
 
       getRequest(url, (response) => {
-        log.debug(`Response from ${url}`);
+        log.debug(`Downloading from ${url}`);
         let chunks = 0;
         bar.start(Number(response.headers["content-length"]), 0);
         response.on("data", async (chunk) => {
@@ -326,7 +334,7 @@ async function get_ffmpeg({
         });
 
         response.on("end", () => {
-          log.debug(`FFMPEG fully downloaded`);
+          log.debug(`FFmpeg download complete.`);
           bar.stop();
           resolve();
         });
@@ -341,19 +349,10 @@ async function get_ffmpeg({
   });
 
   // Remove compressed file after download and decompress.
-  return request
-    .then(async () => await compressing.zip.uncompress(out, nwDir))
-    .then(async () => await replaceFfmpeg(platform, nwDir))
-    .then(async () => {
-      if (cache === false) {
-        log.debug(`Removing FFMPEG zip cache`);
-        await rm(out, {
-          recursive: true,
-          force: true,
-        });
-        log.debug(`FFMPEG zip cache removed`);
-      }
-    });
+  return request.then(async () => {
+    await compressing.zip.uncompress(out, nwDir);
+    await replaceFfmpeg(platform, nwDir);
+  });
 }
 
 /**
@@ -367,11 +366,11 @@ async function get_ffmpeg({
  * @param  {string}                   options.cache     If false, remove cache before download. Defaults to true.
  * @return {Promise<void>}
  */
-export async function getNodeHeaders({
-  version,
-  platform,
-  arch,
-  cacheDir,
+async function getNodeHeaders({
+  version = "latest",
+  platform = PLATFORM_KV[PLATFORM],
+  arch = ARCH_KV[ARCH_KV],
+  cacheDir = "./cache",
   cache = true,
 }) {
   const bar = new progress.SingleBar({}, progress.Presets.rect);
@@ -382,16 +381,16 @@ export async function getNodeHeaders({
 
   // If options.cache is false, remove cache.
   if (cache === false) {
-    log.debug(`Removing existing Node headers`);
+    log.debug(`Removing existing Node headers.`);
     await rm(out, {
       recursive: true,
       force: true,
     });
-    log.debug(`Node headers tgz cache removed`);
+    log.debug(`Existing Node headers removed.`);
   }
 
   if (existsSync(out) === true) {
-    log.debug(`Found existing Node headers cache`);
+    log.debug(`Found existing Node headers cache.`);
     await compressing.tgz.uncompress(out, cacheDir);
     await rm(resolve(cacheDir, `node-v${version}-${platform}-${arch}`), {
       recursive: true,
@@ -427,7 +426,7 @@ export async function getNodeHeaders({
       log.debug(`Response from ${url}`);
       let chunks = 0;
       bar.start(Number(response.headers["content-length"]), 0);
-      response.on("data", async (chunk) => {
+      response.on("data", (chunk) => {
         chunks += chunk.length;
         bar.increment();
         bar.update(chunks);
@@ -447,14 +446,11 @@ export async function getNodeHeaders({
     });
   });
 
-  return request
-    .then(async () => {
-      await compressing.tgz.uncompress(out, cacheDir);
-    })
-    .then(async () => {
-      await rename(
-        resolve(cacheDir, "node"),
-        resolve(cacheDir, `node-v${version}-${platform}-${arch}`),
-      );
-    });
+  return request.then(async () => {
+    await compressing.tgz.uncompress(out, cacheDir);
+    await rename(
+      resolve(cacheDir, "node"),
+      resolve(cacheDir, `node-v${version}-${platform}-${arch}`),
+    );
+  });
 }

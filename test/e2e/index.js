@@ -1,5 +1,5 @@
 import { resolve } from "node:path";
-import { stdout, version } from "node:process";
+import { stderr, version } from "node:process";
 import { run } from "node:test";
 
 await executeTests();
@@ -21,6 +21,6 @@ async function executeTests() {
       files: tests,
     })
       .compose(tap)
-      .pipe(stdout);
+      .pipe(stderr);
   }
 }
