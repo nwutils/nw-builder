@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Use `yauzl-promise` to decompress MacOS build on MacOS platform.
 
+### Removed
+
+- Native package `unzip` usage.
+
 ## [4.4.2-beta.3] - 2023-10-23
 
 ### Added
