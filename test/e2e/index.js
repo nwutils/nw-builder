@@ -4,6 +4,9 @@ import { run } from "node:test";
 
 await executeTests();
 
+/**
+ *
+ */
 async function executeTests() {
   let tests = [
     resolve("test", "e2e", "addon.js"),
