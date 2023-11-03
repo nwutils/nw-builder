@@ -1,15 +1,15 @@
 import { exec } from "node:child_process";
 import { createWriteStream, existsSync } from "node:fs";
-import { mkdir } from "node:fs/promises";
+// import { mkdir } from "node:fs/promises";
 import { rename, rm } from "node:fs/promises";
 import { get as getRequest } from "node:https";
 import { resolve } from "node:path";
 import { arch as ARCH, platform as PLATFORM } from "node:process";
-import { pipeline } from "node:stream";
+// import { pipeline } from "node:stream";
 
 import progress from "cli-progress";
 import compressing from "compressing";
-import yauzl from "yauzl-promise";
+// import yauzl from "yauzl-promise";
 
 import { log } from "./log.js";
 import { ARCH_KV, PLATFORM_KV, replaceFfmpeg } from "./util.js";
@@ -239,29 +239,29 @@ async function getNwjs({
       { recursive: true, force: true },
     );
     log.debug("Decompress NW.js binaries.");
-    if (false && platform === "osx" && PLATFORM === "darwin") {
-      const zip = await yauzl.open(out);
-      try {
-        for await (const entry of zip) {
-          if (entry.filename.endsWith("/")) {
-            await mkdir(`${cacheDir}/${entry.filename}`);
-          } else {
-            const readStream = await entry.openReadStream();
-            const writeStream = createWriteStream(
-              `${cacheDir}/${entry.filename}`,
-            );
-            await pipeline(readStream, writeStream);
-          }
-        }
-      } finally {
-        await zip.close();
-      }
-    } else {
-      await compressing[platform === "linux" ? "tgz" : "zip"].uncompress(
-        out,
-        cacheDir,
-      );
-    }
+    // if (platform === "osx" && PLATFORM === "darwin") {
+    //   const zip = await yauzl.open(out);
+    //   try {
+    //     for await (const entry of zip) {
+    //       if (entry.filename.endsWith("/")) {
+    //         await mkdir(`${cacheDir}/${entry.filename}`);
+    //       } else {
+    //         const readStream = await entry.openReadStream();
+    //         const writeStream = createWriteStream(
+    //           `${cacheDir}/${entry.filename}`,
+    //         );
+    //         await pipeline(readStream, writeStream);
+    //       }
+    //     }
+    //   } finally {
+    //     await zip.close();
+    //   }
+    // } else {
+    await compressing[platform === "linux" ? "tgz" : "zip"].uncompress(
+      out,
+      cacheDir,
+    );
+    // }
   });
 }
 
