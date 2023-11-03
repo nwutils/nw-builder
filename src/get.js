@@ -143,7 +143,8 @@ async function getNwjs({
   const bar = new progress.SingleBar({}, progress.Presets.rect);
   const out = resolve(
     cacheDir,
-    `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}.${platform === "linux" ? "tar.gz" : "zip"
+    `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}.${
+      platform === "linux" ? "tar.gz" : "zip"
     }`,
   );
   // If options.cache is false, remove cache.
@@ -183,9 +184,11 @@ async function getNwjs({
       downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
       downloadUrl === "https://npmmirror.com/mirrors/nwjs"
     ) {
-      url = `${downloadUrl}/v${version}/nwjs${flavor === "sdk" ? "-sdk" : ""
-        }-v${version}-${platform}-${arch}.${platform === "linux" ? "tar.gz" : "zip"
-        }`;
+      url = `${downloadUrl}/v${version}/nwjs${
+        flavor === "sdk" ? "-sdk" : ""
+      }-v${version}-${platform}-${arch}.${
+        platform === "linux" ? "tar.gz" : "zip"
+      }`;
     }
 
     getRequest(url, (response) => {
@@ -401,13 +404,13 @@ async function getNodeHeaders({
 
     exec(
       "patch " +
-      resolve(
-        cacheDir,
-        `node-v${version}-${platform}-${arch}`,
-        "common.gypi",
-      ) +
-      " " +
-      resolve("..", "..", "patches", "node_header.patch"),
+        resolve(
+          cacheDir,
+          `node-v${version}-${platform}-${arch}`,
+          "common.gypi",
+        ) +
+        " " +
+        resolve("..", "..", "patches", "node_header.patch"),
       (error) => {
         log.error(error);
       },
