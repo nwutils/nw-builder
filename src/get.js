@@ -252,7 +252,6 @@ async function getNwjs({
           }
           EXIT(1);
         }
-        return resolve();
       };
       exec(`unzip -o "${out}" -d "${cacheDir}"`);
     } else {

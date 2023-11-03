@@ -71,7 +71,8 @@
     "plist": "^3.1.0",
     "rcedit": "^4.0.0",
     "winston": "^3.11.0",
-    "yargs": "^17.7.2"
+    "yargs": "^17.7.2",
+    "yauzl-promise": "^4.0.0"
   },
   "packageManager": "npm@10.2.0",
   "engines": {
