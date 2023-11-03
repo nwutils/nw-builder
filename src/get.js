@@ -1,6 +1,6 @@
 import { exec } from "node:child_process";
 import { createWriteStream, existsSync } from "node:fs";
-import { mkdir } from 'node:fs/promises'
+import { mkdir } from "node:fs/promises";
 import { rename, rm } from "node:fs/promises";
 import { get as getRequest } from "node:https";
 import { resolve } from "node:path";
@@ -142,7 +142,8 @@ async function getNwjs({
   const bar = new progress.SingleBar({}, progress.Presets.rect);
   const out = resolve(
     cacheDir,
-    `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}.${platform === "linux" ? "tar.gz" : "zip"
+    `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}.${
+      platform === "linux" ? "tar.gz" : "zip"
     }`,
   );
   // If options.cache is false, remove cache.
@@ -182,9 +183,11 @@ async function getNwjs({
       downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
       downloadUrl === "https://npmmirror.com/mirrors/nwjs"
     ) {
-      url = `${downloadUrl}/v${version}/nwjs${flavor === "sdk" ? "-sdk" : ""
-        }-v${version}-${platform}-${arch}.${platform === "linux" ? "tar.gz" : "zip"
-        }`;
+      url = `${downloadUrl}/v${version}/nwjs${
+        flavor === "sdk" ? "-sdk" : ""
+      }-v${version}-${platform}-${arch}.${
+        platform === "linux" ? "tar.gz" : "zip"
+      }`;
     }
 
     getRequest(url, (response) => {
@@ -239,12 +242,12 @@ async function getNwjs({
       const zip = await yauzl.open(out);
       try {
         for await (const entry of zip) {
-          if (entry.filename.endsWith('/')) {
+          if (entry.filename.endsWith("/")) {
             await mkdir(`${cacheDir}/${entry.filename}`);
           } else {
             const readStream = await entry.openReadStream();
             const writeStream = fs.createWriteStream(
-              `${cacheDir}/${entry.filename}`
+              `${cacheDir}/${entry.filename}`,
             );
             await pipeline(readStream, writeStream);
           }
@@ -400,13 +403,13 @@ async function getNodeHeaders({
 
     exec(
       "patch " +
-      resolve(
-        cacheDir,
-        `node-v${version}-${platform}-${arch}`,
-        "common.gypi",
-      ) +
-      " " +
-      resolve("..", "..", "patches", "node_header.patch"),
+        resolve(
+          cacheDir,
+          `node-v${version}-${platform}-${arch}`,
+          "common.gypi",
+        ) +
+        " " +
+        resolve("..", "..", "patches", "node_header.patch"),
       (error) => {
         log.error(error);
       },
