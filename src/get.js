@@ -1,12 +1,15 @@
-import { exec, spawnSync } from "node:child_process";
+import { exec } from "node:child_process";
 import { createWriteStream, existsSync } from "node:fs";
+import { mkdir } from "node:fs/promises";
 import { rename, rm } from "node:fs/promises";
 import { get as getRequest } from "node:https";
 import { resolve } from "node:path";
-import { arch as ARCH, platform as PLATFORM, exit as EXIT } from "node:process";
+import { arch as ARCH, platform as PLATFORM } from "node:process";
+import { pipeline } from "node:stream";
 
 import progress from "cli-progress";
 import compressing from "compressing";
+import yauzl from "yauzl-promise";
 
 import { log } from "./log.js";
 import { ARCH_KV, PLATFORM_KV, replaceFfmpeg } from "./util.js";
@@ -237,24 +240,22 @@ async function getNwjs({
     );
     log.debug("Decompress NW.js binaries.");
     if (platform === "osx" && PLATFORM === "darwin") {
-      //TODO: compressing package does not restore symlinks on some macOS (eg: circleCI)
-      //Workaround: Do not rely on symlinks.
-      const exec = function (cmd) {
-        log.debug(cmd);
-        const result = spawnSync(cmd, {
-          shell: true,
-          stdio: "inherit",
-        });
-        if (result.status !== 0) {
-          log.debug(`Command failed with status ${result.status}`);
-          if (result.error) {
-            console.log(result.error);
+      const zip = await yauzl.open(out);
+      try {
+        for await (const entry of zip) {
+          if (entry.filename.endsWith("/")) {
+            await mkdir(`${cacheDir}/${entry.filename}`);
+          } else {
+            const readStream = await entry.openReadStream();
+            const writeStream = createWriteStream(
+              `${cacheDir}/${entry.filename}`,
+            );
+            await pipeline(readStream, writeStream);
           }
-          EXIT(1);
         }
-        return resolve();
-      };
-      exec(`unzip -o "${out}" -d "${cacheDir}"`);
+      } finally {
+        await zip.close();
+      }
     } else {
       await compressing[platform === "linux" ? "tgz" : "zip"].uncompress(
         out,
@@ -323,7 +324,7 @@ async function getFfmpeg({
         log.debug(`Downloading from ${url}`);
         let chunks = 0;
         bar.start(Number(response.headers["content-length"]), 0);
-        response.on("data", async (chunk) => {
+        response.on("data", (chunk) => {
           chunks += chunk.length;
           bar.increment();
           bar.update(chunks);
