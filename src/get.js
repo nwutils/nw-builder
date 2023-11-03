@@ -239,7 +239,7 @@ async function getNwjs({
       { recursive: true, force: true },
     );
     log.debug("Decompress NW.js binaries.");
-    if (platform === "osx" && PLATFORM === "darwin") {
+    if (false && platform === "osx" && PLATFORM === "darwin") {
       const zip = await yauzl.open(out);
       try {
         for await (const entry of zip) {
