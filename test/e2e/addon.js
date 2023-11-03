@@ -25,7 +25,7 @@ describe("node native addon", async () => {
     outDir: "test/fixture/out/gyp",
     cacheDir: "test/fixture/cache",
     glob: false,
-    nativeAddon: true,
+    nativeAddon: "gyp",
   };
 
   it("builds native addon and executes", async () => {
