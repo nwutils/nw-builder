@@ -1,6 +1,6 @@
 {
   "name": "nw-builder",
-  "version": "4.4.2-beta.3",
+  "version": "4.4.2-beta.4",
   "description": "Build NW.js desktop applications for MacOS, Windows and Linux.",
   "keywords": [
     "NW.js",
@@ -74,7 +74,7 @@
     "yargs": "^17.7.2",
     "yauzl-promise": "^4.0.0"
   },
-  "packageManager": "npm@10.2.0",
+  "packageManager": "npm@10.2.3",
   "engines": {
     "node": ">=14"
   }
