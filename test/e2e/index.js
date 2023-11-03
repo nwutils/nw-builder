@@ -5,7 +5,7 @@ import { run } from "node:test";
 await executeTests();
 
 /**
- *
+ * Execute Selenium based tests.
  */
 async function executeTests() {
   let tests = [
