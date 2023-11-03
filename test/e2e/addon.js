@@ -18,7 +18,7 @@ describe("node native addon", async () => {
   let nwOptions = {
     srcDir: "test/fixture/gyp",
     mode: "build",
-    version: "0.81.0",
+    version: "0.82.0",
     flavor: "sdk",
     platform: getPlatform(platform),
     arch: getArch(arch),
