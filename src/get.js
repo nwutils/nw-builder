@@ -1,11 +1,9 @@
 import { exec } from "node:child_process";
 import { createWriteStream, existsSync } from "node:fs";
-import { mkdir } from "node:fs/promises";
-import { rename, rm } from "node:fs/promises";
+import { mkdir, rename, rm } from "node:fs/promises";
 import { get as getRequest } from "node:https";
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
 import { arch as ARCH, platform as PLATFORM } from "node:process";
-import { pipeline } from "node:stream";
 
 import progress from "cli-progress";
 import compressing from "compressing";
@@ -243,16 +241,29 @@ async function getNwjs({
       const zip = await yauzl.open(out);
       try {
         for await (const entry of zip) {
+          const fullEntryPath = resolve(cacheDir, entry.filename);
+
           if (entry.filename.endsWith("/")) {
-            await mkdir(`${cacheDir}/${entry.filename}`);
+            // Create directory
+            await mkdir(fullEntryPath, { recursive: true });
           } else {
+            // Create the file's directory first, if it doesn't exist
+            const directory = dirname(fullEntryPath);
+            await mkdir(directory, { recursive: true });
+
             const readStream = await entry.openReadStream();
-            const writeStream = createWriteStream(
-              `${cacheDir}/${entry.filename}`,
-            );
-            await pipeline(readStream, writeStream);
+            const writeStream = createWriteStream(fullEntryPath);
+
+            await new Promise((resolve, reject) => {
+              readStream.pipe(writeStream);
+              readStream.on("error", reject);
+              writeStream.on("error", reject);
+              writeStream.on("finish", resolve);
+            });
           }
         }
+      } catch (e) {
+        log.error(e);
       } finally {
         await zip.close();
       }
