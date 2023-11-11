@@ -61,7 +61,7 @@
     "jsdoc-to-markdown": "^8.0.0",
     "prettier": "^3.0.3",
     "selenium-webdriver": "^4.15.0",
-    "vitepress": "^1.0.0-rc.24"
+    "vitepress": "^1.0.0-rc.25"
   },
   "dependencies": {
     "cli-progress": "^3.12.0",
