@@ -410,7 +410,7 @@ async function getNodeHeaders({
           "common.gypi",
         ) +
         " " +
-        resolve("..", "..", "patches", "node_header.patch"),
+        resolve("patches", "node_header.patch"),
       (error) => {
         log.error(error);
       },
