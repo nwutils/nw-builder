@@ -60,7 +60,7 @@
     "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
     "prettier": "^3.0.3",
-    "selenium-webdriver": "^4.15.0",
+    "selenium-webdriver": "^4.14.0",
     "vitepress": "^1.0.0-rc.25"
   },
   "dependencies": {
