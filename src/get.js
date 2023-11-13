@@ -402,19 +402,19 @@ async function getNodeHeaders({
       resolve(cacheDir, `node-v${version}-${platform}-${arch}`),
     );
 
-    exec(
-      "patch " +
-        resolve(
-          cacheDir,
-          `node-v${version}-${platform}-${arch}`,
-          "common.gypi",
-        ) +
-        " " +
-        resolve("patches", "node_header.patch"),
-      (error) => {
-        log.error(error);
-      },
-    );
+    // exec(
+    //   "patch " +
+    //     resolve(
+    //       cacheDir,
+    //       `node-v${version}-${platform}-${arch}`,
+    //       "common.gypi",
+    //     ) +
+    //     " " +
+    //     resolve("patches", "node_header.patch"),
+    //   (error) => {
+    //     log.error(error);
+    //   },
+    // );
 
     return;
   }
