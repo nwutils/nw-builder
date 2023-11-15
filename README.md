@@ -19,34 +19,86 @@ Check out the [documentation](https://nwutils.io/nw-builder/) if you wish to giv
 
 > Please note that the documentation assumes you know [how to write NW.js applications](https://nwjs.readthedocs.io/en/latest/For%20Users/Getting%20Started/).
 
-## Alternatives
-
-- [nw-builder-platforms](https://github.com/naviapps/nw-builder-platforms) - Fork of this repo with platform specific build options
-- [nwjs-builder-phoenix](https://github.com/evshiron/nwjs-builder-phoenix) - Previously the most used build tool, however it is no longer maintained
-
-## Migration Guide (v3 -> v4)
-
-> We are working on making the migration process smoother. If you encounter any issues with the current guide, please open an issue or start a discussion.
-
-### Update `nw-builder`
+## Installation
 
 With npm:
 
 ```shell
-npm update nw-builder@latest
+npm install nw-builder -D
 ```
 
 With yarn:
 
 ```shell
-yarn upgrade nw-builder@latest
+yarn add nw-builder -D
 ```
 
 With pnpm:
 
 ```shell
-pnpm update nw-builder@latest
+pnpm add nw-builder -D
 ```
+
+## Usage
+
+Here is two way to use nw-build to build your nwjs applications
+
+### CLI
+
+1. To get nwjs cache
+
+    ```bash
+    nwbuild --mode=get
+    ```
+
+2. To run nwjs application
+
+    ```bash
+    nwbuild --mode=get
+    ```
+
+3. To build nwjs application
+    ```bash
+    nwbuild --mode=build
+    ```
+
+### JavaScript API
+
+1. Define an npm script
+
+    ```json
+    {
+      "scripts": {
+        "build": "node scripts/build.js"
+      }
+    }
+    ```
+2. Create a build script
+    ```javascript
+    // scripts/build.js
+    const { nwbuild } = require("nw-builder");
+    await nwbuild({
+      srcDir: "./nwapp/**/* ./other/**/*.js",
+      mode: "build",
+      version: "latest",
+      flavor: "normal",
+      platform: "linux",
+      arch: "x64",
+      outDir: "./build",
+      cache: false,
+      app: { ... },
+    });
+    ```
+
+## Alternatives
+
+- [nw-builder-platforms](https://github.com/naviapps/nw-builder-platforms) - Fork of this repo with platform specific build options
+- [nwjs-builder-phoenix](https://github.com/evshiron/nwjs-builder-phoenix) - Previously the most used build tool, however it is no longer maintained
+
+## Migration form v3
+
+> We are working on making the migration process smoother. If you encounter any issues with the current guide, please open an issue or start a discussion.
+
 
 ### Update options
 
