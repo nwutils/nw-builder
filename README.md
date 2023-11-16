@@ -54,7 +54,7 @@ Here is two way to use nw-build to build your nwjs applications
 2. To run nwjs application
 
     ```bash
-    nwbuild --mode=get
+    nwbuild --mode=run
     ```
 
 3. To build nwjs application
