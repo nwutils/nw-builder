@@ -1,4 +1,3 @@
-import { exec } from "node:child_process";
 import { createWriteStream, existsSync } from "node:fs";
 import { mkdir } from "node:fs/promises";
 import { rename, rm } from "node:fs/promises";
