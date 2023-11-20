@@ -17,12 +17,6 @@ jobs:
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Install packages
-        uses: ConorMacBride/install-package@v1.1.0
-        with:
-          brew: python2
-          choco: python2
-          apt: python2
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
       - name: Setup Node
