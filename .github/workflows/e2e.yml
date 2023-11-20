@@ -20,9 +20,9 @@ jobs:
       - name: Install packages
         uses: ConorMacBride/install-package@v1.1.0
         with:
-          brew: gpatch
-          choco: patch
-          apt: patch
+          brew: python2
+          choco: python2
+          apt: python2
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
       - name: Setup Node
