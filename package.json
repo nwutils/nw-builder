@@ -54,14 +54,14 @@
   },
   "devDependencies": {
     "concurrently": "^8.2.1",
-    "eslint": "^8.53.0",
+    "eslint": "^8.54.0",
     "eslint-config-tjw-jsdoc": "^1.0.5",
-    "gh-pages": "^6.0.0",
+    "gh-pages": "^6.1.0",
     "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
     "prettier": "^3.1.0",
     "selenium-webdriver": "^4.15.0",
-    "vitepress": "^1.0.0-rc.25"
+    "vitepress": "^1.0.0-rc.26"
   },
   "dependencies": {
     "cli-progress": "^3.12.0",
@@ -74,7 +74,7 @@
     "yargs": "^17.7.2",
     "yauzl-promise": "^4.0.0"
   },
-  "packageManager": "npm@10.2.3",
+  "packageManager": "npm@10.2.4",
   "engines": {
     "node": ">=14"
   }
