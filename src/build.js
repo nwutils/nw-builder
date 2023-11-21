@@ -394,9 +394,8 @@ export async function build(
 
       infoPlistStringsDataArray.forEach((line, idx, arr) => {
         if (line.includes("NSHumanReadableCopyright")) {
-          arr[
-            idx
-          ] = `NSHumanReadableCopyright = "${app.NSHumanReadableCopyright}";`;
+          arr[idx] =
+            `NSHumanReadableCopyright = "${app.NSHumanReadableCopyright}";`;
         }
       });
 
