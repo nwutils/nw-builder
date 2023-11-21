@@ -27,7 +27,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4.7.1
         with:
-          python-version: '2.7'
+          python-version: "2.7"
       - name: Enable corepack
         run: corepack enable
       - name: Install dependencies
