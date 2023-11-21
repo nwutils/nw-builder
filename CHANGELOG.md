@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.4.2-beta.5] - 2023-11-21
+
+### Removed
+
+- Node header patch (patch does not apply across different versions)
+
 ## [4.4.2-beta.4] - 2023-11-03
 
 ### Changed
