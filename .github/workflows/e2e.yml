@@ -24,6 +24,9 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: "npm"
+      - name: Setup Python
+        uses: actions/setup-python@4.7.1
+          python-version: "2.7"
       - name: Enable corepack
         run: corepack enable
       - name: Install dependencies
