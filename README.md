@@ -19,6 +19,75 @@ Check out the [documentation](https://nwutils.io/nw-builder/) if you wish to giv
 
 > Please note that the documentation assumes you know [how to write NW.js applications](https://nwjs.readthedocs.io/en/latest/For%20Users/Getting%20Started/).
 
+## Installation
+
+With npm:
+
+```shell
+npm install nw-builder -D
+```
+
+With yarn:
+
+```shell
+yarn add nw-builder -D
+```
+
+With pnpm:
+
+```shell
+pnpm add nw-builder -D
+```
+
+## Usage
+
+Here is two way to use nw-build to build your nwjs applications
+
+### CLI
+
+1. To get nwjs cache
+    ```bash
+    nwbuild --mode=get
+    ```
+2. To run nwjs application
+    ```bash
+    nwbuild --mode=run
+    ```
+3. To build nwjs application
+    ```bash
+    nwbuild --mode=build
+    ```
+
+### JavaScript API
+1. Define an npm script
+    ```json
+    {
+      "scripts": {
+        "build": "node scripts/build.js"
+      }
+    }
+    ```
+2. Create a build script
+    ```javascript
+    // scripts/build.js
+    const { nwbuild } = require("nw-builder");
+    await nwbuild({
+      srcDir: "./nwapp/**/* ./other/**/*.js",
+      mode: "build",
+      version: "latest",
+      flavor: "normal",
+      platform: "linux",
+      arch: "x64",
+      outDir: "./build",
+      cache: false,
+      app: { ... },
+    });
+    ```
+3. Run the script
+    ```bash
+    npm run build
+    ```
+
 ## Alternatives
 
 - [nw-builder-platforms](https://github.com/naviapps/nw-builder-platforms) - Fork of this repo with platform specific build options
