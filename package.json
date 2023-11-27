@@ -56,12 +56,12 @@
     "concurrently": "^8.2.1",
     "eslint": "^8.54.0",
     "eslint-config-tjw-jsdoc": "^1.0.5",
-    "gh-pages": "^6.0.0",
+    "gh-pages": "^6.1.0",
     "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
     "prettier": "^3.1.0",
     "selenium-webdriver": "^4.15.0",
-    "vitepress": "^1.0.0-rc.28"
+    "vitepress": "^1.0.0-rc.31"
   },
   "dependencies": {
     "cli-progress": "^3.12.0",
