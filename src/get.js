@@ -144,7 +144,8 @@ async function getNwjs({
   const bar = new progress.SingleBar({}, progress.Presets.rect);
   const out = path.resolve(
     cacheDir,
-    `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}.${platform === "linux" ? "tar.gz" : "zip"
+    `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}.${
+      platform === "linux" ? "tar.gz" : "zip"
     }`,
   );
   // If options.cache is false, remove cache.
@@ -184,9 +185,11 @@ async function getNwjs({
       downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
       downloadUrl === "https://npmmirror.com/mirrors/nwjs"
     ) {
-      url = `${downloadUrl}/v${version}/nwjs${flavor === "sdk" ? "-sdk" : ""
-        }-v${version}-${platform}-${arch}.${platform === "linux" ? "tar.gz" : "zip"
-        }`;
+      url = `${downloadUrl}/v${version}/nwjs${
+        flavor === "sdk" ? "-sdk" : ""
+      }-v${version}-${platform}-${arch}.${
+        platform === "linux" ? "tar.gz" : "zip"
+      }`;
     }
 
     https.get(url, (response) => {
@@ -306,7 +309,10 @@ async function getFfmpeg({
   const downloadUrl =
     "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download";
   let url = `${downloadUrl}/${version}/${version}-${platform}-${arch}.zip`;
-  const out = path.resolve(cacheDir, `ffmpeg-v${version}-${platform}-${arch}.zip`);
+  const out = path.resolve(
+    cacheDir,
+    `ffmpeg-v${version}-${platform}-${arch}.zip`,
+  );
 
   // If options.cache is false, remove cache.
   if (cache === false) {
@@ -404,10 +410,13 @@ async function getNodeHeaders({
   if (fs.existsSync(out) === true) {
     log.debug(`Found existing Node headers cache.`);
     await compressing.tgz.uncompress(out, cacheDir);
-    await fsp.rm(path.resolve(cacheDir, `node-v${version}-${platform}-${arch}`), {
-      recursive: true,
-      force: true,
-    });
+    await fsp.rm(
+      path.resolve(cacheDir, `node-v${version}-${platform}-${arch}`),
+      {
+        recursive: true,
+        force: true,
+      },
+    );
     await fsp.rename(
       path.resolve(cacheDir, "node"),
       path.resolve(cacheDir, `node-v${version}-${platform}-${arch}`),
@@ -415,13 +424,13 @@ async function getNodeHeaders({
 
     child_process.exec(
       "patch " +
-      path.resolve(
-        cacheDir,
-        `node-v${version}-${platform}-${arch}`,
-        "common.gypi",
-      ) +
-      " " +
-      path.resolve("..", "..", "patches", "node_header.patch"),
+        path.resolve(
+          cacheDir,
+          `node-v${version}-${platform}-${arch}`,
+          "common.gypi",
+        ) +
+        " " +
+        path.resolve("..", "..", "patches", "node_header.patch"),
       (error) => {
         log.error(error);
       },
