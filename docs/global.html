@@ -821,9 +821,7 @@ nwbuild({
 
 
 <div class="description">
-    _Note: This an internal function which is not called directly. Please see example usage below._
-
-Run NW.js application. You can use get mode options in run mode too.
+    Run NW.js application
 </div>
 
 
@@ -865,7 +863,7 @@ Run NW.js application. You can use get mode options in run mode too.
             <td class="type">
             
                 
-<span class="param-type">options</span>
+<span class="param-type"><a href="global.html#RunOptions">RunOptions</a></span>
 
 
             
@@ -875,232 +873,7 @@ Run NW.js application. You can use get mode options in run mode too.
 
             
 
-            <td class="description last">Run mode options
-                <h6>Properties</h6>
-                
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>version</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">NW.js runtime version. Defaults to "latest".</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>flavor</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">"normal"</span>
-|
-
-<span class="param-type">"sdk"</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">NW.js build flavor. Defaults to "normal".</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>platform</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">"linux"</span>
-|
-
-<span class="param-type">"osx"</span>
-|
-
-<span class="param-type">"win"</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Target platform. Defaults to host platform.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>arch</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">"ia32"</span>
-|
-
-<span class="param-type">"x64"</span>
-|
-
-<span class="param-type">"arm64"</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Target architecture. Defaults to host architecture.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>srcDir</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Source directory path. Defaults to "./src"</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>cacheDir</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Cache directory path. Defaults to "./cache"</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>glob</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">If true, file globbing is enabled. Defaults to false.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>argv</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;string></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Arguments to pass to NW.js. Defaults to []. See [NW.js CLI options](https://docs.nwjs.io/en/latest/References/Command%20Line%20Options/#command-line-options) for more information.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
+            <td class="description last">Run mode options</td>
         </tr>
 
     
@@ -1141,7 +914,7 @@ Run NW.js application. You can use get mode options in run mode too.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="run.js.html">run.js</a>, <a href="run.js.html#line30">line 30</a>
+        <a href="run.js.html">run.js</a>, <a href="run.js.html#line32">line 32</a>
     </li></ul></dd>
     
 
@@ -2639,6 +2412,423 @@ https://developer.apple.com/documentation/bundleresources/information_property_l
 
             
                 
+<h4 class="name" id="RunOptions">RunOptions</h4>
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options.version</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">"latest"</span>
+|
+
+<span class="param-type">"stable"</span>
+|
+
+<span class="param-type">"lts"</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "latest"
+                
+                </td>
+            
+
+            <td class="description last">Runtime version</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options.flavor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"normal"</span>
+|
+
+<span class="param-type">"sdk"</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "normal"
+                
+                </td>
+            
+
+            <td class="description last">Build flavor</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options.platform</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"linux"</span>
+|
+
+<span class="param-type">"osx"</span>
+|
+
+<span class="param-type">"win"</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Target platform</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options.arch</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"ia32"</span>
+|
+
+<span class="param-type">"x64"</span>
+|
+
+<span class="param-type">"arm64"</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Target arch</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options.srcDir</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "./src"
+                
+                </td>
+            
+
+            <td class="description last">Source directory</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options.cacheDir</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "./cache"
+                
+                </td>
+            
+
+            <td class="description last">Cache directory</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options.glob</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">If true, throw error</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options.argv</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;string></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    []
+                
+                </td>
+            
+
+            <td class="description last">CLI arguments</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="run.js.html">run.js</a>, <a href="run.js.html#line8">line 8</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+                
 <h4 class="name" id="WinRc">WinRc</h4>
 
 
@@ -3107,7 +3297,7 @@ https://learn.microsoft.com/en-gb/windows/win32/menurc/versioninfo-resource
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri Dec 01 2023 14:27:39 GMT-0500 (Eastern Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri Dec 01 2023 14:36:25 GMT-0500 (Eastern Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
