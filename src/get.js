@@ -31,7 +31,7 @@ import { ARCH_KV, PLATFORM_KV, replaceFfmpeg } from "./util.js";
  * 
  * @async
  * @function
- * @param  {GetOptions}    options
+ * @param  {GetOptions}    options                  Get mode options
  * @returns {Promise<void>}
  *
  * @example

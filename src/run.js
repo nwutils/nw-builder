@@ -20,6 +20,8 @@ import { EXE_NAME, ARCH_KV, PLATFORM_KV } from "./util.js";
 /**
  * Run NW.js application
  * 
+ * @async
+ * @function
  * @param  {RunOptions}               options           Run mode options
  * @return {Promise<void>}
  * 
