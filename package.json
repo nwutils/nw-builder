@@ -42,8 +42,6 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
-    "fmt": "prettier --write \"./**/*.{css,html,js,json,md,yml}\"",
-    "fmt:check": "prettier --check \"./**/*.{css,html,js,json,md,yml}\"",
     "lnt": "eslint --config=.github/eslint.config.cjs --fix src test",
     "lnt:check": "eslint --config=.github/eslint.config.cjs .github src test",
     "doc:dev": "concurrently \"node .github/fswatch.config.js\" \"vitepress dev doc\"",
@@ -59,7 +57,6 @@
     "gh-pages": "^6.1.0",
     "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
-    "prettier": "^3.1.0",
     "selenium-webdriver": "^4.15.0",
     "vitepress": "^1.0.0-rc.31"
   },
@@ -74,7 +71,7 @@
     "yargs": "^17.7.2",
     "yauzl-promise": "^4.0.0"
   },
-  "packageManager": "npm@10.2.3",
+  "packageManager": "npm@10.2.4",
   "engines": {
     "node": ">=14"
   }
