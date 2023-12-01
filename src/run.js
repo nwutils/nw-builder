@@ -1,9 +1,13 @@
-import { spawn } from "node:child_process";
-import { resolve } from "node:path";
-import { arch as ARCH, platform as PLATFORM } from "node:process";
+import child_process from "node:child_process";
+import path from "node:path";
+import process from "node:process";
 
-import { log } from "./log.js";
-import { EXE_NAME, ARCH_KV, PLATFORM_KV } from "./util.js";
+import * as logger from "./log.js";
+import * as util from "./util.js";
+
+const { log } = logger;
+
+
 
 /**
  * _Note: This an internal function which is not called directly. Please see example usage below._
@@ -30,30 +34,30 @@ import { EXE_NAME, ARCH_KV, PLATFORM_KV } from "./util.js";
 export async function run({
   version = "latest",
   flavor = "normal",
-  platform = PLATFORM_KV[PLATFORM],
-  arch = ARCH_KV[ARCH],
+  platform = util.PLATFORM_KV[process.platform],
+  arch = util.ARCH_KV[process.arch],
   srcDir = "./src",
   cacheDir = "./cache",
   glob = false,
   argv = [],
 }) {
   try {
-    if (EXE_NAME[platform] === undefined) {
+    if (util.EXE_NAME[platform] === undefined) {
       throw new Error("Unsupported platform.");
     }
     if (glob === true) {
       throw new Error("Globbing is not supported with run mode.");
     }
 
-    const nwDir = resolve(
+    const nwDir = path.resolve(
       cacheDir,
       `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}`,
     );
 
     return new Promise((res, rej) => {
       // It is assumed that the package.json is located at srcDir/package.json
-      const nwProcess = spawn(
-        resolve(nwDir, EXE_NAME[platform]),
+      const nwProcess = child_process.spawn(
+        path.resolve(nwDir, util.EXE_NAME[platform]),
         [...[srcDir], ...argv],
         {
           detached: true,
