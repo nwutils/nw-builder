@@ -16,9 +16,25 @@ const { log } = logger;
 const { ARCH_KV, PLATFORM_KV, replaceFfmpeg } = util;
 
 /**
+ * @typedef {object} GetOptions
+ * @property {string | "latest" | "stable" | "lts"} [options.version = "latest"]                  Runtime version
+ * @property {"normal" | "sdk"}                     [options.flavor = "normal"]                   Build flavor
+ * @property {"linux" | "osx" | "win"}              [options.platform]                            Target platform
+ * @property {"ia32" | "x64" | "arm64"}             [options.arch]                                Target arch
+ * @property {string}                               [options.downloadUrl = "https://dl.nwjs.io"]  Download server
+ * @property {string}                               [options.cacheDir = "./cache"]                Cache directory
+ * @property {string}                               [options.outDir = "./out"]                    Out directory
+ * @property {boolean}                              [options.cache = true]                        If false, remove cache and redownload.
+ * @property {boolean}                              [options.ffmpeg = false]                      If true, ffmpeg is not downloaded.
+ * @property {false | "gyp"}                        [options.nativeAddon = false]                 Rebuild native modules
+ */
+
+/**
  * Get binaries.
  *
- * _Note: This an internal function which is not called directly. Please see example usage below._
+ * @function
+ * @param  {GetOptions}    options
+ * @return {Promise<void>}
  *
  * @example
  * // Minimal Usage (uses default values)
@@ -59,23 +75,11 @@ const { ARCH_KV, PLATFORM_KV, replaceFfmpeg } = util;
  * });
  *
  * @example
- * // Node headers
+ * // Get Node headers
  * nwbuild({
  *   mode: "get",
  *   nativeAddon: "gyp",
  * });
- *
- * @param  {object}                   options              Get mode options
- * @param  {string}                   options.version      NW.js runtime version. Defaults to "latest".
- * @param  {"normal" | "sdk"}         options.flavor       NW.js build flavor. Defaults to "normal".
- * @param  {"linux" | "osx" | "win"}  options.platform     Target platform. Defaults to host platform.
- * @param  {"ia32" | "x64" | "arm64"} options.arch         Target architecture. Defaults to host architecture.
- * @param  {string}                   options.downloadUrl  File server to download from. Defaults to "https://dl.nwjs.io". Set "https://npm.taobao.org/mirrors/nwjs" for China mirror or "https://cnpmjs.org/mirrors/nwjs/" for Singapore mirror.
- * @param  {string}                   options.cacheDir     Cache directory path. Defaults to "./cache"
- * @param  {boolean}                  options.cache        If false, remove cache before download. Defaults to true.
- * @param  {boolean}                  options.ffmpeg       If true, ffmpeg is not downloaded. Defaults to false.
- * @param  {false | "gyp"}            options.nativeAddon  Rebuilds native modules. Defaults to false.
- * @return {Promise<void>}
  */
 export async function get({
   version = "latest",
@@ -119,20 +123,7 @@ export async function get({
   }
 }
 
-/**
- * Get NW.js binaries
- *
- * @param  {object}                   options              Get mode options
- * @param  {string}                   options.version      NW.js runtime version. Defaults to "latest".
- * @param  {"normal" | "sdk"}         options.flavor       NW.js build flavor. Defaults to "normal".
- * @param  {"linux" | "osx" | "win"}  options.platform     Target platform. Defaults to host platform.
- * @param  {"ia32" | "x64" | "arm64"} options.arch         Target architecture. Defaults to host architecture.
- * @param  {string}                   options.downloadUrl  File server to download from. Defaults to "https://dl.nwjs.io". Set "https://npm.taobao.org/mirrors/nwjs" for China mirror or "https://cnpmjs.org/mirrors/nwjs/" for Singapore mirror.
- * @param  {string}                   options.cacheDir     Cache directory path. Defaults to "./cache"
- * @param  {boolean}                  options.cache        If false, remove cache before download. Defaults to true.
- * @return {Promise<void>}
- */
-async function getNwjs({
+const getNwjs = async ({
   version = "latest",
   flavor = "normal",
   platform = PLATFORM_KV[process.platform],
@@ -140,7 +131,7 @@ async function getNwjs({
   downloadUrl = "https://dl.nwjs.io",
   cacheDir = "./cache",
   cache = true,
-}) {
+}) => {
   const bar = new progress.SingleBar({}, progress.Presets.rect);
   const out = path.resolve(
     cacheDir,
@@ -277,28 +268,16 @@ async function getNwjs({
       );
     }
   });
-}
+};
 
-/**
- * Get FFmpeg binary.
- *
- * @param  {object}                   options           Get mode options
- * @param  {string}                   options.version   NW.js runtime version. Defaults to "latest".
- * @param  {"normal" | "sdk"}         options.flavor    NW.js build flavor. Defaults to "normal".
- * @param  {"linux" | "osx" | "win"}  options.platform  Target platform. Defaults to host platform.
- * @param  {"ia32" | "x64" | "arm64"} options.arch      Target architecture. Defaults to host architecture.
- * @param  {string}                   options.cacheDir  Cache directory path. Defaults to "./cache"
- * @param  {boolean}                  options.cache     If false, remove cache before download. Defaults to true.
- * @return {Promise<void>}
- */
-async function getFfmpeg({
+const getFfmpeg = async ({
   version = "latest",
   flavor = "normal",
   platform = PLATFORM_KV[process.platform],
   arch = ARCH_KV[process.arch],
   cacheDir = "./cache",
   cache = true,
-}) {
+}) => {
   const nwDir = path.resolve(
     cacheDir,
     `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}`,
@@ -371,26 +350,15 @@ async function getFfmpeg({
     await compressing.zip.uncompress(out, nwDir);
     await replaceFfmpeg(platform, nwDir);
   });
-}
+};
 
-/**
- * Get Node headers
- *
- * @param  {object}                   options           Get mode options
- * @param  {string}                   options.version   NW.js runtime version. Defaults to "latest".
- * @param  {"linux" | "osx" | "win"}  options.platform  Target platform. Defaults to host platform.
- * @param  {"ia32" | "x64" | "arm64"} options.arch      Target architecture. Defaults to host architecture.
- * @param  {string}                   options.cacheDir  Cache directory path. Defaults to "./cache"
- * @param  {string}                   options.cache     If false, remove cache before download. Defaults to true.
- * @return {Promise<void>}
- */
-async function getNodeHeaders({
+const getNodeHeaders = async ({
   version = "latest",
   platform = PLATFORM_KV[process.platform],
   arch = ARCH_KV[process.arch],
   cacheDir = "./cache",
   cache = true,
-}) {
+}) => {
   const bar = new progress.SingleBar({}, progress.Presets.rect);
   const out = path.resolve(
     cacheDir,
@@ -474,4 +442,4 @@ async function getNodeHeaders({
       path.resolve(cacheDir, `node-v${version}-${platform}-${arch}`),
     );
   });
-}
+};
