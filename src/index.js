@@ -1,6 +1,6 @@
+import console from "node:console";
 import { mkdir } from "node:fs/promises";
 import { resolve } from "node:path";
-import { arch, platform, version } from "node:process";
 
 import { isCached } from "./util/cache.js";
 import { getFiles } from "./util/files.js";
@@ -11,7 +11,6 @@ import { validate } from "./util/validate.js";
 import { build } from "./build.js";
 import { get } from "./get.js";
 import { run } from "./run.js";
-import { log, setLogLevel } from "./log.js";
 import { getReleaseInfo } from "./util.js";
 
 /**
@@ -99,6 +98,8 @@ const nwbuild = async (options) => {
 
     options = await parse(options, manifest);
 
+    //TODO: impl loggging
+
     built = await isCached(options.cacheDir);
     if (built === false) {
       await mkdir(options.cacheDir, { recursive: true });
@@ -123,20 +124,8 @@ const nwbuild = async (options) => {
 
     await validate(options, releaseInfo);
 
-    setLogLevel(options.logLevel);
-
     // Remove leading "v" from version string
     options.version = releaseInfo.version.slice(1);
-
-    if (options.logLevel === "debug") {
-      log.debug(`System Platform: ${platform}`);
-      log.debug(`System Architecture: ${arch}`);
-      log.debug(`Node Version: ${version}`);
-      log.debug(`Build NW.js Version: ${options.version}`);
-      log.debug(`Build Flavor: ${options.flavor}`);
-      log.debug(`Build Platform: ${options.platform}`);
-      log.debug(`Build Architecture: ${options.arch}`);
-    }
 
     nwDir = resolve(
       options.cacheDir,
@@ -192,7 +181,7 @@ const nwbuild = async (options) => {
       );
     }
   } catch (error) {
-    log.error(error);
+    console.error(error);
     throw error;
   }
 };

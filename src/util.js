@@ -1,8 +1,7 @@
+import console from "node:console";
 import { copyFile, readFile, writeFile } from "node:fs/promises";
 import { get } from "node:https";
 import { resolve } from "node:path";
-
-import { log } from "./log.js";
 
 /**
  * Get manifest (array of NW release metadata) from URL
@@ -20,17 +19,16 @@ function getManifest(manifestUrl) {
       });
 
       res.on("error", (e) => {
-        log.error(e);
+        console.error(e);
         resolve(undefined);
       });
 
       res.on("end", () => {
-        log.debug("Succesfully cached manifest metadata");
         resolve(chunks);
       });
     });
     req.on("error", (e) => {
-      log.warn(e);
+      console.error(e);
       resolve(undefined);
     });
   });
@@ -77,7 +75,7 @@ export async function getReleaseInfo(
       (release) => release.version === `v${version}`,
     );
   } catch (e) {
-    log.debug(
+    console.error(
       "The version manifest does not exist/was not downloaded. Please try again in some time.",
     );
   }

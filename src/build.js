@@ -1,4 +1,5 @@
 import { exec } from "node:child_process";
+import console from "node:console";
 import { resolve } from "node:path";
 import { platform as PLATFORM, chdir } from "node:process";
 import {
@@ -13,8 +14,6 @@ import {
 import compressing from "compressing";
 import rcedit from "rcedit";
 import plist from "plist";
-
-import { log } from "./log.js";
 
 /**
  * References:
@@ -170,12 +169,12 @@ export async function build(
   nodeVersion,
   app,
 ) {
-  log.debug(`Remove any files at ${outDir} directory`);
+  console.debug(`Remove any files at ${outDir} directory`);
   await rm(outDir, { force: true, recursive: true });
-  log.debug(`Copy ${nwDir} files to ${outDir} directory`);
+  console.debug(`Copy ${nwDir} files to ${outDir} directory`);
   await cp(nwDir, outDir, { recursive: true, verbatimSymlinks: true });
 
-  log.debug(`Copy files in srcDir to ${outDir} directory`);
+  console.debug(`Copy files in srcDir to ${outDir} directory`);
 
   if (typeof files === "string") {
     await cp(
@@ -190,7 +189,6 @@ export async function build(
     );
   } else {
     for (let file of files) {
-      log.debug(`Copy ${file} file to ${outDir} directory`);
       await cp(
         file,
         resolve(
@@ -213,28 +211,22 @@ export async function build(
     typeof managedManifest === "string"
   ) {
     if (managedManifest === true) {
-      log.debug("Enable Managed Manifest Mode.");
       manifest = nwPkg;
     }
 
     if (typeof managedManifest === "object") {
-      log.debug("Enable Managed Manifest JSON.");
       manifest = managedManifest;
     }
 
     if (typeof managedManifest === "string") {
-      log.debug("Enable Managed Manifest File.");
       manifest = JSON.parse(await readFile(managedManifest));
     }
 
-    log.debug("Remove development dependencies.");
     if (manifest.devDependencies) {
       manifest.devDependencies = undefined;
     }
-    log.debug("Detect Node package manager.");
     manifest.packageManager = manifest.packageManager ?? "npm@*";
 
-    log.debug(`Write NW.js manifest file to ${outDir} directory`);
     await writeFile(
       resolve(
         outDir,
@@ -247,7 +239,6 @@ export async function build(
       "utf8",
     );
 
-    log.debug("Change directory into NW.js application.");
     chdir(
       resolve(
         outDir,
@@ -258,22 +249,17 @@ export async function build(
     );
 
     if (manifest.packageManager.startsWith("npm")) {
-      log.debug("Install Node modules via npm.");
       exec(`npm install`);
     } else if (manifest.packageManager.startsWith("yarn")) {
-      log.debug("Install Node modules via yarn.");
       exec(`yarn install`);
     } else if (manifest.packageManager.startsWith("pnpm")) {
-      log.debug("Install Node modules via pnpm.");
       exec(`pnpm install`);
     }
   }
 
-  log.debug(`Starting platform specific config steps for ${platform}`);
-
   if (platform === "linux") {
     if (PLATFORM === "win32") {
-      log.warn(
+      console.warn(
         "Linux apps built on Windows platform do not preserve all file permissions. See #716",
       );
     }
@@ -310,12 +296,10 @@ export async function build(
     Object.keys(desktopEntryFile).forEach((key) => {
       if (desktopEntryFile[key] !== undefined) {
         fileContent += `${key}=${desktopEntryFile[key]}\n`;
-        log.debug(`Add ${key}=${desktopEntryFile[key]} to Desktop Entry File`);
       }
     });
     let filePath = `${outDir}/${app.name}.desktop`;
     await writeFile(filePath, fileContent);
-    log.debug("Desktop Entry file generated");
   } else if (platform === "win") {
     let versionString = {
       Comments: app.comments,
@@ -353,14 +337,14 @@ export async function build(
       await rename(resolve(outDir, "nw.exe"), outDirAppExe);
       await rcedit(outDirAppExe, rcEditOptions);
     } catch (error) {
-      log.warn(
+      console.warn(
         "Renaming EXE failed or unable to modify EXE. If it's the latter, ensure WINE is installed or build your application Windows platform",
       );
-      log.error(error);
+      console.error(error);
     }
   } else if (platform === "osx") {
     if (PLATFORM === "win32") {
-      log.warn(
+      console.warn(
         "MacOS apps built on Windows platform do not preserve all file permissions. See #716",
       );
     }
@@ -419,13 +403,12 @@ export async function build(
         infoPlistStringsDataArray.toString().replace(/,/g, "\n"),
       );
     } catch (error) {
-      log.error(error);
+      console.error(error);
     }
   }
 
   if (nativeAddon === "gyp") {
     let nodePath = resolve(cacheDir, `node-v${version}-${platform}-${arch}`);
-    log.debug("Native Node Addon (GYP) is enabled.");
     chdir(
       resolve(
         outDir,
@@ -435,16 +418,14 @@ export async function build(
       ),
     );
 
-    log.debug("Rebuilding of Native Node module started");
     exec(
       `node-gyp rebuild --target=${nodeVersion} --nodedir=${nodePath}`,
       (error) => {
         if (error !== null) {
-          log.error(error);
+          console.error(error);
         }
       },
     );
-    log.debug("Rebuilding of Native Node module ended");
   }
 
   if (zip !== false) {

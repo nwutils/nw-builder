@@ -1,4 +1,5 @@
 import { exec } from "node:child_process";
+import console from "node:console";
 import { createWriteStream, existsSync } from "node:fs";
 import { mkdir, rename, rm } from "node:fs/promises";
 import { get as getRequest } from "node:https";
@@ -9,7 +10,6 @@ import progress from "cli-progress";
 import compressing from "compressing";
 import yauzl from "yauzl-promise";
 
-import { log } from "./log.js";
 import { ARCH_KV, PLATFORM_KV, replaceFfmpeg } from "./util.js";
 
 /**
@@ -147,16 +147,13 @@ async function getNwjs({
   );
   // If options.cache is false, remove cache.
   if (cache === false) {
-    log.debug(`Removing existing NW.js binaries.`);
     await rm(out, {
       recursive: true,
       force: true,
     });
-    log.debug(`Existing NW.js binaries removed.`);
   }
 
   if (existsSync(out) === true) {
-    log.debug(`Found existing NW.js binaries.`);
     await rm(
       resolve(
         cacheDir,
@@ -199,7 +196,6 @@ async function getNwjs({
       }
 
       getRequest(url, (response) => {
-        log.debug(`Downloading from ${url}`);
         let chunks = 0;
         bar.start(Number(response.headers["content-length"]), 0);
         response.on("data", (chunk) => {
@@ -213,7 +209,6 @@ async function getNwjs({
         });
 
         response.on("end", () => {
-          log.debug(`NW.js download complete.`);
           bar.stop();
           resolve();
         });
@@ -228,7 +223,6 @@ async function getNwjs({
   });
 
   return request.then(async () => {
-    log.debug("Remove existing NW.js before decompression.");
     await rm(
       resolve(
         cacheDir,
@@ -236,7 +230,6 @@ async function getNwjs({
       ),
       { recursive: true, force: true },
     );
-    log.debug("Decompress NW.js binaries.");
     if (platform === "osx" && PLATFORM === "darwin") {
       const zip = await yauzl.open(out);
       try {
@@ -263,7 +256,7 @@ async function getNwjs({
           }
         }
       } catch (e) {
-        log.error(e);
+        console.error(e);
       } finally {
         await zip.close();
       }
@@ -310,17 +303,14 @@ async function getFfmpeg({
 
   // If options.cache is false, remove cache.
   if (cache === false) {
-    log.debug(`Removing existing FFmpeg binary.`);
     await rm(out, {
       recursive: true,
       force: true,
     });
-    log.debug(`Existing FFmpeg binary removed.`);
   }
 
   // Check if cache exists.
   if (existsSync(out) === true) {
-    log.debug(`Found existing FFmpeg binary.`);
     await compressing.zip.uncompress(out, nwDir);
     return;
   }
@@ -332,7 +322,6 @@ async function getFfmpeg({
       url = response.headers.location;
 
       getRequest(url, (response) => {
-        log.debug(`Downloading from ${url}`);
         let chunks = 0;
         bar.start(Number(response.headers["content-length"]), 0);
         response.on("data", (chunk) => {
@@ -346,7 +335,6 @@ async function getFfmpeg({
         });
 
         response.on("end", () => {
-          log.debug(`FFmpeg download complete.`);
           bar.stop();
           resolve();
         });
@@ -393,16 +381,13 @@ async function getNodeHeaders({
 
   // If options.cache is false, remove cache.
   if (cache === false) {
-    log.debug(`Removing existing Node headers.`);
     await rm(out, {
       recursive: true,
       force: true,
     });
-    log.debug(`Existing Node headers removed.`);
   }
 
   if (existsSync(out) === true) {
-    log.debug(`Found existing Node headers cache.`);
     await compressing.tgz.uncompress(out, cacheDir);
     await rm(resolve(cacheDir, `node-v${version}-${platform}-${arch}`), {
       recursive: true,
@@ -423,7 +408,7 @@ async function getNodeHeaders({
         " " +
         resolve("..", "..", "patches", "node_header.patch"),
       (error) => {
-        log.error(error);
+        console.error(error);
       },
     );
 
@@ -435,7 +420,6 @@ async function getNodeHeaders({
     const urlBase = "https://dl.nwjs.io/";
     const url = `${urlBase}/v${version}/nw-headers-v${version}.tar.gz`;
     getRequest(url, (response) => {
-      log.debug(`Response from ${url}`);
       let chunks = 0;
       bar.start(Number(response.headers["content-length"]), 0);
       response.on("data", (chunk) => {
@@ -449,7 +433,6 @@ async function getNodeHeaders({
       });
 
       response.on("end", () => {
-        log.debug(`FFMPEG fully downloaded`);
         bar.stop();
         resolve();
       });

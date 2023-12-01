@@ -1,8 +1,8 @@
 import { spawn } from "node:child_process";
+import console from "node:console";
 import { resolve } from "node:path";
 import { arch as ARCH, platform as PLATFORM } from "node:process";
 
-import { log } from "./log.js";
 import { EXE_NAME, ARCH_KV, PLATFORM_KV } from "./util.js";
 
 /**
@@ -66,11 +66,11 @@ export async function run({
       });
 
       nwProcess.on("error", (error) => {
-        log.error(error);
+        console.error(error);
         rej(error);
       });
     });
   } catch (error) {
-    log.error(error);
+    console.error(error);
   }
 }

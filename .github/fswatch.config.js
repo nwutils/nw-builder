@@ -1,7 +1,6 @@
 import { exec } from "node:child_process";
+import console from "node:console";
 import { watch } from "node:fs/promises";
-
-import { log } from "../src/log.js";
 
 try {
   const watcher = await watch("src", { recursive: true });
@@ -12,5 +11,5 @@ try {
     }
   }
 } catch (e) {
-  log.error(e);
+  console.error(e);
 }
