@@ -1,20 +1,15 @@
-import { exec } from "node:child_process";
-import { resolve } from "node:path";
-import { platform as PLATFORM, chdir } from "node:process";
-import {
-  cp,
-  copyFile,
-  rename,
-  readFile,
-  rm,
-  writeFile,
-} from "node:fs/promises";
+import child_process from "node:child_process";
+import path from "node:path";
+import process from "node:process";
+import fsm from "node:fs/promises";
 
 import compressing from "compressing";
 import rcedit from "rcedit";
 import plist from "plist";
 
-import { log } from "./log.js";
+import * as logger from "./log.js";
+
+const { log } = logger;
 
 /**
  * References:
@@ -171,16 +166,16 @@ export async function build(
   app,
 ) {
   log.debug(`Remove any files at ${outDir} directory`);
-  await rm(outDir, { force: true, recursive: true });
+  await fsm.rm(outDir, { force: true, recursive: true });
   log.debug(`Copy ${nwDir} files to ${outDir} directory`);
-  await cp(nwDir, outDir, { recursive: true, verbatimSymlinks: true });
+  await fsm.cp(nwDir, outDir, { recursive: true, verbatimSymlinks: true });
 
   log.debug(`Copy files in srcDir to ${outDir} directory`);
 
   if (typeof files === "string") {
-    await cp(
+    await fsm.cp(
       files,
-      resolve(
+      path.resolve(
         outDir,
         platform !== "osx"
           ? "package.nw"
@@ -191,9 +186,9 @@ export async function build(
   } else {
     for (let file of files) {
       log.debug(`Copy ${file} file to ${outDir} directory`);
-      await cp(
+      await fsm.cp(
         file,
-        resolve(
+        path.resolve(
           outDir,
           platform !== "osx"
             ? "package.nw"
@@ -224,7 +219,7 @@ export async function build(
 
     if (typeof managedManifest === "string") {
       log.debug("Enable Managed Manifest File.");
-      manifest = JSON.parse(await readFile(managedManifest));
+      manifest = JSON.parse(await fsm.readFile(managedManifest));
     }
 
     log.debug("Remove development dependencies.");
@@ -235,8 +230,8 @@ export async function build(
     manifest.packageManager = manifest.packageManager ?? "npm@*";
 
     log.debug(`Write NW.js manifest file to ${outDir} directory`);
-    await writeFile(
-      resolve(
+    await fsm.writeFile(
+      path.resolve(
         outDir,
         platform !== "osx"
           ? "package.nw"
@@ -248,8 +243,8 @@ export async function build(
     );
 
     log.debug("Change directory into NW.js application.");
-    chdir(
-      resolve(
+    process.chdir(
+      path.resolve(
         outDir,
         platform !== "osx"
           ? "package.nw"
@@ -259,20 +254,20 @@ export async function build(
 
     if (manifest.packageManager.startsWith("npm")) {
       log.debug("Install Node modules via npm.");
-      exec(`npm install`);
+      child_process.exec(`npm install`);
     } else if (manifest.packageManager.startsWith("yarn")) {
       log.debug("Install Node modules via yarn.");
-      exec(`yarn install`);
+      child_process.exec(`yarn install`);
     } else if (manifest.packageManager.startsWith("pnpm")) {
       log.debug("Install Node modules via pnpm.");
-      exec(`pnpm install`);
+      child_process.exec(`pnpm install`);
     }
   }
 
   log.debug(`Starting platform specific config steps for ${platform}`);
 
   if (platform === "linux") {
-    if (PLATFORM === "win32") {
+    if (process.platform === "win32") {
       log.warn(
         "Linux apps built on Windows platform do not preserve all file permissions. See #716",
       );
@@ -304,7 +299,7 @@ export async function build(
       SingleMainWindow: app.singleMainWindow,
     };
 
-    await rename(`${outDir}/nw`, `${outDir}/${app.name}`);
+    await fsm.rename(`${outDir}/nw`, `${outDir}/${app.name}`);
 
     let fileContent = `[Desktop Entry]\n`;
     Object.keys(desktopEntryFile).forEach((key) => {
@@ -314,7 +309,7 @@ export async function build(
       }
     });
     let filePath = `${outDir}/${app.name}.desktop`;
-    await writeFile(filePath, fileContent);
+    await fsm.writeFile(filePath, fileContent);
     log.debug("Desktop Entry file generated");
   } else if (platform === "win") {
     let versionString = {
@@ -349,8 +344,8 @@ export async function build(
     }
 
     try {
-      const outDirAppExe = resolve(outDir, `${app.name}.exe`);
-      await rename(resolve(outDir, "nw.exe"), outDirAppExe);
+      const outDirAppExe = path.resolve(outDir, `${app.name}.exe`);
+      await fsm.rename(path.resolve(outDir, "nw.exe"), outDirAppExe);
       await rcedit(outDirAppExe, rcEditOptions);
     } catch (error) {
       log.warn(
@@ -359,33 +354,35 @@ export async function build(
       log.error(error);
     }
   } else if (platform === "osx") {
-    if (PLATFORM === "win32") {
+    if (process.platform === "win32") {
       log.warn(
         "MacOS apps built on Windows platform do not preserve all file permissions. See #716",
       );
     }
 
     try {
-      const outApp = resolve(outDir, `${app.name}.app`);
-      await rename(resolve(outDir, "nwjs.app"), outApp);
+      const outApp = path.resolve(outDir, `${app.name}.app`);
+      await fsm.rename(path.resolve(outDir, "nwjs.app"), outApp);
       if (app.icon !== undefined) {
-        await copyFile(
-          resolve(app.icon),
-          resolve(outApp, "Contents", "Resources", "app.icns"),
+        await fsm.copyFile(
+          path.resolve(app.icon),
+          path.resolve(outApp, "Contents", "Resources", "app.icns"),
         );
       }
 
-      const infoPlistPath = resolve(outApp, "Contents", "Info.plist");
-      const infoPlistJson = plist.parse(await readFile(infoPlistPath, "utf-8"));
+      const infoPlistPath = path.resolve(outApp, "Contents", "Info.plist");
+      const infoPlistJson = plist.parse(
+        await fsm.readFile(infoPlistPath, "utf-8"),
+      );
 
-      const infoPlistStringsPath = resolve(
+      const infoPlistStringsPath = path.resolve(
         outApp,
         "Contents",
         "Resources",
         "en.lproj",
         "InfoPlist.strings",
       );
-      const infoPlistStringsData = await readFile(
+      const infoPlistStringsData = await fsm.readFile(
         infoPlistStringsPath,
         "utf-8",
       );
@@ -413,8 +410,8 @@ export async function build(
         }
       });
 
-      await writeFile(infoPlistPath, plist.build(infoPlistJson));
-      await writeFile(
+      await fsm.writeFile(infoPlistPath, plist.build(infoPlistJson));
+      await fsm.writeFile(
         infoPlistStringsPath,
         infoPlistStringsDataArray.toString().replace(/,/g, "\n"),
       );
@@ -424,10 +421,13 @@ export async function build(
   }
 
   if (nativeAddon === "gyp") {
-    let nodePath = resolve(cacheDir, `node-v${version}-${platform}-${arch}`);
+    let nodePath = path.resolve(
+      cacheDir,
+      `node-v${version}-${platform}-${arch}`,
+    );
     log.debug("Native Node Addon (GYP) is enabled.");
-    chdir(
-      resolve(
+    process.chdir(
+      path.resolve(
         outDir,
         platform !== "osx"
           ? "package.nw"
@@ -436,7 +436,7 @@ export async function build(
     );
 
     log.debug("Rebuilding of Native Node module started");
-    exec(
+    child_process.exec(
       `node-gyp rebuild --target=${nodeVersion} --nodedir=${nodePath}`,
       (error) => {
         if (error !== null) {
@@ -456,6 +456,6 @@ export async function build(
       await compressing.tgz.compressDir(outDir, `${outDir}.tgz`);
     }
 
-    await rm(outDir, { recursive: true, force: true });
+    await fsm.rm(outDir, { recursive: true, force: true });
   }
 }
