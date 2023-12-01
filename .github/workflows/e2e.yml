@@ -14,7 +14,7 @@ jobs:
       matrix:
         os: [macos-12, ubuntu-22.04, windows-2022]
         node: [16, 18, 20]
-      fail-fast: false
+      fail-fast: true
     runs-on: ${{ matrix.os }}
     steps:
       - name: Install packages
