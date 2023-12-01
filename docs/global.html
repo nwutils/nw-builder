@@ -164,7 +164,7 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Get mode options</td>
         </tr>
 
     
@@ -291,6 +291,169 @@ nwbuild({
 nwbuild({
   mode: "get",
   nativeAddon: "gyp",
+});</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="run"><span class="type-signature"></span>run<span class="signature">(options)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Run NW.js application
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">options</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Run mode options</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="run.js.html">run.js</a>, <a href="run.js.html#line35">line 35</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;void></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Minimal Usage (uses default values)
+nwbuild({
+  mode: "run",
 });</code></pre>
 
 
@@ -515,7 +678,7 @@ nwbuild({
                 </td>
             
 
-            <td class="description last">Target arch</td>
+            <td class="description last">Target architecture</td>
         </tr>
 
     
@@ -796,6 +959,423 @@ nwbuild({
 
 
             
+                
+<h4 class="name" id="RunOptions">RunOptions</h4>
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options.version</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">"latest"</span>
+|
+
+<span class="param-type">"stable"</span>
+|
+
+<span class="param-type">"lts"</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "latest"
+                
+                </td>
+            
+
+            <td class="description last">Runtime version</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options.flavor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"normal"</span>
+|
+
+<span class="param-type">"sdk"</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "normal"
+                
+                </td>
+            
+
+            <td class="description last">Build flavor</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options.platform</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"linux"</span>
+|
+
+<span class="param-type">"osx"</span>
+|
+
+<span class="param-type">"win"</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Target platform</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options.arch</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"ia32"</span>
+|
+
+<span class="param-type">"x64"</span>
+|
+
+<span class="param-type">"arm64"</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Target architecture</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options.srcDir</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "./src"
+                
+                </td>
+            
+
+            <td class="description last">Source directory</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options.cacheDir</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "./cache"
+                
+                </td>
+            
+
+            <td class="description last">Cache directory</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options.glob</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">If true, error is thrown.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options.argv</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;string></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    []
+                
+                </td>
+            
+
+            <td class="description last">If true, ffmpeg is not downloaded</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="run.js.html">run.js</a>, <a href="run.js.html#line10">line 10</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
     
 
     
@@ -809,13 +1389,13 @@ nwbuild({
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#get">get</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#get">get</a></li><li><a href="global.html#run">run</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Nov 30 2023 23:01:05 GMT-0500 (Eastern Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Nov 30 2023 23:21:46 GMT-0500 (Eastern Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

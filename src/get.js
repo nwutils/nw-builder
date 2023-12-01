@@ -20,7 +20,7 @@ const { ARCH_KV, PLATFORM_KV, replaceFfmpeg } = util;
  * @property {string | "latest" | "stable" | "lts"} [options.version = "latest"]                  Runtime version
  * @property {"normal" | "sdk"}                     [options.flavor = "normal"]                   Build flavor
  * @property {"linux" | "osx" | "win"}              [options.platform]                            Target platform
- * @property {"ia32" | "x64" | "arm64"}             [options.arch]                                Target arch
+ * @property {"ia32" | "x64" | "arm64"}             [options.arch]                                Target architecture
  * @property {string}                               [options.downloadUrl = "https://dl.nwjs.io"]  Download server
  * @property {string}                               [options.cacheDir = "./cache"]                Cache directory
  * @property {string}                               [options.outDir = "./out"]                    Out directory
@@ -33,7 +33,7 @@ const { ARCH_KV, PLATFORM_KV, replaceFfmpeg } = util;
  * Get binaries.
  *
  * @function
- * @param  {GetOptions}    options Get mode options
+ * @param  {GetOptions}    options  Get mode options
  * @return {Promise<void>}
  *
  * @example

@@ -46,7 +46,8 @@
     "fmt:check": "prettier --check \"./**/*.{css,html,js,json,md,yml}\"",
     "lnt": "eslint --config=.github/eslint.config.cjs --fix src test",
     "lnt:check": "eslint --config=.github/eslint.config.cjs .github src test",
-    "doc:bld": "jsdoc -d ./docs ./src/get.js",
+    "doc:bld": "jsdoc -d ./docs ./src/get.js ./src/run.js",
+    "doc:dev": "npm run doc:bld && serve ./docs",
     "test:unit": "node --test test/unit/index.js",
     "test:e2e": "node test/e2e/index.js",
     "demo": "cd test/fixture && node demo.js"
