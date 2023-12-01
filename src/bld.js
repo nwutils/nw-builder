@@ -154,7 +154,7 @@ import plist from "plist";
  * @param  {LinuxRc | OsxRc | WinRc}   app              Multi platform configuration options
  * @return {Promise<undefined>}
  */
-export async function build(
+export async function bld(
   files,
   nwDir,
   outDir,

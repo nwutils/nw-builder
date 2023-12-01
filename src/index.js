@@ -8,7 +8,7 @@ import { getVersionManifest } from "./util/versionManifest.js";
 import { parse } from "./util/parse.js";
 import { validate } from "./util/validate.js";
 
-import { build } from "./build.js";
+import { bld } from "./bld.js";
 import { get } from "./get.js";
 import { run } from "./run.js";
 import { getReleaseInfo } from "./util.js";
@@ -164,7 +164,7 @@ const nwbuild = async (options) => {
         argv: options.argv,
       });
     } else if (options.mode === "build") {
-      await build(
+      await bld(
         options.glob === true ? files : options.srcDir,
         nwDir,
         options.outDir,
