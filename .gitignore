@@ -8,5 +8,5 @@ coverage
 cache
 build
 dist
-doc/*.md
+docs
 out
