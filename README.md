@@ -46,47 +46,48 @@ Here is two way to use nw-build to build your nwjs applications
 ### CLI
 
 1. To get nwjs cache
-    ```bash
-    nwbuild --mode=get
-    ```
+   ```bash
+   nwbuild --mode=get
+   ```
 2. To run nwjs application
-    ```bash
-    nwbuild --mode=run
-    ```
+   ```bash
+   nwbuild --mode=run
+   ```
 3. To build nwjs application
-    ```bash
-    nwbuild --mode=build
-    ```
+   ```bash
+   nwbuild --mode=build
+   ```
 
 ### JavaScript API
+
 1. Define an npm script
-    ```json
-    {
-      "scripts": {
-        "build": "node scripts/build.js"
-      }
-    }
-    ```
+   ```json
+   {
+     "scripts": {
+       "build": "node scripts/build.js"
+     }
+   }
+   ```
 2. Create a build script
-    ```javascript
-    // scripts/build.js
-    const { nwbuild } = require("nw-builder");
-    await nwbuild({
-      srcDir: "./nwapp/**/* ./other/**/*.js",
-      mode: "build",
-      version: "latest",
-      flavor: "normal",
-      platform: "linux",
-      arch: "x64",
-      outDir: "./build",
-      cache: false,
-      app: { ... },
-    });
-    ```
+   ```javascript
+   // scripts/build.js
+   const { nwbuild } = require("nw-builder");
+   await nwbuild({
+     srcDir: "./nwapp/**/* ./other/**/*.js",
+     mode: "build",
+     version: "latest",
+     flavor: "normal",
+     platform: "linux",
+     arch: "x64",
+     outDir: "./build",
+     cache: false,
+     app: { ... },
+   });
+   ```
 3. Run the script
-    ```bash
-    npm run build
-    ```
+   ```bash
+   npm run build
+   ```
 
 ## Alternatives
 

@@ -1,16 +1,16 @@
-import { exec } from "node:child_process";
-import { watch } from "node:fs/promises";
+import child_process from "node:child_process";
+import fsm from "node:fs/promises";
 
-import { log } from "../src/log.js";
+(async () => {
+    try {
+        const watcher = fsm.watch("src", { recursive: true });
+        for await (const event of watcher) {
+            if (event) {
+                child_process.exec("npm run doc:bld");
+            }
+        }
 
-try {
-  const watcher = await watch("src", { recursive: true });
-
-  for await (const event of watcher) {
-    if (event) {
-      exec("node .github/jsdoc.config.cjs");
+    } catch (e) {
+        console.error(e);
     }
-  }
-} catch (e) {
-  log.error(e);
-}
+});

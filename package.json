@@ -46,8 +46,7 @@
     "fmt:check": "prettier --check \"./**/*.{css,html,js,json,md,yml}\"",
     "lnt": "eslint --config=.github/eslint.config.cjs --fix src test",
     "lnt:check": "eslint --config=.github/eslint.config.cjs .github src test",
-    "doc:dev": "concurrently \"node .github/fswatch.config.js\" \"vitepress dev doc\"",
-    "doc:bld": "node .github/jsdoc.config.cjs && vitepress build doc",
+    "doc:bld": "jsdoc -d ./docs ./src/get.js",
     "test:unit": "node --test test/unit/index.js",
     "test:e2e": "node test/e2e/index.js",
     "demo": "cd test/fixture && node demo.js"
@@ -58,10 +57,8 @@
     "eslint-config-tjw-jsdoc": "^1.0.5",
     "gh-pages": "^6.1.0",
     "jsdoc": "^4.0.2",
-    "jsdoc-to-markdown": "^8.0.0",
     "prettier": "^3.1.0",
-    "selenium-webdriver": "^4.15.0",
-    "vitepress": "^1.0.0-rc.31"
+    "selenium-webdriver": "^4.15.0"
   },
   "dependencies": {
     "cli-progress": "^3.12.0",
