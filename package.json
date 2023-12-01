@@ -42,23 +42,17 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
-    "lnt": "eslint --config=.github/eslint.config.cjs --fix src test",
-    "lnt:check": "eslint --config=.github/eslint.config.cjs .github src test",
-    "doc:dev": "concurrently \"node .github/fswatch.config.js\" \"vitepress dev doc\"",
-    "doc:bld": "node .github/jsdoc.config.cjs && vitepress build doc",
+    "lint": "eslint src test",
+    "docs": "jsdoc -d docs ./src/get.js ./src/run.js ./src/build.js",
     "test:unit": "node --test test/unit/index.js",
     "test:e2e": "node test/e2e/index.js",
     "demo": "cd test/fixture && node demo.js"
   },
   "devDependencies": {
-    "concurrently": "^8.2.1",
     "eslint": "^8.54.0",
-    "eslint-config-tjw-jsdoc": "^1.0.5",
-    "gh-pages": "^6.1.0",
+    "eslint-plugin-jsdoc": "^46.9.0",
     "jsdoc": "^4.0.2",
-    "jsdoc-to-markdown": "^8.0.0",
-    "selenium-webdriver": "^4.15.0",
-    "vitepress": "^1.0.0-rc.31"
+    "selenium-webdriver": "^4.15.0"
   },
   "dependencies": {
     "cli-progress": "^3.12.0",
@@ -73,5 +67,19 @@
   "packageManager": "npm@10.2.4",
   "engines": {
     "node": ">=14"
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": 2023,
+      "sourceType": "module"
+    },
+    "env": {
+      "es6": true,
+      "node": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:jsdoc/recommended"
+    ]
   }
 }

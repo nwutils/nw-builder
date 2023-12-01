@@ -2,11 +2,3 @@
 
 .idea
 node_modules
-coverage
-
-# project files
-cache
-build
-dist
-doc/*.md
-out
