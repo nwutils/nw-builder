@@ -16,6 +16,11 @@ import rcedit from "rcedit";
 import plist from "plist";
 
 /**
+ * @typedef {object} BuildOptions
+ * @param 
+ */
+
+/**
  * References:
  * https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html
  *
@@ -97,7 +102,7 @@ import plist from "plist";
  *
  * Note: If you are using the MacOS ARM unofficial builds, you will need to [remove the `com.apple.qurantine` flag](https://github.com/corwin-of-amber/nw.js/releases/tag/nw-v0.75.0):
  *
- * `sudo xattr -r -d com.apple.quarantine nwjs.app`
+ * `sudo xattr -r -d com.apple.quarantine /path/to/nwjs.app`
  *
  * @example
  * // Minimal Usage (uses default values)
@@ -203,240 +208,267 @@ export async function bld(
     }
   }
 
-  let manifest = undefined;
-
   if (
     managedManifest === true ||
     typeof managedManifest === "object" ||
     typeof managedManifest === "string"
   ) {
-    if (managedManifest === true) {
-      manifest = nwPkg;
-    }
-
-    if (typeof managedManifest === "object") {
-      manifest = managedManifest;
-    }
-
-    if (typeof managedManifest === "string") {
-      manifest = JSON.parse(await readFile(managedManifest));
-    }
-
-    if (manifest.devDependencies) {
-      manifest.devDependencies = undefined;
-    }
-    manifest.packageManager = manifest.packageManager ?? "npm@*";
-
-    await writeFile(
-      resolve(
-        outDir,
-        platform !== "osx"
-          ? "package.nw"
-          : "nwjs.app/Contents/Resources/app.nw",
-        "package.json",
-      ),
-      JSON.stringify(manifest, null, 2),
-      "utf8",
-    );
-
-    chdir(
-      resolve(
-        outDir,
-        platform !== "osx"
-          ? "package.nw"
-          : "nwjs.app/Contents/Resources/app.nw",
-      ),
-    );
-
-    if (manifest.packageManager.startsWith("npm")) {
-      exec(`npm install`);
-    } else if (manifest.packageManager.startsWith("yarn")) {
-      exec(`yarn install`);
-    } else if (manifest.packageManager.startsWith("pnpm")) {
-      exec(`pnpm install`);
-    }
+    enableManagedManifest({ nwPkg, managedManifest, outDir, platform });
   }
 
   if (platform === "linux") {
-    if (PLATFORM === "win32") {
-      console.warn(
-        "Linux apps built on Windows platform do not preserve all file permissions. See #716",
-      );
-    }
-    let desktopEntryFile = {
-      Type: "Application",
-      Version: "1.5",
-      Name: app.name,
-      GenericName: app.genericName,
-      NoDisplay: app.noDisplay,
-      Comment: app.comment,
-      Icon: app.icon,
-      Hidden: app.hidden,
-      OnlyShowIn: app.onlyShowIn,
-      NotShowIn: app.notShowIn,
-      DBusActivatable: app.dBusActivatable,
-      TryExec: app.tryExec,
-      Exec: app.name,
-      Path: app.path,
-      Terminal: app.terminal,
-      Actions: app.actions,
-      MimeType: app.mimeType,
-      Categories: app.categories,
-      Implements: app.implements,
-      Keywords: app.keywords,
-      StartupNotify: app.startupNotify,
-      StartupWMClass: app.startupWMClass,
-      PrefersNonDefaultGPU: app.prefersNonDefaultGPU,
-      SingleMainWindow: app.singleMainWindow,
-    };
-
-    await rename(`${outDir}/nw`, `${outDir}/${app.name}`);
-
-    let fileContent = `[Desktop Entry]\n`;
-    Object.keys(desktopEntryFile).forEach((key) => {
-      if (desktopEntryFile[key] !== undefined) {
-        fileContent += `${key}=${desktopEntryFile[key]}\n`;
-      }
-    });
-    let filePath = `${outDir}/${app.name}.desktop`;
-    await writeFile(filePath, fileContent);
+    await setLinuxConfig({ app, outDir });
   } else if (platform === "win") {
-    let versionString = {
-      Comments: app.comments,
-      CompanyName: app.author,
-      FileDescription: app.fileDescription,
-      FileVersion: app.fileVersion,
-      InternalName: app.name,
-      LegalCopyright: app.legalCopyright,
-      LegalTrademarks: app.legalTrademark,
-      OriginalFilename: app.name,
-      PrivateBuild: app.name,
-      ProductName: app.name,
-      ProductVersion: app.version,
-      SpecialBuild: app.name,
-    };
-
-    Object.keys(versionString).forEach((option) => {
-      if (versionString[option] === undefined) {
-        delete versionString[option];
-      }
-    });
-
-    const rcEditOptions = {
-      "file-version": app.version,
-      "product-version": app.version,
-      "version-string": versionString,
-    };
-
-    if (app.icon) {
-      rcEditOptions.icon = app.icon;
-    }
-
-    try {
-      const outDirAppExe = resolve(outDir, `${app.name}.exe`);
-      await rename(resolve(outDir, "nw.exe"), outDirAppExe);
-      await rcedit(outDirAppExe, rcEditOptions);
-    } catch (error) {
-      console.warn(
-        "Renaming EXE failed or unable to modify EXE. If it's the latter, ensure WINE is installed or build your application Windows platform",
-      );
-      console.error(error);
-    }
+    await setWinConfig({ app, outDir });
   } else if (platform === "osx") {
-    if (PLATFORM === "win32") {
-      console.warn(
-        "MacOS apps built on Windows platform do not preserve all file permissions. See #716",
-      );
-    }
-
-    try {
-      const outApp = resolve(outDir, `${app.name}.app`);
-      await rename(resolve(outDir, "nwjs.app"), outApp);
-      if (app.icon !== undefined) {
-        await copyFile(
-          resolve(app.icon),
-          resolve(outApp, "Contents", "Resources", "app.icns"),
-        );
-      }
-
-      const infoPlistPath = resolve(outApp, "Contents", "Info.plist");
-      const infoPlistJson = plist.parse(await readFile(infoPlistPath, "utf-8"));
-
-      const infoPlistStringsPath = resolve(
-        outApp,
-        "Contents",
-        "Resources",
-        "en.lproj",
-        "InfoPlist.strings",
-      );
-      const infoPlistStringsData = await readFile(
-        infoPlistStringsPath,
-        "utf-8",
-      );
-
-      let infoPlistStringsDataArray = infoPlistStringsData.split("\n");
-
-      infoPlistStringsDataArray.forEach((line, idx, arr) => {
-        if (line.includes("NSHumanReadableCopyright")) {
-          arr[idx] =
-            `NSHumanReadableCopyright = "${app.NSHumanReadableCopyright}";`;
-        }
-      });
-
-      infoPlistJson.LSApplicationCategoryType = app.LSApplicationCategoryType;
-      infoPlistJson.CFBundleIdentifier = app.CFBundleIdentifier;
-      infoPlistJson.CFBundleName = app.CFBundleName;
-      infoPlistJson.CFBundleDisplayName = app.CFBundleDisplayName;
-      infoPlistJson.CFBundleSpokenName = app.CFBundleSpokenName;
-      infoPlistJson.CFBundleVersion = app.CFBundleVersion;
-      infoPlistJson.CFBundleShortVersionString = app.CFBundleShortVersionString;
-
-      Object.keys(infoPlistJson).forEach((option) => {
-        if (infoPlistJson[option] === undefined) {
-          delete infoPlistJson[option];
-        }
-      });
-
-      await writeFile(infoPlistPath, plist.build(infoPlistJson));
-      await writeFile(
-        infoPlistStringsPath,
-        infoPlistStringsDataArray.toString().replace(/,/g, "\n"),
-      );
-    } catch (error) {
-      console.error(error);
-    }
+    await setOsxConfig({ platform, outDir, app });
   }
 
   if (nativeAddon === "gyp") {
-    let nodePath = resolve(cacheDir, `node-v${version}-${platform}-${arch}`);
-    chdir(
-      resolve(
-        outDir,
-        platform !== "osx"
-          ? "package.nw"
-          : "nwjs.app/Contents/Resources/app.nw",
-      ),
-    );
-
-    exec(
-      `node-gyp rebuild --target=${nodeVersion} --nodedir=${nodePath}`,
-      (error) => {
-        if (error !== null) {
-          console.error(error);
-        }
-      },
-    );
+    buildNativeAddon({ cacheDir, version, platform, arch, outDir, nodeVersion });
   }
 
   if (zip !== false) {
-    if (zip === true || zip === "zip") {
-      await compressing.zip.compressDir(outDir, `${outDir}.zip`);
-    } else if (zip === "tar") {
-      await compressing.tar.compressDir(outDir, `${outDir}.tar`);
-    } else if (zip === "tgz") {
-      await compressing.tgz.compressDir(outDir, `${outDir}.tgz`);
-    }
-
-    await rm(outDir, { recursive: true, force: true });
+    await compress({ zip, outDir });
   }
 }
+
+const enableManagedManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
+  let manifest = undefined;
+
+  if (managedManifest === true) {
+    manifest = nwPkg;
+  }
+
+  if (typeof managedManifest === "object") {
+    manifest = managedManifest;
+  }
+
+  if (typeof managedManifest === "string") {
+    manifest = JSON.parse(await readFile(managedManifest));
+  }
+
+  if (manifest.devDependencies) {
+    manifest.devDependencies = undefined;
+  }
+  manifest.packageManager = manifest.packageManager ?? "npm@*";
+
+  await writeFile(
+    resolve(
+      outDir,
+      platform !== "osx"
+        ? "package.nw"
+        : "nwjs.app/Contents/Resources/app.nw",
+      "package.json",
+    ),
+    JSON.stringify(manifest, null, 2),
+    "utf8",
+  );
+
+  chdir(
+    resolve(
+      outDir,
+      platform !== "osx"
+        ? "package.nw"
+        : "nwjs.app/Contents/Resources/app.nw",
+    ),
+  );
+
+  if (manifest.packageManager.startsWith("npm")) {
+    exec(`npm install`);
+  } else if (manifest.packageManager.startsWith("yarn")) {
+    exec(`yarn install`);
+  } else if (manifest.packageManager.startsWith("pnpm")) {
+    exec(`pnpm install`);
+  }
+};
+
+const setLinuxConfig = async ({ app, outDir }) => {
+  if (PLATFORM === "win32") {
+    console.warn(
+      "Linux apps built on Windows platform do not preserve all file permissions. See #716",
+    );
+  }
+  let desktopEntryFile = {
+    Type: "Application",
+    Version: "1.5",
+    Name: app.name,
+    GenericName: app.genericName,
+    NoDisplay: app.noDisplay,
+    Comment: app.comment,
+    Icon: app.icon,
+    Hidden: app.hidden,
+    OnlyShowIn: app.onlyShowIn,
+    NotShowIn: app.notShowIn,
+    DBusActivatable: app.dBusActivatable,
+    TryExec: app.tryExec,
+    Exec: app.name,
+    Path: app.path,
+    Terminal: app.terminal,
+    Actions: app.actions,
+    MimeType: app.mimeType,
+    Categories: app.categories,
+    Implements: app.implements,
+    Keywords: app.keywords,
+    StartupNotify: app.startupNotify,
+    StartupWMClass: app.startupWMClass,
+    PrefersNonDefaultGPU: app.prefersNonDefaultGPU,
+    SingleMainWindow: app.singleMainWindow,
+  };
+
+  await rename(`${outDir}/nw`, `${outDir}/${app.name}`);
+
+  let fileContent = `[Desktop Entry]\n`;
+  Object.keys(desktopEntryFile).forEach((key) => {
+    if (desktopEntryFile[key] !== undefined) {
+      fileContent += `${key}=${desktopEntryFile[key]}\n`;
+    }
+  });
+  let filePath = `${outDir}/${app.name}.desktop`;
+  await writeFile(filePath, fileContent);
+};
+
+const setWinConfig = async ({ app, outDir }) => {
+  let versionString = {
+    Comments: app.comments,
+    CompanyName: app.author,
+    FileDescription: app.fileDescription,
+    FileVersion: app.fileVersion,
+    InternalName: app.name,
+    LegalCopyright: app.legalCopyright,
+    LegalTrademarks: app.legalTrademark,
+    OriginalFilename: app.name,
+    PrivateBuild: app.name,
+    ProductName: app.name,
+    ProductVersion: app.version,
+    SpecialBuild: app.name,
+  };
+
+  Object.keys(versionString).forEach((option) => {
+    if (versionString[option] === undefined) {
+      delete versionString[option];
+    }
+  });
+
+  const rcEditOptions = {
+    "file-version": app.version,
+    "product-version": app.version,
+    "version-string": versionString,
+  };
+
+  if (app.icon) {
+    rcEditOptions.icon = app.icon;
+  }
+
+  try {
+    const outDirAppExe = resolve(outDir, `${app.name}.exe`);
+    await rename(resolve(outDir, "nw.exe"), outDirAppExe);
+    await rcedit(outDirAppExe, rcEditOptions);
+  } catch (error) {
+    console.warn(
+      "Renaming EXE failed or unable to modify EXE. If it's the latter, ensure WINE is installed or build your application Windows platform",
+    );
+    console.error(error);
+  }
+};
+
+const setOsxConfig = async ({ outDir, app }) => {
+  if (PLATFORM === "win32") {
+    console.warn(
+      "MacOS apps built on Windows platform do not preserve all file permissions. See #716",
+    );
+  }
+
+  try {
+    const outApp = resolve(outDir, `${app.name}.app`);
+    await rename(resolve(outDir, "nwjs.app"), outApp);
+    if (app.icon !== undefined) {
+      await copyFile(
+        resolve(app.icon),
+        resolve(outApp, "Contents", "Resources", "app.icns"),
+      );
+    }
+
+    const infoPlistPath = resolve(outApp, "Contents", "Info.plist");
+    const infoPlistJson = plist.parse(await readFile(infoPlistPath, "utf-8"));
+
+    const infoPlistStringsPath = resolve(
+      outApp,
+      "Contents",
+      "Resources",
+      "en.lproj",
+      "InfoPlist.strings",
+    );
+    const infoPlistStringsData = await readFile(
+      infoPlistStringsPath,
+      "utf-8",
+    );
+
+    let infoPlistStringsDataArray = infoPlistStringsData.split("\n");
+
+    infoPlistStringsDataArray.forEach((line, idx, arr) => {
+      if (line.includes("NSHumanReadableCopyright")) {
+        arr[idx] =
+          `NSHumanReadableCopyright = "${app.NSHumanReadableCopyright}";`;
+      }
+    });
+
+    infoPlistJson.LSApplicationCategoryType = app.LSApplicationCategoryType;
+    infoPlistJson.CFBundleIdentifier = app.CFBundleIdentifier;
+    infoPlistJson.CFBundleName = app.CFBundleName;
+    infoPlistJson.CFBundleDisplayName = app.CFBundleDisplayName;
+    infoPlistJson.CFBundleSpokenName = app.CFBundleSpokenName;
+    infoPlistJson.CFBundleVersion = app.CFBundleVersion;
+    infoPlistJson.CFBundleShortVersionString = app.CFBundleShortVersionString;
+
+    Object.keys(infoPlistJson).forEach((option) => {
+      if (infoPlistJson[option] === undefined) {
+        delete infoPlistJson[option];
+      }
+    });
+
+    await writeFile(infoPlistPath, plist.build(infoPlistJson));
+    await writeFile(
+      infoPlistStringsPath,
+      infoPlistStringsDataArray.toString().replace(/,/g, "\n"),
+    );
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const buildNativeAddon = ({ cacheDir, version, platform, arch, outDir, nodeVersion }) => {
+  let nodePath = resolve(cacheDir, `node-v${version}-${platform}-${arch}`);
+  chdir(
+    resolve(
+      outDir,
+      platform !== "osx"
+        ? "package.nw"
+        : "nwjs.app/Contents/Resources/app.nw",
+    ),
+  );
+
+  exec(
+    `node-gyp rebuild --target=${nodeVersion} --nodedir=${nodePath}`,
+    (error) => {
+      if (error !== null) {
+        console.error(error);
+      }
+    },
+  );
+};
+
+const compress = async ({
+  zip,
+  outDir,
+}) => {
+  if (zip === true || zip === "zip") {
+    await compressing.zip.compressDir(outDir, `${outDir}.zip`);
+  } else if (zip === "tar") {
+    await compressing.tar.compressDir(outDir, `${outDir}.tar`);
+  } else if (zip === "tgz") {
+    await compressing.tgz.compressDir(outDir, `${outDir}.tgz`);
+  }
+
+  await rm(outDir, { recursive: true, force: true });
+};
