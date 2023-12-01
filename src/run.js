@@ -22,6 +22,7 @@ const { log } = logger;
 /**
  * Run NW.js application
  *
+ * @async
  * @function
  * @param  {options}       options  Run mode options
  * @return {Promise<void>}

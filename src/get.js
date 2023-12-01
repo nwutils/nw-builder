@@ -32,6 +32,7 @@ const { ARCH_KV, PLATFORM_KV, replaceFfmpeg } = util;
 /**
  * Get binaries.
  *
+ * @async
  * @function
  * @param  {GetOptions}    options  Get mode options
  * @return {Promise<void>}
