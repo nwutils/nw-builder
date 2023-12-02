@@ -1,7 +1,7 @@
 import { exec } from "node:child_process";
 import console from "node:console";
 import { resolve } from "node:path";
-import { platform as PLATFORM, chdir } from "node:process";
+import { arch as ARCH, platform as PLATFORM, chdir } from "node:process";
 import {
   cp,
   copyFile,
@@ -15,10 +15,7 @@ import compressing from "compressing";
 import rcedit from "rcedit";
 import plist from "plist";
 
-/**
- * @typedef {object} BuildOptions
- * @param 
- */
+import { ARCH_KV, PLATFORM_KV, getManifest, getReleaseInfo, globFiles } from "./util.js"
 
 /**
  * References:
@@ -92,107 +89,93 @@ import plist from "plist";
  */
 
 /**
- * Generate NW build artifacts
- *
- * Note: File permissions are incorrectly set for Linux or MacOS apps built on Windows platform. For more info: https://www.geeksforgeeks.org/node-js-fs-chmod-method
- *
- * Note: To edit Windows executable resources, we use [`rcedit`](https://github.com/electron/node-rcedit). To use rcedit on non-Windows platforms, you will have to install [Wine](https://www.winehq.org/).
- *
- * Note: We recursively glob the file patterns given by the user. The first `package.json` parsed is taken to be the NW.js manifest file. If you have multiple manifest files, the first glob pattern should be the path to the NW.js manifest. Choosing a Node manifest at `./package.json` is the most convenient option.
- *
- * Note: If you are using the MacOS ARM unofficial builds, you will need to [remove the `com.apple.qurantine` flag](https://github.com/corwin-of-amber/nw.js/releases/tag/nw-v0.75.0):
- *
- * `sudo xattr -r -d com.apple.quarantine /path/to/nwjs.app`
- *
+ * @typedef {object} BuildOptions
+ * @property {string | "latest" | "stable" | "lts"} [options.version = "latest"]                  Runtime version
+ * @property {"normal" | "sdk"}                     [options.flavor = "normal"]                   Build flavor
+ * @property {"linux" | "osx" | "win"}              [options.platform]                            Target platform
+ * @property {"ia32" | "x64" | "arm64"}             [options.arch]                                Target arch
+ * @property {string}                               [options.manifestUrl = "https://nwjs.io/versions"] Manifest URL
+ * @property {string}                               [options.srcDir = "./src"]                    Source directory
+ * @property {string}                               [options.cacheDir = "./cache"]                Cache directory
+ * @property {string}                               [options.outDir = "./out"]                    Out directory
+ * @property {LinuxRc | WinRc | OsxRc}              [options.app]                                 Platform specific rc
+ * @property {boolean}                              [options.glob = true]                         File globbing
+ * @property {boolean | string | object}            [options.managedManifest = false]             Manage manifest
+ * @property {false | "gyp"}                        [options.nativeAddon = false]                 Rebuild native modules
+ * @property {false | "zip" | "tar" | "tgz"}        [options.zip = false]                         Compress built artifacts
+ */
+
+/**
+ * @async
+ * @function
+ * @param {BuildOptions} options
+ * @return {Promise<void>}
+ * 
  * @example
  * // Minimal Usage (uses default values)
  * nwbuild({
  *   mode: "build",
  * });
- *
+ * 
  * @example
  * // Managed Manifest mode
+ * // Parse first Node manifest it encounters as NW manifest
+ * // Remove development dependencies
+ * // Auto detect and download dependencies via relevant package manager 
  * nwbuild({
  *   mode: "build",
  *   managedManifest: true
  * });
- *
- * This will parse the first `package.json` it encounters as the NW.js manifest.
- * This is a good way to quickly bootstrap a web/node application as a NW.js application.
- * It will remove any development dependencies, autodetect the package manager via `packageManager` and download the relevant dependencies.
- *
+ * 
  * @example
  * // Managed Manifest JSON
+ * // Use JSON object provided as NW manifest
  * nwbuild({
  *   mode: "build",
  *   managedManifest: { name: "demo", "main": "index.html" }
  * });
- *
- * This will ignore the first `package.json` it encounters and use the user input JSON instead.
- * This is good way to customise your existing NW.js application after bootstrapping it.
- * It will remove any development dependencies, autodetect the package manager via `packageManager` and download the relevant dependencies.
- *
+ * 
  * @example
  * // Managed Manifest File
+ * // Use file path provided as NW manifest
  * nwbuild({
  *   mode: "build",
  *   managedManifest: "./manifest.json"
  * });
- *
- * Similar to Managed Manifest JSON, this will also ignore the first `package.json` it encounters and use the manifest file provided by the user instead.
- * This is good way to customise your existing NW.js application after bootstrapping it. Using JSON vs file is matter of preference.
- * It will remove any development dependencies, autodetect the package manager via `packageManager` and download the relevant dependencies.
- *
- *
- * @param  {string | string[]}         files            Array of NW app files
- * @param  {string}                    nwDir            Directory to hold NW binaries
- * @param  {string}                    outDir           Directory to store build artifacts
- * @param  {string}                    cacheDir         Directory to store NW.js related binaries
- * @param  {string}                    version          NW.js runtime version
- * @param  {"linux" | "osx" | "win"}   platform         Platform is the operating system type
- * @param  {"ia32" | "x64" | "arm64"}  arch             NW supported architectures
- * @param  {"zip" | boolean}           zip              Specify if the build artifacts are to be zipped
- * @param  {boolean | string | object} managedManifest  Managed Manifest mode
- * @param  {string}                    nwPkg            NW.js manifest file
- * @param  {false | "gyp"}             nativeAddon      Rebuild Node Native Addon
- * @param  {string}                    nodeVersion      Version of Node included in NW.js release
- * @param  {LinuxRc | OsxRc | WinRc}   app              Multi platform configuration options
- * @return {Promise<undefined>}
+ * 
+ * @example
+ * // For MacOS ARM unofficial builds (<= v0.75), remove quarantine flag post build.
+ * sudo xattr -r -d com.apple.quarantine /path/to/nwjs.app
+ * 
  */
-export async function bld(
-  files,
-  nwDir,
-  outDir,
-  cacheDir,
-  version,
-  platform,
-  arch,
-  zip,
-  managedManifest,
-  nwPkg,
-  nativeAddon,
-  nodeVersion,
+export async function bld({
+  version = "latest",
+  flavor = "normal",
+  platform = PLATFORM_KV[PLATFORM],
+  arch = ARCH_KV[ARCH],
+  manifestUrl = "https://nwjs.io/versions",
+  srcDir = "./src",
+  cacheDir = "./cache",
+  outDir = "./out",
   app,
-) {
-  console.debug(`Remove any files at ${outDir} directory`);
+  glob = true,
+  managedManifest = false,
+  nativeAddon = false,
+  zip = false,
+}) {
+  const nwDir = resolve(
+    cacheDir,
+    `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform
+    }-${arch}`,
+  );
+
   await rm(outDir, { force: true, recursive: true });
-  console.debug(`Copy ${nwDir} files to ${outDir} directory`);
   await cp(nwDir, outDir, { recursive: true, verbatimSymlinks: true });
 
-  console.debug(`Copy files in srcDir to ${outDir} directory`);
+  const files = await globFiles({ srcDir, glob });
+  const manifest = await getManifest({ srcDir, glob });
 
-  if (typeof files === "string") {
-    await cp(
-      files,
-      resolve(
-        outDir,
-        platform !== "osx"
-          ? "package.nw"
-          : "nwjs.app/Contents/Resources/app.nw",
-      ),
-      { recursive: true, verbatimSymlinks: true },
-    );
-  } else {
+  if (glob) {
     for (let file of files) {
       await cp(
         file,
@@ -206,14 +189,34 @@ export async function bld(
         { recursive: true, verbatimSymlinks: true },
       );
     }
+  } else {
+    await cp(
+      files,
+      resolve(
+        outDir,
+        platform !== "osx"
+          ? "package.nw"
+          : "nwjs.app/Contents/Resources/app.nw",
+      ),
+      { recursive: true, verbatimSymlinks: true },
+    );
   }
+
+  const releaseInfo = await getReleaseInfo(
+    version,
+    platform,
+    arch,
+    cacheDir,
+    manifestUrl,
+  );
+  const nodeVersion = releaseInfo.components.node;
 
   if (
     managedManifest === true ||
     typeof managedManifest === "object" ||
     typeof managedManifest === "string"
   ) {
-    enableManagedManifest({ nwPkg, managedManifest, outDir, platform });
+    manageManifest({ manifest, managedManifest, outDir, platform });
   }
 
   if (platform === "linux") {
@@ -233,7 +236,7 @@ export async function bld(
   }
 }
 
-const enableManagedManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
+const manageManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
   let manifest = undefined;
 
   if (managedManifest === true) {

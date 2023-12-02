@@ -1,7 +1,9 @@
 import console from "node:console";
 import { copyFile, readFile, writeFile } from "node:fs/promises";
 import { get } from "node:https";
-import { resolve } from "node:path";
+import { basename, resolve } from "node:path";
+
+import { glob as GlobFn } from "glob";
 
 /**
  * Get manifest (array of NW release metadata) from URL
@@ -60,6 +62,7 @@ export async function getReleaseInfo(
   }
 
   try {
+    if (manifestPath)
     const data = await getManifest(manifestUrl);
     if (data !== undefined) {
       await writeFile(manifestPath, data.slice(9));
@@ -152,3 +155,42 @@ export const replaceFfmpeg = async (platform, nwDir) => {
     }
   }
 };
+
+export async function globFiles({
+  srcDir,
+  glob,
+}) {
+  let files;
+  if (glob) {
+    files = [];
+    const patterns = srcDir.split(" ");
+    for (const pattern of patterns) {
+      let filePath = await GlobFn(pattern);
+      files.push(...filePath);
+    }
+  } else {
+    files = srcDir;
+  }
+  return files;
+}
+
+export async function getManifest({
+  srcDir, glob
+}) {
+  let manifest;
+  if (glob) {
+    for (const file of srcDir) {
+      if (basename(file) === "package.json" && manifest === undefined) {
+        manifest = JSON.parse(await readFile(file));
+      }
+    }
+  } else {
+    manifest = JSON.parse(await readFile(resolve(srcDir, "package.json")));
+  }
+
+  if (manifest === undefined) {
+    throw new Error("package.json not found in srcDir file glob patterns.");
+  }
+  
+  return manifest;
+}

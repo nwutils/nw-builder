@@ -1,17 +1,14 @@
 import console from "node:console";
+import { existsSync } from "node:fs";
 import { mkdir } from "node:fs/promises";
-import { resolve } from "node:path";
 
-import { isCached } from "./util/cache.js";
-import { getFiles } from "./util/files.js";
-import { getVersionManifest } from "./util/versionManifest.js";
 import { parse } from "./util/parse.js";
 import { validate } from "./util/validate.js";
 
 import { bld } from "./bld.js";
 import { get } from "./get.js";
 import { run } from "./run.js";
-import { getReleaseInfo } from "./util.js";
+import { getManifest, getReleaseInfo, globFiles } from "./util.js";
 
 /**
  * @typedef {object} Options Configuration options
@@ -78,36 +75,34 @@ import { getReleaseInfo } from "./util.js";
  * @return {Promise<undefined>}
  */
 const nwbuild = async (options) => {
-  let nwDir = "";
   let built;
   let releaseInfo = {};
-  let files = [];
+  let files = undefined;
   let manifest = {};
+
+  const { version, flavor, platform, arch, downloadUrl, manifestUrl, srcDir, cacheDir, outDir, app, glob, managedManifest, nativeAddon, zip, argv, cache, ffmpeg } = options;
 
   try {
     // Parse options
     options = await parse(options, manifest);
 
-    if (options.mode !== "get") {
-      files = options.glob ? await getFiles(options.srcDir) : options.srcDir;
-      manifest = await getVersionManifest(files, options.glob);
-      if (typeof manifest?.nwbuild === "object") {
-        options = manifest.nwbuild;
-      }
+    files = await globFiles({ srcDir, glob });
+    manifest = await getManifest({ srcDir, glob });
+    if (typeof manifest?.nwbuild === "object") {
+      options = manifest.nwbuild;
     }
 
     options = await parse(options, manifest);
 
     //TODO: impl loggging
 
-    built = await isCached(options.cacheDir);
+    built = existsSync(options.cacheDir);
     if (built === false) {
       await mkdir(options.cacheDir, { recursive: true });
     }
 
-    if (options.mode !== "get" && options.mode !== "run") {
-      // Create outDir if it does not exist
-      built = await isCached(options.outDir);
+    if (options.mode === "build") {
+      built = existsSync(options.outDir);
       if (built === false) {
         await mkdir(options.outDir, { recursive: true });
       }
@@ -115,11 +110,11 @@ const nwbuild = async (options) => {
 
     // Validate options.version to get the version specific release info
     releaseInfo = await getReleaseInfo(
-      options.version,
-      options.platform,
-      options.arch,
-      options.cacheDir,
-      options.manifestUrl,
+      version,
+      platform,
+      arch,
+      cacheDir,
+      manifestUrl,
     );
 
     await validate(options, releaseInfo);
@@ -127,24 +122,17 @@ const nwbuild = async (options) => {
     // Remove leading "v" from version string
     options.version = releaseInfo.version.slice(1);
 
-    nwDir = resolve(
-      options.cacheDir,
-      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${
-        options.platform
-      }-${options.arch}`,
-    );
-
     // Download binaries
     await get({
-      version: options.version,
-      flavor: options.flavor,
-      platform: options.platform,
-      arch: options.arch,
-      downloadUrl: options.downloadUrl,
-      cacheDir: options.cacheDir,
-      cache: options.cache,
-      ffmpeg: options.ffmpeg,
-      nativeAddon: options.nativeAddon,
+      version,
+      flavor,
+      platform,
+      arch,
+      downloadUrl,
+      cacheDir,
+      cache,
+      ffmpeg,
+      nativeAddon,
     });
 
     if (options.mode === "get") {
@@ -154,31 +142,31 @@ const nwbuild = async (options) => {
 
     if (options.mode === "run") {
       await run({
-        version: options.version,
-        flavor: options.flavor,
-        platform: options.platform,
-        arch: options.arch,
-        srcDir: options.srcDir,
-        cacheDir: options.cacheDir,
-        glob: options.glob,
-        argv: options.argv,
+        version,
+        flavor,
+        platform,
+        arch,
+        srcDir,
+        cacheDir,
+        glob,
+        argv,
       });
     } else if (options.mode === "build") {
-      await bld(
-        options.glob === true ? files : options.srcDir,
-        nwDir,
-        options.outDir,
-        options.cacheDir,
-        options.version,
-        options.platform,
-        options.arch,
-        options.zip,
-        options.managedManifest,
-        manifest,
-        options.nativeAddon,
-        releaseInfo.components.node,
-        options.app,
-      );
+      await bld({
+        version,
+        flavor,
+        platform,
+        arch,
+        manifestUrl,
+        srcDir,
+        cacheDir,
+        outDir,
+        app,
+        glob,
+        managedManifest,
+        nativeAddon,
+        zip,
+      });
     }
   } catch (error) {
     console.error(error);
