@@ -3,8 +3,7 @@ import { arch, platform } from "node:process";
 import { describe, it } from "node:test";
 
 import { parse } from "../../src/util/parse.js";
-import { getArch } from "../../src/util/arch.js";
-import { getPlatform } from "../../src/util/platform.js";
+import { ARCH_KV, PLATFORM_KV } from "../../src/util.js";
 
 describe("parse - get mode", () => {
   it("default values", async () => {
@@ -16,8 +15,8 @@ describe("parse - get mode", () => {
       mode: "get",
       version: "latest",
       flavor: "normal",
-      platform: getPlatform(platform),
-      arch: getArch(arch),
+      platform: PLATFORM_KV(platform),
+      arch: ARCH_KV(arch),
       cacheDir: "./cache",
       downloadUrl: "https://dl.nwjs.io",
       manifestUrl: "https://nwjs.io/versions",
@@ -67,8 +66,8 @@ describe("parse - get mode", () => {
       mode: "get",
       version: "latest",
       flavor: "normal",
-      platform: getPlatform(platform),
-      arch: getArch(arch),
+      platform: PLATFORM_KV(platform),
+      arch: ARCH_KV(arch),
       cacheDir: "./cache",
       downloadUrl: "https://npm.taobao.org/mirrors/nwjs/",
       manifestUrl: "https://nwjs.io/versions",
@@ -90,8 +89,8 @@ describe("parse - get mode", () => {
       mode: "get",
       version: "latest",
       flavor: "normal",
-      platform: getPlatform(platform),
-      arch: getArch(arch),
+      platform: PLATFORM_KV(platform),
+      arch: ARCH_KV(arch),
       cacheDir: "./cache",
       downloadUrl: "https://cnpmjs.org/mirrors/nwjs/",
       manifestUrl: "https://nwjs.io/versions",
@@ -113,8 +112,8 @@ describe("parse - get mode", () => {
       mode: "get",
       version: "latest",
       flavor: "normal",
-      platform: getPlatform(platform),
-      arch: getArch(arch),
+      platform: PLATFORM_KV(platform),
+      arch: ARCH_KV(arch),
       cacheDir: "./cache",
       downloadUrl: "https://dl.nwjs.io",
       manifestUrl: "https://nwjs.io/versions",

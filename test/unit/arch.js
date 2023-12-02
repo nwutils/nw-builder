@@ -1,14 +1,14 @@
 import { equal } from "node:assert";
 import { describe, it } from "node:test";
 
-import { getArch } from "../../src/util/arch.js";
+import { ARCH_KV } from "../../src/util.js";
 
 describe("arch tests", () => {
   it("x32 arch support", () => {
-    equal(getArch("ia32"), "ia32");
+    equal(ARCH_KV("ia32"), "ia32");
   });
 
   it("x64 arch support", () => {
-    equal(getArch("x64"), "x64");
+    equal(ARCH_KV("x64"), "x64");
   });
 });

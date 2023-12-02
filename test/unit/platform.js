@@ -1,18 +1,18 @@
 import { equal } from "node:assert";
 import { describe, it } from "node:test";
 
-import { getPlatform } from "../../src/util/platform.js";
+import { PLATFORM_KV } from "../../src/util.js";
 
 describe("platform tests", () => {
   it("linux platform support", () => {
-    equal(getPlatform("linux"), "linux");
+    equal(PLATFORM_KV("linux"), "linux");
   });
 
   it("macos platform support", () => {
-    equal(getPlatform("darwin"), "osx");
+    equal(PLATFORM_KV("darwin"), "osx");
   });
 
   it("windows platform support", () => {
-    equal(getPlatform("win32"), "win");
+    equal(PLATFORM_KV("win32"), "win");
   });
 });

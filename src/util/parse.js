@@ -1,8 +1,7 @@
 import { resolve } from "node:path";
 import { arch, platform } from "node:process";
 
-import { getArch } from "./arch.js";
-import { getPlatform } from "./platform.js";
+import { ARCH_KV, PLATFORM_KV } from "../util.js";
 
 /**
  * Parse options
@@ -17,8 +16,8 @@ export const parse = async (options, pkg) => {
 
   options.version = options.version ?? "latest";
   options.flavor = options.flavor ?? "normal";
-  options.platform = options.platform ?? getPlatform(platform);
-  options.arch = options.arch ?? getArch(arch);
+  options.platform = options.platform ?? PLATFORM_KV(platform);
+  options.arch = options.arch ?? ARCH_KV(arch);
   options.downloadUrl = options.downloadUrl ?? "https://dl.nwjs.io";
   options.manifestUrl = options.manifestUrl ?? "https://nwjs.io/versions";
   options.cacheDir = options.cacheDir ?? "./cache";

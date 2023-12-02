@@ -4,8 +4,7 @@ import { arch, platform } from "node:process";
 import { describe, it } from "node:test";
 
 import { validate } from "../../src/util/validate.js";
-import { getArch } from "../../src/util/arch.js";
-import { getPlatform } from "../../src/util/platform.js";
+import { ARCH_KV, PLATFORM_KV } from "../../src/util.js";
 
 describe("validate - get mode", () => {
   const mockReleaseInfo = {
@@ -39,8 +38,8 @@ describe("validate - get mode", () => {
         mode: "get",
         version: "latest",
         flavor: "normal",
-        platform: getPlatform(platform),
-        arch: getArch(arch),
+        platform: PLATFORM_KV(platform),
+        arch: ARCH_KV(arch),
         cacheDir: resolve("./cache"),
         downloadUrl: "https://dl.nwjs.io",
         manifestUrl: "https://nwjs.io/versions",
@@ -85,8 +84,8 @@ describe("validate - get mode", () => {
         mode: "get",
         version: "latest",
         flavor: "normal",
-        platform: getPlatform(platform),
-        arch: getArch(arch),
+        platform: PLATFORM_KV(platform),
+        arch: ARCH_KV(arch),
         cacheDir: resolve("./cache"),
         downloadUrl: "https://npm.taobao.org/mirrors/nwjs/",
         manifestUrl: "https://nwjs.io/versions",
@@ -107,8 +106,8 @@ describe("validate - get mode", () => {
         mode: "get",
         version: "latest",
         flavor: "normal",
-        platform: getPlatform(platform),
-        arch: getArch(arch),
+        platform: PLATFORM_KV(platform),
+        arch: ARCH_KV(arch),
         cacheDir: resolve("./cache"),
         downloadUrl: "https://cnpmjs.org/mirrors/nwjs/",
         manifestUrl: "https://nwjs.io/versions",
@@ -129,8 +128,8 @@ describe("validate - get mode", () => {
         mode: "get",
         version: "latest",
         flavor: "normal",
-        platform: getPlatform(platform),
-        arch: getArch(arch),
+        platform: PLATFORM_KV(platform),
+        arch: ARCH_KV(arch),
         cacheDir: resolve("./cache"),
         downloadUrl: "https://dl.nwjs.io",
         manifestUrl: "https://nwjs.io/versions",

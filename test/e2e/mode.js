@@ -7,8 +7,7 @@ import nwbuild from "nw-builder";
 import { By } from "selenium-webdriver";
 import chrome from "selenium-webdriver/chrome.js";
 
-import { getArch } from "../../src/util/arch.js";
-import { getPlatform } from "../../src/util/platform.js";
+import { ARCH_KV, PLATFORM_KV } from "../../src/util.js";
 
 const { Driver, ServiceBuilder, Options } = chrome;
 
@@ -20,8 +19,8 @@ describe("test modes", async () => {
     mode: "build",
     version: "0.82.0",
     flavor: "sdk",
-    platform: getPlatform(platform),
-    arch: getArch(arch),
+    platform: PLATFORM_KV(platform),
+    arch: ARCH_KV(arch),
     outDir: "test/fixture/out/app",
     cacheDir: "test/fixture/cache",
     glob: false,
