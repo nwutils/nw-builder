@@ -1,8 +1,8 @@
 import child_process from "node:child_process";
 import console from "node:console";
 import path from "node:path";
-import process from "node:process";
 import fsm from "node:fs/promises";
+import process from "node:process";
 
 import compressing from "compressing";
 import rcedit from "rcedit";
