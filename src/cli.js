@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 
+import process from "node:process";
+
 import yargs from "yargs/yargs";
-import { hideBin } from "yargs/helpers";
+import yargs_helpers from "yargs/helpers";
 
 import nwbuild from "./index.js";
 
-const cli = yargs(hideBin(process.argv))
+const cli = yargs(yargs_helpers.hideBin(process.argv))
   .version(false)
   .command("[srcDir] [options]")
   .option("mode", {
