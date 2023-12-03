@@ -1,14 +1,14 @@
 import console from "node:console";
-import { existsSync } from "node:fs";
-import { mkdir } from "node:fs/promises";
+import fs from "node:fs";
+import fsm from "node:fs/promises";
 
 import { parse } from "./util/parse.js";
 import { validate } from "./util/validate.js";
 
-import { bld } from "./bld.js";
-import { get } from "./get.js";
-import { run } from "./run.js";
-import { getManifest, getReleaseInfo, globFiles } from "./util.js";
+import bld from "./bld.js";
+import get from "./get.js";
+import run from "./run.js";
+import util from "./util.js";
 
 /**
  * @typedef {object} Options Configuration options
@@ -77,7 +77,6 @@ import { getManifest, getReleaseInfo, globFiles } from "./util.js";
 const nwbuild = async (options) => {
   let built;
   let releaseInfo = {};
-  let files = undefined;
   let manifest = {};
 
   const { version, flavor, platform, arch, downloadUrl, manifestUrl, srcDir, cacheDir, outDir, app, glob, managedManifest, nativeAddon, zip, argv, cache, ffmpeg } = options;
@@ -86,8 +85,7 @@ const nwbuild = async (options) => {
     // Parse options
     options = await parse(options, manifest);
 
-    files = await globFiles({ srcDir, glob });
-    manifest = await getManifest({ srcDir, glob });
+    manifest = await util.getNodeManifest({ srcDir, glob });
     if (typeof manifest?.nwbuild === "object") {
       options = manifest.nwbuild;
     }
@@ -96,20 +94,20 @@ const nwbuild = async (options) => {
 
     //TODO: impl loggging
 
-    built = existsSync(options.cacheDir);
+    built = fs.existsSync(options.cacheDir);
     if (built === false) {
-      await mkdir(options.cacheDir, { recursive: true });
+      await fsm.mkdir(options.cacheDir, { recursive: true });
     }
 
     if (options.mode === "build") {
-      built = existsSync(options.outDir);
+      built = fs.existsSync(options.outDir);
       if (built === false) {
-        await mkdir(options.outDir, { recursive: true });
+        await fsm.mkdir(options.outDir, { recursive: true });
       }
     }
 
     // Validate options.version to get the version specific release info
-    releaseInfo = await getReleaseInfo(
+    releaseInfo = await util.getReleaseInfo(
       version,
       platform,
       arch,
