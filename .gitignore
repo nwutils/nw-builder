@@ -2,3 +2,6 @@
 
 .idea
 node_modules
+
+test/fixture/cache
+test/fixture/out
