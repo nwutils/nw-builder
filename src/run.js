@@ -3,7 +3,7 @@ import console from "node:console";
 import path from "node:path";
 import process from "node:process";
 
-import * as util from "./util.js";
+import util from "./util.js";
 
 /**
  * @typedef {object} RunOptions

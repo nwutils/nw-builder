@@ -1,9 +1,9 @@
 import console from "node:console";
-import { copyFile, readFile, writeFile } from "node:fs/promises";
-import { get } from "node:https";
-import { basename, resolve } from "node:path";
+import fsm from "node:fs/promises";
+import https from "node:https";
+import path from "node:path";
 
-import { glob as GlobFn } from "glob";
+import * as GlobModule from "glob";
 
 /**
  * Get manifest (array of NW release metadata) from URL
@@ -14,24 +14,24 @@ import { glob as GlobFn } from "glob";
 function getManifest(manifestUrl) {
   let chunks = undefined;
 
-  return new Promise((resolve) => {
-    const req = get(manifestUrl, (res) => {
+  return new Promise((res) => {
+    const req = https.get(manifestUrl, (res) => {
       res.on("data", (chunk) => {
         chunks += chunk;
       });
 
       res.on("error", (e) => {
         console.error(e);
-        resolve(undefined);
+        res(undefined);
       });
 
       res.on("end", () => {
-        resolve(chunks);
+        res(chunks);
       });
     });
     req.on("error", (e) => {
       console.error(e);
-      resolve(undefined);
+      res(undefined);
     });
   });
 }
@@ -46,7 +46,7 @@ function getManifest(manifestUrl) {
  * @param  {string} manifestUrl  Url to manifest
  * @return {object}              Version specific release info
  */
-export async function getReleaseInfo(
+async function getReleaseInfo(
   version,
   platform,
   arch,
@@ -56,19 +56,18 @@ export async function getReleaseInfo(
   let releaseData = undefined;
   let manifestPath = undefined;
   if (platform === "osx" && arch === "arm64") {
-    manifestPath = resolve(cacheDir, "manifest.mac.arm.json");
+    manifestPath = path.resolve(cacheDir, "manifest.mac.arm.json");
   } else {
-    manifestPath = resolve(cacheDir, "manifest.json");
+    manifestPath = path.resolve(cacheDir, "manifest.json");
   }
 
   try {
-    if (manifestPath)
     const data = await getManifest(manifestUrl);
     if (data !== undefined) {
-      await writeFile(manifestPath, data.slice(9));
+      await fsm.writeFile(manifestPath, data.slice(9));
     }
 
-    let manifest = JSON.parse(await readFile(manifestPath));
+    let manifest = JSON.parse(await fsm.readFile(manifestPath));
     if (version === "latest" || version === "stable" || version === "lts") {
       // Remove leading "v" from version string
       version = manifest[version].slice(1);
@@ -85,19 +84,19 @@ export async function getReleaseInfo(
   return releaseData;
 }
 
-export const PLATFORM_KV = {
+const PLATFORM_KV = {
   darwin: "osx",
   linux: "linux",
   win32: "win",
 };
 
-export const ARCH_KV = {
+const ARCH_KV = {
   x64: "x64",
   ia32: "ia32",
   arm64: "arm64",
 };
 
-export const EXE_NAME = {
+const EXE_NAME = {
   win: "nw.exe",
   osx: "nwjs.app/Contents/MacOS/nwjs",
   linux: "nw",
@@ -109,7 +108,7 @@ export const EXE_NAME = {
  * @param {string} platform  The platform to replace the ffmpeg file for
  * @param {string} nwDir     The directory of the nwjs installation
  */
-export const replaceFfmpeg = async (platform, nwDir) => {
+const replaceFfmpeg = async (platform, nwDir) => {
   let ffmpegFile;
   if (platform === "linux") {
     ffmpegFile = "libffmpeg.so";
@@ -118,15 +117,15 @@ export const replaceFfmpeg = async (platform, nwDir) => {
   } else if (platform === "osx") {
     ffmpegFile = "libffmpeg.dylib";
   }
-  const src = resolve(nwDir, ffmpegFile);
+  const src = path.resolve(nwDir, ffmpegFile);
   if (platform === "linux") {
-    const dest = resolve(nwDir, "lib", ffmpegFile);
-    await copyFile(src, dest);
+    const dest = path.resolve(nwDir, "lib", ffmpegFile);
+    await fsm.copyFile(src, dest);
   } else if (platform === "win") {
     // don't do anything for windows because the extracted file is already in the correct path
-    // await copyFile(src, resolve(nwDir, ffmpegFile));
+    // await copyFile(src, path.resolve(nwDir, ffmpegFile));
   } else if (platform === "osx") {
-    let dest = resolve(
+    let dest = path.resolve(
       nwDir,
       "nwjs.app",
       "Contents",
@@ -138,11 +137,11 @@ export const replaceFfmpeg = async (platform, nwDir) => {
     );
 
     try {
-      await copyFile(src, dest);
+      await fsm.copyFile(src, dest);
     } catch (e) {
       //some versions of node/macOS complain about destination being a file, and others complain when it is only a directory.
       //the only thing I can think to do is to try both
-      dest = resolve(
+      dest = path.resolve(
         nwDir,
         "nwjs.app",
         "Contents",
@@ -151,12 +150,12 @@ export const replaceFfmpeg = async (platform, nwDir) => {
         "Versions",
         "Current",
       );
-      await copyFile(src, dest);
+      await fsm.copyFile(src, dest);
     }
   }
 };
 
-export async function globFiles({
+async function globFiles({
   srcDir,
   glob,
 }) {
@@ -165,7 +164,7 @@ export async function globFiles({
     files = [];
     const patterns = srcDir.split(" ");
     for (const pattern of patterns) {
-      let filePath = await GlobFn(pattern);
+      let filePath = await GlobModule.glob(pattern);
       files.push(...filePath);
     }
   } else {
@@ -174,18 +173,20 @@ export async function globFiles({
   return files;
 }
 
-export async function getManifest({
+async function getNodeManifest({
   srcDir, glob
 }) {
   let manifest;
+  let files;
   if (glob) {
-    for (const file of srcDir) {
-      if (basename(file) === "package.json" && manifest === undefined) {
-        manifest = JSON.parse(await readFile(file));
+    files = await globFiles({srcDir, glob});
+    for (const file of files) {
+      if (path.basename(file) === "package.json" && manifest === undefined) {
+        manifest = JSON.parse(await fsm.readFile(file));
       }
     }
   } else {
-    manifest = JSON.parse(await readFile(resolve(srcDir, "package.json")));
+    manifest = JSON.parse(await fsm.readFile(path.resolve(srcDir, "package.json")));
   }
 
   if (manifest === undefined) {
@@ -194,3 +195,5 @@ export async function getManifest({
   
   return manifest;
 }
+
+export default { getReleaseInfo, PLATFORM_KV, ARCH_KV, EXE_NAME, replaceFfmpeg, globFiles, getNodeManifest };
