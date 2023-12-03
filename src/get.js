@@ -10,7 +10,7 @@ import progress from "cli-progress";
 import compressing from "compressing";
 import yauzl from "yauzl-promise";
 
-import * as util from "./util.js";
+import util from "./util.js";
 
 import "./nwbuild.js";
 
