@@ -1,21 +1,14 @@
-import { exec } from "node:child_process";
+import child_process from "node:child_process";
 import console from "node:console";
-import { resolve } from "node:path";
-import { arch as ARCH, platform as PLATFORM, chdir } from "node:process";
-import {
-  cp,
-  copyFile,
-  rename,
-  readFile,
-  rm,
-  writeFile,
-} from "node:fs/promises";
+import path from "node:path";
+import process from "node:process";
+import fsm from "node:fs/promises";
 
 import compressing from "compressing";
 import rcedit from "rcedit";
 import plist from "plist";
 
-import { ARCH_KV, PLATFORM_KV, getManifest, getReleaseInfo, globFiles } from "./util.js"
+import util from "./util.js"
 
 /**
  * References:
@@ -148,11 +141,11 @@ import { ARCH_KV, PLATFORM_KV, getManifest, getReleaseInfo, globFiles } from "./
  * sudo xattr -r -d com.apple.quarantine /path/to/nwjs.app
  * 
  */
-export async function bld({
+async function bld({
   version = "latest",
   flavor = "normal",
-  platform = PLATFORM_KV[PLATFORM],
-  arch = ARCH_KV[ARCH],
+  platform = util.PLATFORM_KV[process.platform],
+  arch = util.ARCH_KV[process.arch],
   manifestUrl = "https://nwjs.io/versions",
   srcDir = "./src",
   cacheDir = "./cache",
@@ -163,23 +156,23 @@ export async function bld({
   nativeAddon = false,
   zip = false,
 }) {
-  const nwDir = resolve(
+  const nwDir = path.resolve(
     cacheDir,
     `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform
     }-${arch}`,
   );
 
-  await rm(outDir, { force: true, recursive: true });
-  await cp(nwDir, outDir, { recursive: true, verbatimSymlinks: true });
+  await fsm.rm(outDir, { force: true, recursive: true });
+  await fsm.cp(nwDir, outDir, { recursive: true, verbatimSymlinks: true });
 
-  const files = await globFiles({ srcDir, glob });
-  const manifest = await getManifest({ srcDir, glob });
+  const files = await util.globFiles({ srcDir, glob });
+  const manifest = await util.getNodeManifest({ srcDir, glob });
 
   if (glob) {
     for (let file of files) {
-      await cp(
+      await fsm.cp(
         file,
-        resolve(
+        path.resolve(
           outDir,
           platform !== "osx"
             ? "package.nw"
@@ -190,9 +183,9 @@ export async function bld({
       );
     }
   } else {
-    await cp(
+    await fsm.cp(
       files,
-      resolve(
+      path.resolve(
         outDir,
         platform !== "osx"
           ? "package.nw"
@@ -202,7 +195,7 @@ export async function bld({
     );
   }
 
-  const releaseInfo = await getReleaseInfo(
+  const releaseInfo = await util.getReleaseInfo(
     version,
     platform,
     arch,
@@ -248,7 +241,7 @@ const manageManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
   }
 
   if (typeof managedManifest === "string") {
-    manifest = JSON.parse(await readFile(managedManifest));
+    manifest = JSON.parse(await fsm.readFile(managedManifest));
   }
 
   if (manifest.devDependencies) {
@@ -256,8 +249,8 @@ const manageManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
   }
   manifest.packageManager = manifest.packageManager ?? "npm@*";
 
-  await writeFile(
-    resolve(
+  await fsm.writeFile(
+    path.resolve(
       outDir,
       platform !== "osx"
         ? "package.nw"
@@ -268,8 +261,8 @@ const manageManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
     "utf8",
   );
 
-  chdir(
-    resolve(
+  process.chdir(
+    path.resolve(
       outDir,
       platform !== "osx"
         ? "package.nw"
@@ -278,16 +271,16 @@ const manageManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
   );
 
   if (manifest.packageManager.startsWith("npm")) {
-    exec(`npm install`);
+    child_process.exec(`npm install`);
   } else if (manifest.packageManager.startsWith("yarn")) {
-    exec(`yarn install`);
+    child_process.exec(`yarn install`);
   } else if (manifest.packageManager.startsWith("pnpm")) {
-    exec(`pnpm install`);
+    child_process.exec(`pnpm install`);
   }
 };
 
 const setLinuxConfig = async ({ app, outDir }) => {
-  if (PLATFORM === "win32") {
+  if (process.platform === "win32") {
     console.warn(
       "Linux apps built on Windows platform do not preserve all file permissions. See #716",
     );
@@ -319,7 +312,7 @@ const setLinuxConfig = async ({ app, outDir }) => {
     SingleMainWindow: app.singleMainWindow,
   };
 
-  await rename(`${outDir}/nw`, `${outDir}/${app.name}`);
+  await fsm.rename(`${outDir}/nw`, `${outDir}/${app.name}`);
 
   let fileContent = `[Desktop Entry]\n`;
   Object.keys(desktopEntryFile).forEach((key) => {
@@ -328,7 +321,7 @@ const setLinuxConfig = async ({ app, outDir }) => {
     }
   });
   let filePath = `${outDir}/${app.name}.desktop`;
-  await writeFile(filePath, fileContent);
+  await fsm.writeFile(filePath, fileContent);
 };
 
 const setWinConfig = async ({ app, outDir }) => {
@@ -364,8 +357,8 @@ const setWinConfig = async ({ app, outDir }) => {
   }
 
   try {
-    const outDirAppExe = resolve(outDir, `${app.name}.exe`);
-    await rename(resolve(outDir, "nw.exe"), outDirAppExe);
+    const outDirAppExe = path.resolve(outDir, `${app.name}.exe`);
+    await fsm.rename(path.resolve(outDir, "nw.exe"), outDirAppExe);
     await rcedit(outDirAppExe, rcEditOptions);
   } catch (error) {
     console.warn(
@@ -376,33 +369,33 @@ const setWinConfig = async ({ app, outDir }) => {
 };
 
 const setOsxConfig = async ({ outDir, app }) => {
-  if (PLATFORM === "win32") {
+  if (process.platform === "win32") {
     console.warn(
       "MacOS apps built on Windows platform do not preserve all file permissions. See #716",
     );
   }
 
   try {
-    const outApp = resolve(outDir, `${app.name}.app`);
-    await rename(resolve(outDir, "nwjs.app"), outApp);
+    const outApp = path.resolve(outDir, `${app.name}.app`);
+    await fsm.rename(path.resolve(outDir, "nwjs.app"), outApp);
     if (app.icon !== undefined) {
-      await copyFile(
-        resolve(app.icon),
-        resolve(outApp, "Contents", "Resources", "app.icns"),
+      await fsm.copyFile(
+        path.resolve(app.icon),
+        path.resolve(outApp, "Contents", "Resources", "app.icns"),
       );
     }
 
-    const infoPlistPath = resolve(outApp, "Contents", "Info.plist");
-    const infoPlistJson = plist.parse(await readFile(infoPlistPath, "utf-8"));
+    const infoPlistPath = path.resolve(outApp, "Contents", "Info.plist");
+    const infoPlistJson = plist.parse(await fsm.readFile(infoPlistPath, "utf-8"));
 
-    const infoPlistStringsPath = resolve(
+    const infoPlistStringsPath = path.resolve(
       outApp,
       "Contents",
       "Resources",
       "en.lproj",
       "InfoPlist.strings",
     );
-    const infoPlistStringsData = await readFile(
+    const infoPlistStringsData = await fsm.readFile(
       infoPlistStringsPath,
       "utf-8",
     );
@@ -430,8 +423,8 @@ const setOsxConfig = async ({ outDir, app }) => {
       }
     });
 
-    await writeFile(infoPlistPath, plist.build(infoPlistJson));
-    await writeFile(
+    await fsm.writeFile(infoPlistPath, plist.build(infoPlistJson));
+    await fsm.writeFile(
       infoPlistStringsPath,
       infoPlistStringsDataArray.toString().replace(/,/g, "\n"),
     );
@@ -441,9 +434,9 @@ const setOsxConfig = async ({ outDir, app }) => {
 };
 
 const buildNativeAddon = ({ cacheDir, version, platform, arch, outDir, nodeVersion }) => {
-  let nodePath = resolve(cacheDir, `node-v${version}-${platform}-${arch}`);
-  chdir(
-    resolve(
+  let nodePath = path.resolve(cacheDir, `node-v${version}-${platform}-${arch}`);
+  process.chdir(
+    path.resolve(
       outDir,
       platform !== "osx"
         ? "package.nw"
@@ -451,7 +444,7 @@ const buildNativeAddon = ({ cacheDir, version, platform, arch, outDir, nodeVersi
     ),
   );
 
-  exec(
+  child_process.exec(
     `node-gyp rebuild --target=${nodeVersion} --nodedir=${nodePath}`,
     (error) => {
       if (error !== null) {
@@ -473,5 +466,7 @@ const compress = async ({
     await compressing.tgz.compressDir(outDir, `${outDir}.tgz`);
   }
 
-  await rm(outDir, { recursive: true, force: true });
+  await fsm.rm(outDir, { recursive: true, force: true });
 };
+
+export default bld;
