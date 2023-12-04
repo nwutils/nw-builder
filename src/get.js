@@ -244,8 +244,6 @@ const getNwjs = async ({
         }
       } catch (e) {
         console.error(e);
-      } finally {
-        
       }
       await zip.close();
     } else {
