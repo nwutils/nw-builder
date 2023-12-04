@@ -13,6 +13,7 @@ import yauzl from "yauzl-promise";
 import util from "./util.js";
 
 import "./nwbuild.js";
+import streamp from "node:stream/promises";
 
 /**
  * @typedef {object} GetOptions
@@ -238,13 +239,7 @@ const getNwjs = async ({
 
             const readStream = await entry.openReadStream();
             const writeStream = fs.createWriteStream(fullEntryPath);
-
-            await new Promise((res, rej) => {
-              readStream.pipe(writeStream);
-              readStream.on("error", rej);
-              writeStream.on("error", rej);
-              writeStream.on("finish", res);
-            });
+            await streamp.pipeline(readStream, writeStream)
           }
         }
       } catch (e) {
