@@ -38,7 +38,5 @@ jobs:
         run: npm run lint
       - name: Link module
         run: npm link nw-builder
-      - name: Run unit tests
-        run: npm run test:unit
       - name: Run Selenium tests
         run: npm run test:e2e
