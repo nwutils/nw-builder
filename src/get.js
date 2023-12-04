@@ -12,7 +12,6 @@ import yauzl from "yauzl-promise";
 
 import util from "./util.js";
 
-import "./nwbuild.js";
 import streamp from "node:stream/promises";
 
 /**
@@ -93,7 +92,6 @@ async function get({
   ffmpeg = false,
   nativeAddon = false,
 }) {
-
   await getNwjs({
     version,
     flavor,
@@ -147,6 +145,7 @@ const getNwjs = async ({
       force: true,
     });
   }
+  console.log('we here');
 
   if (fs.existsSync(out) === true) {
     await fsm.rm(
@@ -156,10 +155,15 @@ const getNwjs = async ({
       ),
       { recursive: true, force: true },
     );
-    await compressing[platform === "linux" ? "tgz" : "zip"].uncompress(
-      out,
-      cacheDir,
-    );
+    if (true) {
+      // if (platform === "osx" && process.platform === "darwin") {
+      await decompressOSX({ out, cacheDir });
+    } else {
+      await compressing[platform === "linux" ? "tgz" : "zip"].uncompress(
+        out,
+        cacheDir,
+      );
+    }
 
     return;
   }
@@ -224,27 +228,7 @@ const getNwjs = async ({
       { recursive: true, force: true },
     );
     if (platform === "osx" && process.platform === "darwin") {
-      const zip = await yauzl.open(out, {
-        supportMacArchive: false,
-      });
-      try {
-        for await (const entry of zip) {
-          const fullEntryPath = path.resolve(cacheDir, entry.filename);
-          if (entry.filename.endsWith("/")) {
-            await fsm.mkdir(fullEntryPath, { recursive: true });
-          } else {
-            await fsm.mkdir(path.dirname(fullEntryPath), { recursive: true });
-            const readStream = await entry.openReadStream();
-            const writeStream = fs.createWriteStream(fullEntryPath);
-            await streamp.pipeline(readStream, writeStream)
-          }
-        }
-      }
-      catch (e) {
-        console.error(e);
-      } finally {
-        await zip.close();
-      }
+      await decompressOSX({ out, cacheDir });
     } else {
       await compressing[platform === "linux" ? "tgz" : "zip"].uncompress(
         out,
@@ -411,6 +395,28 @@ const getNodeHeaders = async ({
       path.resolve(cacheDir, `node-v${version}-${platform}-${arch}`),
     );
   });
+}
+
+const decompressOSX = async ({ out, cacheDir }) => {
+  const zip = await yauzl.open(out);
+  try {
+    for await (const entry of zip) {
+      const fullEntryPath = path.resolve(cacheDir, entry.filename);
+      if (entry.filename.endsWith("/")) {
+        await fsm.mkdir(fullEntryPath, { recursive: true });
+      } else {
+        await fsm.mkdir(path.dirname(fullEntryPath), { recursive: true });
+        const readStream = await entry.openReadStream();
+        const writeStream = fs.createWriteStream(fullEntryPath);
+        await streamp.pipeline(readStream, writeStream)
+      }
+    }
+  }
+  catch (e) {
+    console.error(e);
+  } finally {
+    await zip.close();
+  }
 }
 
 export default get;
