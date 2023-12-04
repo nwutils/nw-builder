@@ -155,8 +155,7 @@ const getNwjs = async ({
       ),
       { recursive: true, force: true },
     );
-    if (true) {
-      // if (platform === "osx" && process.platform === "darwin") {
+      if (platform === "osx" && process.platform === "darwin") {
       await decompressOSX({ out, cacheDir });
     } else {
       await compressing[platform === "linux" ? "tgz" : "zip"].uncompress(
