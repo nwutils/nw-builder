@@ -22,7 +22,7 @@ describe("test modes", async () => {
     platform: util.PLATFORM_KV[platform],
     arch: util.ARCH_KV[arch],
     outDir: "test/fixture/out/app",
-    cacheDir: "test/fixture/cache",
+    cacheDir: "node_modules/nw_cache",
     glob: false,
   };
 
