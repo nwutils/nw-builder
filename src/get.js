@@ -245,8 +245,9 @@ const getNwjs = async ({
       } catch (e) {
         console.error(e);
       } finally {
-        await zip.close();
+        
       }
+      await zip.close();
     } else {
       await compressing[platform === "linux" ? "tgz" : "zip"].uncompress(
         out,
