@@ -224,28 +224,27 @@ const getNwjs = async ({
       { recursive: true, force: true },
     );
     if (platform === "osx" && process.platform === "darwin") {
-      const zip = await yauzl.open(out);
+      const zip = await yauzl.open(out, {
+        supportMacArchive: false,
+      });
       try {
         for await (const entry of zip) {
           const fullEntryPath = path.resolve(cacheDir, entry.filename);
-
           if (entry.filename.endsWith("/")) {
-            // Create directory
             await fsm.mkdir(fullEntryPath, { recursive: true });
           } else {
-            // Create the file's directory first, if it doesn't exist
-            const directory = path.dirname(fullEntryPath);
-            await fsm.mkdir(directory, { recursive: true });
-
+            await fsm.mkdir(path.dirname(fullEntryPath), { recursive: true });
             const readStream = await entry.openReadStream();
             const writeStream = fs.createWriteStream(fullEntryPath);
             await streamp.pipeline(readStream, writeStream)
           }
         }
-      } catch (e) {
-        console.error(e);
       }
-      await zip.close();
+      catch (e) {
+        console.error(e);
+      } finally {
+        await zip.close();
+      }
     } else {
       await compressing[platform === "linux" ? "tgz" : "zip"].uncompress(
         out,
