@@ -8,10 +8,9 @@ import process from "node:process";
 
 import progress from "cli-progress";
 import compressing from "compressing";
+import tar from "tar";
 
 import util from "./util.js";
-
-import "./nwbuild.js";
 
 /**
  * @typedef {object} GetOptions
@@ -91,7 +90,6 @@ async function get({
   ffmpeg = false,
   nativeAddon = false,
 }) {
-
   await getNwjs({
     version,
     flavor,
@@ -154,11 +152,17 @@ const getNwjs = async ({
       ),
       { recursive: true, force: true },
     );
-    await compressing[platform === "linux" ? "tgz" : "zip"].uncompress(
-      out,
-      cacheDir,
-    );
-
+    if (platform === "linux") {
+      await tar.extract({
+        file: out,
+        C: cacheDir
+      });
+    } else {
+      await compressing.zip.uncompress(
+        out,
+        cacheDir,
+      );
+    }
     return;
   }
 
@@ -221,11 +225,17 @@ const getNwjs = async ({
       ),
       { recursive: true, force: true },
     );
-    await compressing[platform === "linux" ? "tgz" : "zip"].uncompress(
-      out,
-      cacheDir,
-    );
-
+    if (platform === "linux") {
+      await tar.extract({
+        file: out,
+        C: cacheDir
+      });
+    } else {
+      await compressing.zip.uncompress(
+        out,
+        cacheDir,
+      );
+    }
   });
 }
 
@@ -326,7 +336,10 @@ const getNodeHeaders = async ({
   }
 
   if (fs.existsSync(out) === true) {
-    await compressing.tgz.uncompress(out, cacheDir);
+    await tar.extract({
+      file: out,
+      C: cacheDir
+    });
     await fsm.rm(path.resolve(cacheDir, `node-v${version}-${platform}-${arch}`), {
       recursive: true,
       force: true,
@@ -380,7 +393,10 @@ const getNodeHeaders = async ({
   });
 
   return request.then(async () => {
-    await compressing.tgz.uncompress(out, cacheDir);
+    await tar.extract({
+      file: out,
+      C: cacheDir
+    });
     await fsm.rename(
       path.resolve(cacheDir, "node"),
       path.resolve(cacheDir, `node-v${version}-${platform}-${arch}`),

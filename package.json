@@ -42,7 +42,7 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
-    "lint": "eslint --fix src/get.js",
+    "lint": "eslint src/get.js",
     "docs": "jsdoc -d docs ./src/get.js ./src/run.js ./src/bld.js",
     "test:e2e": "node test/e2e/index.js",
     "demo": "cd test/fixture && node demo.js"
@@ -60,6 +60,7 @@
     "node-gyp": "^10.0.1",
     "plist": "^3.1.0",
     "rcedit": "^4.0.1",
+    "tar": "^6.2.0",
     "yargs": "^17.7.2"
   },
   "packageManager": "npm@10.2.4",
