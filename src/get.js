@@ -8,7 +8,6 @@ import process from "node:process";
 
 import progress from "cli-progress";
 import compressing from "compressing";
-import yauzl from "yauzl-promise";
 
 import util from "./util.js";
 
@@ -17,7 +16,7 @@ import "./nwbuild.js";
 /**
  * @typedef {object} GetOptions
  * @property {string | "latest" | "stable" | "lts"} [options.version = "latest"]                  Runtime version
- * @property {import("./nwbuild.js").Options["flavor"]}                     [options.flavor = "normal"]                   Build flavor
+ * @property {"normal" | "sdk"}                     [options.flavor = "normal"]                   Build flavor
  * @property {"linux" | "osx" | "win"}              [options.platform]                            Target platform
  * @property {"ia32" | "x64" | "arm64"}             [options.arch]                                Target arch
  * @property {string}                               [options.downloadUrl = "https://dl.nwjs.io"]  Download server
@@ -222,42 +221,11 @@ const getNwjs = async ({
       ),
       { recursive: true, force: true },
     );
-    if (platform === "osx" && process.platform === "darwin") {
-      const zip = await yauzl.open(out);
-      try {
-        for await (const entry of zip) {
-          const fullEntryPath = path.resolve(cacheDir, entry.filename);
+    await compressing[platform === "linux" ? "tgz" : "zip"].uncompress(
+      out,
+      cacheDir,
+    );
 
-          if (entry.filename.endsWith("/")) {
-            // Create directory
-            await fsm.mkdir(fullEntryPath, { recursive: true });
-          } else {
-            // Create the file's directory first, if it doesn't exist
-            const directory = path.dirname(fullEntryPath);
-            await fsm.mkdir(directory, { recursive: true });
-
-            const readStream = await entry.openReadStream();
-            const writeStream = fs.createWriteStream(fullEntryPath);
-
-            await new Promise((res, rej) => {
-              readStream.pipe(writeStream);
-              readStream.on("error", rej);
-              writeStream.on("error", rej);
-              writeStream.on("finish", res);
-            });
-          }
-        }
-      } catch (e) {
-        console.error(e);
-      } finally {
-        await zip.close();
-      }
-    } else {
-      await compressing[platform === "linux" ? "tgz" : "zip"].uncompress(
-        out,
-        cacheDir,
-      );
-    }
   });
 }
 

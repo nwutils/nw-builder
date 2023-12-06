@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Removed
+
+- Remove `yauzl-promise` since it does not preserve symlinks on MacOS.
+
 ## [4.4.2-beta.4] - 2023-11-03
 
 ### Changed
