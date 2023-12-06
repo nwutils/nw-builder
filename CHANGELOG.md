@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## Changed
+
+- Use `tar` to extract tarballs.
+
 ### Removed
 
 - Remove `yauzl-promise` since it does not preserve symlinks on MacOS.
