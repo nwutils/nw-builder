@@ -19,7 +19,6 @@ import util from "./util.js";
  * @property {"ia32" | "x64" | "arm64"}             [options.arch]                                Target arch
  * @property {string}                               [options.downloadUrl = "https://dl.nwjs.io"]  Download server
  * @property {string}                               [options.cacheDir = "./cache"]                Cache directory
- * @property {string}                               [options.outDir = "./out"]                    Out directory
  * @property {boolean}                              [options.cache = true]                        If false, remove cache and redownload.
  * @property {boolean}                              [options.ffmpeg = false]                      If true, ffmpeg is not downloaded.
  * @property {false | "gyp"}                        [options.nativeAddon = false]                 Rebuild native modules
@@ -204,10 +203,10 @@ const getFfmpeg = async (options) => {
   // If options.ffmpeg is true, then download ffmpeg.
   options.downloadUrl = "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download";
   let url = `${options.downloadUrl}/${options.version}/${options.version}-${options.platform}-${options.arch}.zip`;
-  const out = path.resolve(cacheDir, `ffmpeg-v${options.version}-${options.platform}-${options.arch}.zip`);
+  const out = path.resolve(options.cacheDir, `ffmpeg-v${options.version}-${options.platform}-${options.arch}.zip`);
 
   // If options.cache is false, remove cache.
-  if (cache === false) {
+  if (options.cache === false) {
     await fsm.rm(out, {
       recursive: true,
       force: true,

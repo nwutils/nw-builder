@@ -7,7 +7,7 @@ import nwbuild from "nw-builder";
 import { By } from "selenium-webdriver";
 import chrome from "selenium-webdriver/chrome.js";
 
-import util from "../../src/util.js";
+import util from "../src/util.js";
 
 const { Driver, ServiceBuilder, Options } = chrome;
 
