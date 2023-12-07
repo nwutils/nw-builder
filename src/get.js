@@ -6,8 +6,8 @@ import https from "node:https";
 import path from "node:path";
 
 import progress from "cli-progress";
-import compressing from "compressing";
 import tar from "tar";
+import unzipper from "unzipper";
 
 import util from "./util.js";
 
@@ -117,10 +117,8 @@ const getNwjs = async (options) => {
         C: options.cacheDir
       });
     } else {
-      await compressing.zip.uncompress(
-        out,
-        options.cacheDir,
-      );
+      fs.createReadStream(out)
+        .pipe(unzipper.Extract({ path: options.cacheDir }));
     }
     return;
   }
@@ -190,10 +188,8 @@ const getNwjs = async (options) => {
       C: options.cacheDir
     });
   } else {
-    await compressing.zip.uncompress(
-      out,
-      options.cacheDir,
-    );
+    fs.createReadStream(out)
+      .pipe(unzipper.Extract({ path: options.cacheDir }));
   }
 }
 
@@ -220,7 +216,8 @@ const getFfmpeg = async (options) => {
 
   // Check if cache exists.
   if (fs.existsSync(out) === true) {
-    await compressing.zip.uncompress(out, nwDir);
+    fs.createReadStream(out)
+      .pipe(unzipper.Extract({ path: nwDir }));
     return;
   }
 
@@ -259,7 +256,8 @@ const getFfmpeg = async (options) => {
 
   // Remove compressed file after download and decompress.
   await request;
-  await compressing.zip.uncompress(out, nwDir);
+  fs.createReadStream(out)
+    .pipe(unzipper.Extract({ path: nwDir }));
   await util.replaceFfmpeg(options.platform, nwDir);
 }
 
