@@ -51,7 +51,7 @@
     "eslint": "^8.55.0",
     "eslint-plugin-jsdoc": "^46.9.0",
     "jsdoc": "^4.0.2",
-    "selenium-webdriver": "^4.15.0"
+    "selenium-webdriver": "^4.16.0"
   },
   "dependencies": {
     "cli-progress": "^3.12.0",
