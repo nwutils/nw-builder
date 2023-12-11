@@ -37,6 +37,12 @@ import util from "./util.js";
  * nwbuild({
  *   mode: "get",
  * });
+ * 
+ * // Use with nw module
+ * nwbuild({
+ *   mode: "get",
+ *   cacheDir: "./node_modules/nw" 
+ * });
  *
  * @example
  * // Unofficial macOS builds (upto v0.75.0)
