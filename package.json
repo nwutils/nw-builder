@@ -48,8 +48,8 @@
     "demo": "cd test/fixture && node demo.js"
   },
   "devDependencies": {
-    "eslint": "^8.55.0",
-    "eslint-plugin-jsdoc": "^46.9.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-jsdoc": "^46.9.1",
     "jsdoc": "^4.0.2",
     "selenium-webdriver": "^4.16.0"
   },
