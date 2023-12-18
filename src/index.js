@@ -79,20 +79,18 @@ const nwbuild = async (options) => {
   let releaseInfo = {};
   let manifest = {};
 
-  const { version, flavor, platform, arch, downloadUrl, manifestUrl, srcDir, cacheDir, outDir, app, glob, managedManifest, nativeAddon, zip, argv, cache, ffmpeg } = options;
-
   try {
     // Parse options
     options = await parse(options, manifest);
 
-    manifest = await util.getNodeManifest({ srcDir, glob });
+    manifest = await util.getNodeManifest({ srcDir: srcDir, glob: glob });
     if (typeof manifest?.nwbuild === "object") {
       options = manifest.nwbuild;
     }
 
     options = await parse(options, manifest);
 
-    //TODO: impl loggging
+    //TODO: impl logging
 
     built = fs.existsSync(options.cacheDir);
     if (built === false) {
@@ -108,11 +106,11 @@ const nwbuild = async (options) => {
 
     // Validate options.version to get the version specific release info
     releaseInfo = await util.getReleaseInfo(
-      version,
-      platform,
-      arch,
-      cacheDir,
-      manifestUrl,
+      options.version,
+      options.platform,
+      options.arch,
+      options.cacheDir,
+      options.manifestUrl,
     );
 
     await validate(options, releaseInfo);
@@ -122,15 +120,15 @@ const nwbuild = async (options) => {
 
     // Download binaries
     await get({
-      version,
-      flavor,
-      platform,
-      arch,
-      downloadUrl,
-      cacheDir,
-      cache,
-      ffmpeg,
-      nativeAddon,
+      version: options.version,
+      flavor: options.flavor,
+      platform: options.platform,
+      arch: options.arch,
+      downloadUrl: options.downloadUrl,
+      cacheDir: options.cacheDir,
+      cache: options.cache,
+      ffmpeg: options.ffmpeg,
+      nativeAddon: options.nativeAddon,
     });
 
     if (options.mode === "get") {
@@ -140,30 +138,30 @@ const nwbuild = async (options) => {
 
     if (options.mode === "run") {
       await run({
-        version,
-        flavor,
-        platform,
-        arch,
-        srcDir,
-        cacheDir,
-        glob,
-        argv,
+        version: options.version,
+        flavor: options.flavor,
+        platform: options.platform,
+        arch: options.arch,
+        srcDir: options.srcDir,
+        cacheDir: options.cacheDir,
+        glob: options.glob,
+        argv: options.argv,
       });
     } else if (options.mode === "build") {
       await bld({
-        version,
-        flavor,
-        platform,
-        arch,
-        manifestUrl,
-        srcDir,
-        cacheDir,
-        outDir,
-        app,
-        glob,
-        managedManifest,
-        nativeAddon,
-        zip,
+        version: options.version,
+        flavor: options.flavor,
+        platform: options.platform,
+        arch: options.arch,
+        manifestUrl: options.manifestUrl,
+        srcDir: options.srcDir,
+        cacheDir: options.cacheDir,
+        outDir: options.outDir,
+        app: options.app,
+        glob: options.glob,
+        managedManifest: options.managedManifest,
+        nativeAddon: options.nativeAddon,
+        zip: options.zip,
       });
     }
   } catch (error) {

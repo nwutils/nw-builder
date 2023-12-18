@@ -1,7 +1,7 @@
 import { resolve } from "node:path";
 import { arch, platform } from "node:process";
 
-import { ARCH_KV, PLATFORM_KV } from "../util.js";
+import util from "../util.js";
 
 /**
  * Parse options
@@ -16,8 +16,8 @@ export const parse = async (options, pkg) => {
 
   options.version = options.version ?? "latest";
   options.flavor = options.flavor ?? "normal";
-  options.platform = options.platform ?? PLATFORM_KV(platform);
-  options.arch = options.arch ?? ARCH_KV(arch);
+  options.platform = options.platform ?? util.PLATFORM_KV[platform];
+  options.arch = options.arch ?? util.ARCH_KV[arch];
   options.downloadUrl = options.downloadUrl ?? "https://dl.nwjs.io";
   options.manifestUrl = options.manifestUrl ?? "https://nwjs.io/versions";
   options.cacheDir = options.cacheDir ?? "./cache";
@@ -41,7 +41,8 @@ export const parse = async (options, pkg) => {
   options.zip = options.zip ?? false;
 
   options.managedManifest = options.managedManifest ?? false;
-  options.nativeAddon = options.nativeAddon ?? false;
+  // Node Native addons are disabled for now. See https://github.com/nwutils/nw-builder/pull/993
+  options.nativeAddon = false;
 
   options.app = options.app ?? {};
   options.app.name = options.app.name ?? pkg.name;
