@@ -1,7 +1,8 @@
 import nwbuild from "nw-builder";
 
 await nwbuild({
-  srcDir: "app",
-  mode: "build",
-  glob: false,
+  mode: "get",
+  flavor: "sdk",
+  platform: "osx",
+  srcDir: "app"
 });

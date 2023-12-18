@@ -14,24 +14,24 @@ import * as GlobModule from "glob";
 function getManifest(manifestUrl) {
   let chunks = undefined;
 
-  return new Promise((res) => {
-    const req = https.get(manifestUrl, (res) => {
-      res.on("data", (chunk) => {
+  return new Promise((resolve) => {
+    const req = https.get(manifestUrl, (response) => {
+      response.on("data", (chunk) => {
         chunks += chunk;
       });
 
-      res.on("error", (e) => {
+      response.on("error", (e) => {
         console.error(e);
-        res(undefined);
+        resolve(undefined);
       });
 
-      res.on("end", () => {
-        res(chunks);
+      response.on("end", () => {
+        resolve(chunks);
       });
     });
     req.on("error", (e) => {
       console.error(e);
-      res(undefined);
+      resolve(undefined);
     });
   });
 }

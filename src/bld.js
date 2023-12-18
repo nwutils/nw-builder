@@ -137,6 +137,15 @@ import util from "./util.js"
  * });
  * 
  * @example
+ * // Rebuild Node native modules
+ * // This behaviour is currently disabled.
+ * // Tracking issue: https://github.com/nwutils/nw-builder/pull/993
+ * nwbuild({
+ *   mode: "build",
+ *   nodeAddon: "gyp"
+ * });
+ * 
+ * @example
  * // For MacOS ARM unofficial builds (<= v0.75), remove quarantine flag post build.
  * sudo xattr -r -d com.apple.quarantine /path/to/nwjs.app
  * 
