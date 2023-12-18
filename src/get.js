@@ -99,7 +99,6 @@ const getNwjs = async (options) => {
     options.cacheDir,
     `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}.${options.platform === "linux" ? "tar.gz" : "zip"
     }`,
-
   );
   // If options.cache is false, remove cache.
   if (options.cache === false) {
