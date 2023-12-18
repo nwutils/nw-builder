@@ -200,7 +200,12 @@ const getNwjs = async (options) => {
     });
   } else {
     fs.createReadStream(out)
-      .pipe(unzipper.Extract({ path: options.cacheDir }));
+      .pipe(unzipper.Extract({ path: options.cacheDir }))
+      .on("finish", async () => {
+        if (options.platform === "osx") {
+          await createSymlinks(options);
+        }
+      });
   }
 }
 
