@@ -1,7 +1,6 @@
 import assert from "node:assert";
 import fsm from "node:fs/promises";
 import path from "node:path";
-
 import { describe, it } from "node:test";
 
 import get from "../src/get.js";
@@ -22,67 +21,17 @@ describe("get mode", function () {
 
         await get(options);
 
-        const nwDir = path.resolve(
-            options.cacheDir,
-            `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`,
-        );
+        const symlinks = [
+            [options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework", "Helpers"].join('/'),
+            [options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework", "Libraries"].join('/'),
+            [options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework", "nwjs Framework"].join('/'),
+            [options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework", "Resources"].join('/'),
+            [options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework", "Versions", "Current"].join('/'),
+        ];
 
-        const helpersPath = await fsm.stat(
-            path.resolve(
-                nwDir,
-                "nwjs.app",
-                "Contents",
-                "Frameworks",
-                "nwjs Framework.framework",
-                "Helpers"
-            )
-        );
-        const librariesPath = await fsm.stat(
-            path.resolve(
-                nwDir,
-                "nwjs.app",
-                "Contents",
-                "Frameworks",
-                "nwjs Framework.framework",
-                "Libraries"
-            )
-        );
-        const frameworkPath = await fsm.stat(
-            path.resolve(
-                nwDir,
-                "nwjs.app",
-                "Contents",
-                "Frameworks",
-                "nwjs Framework.framework",
-                "nwjs Framework"
-            )
-        );
-        const resourcesPath = await fsm.stat(
-            path.resolve(
-                nwDir,
-                "nwjs.app",
-                "Contents",
-                "Frameworks",
-                "nwjs Framework.framework",
-                "Resources"
-            )
-        );
-        const versionCurrentPath = await fsm.stat(
-            path.resolve(
-                nwDir,
-                "nwjs.app",
-                "Contents",
-                "Frameworks",
-                "nwjs Framework.framework",
-                "Versions",
-                "Current"
-            )
-        );
-
-        assert.strictEqual(helpersPath.isSymbolicLink(), true);
-        assert.strictEqual(librariesPath.isSymbolicLink(), true);
-        assert.strictEqual(frameworkPath.isSymbolicLink(), true);
-        assert.strictEqual(resourcesPath.isSymbolicLink(), true);
-        assert.strictEqual(versionCurrentPath.isSymbolicLink(), true);
-    });
+        for await (const symlink of symlinks) {
+            const link = await fsm.stat(path.resolve(symlink));
+            assert.strictEqual(link.isSymbolicLink(), true);
+        }
+    })
 });
