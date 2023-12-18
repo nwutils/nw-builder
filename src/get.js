@@ -360,14 +360,14 @@ const getNodeHeaders = async (options) => {
 }
 
 const createSymlinks = async (options) => {
+  const frameworksPath = path.join(process.cwd(), options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework");
   const symlinks = [
-    path.resolve(options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework", "Helpers"),
-    path.resolve(options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework", "Libraries"),
-    path.resolve(options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework", "nwjs Framework"),
-    path.resolve(options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework", "Resources"),
-    path.resolve(options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework", "Versions", "Current"),
+    path.join(frameworksPath, "Helpers"),
+    path.join(frameworksPath, "Libraries"),
+    path.join(frameworksPath, "nwjs Framework"),
+    path.join(frameworksPath, "Resources"),
+    path.join(frameworksPath, "Versions", "Current"),
   ];
-
   for await (const symlink of symlinks) {
     const link = String(await fsm.readFile(symlink));
     await fsm.rm(symlink);
