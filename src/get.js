@@ -99,6 +99,7 @@ const getNwjs = async (options) => {
     options.cacheDir,
     `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}.${options.platform === "linux" ? "tar.gz" : "zip"
     }`,
+
   );
   // If options.cache is false, remove cache.
   if (options.cache === false) {
@@ -123,7 +124,12 @@ const getNwjs = async (options) => {
       });
     } else {
       fs.createReadStream(out)
-        .pipe(unzipper.Extract({ path: options.cacheDir }));
+        .pipe(unzipper.Extract({ path: options.cacheDir }))
+        .on("finish", async () => {
+          if (options.platform === "osx") {
+            await createSymlinks(options);
+          }
+        });
     }
     return;
   }
@@ -345,5 +351,21 @@ const getNodeHeaders = async (options) => {
     path.resolve(options.cacheDir, `node-v${options.version}-${options.platform}-${options.arch}`),
   );
 }
+
+const createSymlinks = async (options) => {
+  const symlinks = [
+    path.resolve(options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework", "Helpers"),
+    path.resolve(options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework", "Libraries"),
+    path.resolve(options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework", "nwjs Framework"),
+    path.resolve(options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework", "Resources"),
+    path.resolve(options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework", "Versions", "Current"),
+  ];
+
+  for await (const symlink of symlinks) {
+    const link = String(await fsm.readFile(symlink));
+    await fsm.rm(symlink);
+    await fsm.symlink(link, symlink);
+  }
+};
 
 export default get;
