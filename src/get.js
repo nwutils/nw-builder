@@ -84,6 +84,9 @@ import util from "./util.js";
  * });
  */
 async function get(options) {
+  if (fs.existsSync(options.cacheDir) === false) {
+    await fsm.mkdir(options.cacheDir, { recursive: true });
+  }
   await getNwjs(options);
   if (options.ffmpeg === true) {
     await getFfmpeg(options);
