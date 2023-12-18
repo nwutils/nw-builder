@@ -83,7 +83,7 @@ const nwbuild = async (options) => {
     // Parse options
     options = await parse(options, manifest);
 
-    manifest = await util.getNodeManifest({ srcDir: srcDir, glob: glob });
+    manifest = await util.getNodeManifest({ srcDir: options.srcDir, glob: options.glob });
     if (typeof manifest?.nwbuild === "object") {
       options = manifest.nwbuild;
     }
