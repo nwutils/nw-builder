@@ -7,9 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.5.1] - 2023-12-19
+
+### Changed
+
+- Manually create symbolic links for MacOS builds.
+
+## [4.5.0] - 2023-12-18
+
+## Added
+
+- Use `unzipper` to decompress ZIP files.
+
 ## Changed
 
 - Use `tar` to extract tarballs.
+- Disable `options.nativeAddon`.
 
 ### Removed
 
