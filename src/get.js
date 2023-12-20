@@ -84,6 +84,9 @@ import util from "./util.js";
  * });
  */
 async function get(options) {
+  if (fs.existsSync(options.cacheDir) === false) {
+    await fsm.mkdir(options.cacheDir, { recursive: true });
+  }
   await getNwjs(options);
   if (options.ffmpeg === true) {
     await getFfmpeg(options);
@@ -123,7 +126,12 @@ const getNwjs = async (options) => {
       });
     } else {
       fs.createReadStream(out)
-        .pipe(unzipper.Extract({ path: options.cacheDir }));
+        .pipe(unzipper.Extract({ path: options.cacheDir }))
+        .on("finish", async () => {
+          if (options.platform === "osx") {
+            await createSymlinks(options);
+          }
+        });
     }
     return;
   }
@@ -194,7 +202,12 @@ const getNwjs = async (options) => {
     });
   } else {
     fs.createReadStream(out)
-      .pipe(unzipper.Extract({ path: options.cacheDir }));
+      .pipe(unzipper.Extract({ path: options.cacheDir }))
+      .on("finish", async () => {
+        if (options.platform === "osx") {
+          await createSymlinks(options);
+        }
+      });
   }
 }
 
@@ -345,5 +358,21 @@ const getNodeHeaders = async (options) => {
     path.resolve(options.cacheDir, `node-v${options.version}-${options.platform}-${options.arch}`),
   );
 }
+
+const createSymlinks = async (options) => {
+  const frameworksPath = path.join(process.cwd(), options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework");
+  const symlinks = [
+    path.join(frameworksPath, "Helpers"),
+    path.join(frameworksPath, "Libraries"),
+    path.join(frameworksPath, "nwjs Framework"),
+    path.join(frameworksPath, "Resources"),
+    path.join(frameworksPath, "Versions", "Current"),
+  ];
+  for await (const symlink of symlinks) {
+    const link = String(await fsm.readFile(symlink));
+    await fsm.rm(symlink);
+    await fsm.symlink(link, symlink);
+  }
+};
 
 export default get;

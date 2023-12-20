@@ -36,7 +36,5 @@ jobs:
         run: npm ci
       - name: Check for linting errors
         run: npm run lint
-      - name: Link module
-        run: npm link nw-builder
       - name: Run tests
         run: npm run test
