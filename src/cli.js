@@ -3,7 +3,7 @@
 import process from "node:process";
 
 import yargs from "yargs/yargs";
-import yargs_helpers from "yargs/helpers";
+import * as yargs_helpers from "yargs/helpers";
 
 import nwbuild from "./index.js";
 

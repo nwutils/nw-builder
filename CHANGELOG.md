@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.5.2] - 2023-12-19
+
+### Changed
+
+- Fix `yargs/helpers` import for cli usage.
+
 ## [4.5.1] - 2023-12-19
 
 ### Changed
