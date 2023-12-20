@@ -38,8 +38,7 @@ describe("test modes", async () => {
 
     const chromedriverPath = resolve(
       nwOptions.cacheDir,
-      `nwjs${nwOptions.flavor === "sdk" ? "-sdk" : ""}-v${nwOptions.version}-${
-        nwOptions.platform
+      `nwjs${nwOptions.flavor === "sdk" ? "-sdk" : ""}-v${nwOptions.version}-${nwOptions.platform
       }-${nwOptions.arch}`,
       `chromedriver${nwOptions.platform === "win" ? ".exe" : ""}`,
     );
