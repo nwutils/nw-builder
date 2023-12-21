@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.5.3] - 2023-12-20
+
+### Changed
+
+- Wrap `unzipper` call inside Promise to prevent race condition.
+
 ## [4.5.2] - 2023-12-19
 
 ### Changed
