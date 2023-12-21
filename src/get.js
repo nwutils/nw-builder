@@ -13,15 +13,15 @@ import util from "./util.js";
 
 /**
  * @typedef {object} GetOptions
- * @property {string | "latest" | "stable" | "lts"} [options.version = "latest"]                  Runtime version
- * @property {"normal" | "sdk"}                     [options.flavor = "normal"]                   Build flavor
- * @property {"linux" | "osx" | "win"}              [options.platform]                            Target platform
- * @property {"ia32" | "x64" | "arm64"}             [options.arch]                                Target arch
- * @property {string}                               [options.downloadUrl = "https://dl.nwjs.io"]  Download server
- * @property {string}                               [options.cacheDir = "./cache"]                Cache directory
- * @property {boolean}                              [options.cache = true]                        If false, remove cache and redownload.
- * @property {boolean}                              [options.ffmpeg = false]                      If true, ffmpeg is not downloaded.
- * @property {false | "gyp"}                        [options.nativeAddon = false]                 Rebuild native modules
+ * @property {string | "latest" | "stable" | "lts"} [version = "latest"]                  Runtime version
+ * @property {"normal" | "sdk"}                     [flavor = "normal"]                   Build flavor
+ * @property {"linux" | "osx" | "win"}              [platform]                            Target platform
+ * @property {"ia32" | "x64" | "arm64"}             [arch]                                Target arch
+ * @property {string}                               [downloadUrl = "https://dl.nwjs.io"]  Download server
+ * @property {string}                               [cacheDir = "./cache"]                Cache directory
+ * @property {boolean}                              [cache = true]                        If false, remove cache and redownload.
+ * @property {boolean}                              [ffmpeg = false]                      If true, ffmpeg is not downloaded.
+ * @property {false | "gyp"}                        [nativeAddon = false]                 Rebuild native modules
  */
 
 /**
@@ -125,16 +125,14 @@ const getNwjs = async (options) => {
         C: options.cacheDir
       });
     } else {
-      await new Promise(resolve => {
+      await new Promise((res) => {
         fs.createReadStream(out)
           .pipe(unzipper.Extract({ path: options.cacheDir }))
-          .on("finish", async () => {
-            if (options.platform === "osx") {
-              await createSymlinks(options);
-            }
-            resolve();
-          });
+          .on("finish", res);
       });
+      if (options.platform === "osx") {
+        await createSymlinks(options);
+      }
     }
     return;
   }
@@ -204,16 +202,14 @@ const getNwjs = async (options) => {
       C: options.cacheDir
     });
   } else {
-    await new Promise(resolve => {
+    await new Promise((res) => {
       fs.createReadStream(out)
         .pipe(unzipper.Extract({ path: options.cacheDir }))
-        .on("finish", async () => {
-          if (options.platform === "osx") {
-            await createSymlinks(options);
-          }
-          resolve();
-        });
+        .on("finish", res);
     });
+    if (options.platform === "osx") {
+      await createSymlinks(options);
+    }
 
   }
 }
