@@ -26,7 +26,7 @@ import util from "./util.js";
 
 /**
  * Get binaries.
- * 
+ *
  * @async
  * @function
  * @param  {GetOptions}    options                  Get mode options
@@ -37,11 +37,11 @@ import util from "./util.js";
  * nwbuild({
  *   mode: "get",
  * });
- * 
+ *
  * // Use with nw module
  * nwbuild({
  *   mode: "get",
- *   cacheDir: "./node_modules/nw" 
+ *   cacheDir: "./node_modules/nw"
  * });
  *
  * @example
@@ -125,13 +125,16 @@ const getNwjs = async (options) => {
         C: options.cacheDir
       });
     } else {
-      fs.createReadStream(out)
-        .pipe(unzipper.Extract({ path: options.cacheDir }))
-        .on("finish", async () => {
-          if (options.platform === "osx") {
-            await createSymlinks(options);
-          }
-        });
+      await new Promise(resolve => {
+        fs.createReadStream(out)
+          .pipe(unzipper.Extract({ path: options.cacheDir }))
+          .on("finish", async () => {
+            if (options.platform === "osx") {
+              await createSymlinks(options);
+            }
+            resolve();
+          });
+      });
     }
     return;
   }
@@ -201,13 +204,17 @@ const getNwjs = async (options) => {
       C: options.cacheDir
     });
   } else {
-    fs.createReadStream(out)
-      .pipe(unzipper.Extract({ path: options.cacheDir }))
-      .on("finish", async () => {
-        if (options.platform === "osx") {
-          await createSymlinks(options);
-        }
-      });
+    await new Promise(resolve => {
+      fs.createReadStream(out)
+        .pipe(unzipper.Extract({ path: options.cacheDir }))
+        .on("finish", async () => {
+          if (options.platform === "osx") {
+            await createSymlinks(options);
+          }
+          resolve();
+        });
+    });
+
   }
 }
 
