@@ -27,7 +27,7 @@ describe("node native addon", async () => {
     nativeAddon: "gyp",
   };
 
-  it("builds native addon and executes", async () => {
+  it("builds gyp native addon and executes", async () => {
     await nwbuild({ ...nwOptions });
 
     const options = new Options();
@@ -37,15 +37,14 @@ describe("node native addon", async () => {
     ];
     options.addArguments(args);
 
-    const chromedriverPath = resolve(
+    const chromeDriverPath = resolve(
       nwOptions.cacheDir,
-      `nwjs${nwOptions.flavor === "sdk" ? "-sdk" : ""}-v${nwOptions.version}-${
-        nwOptions.platform
+      `nwjs${nwOptions.flavor === "sdk" ? "-sdk" : ""}-v${nwOptions.version}-${nwOptions.platform
       }-${nwOptions.arch}`,
       `chromedriver${nwOptions.platform === "win" ? ".exe" : ""}`,
     );
 
-    const service = new ServiceBuilder(chromedriverPath).build();
+    const service = new ServiceBuilder(chromeDriverPath).build();
 
     driver = Driver.createSession(options, service);
     const text = await driver.findElement(By.id("test")).getText();
