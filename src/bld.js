@@ -218,7 +218,7 @@ async function bld({
     typeof managedManifest === "object" ||
     typeof managedManifest === "string"
   ) {
-    manageManifest({ manifest, managedManifest, outDir, platform });
+    await manageManifest({ manifest, managedManifest, outDir, platform });
   }
 
   if (platform === "linux") {
@@ -453,14 +453,7 @@ const buildNativeAddon = ({ cacheDir, version, platform, arch, outDir, nodeVersi
     ),
   );
 
-  child_process.exec(
-    `node-gyp rebuild --target=${nodeVersion} --nodedir=${nodePath}`,
-    (error) => {
-      if (error !== null) {
-        console.error(error);
-      }
-    },
-  );
+  child_process.execSync(`node-gyp rebuild --target=${nodeVersion} --nodedir=${nodePath}`);
 };
 
 const compress = async ({

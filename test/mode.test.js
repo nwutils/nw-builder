@@ -1,7 +1,7 @@
 import { equal } from "node:assert";
 import { arch, platform } from "node:process";
 import { resolve } from "node:path";
-import { describe, it } from "node:test";
+import { before, describe, it } from "node:test";
 
 import { By } from "selenium-webdriver";
 import chrome from "selenium-webdriver/chrome.js";
@@ -27,9 +27,11 @@ describe("test modes", async () => {
     nativeAddon: false,
   };
 
-  it("should run", async () => {
+  before(async () => {
     await nwbuild({ ...nwOptions });
+  });
 
+  it("should run", async () => {
     const options = new Options();
     const args = [
       `--nwapp=${resolve("test", "fixture", "out", "app", "package.nw")}`,
