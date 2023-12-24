@@ -55,7 +55,7 @@ export const validate = async (options, releaseInfo) => {
   ) {
     throw new Error(
       "Expected options.logLevel to be 'error', 'warn', 'info' or 'debug'. Got " +
-        options.logLevel,
+      options.logLevel,
     );
   }
 
@@ -92,24 +92,21 @@ export const validate = async (options, releaseInfo) => {
   ) {
     return new Error(
       "Expected options.managedManifest to be a boolean, object or string. Got " +
-        typeof options.managedManifest,
+      typeof options.managedManifest,
     );
   }
 
   if (typeof options.managedManifest === "object") {
     if (options.managedManifest.name === undefined) {
-      return new Error(
-        "Expected NW.js Manifest to be a boolean. Got " +
-          typeof options.nativeAddon,
-      );
+      return new Error("Expected NW.js Manifest to have a `name` property.");
     }
     if (options.managedManifest.main === undefined) {
       return new Error("Expected NW.js Manifest to have a `main` property.");
     }
   }
 
-  if (typeof options.nativeAddon !== "boolean") {
-    return new Error("Expected options.nativeAddon to have a `name` property.");
+  if (typeof options.nativeAddon !== "boolean" && typeof options.nativeAddon !== "string") {
+    return new Error("Expected options.nativeAddon to be a boolean or string type. Got " + typeof options.nativeAddon);
   }
 
   // TODO: Validate app options

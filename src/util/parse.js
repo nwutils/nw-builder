@@ -41,8 +41,7 @@ export const parse = async (options, pkg) => {
   options.zip = options.zip ?? false;
 
   options.managedManifest = options.managedManifest ?? false;
-  // Node Native addons are disabled for now. See https://github.com/nwutils/nw-builder/pull/993
-  options.nativeAddon = false;
+  options.nativeAddon = options.nativeAddon ?? false;
 
   options.app = options.app ?? {};
   options.app.name = options.app.name ?? pkg.name;
