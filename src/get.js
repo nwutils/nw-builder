@@ -308,6 +308,7 @@ const getNodeHeaders = async (options) => {
       path.resolve(options.cacheDir, "node"),
       path.resolve(options.cacheDir, `node-v${options.version}-${options.platform}-${options.arch}`),
     );
+    return;
   }
 
   const stream = fs.createWriteStream(out);
