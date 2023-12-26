@@ -371,7 +371,7 @@ const setWinConfig = async ({ app, outDir }) => {
       path.join(outDir, `${app.name}.exe`)
     );
     await rcedit(
-      path.join(outDir, `${app.name}.exe`).replace(/\\/g, '/'),
+      path.join(outDir, `${app.name}.exe`),
       rcEditOptions
     );
   } catch (error) {
