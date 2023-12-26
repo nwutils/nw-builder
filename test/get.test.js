@@ -18,6 +18,7 @@ describe("get", async () => {
         ffmpeg: false,
         nativeAddon: false,
     };
+
     before(async () => {
         await get(options);
     });
