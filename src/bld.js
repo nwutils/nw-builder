@@ -367,7 +367,7 @@ const setWinConfig = async ({ app, outDir }) => {
 
   try {
     const outDirAppExe = path.resolve(outDir, `${app.name}.exe`);
-    await fsm.rename(path.join(outDir, "nw.exe"), outDirAppExe);
+    await fsm.rename(path.resolve(outDir, "nw.exe"), outDirAppExe);
     await rcedit(outDirAppExe, rcEditOptions);
   } catch (error) {
     if (process.platform !== "win32") {
