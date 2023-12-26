@@ -7,7 +7,7 @@ import { describe, it, before } from "node:test";
 import get from '../src/get.js';
 
 describe("get", async () => {
-    const options = {
+    let nwOptions = {
         version: "0.82.0",
         flavor: "sdk",
         platform: "osx",
@@ -19,16 +19,15 @@ describe("get", async () => {
         nativeAddon: false,
     };
     before(async () => {
-        await get(options);
+        await get(nwOptions);
     });
 
     it("downloads macos binary", async function () {
-        assert.strictEqual(fs.existsSync(path.resolve(process.cwd(), options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app")), true);
+        assert.strictEqual(fs.existsSync(path.resolve(process.cwd(), nwOptions.cacheDir, `nwjs${nwOptions.flavor === "sdk" ? "-sdk" : ""}-v${nwOptions.version}-${nwOptions.platform}-${nwOptions.arch}`, "nwjs.app")), true);
     });
 
     it("preserves symlinks on macos build", async function () {
-        // await get({...options})
-        const frameworksPath = path.resolve(process.cwd(), options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework");
+        const frameworksPath = path.resolve(process.cwd(), nwOptions.cacheDir, `nwjs${nwOptions.flavor === "sdk" ? "-sdk" : ""}-v${nwOptions.version}-${nwOptions.platform}-${nwOptions.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework");
         const symlinks = [
             path.join(frameworksPath, "Helpers"),
             path.join(frameworksPath, "Libraries"),
