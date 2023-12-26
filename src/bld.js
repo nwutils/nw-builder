@@ -370,7 +370,9 @@ const setWinConfig = async ({ app, outDir }) => {
     path.resolve(outDir, `${app.name}.exe`)
   );
   await rcedit(
-    path.resolve(outDir, `${app.name}.exe`),
+    path.normalize(
+      path.resolve(outDir, `${app.name}.exe`),
+    ),
     rcEditOptions
   );
 };
