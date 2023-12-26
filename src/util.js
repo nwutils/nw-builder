@@ -192,8 +192,28 @@ async function getNodeManifest({
   if (manifest === undefined) {
     throw new Error("package.json not found in srcDir file glob patterns.");
   }
-  
+
   return manifest;
 }
 
-export default { getReleaseInfo, PLATFORM_KV, ARCH_KV, EXE_NAME, replaceFfmpeg, globFiles, getNodeManifest };
+/**
+ * 
+ * @param {"chromedriver"} type
+ * @param {object} options
+ * @throws {Error}
+ * @return {string}
+ */
+async function getPath(type, options) {
+  if (type === "chromedriver") {
+    return path.resolve(
+      options.cacheDir,
+      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform
+      }-${options.arch}`,
+      `chromedriver${options.platform === "win" ? ".exe" : ""}`,
+    );
+  } else {
+    throw new Error("Invalid type. Expected `chromedriver` but got ", type);
+  }
+}
+
+export default { getReleaseInfo, getPath, PLATFORM_KV, ARCH_KV, EXE_NAME, replaceFfmpeg, globFiles, getNodeManifest };
