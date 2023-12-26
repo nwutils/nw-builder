@@ -365,16 +365,14 @@ const setWinConfig = async ({ app, outDir }) => {
     rcEditOptions.icon = app.icon;
   }
 
-  try {
-    const outDirAppExe = path.resolve(outDir, `${app.name}.exe`);
-    await fsm.rename(path.resolve(outDir, "nw.exe"), outDirAppExe);
-    await rcedit(outDirAppExe, rcEditOptions);
-  } catch (error) {
-    console.warn(
-      "Renaming EXE failed or unable to modify EXE. If it's the latter, ensure WINE is installed or build your application Windows platform",
-    );
-    console.error(error);
-  }
+  await fsm.rename(
+    path.resolve(outDir, "nw.exe"),
+    path.resolve(outDir, `${app.name}.exe`)
+  );
+  await rcedit(
+    path.resolve(outDir, `${app.name}.exe`),
+    rcEditOptions
+  );
 };
 
 const setOsxConfig = async ({ outDir, app }) => {
