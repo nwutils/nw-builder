@@ -365,14 +365,23 @@ const setWinConfig = async ({ app, outDir }) => {
     rcEditOptions.icon = app.icon;
   }
 
-  await fsm.rename(
-    path.resolve(outDir, "nw.exe"),
-    path.resolve(outDir, `${app.name}.exe`)
-  );
-  await rcedit(
-    path.resolve(outDir, `${app.name}.exe`),
-    rcEditOptions
-  );
+  try {
+    await fsm.rename(
+      path.join(outDir, "nw.exe"),
+      path.join(outDir, `${app.name}.exe`)
+    );
+    await rcedit(
+      path.join(outDir, `${app.name}.exe`).replace(/\\/g, '/'),
+      rcEditOptions
+    );
+  } catch (error) {
+    if (process.platform !== "win32") {
+      console.warn(
+        "Ensure WINE is installed or build your application on Windows platform",
+      );
+    }
+    throw error;
+  }
 };
 
 const setOsxConfig = async ({ outDir, app }) => {
