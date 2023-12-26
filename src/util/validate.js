@@ -1,4 +1,5 @@
-import { readdir } from "node:fs/promises";
+import fs from "node:fs";
+import semver from "semver";
 
 /**
  * Validate options
@@ -74,7 +75,7 @@ export const validate = async (options, releaseInfo) => {
   }
 
   if (options.srcDir) {
-    await readdir(options.srcDir);
+    await fs.promises.readdir(options.srcDir);
   }
 
   if (options.mode === "run") {
@@ -82,7 +83,7 @@ export const validate = async (options, releaseInfo) => {
   }
 
   if (options.outDir) {
-    await readdir(options.outDir);
+    await fs.promises.readdir(options.outDir);
   }
 
   if (
@@ -107,6 +108,10 @@ export const validate = async (options, releaseInfo) => {
 
   if (typeof options.nativeAddon !== "boolean" && typeof options.nativeAddon !== "string") {
     return new Error("Expected options.nativeAddon to be a boolean or string type. Got " + typeof options.nativeAddon);
+  }
+
+  if (semver.parse(options.version).minor >= "83" && options.nativeAddon !== false) {
+    return new Error("Native addons are not supported for NW.js v0.82.0 and below");
   }
 
   // TODO: Validate app options
