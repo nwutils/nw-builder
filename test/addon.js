@@ -47,4 +47,24 @@ describe("node native addon", async () => {
     const text = await driver.findElement(By.id("test")).getText();
     equal(text, "world");
   });
+
+  it("builds nan native addon and executes", async () => {
+    nwOptions.srcDir = "test/fixture/nan";
+    nwOptions.outDir = "test/fixture/out/nan";
+    
+    const options = new Options();
+    const args = [
+      `--nwapp=${resolve("test", "fixture", "out", "nan", "package.nw")}`,
+      "--headless=new",
+    ];
+    options.addArguments(args);
+
+    const chromeDriverPath = util.getPath("chromedriver", nwOptions);
+
+    const service = new ServiceBuilder(chromeDriverPath).build();
+
+    driver = Driver.createSession(options, service);
+    const text = await driver.findElement(By.id("test")).getText();
+    equal(text, "world");
+  });
 });

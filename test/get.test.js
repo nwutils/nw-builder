@@ -8,7 +8,7 @@ import get from '../src/get.js';
 
 describe("get", async () => {
     let nwOptions = {
-        version: "0.82.0",
+        version: "0.83.0",
         flavor: "sdk",
         platform: "osx",
         arch: "x64",
