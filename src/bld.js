@@ -218,7 +218,7 @@ async function bld({
     typeof managedManifest === "object" ||
     typeof managedManifest === "string"
   ) {
-    manageManifest({ manifest, managedManifest, outDir, platform });
+    await manageManifest({ manifest, managedManifest, outDir, platform });
   }
 
   if (platform === "linux") {
@@ -280,11 +280,11 @@ const manageManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
   );
 
   if (manifest.packageManager.startsWith("npm")) {
-    child_process.exec(`npm install`);
+    child_process.execSync(`npm install`);
   } else if (manifest.packageManager.startsWith("yarn")) {
-    child_process.exec(`yarn install`);
+    child_process.execSync(`yarn install`);
   } else if (manifest.packageManager.startsWith("pnpm")) {
-    child_process.exec(`pnpm install`);
+    child_process.execSync(`pnpm install`);
   }
 };
 
@@ -370,10 +370,12 @@ const setWinConfig = async ({ app, outDir }) => {
     await fsm.rename(path.resolve(outDir, "nw.exe"), outDirAppExe);
     await rcedit(outDirAppExe, rcEditOptions);
   } catch (error) {
-    console.warn(
-      "Renaming EXE failed or unable to modify EXE. If it's the latter, ensure WINE is installed or build your application Windows platform",
-    );
-    console.error(error);
+    if (process.platform !== "win32") {
+      console.warn(
+        "Ensure WINE is installed or build your application on Windows platform",
+      );
+    }
+    throw error;
   }
 };
 
@@ -453,14 +455,7 @@ const buildNativeAddon = ({ cacheDir, version, platform, arch, outDir, nodeVersi
     ),
   );
 
-  child_process.exec(
-    `node-gyp rebuild --target=${nodeVersion} --nodedir=${nodePath}`,
-    (error) => {
-      if (error !== null) {
-        console.error(error);
-      }
-    },
-  );
+  child_process.execSync(`node-gyp rebuild --target=${nodeVersion} --nodedir=${nodePath}`);
 };
 
 const compress = async ({

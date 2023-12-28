@@ -1,12 +1,12 @@
-import { equal } from "node:assert";
-import { arch, platform } from "node:process";
-import { resolve } from "node:path";
-import { describe, it } from "node:test";
+import assert from "node:assert";
+import path from "node:path";
+import process from "node:process";
+import { before, describe, it } from "node:test";
 
-import nwbuild from "nw-builder";
 import { By } from "selenium-webdriver";
 import chrome from "selenium-webdriver/chrome.js";
 
+import nwbuild from "../src/index.js";
 import util from "../src/util.js";
 
 const { Driver, ServiceBuilder, Options } = chrome;
@@ -17,36 +17,34 @@ describe("test modes", async () => {
   let nwOptions = {
     srcDir: "test/fixture/app",
     mode: "build",
-    version: "0.82.0",
+    version: "0.83.0",
     flavor: "sdk",
-    platform: util.PLATFORM_KV[platform],
-    arch: util.ARCH_KV[arch],
+    platform: util.PLATFORM_KV[process.platform],
+    arch: util.ARCH_KV[process.arch],
     outDir: "test/fixture/out/app",
     cacheDir: "test/fixture/cache",
     glob: false,
+    nativeAddon: false,
   };
 
-  it("should run", async () => {
+  before(async () => {
     await nwbuild({ ...nwOptions });
+  });
 
+  it("should run", async () => {
     const options = new Options();
     const args = [
-      `--nwapp=${resolve("test", "fixture", "out", "app", "package.nw")}`,
+      `--nwapp=${path.resolve("test", "fixture", "out", "app", "package.nw")}`,
       "--headless=new",
     ];
     options.addArguments(args);
 
-    const chromedriverPath = resolve(
-      nwOptions.cacheDir,
-      `nwjs${nwOptions.flavor === "sdk" ? "-sdk" : ""}-v${nwOptions.version}-${nwOptions.platform
-      }-${nwOptions.arch}`,
-      `chromedriver${nwOptions.platform === "win" ? ".exe" : ""}`,
-    );
+    const chromedriverPath = util.getPath("chromedriver", nwOptions);
 
     const service = new ServiceBuilder(chromedriverPath).build();
 
     driver = Driver.createSession(options, service);
     const text = await driver.findElement(By.id("test")).getText();
-    equal(text, "Hello, World!");
+    assert.strictEqual(text, "Hello, World!");
   });
 });

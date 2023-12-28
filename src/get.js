@@ -324,6 +324,7 @@ const getNodeHeaders = async (options) => {
         console.error(error);
       },
     );
+    return;
   }
 
   const stream = fs.createWriteStream(out);
