@@ -1,12 +1,8 @@
 import nwbuild from "../../src/index.js";
 
 await nwbuild({
-  mode: "build",
+  mode: "get",
   flavor: "sdk",
-  platform: "win",
-  srcDir: "app",
-  glob: false,
-  app: {
-    icon: "icon.png"
-  }
+  platform: "osx",
+  srcDir: "app"
 });
