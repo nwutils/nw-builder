@@ -42,7 +42,7 @@
   },
   "scripts": {
     "lint": "eslint src/get.js",
-    "docs": "jsdoc -d docs ./src/get.js ./src/run.js ./src/bld.js",
+    "docs": "jsdoc -d docs ./README.md ./src/get.js ./src/run.js ./src/bld.js",
     "test": "node --test test/*.test.js",
     "demo": "cd test/fixture && node demo.js"
   },

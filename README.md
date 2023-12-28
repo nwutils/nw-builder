@@ -15,78 +15,91 @@ For version 3, please go to the [corresponding branch](https://github.com/nwutil
 - Downloading from mirrors
 - Node Native Addon support
 
-Check out the [documentation](https://nwutils.io/nw-builder/) if you wish to give `nw-builder` a try.
-
-> Please note that the documentation assumes you know [how to write NW.js applications](https://nwjs.readthedocs.io/en/latest/For%20Users/Getting%20Started/).
-
 ## Installation
 
 With npm:
 
 ```shell
-npm install nw-builder -D
+npm i -D nw-builder
 ```
 
 With yarn:
 
 ```shell
-yarn add nw-builder -D
+yarn add -D nw-builder
 ```
 
 With pnpm:
 
 ```shell
-pnpm add nw-builder -D
+pnpm add -D nw-builder
 ```
 
 ## Usage
 
-Here is two way to use nw-build to build your nwjs applications
+You can use this package via CLI or JavaScript module. To customise your configuration options, please consult the [documentation](https://nwutils.io/nw-builder/).
 
 ### CLI
 
-1. To get nwjs cache
-    ```bash
-    nwbuild --mode=get
-    ```
-2. To run nwjs application
-    ```bash
-    nwbuild --mode=run
-    ```
-3. To build nwjs application
-    ```bash
-    nwbuild --mode=build
-    ```
+Download NW.js binary
 
-### JavaScript API
-1. Define an npm script
-    ```json
-    {
-      "scripts": {
-        "build": "node scripts/build.js"
-      }
-    }
-    ```
-2. Create a build script
-    ```javascript
-    // scripts/build.js
-    const { nwbuild } = require("nw-builder");
-    await nwbuild({
-      srcDir: "./nwapp/**/* ./other/**/*.js",
-      mode: "build",
-      version: "latest",
-      flavor: "normal",
-      platform: "linux",
-      arch: "x64",
-      outDir: "./build",
-      cache: false,
-      app: { ... },
-    });
-    ```
-3. Run the script
-    ```bash
-    npm run build
-    ```
+```shell
+nwbuild --mode=get
+```
+
+Run NW.js application
+
+```shell
+nwbuild --mode=run
+```
+
+Build NW.js application
+
+```shell
+nwbuild --mode=get
+```
+
+### Module
+
+ESM import
+
+```javascript
+import nwbuild from "nw-builder";
+```
+
+CJS import
+
+```javascript
+import nwbuild from "nw-builder";
+
+let nwbuild = undefined;
+
+nwbuild = await import("nw-builder").default;
+```
+
+Download NW.js binary
+
+```javascript
+nwbuild({
+  mode: "get",
+});
+```
+
+Run NW.js application
+
+```javascript
+nwbuild({
+  mode: "run",
+});
+```
+
+Build NW.js application
+
+```javascript
+nwbuild({
+  mode: "build",
+});
+```
 
 ## Alternatives
 
