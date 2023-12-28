@@ -370,10 +370,12 @@ const setWinConfig = async ({ app, outDir }) => {
     await fsm.rename(path.resolve(outDir, "nw.exe"), outDirAppExe);
     await rcedit(outDirAppExe, rcEditOptions);
   } catch (error) {
-    console.warn(
-      "Renaming EXE failed or unable to modify EXE. If it's the latter, ensure WINE is installed or build your application Windows platform",
-    );
-    console.error(error);
+    if (process.platform !== "win32") {
+      console.warn(
+        "Ensure WINE is installed or build your application on Windows platform",
+      );
+    }
+    throw error;
   }
 };
 
