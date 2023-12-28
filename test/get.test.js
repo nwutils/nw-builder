@@ -1,9 +1,9 @@
 import assert from "node:assert";
 import fs from "node:fs";
-import fsm from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { describe, it, before } from "node:test";
+
 import get from '../src/get.js';
 
 describe("get", async () => {
@@ -18,6 +18,7 @@ describe("get", async () => {
         ffmpeg: false,
         nativeAddon: false,
     };
+    
     before(async () => {
         await get(nwOptions);
     });
@@ -37,7 +38,7 @@ describe("get", async () => {
         ];
 
         for (const symlink of symlinks) {
-            const stats = await fsm.lstat(symlink);
+            const stats = await fs.promises.lstat(symlink);
             assert.strictEqual(stats.isSymbolicLink(), true);
         }
     });

@@ -1,6 +1,6 @@
-import { equal } from "node:assert";
-import { arch, platform } from "node:process";
-import { resolve } from "node:path";
+import assert from "node:assert";
+import path from "node:path";
+import process from "node:process";
 import { before, describe, it } from "node:test";
 
 import { By } from "selenium-webdriver";
@@ -19,8 +19,8 @@ describe("test modes", async () => {
     mode: "build",
     version: "0.83.0",
     flavor: "sdk",
-    platform: util.PLATFORM_KV[platform],
-    arch: util.ARCH_KV[arch],
+    platform: util.PLATFORM_KV[process.platform],
+    arch: util.ARCH_KV[process.arch],
     outDir: "test/fixture/out/app",
     cacheDir: "test/fixture/cache",
     glob: false,
@@ -34,7 +34,7 @@ describe("test modes", async () => {
   it("should run", async () => {
     const options = new Options();
     const args = [
-      `--nwapp=${resolve("test", "fixture", "out", "app", "package.nw")}`,
+      `--nwapp=${path.resolve("test", "fixture", "out", "app", "package.nw")}`,
       "--headless=new",
     ];
     options.addArguments(args);
@@ -45,6 +45,6 @@ describe("test modes", async () => {
 
     driver = Driver.createSession(options, service);
     const text = await driver.findElement(By.id("test")).getText();
-    equal(text, "Hello, World!");
+    assert.strictEqual(text, "Hello, World!");
   });
 });

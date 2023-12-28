@@ -2,9 +2,6 @@ import console from "node:console";
 import fs from "node:fs";
 import fsm from "node:fs/promises";
 
-import { parse } from "./util/parse.js";
-import { validate } from "./util/validate.js";
-
 import bld from "./bld.js";
 import get from "./get.js";
 import run from "./run.js";
@@ -81,14 +78,14 @@ const nwbuild = async (options) => {
 
   try {
     // Parse options
-    options = await parse(options, manifest);
+    options = await util.parse(options, manifest);
 
     manifest = await util.getNodeManifest({ srcDir: options.srcDir, glob: options.glob });
     if (typeof manifest?.nwbuild === "object") {
       options = manifest.nwbuild;
     }
 
-    options = await parse(options, manifest);
+    options = await util.parse(options, manifest);
 
     //TODO: impl logging
 
@@ -113,7 +110,7 @@ const nwbuild = async (options) => {
       options.manifestUrl,
     );
 
-    await validate(options, releaseInfo);
+    await util.validate(options, releaseInfo);
 
     // Remove leading "v" from version string
     options.version = releaseInfo.version.slice(1);
