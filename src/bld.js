@@ -280,11 +280,11 @@ const manageManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
   );
 
   if (manifest.packageManager.startsWith("npm")) {
-    child_process.exec(`npm install`);
+    child_process.execSync(`npm install`);
   } else if (manifest.packageManager.startsWith("yarn")) {
-    child_process.exec(`yarn install`);
+    child_process.execSync(`yarn install`);
   } else if (manifest.packageManager.startsWith("pnpm")) {
-    child_process.exec(`pnpm install`);
+    child_process.execSync(`pnpm install`);
   }
 };
 
@@ -453,14 +453,7 @@ const buildNativeAddon = ({ cacheDir, version, platform, arch, outDir, nodeVersi
     ),
   );
 
-  child_process.exec(
-    `node-gyp rebuild --target=${nodeVersion} --nodedir=${nodePath}`,
-    (error) => {
-      if (error !== null) {
-        console.error(error);
-      }
-    },
-  );
+  child_process.execSync(`node-gyp rebuild --target=${nodeVersion} --nodedir=${nodePath}`);
 };
 
 const compress = async ({
