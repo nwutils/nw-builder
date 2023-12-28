@@ -1,7 +1,8 @@
 import console from "node:console";
-import fsm from "node:fs/promises";
+import fs from "node:fs";
 import https from "node:https";
 import path from "node:path";
+import process from "node:process";
 
 import * as GlobModule from "glob";
 
@@ -64,10 +65,10 @@ async function getReleaseInfo(
   try {
     const data = await getManifest(manifestUrl);
     if (data !== undefined) {
-      await fsm.writeFile(manifestPath, data.slice(9));
+      await fs.promises.writeFile(manifestPath, data.slice(9));
     }
 
-    let manifest = JSON.parse(await fsm.readFile(manifestPath));
+    let manifest = JSON.parse(await fs.promises.readFile(manifestPath));
     if (version === "latest" || version === "stable" || version === "lts") {
       // Remove leading "v" from version string
       version = manifest[version].slice(1);
@@ -120,7 +121,7 @@ const replaceFfmpeg = async (platform, nwDir) => {
   const src = path.resolve(nwDir, ffmpegFile);
   if (platform === "linux") {
     const dest = path.resolve(nwDir, "lib", ffmpegFile);
-    await fsm.copyFile(src, dest);
+    await fs.promises.copyFile(src, dest);
   } else if (platform === "win") {
     // don't do anything for windows because the extracted file is already in the correct path
     // await copyFile(src, path.resolve(nwDir, ffmpegFile));
@@ -137,7 +138,7 @@ const replaceFfmpeg = async (platform, nwDir) => {
     );
 
     try {
-      await fsm.copyFile(src, dest);
+      await fs.promises.copyFile(src, dest);
     } catch (e) {
       //some versions of node/macOS complain about destination being a file, and others complain when it is only a directory.
       //the only thing I can think to do is to try both
@@ -150,7 +151,7 @@ const replaceFfmpeg = async (platform, nwDir) => {
         "Versions",
         "Current",
       );
-      await fsm.copyFile(src, dest);
+      await fs.promises.copyFile(src, dest);
     }
   }
 };
@@ -182,11 +183,11 @@ async function getNodeManifest({
     files = await globFiles({srcDir, glob});
     for (const file of files) {
       if (path.basename(file) === "package.json" && manifest === undefined) {
-        manifest = JSON.parse(await fsm.readFile(file));
+        manifest = JSON.parse(await fs.promises.readFile(file));
       }
     }
   } else {
-    manifest = JSON.parse(await fsm.readFile(path.resolve(srcDir, "package.json")));
+    manifest = JSON.parse(await fs.promises.readFile(path.resolve(srcDir, "package.json")));
   }
 
   if (manifest === undefined) {
@@ -196,4 +197,251 @@ async function getNodeManifest({
   return manifest;
 }
 
-export default { getReleaseInfo, PLATFORM_KV, ARCH_KV, EXE_NAME, replaceFfmpeg, globFiles, getNodeManifest };
+/**
+ * Parse options
+ *
+ * @param  {import("../../index.js").Options} options  Options
+ * @param  {object}                           pkg      Package.json as JSON
+ * @return {Promise<object>}                           Options
+ */
+export const parse = async (options, pkg) => {
+  options = options ?? {};
+  options.mode = options.mode ?? "build";
+
+  options.version = options.version ?? "latest";
+  options.flavor = options.flavor ?? "normal";
+  options.platform = options.platform ?? PLATFORM_KV[process.platform];
+  options.arch = options.arch ?? ARCH_KV[process.arch];
+  options.downloadUrl = options.downloadUrl ?? "https://dl.nwjs.io";
+  options.manifestUrl = options.manifestUrl ?? "https://nwjs.io/versions";
+  options.cacheDir = options.cacheDir ?? "./cache";
+  options.cache = options.cache ?? true;
+  options.ffmpeg = options.ffmpeg ?? false;
+  options.logLevel = options.logLevel ?? "info";
+
+  if (options.mode === "get") {
+    return { ...options };
+  }
+
+  options.argv = options.argv ?? [];
+  options.glob = options.glob ?? true;
+  options.srcDir = options.srcDir ?? (options.glob ? "./*" : ".");
+
+  if (options.mode === "run") {
+    return { ...options };
+  }
+
+  options.outDir = path.resolve(options.outDir ?? "./out");
+  options.zip = options.zip ?? false;
+
+  options.managedManifest = options.managedManifest ?? false;
+  // Node Native addons are disabled for now. See https://github.com/nwutils/nw-builder/pull/993
+  options.nativeAddon = false;
+
+  options.app = options.app ?? {};
+  options.app.name = options.app.name ?? pkg.name;
+  options.app.icon = options.app.icon ?? undefined;
+
+  // TODO(#737): move this out
+  if (options.platform === "linux") {
+    // linux desktop entry file configurations options
+    options.app.genericName = options.app.genericName ?? undefined;
+    options.app.noDisplay = options.app.noDisplay ?? undefined;
+    options.app.comment = options.app.comment ?? undefined;
+    options.app.hidden = options.app.hidden ?? undefined;
+    options.app.onlyShowIn = options.app.onlyShowIn ?? undefined;
+    options.app.notShowIn = options.app.notShowIn ?? undefined;
+    options.app.dBusActivatable = options.app.dBusActivatable ?? undefined;
+    options.app.tryExec = options.app.tryExec ?? undefined;
+    options.app.exec = options.app.name ?? undefined;
+    options.app.path = options.app.path ?? undefined;
+    options.app.terminal = options.app.terminal ?? undefined;
+    options.app.actions = options.app.actions ?? undefined;
+    options.app.mimeType = options.app.mimeType ?? undefined;
+    options.app.categories = options.app.categories ?? undefined;
+    options.app.implements = options.app.implements ?? undefined;
+    options.app.keywords = options.app.keywords ?? undefined;
+    options.app.startupNotify = options.app.startupNotify ?? undefined;
+    options.app.startupWMClass = options.app.startupWMClass ?? undefined;
+    options.app.prefersNonDefaultGPU =
+      options.app.prefersNonDefaultGPU ?? undefined;
+    options.app.singleMainWindow = options.app.singleMainWindow ?? undefined;
+  }
+  if (options.platform === "win") {
+    // windows configuration options
+    options.app.version = options.app.version ?? pkg.version;
+    options.app.comments = options.app.comments ?? undefined;
+    options.app.company = options.app.company ?? pkg.author;
+    options.app.fileDescription =
+      options.app.fileDescription ?? pkg.description;
+    options.app.fileVersion = options.app.fileVersion ?? pkg.version;
+    options.app.internalName = options.app.internalName ?? pkg.name;
+    options.app.legalCopyright = options.app.legalCopyright ?? undefined;
+    options.app.legalTrademark = options.app.legalTrademark ?? undefined;
+    options.app.originalFilename = options.app.originalFilename ?? pkg.name;
+    options.app.privateBuild = options.app.privateBuild ?? undefined;
+    options.app.productName = options.app.productName ?? pkg.name;
+    options.app.productVersion = options.app.productVersion ?? pkg.version;
+    options.app.specialBuild = options.app.specialBuild ?? undefined;
+  }
+
+  if (options.platform === "osx") {
+    options.app.LSApplicationCategoryType =
+      options.app.LSApplicationCategoryType ?? undefined;
+    options.app.CFBundleIdentifier =
+      options.app.CFBundleIdentifier ?? options.app.name;
+    options.app.CFBundleName = options.app.CFBundleName ?? pkg.name;
+    options.app.CFBundleDisplayName =
+      options.app.CFBundleDisplayName ?? pkg.name;
+    options.app.CFBundleSpokenName = options.app.CFBundleSpokenName ?? pkg.name;
+    options.app.CFBundleShortVersionString =
+      options.app.CFBundleVersion ?? pkg.version;
+    options.app.CFBundleVersion =
+      options.app.CFBundleShortVersionString ?? pkg.version;
+    options.app.NSHumanReadableCopyright =
+      options.app.NSHumanReadableCopyright ?? undefined;
+  }
+
+  return { ...options };
+};
+
+/**
+ * Validate options
+ *
+ * @param  {import("../index.js").Options} options      Options
+ * @param  {object}                        releaseInfo  Version specific NW release info
+ * @return {Promise<undefined>}                         Return undefined if options are valid
+ * @throws {Error}                                         Throw error if options are invalid
+ */
+export const validate = async (options, releaseInfo) => {
+  if (!["get", "run", "build"].includes(options.mode)) {
+    throw new Error(
+      `Unknown mode ${options.mode}. Expected "get", "run" or "build".`,
+    );
+  }
+  if (typeof releaseInfo === "undefined") {
+    throw new Error(
+      "Either the specific version info does not exist or the version manifest itself does not exist. In case of the latter, please check your internet connection and try again later.",
+    );
+  }
+  if (!releaseInfo.flavors.includes(options.flavor)) {
+    throw new Error(
+      `${options.flavor} flavor is not supported by this download server.`,
+    );
+  }
+  if (
+    options.platform &&
+    options.arch &&
+    !releaseInfo.files.includes(`${options.platform}-${options.arch}`)
+  ) {
+    throw new Error(
+      `Platform ${options.platform} and architecture ${options.arch} is not supported by this download server.`,
+    );
+  }
+  // if (typeof options.cacheDir !== "string") {
+  //   throw new Error("Expected options.cacheDir to be a string. Got " + typeof options.cacheDir);
+  // }
+  if (typeof options.cache !== "boolean") {
+    return new Error(
+      "Expected options.cache to be a boolean. Got " + typeof options.cache,
+    );
+  }
+  if (typeof options.ffmpeg !== "boolean") {
+    return new Error(
+      "Expected options.ffmpeg to be a boolean. Got " + typeof options.ffmpeg,
+    );
+  }
+
+  if (
+    options.logLevel !== "error" &&
+    options.logLevel !== "warn" &&
+    options.logLevel !== "info" &&
+    options.logLevel !== "debug"
+  ) {
+    throw new Error(
+      "Expected options.logLevel to be 'error', 'warn', 'info' or 'debug'. Got " +
+      options.logLevel,
+    );
+  }
+
+  if (options.mode === "get") {
+    return undefined;
+  }
+  if (Array.isArray(options.argv)) {
+    return new Error(
+      "Expected options.argv to be an array. Got " + typeof options.argv,
+    );
+  }
+  if (typeof options.glob !== "boolean") {
+    return new Error(
+      "Expected options.glob to be a boolean. Got " + typeof options.glob,
+    );
+  }
+
+  if (options.srcDir) {
+    await fs.promises.readdir(options.srcDir);
+  }
+
+  if (options.mode === "run") {
+    return undefined;
+  }
+
+  if (options.outDir) {
+    await fs.promises.readdir(options.outDir);
+  }
+
+  if (
+    typeof options.managedManifest !== "boolean" &&
+    typeof options.managedManifest !== "object" &&
+    typeof options.managedManifest !== "string"
+  ) {
+    return new Error(
+      "Expected options.managedManifest to be a boolean, object or string. Got " +
+      typeof options.managedManifest,
+    );
+  }
+
+  if (typeof options.managedManifest === "object") {
+    if (options.managedManifest.name === undefined) {
+      return new Error("Expected NW.js Manifest to have a `name` property.");
+    }
+    if (options.managedManifest.main === undefined) {
+      return new Error("Expected NW.js Manifest to have a `main` property.");
+    }
+  }
+
+  if (typeof options.nativeAddon !== "boolean") {
+    if (typeof options.nativeAddon !== "boolean" && typeof options.nativeAddon !== "string") {
+      return new Error("Expected options.nativeAddon to be a boolean or string type. Got " + typeof options.nativeAddon);
+    }
+
+    if (semver.parse(options.version).minor >= "83" && options.nativeAddon !== false) {
+      return new Error("Native addons are not supported for NW.js v0.82.0 and below");
+    }
+  }
+
+  // TODO: Validate app options
+  return undefined;
+};
+
+/**
+ * 
+ * @param {"chromedriver"} type
+ * @param {object} options
+ * @throws {Error}
+ * @return {string}
+ */
+async function getPath(type, options) {
+  if (type === "chromedriver") {
+    return path.resolve(
+      options.cacheDir,
+      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform
+      }-${options.arch}`,
+      `chromedriver${options.platform === "win" ? ".exe" : ""}`,
+    );
+  } else {
+    throw new Error("Invalid type. Expected `chromedriver` but got ", type);
+  }
+}
+
+export default { getReleaseInfo, getPath, PLATFORM_KV, ARCH_KV, EXE_NAME, replaceFfmpeg, globFiles, getNodeManifest, parse, validate };
