@@ -218,7 +218,7 @@ async function bld({
     typeof managedManifest === "object" ||
     typeof managedManifest === "string"
   ) {
-    manageManifest({ manifest, managedManifest, outDir, platform });
+    await manageManifest({ manifest, managedManifest, outDir, platform });
   }
 
   if (platform === "linux") {
