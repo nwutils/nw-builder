@@ -7,7 +7,7 @@ import { describe, it, before } from "node:test";
 import get from '../src/get.js';
 
 describe("get", async () => {
-    let nwOptions = {
+    const nwOptions = {
         version: "0.83.0",
         flavor: "sdk",
         platform: "osx",
