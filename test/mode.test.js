@@ -39,12 +39,7 @@ describe("test modes", async () => {
     ];
     options.addArguments(args);
 
-    const chromedriverPath = path.resolve(
-      nwOptions.cacheDir,
-      `nwjs${nwOptions.flavor === "sdk" ? "-sdk" : ""}-v${nwOptions.version}-${nwOptions.platform
-      }-${nwOptions.arch}`,
-      `chromedriver${nwOptions.platform === "win" ? ".exe" : ""}`,
-    );
+    const chromedriverPath = util.getPath("chromedriver", nwOptions);
 
     const service = new ServiceBuilder(chromedriverPath).build();
 
