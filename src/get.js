@@ -1,7 +1,7 @@
-import fs from "node:fs";
+import {existsSync, createReadStream, createWriteStream} from "fs";
 import fsm from "node:fs/promises";
 import https from "node:https";
-import path from "node:path";
+import {join, resolve} from "node:path";
 
 import progress from "cli-progress";
 import tar from "tar";
@@ -82,11 +82,11 @@ import util from "./util.js";
  * });
  */
 async function get(options) {
-  if (fs.existsSync(options.cacheDir) === false) {
+  if (!existsSync(options.cacheDir)) {
     await fsm.mkdir(options.cacheDir, { recursive: true });
   }
   await getNwjs(options);
-  if (options.ffmpeg === true) {
+  if (options.ffmpeg) {
     await getFfmpeg(options);
   }
   if (options.nativeAddon === "gyp") {
@@ -96,22 +96,22 @@ async function get(options) {
 
 const getNwjs = async (options) => {
   const bar = new progress.SingleBar({}, progress.Presets.rect);
-  const out = path.resolve(
+  const out = resolve(
     options.cacheDir,
     `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}.${options.platform === "linux" ? "tar.gz" : "zip"
     }`,
   );
   // If options.cache is false, remove cache.
-  if (options.cache === false) {
+  if (!options.cache) {
     await fsm.rm(out, {
       recursive: true,
       force: true,
     });
   }
 
-  if (fs.existsSync(out) === true) {
+  if (existsSync(out)) {
     await fsm.rm(
-      path.resolve(
+      resolve(
         options.cacheDir,
         `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`,
       ),
@@ -124,7 +124,7 @@ const getNwjs = async (options) => {
       });
     } else {
       await new Promise((res) => {
-        fs.createReadStream(out)
+        createReadStream(out)
           .pipe(unzipper.Extract({ path: options.cacheDir }))
           .on("finish", res);
       });
@@ -135,7 +135,7 @@ const getNwjs = async (options) => {
     return;
   }
 
-  const stream = fs.createWriteStream(out);
+  const stream = createWriteStream(out);
   const request = new Promise((res, rej) => {
     let url = "";
 
@@ -188,7 +188,7 @@ const getNwjs = async (options) => {
 
   await request;
   await fsm.rm(
-    path.resolve(
+    resolve(
       options.cacheDir,
       `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`,
     ),
@@ -201,7 +201,7 @@ const getNwjs = async (options) => {
     });
   } else {
     await new Promise((res) => {
-      fs.createReadStream(out)
+      createReadStream(out)
         .pipe(unzipper.Extract({ path: options.cacheDir }))
         .on("finish", res);
     });
@@ -214,7 +214,7 @@ const getNwjs = async (options) => {
 
 
 const getFfmpeg = async (options) => {
-  const nwDir = path.resolve(
+  const nwDir = resolve(
     options.cacheDir,
     `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`,
   );
@@ -223,10 +223,10 @@ const getFfmpeg = async (options) => {
   // If options.ffmpeg is true, then download ffmpeg.
   options.downloadUrl = "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download";
   let url = `${options.downloadUrl}/${options.version}/${options.version}-${options.platform}-${options.arch}.zip`;
-  const out = path.resolve(options.cacheDir, `ffmpeg-v${options.version}-${options.platform}-${options.arch}.zip`);
+  const out = resolve(options.cacheDir, `ffmpeg-v${options.version}-${options.platform}-${options.arch}.zip`);
 
   // If options.cache is false, remove cache.
-  if (options.cache === false) {
+  if (!options.cache) {
     await fsm.rm(out, {
       recursive: true,
       force: true,
@@ -234,13 +234,13 @@ const getFfmpeg = async (options) => {
   }
 
   // Check if cache exists.
-  if (fs.existsSync(out) === true) {
-    fs.createReadStream(out)
+  if (existsSync(out)) {
+    createReadStream(out)
       .pipe(unzipper.Extract({ path: nwDir }));
     return;
   }
 
-  const stream = fs.createWriteStream(out);
+  const stream = createWriteStream(out);
   const request = new Promise((res, rej) => {
     https.get(url, (response) => {
       // For GitHub releases and mirrors, we need to follow the redirect.
@@ -275,43 +275,43 @@ const getFfmpeg = async (options) => {
 
   // Remove compressed file after download and decompress.
   await request;
-  fs.createReadStream(out)
+  createReadStream(out)
     .pipe(unzipper.Extract({ path: nwDir }));
   await util.replaceFfmpeg(options.platform, nwDir);
 }
 
 const getNodeHeaders = async (options) => {
   const bar = new progress.SingleBar({}, progress.Presets.rect);
-  const out = path.resolve(
+  const out = resolve(
     options.cacheDir,
     `headers-v${options.version}-${options.platform}-${options.arch}.tar.gz`,
   );
 
   // If options.cache is false, remove cache.
-  if (options.cache === false) {
+  if (!options.cache) {
     await fsm.rm(out, {
       recursive: true,
       force: true,
     });
   }
 
-  if (fs.existsSync(out) === true) {
+  if (existsSync(out)) {
     await tar.extract({
       file: out,
       C: options.cacheDir
     });
-    await fsm.rm(path.resolve(options.cacheDir, `node-v${options.version}-${options.platform}-${options.arch}`), {
+    await fsm.rm(resolve(options.cacheDir, `node-v${options.version}-${options.platform}-${options.arch}`), {
       recursive: true,
       force: true,
     });
     await fsm.rename(
-      path.resolve(options.cacheDir, "node"),
-      path.resolve(options.cacheDir, `node-v${options.version}-${options.platform}-${options.arch}`),
+      resolve(options.cacheDir, "node"),
+      resolve(options.cacheDir, `node-v${options.version}-${options.platform}-${options.arch}`),
     );
     return;
   }
 
-  const stream = fs.createWriteStream(out);
+  const stream = createWriteStream(out);
   const request = new Promise((res, rej) => {
     const url = `${options.downloadUrl}/v${options.version}/nw-headers-v${options.version}.tar.gz`;
     https.get(url, (response) => {
@@ -342,19 +342,19 @@ const getNodeHeaders = async (options) => {
     C: options.cacheDir
   });
   await fsm.rename(
-    path.resolve(options.cacheDir, "node"),
-    path.resolve(options.cacheDir, `node-v${options.version}-${options.platform}-${options.arch}`),
+    resolve(options.cacheDir, "node"),
+    resolve(options.cacheDir, `node-v${options.version}-${options.platform}-${options.arch}`),
   );
 }
 
 const createSymlinks = async (options) => {
-  const frameworksPath = path.join(process.cwd(), options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework");
+  const frameworksPath = join(process.cwd(), options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework");
   const symlinks = [
-    path.join(frameworksPath, "Helpers"),
-    path.join(frameworksPath, "Libraries"),
-    path.join(frameworksPath, "nwjs Framework"),
-    path.join(frameworksPath, "Resources"),
-    path.join(frameworksPath, "Versions", "Current"),
+    join(frameworksPath, "Helpers"),
+    join(frameworksPath, "Libraries"),
+    join(frameworksPath, "nwjs Framework"),
+    join(frameworksPath, "Resources"),
+    join(frameworksPath, "Versions", "Current"),
   ];
   for await (const symlink of symlinks) {
     const link = String(await fsm.readFile(symlink));

@@ -1,5 +1,5 @@
 import console from "node:console";
-import fs from "node:fs";
+import { existsSync } from "node:fs";
 import fsm from "node:fs/promises";
 
 import bld from "./bld.js";
@@ -89,14 +89,14 @@ const nwbuild = async (options) => {
 
     //TODO: impl logging
 
-    built = fs.existsSync(options.cacheDir);
-    if (built === false) {
+    built = existsSync(options.cacheDir);
+    if (!built) {
       await fsm.mkdir(options.cacheDir, { recursive: true });
     }
 
     if (options.mode === "build") {
-      built = fs.existsSync(options.outDir);
-      if (built === false) {
+      built = existsSync(options.outDir);
+      if (!built) {
         await fsm.mkdir(options.outDir, { recursive: true });
       }
     }

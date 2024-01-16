@@ -1,6 +1,6 @@
 import assert from "node:assert";
-import path from "node:path";
-import process from "node:process";
+import { resolve } from "node:path";
+import { platform, arch } from "node:process";
 import { before, describe, it } from "node:test";
 
 import { By } from "selenium-webdriver";
@@ -19,8 +19,8 @@ describe("test modes", async () => {
     mode: "build",
     version: "0.83.0",
     flavor: "sdk",
-    platform: util.PLATFORM_KV[process.platform],
-    arch: util.ARCH_KV[process.arch],
+    platform: util.PLATFORM_KV[platform],
+    arch: util.ARCH_KV[arch],
     outDir: "test/fixture/out/app",
     cacheDir: "test/fixture/cache",
     glob: false,
@@ -34,7 +34,7 @@ describe("test modes", async () => {
   it("should run", async () => {
     const options = new Options();
     const args = [
-      `--nwapp=${path.resolve("test", "fixture", "out", "app", "package.nw")}`,
+      `--nwapp=${resolve("test", "fixture", "out", "app", "package.nw")}`,
       "--headless=new",
     ];
     options.addArguments(args);

@@ -1,6 +1,6 @@
-import child_process from "node:child_process";
+import {spawn} from "node:child_process";
 import console from "node:console";
-import path from "node:path";
+import {resolve} from "node:path";
 import process from "node:process";
 
 import util from "./util.js";
@@ -19,12 +19,12 @@ import util from "./util.js";
 
 /**
  * Run NW.js application
- * 
+ *
  * @async
  * @function
  * @param  {RunOptions}               options           Run mode options
  * @return {Promise<void>}
- * 
+ *
  * @example
  * // Minimal Usage (uses default values)
  * nwbuild({
@@ -49,15 +49,15 @@ async function run({
       throw new Error("Globbing is not supported with run mode.");
     }
 
-    const nwDir = path.resolve(
+    const nwDir = resolve(
       cacheDir,
       `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}`,
     );
 
     return new Promise((res, rej) => {
       // It is assumed that the package.json is located at srcDir/package.json
-      const nwProcess = child_process.spawn(
-        path.resolve(nwDir, util.EXE_NAME[platform]),
+      const nwProcess = spawn(
+        resolve(nwDir, util.EXE_NAME[platform]),
         [...[srcDir], ...argv],
         {
           detached: true,

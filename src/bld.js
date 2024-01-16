@@ -1,6 +1,6 @@
-import child_process from "node:child_process";
+import { execSync } from "node:child_process";
 import console from "node:console";
-import path from "node:path";
+import { resolve } from "node:path";
 import fsm from "node:fs/promises";
 import process from "node:process";
 
@@ -103,23 +103,23 @@ import util from "./util.js"
  * @function
  * @param {BuildOptions} options
  * @return {Promise<void>}
- * 
+ *
  * @example
  * // Minimal Usage (uses default values)
  * nwbuild({
  *   mode: "build",
  * });
- * 
+ *
  * @example
  * // Managed Manifest mode
  * // Parse first Node manifest it encounters as NW manifest
  * // Remove development dependencies
- * // Auto detect and download dependencies via relevant package manager 
+ * // Auto detect and download dependencies via relevant package manager
  * nwbuild({
  *   mode: "build",
  *   managedManifest: true
  * });
- * 
+ *
  * @example
  * // Managed Manifest JSON
  * // Use JSON object provided as NW manifest
@@ -127,7 +127,7 @@ import util from "./util.js"
  *   mode: "build",
  *   managedManifest: { name: "demo", "main": "index.html" }
  * });
- * 
+ *
  * @example
  * // Managed Manifest File
  * // Use file path provided as NW manifest
@@ -135,7 +135,7 @@ import util from "./util.js"
  *   mode: "build",
  *   managedManifest: "./manifest.json"
  * });
- * 
+ *
  * @example
  * // Rebuild Node native modules
  * // This assumes you have a binding.gyp file in your options.srcDir.
@@ -143,11 +143,11 @@ import util from "./util.js"
  *   mode: "build",
  *   nodeAddon: "gyp"
  * });
- * 
+ *
  * @example
  * // For MacOS ARM unofficial builds (<= v0.75), remove quarantine flag post build.
  * sudo xattr -r -d com.apple.quarantine /path/to/nwjs.app
- * 
+ *
  */
 async function bld({
   version = "latest",
@@ -164,7 +164,7 @@ async function bld({
   nativeAddon = false,
   zip = false,
 }) {
-  const nwDir = path.resolve(
+  const nwDir = resolve(
     cacheDir,
     `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform
     }-${arch}`,
@@ -180,7 +180,7 @@ async function bld({
     for (let file of files) {
       await fsm.cp(
         file,
-        path.resolve(
+        resolve(
           outDir,
           platform !== "osx"
             ? "package.nw"
@@ -193,7 +193,7 @@ async function bld({
   } else {
     await fsm.cp(
       files,
-      path.resolve(
+      resolve(
         outDir,
         platform !== "osx"
           ? "package.nw"
@@ -258,7 +258,7 @@ const manageManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
   manifest.packageManager = manifest.packageManager ?? "npm@*";
 
   await fsm.writeFile(
-    path.resolve(
+    resolve(
       outDir,
       platform !== "osx"
         ? "package.nw"
@@ -270,7 +270,7 @@ const manageManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
   );
 
   process.chdir(
-    path.resolve(
+    resolve(
       outDir,
       platform !== "osx"
         ? "package.nw"
@@ -279,11 +279,11 @@ const manageManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
   );
 
   if (manifest.packageManager.startsWith("npm")) {
-    child_process.execSync(`npm install`);
+    execSync(`npm install`);
   } else if (manifest.packageManager.startsWith("yarn")) {
-    child_process.execSync(`yarn install`);
+    execSync(`yarn install`);
   } else if (manifest.packageManager.startsWith("pnpm")) {
-    child_process.execSync(`pnpm install`);
+    execSync(`pnpm install`);
   }
 };
 
@@ -365,8 +365,8 @@ const setWinConfig = async ({ app, outDir }) => {
   }
 
   try {
-    const outDirAppExe = path.resolve(outDir, `${app.name}.exe`);
-    await fsm.rename(path.resolve(outDir, "nw.exe"), outDirAppExe);
+    const outDirAppExe = resolve(outDir, `${app.name}.exe`);
+    await fsm.rename(resolve(outDir, "nw.exe"), outDirAppExe);
     await rcedit(outDirAppExe, rcEditOptions);
   } catch (error) {
     if (process.platform !== "win32") {
@@ -386,19 +386,19 @@ const setOsxConfig = async ({ outDir, app }) => {
   }
 
   try {
-    const outApp = path.resolve(outDir, `${app.name}.app`);
-    await fsm.rename(path.resolve(outDir, "nwjs.app"), outApp);
+    const outApp = resolve(outDir, `${app.name}.app`);
+    await fsm.rename(resolve(outDir, "nwjs.app"), outApp);
     if (app.icon !== undefined) {
       await fsm.copyFile(
-        path.resolve(app.icon),
-        path.resolve(outApp, "Contents", "Resources", "app.icns"),
+        resolve(app.icon),
+        resolve(outApp, "Contents", "Resources", "app.icns"),
       );
     }
 
-    const infoPlistPath = path.resolve(outApp, "Contents", "Info.plist");
+    const infoPlistPath = resolve(outApp, "Contents", "Info.plist");
     const infoPlistJson = plist.parse(await fsm.readFile(infoPlistPath, "utf-8"));
 
-    const infoPlistStringsPath = path.resolve(
+    const infoPlistStringsPath = resolve(
       outApp,
       "Contents",
       "Resources",
@@ -444,9 +444,9 @@ const setOsxConfig = async ({ outDir, app }) => {
 };
 
 const buildNativeAddon = ({ cacheDir, version, platform, arch, outDir, nodeVersion }) => {
-  let nodePath = path.resolve(cacheDir, `node-v${version}-${platform}-${arch}`);
+  let nodePath = resolve(cacheDir, `node-v${version}-${platform}-${arch}`);
   process.chdir(
-    path.resolve(
+    resolve(
       outDir,
       platform !== "osx"
         ? "package.nw"
@@ -454,7 +454,7 @@ const buildNativeAddon = ({ cacheDir, version, platform, arch, outDir, nodeVersi
     ),
   );
 
-  child_process.execSync(`node-gyp rebuild --target=${nodeVersion} --nodedir=${nodePath}`);
+  execSync(`node-gyp rebuild --target=${nodeVersion} --nodedir=${nodePath}`);
 };
 
 const compress = async ({

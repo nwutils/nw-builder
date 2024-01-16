@@ -1,8 +1,8 @@
 import console from "node:console";
-import fs from "node:fs";
+import {promises} from "node:fs";
 import https from "node:https";
-import path from "node:path";
-import process from "node:process";
+import {resolve, basename} from "node:path";
+import { arch, platform } from "node:process";
 
 import * as GlobModule from "glob";
 
@@ -57,18 +57,18 @@ async function getReleaseInfo(
   let releaseData = undefined;
   let manifestPath = undefined;
   if (platform === "osx" && arch === "arm64") {
-    manifestPath = path.resolve(cacheDir, "manifest.mac.arm.json");
+    manifestPath = resolve(cacheDir, "manifest.mac.arm.json");
   } else {
-    manifestPath = path.resolve(cacheDir, "manifest.json");
+    manifestPath = resolve(cacheDir, "manifest.json");
   }
 
   try {
     const data = await getManifest(manifestUrl);
     if (data !== undefined) {
-      await fs.promises.writeFile(manifestPath, data.slice(9));
+      await promises.writeFile(manifestPath, data.slice(9));
     }
 
-    let manifest = JSON.parse(await fs.promises.readFile(manifestPath));
+    let manifest = JSON.parse(await promises.readFile(manifestPath));
     if (version === "latest" || version === "stable" || version === "lts") {
       // Remove leading "v" from version string
       version = manifest[version].slice(1);
@@ -118,15 +118,15 @@ const replaceFfmpeg = async (platform, nwDir) => {
   } else if (platform === "osx") {
     ffmpegFile = "libffmpeg.dylib";
   }
-  const src = path.resolve(nwDir, ffmpegFile);
+  const src = resolve(nwDir, ffmpegFile);
   if (platform === "linux") {
-    const dest = path.resolve(nwDir, "lib", ffmpegFile);
-    await fs.promises.copyFile(src, dest);
+    const dest = resolve(nwDir, "lib", ffmpegFile);
+    await promises.copyFile(src, dest);
   } else if (platform === "win") {
     // don't do anything for windows because the extracted file is already in the correct path
     // await copyFile(src, path.resolve(nwDir, ffmpegFile));
   } else if (platform === "osx") {
-    let dest = path.resolve(
+    let dest = resolve(
       nwDir,
       "nwjs.app",
       "Contents",
@@ -138,11 +138,11 @@ const replaceFfmpeg = async (platform, nwDir) => {
     );
 
     try {
-      await fs.promises.copyFile(src, dest);
+      await promises.copyFile(src, dest);
     } catch (e) {
       //some versions of node/macOS complain about destination being a file, and others complain when it is only a directory.
       //the only thing I can think to do is to try both
-      dest = path.resolve(
+      dest = resolve(
         nwDir,
         "nwjs.app",
         "Contents",
@@ -151,7 +151,7 @@ const replaceFfmpeg = async (platform, nwDir) => {
         "Versions",
         "Current",
       );
-      await fs.promises.copyFile(src, dest);
+      await promises.copyFile(src, dest);
     }
   }
 };
@@ -182,18 +182,18 @@ async function getNodeManifest({
   if (glob) {
     files = await globFiles({srcDir, glob});
     for (const file of files) {
-      if (path.basename(file) === "package.json" && manifest === undefined) {
-        manifest = JSON.parse(await fs.promises.readFile(file));
+      if (basename(file) === "package.json" && manifest === undefined) {
+        manifest = JSON.parse(await promises.readFile(file));
       }
     }
   } else {
-    manifest = JSON.parse(await fs.promises.readFile(path.resolve(srcDir, "package.json")));
+    manifest = JSON.parse(await promises.readFile(resolve(srcDir, "package.json")));
   }
 
   if (manifest === undefined) {
     throw new Error("package.json not found in srcDir file glob patterns.");
   }
-  
+
   return manifest;
 }
 
@@ -210,8 +210,8 @@ export const parse = async (options, pkg) => {
 
   options.version = options.version ?? "latest";
   options.flavor = options.flavor ?? "normal";
-  options.platform = options.platform ?? PLATFORM_KV[process.platform];
-  options.arch = options.arch ?? ARCH_KV[process.arch];
+  options.platform = options.platform ?? PLATFORM_KV[platform];
+  options.arch = options.arch ?? ARCH_KV[arch];
   options.downloadUrl = options.downloadUrl ?? "https://dl.nwjs.io";
   options.manifestUrl = options.manifestUrl ?? "https://nwjs.io/versions";
   options.cacheDir = options.cacheDir ?? "./cache";
@@ -231,7 +231,7 @@ export const parse = async (options, pkg) => {
     return { ...options };
   }
 
-  options.outDir = path.resolve(options.outDir ?? "./out");
+  options.outDir = resolve(options.outDir ?? "./out");
   options.zip = options.zip ?? false;
 
   options.managedManifest = options.managedManifest ?? false;
@@ -378,7 +378,7 @@ export const validate = async (options, releaseInfo) => {
   }
 
   if (options.srcDir) {
-    await fs.promises.readdir(options.srcDir);
+    await promises.readdir(options.srcDir);
   }
 
   if (options.mode === "run") {
@@ -386,7 +386,7 @@ export const validate = async (options, releaseInfo) => {
   }
 
   if (options.outDir) {
-    await fs.promises.readdir(options.outDir);
+    await promises.readdir(options.outDir);
   }
 
   if (
@@ -424,7 +424,7 @@ export const validate = async (options, releaseInfo) => {
 };
 
 /**
- * 
+ *
  * @param {"chromedriver"} type
  * @param {object} options
  * @throws {Error}
@@ -432,7 +432,7 @@ export const validate = async (options, releaseInfo) => {
  */
 async function getPath(type, options) {
   if (type === "chromedriver") {
-    return path.resolve(
+    return resolve(
       options.cacheDir,
       `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform
       }-${options.arch}`,
