@@ -138,8 +138,7 @@ import util from "./util.js"
  * 
  * @example
  * // Rebuild Node native modules
- * // This behaviour is currently disabled.
- * // Tracking issue: https://github.com/nwutils/nw-builder/pull/993
+ * // This assumes you have a binding.gyp file in your options.srcDir.
  * nwbuild({
  *   mode: "build",
  *   nodeAddon: "gyp"

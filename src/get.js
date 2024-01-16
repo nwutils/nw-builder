@@ -1,5 +1,3 @@
-import child_process from "node:child_process";
-import console from "node:console";
 import fs from "node:fs";
 import fsm from "node:fs/promises";
 import https from "node:https";
@@ -309,20 +307,6 @@ const getNodeHeaders = async (options) => {
     await fsm.rename(
       path.resolve(options.cacheDir, "node"),
       path.resolve(options.cacheDir, `node-v${options.version}-${options.platform}-${options.arch}`),
-    );
-
-    child_process.exec(
-      "patch " +
-      path.resolve(
-        options.cacheDir,
-        `node-v${options.version}-${options.platform}-${options.arch}`,
-        "common.gypi",
-      ) +
-      " " +
-      path.resolve("..", "..", "patches", "node_header.patch"),
-      (error) => {
-        console.error(error);
-      },
     );
     return;
   }
