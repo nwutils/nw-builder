@@ -33,7 +33,6 @@
   "type": "module",
   "files": [
     "LICENSE",
-    "patches",
     "src"
   ],
   "homepage": "https://github.com/nwutils/nw-builder",
@@ -49,7 +48,7 @@
   },
   "devDependencies": {
     "eslint": "^8.56.0",
-    "eslint-plugin-jsdoc": "^46.9.1",
+    "eslint-plugin-jsdoc": "^48.0.2",
     "jsdoc": "^4.0.2",
     "selenium-webdriver": "^4.16.0"
   },
