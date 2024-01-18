@@ -60,7 +60,7 @@
     "plist": "^3.1.0",
     "rcedit": "^4.0.1",
     "tar": "^6.2.0",
-    "unzipper": "^0.10.14",
+    "unzip-stream": "^0.3.1",
     "yargs": "^17.7.2"
   },
   "packageManager": "npm@10.2.4",
