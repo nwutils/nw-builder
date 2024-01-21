@@ -160,7 +160,7 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Build options</td>
         </tr>
 
     
@@ -201,7 +201,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="bld.js.html">bld.js</a>, <a href="bld.js.html#line153">line 153</a>
+        <a href="bld.js.html">bld.js</a>, <a href="bld.js.html#line152">line 152</a>
     </li></ul></dd>
     
 
@@ -279,8 +279,7 @@ nwbuild({
 });</code></pre>
 
     <pre class="prettyprint"><code>// Rebuild Node native modules
-// This behaviour is currently disabled.
-// Tracking issue: https://github.com/nwutils/nw-builder/pull/993
+// This assumes you have a binding.gyp file in your options.srcDir.
 nwbuild({
   mode: "build",
   nodeAddon: "gyp"
@@ -398,7 +397,7 @@ sudo xattr -r -d com.apple.quarantine /path/to/nwjs.app</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="get.js.html">get.js</a>, <a href="get.js.html#line86">line 86</a>
+        <a href="get.js.html">get.js</a>, <a href="get.js.html#line84">line 84</a>
     </li></ul></dd>
     
 
@@ -491,6 +490,196 @@ nwbuild({
   mode: "get",
   nativeAddon: "gyp",
 });</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="nwbuild"><span class="type-signature">(async) </span>nwbuild<span class="signature">(options)</span><span class="type-signature"> &rarr; {Promise.&lt;undefined>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Installation Guide
+
+Every NW.js release includes a modified Node.js binary at a specific version. It is recommended to [install](https://nodejs.org/en/download/package-manager) exactly that version on the host system. Not doing so may download ABI incompatible Node modules. Consult the NW.js [versions manifest](https://nwjs.io/versions) for what Node.js version to install. It is recommended to use a Node version manager (such as [volta](https://volta.sh), n, nvm, or nvm-windows) to be able to easily install and switch between Node versions.
+
+Please refer to the examples below for basic usage.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Options">Options</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Options</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line74">line 74</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;undefined></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>// ESM usage:
+
+import nwbuild from "nw-builder";</code></pre>
+
+    <pre class="prettyprint"><code>// CJS usage
+
+let nwbuild = undefined;
+
+(() => {
+try {
+nwbuild = await import("nw-builder");
+} catch(error) {
+console.error(error);
+}
+})();</code></pre>
+
+    <pre class="prettyprint"><code>// Module usage
+
+nwbuild();</code></pre>
+
+    <pre class="prettyprint"><code>// CLI usage
+
+npx nwbuild</code></pre>
+
+    <pre class="prettyprint"><code>// Node manifest usage
+
+"nwbuild": {}</code></pre>
 
 
 
@@ -1728,7 +1917,7 @@ nwbuild({
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="get.js.html">get.js</a>, <a href="get.js.html#line14">line 14</a>
+        <a href="get.js.html">get.js</a>, <a href="get.js.html#line12">line 12</a>
     </li></ul></dd>
     
 
@@ -2337,6 +2526,788 @@ https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-lat
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="bld.js.html">bld.js</a>, <a href="bld.js.html#line13">line 13</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id="Options">Options</h4>
+
+
+
+
+<div class="description">
+    Configuration options
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>srcDir</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"./"</span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "./"
+                
+                </td>
+            
+
+            <td class="description last">String of space separated glob patterns which correspond to NW app code</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>mode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"get"</span>
+|
+
+<span class="param-type">"run"</span>
+|
+
+<span class="param-type">"build"</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "build"
+                
+                </td>
+            
+
+            <td class="description last">Run or build application</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>version</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"latest"</span>
+|
+
+<span class="param-type">"stable"</span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "latest"
+                
+                </td>
+            
+
+            <td class="description last">NW runtime version</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>flavor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"normal"</span>
+|
+
+<span class="param-type">"sdk"</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "normal"
+                
+                </td>
+            
+
+            <td class="description last">NW runtime build flavor</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>platform</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"linux"</span>
+|
+
+<span class="param-type">"osx"</span>
+|
+
+<span class="param-type">"win"</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">NW supported platforms</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>arch</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"ia32"</span>
+|
+
+<span class="param-type">"x64"</span>
+|
+
+<span class="param-type">"arm64"</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">NW supported architectures</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>outDir</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"./out"</span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "./out"
+                
+                </td>
+            
+
+            <td class="description last">Directory to store build artifacts</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>cacheDir</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"./cache"</span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "./cache"
+                
+                </td>
+            
+
+            <td class="description last">Directory to store NW binaries</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>downloadUrl</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"https://dl.nwjs.io"</span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "https://dl.nwjs.io"
+                
+                </td>
+            
+
+            <td class="description last">URI to download NW binaries from</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>manifestUrl</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"https://nwjs.io/versions"</span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "https://nwjs.io/versions"
+                
+                </td>
+            
+
+            <td class="description last">URI to download manifest from</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>app</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Refer to Linux/Windows Specific Options under Getting Started in the docs</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>cache</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    true
+                
+                </td>
+            
+
+            <td class="description last">If true the existing cache is used. Otherwise it removes and redownloads it.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>zip</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+|
+
+<span class="param-type">"zip"</span>
+|
+
+<span class="param-type">"tar"</span>
+|
+
+<span class="param-type">"tgz"</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">If true, "zip", "tar" or "tgz" the outDir directory is compressed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>cli</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">If true the CLI is used to glob srcDir and parse other options</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>ffmpeg</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">If true the chromium ffmpeg is replaced by community version</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>glob</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    true
+                
+                </td>
+            
+
+            <td class="description last">If true globbing is enabled</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>logLevel</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"error"</span>
+|
+
+<span class="param-type">"warn"</span>
+|
+
+<span class="param-type">"info"</span>
+|
+
+<span class="param-type">"debug"</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "info"
+                
+                </td>
+            
+
+            <td class="description last">Specified log level.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line10">line 10</a>
     </li></ul></dd>
     
 
@@ -3565,13 +4536,13 @@ https://learn.microsoft.com/en-gb/windows/win32/menurc/versioninfo-resource
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#bld">bld</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#run">run</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#bld">bld</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#nwbuild">nwbuild</a></li><li><a href="global.html#run">run</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Dec 26 2023 16:38:03 GMT+0530 (India Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sun Jan 21 2024 18:15:08 GMT-0500 (Eastern Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
