@@ -5,7 +5,7 @@ import path from "node:path";
 
 import progress from "cli-progress";
 import tar from "tar";
-import unzipper from "unzipper";
+import unzipper from "unzipper-stream";
 
 import util from "./util.js";
 
