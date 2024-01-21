@@ -5,12 +5,13 @@ import path from "node:path";
 import process from "node:process";
 
 import * as GlobModule from "glob";
+import semver from "semver";
 
 /**
  * Get manifest (array of NW release metadata) from URL
  *
  * @param  {string}                       manifestUrl  Url to manifest
- * @return {Promise <object | undefined>}
+ * @returns {Promise<object | undefined>} - Manifest object
  */
 function getManifest(manifestUrl) {
   let chunks = undefined;
@@ -45,7 +46,7 @@ function getManifest(manifestUrl) {
  * @param  {string} arch         NW architecture
  * @param  {string} cacheDir     Directory to store NW binaries
  * @param  {string} manifestUrl  Url to manifest
- * @return {object}              Version specific release info
+ * @returns {object}              Version specific release info
  */
 async function getReleaseInfo(
   version,
@@ -156,6 +157,18 @@ const replaceFfmpeg = async (platform, nwDir) => {
   }
 };
 
+/**
+ * Glob files
+ * 
+ * @async
+ * @function
+ * 
+ * @param {object} options - glob file options
+ * @param {string | string[]} options.srcDir - app src dir
+ * @param {boolean} options.glob - glob flag
+ * @returns {string[]} - Returns array of file paths
+ 
+ */
 async function globFiles({
   srcDir,
   glob,
@@ -174,13 +187,21 @@ async function globFiles({
   return files;
 }
 
+/**
+ * @async
+ * @function
+ * @param {object} options - node manifest options
+ * @param {string | string []} options.srcDir - src dir
+ * @param {boolean} options.glob - glob flag
+ * @returns {object} - Node manifest
+ */
 async function getNodeManifest({
   srcDir, glob
 }) {
   let manifest;
   let files;
   if (glob) {
-    files = await globFiles({srcDir, glob});
+    files = await globFiles({ srcDir, glob });
     for (const file of files) {
       if (path.basename(file) === "package.json" && manifest === undefined) {
         manifest = JSON.parse(await fs.promises.readFile(file));
@@ -193,7 +214,7 @@ async function getNodeManifest({
   if (manifest === undefined) {
     throw new Error("package.json not found in srcDir file glob patterns.");
   }
-  
+
   return manifest;
 }
 
@@ -202,7 +223,7 @@ async function getNodeManifest({
  *
  * @param  {import("../../index.js").Options} options  Options
  * @param  {object}                           pkg      Package.json as JSON
- * @return {Promise<object>}                           Options
+ * @returns {Promise<object>}                          Options
  */
 export const parse = async (options, pkg) => {
   options = options ?? {};
@@ -309,7 +330,7 @@ export const parse = async (options, pkg) => {
  *
  * @param  {import("../index.js").Options} options      Options
  * @param  {object}                        releaseInfo  Version specific NW release info
- * @return {Promise<undefined>}                         Return undefined if options are valid
+ * @returns {Promise<undefined>}                         Return undefined if options are valid
  * @throws {Error}                                         Throw error if options are invalid
  */
 export const validate = async (options, releaseInfo) => {
@@ -424,11 +445,15 @@ export const validate = async (options, releaseInfo) => {
 };
 
 /**
+ * Get path to various NW specific file paths.
  * 
- * @param {"chromedriver"} type
- * @param {object} options
+ * @async
+ * @function
+ * 
+ * @param {"chromedriver"} type - NW specific file or directory
+ * @param {object} options - nwbuild options
+ * @returns {string} - Path to chromedriver
  * @throws {Error}
- * @return {string}
  */
 async function getPath(type, options) {
   if (type === "chromedriver") {

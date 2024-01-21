@@ -101,8 +101,8 @@ import util from "./util.js"
 /**
  * @async
  * @function
- * @param {BuildOptions} options
- * @return {Promise<void>}
+ * @param {BuildOptions} options - Build options  
+ * @returns {Promise<void>}
  * 
  * @example
  * // Minimal Usage (uses default values)

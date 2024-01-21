@@ -146,8 +146,8 @@ const getNwjs = async (options) => {
       options.downloadUrl === "https://npmmirror.com/mirrors/nwjs"
     ) {
       url = `${options.downloadUrl}/v${options.version}/nwjs${options.flavor === "sdk" ? "-sdk" : ""
-        }-v${options.version}-${options.platform}-${options.arch}.${options.platform === "linux" ? "tar.gz" : "zip"
-        }`;
+      }-v${options.version}-${options.platform}-${options.arch}.${options.platform === "linux" ? "tar.gz" : "zip"
+      }`;
     }
 
     https.get(url, (response) => {

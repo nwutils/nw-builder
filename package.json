@@ -41,12 +41,13 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
-    "lint": "eslint src/get.js",
+    "lint": "eslint ./**/*.js",
     "docs": "jsdoc -d docs ./README.md ./src/get.js ./src/run.js ./src/bld.js",
     "test": "node --test test/*.test.js",
     "demo": "cd test/fixture && node demo.js"
   },
   "devDependencies": {
+    "@stylistic/eslint-plugin-js": "^1.5.4",
     "eslint": "^8.56.0",
     "eslint-plugin-jsdoc": "^48.0.2",
     "jsdoc": "^4.0.2",
@@ -59,6 +60,7 @@
     "node-gyp": "^10.0.1",
     "plist": "^3.1.0",
     "rcedit": "^4.0.1",
+    "semver": "^7.5.4",
     "tar": "^6.2.0",
     "unzipper": "^0.10.14",
     "yargs": "^17.7.2"
@@ -80,7 +82,14 @@
       "eslint:recommended",
       "plugin:jsdoc/recommended"
     ],
+    "plugins": [
+      "@stylistic/js"
+    ],
     "rules": {
+      "@stylistic/js/indent": [
+        "error",
+        2
+      ],
       "jsdoc/tag-lines": "off",
       "jsdoc/check-property-names": "off"
     }

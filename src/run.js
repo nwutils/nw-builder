@@ -23,7 +23,7 @@ import util from "./util.js";
  * @async
  * @function
  * @param  {RunOptions}               options           Run mode options
- * @return {Promise<void>}
+ * @returns {Promise<void>}
  * 
  * @example
  * // Minimal Usage (uses default values)

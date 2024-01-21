@@ -69,7 +69,7 @@ import util from "./util.js";
  * "nwbuild": {}
  *
  * @param  {Options}            options  Options
- * @return {Promise<undefined>}
+ * @returns {Promise<undefined>}
  */
 const nwbuild = async (options) => {
   let built;
