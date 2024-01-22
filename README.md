@@ -293,7 +293,6 @@ nwbuild({
 - chore(cicd): use `google-github-actions/release-please-action` to automate publishing to npm, updating changelog and creating releases
 - chore(test): add test cases for current features
 - chore(yargs): migrate to `commander`
-- chore(node:test): migrate to `vitest`
 - chore(unzipper): migrate to `yauzl-promise`
 - chore(util): factor out nw file paths finder
 - chore(get): factor out https downloader
