@@ -184,6 +184,12 @@ Options
 | outDir | `string` | `"./out"` | Directory to store build artifacts |
 | managedManifest | `boolean \| string \| object` | `false` | Managed manifest |
 | nodeAddon | `false \| "gyp"` | `false` | Rebuild Node native addons |
+| cache | `boolean` | `true`| If true the existing cache is used. Otherwise it removes and redownloads it. |
+| ffmpeg | `boolean` | `false`| If true the chromium ffmpeg is replaced by community version with proprietary codecs. |
+| glob | `boolean` | `true`| If true file globbing is enabled when parsing `srcDir`. |
+| logLevel | `"error" \| "warn" \| "info" \| "debug"` | `"info"`| Specify level of logging. |
+| zip | `boolean \| "zip" \| "tar" \| "tgz"` | `false`| If true, "zip", "tar" or "tgz" the `outDir` directory is compressed. |
+
 
 ## Guides
 
