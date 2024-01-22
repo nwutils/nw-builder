@@ -78,14 +78,79 @@ nwbuild({
 });
 ```
 
-## Run Mode
+### Run Mode
 
 ```javascript
 nwbuild({
   mode: "run",
+  srcDir: "./app",
   glob: false,
 });
 ```
+
+### Build Mode
+
+Build with defaults:
+
+```javascript
+nwbuild({
+  mode: "build",
+});
+```
+
+Managed Manifest
+
+You can let `nw-builder` manage your node modules. The `managedManifest` options accepts a `boolean`, `string` or `JSON` type. It will then remove `devDependencies`, autodetect and download `dependencies` via the relevant `packageManager`. If none is specified, it uses `npm` as default.
+
+Setting it to `true` will parse the first Node manifest it encounters as the NW manifest.
+
+```javascript
+nwbuild({
+  mode: "build",
+  managedManifest: true,
+});
+```
+
+Setting it to a `string` implies that you are passing the file path to the NW manifest.
+
+```javascript
+nwbuild({
+  mode: "build",
+  managedManifest: "./nw.js",
+});
+```
+
+Setting it to a `JSON` implies you are directly passing the NW manifest as a JavaScript object.
+
+```javascript
+nwbuild({
+  mode: "build",
+  managedManifest: {
+    name: "nwdemo",
+    main: "index.html"
+  },
+});
+```
+
+Rebuild Node addons
+
+Currently this feature is quite limited. It only builds node addons which have a `binding.gyp` file in the `srcDir`. There are plans to support nan, cmake, ffi and gn and auto rebuild native addons which are installed as node modules.
+
+```javascript
+nwbuild({
+  mode: "build",
+  nodeAddon: "gyp",
+});
+```
+
+We recommend rebuilding Node addons for NW.js via `node-gyp` if you are using NW.js v0.83.0 or above.
+
+```shell
+node-gyp rebuild --target=21.1.0 --nodedir=/path/to/nw/node/headers
+```
+
+NW.js's Node version should match the Node version on the host machine due to [ABI differences in V8](https://github.com/nwjs/nw.js/issues/5025).
+
 ## API Reference
 
 Options
@@ -96,7 +161,7 @@ Options
 | version | `string \| "latest" \| "stable"` | `"latest"` | Runtime version |
 | flavor | `"normal" \| "sdk"` | `"normal"` | Runtime flavor |
 | platform | `"linux" \| "osx" \| "win"` | | Host platform |
-| arch | `""ia32" \| "x64" \| "arm64"` | | Host architecture |
+| arch | `"ia32" \| "x64" \| "arm64"` | | Host architecture |
 | downloadUrl | `"https://dl.nwjs.io" \| "https://npm.taobao.org/mirrors/nwjs" \| https://npmmirror.com/mirrors/nwjs \| "https://github.com/corwin-of-amber/nw.js/releases/"` | `"https://dl.nwjs.io"` | Download server |
 | manifestUrl | `"https://nwjs.io/versions" \| "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json"` | `"https://nwjs.io/versions"` | Versions manifest |
 | cacheDir | `string` | `"./cache"` | Directory to cache NW binaries |
@@ -109,6 +174,12 @@ Options
 
 If you're running older Apple machines, you can download the unofficial builds.
 
+> Note: You will have to manually remove quarantine flag.
+
+```shell
+sudo xattr -r -d com.apple.quarantine /path/to/nwjs.app
+```
+
 ```javascript
 nwbuild({
   mode: "get",
@@ -119,7 +190,7 @@ nwbuild({
 });
 ```
 
-Please note community FFmpeg binaries may not be available for unofficial builds. You will have to rebuild them yourself.
+> Note: Community FFmpeg binaries may not be available for unofficial builds. You will have to rebuild them yourself.
 
 ### Get binaries via mirrors
 
@@ -138,6 +209,18 @@ Singapore mirror:
 nwbuild({
   mode: "get",
   downloadUrl: "https://cnpmjs.org/mirrors/nwjs/",
+});
+```
+
+### Let `nw-builder` manage your native addons
+
+> Note: this behaviour is buggy and quite limited. This guide is to show what will be possible in the coming minor releases.
+
+```javascript
+nwbuild({
+  mode: "build",
+  managedManifest: true,
+  nativeAddon: "gyp",
 });
 ```
 

@@ -103,51 +103,6 @@ import util from "./util.js"
  * @function
  * @param {BuildOptions} options - Build options  
  * @returns {Promise<void>}
- * 
- * @example
- * // Minimal Usage (uses default values)
- * nwbuild({
- *   mode: "build",
- * });
- * 
- * @example
- * // Managed Manifest mode
- * // Parse first Node manifest it encounters as NW manifest
- * // Remove development dependencies
- * // Auto detect and download dependencies via relevant package manager 
- * nwbuild({
- *   mode: "build",
- *   managedManifest: true
- * });
- * 
- * @example
- * // Managed Manifest JSON
- * // Use JSON object provided as NW manifest
- * nwbuild({
- *   mode: "build",
- *   managedManifest: { name: "demo", "main": "index.html" }
- * });
- * 
- * @example
- * // Managed Manifest File
- * // Use file path provided as NW manifest
- * nwbuild({
- *   mode: "build",
- *   managedManifest: "./manifest.json"
- * });
- * 
- * @example
- * // Rebuild Node native modules
- * // This assumes you have a binding.gyp file in your options.srcDir.
- * nwbuild({
- *   mode: "build",
- *   nodeAddon: "gyp"
- * });
- * 
- * @example
- * // For MacOS ARM unofficial builds (<= v0.75), remove quarantine flag post build.
- * sudo xattr -r -d com.apple.quarantine /path/to/nwjs.app
- * 
  */
 async function bld({
   version = "latest",
