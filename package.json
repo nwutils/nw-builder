@@ -41,8 +41,8 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
-    "lint": "eslint ./**/*.{js,md} && markdownlint DOCS.md",
-    "lint:fix": "eslint --fix ./**/*.{js,md} && markdownlint --fix DOCS.md",
+    "lint": "eslint ./**/*.{js,md} && markdownlint ./README.md",
+    "lint:fix": "eslint --fix ./**/*.{js,md} && markdownlint --fix ./README.md",
     "docs": "jsdoc -d docs ./README.md ./src/index.js ./src/get.js ./src/run.js ./src/bld.js",
     "test": "vitest",
     "demo": "cd test/fixture && node demo.js"

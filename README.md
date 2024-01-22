@@ -202,7 +202,6 @@ Options
 | logLevel | `"error" \| "warn" \| "info" \| "debug"` | `"info"`| Specify level of logging. |
 | zip | `boolean \| "zip" \| "tar" \| "tgz"` | `false`| If true, "zip", "tar" or "tgz" the `outDir` directory is compressed. |
 
-
 ## Guides
 
 ### Get unofficial MacOS builds
@@ -274,8 +273,8 @@ nwbuild({
 
 ### Bugs
 
-- https://github.com/nwutils/nw-builder/issues/1000
-- https://github.com/nwutils/nw-builder/issues/1002
+- <https://github.com/nwutils/nw-builder/issues/1000>
+- <https://github.com/nwutils/nw-builder/issues/1002>
 - Add back error, info and debug logs
 
 ### Features
