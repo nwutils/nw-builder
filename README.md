@@ -15,6 +15,18 @@ For version 3, please go to the [corresponding branch](https://github.com/nwutil
 - Downloading from mirrors
 - Node Native Addon support
 
+## Table of Contents
+
+- [Installation](https://github.com/nwutils/nw-builder#install)
+- [Usage](https://github.com/nwutils/nw-builder#usage)
+- [Concepts](https://github.com/nwutils/nw-builder#concepts)
+- [API Reference](https://github.com/nwutils/nw-builder#api-reference)
+- [Guides](https://github.com/nwutils/nw-builder#guides)
+- [Contributing](https://github.com/nwutils/nw-builder#contributing)
+- [Roadmap](https://github.com/nwutils/nw-builder#roadmap)
+- [FAQ](https://github.com/nwutils/nw-builder#faq)
+- [License](https://github.com/nwutils/nw-builder#license)
+
 ## Install
 
 Every NW.js release includes a modified Node.js binary at a specific version. It is recommended to [install](https://nodejs.org/en/download/package-manager) exactly that version on the host system. Not doing so may download ABI incompatible Node modules. Consult the NW.js [versions manifest](https://nwjs.io/versions) for what Node.js version to install. It is recommended to use a Node version manager (such as [volta](https://volta.sh), n, nvm, or nvm-windows) to be able to easily install and switch between Node versions.
