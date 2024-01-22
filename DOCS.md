@@ -100,7 +100,7 @@ nwbuild({
 
 Managed Manifest
 
-You can let `nw-builder` manage your node modules. The `managedManifest` options accepts a `boolean`, `string` or `JSON` type. It will then remove `devDependencies`, autodetect and download `dependencies` via the relevant `packageManager`. If none is specified, it uses `npm` as default.
+You can let `nw-builder` manage your node modules. The `managedManifest` options accepts a `boolean`, `string` or `object` type. It will then remove `devDependencies`, autodetect and download `dependencies` via the relevant `packageManager`. If none is specified, it uses `npm` as default.
 
 Setting it to `true` will parse the first Node manifest it encounters as the NW manifest.
 
@@ -120,7 +120,7 @@ nwbuild({
 });
 ```
 
-Setting it to a `JSON` implies you are directly passing the NW manifest as a JavaScript object.
+Setting it to a `object` implies you are directly passing the NW manifest as a JavaScript object.
 
 ```javascript
 nwbuild({
@@ -167,7 +167,8 @@ Options
 | cacheDir | `string` | `"./cache"` | Directory to cache NW binaries |
 | srcDir | `string` | `"./"` | File paths to application code |
 | outDir | `string` | `"./out"` | Directory to store build artifacts |
-
+| managedManifest | `boolean \| string \| object` | `false` | Managed manifest |
+| nodeAddon | `false \| "gyp"` | `false` | Rebuild Node native addons |
 ## Guides
 
 ### Get unofficial MacOS builds
