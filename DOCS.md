@@ -84,7 +84,16 @@ Options
 
 | Name | Type    | Default   | Description |
 | ---- | ------- | --------- | ----------- |
-| mode | `"get"` | `"build"` | Choose between get, run or build mode |
+| mode | `"get" \| "run" \| "build"` | `"build"` | Choose between get, run or build mode |
+| version | `string \| "latest" \| "stable"` | `"latest"` | Runtime version |
+| flavor | `"normal" \| "sdk"` | `"normal"` | Runtime flavor |
+| platform | `"linux" \| "osx" \| "win"` | | Host platform |
+| arch | `""ia32" \| "x64" \| "arm64"` | | Host architecture |
+| downloadUrl | `"https://dl.nwjs.io"` | `"https://dl.nwjs.io"` | Download server |
+| manifestUrl | `"https://nwjs.io/versions"` | `"https://nwjs.io/versions"` | Versions manifest |
+| cacheDir | `string` | `"./cache"` | Directory to cache NW binaries |
+| srcDir | `string` | `"./"` | File paths to application code |
+| outDir | `string` | `"./out"` | Directory to store build artifacts |
 
 ## Guides
 
