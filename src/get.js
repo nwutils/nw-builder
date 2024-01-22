@@ -29,57 +29,6 @@ import util from "./util.js";
  * @function
  * @param  {GetOptions}    options                  Get mode options
  * @returns {Promise<void>}
- *
- * @example
- * // Minimal Usage (uses default values)
- * nwbuild({
- *   mode: "get",
- * });
- *
- * // Use with nw module
- * nwbuild({
- *   mode: "get",
- *   cacheDir: "./node_modules/nw"
- * });
- *
- * @example
- * // Unofficial macOS builds (upto v0.75.0)
- * nwbuild({
- *   mode: "get",
- *   platform: "osx",
- *   arch: "arm64",
- *   downloadUrl: "https://github.com/corwin-of-amber/nw.js/releases/download",
- *   manifestUrl: "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json",
- * });
- *
- * @example
- * // China mirror
- * nwbuild({
- *  mode: "get",
- *  downloadUrl: "https://npm.taobao.org/mirrors/nwjs",
- * });
- *
- * @example
- * // Singapore mirror
- * nwbuild({
- *  mode: "get",
- *  downloadUrl: "https://cnpmjs.org/mirrors/nwjs/",
- * });
- *
- * @example
- * // FFMPEG (proprietary codecs)
- * // Please read the license's constraints: https://nwjs.readthedocs.io/en/latest/For%20Developers/Enable%20Proprietary%20Codecs/#get-ffmpeg-binaries-from-the-community
- * nwbuild({
- *   mode: "get",
- *   ffmpeg: true,
- * });
- *
- * @example
- * // Node headers
- * nwbuild({
- *   mode: "get",
- *   nativeAddon: "gyp",
- * });
  */
 async function get(options) {
   if (fs.existsSync(options.cacheDir) === false) {

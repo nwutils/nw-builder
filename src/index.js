@@ -131,6 +131,6 @@ async function nwbuild (options) {
     console.error(error);
     throw error;
   }
-};
+}
 
 export default nwbuild;

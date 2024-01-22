@@ -13,7 +13,7 @@ v21.1.0
 
 ## Usage
 
-This package can be used via a command line interface, be imported as a JavaScript module, or used via the Node manifest as a JSON object.
+This package can be used via a command line interface, be imported as a JavaScript module, or configured via the Node manifest as a JSON object.
 
 ESM import:
 
@@ -48,9 +48,81 @@ Node manifest usage:
 
 ## Concepts
 
+`nw-builder` can get, run and build NW.js applications. We refer to them as get, run and build modes.
+
+### Get Mode
+
+By default you get the normal build of the latest NW.js release for your specific platform and arch. For more information, please refer to the API reference.
+
+```javascript
+nwbuild({
+  mode: "get"
+});
+```
+
+Get the community built FFmeg which contains proprietary codecs. This options is disabled by default. Please read the [license's constraints](https://nwjs.readthedocs.io/en/latest/For%20Developers/Enable%20Proprietary%20Codecs/#get-ffmpeg-binaries-from-the-community) before enabling this option.
+
+```javascript
+nwbuild({
+  mode: "get",
+  ffmpeg: true
+});
+```
+
+Get Node headers if you have to rebuild Node addons.
+
+```javascript
+nwbuild({
+  mode: "get",
+  nativeAddon: "gyp"
+});
+```
+
 ## API Reference
 
+Options
+
+| Name | Type    | Default   | Description |
+| ---- | ------- | --------- | ----------- |
+| mode | `"get"` | `"build"` | Choose between get, run or build mode |
+
 ## Guides
+
+### Get unofficial MacOS builds
+
+If you're running older Apple machines, you can download the unofficial builds.
+
+```javascript
+nwbuild({
+  mode: "get",
+  platform: "osx",
+  arch: "arm64",
+  downloadUrl: "https://github.com/corwin-of-amber/nw.js/releases/download",
+  manifestUrl: "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json",
+});
+```
+
+Please note community FFmpeg binaries may not be available for unofficial builds. You will have to rebuild them yourself.
+
+### Get binaries via mirrors
+
+China mirror:
+
+```javascript
+nwbuild({
+  mode: "get",
+  downloadUrl: "https://npm.taobao.org/mirrors/nwjs",
+});
+```
+
+Singapore mirror:
+
+```javascript
+nwbuild({
+  mode: "get",
+  downloadUrl: "https://cnpmjs.org/mirrors/nwjs/",
+});
+```
 
 ## Contributing
 
