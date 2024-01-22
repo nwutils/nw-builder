@@ -22,7 +22,7 @@ describe("get", async () => {
     
   beforeAll(async () => {
     await get(nwOptions);
-  });
+  }, Infinity);
 
   it("downloads macos binary", async function () {
     assert.strictEqual(fs.existsSync(path.resolve(process.cwd(), nwOptions.cacheDir, `nwjs${nwOptions.flavor === "sdk" ? "-sdk" : ""}-v${nwOptions.version}-${nwOptions.platform}-${nwOptions.arch}`, "nwjs.app")), true);

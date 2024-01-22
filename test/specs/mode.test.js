@@ -29,7 +29,7 @@ describe("test modes", async () => {
 
   beforeAll(async () => {
     await nwbuild({ ...nwOptions });
-  });
+  }, Infinity);
 
   it("should run", async () => {
     const options = new Options();
