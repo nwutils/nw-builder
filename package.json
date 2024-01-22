@@ -44,7 +44,7 @@
     "lint": "eslint ./**/*.{js,md} && markdownlint DOCS.md",
     "lint:fix": "eslint --fix ./**/*.{js,md} && markdownlint --fix DOCS.md",
     "docs": "jsdoc -d docs ./README.md ./src/index.js ./src/get.js ./src/run.js ./src/bld.js",
-    "test": "node --test test/*.test.js",
+    "test": "vitest",
     "demo": "cd test/fixture && node demo.js"
   },
   "devDependencies": {
@@ -55,7 +55,8 @@
     "jsdoc": "^4.0.2",
     "markdownlint": "^0.33.0",
     "markdownlint-cli": "^0.38.0",
-    "selenium-webdriver": "^4.16.0"
+    "selenium-webdriver": "^4.16.0",
+    "vitest": "^1.2.1"
   },
   "dependencies": {
     "cli-progress": "^3.12.0",
@@ -69,7 +70,7 @@
     "unzipper": "^0.10.14",
     "yargs": "^17.7.2"
   },
-  "packageManager": "npm@10.2.4",
+  "packageManager": "npm@10.3.0",
   "engines": {
     "node": ">=14"
   },
