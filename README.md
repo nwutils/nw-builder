@@ -202,7 +202,6 @@ Options
 | logLevel | `"error" \| "warn" \| "info" \| "debug"` | `"info"`| Specify level of logging. |
 | zip | `boolean \| "zip" \| "tar" \| "tgz"` | `false`| If true, "zip", "tar" or "tgz" the `outDir` directory is compressed. |
 
-
 ## Guides
 
 ### Get unofficial MacOS builds
@@ -274,8 +273,8 @@ nwbuild({
 
 ### Bugs
 
-- https://github.com/nwutils/nw-builder/issues/1000
-- https://github.com/nwutils/nw-builder/issues/1002
+- <https://github.com/nwutils/nw-builder/issues/1000>
+- <https://github.com/nwutils/nw-builder/issues/1002>
 - Add back error, info and debug logs
 
 ### Features
@@ -294,7 +293,6 @@ nwbuild({
 - chore(cicd): use `google-github-actions/release-please-action` to automate publishing to npm, updating changelog and creating releases
 - chore(test): add test cases for current features
 - chore(yargs): migrate to `commander`
-- chore(node:test): migrate to `vitest`
 - chore(unzipper): migrate to `yauzl-promise`
 - chore(util): factor out nw file paths finder
 - chore(get): factor out https downloader

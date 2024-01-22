@@ -2,9 +2,10 @@ import assert from "node:assert";
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
-import { describe, it, before } from "node:test";
 
-import get from '../src/get.js';
+import { beforeAll, describe, it } from "vitest";
+
+import get from '../../src/get.js';
 
 describe("get", async () => {
   const nwOptions = {
@@ -19,9 +20,9 @@ describe("get", async () => {
     nativeAddon: false,
   };
     
-  before(async () => {
+  beforeAll(async () => {
     await get(nwOptions);
-  });
+  }, Infinity);
 
   it("downloads macos binary", async function () {
     assert.strictEqual(fs.existsSync(path.resolve(process.cwd(), nwOptions.cacheDir, `nwjs${nwOptions.flavor === "sdk" ? "-sdk" : ""}-v${nwOptions.version}-${nwOptions.platform}-${nwOptions.arch}`, "nwjs.app")), true);

@@ -1,13 +1,13 @@
 import assert from "node:assert";
 import path from "node:path";
 import process from "node:process";
-import { before, describe, it } from "node:test";
 
 import { By } from "selenium-webdriver";
 import chrome from "selenium-webdriver/chrome.js";
+import { beforeAll, describe, it } from "vitest";
 
-import nwbuild from "../src/index.js";
-import util from "../src/util.js";
+import nwbuild from "../../src/index.js";
+import util from "../../src/util.js";
 
 const { Driver, ServiceBuilder, Options } = chrome;
 
@@ -27,9 +27,9 @@ describe("test modes", async () => {
     nativeAddon: false,
   };
 
-  before(async () => {
+  beforeAll(async () => {
     await nwbuild({ ...nwOptions });
-  });
+  }, Infinity);
 
   it("should run", async () => {
     const options = new Options();
