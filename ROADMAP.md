@@ -4,6 +4,7 @@
 
 - [ ] https://github.com/nwutils/nw-builder/issues/1000
 - [ ] https://github.com/nwutils/nw-builder/issues/1002
+- [ ] Add back error, info and debug logs
 
 ## Features
 
@@ -19,7 +20,6 @@
 ## Chores
 
 - [ ] chore(cicd): use `google-github-actions/release-please-action` to automate publishing to npm, updating changelog and creating releases
-- [ ] chore(docs): move issues to `ROADMAP.md`
 - [ ] chore(docs): move docs to `README.md`
 - [ ] chore(test): add test cases for current features
 - [ ] chore(yargs): migrate to `commander`
