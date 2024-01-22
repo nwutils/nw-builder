@@ -89,8 +89,8 @@ Options
 | flavor | `"normal" \| "sdk"` | `"normal"` | Runtime flavor |
 | platform | `"linux" \| "osx" \| "win"` | | Host platform |
 | arch | `""ia32" \| "x64" \| "arm64"` | | Host architecture |
-| downloadUrl | `"https://dl.nwjs.io"` | `"https://dl.nwjs.io"` | Download server |
-| manifestUrl | `"https://nwjs.io/versions"` | `"https://nwjs.io/versions"` | Versions manifest |
+| downloadUrl | `"https://dl.nwjs.io" \| "https://npm.taobao.org/mirrors/nwjs" \| https://npmmirror.com/mirrors/nwjs \| "https://github.com/corwin-of-amber/nw.js/releases/"` | `"https://dl.nwjs.io"` | Download server |
+| manifestUrl | `"https://nwjs.io/versions" \| "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json"` | `"https://nwjs.io/versions"` | Versions manifest |
 | cacheDir | `string` | `"./cache"` | Directory to cache NW binaries |
 | srcDir | `string` | `"./"` | File paths to application code |
 | outDir | `string` | `"./out"` | Directory to store build artifacts |
