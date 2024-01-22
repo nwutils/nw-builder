@@ -22,14 +22,9 @@ import util from "./util.js";
  * 
  * @async
  * @function
+ * 
  * @param  {RunOptions}               options           Run mode options
  * @returns {Promise<void>}
- * 
- * @example
- * // Minimal Usage (uses default values)
- * nwbuild({
- *   mode: "run",
- * });
  */
 async function run({
   version = "latest",

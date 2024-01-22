@@ -78,6 +78,14 @@ nwbuild({
 });
 ```
 
+## Run Mode
+
+```javascript
+nwbuild({
+  mode: "run",
+  glob: false,
+});
+```
 ## API Reference
 
 Options
