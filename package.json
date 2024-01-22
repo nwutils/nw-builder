@@ -41,7 +41,8 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
-    "lint": "eslint ./**/*.js",
+    "lint": "eslint ./**/*.{js,md} && markdownlint DOCS.md",
+    "lint:fix": "eslint --fix ./**/*.{js,md} && markdownlint --fix DOCS.md",
     "docs": "jsdoc -d docs ./README.md ./src/index.js ./src/get.js ./src/run.js ./src/bld.js",
     "test": "node --test test/*.test.js",
     "demo": "cd test/fixture && node demo.js"
@@ -50,7 +51,10 @@
     "@stylistic/eslint-plugin-js": "^1.5.4",
     "eslint": "^8.56.0",
     "eslint-plugin-jsdoc": "^48.0.2",
+    "eslint-plugin-markdown": "^3.0.1",
     "jsdoc": "^4.0.2",
+    "markdownlint": "^0.33.0",
+    "markdownlint-cli": "^0.38.0",
     "selenium-webdriver": "^4.16.0"
   },
   "dependencies": {
@@ -80,7 +84,8 @@
     },
     "extends": [
       "eslint:recommended",
-      "plugin:jsdoc/recommended"
+      "plugin:jsdoc/recommended",
+      "plugin:markdown/recommended"
     ],
     "plugins": [
       "@stylistic/js"
