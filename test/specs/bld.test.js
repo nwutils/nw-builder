@@ -7,7 +7,7 @@ import chrome from "selenium-webdriver/chrome.js";
 import { beforeAll, describe, it } from "vitest";
 
 import build from "../../src/bld.js";
-import get from   "../../src/get.js";
+import get from "../../src/get.js";
 import util from "../../src/util.js";
 
 const { Driver, ServiceBuilder, Options } = chrome;
@@ -22,10 +22,16 @@ describe("build", async () => {
     flavor: "sdk",
     platform: util.PLATFORM_KV[process.platform],
     arch: util.ARCH_KV[process.arch],
+    downloadUrl: "https://dl.nwjs.io",
+    manifestUrl: "https://nwjs.io/versions",
     outDir: "test/fixture/out/app",
     cacheDir: "test/fixture/cache",
+    cache: true,
+    ffmpeg: false,
     glob: false,
+    managedManifest: false,
     nativeAddon: false,
+    zip: false,
   };
 
   beforeAll(async () => {
