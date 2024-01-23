@@ -38,7 +38,7 @@ describe("build", async () => {
   };
 
   beforeAll(async () => {
-    await get({...nwOptions});
+    await get(nwOptions);
   }, Infinity);
 
   it("should build without errors", async () => {
@@ -54,7 +54,6 @@ describe("build", async () => {
     options.addArguments(args);
 
     const chromedriverPath = util.getPath("chromedriver", nwOptions);
-    // const chromedriverPath = path.resolve(nwOptions.outDir, "chromedriver");
 
     const service = new ServiceBuilder(chromedriverPath).build();
 
