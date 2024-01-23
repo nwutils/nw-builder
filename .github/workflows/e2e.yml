@@ -27,7 +27,8 @@ jobs:
       - name: Enable corepack
         run: corepack enable
       - name: Install dependencies
-        run: npm ci
+        # Node 14 errors out on `npm ci`. 
+        run: npm install
       - name: Check for linting errors
         run: npm run lint
       - name: Run tests
