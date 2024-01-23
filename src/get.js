@@ -1,5 +1,4 @@
 import fs from "node:fs";
-import fsm from "node:fs/promises";
 import https from "node:https";
 import path from "node:path";
 
@@ -31,7 +30,7 @@ import util from "./util.js";
  */
 async function get(options) {
   if (fs.existsSync(options.cacheDir) === false) {
-    await fsm.mkdir(options.cacheDir, { recursive: true });
+    await fs.promises.mkdir(options.cacheDir, { recursive: true });
   }
   await getNwjs(options);
   if (options.ffmpeg === true) {
@@ -51,14 +50,14 @@ const getNwjs = async (options) => {
   );
   // If options.cache is false, remove cache.
   if (options.cache === false) {
-    await fsm.rm(out, {
+    await fs.promises.rm(out, {
       recursive: true,
       force: true,
     });
   }
 
   if (fs.existsSync(out) === true) {
-    await fsm.rm(
+    await fs.promises.rm(
       path.resolve(
         options.cacheDir,
         `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`,
@@ -131,7 +130,7 @@ const getNwjs = async (options) => {
   });
 
   await request;
-  await fsm.rm(
+  await fs.promises.rm(
     path.resolve(
       options.cacheDir,
       `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`,
@@ -167,7 +166,7 @@ const getFfmpeg = async (options) => {
 
   // If options.cache is false, remove cache.
   if (options.cache === false) {
-    await fsm.rm(out, {
+    await fs.promises.rm(out, {
       recursive: true,
       force: true,
     });
@@ -227,7 +226,7 @@ const getNodeHeaders = async (options) => {
 
   // If options.cache is false, remove cache.
   if (options.cache === false) {
-    await fsm.rm(out, {
+    await fs.promises.rm(out, {
       recursive: true,
       force: true,
     });
@@ -238,11 +237,11 @@ const getNodeHeaders = async (options) => {
       file: out,
       C: options.cacheDir
     });
-    await fsm.rm(path.resolve(options.cacheDir, `node-v${options.version}-${options.platform}-${options.arch}`), {
+    await fs.promises.rm(path.resolve(options.cacheDir, `node-v${options.version}-${options.platform}-${options.arch}`), {
       recursive: true,
       force: true,
     });
-    await fsm.rename(
+    await fs.promises.rename(
       path.resolve(options.cacheDir, "node"),
       path.resolve(options.cacheDir, `node-v${options.version}-${options.platform}-${options.arch}`),
     );
@@ -279,7 +278,7 @@ const getNodeHeaders = async (options) => {
     file: out,
     C: options.cacheDir
   });
-  await fsm.rename(
+  await fs.promises.rename(
     path.resolve(options.cacheDir, "node"),
     path.resolve(options.cacheDir, `node-v${options.version}-${options.platform}-${options.arch}`),
   );
@@ -295,9 +294,9 @@ const createSymlinks = async (options) => {
     path.join(frameworksPath, "Versions", "Current"),
   ];
   for await (const symlink of symlinks) {
-    const link = String(await fsm.readFile(symlink));
-    await fsm.rm(symlink);
-    await fsm.symlink(link, symlink);
+    const link = String(await fs.promises.readFile(symlink));
+    await fs.promises.rm(symlink);
+    await fs.promises.symlink(link, symlink);
   }
 };
 
