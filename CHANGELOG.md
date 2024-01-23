@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.5.4] - 2024-01-23
+
+### Changed
+
+- Migrate from `unzipper` to `yauzl-promise` to prevent corrupting files. 
+
 ## [4.5.3] - 2023-12-20
 
 ### Changed

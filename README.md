@@ -273,9 +273,7 @@ nwbuild({
 
 ### Bugs
 
-- <https://github.com/nwutils/nw-builder/issues/1000>
-- <https://github.com/nwutils/nw-builder/issues/1002>
-- Add back error, info and debug logs
+- Add back error, info, warn and debug logs
 
 ### Features
 
@@ -293,7 +291,6 @@ nwbuild({
 - chore(cicd): use `google-github-actions/release-please-action` to automate publishing to npm, updating changelog and creating releases
 - chore(test): add test cases for current features
 - chore(yargs): migrate to `commander`
-- chore(unzipper): migrate to `yauzl-promise`
 - chore(util): factor out nw file paths finder
 - chore(get): factor out https downloader
 - chore(get): factor out nwjs downloader
