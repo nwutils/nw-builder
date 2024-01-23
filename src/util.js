@@ -6,6 +6,7 @@ import process from "node:process";
 
 import * as GlobModule from "glob";
 import semver from "semver";
+import yauzl from "yauzl-promise";
 
 /**
  * Get manifest (array of NW release metadata) from URL
@@ -468,4 +469,42 @@ async function getPath(type, options) {
   }
 }
 
-export default { getReleaseInfo, getPath, PLATFORM_KV, ARCH_KV, EXE_NAME, replaceFfmpeg, globFiles, getNodeManifest, parse, validate };
+/**
+ * Wrapper for unzipping using `yauzl-promise`.
+ * 
+ * @param {string} nwZip 
+ * @param {string} cacheDir 
+ */
+async function unzip(nwZip, cacheDir) {
+  const zip = await yauzl.open(nwZip);
+  try {
+    for await (const entry of zip) {
+      const fullEntryPath = path.resolve(cacheDir, entry.filename);
+
+      if (entry.filename.endsWith("/")) {
+        // Create directory
+        await fsm.mkdir(fullEntryPath, { recursive: true });
+      } else {
+        // Create the file's directory first, if it doesn't exist
+        const directory = path.dirname(fullEntryPath);
+        await fs.promises.mkdir(directory, { recursive: true });
+
+        const readStream = await entry.openReadStream();
+        const writeStream = fs.createWriteStream(fullEntryPath);
+
+        await new Promise((res, rej) => {
+          readStream.pipe(writeStream);
+          readStream.on("error", rej);
+          writeStream.on("error", rej);
+          writeStream.on("finish", res);
+        });
+      }
+    }
+  } catch (e) {
+    console.error(e);
+  } finally {
+    await zip.close();
+  }
+}
+
+export default { getReleaseInfo, getPath, PLATFORM_KV, ARCH_KV, EXE_NAME, replaceFfmpeg, globFiles, getNodeManifest, parse, unzip, validate };

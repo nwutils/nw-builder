@@ -5,7 +5,7 @@ import path from "node:path";
 
 import progress from "cli-progress";
 import tar from "tar";
-import unzipper from "unzipper";
+import yauzl from "yauzl-promise"
 
 import util from "./util.js";
 
@@ -72,11 +72,7 @@ const getNwjs = async (options) => {
         C: options.cacheDir
       });
     } else {
-      await new Promise((res) => {
-        fs.createReadStream(out)
-          .pipe(unzipper.Extract({ path: options.cacheDir }))
-          .on("finish", res);
-      });
+      await util.unzip(out, cacheDir);
       if (options.platform === "osx") {
         await createSymlinks(options);
       }
@@ -95,8 +91,8 @@ const getNwjs = async (options) => {
       options.downloadUrl === "https://npmmirror.com/mirrors/nwjs"
     ) {
       url = `${options.downloadUrl}/v${options.version}/nwjs${options.flavor === "sdk" ? "-sdk" : ""
-      }-v${options.version}-${options.platform}-${options.arch}.${options.platform === "linux" ? "tar.gz" : "zip"
-      }`;
+        }-v${options.version}-${options.platform}-${options.arch}.${options.platform === "linux" ? "tar.gz" : "zip"
+        }`;
     }
 
     https.get(url, (response) => {
@@ -149,11 +145,35 @@ const getNwjs = async (options) => {
       C: options.cacheDir
     });
   } else {
-    await new Promise((res) => {
-      fs.createReadStream(out)
-        .pipe(unzipper.Extract({ path: options.cacheDir }))
-        .on("finish", res);
-    });
+    const zip = await yauzl.open(out);
+    try {
+      for await (const entry of zip) {
+        const fullEntryPath = path.resolve(cacheDir, entry.filename);
+
+        if (entry.filename.endsWith("/")) {
+          // Create directory
+          await fsm.mkdir(fullEntryPath, { recursive: true });
+        } else {
+          // Create the file's directory first, if it doesn't exist
+          const directory = path.dirname(fullEntryPath);
+          await fsm.mkdir(directory, { recursive: true });
+
+          const readStream = await entry.openReadStream();
+          const writeStream = fs.createWriteStream(fullEntryPath);
+
+          await new Promise((res, rej) => {
+            readStream.pipe(writeStream);
+            readStream.on("error", rej);
+            writeStream.on("error", rej);
+            writeStream.on("finish", res);
+          });
+        }
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      await zip.close();
+    }
     if (options.platform === "osx") {
       await createSymlinks(options);
     }
@@ -184,8 +204,7 @@ const getFfmpeg = async (options) => {
 
   // Check if cache exists.
   if (fs.existsSync(out) === true) {
-    fs.createReadStream(out)
-      .pipe(unzipper.Extract({ path: nwDir }));
+    await util.unzip(out, nwDir);
     return;
   }
 
@@ -224,8 +243,7 @@ const getFfmpeg = async (options) => {
 
   // Remove compressed file after download and decompress.
   await request;
-  fs.createReadStream(out)
-    .pipe(unzipper.Extract({ path: nwDir }));
+  await util.unzip(out, nwDir);
   await util.replaceFfmpeg(options.platform, nwDir);
 }
 

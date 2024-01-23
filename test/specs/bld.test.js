@@ -11,7 +11,7 @@ import util from "../../src/util.js";
 
 const { Driver, ServiceBuilder, Options } = chrome;
 
-describe("test modes", async () => {
+describe("build", async () => {
   let driver = undefined;
 
   let nwOptions = {
@@ -31,7 +31,7 @@ describe("test modes", async () => {
     await nwbuild({ ...nwOptions });
   }, Infinity);
 
-  it("should run", async () => {
+  it("should run after build", async () => {
     const options = new Options();
     const args = [
       `--nwapp=${path.resolve("test", "fixture", "out", "app", "package.nw")}`,
