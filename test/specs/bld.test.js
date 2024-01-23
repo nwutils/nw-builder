@@ -38,7 +38,7 @@ describe("build", async () => {
   };
 
   beforeAll(async () => {
-    await get(nwOptions);
+    await get({...nwOptions});
   }, Infinity);
 
   it("should build without errors", async () => {
