@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-22.04]
-        node: [21]
+        node: [14, 16, 18, 20, 21]
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
