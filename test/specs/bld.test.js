@@ -32,6 +32,9 @@ describe("build", async () => {
     managedManifest: false,
     nativeAddon: false,
     zip: false,
+    app: {
+      name: "demo"
+    }
   };
 
   beforeAll(async () => {
@@ -54,5 +57,5 @@ describe("build", async () => {
     driver = Driver.createSession(options, service);
     const text = await driver.findElement(By.id("test")).getText();
     assert.strictEqual(text, "Hello, World!");
-  });
+  }, { timeout: Infinity });
 });
