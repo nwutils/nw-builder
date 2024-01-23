@@ -1,8 +1,9 @@
 import console from "node:console";
-import fs from "node:fs";
+import fs, { read, write } from "node:fs";
 import https from "node:https";
 import path from "node:path";
 import process from "node:process";
+import stream from "node:stream";
 
 import * as GlobModule from "glob";
 import semver from "semver";
@@ -493,13 +494,7 @@ async function unzip(nwZip, cacheDir) {
 
         const readStream = await entry.openReadStream();
         const writeStream = fs.createWriteStream(fullEntryPath);
-
-        await new Promise((res, rej) => {
-          readStream.pipe(writeStream);
-          readStream.on("error", rej);
-          writeStream.on("error", rej);
-          writeStream.on("finish", res);
-        });
+        await stream.promises.pipeline(readStream, writeStream);
       }
     }
   } catch (e) {
