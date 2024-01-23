@@ -285,7 +285,11 @@ const getNodeHeaders = async (options) => {
 }
 
 const createSymlinks = async (options) => {
-  const frameworksPath = path.join(process.cwd(), options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework");
+  let frameworksPath = path.resolve(process.cwd(), options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework")
+  // Allow resolve cacheDir from another directory for prevent crash
+  if (!fs.lstatSync(frameworksPath).isDirectory()) {
+      frameworksPath = path.resolve(options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework")
+  }
   const symlinks = [
     path.join(frameworksPath, "Helpers"),
     path.join(frameworksPath, "Libraries"),
