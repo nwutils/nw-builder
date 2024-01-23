@@ -6,7 +6,8 @@ import { By } from "selenium-webdriver";
 import chrome from "selenium-webdriver/chrome.js";
 import { beforeAll, describe, it } from "vitest";
 
-import nwbuild from "../../src/index.js";
+import build from "../../src/build.js";
+import get from "../../src/get.js";
 import util from "../../src/util.js";
 
 const { Driver, ServiceBuilder, Options } = chrome;
@@ -14,7 +15,7 @@ const { Driver, ServiceBuilder, Options } = chrome;
 describe("build", async () => {
   let driver = undefined;
 
-  let nwOptions = {
+  const nwOptions = {
     srcDir: "test/fixture/app",
     mode: "build",
     version: "0.83.0",
@@ -28,7 +29,8 @@ describe("build", async () => {
   };
 
   beforeAll(async () => {
-    await nwbuild({ ...nwOptions });
+    await get(nwOptions);
+    await build(nwOptions);
   }, Infinity);
 
   it("should run after build", async () => {
