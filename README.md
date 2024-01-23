@@ -3,7 +3,7 @@
 [![npm](https://img.shields.io/npm/v/nw-builder/latest)](https://www.npmjs.com/package/nw-builder/v/latest)
 [![Join the chat at https://gitter.im/nwjs/nw-builder](https://badges.gitter.im/repo.svg)](https://app.gitter.im/#/room/#nwjs_nw-builder:gitter.im)
 
-NW.js is awesome but there are a lot of steps involved in getting your app ready for production. `nw-builder`'s goal is to automate those steps and build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and Linux.
+Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and Linux.
 
 For version 3, please go to the [corresponding branch](https://github.com/nwutils/nw-builder/tree/v3).
 
