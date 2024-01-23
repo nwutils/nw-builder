@@ -41,7 +41,7 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
-    "lint": "eslint ./**/*.{js,md}",
+    "lint": "eslint ./src/**/*.js ./test/**/*.js",
     "lint:fix": "eslint --fix ./**/*.{js,md} && markdownlint --fix ./README.md",
     "docs": "jsdoc -d docs ./README.md ./src/index.js ./src/get.js ./src/run.js ./src/bld.js",
     "test": "vitest",
@@ -67,8 +67,8 @@
     "rcedit": "^4.0.1",
     "semver": "^7.5.4",
     "tar": "^6.2.0",
-    "unzipper": "^0.10.14",
-    "yargs": "^17.7.2"
+    "yargs": "^17.7.2",
+    "yauzl-promise": "^4.0.0"
   },
   "packageManager": "npm@10.3.0",
   "engines": {
