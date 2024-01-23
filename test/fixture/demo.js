@@ -4,5 +4,5 @@ await nwbuild({
   mode: "get",
   flavor: "sdk",
   platform: "osx",
-  srcDir: "app",
+  srcDir: "app"
 });
