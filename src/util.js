@@ -168,7 +168,7 @@ const replaceFfmpeg = async (platform, nwDir) => {
  * @param {object} options - glob file options
  * @param {string | string[]} options.srcDir - app src dir
  * @param {boolean} options.glob - glob flag
- * @returns {string[]} - Returns array of file paths
+ * @returns {Promise<string[]>} - Returns array of file paths
  
  */
 async function globFiles({
