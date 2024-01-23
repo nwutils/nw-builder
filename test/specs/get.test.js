@@ -21,7 +21,7 @@ describe("get", async () => {
   };
     
   beforeAll(async () => {
-    await get(nwOptions);
+    await get({...nwOptions});
   }, Infinity);
 
   it("downloads macos binary", async function () {
