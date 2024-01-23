@@ -6,8 +6,8 @@ import { By } from "selenium-webdriver";
 import chrome from "selenium-webdriver/chrome.js";
 import { beforeAll, describe, it } from "vitest";
 
-import build from "../../src/build.js";
-import get from "../../src/get.js";
+import build from "../../src/bld.js";
+import get from   "../../src/get.js";
 import util from "../../src/util.js";
 
 const { Driver, ServiceBuilder, Options } = chrome;
