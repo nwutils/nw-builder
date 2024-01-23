@@ -1,8 +1,9 @@
 import nwbuild from "../../src/index.js";
 
 await nwbuild({
-  mode: "get",
+  mode: "build",
   flavor: "sdk",
-  platform: "osx",
-  srcDir: "app"
+  platform: "win",
+  srcDir: "app",
+  glob: false,
 });

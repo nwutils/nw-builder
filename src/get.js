@@ -294,7 +294,8 @@ const createSymlinks = async (options) => {
     path.join(frameworksPath, "Versions", "Current"),
   ];
   for await (const symlink of symlinks) {
-    const link = String(await fs.promises.readFile(symlink));
+    const buffer = await fs.promises.readFile(symlink);
+    const link = buffer.toString();
     await fs.promises.rm(symlink);
     await fs.promises.symlink(link, symlink);
   }
