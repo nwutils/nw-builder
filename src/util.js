@@ -472,8 +472,10 @@ async function getPath(type, options) {
 /**
  * Wrapper for unzipping using `yauzl-promise`.
  * 
- * @param {string} nwZip 
- * @param {string} cacheDir 
+ * @async
+ * @function
+ * @param {string} nwZip - file path to .zip file
+ * @param {string} cacheDir - directory to unzip in
  */
 async function unzip(nwZip, cacheDir) {
   const zip = await yauzl.open(nwZip);
@@ -483,7 +485,7 @@ async function unzip(nwZip, cacheDir) {
 
       if (entry.filename.endsWith("/")) {
         // Create directory
-        await fsm.mkdir(fullEntryPath, { recursive: true });
+        await fs.promises.mkdir(fullEntryPath, { recursive: true });
       } else {
         // Create the file's directory first, if it doesn't exist
         const directory = path.dirname(fullEntryPath);
