@@ -50,4 +50,4 @@ describe("get https", function () {
     url = "";
     await expect(https(url, out)).rejects.toThrowError();
   });
-}, { timeout: Infinity });
+});
