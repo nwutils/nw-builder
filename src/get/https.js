@@ -8,27 +8,36 @@ import progress from "cli-progress";
  * 
  * @param {string} url - Download server
  * @param {string} outFile - File path of downloaded content
- * @returns {Promise<void>}
+ * @returns {Promise<Buffer>}
  */
-export default async function getRequest(url, outFile) {
+export default async function getRequest(url) {
 
   /**
+   * Tracks the download progress. Minimum is 0 and maximum is the size of file.
+   * 
    * @type {number}
    */
-  let chunks = 0;
+  let chunkSize = 0;
 
   const bar = new progress.SingleBar({}, progress.Presets.rect);
-  const writeStream = fs.createWriteStream(outFile);
 
   return new Promise((resolve, reject) => {
     https.get(url, function (response) {
-
+      
+      /**
+       * @type {Buffer}
+       */
+      let responseBody = '';
       bar.start(Number(response.headers["content-length"]), 0);
+      response.setEncoding('utf8');
+
+
 
       response.on("data", function (chunk) {
-        chunks += chunk.length;
+        chunkSize += chunk.length;
+        responseBody += chunk;
         bar.increment();
-        bar.update(chunks);
+        bar.update(chunkSize);
       });
 
       response.on("error", function (error) {
@@ -37,7 +46,7 @@ export default async function getRequest(url, outFile) {
 
       response.on("end", () => {
         bar.stop();
-        resolve();
+        resolve(responseBody);
       });
 
       response.pipe(writeStream);
