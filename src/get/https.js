@@ -10,7 +10,7 @@ import progress from "cli-progress";
  * @param {string} outFile - File path of downloaded content
  * @returns {Promise<Buffer>}
  */
-export default async function getRequest(url) {
+export default async function request(url) {
 
   /**
    * Tracks the download progress. Minimum is 0 and maximum is the size of file.
