@@ -20,6 +20,7 @@ export default async function request(url) {
   let chunkSize = 0;
 
   const bar = new progress.SingleBar({}, progress.Presets.rect);
+  const writeStream = fs.createWriteStream(outFile);
 
   return new Promise((resolve, reject) => {
     https.get(url, function (response) {
@@ -30,8 +31,6 @@ export default async function request(url) {
       let responseBody = '';
       bar.start(Number(response.headers["content-length"]), 0);
       response.setEncoding('utf8');
-
-
 
       response.on("data", function (chunk) {
         chunkSize += chunk.length;
