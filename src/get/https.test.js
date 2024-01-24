@@ -2,7 +2,7 @@ import fs from "node:fs";
 
 import { describe, expect, it } from "vitest";
 
-import https from "./https.js";
+import request from "./https.js";
 
 describe("get https", function () {
 
@@ -10,7 +10,7 @@ describe("get https", function () {
   let out = "./test/fixture/cache/content.json";
 
   it("gets file from specific url", async function () {
-    await https(url, out);
+    await request(url, out);
     expect(fs.existsSync(out));
   }, Infinity);
 
@@ -48,6 +48,6 @@ describe("get https", function () {
 
   it("throws error on invalid url", async function () {
     url = "";
-    await expect(https(url, out)).rejects.toThrowError();
+    await expect(request(url, out)).rejects.toThrowError();
   });
 });
