@@ -4,7 +4,7 @@ import https from "node:https";
 import progress from "cli-progress";
 
 /**
- * Download from `url` to `outFile` file path.
+ * Download from `url`.
  * 
  * @param {string} url - Download server
  * @returns {Promise<Buffer>} - Downloaded content
