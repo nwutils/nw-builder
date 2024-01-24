@@ -274,6 +274,7 @@ nwbuild({
 
 ### Bugs
 
+- MacOS fails to unzip MacOS NW.js binaries consistently 
 - Add back error, info, warn and debug logs
 
 ### Features
@@ -293,7 +294,6 @@ nwbuild({
 - chore(cli): migrate from `yargs` to `commander`
 - chore(get): verify sha checksum for downloads
 - chore(util): factor out nw file paths finder
-- chore(get): factor out https downloader
 - chore(get): factor out nwjs downloader
 - chore(get): factor out ffmpeg downloader
 - chore(get): factor out node headers downloader
