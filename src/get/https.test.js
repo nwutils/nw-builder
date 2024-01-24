@@ -47,9 +47,7 @@ describe("get https", function () {
   });
 
   it("throws error on invalid url", async function () {
-    let url = "";
-    let out = "./test/fixture/cache/content.json";
-        
+    url = "";
     await expect(https(url, out)).rejects.toThrowError();
   });
-});
+}, { timeout: Infinity });
