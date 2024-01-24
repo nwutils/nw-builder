@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import request from "./https.js";
+import request from "./request.js";
 
 describe("get https", function () {
 
