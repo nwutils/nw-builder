@@ -263,6 +263,7 @@ nwbuild({
 ### External contributor
 
 - We use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) style of commit messages.
+- When making changes, try to follow [SOLID](https://en.wikipedia.org/wiki/SOLID) and [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) principles.
 - Pull requests are squashed and merged onto the `main` branch.
 - Lint your code before commiting your change.
 - Add tests whenever possible.
@@ -273,6 +274,7 @@ nwbuild({
 
 ### Bugs
 
+- MacOS fails to unzip MacOS NW.js binaries consistently 
 - Add back error, info, warn and debug logs
 
 ### Features
@@ -289,14 +291,19 @@ nwbuild({
 ### Chores
 
 - chore(cicd): use `google-github-actions/release-please-action` to automate publishing to npm, updating changelog and creating releases
-- chore(test): add test cases for current features
-- chore(yargs): migrate to `commander`
+- chore(cli): migrate from `yargs` to `commander`
+- chore(get): verify sha checksum for downloads
 - chore(util): factor out nw file paths finder
-- chore(get): factor out https downloader
 - chore(get): factor out nwjs downloader
 - chore(get): factor out ffmpeg downloader
 - chore(get): factor out node headers downloader
-- chore(get): verify sha checksum for downloads
+- chore(bld): factor out core build step
+- chore(bld): factor out linux config
+- chore(bld): factor out macos config
+- chore(bld): factor out windows config
+- chore(bld): factor out native addon
+- chore(bld): factor out compressing
+- chore(bld): factor out managed manifest
 - chore(bld): move `.desktop` entry file logic to `create-desktop-shortcuts` package
 
 ## FAQ
