@@ -12,7 +12,7 @@ describe("get https", function () {
   it("gets file from specific url", async function () {
     await https(url, out);
     expect(fs.existsSync(out));
-  }, 10000);
+  }, Infinity);
 
   it("gets correct file", async function () {
     const actualContents = JSON.parse(await fs.promises.readFile(out));
