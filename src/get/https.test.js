@@ -1,5 +1,3 @@
-import fs from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import request from "./https.js";
@@ -7,7 +5,6 @@ import request from "./https.js";
 describe("get https", function () {
 
   let url = "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json"
-  let out = "./test/fixture/cache/content.json";
 
   it("downloads from specific url", async function () {
     const buffer = await request(url);

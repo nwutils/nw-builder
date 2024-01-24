@@ -5,15 +5,18 @@ import progress from "cli-progress";
 
 /**
  * Download from `url`.
+ *
+ * @async
+ * @function
  * 
- * @param {string} url - Download server
- * @returns {Promise<Buffer>} - Downloaded content
+ * @param  {string}          url  - Download server
+ * @return {Promise<Buffer>}      - Downloaded content
  */
 export default async function request(url) {
 
   /**
    * Tracks the download progress. Minimum is 0 and maximum is the size of file.
-   * 
+   *
    * @type {number}
    */
   let chunkSize = 0;
