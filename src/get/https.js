@@ -1,4 +1,4 @@
-import fs from "node:fs";
+// import fs from "node:fs";
 import https from "node:https";
 
 import progress from "cli-progress";
@@ -7,8 +7,7 @@ import progress from "cli-progress";
  * Download from `url` to `outFile` file path.
  * 
  * @param {string} url - Download server
- * @param {string} outFile - File path of downloaded content
- * @returns {Promise<Buffer>}
+ * @returns {Promise<Buffer>} - Downloaded content
  */
 export default async function request(url) {
 
@@ -20,11 +19,10 @@ export default async function request(url) {
   let chunkSize = 0;
 
   const bar = new progress.SingleBar({}, progress.Presets.rect);
-  const writeStream = fs.createWriteStream(outFile);
 
   return new Promise((resolve, reject) => {
     https.get(url, function (response) {
-      
+
       /**
        * @type {Buffer}
        */
@@ -47,9 +45,6 @@ export default async function request(url) {
         bar.stop();
         resolve(responseBody);
       });
-
-      response.pipe(writeStream);
-
     });
   });
 }
