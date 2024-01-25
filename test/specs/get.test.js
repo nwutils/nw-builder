@@ -15,7 +15,7 @@ describe("get", async () => {
     arch: "x64",
     downloadUrl: "https://dl.nwjs.io",
     cacheDir: "test/fixture/cache",
-    cache: true,
+    cache: false,
     ffmpeg: false,
     nativeAddon: false,
   };
