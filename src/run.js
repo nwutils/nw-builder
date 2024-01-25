@@ -7,24 +7,24 @@ import util from "./util.js";
 
 /**
  * @typedef {object} RunOptions
- * @property {string | "latest" | "stable" | "lts"} [options.version = "latest"]                  Runtime version
- * @property {"normal" | "sdk"}                     [options.flavor = "normal"]                   Build flavor
- * @property {"linux" | "osx" | "win"}              [options.platform]                            Target platform
- * @property {"ia32" | "x64" | "arm64"}             [options.arch]                                Target arch
- * @property {string}                               [options.srcDir = "./src"]                    Source directory
- * @property {string}                               [options.cacheDir = "./cache"]                Cache directory
- * @property {boolean}                              [options.glob = false]                        If true, throw error
- * @property {string[]}                             [options.argv = []]                           CLI arguments
+ * @property {string | "latest" | "stable" | "lts"} [options.version = "latest"]    Runtime version
+ * @property {"normal" | "sdk"}                     [options.flavor = "normal"]     Build flavor
+ * @property {"linux" | "osx" | "win"}              [options.platform]              Target platform
+ * @property {"ia32" | "x64" | "arm64"}             [options.arch]                  Target arch
+ * @property {string}                               [options.srcDir = "./src"]      Source directory
+ * @property {string}                               [options.cacheDir = "./cache"]  Cache directory
+ * @property {boolean}                              [options.glob = false]          If true, throw error
+ * @property {string[]}                             [options.argv = []]             CLI arguments
  */
 
 /**
  * Run NW.js application
- * 
+ *
  * @async
  * @function
  * 
- * @param  {RunOptions}               options           Run mode options
- * @returns {Promise<void>}
+ * @param  {RunOptions}    options  Run mode options
+ * @return {Promise<void>}
  */
 async function run({
   version = "latest",

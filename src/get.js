@@ -25,8 +25,8 @@ import util from "./util.js";
  *
  * @async
  * @function
- * @param  {GetOptions}    options                  Get mode options
- * @returns {Promise<void>}
+ * @param  {GetOptions}    options  Get mode options
+ * @return {Promise<void>}
  */
 async function get(options) {
   if (fs.existsSync(options.cacheDir) === false) {

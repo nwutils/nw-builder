@@ -12,8 +12,8 @@ import yauzl from "yauzl-promise";
 /**
  * Get manifest (array of NW release metadata) from URL
  *
- * @param  {string}                       manifestUrl  Url to manifest
- * @returns {Promise<object | undefined>} - Manifest object
+ * @param  {string}                      manifestUrl  Url to manifest
+ * @return {Promise<object | undefined>}              - Manifest object
  */
 function getManifest(manifestUrl) {
   let chunks = undefined;
@@ -48,7 +48,7 @@ function getManifest(manifestUrl) {
  * @param  {string} arch         NW architecture
  * @param  {string} cacheDir     Directory to store NW binaries
  * @param  {string} manifestUrl  Url to manifest
- * @returns {object}              Version specific release info
+ * @return {object}              Version specific release info
  */
 async function getReleaseInfo(
   version,
@@ -161,14 +161,14 @@ const replaceFfmpeg = async (platform, nwDir) => {
 
 /**
  * Glob files
- * 
+ *
  * @async
  * @function
  * 
- * @param {object} options - glob file options
- * @param {string | string[]} options.srcDir - app src dir
- * @param {boolean} options.glob - glob flag
- * @returns {Promise<string[]>} - Returns array of file paths
+ * @param  {object}            options         - glob file options
+ * @param  {string | string[]} options.srcDir  - app src dir
+ * @param  {boolean}           options.glob    - glob flag
+ * @return {Promise<string[]>}                 - Returns array of file paths
  
  */
 async function globFiles({
@@ -192,10 +192,10 @@ async function globFiles({
 /**
  * @async
  * @function
- * @param {object} options - node manifest options
- * @param {string | string []} options.srcDir - src dir
- * @param {boolean} options.glob - glob flag
- * @returns {object} - Node manifest
+ * @param  {object}             options         - node manifest options
+ * @param  {string | string []} options.srcDir  - src dir
+ * @param  {boolean}            options.glob    - glob flag
+ * @return {object}                             - Node manifest
  */
 async function getNodeManifest({
   srcDir, glob
@@ -225,7 +225,7 @@ async function getNodeManifest({
  *
  * @param  {import("../../index.js").Options} options  Options
  * @param  {object}                           pkg      Package.json as JSON
- * @returns {Promise<object>}                          Options
+ * @return {Promise<object>}                           Options
  */
 export const parse = async (options, pkg) => {
   options = options ?? {};
@@ -332,7 +332,7 @@ export const parse = async (options, pkg) => {
  *
  * @param  {import("../index.js").Options} options      Options
  * @param  {object}                        releaseInfo  Version specific NW release info
- * @returns {Promise<undefined>}                         Return undefined if options are valid
+ * @return {Promise<undefined>}                         Return undefined if options are valid
  * @throws {Error}                                         Throw error if options are invalid
  */
 export const validate = async (options, releaseInfo) => {
@@ -448,13 +448,13 @@ export const validate = async (options, releaseInfo) => {
 
 /**
  * Get path to various NW specific file paths.
- * 
+ *
  * @async
  * @function
  * 
- * @param {"chromedriver"} type - NW specific file or directory
- * @param {object} options - nwbuild options
- * @returns {string} - Path to chromedriver
+ * @param  {"chromedriver"} type     - NW specific file or directory
+ * @param  {object}         options  - nwbuild options
+ * @return {string}                  - Path to chromedriver
  * @throws {Error}
  */
 async function getPath(type, options) {
@@ -472,11 +472,11 @@ async function getPath(type, options) {
 
 /**
  * Wrapper for unzipping using `yauzl-promise`.
- * 
+ *
  * @async
  * @function
- * @param {string} nwZip - file path to .zip file
- * @param {string} cacheDir - directory to unzip in
+ * @param {string} nwZip     - file path to .zip file
+ * @param {string} cacheDir  - directory to unzip in
  */
 async function unzip(nwZip, cacheDir) {
   const zip = await yauzl.open(nwZip, {

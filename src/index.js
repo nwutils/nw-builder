@@ -30,12 +30,12 @@ import util from "./util.js";
 
 /**
  * Main module exported
- * 
+ *
  * @async
  * @function
  * 
- * @param  {Options}            options  Options
- * @returns {Promise<void>}
+ * @param  {Options}       options  Options
+ * @return {Promise<void>}
  */
 async function nwbuild (options) {
   let built;

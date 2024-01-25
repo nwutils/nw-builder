@@ -274,7 +274,7 @@ nwbuild({
 
 ### Bugs
 
-- MacOS fails to unzip MacOS NW.js binaries consistently 
+- MacOS fails to unzip MacOS NW.js binaries consistently
 - Add back error, info, warn and debug logs
 
 ### Features
