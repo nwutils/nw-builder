@@ -482,7 +482,7 @@ async function unzip(nwZip, cacheDir) {
   const zip = await yauzl.open(nwZip);
   try {
     for await (const entry of zip) {
-      const fullEntryPath = path.resolve(cacheDir, entry.filename);
+      const fullEntryPath = path.join(cacheDir, entry.filename);
 
       if (entry.filename.endsWith("/")) {
         // Create directory
