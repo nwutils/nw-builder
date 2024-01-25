@@ -196,7 +196,7 @@ Options
 | outDir | `string` | `"./out"` | Directory to store build artifacts |
 | managedManifest | `boolean \| string \| object` | `false` | Managed manifest |
 | nodeAddon | `false \| "gyp"` | `false` | Rebuild Node native addons |
-| cache | `boolean` | `true`| If true the existing cache is used. Otherwise it removes and redownloads it. |
+| cache | `boolean` | `true`| If true the existing cache is used. Otherwise it removes and redownloads it. If host platform is MacOS, then `cache` is set to `true`. This to minimise unzipping errors. |
 | ffmpeg | `boolean` | `false`| If true the chromium ffmpeg is replaced by community version with proprietary codecs. |
 | glob | `boolean` | `true`| If true file globbing is enabled when parsing `srcDir`. |
 | logLevel | `"error" \| "warn" \| "info" \| "debug"` | `"info"`| Specify level of logging. |
