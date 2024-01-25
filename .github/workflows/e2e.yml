@@ -17,9 +17,9 @@ jobs:
         # - ubuntu-22.04
         # - windows-2022
         node:
-        # - 16
-        # - 18
-        # - 20
+        - 16
+        - 18
+        - 20
         - 21
       fail-fast: false
     runs-on: ${{ matrix.os }}
@@ -38,4 +38,4 @@ jobs:
       - name: Check for linting errors
         run: npm run lint
       - name: Run tests
-        run: npm t ./test/specs/bld.test.js
+        run: npm t
