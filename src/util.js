@@ -501,9 +501,8 @@ async function unzip(nwZip, cacheDir, retry = 0) {
     console.error(e);
 
     if (retry === 0) {
-      retry = 1;
       console.log("Retrying unzip since an error was encountered.");
-      await unzip(nwZip, cacheDir)
+      await unzip(nwZip, cacheDir, 1)
     }
   } finally {
     await zip.close();
