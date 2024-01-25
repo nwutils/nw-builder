@@ -1,7 +1,6 @@
 import fs from "node:fs";
 import https from "node:https";
 import path from "node:path";
-import process from "node:process";
 
 import progress from "cli-progress";
 import tar from "tar";
@@ -49,12 +48,6 @@ const getNwjs = async (options) => {
     `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}.${options.platform === "linux" ? "tar.gz" : "zip"
     }`,
   );
-  // TODO: remove this workaround
-  // For some reason if options.cache is disabled, then the number of unzipping errors
-  // is reduced considerably.
-  if (process.platform === "darwin") {
-    options.cache = false;
-  } 
   // If options.cache is false, remove cache.
   if (options.cache === false) {
     await fs.promises.rm(out, {
