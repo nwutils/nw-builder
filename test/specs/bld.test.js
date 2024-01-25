@@ -26,7 +26,7 @@ describe("build", async () => {
     manifestUrl: "https://nwjs.io/versions",
     outDir: "test/fixture/out/app",
     cacheDir: "test/fixture/cache",
-    cache: true,
+    cache: false,
     ffmpeg: false,
     glob: false,
     managedManifest: false,
