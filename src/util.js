@@ -478,7 +478,7 @@ async function getPath(type, options) {
  * @param {string} nwZip     - file path to .zip file
  * @param {string} cacheDir  - directory to unzip in
  */
-async function unzip(nwZip, cacheDir) {
+async function unzip(nwZip, cacheDir, retry = 0) {
   const zip = await yauzl.open(nwZip);
   try {
     for await (const entry of zip) {
@@ -500,8 +500,11 @@ async function unzip(nwZip, cacheDir) {
   } catch (e) {
     console.error(e);
 
-    console.log("Retrying unzip since an error was encountered.");
-    await unzip(nwZip, cacheDir)
+    if (retry === 0) {
+      retry = 1;
+      console.log("Retrying unzip since an error was encountered.");
+      await unzip(nwZip, cacheDir)
+    }
   } finally {
     await zip.close();
   }
