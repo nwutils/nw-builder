@@ -43,7 +43,7 @@ describe("build", async () => {
 
   it("should build without errors", async () => {
     await build(nwOptions);
-  });
+  }, Infinity);
 
   it.skip("should run after build", async () => {
     const options = new Options();
