@@ -499,6 +499,9 @@ async function unzip(nwZip, cacheDir) {
     }
   } catch (e) {
     console.error(e);
+
+    console.log("Retrying unzip since an error was encountered.");
+    await unzip(nwZip, cacheDir)
   } finally {
     await zip.close();
   }
