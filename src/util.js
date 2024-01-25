@@ -479,9 +479,7 @@ async function getPath(type, options) {
  * @param {string} cacheDir  - directory to unzip in
  */
 async function unzip(nwZip, cacheDir) {
-  const zip = await yauzl.open(nwZip, {
-    supportMacArchive: false
-  });
+  const zip = await yauzl.open(nwZip);
   try {
     for await (const entry of zip) {
       const fullEntryPath = path.resolve(cacheDir, entry.filename);
