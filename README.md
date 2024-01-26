@@ -261,7 +261,7 @@ nwbuild({
 
 ## Limitations
 
-- Unzipping MacOS build on MacOS platform requires you to have installed the native [`unzip`](https://linux.die.net/man/1/unzip) package. Install it by [`brew`](https://formulae.brew.sh/formula/unzip#default) if it is not installed on your machine.
+- Unzipping MacOS build on MacOS platform inconsistently fails with a `End of Central Directory Record not found` error. You will have to unzip manually using the native [`unzip`](https://linux.die.net/man/1/unzip) package. Install it by [`brew`](https://formulae.brew.sh/formula/unzip#default) if it not already on your machine.
 
 ## Contributing
 

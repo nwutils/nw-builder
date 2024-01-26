@@ -11,11 +11,11 @@ describe("get", async () => {
   const nwOptions = {
     version: "0.83.0",
     flavor: "sdk",
-    platform: "arm64",
+    platform: "osx",
     arch: "x64",
     downloadUrl: "https://dl.nwjs.io",
     cacheDir: "test/fixture/cache",
-    cache: false,
+    cache: true,
     ffmpeg: false,
     nativeAddon: false,
   };
