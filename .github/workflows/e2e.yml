@@ -24,6 +24,12 @@ jobs:
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
+      - name: Test code
+        uses: ConorMacBride/install-package@v1
+        with:
+          brew: unzip
+          apt: unzip
+          choco: unzip
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
       - name: Setup Node
