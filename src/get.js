@@ -1,6 +1,8 @@
+import child_process from "node:child_process";
 import fs from "node:fs";
 import https from "node:https";
 import path from "node:path";
+import process from "node:process";
 
 import progress from "cli-progress";
 import tar from "tar";
@@ -64,7 +66,9 @@ const getNwjs = async (options) => {
       ),
       { recursive: true, force: true },
     );
-    if (options.platform === "linux") {
+    if (process.platform === "darwin" && options.platform === "osx") {
+      child_process.spawnSync(`unzip ${out}`);
+    } else if (options.platform === "linux") {
       await tar.extract({
         file: out,
         C: options.cacheDir
@@ -137,7 +141,9 @@ const getNwjs = async (options) => {
     ),
     { recursive: true, force: true },
   );
-  if (options.platform === "linux") {
+  if (process.platform === "darwin" && options.platform === "osx") {
+    child_process.spawnSync(`unzip ${out}`);
+  } else if (options.platform === "linux") {
     await tar.extract({
       file: out,
       C: options.cacheDir
@@ -150,7 +156,6 @@ const getNwjs = async (options) => {
 
   }
 }
-
 
 const getFfmpeg = async (options) => {
   const nwDir = path.resolve(
