@@ -493,8 +493,14 @@ async function unzip(nwZip, cacheDir) {
         await fs.promises.mkdir(directory, { recursive: true });
 
         const readStream = await entry.openReadStream();
-        const writeStream = fs.createWriteStream(fullEntryPath);
-        await stream.promises.pipeline(readStream, writeStream);
+        const writeStream = createWriteStream(fullEntryPath);
+
+        await new Promise((resolve, reject) => {
+          readStream.pipe(writeStream);
+          readStream.on("error", reject);
+          writeStream.on("error", reject);
+          writeStream.on("finish", resolve);
+        });
       }
     }
   } catch (e) {

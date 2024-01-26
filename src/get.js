@@ -66,19 +66,20 @@ const getNwjs = async (options) => {
       ),
       { recursive: true, force: true },
     );
-    if (process.platform === "darwin" && options.platform === "osx") {
-      await new Promise((resolve, reject) => {
-        const child = child_process.spawn(`unzip ${out}`);
+    // if (process.platform === "darwin" && options.platform === "osx") {
+    //   await new Promise((resolve, reject) => {
+    //     const child = child_process.spawn(`unzip ${out}`);
 
-        child.on("close", function () {
-          resolve();
-        });
+    //     child.on("close", function () {
+    //       resolve();
+    //     });
 
-        child.on("error", function (error) {
-          reject(error)
-        });
-      });
-    } else if (options.platform === "linux") {
+    //     child.on("error", function (error) {
+    //       reject(error)
+    //     });
+    //   });
+    // } else
+    if (options.platform === "linux") {
       await tar.extract({
         file: out,
         C: options.cacheDir
@@ -151,19 +152,20 @@ const getNwjs = async (options) => {
     ),
     { recursive: true, force: true },
   );
-  if (process.platform === "darwin" && options.platform === "osx") {
-    await new Promise((resolve, reject) => {
-      const child = child_process.spawn(`unzip ${out}`);
+  // if (process.platform === "darwin" && options.platform === "osx") {
+  //   await new Promise((resolve, reject) => {
+  //     const child = child_process.spawn(`unzip ${out}`);
 
-      child.on("close", function () {
-        resolve();
-      });
+  //     child.on("close", function () {
+  //       resolve();
+  //     });
 
-      child.on("error", function (error) {
-        reject(error)
-      });
-    });
-  } else if (options.platform === "linux") {
+  //     child.on("error", function (error) {
+  //       reject(error)
+  //     });
+  //   });
+  // } else
+  if (options.platform === "linux") {
     await tar.extract({
       file: out,
       C: options.cacheDir
