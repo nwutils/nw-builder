@@ -67,7 +67,17 @@ const getNwjs = async (options) => {
       { recursive: true, force: true },
     );
     if (process.platform === "darwin" && options.platform === "osx") {
-      child_process.spawnSync(`unzip ${out}`);
+      await new Promise((resolve, reject) => {
+        const child = child_process.spawn(`unzip ${out}`);
+
+        child.on("close", function () {
+          resolve();
+        });
+
+        child.on("error", function (error) {
+          reject(error)
+        });
+      });
     } else if (options.platform === "linux") {
       await tar.extract({
         file: out,
@@ -93,8 +103,8 @@ const getNwjs = async (options) => {
       options.downloadUrl === "https://npmmirror.com/mirrors/nwjs"
     ) {
       url = `${options.downloadUrl}/v${options.version}/nwjs${options.flavor === "sdk" ? "-sdk" : ""
-      }-v${options.version}-${options.platform}-${options.arch}.${options.platform === "linux" ? "tar.gz" : "zip"
-      }`;
+        }-v${options.version}-${options.platform}-${options.arch}.${options.platform === "linux" ? "tar.gz" : "zip"
+        }`;
     }
 
     https.get(url, (response) => {
@@ -142,7 +152,17 @@ const getNwjs = async (options) => {
     { recursive: true, force: true },
   );
   if (process.platform === "darwin" && options.platform === "osx") {
-    child_process.spawnSync(`unzip ${out}`);
+    await new Promise((resolve, reject) => {
+      const child = child_process.spawn(`unzip ${out}`);
+
+      child.on("close", function () {
+        resolve();
+      });
+
+      child.on("error", function (error) {
+        reject(error)
+      });
+    });
   } else if (options.platform === "linux") {
     await tar.extract({
       file: out,
