@@ -484,7 +484,20 @@ async function unzip(nwZip, cacheDir) {
     for await (const entry of zip) {
       const fullEntryPath = path.join(cacheDir, entry.filename);
 
+      const directoryPath = path.dirname(fullEntryPath);
+
+      await fs.promises.mkdir(directoryPath, { recursive: true });
+
+      const readStream = await entry.openReadStream();
+      const writeStream = fs.createWriteStream(fullEntryPath);
+
+      await stream.promises.pipeline(readStream, writeStream);
+
+      // console.log(entry.filename);
+
+      /*
       if (entry.filename.endsWith("/")) {
+        console.log(entry.filename);
         // Create directory
         await fs.promises.mkdir(fullEntryPath, { recursive: true });
       } else {
@@ -495,13 +508,15 @@ async function unzip(nwZip, cacheDir) {
         const readStream = await entry.openReadStream();
         const writeStream = fs.createWriteStream(fullEntryPath);
 
-        await new Promise((resolve, reject) => {
-          readStream.pipe(writeStream);
-          readStream.on("error", reject);
-          writeStream.on("error", reject);
-          writeStream.on("finish", resolve);
-        });
+        // await new Promise((resolve, reject) => {
+        //   readStream.pipe(writeStream);
+        //   readStream.on("error", reject);
+        //   writeStream.on("error", reject);
+        //   writeStream.on("finish", resolve);
+        // });
       }
+
+       */
     }
   } catch (e) {
     console.error(e);
