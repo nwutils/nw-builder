@@ -5,7 +5,6 @@ import path from "node:path";
 import process from "node:process";
 import stream from "node:stream";
 
-import compressing from "compressing";
 import * as GlobModule from "glob";
 import semver from "semver";
 import yauzl from "yauzl-promise";
@@ -478,11 +477,9 @@ async function getPath(type, options) {
  * @function
  * @param {string} nwZip     - file path to .zip file
  * @param {string} cacheDir  - directory to unzip in
+ * @return {Promise<void>}
  */
 async function unzip(nwZip, cacheDir) {
-  await compressing.zip.uncompress(nwZip, cacheDir);
-  return;
-
   const zip = await yauzl.open(nwZip);
   try {
 
