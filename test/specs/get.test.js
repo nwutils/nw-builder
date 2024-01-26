@@ -11,7 +11,7 @@ describe("get", async () => {
   const nwOptions = {
     version: "0.83.0",
     flavor: "sdk",
-    platform: "osx",
+    platform: "arm64",
     arch: "x64",
     downloadUrl: "https://dl.nwjs.io",
     cacheDir: "test/fixture/cache",
