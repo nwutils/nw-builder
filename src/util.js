@@ -481,42 +481,17 @@ async function getPath(type, options) {
 async function unzip(nwZip, cacheDir) {
   const zip = await yauzl.open(nwZip);
   try {
-    for await (const entry of zip) {
+
+    let entry = await zip.readEntry();
+    while (entry !== null) {
       const fullEntryPath = path.join(cacheDir, entry.filename);
-
       const directoryPath = path.dirname(fullEntryPath);
-
       await fs.promises.mkdir(directoryPath, { recursive: true });
 
       const readStream = await entry.openReadStream();
       const writeStream = fs.createWriteStream(fullEntryPath);
-
       await stream.promises.pipeline(readStream, writeStream);
-
-      // console.log(entry.filename);
-
-      /*
-      if (entry.filename.endsWith("/")) {
-        console.log(entry.filename);
-        // Create directory
-        await fs.promises.mkdir(fullEntryPath, { recursive: true });
-      } else {
-        // Create the file's directory first, if it doesn't exist
-        const directory = path.dirname(fullEntryPath);
-        await fs.promises.mkdir(directory, { recursive: true });
-
-        const readStream = await entry.openReadStream();
-        const writeStream = fs.createWriteStream(fullEntryPath);
-
-        // await new Promise((resolve, reject) => {
-        //   readStream.pipe(writeStream);
-        //   readStream.on("error", reject);
-        //   writeStream.on("error", reject);
-        //   writeStream.on("finish", resolve);
-        // });
-      }
-
-       */
+      entry = await zip.readEntry();
     }
   } catch (e) {
     console.error(e);
