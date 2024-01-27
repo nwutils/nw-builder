@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<!--
+
+S3 Directory Index
+Copyright © 2015 Joseph Abrahams <http://josephabrahams.com>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+<html>
+    <head>
+        <script>
+            /**
+             * setup s3 bucket params
+             */
+            var s3Params = {
+                bucketName:     'nwjs2',
+                bucketEndpoint: 's3.amazonaws.com'
+            };
+
+            /**
+             * add the absolute path of any files to ignore from the directory index
+             */
+            var ignoreList = ['/nwjs.html'];
+        </script>
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            h1 {
+                border-bottom: 1px solid #c0c0c0;
+                margin-bottom: 10px;
+                padding-bottom: 10px;
+                white-space: nowrap;
+            }
+            table {
+                border-collapse: collapse;
+                font-family: Consolas, monaco, monospace;
+            }
+            th {
+                font-weight: bold;
+            }
+            .file-name {
+                text-align: left;
+            }
+            .file-size {
+                padding-left: 4em;
+            }
+            .file-date-modified  {
+                padding-left: 2em;
+            }
+            .file-size, .file-date-modified  {
+                text-align: end;
+                white-space: nowrap;
+            }
+            .icon {
+                padding-left: 1.5em;
+                text-decoration: none;
+            }
+            .icon:hover {
+                text-decoration: underline;
+            }
+            .icon-file {
+                background : url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAABnRSTlMAAAAAAABupgeRAAABHUlEQVR42o2RMW7DIBiF3498iHRJD5JKHurL+CRVBp+i2T16tTynF2gO0KSb5ZrBBl4HHDBuK/WXACH4eO9/CAAAbdvijzLGNE1TVZXfZuHg6XCAQESAZXbOKaXO57eiKG6ft9PrKQIkCQqFoIiQFBGlFIB5nvM8t9aOX2Nd18oDzjnPgCDpn/BH4zh2XZdlWVmWiUK4IgCBoFMUz9eP6zRN75cLgEQhcmTQIbl72O0f9865qLAAsURAAgKBJKEtgLXWvyjLuFsThCSstb8rBCaAQhDYWgIZ7myM+TUBjDHrHlZcbMYYk34cN0YSLcgS+wL0fe9TXDMbY33fR2AYBvyQ8L0Gk8MwREBrTfKe4TpTzwhArXWi8HI84h/1DfwI5mhxJamFAAAAAElFTkSuQmCC ") left top no-repeat;
+            }
+            .icon-dir {
+                background : url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAd5JREFUeNqMU79rFUEQ/vbuodFEEkzAImBpkUabFP4ldpaJhZXYm/RiZWsv/hkWFglBUyTIgyAIIfgIRjHv3r39MePM7N3LcbxAFvZ2b2bn22/mm3XMjF+HL3YW7q28YSIw8mBKoBihhhgCsoORot9d3/ywg3YowMXwNde/PzGnk2vn6PitrT+/PGeNaecg4+qNY3D43vy16A5wDDd4Aqg/ngmrjl/GoN0U5V1QquHQG3q+TPDVhVwyBffcmQGJmSVfyZk7R3SngI4JKfwDJ2+05zIg8gbiereTZRHhJ5KCMOwDFLjhoBTn2g0ghagfKeIYJDPFyibJVBtTREwq60SpYvh5++PpwatHsxSm9QRLSQpEVSd7/TYJUb49TX7gztpjjEffnoVw66+Ytovs14Yp7HaKmUXeX9rKUoMoLNW3srqI5fWn8JejrVkK0QcrkFLOgS39yoKUQe292WJ1guUHG8K2o8K00oO1BTvXoW4yasclUTgZYJY9aFNfAThX5CZRmczAV52oAPoupHhWRIUUAOoyUIlYVaAa/VbLbyiZUiyFbjQFNwiZQSGl4IDy9sO5Wrty0QLKhdZPxmgGcDo8ejn+c/6eiK9poz15Kw7Dr/vN/z6W7q++091/AQYA5mZ8GYJ9K0AAAAAASUVORK5CYII= ") left top no-repeat;
+            }
+            .icon-up {
+                background : url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAmlJREFUeNpsU0toU0EUPfPysx/tTxuDH9SCWhUDooIbd7oRUUTMouqi2iIoCO6lceHWhegy4EJFinWjrlQUpVm0IIoFpVDEIthm0dpikpf3ZuZ6Z94nrXhhMjM3c8895977BBHB2PznK8WPtDgyWH5q77cPH8PpdXuhpQT4ifR9u5sfJb1bmw6VivahATDrxcRZ2njfoaMv+2j7mLDn93MPiNRMvGbL18L9IpF8h9/TN+EYkMffSiOXJ5+hkD+PdqcLpICWHOHc2CC+LEyA/K+cKQMnlQHJX8wqYG3MAJy88Wa4OLDvEqAEOpJd0LxHIMdHBziowSwVlF8D6QaicK01krw/JynwcKoEwZczewroTvZirlKJs5CqQ5CG8pb57FnJUA0LYCXMX5fibd+p8LWDDemcPZbzQyjvH+Ki1TlIciElA7ghwLKV4kRZstt2sANWRjYTAGzuP2hXZFpJ/GsxgGJ0ox1aoFWsDXyyxqCs26+ydmagFN/rRjymJ1898bzGzmQE0HCZpmk5A0RFIv8Pn0WYPsiu6t/Rsj6PauVTwffTSzGAGZhUG2F06hEc9ibS7OPMNp6ErYFlKavo7MkhmTqCxZ/jwzGA9Hx82H2BZSw1NTN9Gx8ycHkajU/7M+jInsDC7DiaEmo1bNl1AMr9ASFgqVu9MCTIzoGUimXVAnnaN0PdBBDCCYbEtMk6wkpQwIG0sn0PQIUF4GsTwLSIFKNqF6DVrQq+IWVrQDxAYQC/1SsYOI4pOxKZrfifiUSbDUisif7XlpGIPufXd/uvdvZm760M0no1FZcnrzUdjw7au3vu/BVgAFLXeuTxhTXVAAAAAElFTkSuQmCC ") left top no-repeat;
+            }
+        </style>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <h1 id="heading"><noscript>Please enable JavaScript</noscript></h1>
+        <table id="table"></table>
+        <script>
+            /* jshint browser: true, devel: true */
+
+            // s3 allows all special characters except slashes
+            function encodeS3Url(url) {
+                return encodeURIComponent(url).replace(/%2F/g, '/');
+            }
+
+            // get hostname, strip extra slashes, ensure trailing slash
+            function getAbsolutePath() {
+                'use strict';
+                return decodeURIComponent(document.location.pathname.replace(/\/\/*/g, '/').replace(/\/?$/, '/'));
+            }
+
+            // strip cwd from absolute path
+            function getParentDirectory(absolutePath) {
+                'use strict';
+                return absolutePath.replace(/\/$/, '').split('/').slice(0, -1).concat('').join('/');
+            }
+
+            // get cwd from absolute path
+            function getCurrentWorkingDirectory(absolutePath) {
+                'use strict';
+                return absolutePath.replace(/\/$/, '').split('/').slice(-1)[0];
+            }
+
+            // make aws time stamp more human readable format
+            function formatDate(dateTime) {
+                'use strict';
+
+                var date = new Date(dateTime),
+                    month = date.getMonth() + 1,
+                    day = date.getDate(),
+                    year = date.getYear().toString().slice(1),
+                    hours = date.getHours(),
+                    minutes = date.getMinutes(),
+                    ampm = hours >= 12 ? 'PM' : 'AM';
+                month = month < 10 ? '&nbsp;' + month : month;
+                hours = hours % 12;
+                hours = hours ? hours : 12; // the hour '0' should be '12'
+                hours = hours < 10 ? '0' + hours : hours;
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+
+                return month + '/' + day + '/' + year + ' ' +
+                       hours + ':' + minutes + ' ' + ampm;
+            }
+
+            // directory index constructor
+            // requires for h1#heading && table#table present DOM
+            function DirectoryIndex(ignoreList) {
+                'use strict';
+
+                this.heading = document.getElementById('heading');
+                this.table = document.getElementById('table');
+                this.ignoreList = [];
+                if (ignoreList) {
+                    this.ignoreList = ignoreList;
+                }
+            }
+
+            // sets #heading to passed string
+            DirectoryIndex.prototype.setHeading = function(heading) {
+                'use strict';
+                this.heading.innerHTML = heading;
+            };
+
+            // sets title to passed string
+            DirectoryIndex.prototype.setTitle = function(title) {
+                'use strict';
+                document.title = title;
+            };
+
+            // creates header row in #table `Name`, `Size`, && `Date Modified` cells
+            DirectoryIndex.prototype.addHeaderRow = function() {
+                'use strict';
+
+                var row = document.createElement('tr');
+
+                var nameCell = document.createElement('th');
+                nameCell.setAttribute('class', 'file-name');
+                nameCell.innerHTML = 'Name';
+                row.appendChild(nameCell);
+
+                var sizeCell = document.createElement('th');
+                sizeCell.setAttribute('class', 'file-size');
+                sizeCell.innerHTML = 'Size';
+                row.appendChild(sizeCell);
+
+                var modifiedDateCell = document.createElement('th');
+                modifiedDateCell.setAttribute('class', 'file-date-modified');
+                modifiedDateCell.innerHTML = 'Date Modified';
+                row.appendChild(modifiedDateCell);
+
+                this.table.appendChild(row);
+            };
+
+            // creates a row with link to parent directory and appropriate icon
+            DirectoryIndex.prototype.addUpRow = function(url) {
+                'use strict';
+
+                var row = document.createElement('tr');
+
+                var nameLink = document.createElement('a');
+                nameLink.className = 'icon icon-up';
+                nameLink.innerHTML = '..';
+                nameLink.href = url;
+
+                var nameCell = document.createElement('td');
+                nameCell.setAttribute('class', 'file-name');
+                nameCell.appendChild(nameLink);
+                row.appendChild(nameCell);
+
+                var sizeCell = document.createElement('td');
+                sizeCell.setAttribute('class', 'file-size');
+                sizeCell.innerHTML = '';
+                row.appendChild(sizeCell);
+
+                var modifiedDateCell = document.createElement('td');
+                modifiedDateCell.setAttribute('class', 'file-date-modified');
+                modifiedDateCell.innerHTML = '';
+                row.appendChild(modifiedDateCell);
+
+                this.table.appendChild(row);
+            };
+
+            // creates a row with link to file (or dir), size, date modified, and appropriate icon
+            DirectoryIndex.prototype.addRow = function(name, url, isDir, size, dateModified) {
+                'use strict';
+
+                // ignore all files in ignoreList
+                for (var i = 0, len = this.ignoreList.length; i < len; i++) {
+                    if (url === this.ignoreList[i]) {
+                        return;
+                    }
+                }
+
+                var row = document.createElement('tr');
+
+                var nameLink = document.createElement('a');
+                nameLink.className = isDir ? 'icon icon-dir' : 'icon icon-file';
+                nameLink.innerHTML = name;
+                nameLink.href = url;
+
+                var nameCell = document.createElement('td');
+                nameCell.setAttribute('class', 'file-name');
+                nameCell.appendChild(nameLink);
+                row.appendChild(nameCell);
+
+                var sizeCell = document.createElement('td');
+                sizeCell.setAttribute('class', 'file-size');
+                sizeCell.innerHTML = size;
+                row.appendChild(sizeCell);
+
+                var modifiedDateCell = document.createElement('td');
+                modifiedDateCell.setAttribute('class', 'file-date-modified');
+                modifiedDateCell.innerHTML = dateModified;
+                row.appendChild(modifiedDateCell);
+
+                this.table.appendChild(row);
+            };
+
+            // S3Index Constructor
+            // takes params objects with required `bucketName` and `bucketEndpoint` keys
+            function S3Index(params) {
+                'use strict';
+
+                if (typeof params === 'object' &&
+                    params.hasOwnProperty('bucketName') &&
+                    params.hasOwnProperty('bucketEndpoint')) {
+                        this.bucketName = params.bucketName;
+                        this.bucketEndpoint = params.bucketEndpoint;
+                } else {
+                    console.error('Error instantiating S3Index: Missing required params.');
+                }
+
+            }
+
+            // list all objects in specified path of S3 bucket
+            S3Index.prototype.listObjects = function(absolutePath, callback) {
+                'use strict';
+
+                var bucketName = this.bucketName,
+                    bucketEndpoint = this.bucketEndpoint;
+
+                // create S3 request URL based on current path
+                // marker allows for paginated requests (over 1000 objects)
+                function getRequestUrl(absolutePath, marker) {
+                    // deliminate directories with slashes
+                    var requestUri = '?delimiter=/';
+                    // if not if in root, pass in current dir
+                    if (absolutePath !== '/') {
+                        requestUri += '&prefix=' + encodeURIComponent(absolutePath.slice(1));
+                    }
+                    // if paginated, pass in object to start with
+                    if (marker) {
+                        requestUri += '&marker=' + marker;
+                    }
+                    // Uncomment to test pagination
+                    //requestUri += '&max-keys=2';
+
+                    return '//' + bucketName + '.' + bucketEndpoint + '/' + requestUri;
+                }
+
+                // wrapper around XMLHttpRequest
+                // handles common S3 error codes
+                function getXml(url, cb) {
+
+                    var request = new XMLHttpRequest();
+
+                    request.open('GET', url, true);
+
+                    request.onload = function() {
+                        if (request.status >= 200 && request.status < 400) {
+                            cb(request.responseXML);
+                        } else if (request.status === 403) {
+                            callback(new Error('Access denied'));
+                            console.log('Did you grant list access to the bucket?');
+                        } else if (request.status === 404) {
+                            callback(new Error('Bucket not found'));
+                            console.log('Did you enter the correct bucket name?');
+                        } else {
+                            callback(new Error('Unknown error'));
+                        }
+                    };
+
+                    request.onerror = function() {
+                        callback(new Error('Error connecting to bucket'));
+                        console.log('Did you enable CORS?');
+                    };
+
+                    request.send();
+                }
+
+                // return files received in S3 XML response
+                function getFileObjectsArray(xml, absolutePath) {
+
+                    var files = [];
+                    var fileList = xml.getElementsByTagName('Contents');
+
+                    for (var i = 0, len = fileList.length; i < len; i++) {
+                        var fileData = {};
+                        var fileHref = '/' + fileList[i].getElementsByTagName('Key')[0].firstChild.data;
+                        var fileName = fileHref.slice(absolutePath.length, fileHref.length);
+
+                        if (fileName !== '') {
+
+                            fileData.name = fileName;
+                            fileData.href = encodeS3Url(fileHref);
+                            fileData.size = fileList[i].getElementsByTagName('Size')[0].firstChild.data;
+                            fileData.dateModified = fileList[i].getElementsByTagName('LastModified')[0].firstChild.data;
+                            fileData.isDirectory = false;
+
+                            files[i] = fileData;
+                        }
+                    }
+
+                    return files;
+                }
+
+                // return directories received in S3 XML response
+                function getDirObjectsArray(xml, absolutePath) {
+
+                    var dirs = [];
+                    var dirList = xml.getElementsByTagName('CommonPrefixes');
+
+                    for (var i = 0, len = dirList.length; i < len; i++) {
+                        var dirData = {};
+                        var dirHref = '/' + dirList[i].getElementsByTagName('Prefix')[0].firstChild.data;
+
+                        dirData.name = dirHref.slice(absolutePath.length, dirHref.length);
+                        dirData.href = encodeS3Url(dirHref);
+                        dirData.size = null;
+                        dirData.dateModified = null;
+                        dirData.isDirectory = true;
+
+                        dirs[i] = dirData;
+                    }
+
+                    return dirs;
+                }
+
+                // return marker to use for paginated responses
+                function getNextMarker(xml) {
+                    var isPaginated = xml.getElementsByTagName('IsTruncated')[0].firstChild.data;
+                    var nextMarker = null;
+
+                    if (isPaginated === 'true') {
+                        nextMarker = encodeURIComponent(xml.getElementsByTagName('NextMarker')[0].firstChild.data);
+                    }
+
+                    return nextMarker;
+                }
+
+                // sort array of S3 objects based on name key in objects
+                function sortObjectsArray(objectsArray) {
+                    return objectsArray.sort(function(a,b) {
+                        return objectsArray.sort(function(a, b) {
+                            if (a.name > b.name) {
+                                return 1;
+                            }
+                            if (a.name < b.name) {
+                                return -1;
+                            }
+                            return 0;  // a === b
+                        });
+                    });
+                }
+
+                // get object containing array of sorted s3 objects and pagination marker
+                function getObjectsObject(requestUrl, absolutePath, cb) {
+
+                    var objectsObject = {};
+                    objectsObject.objects = [];
+
+                    getXml(requestUrl, function(xml) {
+
+                        var fileObjectsArray = getFileObjectsArray(xml, absolutePath),
+                            dirObjectsArray  = getDirObjectsArray(xml, absolutePath),
+                            nextMarker       = getNextMarker(xml);
+
+                        //objectsObject.objects     = sortObjectsArray(fileObjectsArray.concat(dirObjectsArray));
+                        objectsObject.objects     = fileObjectsArray.concat(dirObjectsArray);
+                        objectsObject.nextMarker  = nextMarker;
+
+                        cb(objectsObject);
+                    });
+                }
+
+                // get array of S3 objects from current path
+                // if paginated, repeat until no more objects remain
+                function getObjectsArray(absolutePath, objectsArray, marker) {
+
+                    /* jshint -W004 */
+                    var objectsArray = objectsArray || [],
+                        marker       = marker || '';
+
+                    var requestUrl = getRequestUrl(absolutePath, marker);
+
+                    getObjectsObject(requestUrl, absolutePath, function(objectsObject) {
+                        objectsArray = objectsArray.concat(objectsObject.objects);
+                        if (objectsObject.nextMarker !== null) {
+                            marker = objectsObject.nextMarker;
+                            setTimeout(function() {
+                                getObjectsArray(absolutePath, objectsArray, marker);
+                            }, 10);  // max 100 requests per second
+                        } else {
+                            callback(null, objectsArray);
+                        }
+                    });
+
+                }
+
+                getObjectsArray(absolutePath);
+            };
+
+            // run on page load
+            (function init() {
+                'use strict';
+
+                // get abolute path
+                var absolutePath = getAbsolutePath();
+                if (absolutePath !== '/') {
+                    // get parent directory
+                    var up = getParentDirectory(absolutePath);
+                    // get current working directory
+                    var cwd = getCurrentWorkingDirectory(absolutePath);
+                }
+
+                // create new directory index
+                var ignoreList = window.ignoreList || [];
+                var page = new DirectoryIndex(ignoreList);
+
+                // create new S3Index object
+                var s3Params = window.s3Params || {};
+                var s3Index = new S3Index(s3Params);
+
+                // try to get all of the s3 objects for the current page
+                // if successful, display as a directory index
+                s3Index.listObjects(absolutePath, function(err, objects) {
+                    if (err) {
+                        // display error returned from S3Index
+                        page.setTitle(err.message);
+                        page.setHeading(err.message);
+                    } else if (objects.length === 0) {
+                        // if no objects returned, then we've 404'd
+                        page.setTitle('404 Not Found');
+                        page.setHeading('Not Found');
+                    } else {
+                        // set title
+                        if (cwd) {
+                            page.setTitle(cwd + ' | ' + s3Params.bucketName);
+                        } else {
+                            page.setTitle(s3Params.bucketName);
+                        }
+
+                        // set heading
+                        page.setHeading('Index of ' + absolutePath);
+
+                        // create header row
+                        page.addHeaderRow();
+
+                        // if subdirectory add link to parent directory
+                        if (up) {
+                            page.addUpRow(up);
+                        }
+
+                        // add all S3 objects to the directory index
+                        objects.forEach(function(file) {
+                            // convert file size to kB
+                            var size = null;
+                            if (file.size) {
+                                // size = Math.ceil(file.size/1024);
+                                size = file.size;
+                            }
+
+                            // make date more readable
+                            var dateModified = '';
+                            if (file.dateModified) {
+                                dateModified = formatDate(file.dateModified);
+                            }
+
+                            // add file to new row
+                            page.addRow(file.name, file.href, file.isDirectory, size, dateModified);
+                        });
+                    }
+                });
+            })();
+        </script>
+    </body>
+</html>

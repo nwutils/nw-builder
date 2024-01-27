@@ -505,5 +505,16 @@ async function unzip(nwZip, cacheDir) {
     await zip.close();
   }
 }
+async function fileExists (path) {
+  try {
+    await fs.promises.stat(path);
+    return true;
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      return false;
+    }
+    throw error;
+  }
+};
 
-export default { getReleaseInfo, getPath, PLATFORM_KV, ARCH_KV, EXE_NAME, replaceFfmpeg, globFiles, getNodeManifest, parse, unzip, validate };
+export default { fileExists, getReleaseInfo, getPath, PLATFORM_KV, ARCH_KV, EXE_NAME, replaceFfmpeg, globFiles, getNodeManifest, parse, unzip, validate };
