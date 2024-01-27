@@ -145,7 +145,7 @@ const getNwjs = async (options) => {
       C: options.cacheDir
     });
   } else {
-    await util.unzip(out, options.cacheDir);
+    await unzip(out, options.cacheDir);
     if (options.platform === "osx") {
       await createSymlinks(options);
     }
@@ -215,7 +215,7 @@ const getFfmpeg = async (options) => {
 
   // Remove compressed file after download and decompress.
   await request;
-  await util.unzip(out, nwDir);
+  await unzip(out, nwDir);
   await util.replaceFfmpeg(options.platform, nwDir);
 }
 
