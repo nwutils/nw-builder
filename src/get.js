@@ -104,18 +104,7 @@ const getNwjs = async (options) => {
         url = response.headers.location;
       }
 
-      response.on("end", function () {
-        resolve();
-      });
-
-      response.error("error", function (error) {
-        reject(error);
-      });
-
-      response.pipe(writeStream);
-
-      /*
-      https.get(url, (response) => {        
+      https.get(url, (response) => {
         let chunks = 0;
         bar.start(Number(response.headers["content-length"]), 0);
         response.on("data", (chunk) => {
@@ -139,7 +128,6 @@ const getNwjs = async (options) => {
       response.on("error", (error) => {
         rej(error);
       });
-      */
     });
   });
 
@@ -309,7 +297,7 @@ const createSymlinks = async (options) => {
   for await (const symlink of symlinks) {
     const buffer = await fs.promises.readFile(symlink);
     const link = buffer.toString();
-    await fs.promises.rm(symlink, {recursive: true, force: true});
+    await fs.promises.rm(symlink, { recursive: true, force: true });
     await fs.promises.symlink(link, symlink);
   }
 };
