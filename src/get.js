@@ -5,6 +5,8 @@ import path from "node:path";
 import progress from "cli-progress";
 import tar from "tar";
 
+import { unzip } from "./get/decompress.js";
+
 import util from "./util.js";
 
 /**
@@ -70,7 +72,7 @@ const getNwjs = async (options) => {
         C: options.cacheDir
       });
     } else {
-      await util.unzip(out, options.cacheDir);
+      await unzip(out, options.cacheDir);
       if (options.platform === "osx") {
         await createSymlinks(options);
       }
