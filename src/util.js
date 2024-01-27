@@ -502,7 +502,7 @@ async function unzip(nwZip, cacheDir) {
           reject(error);
         });
 
-        writeStream.pipe(readStream);
+        readStream.pipe(writeStream);
       });
       entry = await zip.readEntry();
     }
