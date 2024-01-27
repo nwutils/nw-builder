@@ -15,7 +15,7 @@ import axios from "axios";
  */
 export default async function request(url, filePath) {
 
-  const writer = fs.createWriteStream(filePath);
+  const writeStream = fs.createWriteStream(filePath);
 
   const response = await axios({
     method: "get",
@@ -23,5 +23,5 @@ export default async function request(url, filePath) {
     responseType: "stream"
   });
 
-  await stream.promises.pipeline(response.data, writer);
+  await stream.promises.pipeline(response.data, writeStream);
 }

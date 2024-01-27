@@ -37,7 +37,10 @@ async function unzip(zippedFile, cacheDir) {
   let entry = await zip.readEntry();
 
   while (entry !== null) {
-    let entryPathAbs = path.resolve(cacheDir, entry.filename);
+    let entryPathAbs = path.join(cacheDir, entry.filename);
+
+    // Create the directory beforehand to prevent `ENOENT: no such file or directory` errors.
+    await fs.promises.mkdir(path.dirname(entryPathAbs), { recursive: true });
 
     const readStream = await entry.openReadStream();
     const writeStream = fs.createWriteStream(entryPathAbs);
