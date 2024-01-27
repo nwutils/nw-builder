@@ -469,9 +469,9 @@ async function getPath(type, options) {
 }
 
 /**
- * 
- * @param {string} filePath - File path to check existence of 
- * @return {Promise<boolean>} `true` if exists, otherwise `false`
+ *
+ * @param  {string}           filePath  - File path to check existence of 
+ * @return {Promise<boolean>}           `true` if exists, otherwise `false`
  */
 async function fileExists(filePath) {
   let exists = true;

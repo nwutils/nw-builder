@@ -7,7 +7,7 @@ import request from "./request.js";
 
 describe("get decompress", function () {
 
-  // let tarUrl = "https://dl.nwjs.io/v0.83.0/nwjs-sdk-v0.83.0-linux-x64.tar.gz";
+  let tarUrl = "https://dl.nwjs.io/v0.83.0/nwjs-sdk-v0.83.0-linux-x64.tar.gz";
   let zipUrl = "https://dl.nwjs.io/v0.83.0/nwjs-sdk-v0.83.0-osx-x64.zip";
 
   beforeAll(async function () {
