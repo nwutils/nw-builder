@@ -114,12 +114,12 @@ const getNwjs = async (options) => {
         });
 
         response.on("error", (error) => {
-          rej(error);
+          reject(error);
         });
 
         response.on("end", () => {
           bar.stop();
-          res();
+          resolve();
         });
 
         response.pipe(writeStream);
