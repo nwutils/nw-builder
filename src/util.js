@@ -498,8 +498,8 @@ async function unzip(nwZip, cacheDir) {
           resolve();
         });
 
-        writeStream.on("error", function () {
-          reject();
+        writeStream.on("error", function (error) {
+          reject(error);
         });
 
         writeStream.pipe(readStream);
