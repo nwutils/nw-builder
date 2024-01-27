@@ -20,10 +20,10 @@ describe("get decompress", function () {
   }, Infinity);
 
   it("decompresses a tar file", async function () {
-    await decompress("./test/fixture/cache/nwjs-sdk-v0.83.0-linux-x64.tar.gz", "./test/fixture/cache");
+    await decompress("./test/fixture/cache/nw.tar.gz", "./test/fixture/cache");
   }, Infinity);
 
   it("decompresses a zip file", async function () {
-    await decompress("./test/fixture/cache/nwjs-sdk-v0.83.0-osx-x64.tar.gz", "./test/fixture/cache");
+    await decompress("./test/fixture/cache/nw.zip", "./test/fixture/cache");
   }, Infinity);
 });
