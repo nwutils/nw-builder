@@ -81,7 +81,7 @@ const getNwjs = async (options) => {
   }
 
   const writeStream = fs.createWriteStream(out);
-  const request = new Promise((res, rej) => {
+  const request = new Promise((resolve, reject) => {
     let url = "";
 
     // Set download url and destination.
