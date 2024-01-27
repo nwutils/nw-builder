@@ -14,9 +14,9 @@ describe("get decompress", function () {
     await fs.promises.mkdir("./test/fixture/cache");
 
     const tarBuffer = await request(tarUrl);
-    await fs.promises.writeFile("./test/fixture/cache", tarBuffer);
+    await fs.promises.writeFile("./test/fixture/cache/nw.tar.gz", tarBuffer);
     const zipBuffer = await request(zipUrl);
-    await fs.promises.writeFile("./test/fixture/cache", zipBuffer);
+    await fs.promises.writeFile("./test/fixture/cache/nw.zip", zipBuffer);
   }, Infinity);
 
   it("decompresses a tar file", async function () {
