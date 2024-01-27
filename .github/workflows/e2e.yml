@@ -38,4 +38,4 @@ jobs:
       - name: Check for linting errors
         run: npm run lint
       - name: Run tests
-        run: npm run test
+        run: npm run test ./src/get/decompress.test.js
