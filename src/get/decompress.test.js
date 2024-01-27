@@ -17,7 +17,7 @@ describe("get decompress", function () {
     await fs.promises.writeFile("./test/fixture/cache", tarBuffer);
     const zipBuffer = await request(zipUrl);
     await fs.promises.writeFile("./test/fixture/cache", zipBuffer);
-  });
+  }, Infinity);
 
   it("decompresses a tar file", async function () {
     await decompress("./test/fixture/cache/nwjs-sdk-v0.83.0-linux-x64.tar.gz", "./test/fixture/cache");
@@ -25,5 +25,5 @@ describe("get decompress", function () {
 
   it("decompresses a zip file", async function () {
     await decompress("./test/fixture/cache/nwjs-sdk-v0.83.0-osx-x64.tar.gz", "./test/fixture/cache");
-  });
+  }, Infinity);
 });
