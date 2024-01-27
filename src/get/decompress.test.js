@@ -13,11 +13,11 @@ describe("get decompress", function () {
   beforeAll(async function () {
     await fs.promises.mkdir("./test/fixture/cache");
 
-    // await request(tarUrl, "./test/fixture/cache/nw.tar.gz");
+    await request(tarUrl, "./test/fixture/cache/nw.tar.gz");
     await request(zipUrl, "./test/fixture/cache/nw.zip");
   }, Infinity);
 
-  it.skip("decompresses a Linux tarball", async function () {
+  it("decompresses a Linux tarball", async function () {
     await decompress("./test/fixture/cache/nw.tar.gz", "./test/fixture/cache");
   }, Infinity);
 

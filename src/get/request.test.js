@@ -1,19 +1,23 @@
 import { describe, expect, it } from "vitest";
 
+import util from "../util.js";
+
 import request from "./request.js";
 
 describe("request", function () {
-
+  
   let url = "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json"
+  const filePath = "./test/fixture/cache/request.test.json";
 
   it("downloads from specific url", async function () {
-    const buffer = await request(url);
-    // Find a better way to assert this
-    expect(buffer).not.toBeUndefined();
+    
+    await request(url, filePath);
+    expect(util.fileExists(filePath)).resolves.toBe(true);
   }, Infinity);
 
   it("throws error if url is invalid", async function () {
     url = "";
-    await expect(request(url)).rejects.toThrowError();
+    await expect(request(url, filePath)).rejects.toThrowError();
+    expect(util.fileExists(filePath)).resolves.toBe(false);
   });
 });

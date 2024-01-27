@@ -468,4 +468,19 @@ async function getPath(type, options) {
   }
 }
 
-export default { getReleaseInfo, getPath, PLATFORM_KV, ARCH_KV, EXE_NAME, replaceFfmpeg, globFiles, getNodeManifest, parse, validate };
+/**
+ * 
+ * @param {string} filePath - File path to check existence of 
+ * @return {Promise<boolean>} `true` if exists, otherwise `false`
+ */
+async function fileExists(filePath) {
+  let exists = true;
+  try {
+    await fs.promises.stat(filePath);
+  } catch {
+    exists = false;
+  }
+  return exists;
+}
+
+export default { fileExists, getReleaseInfo, getPath, PLATFORM_KV, ARCH_KV, EXE_NAME, replaceFfmpeg, globFiles, getNodeManifest, parse, validate };
