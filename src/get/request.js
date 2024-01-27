@@ -1,7 +1,7 @@
-// import fs from "node:fs";
-import https from "node:https";
+import fs from "node:fs";
+import stream from "node:stream";
 
-import progress from "cli-progress";
+import axios from "axios";
 
 /**
  * Download from `url`.
@@ -10,44 +10,18 @@ import progress from "cli-progress";
  * @function
  * 
  * @param  {string}          url  - Download server
+ * @param {string}           filePath - file path of downloaded content
  * @return {Promise<Buffer>}      - Downloaded content
  */
-export default async function request(url) {
+export default async function request(url, filePath) {
 
-  /**
-   * Tracks the download progress. Minimum is 0 and maximum is the size of file.
-   *
-   * @type {number}
-   */
-  let chunkSize = 0;
+  const writer = fs.createWriteStream(filePath);
 
-  const bar = new progress.SingleBar({}, progress.Presets.rect);
-
-  return new Promise((resolve, reject) => {
-    https.get(url, function (response) {
-
-      /**
-       * @type {Buffer}
-       */
-      let responseBody = '';
-      bar.start(Number(response.headers["content-length"]), 0);
-      response.setEncoding('utf8');
-
-      response.on("data", function (chunk) {
-        chunkSize += chunk.length;
-        responseBody += chunk;
-        bar.increment();
-        bar.update(chunkSize);
-      });
-
-      response.on("error", function (error) {
-        reject(error);
-      });
-
-      response.on("end", () => {
-        bar.stop();
-        resolve(responseBody);
-      });
-    });
+  const response = await axios({
+    method: "get",
+    url: url,
+    responseType: "stream"
   });
+
+  await stream.promises.pipeline(response.data, writer);
 }

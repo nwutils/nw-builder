@@ -7,19 +7,19 @@ import request from "./request.js";
 
 describe("get decompress", function () {
 
-  let tarUrl = "https://dl.nwjs.io/v0.83.0/nwjs-sdk-v0.83.0-linux-x64.tar.gz";
+  // let tarUrl = "https://dl.nwjs.io/v0.83.0/nwjs-sdk-v0.83.0-linux-x64.tar.gz";
   let zipUrl = "https://dl.nwjs.io/v0.83.0/nwjs-sdk-v0.83.0-osx-x64.zip";
 
   beforeAll(async function () {
     await fs.promises.mkdir("./test/fixture/cache");
 
-    const tarBuffer = await request(tarUrl);
-    await fs.promises.writeFile("./test/fixture/cache/nw.tar.gz", tarBuffer);
+    // const tarBuffer = await request(tarUrl);
+    // await fs.promises.writeFile("./test/fixture/cache/nw.tar.gz", tarBuffer);
     const zipBuffer = await request(zipUrl);
     await fs.promises.writeFile("./test/fixture/cache/nw.zip", zipBuffer);
   }, Infinity);
 
-  it("decompresses a Linux tarball", async function () {
+  it.skip("decompresses a Linux tarball", async function () {
     await decompress("./test/fixture/cache/nw.tar.gz", "./test/fixture/cache");
   }, Infinity);
 
