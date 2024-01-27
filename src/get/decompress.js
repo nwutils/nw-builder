@@ -31,7 +31,7 @@ export default async function decompress(filePath, cacheDir) {
  * @param  {string}        cacheDir    - directory to unzip in
  * @return {Promise<void>}
  */
-async function unzip(zippedFile, cacheDir) {
+export async function unzip(zippedFile, cacheDir) {
   const zip = await yauzl.open(zippedFile);
 
   let entry = await zip.readEntry();
