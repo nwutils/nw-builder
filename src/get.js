@@ -1,7 +1,7 @@
 import child_process from "node:child_process";
 import fs from "node:fs";
 import https from "node:https";
-import path from "node:path";
+import path, { resolve } from "node:path";
 import process from "node:process";
 
 import progress from "cli-progress";
@@ -80,7 +80,7 @@ const getNwjs = async (options) => {
     return;
   }
 
-  const stream = fs.createWriteStream(out);
+  const writeStream = fs.createWriteStream(out);
   const request = new Promise((res, rej) => {
     let url = "";
 
@@ -104,7 +104,18 @@ const getNwjs = async (options) => {
         url = response.headers.location;
       }
 
-      https.get(url, (response) => {
+      response.on("end", function () {
+        resolve();
+      });
+
+      response.error("error", function (error) {
+        rejects(error);
+      });
+
+      response.pipe(writeStream);
+
+      /*
+      https.get(url, (response) => {        
         let chunks = 0;
         bar.start(Number(response.headers["content-length"]), 0);
         response.on("data", (chunk) => {
@@ -122,12 +133,13 @@ const getNwjs = async (options) => {
           res();
         });
 
-        response.pipe(stream);
+        response.pipe(writeStream);
       });
 
       response.on("error", (error) => {
         rej(error);
       });
+      */
     });
   });
 
