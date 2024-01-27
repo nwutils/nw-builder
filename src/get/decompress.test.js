@@ -13,10 +13,8 @@ describe("get decompress", function () {
   beforeAll(async function () {
     await fs.promises.mkdir("./test/fixture/cache");
 
-    // const tarBuffer = await request(tarUrl);
-    // await fs.promises.writeFile("./test/fixture/cache/nw.tar.gz", tarBuffer);
-    const zipBuffer = await request(zipUrl);
-    await fs.promises.writeFile("./test/fixture/cache/nw.zip", zipBuffer);
+    // await request(tarUrl, "./test/fixture/cache/nw.tar.gz");
+    await request(zipUrl, "./test/fixture/cache/nw.zip");
   }, Infinity);
 
   it.skip("decompresses a Linux tarball", async function () {

@@ -11,7 +11,7 @@ import axios from "axios";
  * 
  * @param  {string}          url  - Download server
  * @param {string}           filePath - file path of downloaded content
- * @return {Promise<Buffer>}      - Downloaded content
+ * @return {Promise<void>}
  */
 export default async function request(url, filePath) {
 
