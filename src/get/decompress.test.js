@@ -19,11 +19,11 @@ describe("get decompress", function () {
     await fs.promises.writeFile("./test/fixture/cache/nw.zip", zipBuffer);
   }, Infinity);
 
-  it("decompresses a tar file", async function () {
+  it("decompresses a Linux tarball", async function () {
     await decompress("./test/fixture/cache/nw.tar.gz", "./test/fixture/cache");
   }, Infinity);
 
-  it("decompresses a zip file", async function () {
+  it("decompresses a MacOS zip", async function () {
     await decompress("./test/fixture/cache/nw.zip", "./test/fixture/cache");
   }, Infinity);
 });
