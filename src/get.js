@@ -109,7 +109,7 @@ const getNwjs = async (options) => {
       });
 
       response.error("error", function (error) {
-        rejects(error);
+        reject(error);
       });
 
       response.pipe(writeStream);
