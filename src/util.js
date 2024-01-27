@@ -491,7 +491,19 @@ async function unzip(nwZip, cacheDir) {
 
       const readStream = await entry.openReadStream();
       const writeStream = fs.createWriteStream(fullEntryPath);
-      await stream.promises.pipeline(readStream, writeStream);
+      // https://github.com/nodejs/node/issues/51540
+      // await stream.promises.pipeline(readStream, writeStream);
+      await new Promise(function (resolve, reject) {
+        writeStream.on("finish", function () {
+          resolve();
+        });
+
+        writeStream.on("error", function () {
+          reject();
+        });
+
+        writeStream.pipe(readStream);
+      });
       entry = await zip.readEntry();
     }
   } catch (e) {
