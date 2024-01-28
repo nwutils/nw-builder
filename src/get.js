@@ -145,7 +145,7 @@ const getNwjs = async (options) => {
       C: options.cacheDir
     });
   } else {
-    await util.unzip(out, options.cacheDir);
+    await unzip(out, options.cacheDir);
     if (options.platform === "osx") {
       await createSymlinks(options);
     }
