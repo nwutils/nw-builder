@@ -17,4 +17,16 @@ describe("get/nw", function () {
     );
     expect(util.fileExists(nwFile)).resolves.toBe(true);
   }, Infinity);
+
+  it("downloades a NW.js MacOS zip", async function () {
+    const nwFile = await nw(
+      "https://dl.nwjs.io",
+      "0.83.0",
+      "sdk",
+      "osx",
+      "x64",
+      "./test/fixture"
+    );
+    expect(util.fileExists(nwFile)).resolves.toBe(true);
+  }, Infinity);
 });
