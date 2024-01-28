@@ -293,8 +293,7 @@ nwbuild({
 - chore(cicd): use `google-github-actions/release-please-action` to automate publishing to npm, updating changelog and creating releases
 - chore(cli): migrate from `yargs` to `commander`
 - chore(get): verify sha checksum for downloads
-- chore(util): factor out nw file paths finder
-- chore(get): factor out nwjs downloader
+- chore(util): factor out file paths as constant variables
 - chore(get): factor out ffmpeg downloader
 - chore(get): factor out node headers downloader
 - chore(bld): factor out core build step
