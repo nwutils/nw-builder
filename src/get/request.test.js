@@ -1,4 +1,6 @@
-import { describe, expect, it } from "vitest";
+import fs from "node:fs";
+
+import { afterEach, describe, expect, it } from "vitest";
 
 import util from "../util.js";
 
@@ -9,8 +11,11 @@ describe("request", function () {
   let url = "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json"
   const filePath = "./test/fixture/cache/request.test.json";
 
+  afterEach(async function () {
+    await fs.promises.rm(filePath);
+  });
+
   it("downloads from specific url", async function () {
-    
     await request(url, filePath);
     expect(util.fileExists(filePath)).resolves.toBe(true);
   }, Infinity);
