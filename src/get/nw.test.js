@@ -8,7 +8,7 @@ describe("get/nw", function () {
 
   it("downloades a NW.js Linux tarball", async function () {
     const nwFile = await nw(
-      "https://nwjs.io/versions",
+      "https://dl.nwjs.io",
       "0.83.0",
       "sdk",
       "linux",
