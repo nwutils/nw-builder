@@ -294,7 +294,6 @@ nwbuild({
 - chore(cli): migrate from `yargs` to `commander`
 - chore(get): verify sha checksum for downloads
 - chore(util): factor out file paths as constant variables
-- chore(get): factor out ffmpeg downloader
 - chore(get): factor out node headers downloader
 - chore(bld): factor out core build step
 - chore(bld): factor out linux config
