@@ -5,13 +5,13 @@ import request from "./request.js";
 /**
  * Download NW.js binary.
  *
- * @param  {string}          downloadUrl  - 
- * @param  {string}          version
- * @param  {string}          flavor
- * @param  {string}          platform
- * @param  {string}          arch
- * @param  {string}          cacheDir
- * @return {Promise<string>} - path of compressed file which contains NW.js binaries.
+ * @param  {string}          downloadUrl  - Download server
+ * @param  {string}          version      - Runtime version
+ * @param  {string}          flavor       - Runtime build flavor
+ * @param  {string}          platform     - NW supported platform
+ * @param  {string}          arch         - NW supported architecture
+ * @param  {string}          cacheDir     - Directory to store NW binaries
+ * @return {Promise<string>}              - path of compressed file which contains NW.js binaries.
  */
 export default async function nw(downloadUrl, version, flavor, platform, arch, cacheDir) {
 
