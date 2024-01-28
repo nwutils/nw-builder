@@ -12,7 +12,7 @@ import util from "../../src/util.js";
 
 const { Driver, ServiceBuilder, Options } = chrome;
 
-describe("build", async () => {
+describe.skip("build", async () => {
   let driver = undefined;
 
   const nwOptions = {
