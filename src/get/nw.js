@@ -46,7 +46,6 @@ export default async function nw(downloadUrl, version, flavor, platform, arch, c
     `v${version}`,
     nwFile,
   ].join('/');
-  console.log(url)
 
   /**
    * Absolute path of compressed file which contains NW.js binaries.
