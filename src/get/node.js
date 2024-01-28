@@ -27,7 +27,7 @@ export default async function nw(downloadUrl, version, cacheDir) {
   const nwFile = `${nodeDir}.tar.gz`
 
   /**
-   * URL to download specific NW.js binary from.
+   * URL to download specific Node headers from.
    *
    * @type {string}
    */
