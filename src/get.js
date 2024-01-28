@@ -215,7 +215,7 @@ const getFfmpeg = async (options) => {
 
   // Remove compressed file after download and decompress.
   await request;
-  await util.unzip(out, nwDir);
+  await unzip(out, nwDir);
   await util.replaceFfmpeg(options.platform, nwDir);
 }
 
