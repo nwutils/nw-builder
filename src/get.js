@@ -7,6 +7,8 @@ import process from "node:process";
 import progress from "cli-progress";
 import tar from "tar";
 
+import { unzip } from "./get/decompress.js";
+
 import util from "./util.js";
 
 /**
@@ -72,7 +74,7 @@ const getNwjs = async (options) => {
         C: options.cacheDir
       });
     } else {
-      await util.unzip(out, options.cacheDir);
+      await unzip(out, options.cacheDir);
       if (options.platform === "osx") {
         await createSymlinks(options);
       }
@@ -145,7 +147,7 @@ const getNwjs = async (options) => {
       C: options.cacheDir
     });
   } else {
-    await util.unzip(out, options.cacheDir);
+    await unzip(out, options.cacheDir);
     if (options.platform === "osx") {
       await createSymlinks(options);
     }
@@ -214,7 +216,7 @@ const getFfmpeg = async (options) => {
 
   // Remove compressed file after download and decompress.
   await request;
-  await util.unzip(out, nwDir);
+  await unzip(out, nwDir);
   await util.replaceFfmpeg(options.platform, nwDir);
 }
 

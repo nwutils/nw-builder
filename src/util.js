@@ -3,11 +3,9 @@ import fs from "node:fs";
 import https from "node:https";
 import path from "node:path";
 import process from "node:process";
-import stream from "node:stream";
 
 import * as GlobModule from "glob";
 import semver from "semver";
-import yauzl from "yauzl-promise";
 
 /**
  * Get manifest (array of NW release metadata) from URL
@@ -471,46 +469,18 @@ async function getPath(type, options) {
 }
 
 /**
- * Wrapper for unzipping using `yauzl-promise`.
  *
- * @async
- * @function
- * @param {string} nwZip     - file path to .zip file
- * @param {string} cacheDir  - directory to unzip in
- * @return {Promise<void>}
+ * @param  {string}           filePath  - File path to check existence of 
+ * @return {Promise<boolean>}           `true` if exists, otherwise `false`
  */
-async function unzip(nwZip, cacheDir) {
-  const zip = await yauzl.open(nwZip);
+async function fileExists(filePath) {
+  let exists = true;
   try {
-
-    let entry = await zip.readEntry();
-    while (entry !== null) {
-      const fullEntryPath = path.join(cacheDir, entry.filename);
-      const directoryPath = path.dirname(fullEntryPath);
-      await fs.promises.mkdir(directoryPath, { recursive: true });
-
-      const readStream = await entry.openReadStream();
-      const writeStream = fs.createWriteStream(fullEntryPath);
-      // https://github.com/nodejs/node/issues/51540
-      // await stream.promises.pipeline(readStream, writeStream);
-      await new Promise(function (resolve, reject) {
-        writeStream.on("finish", function () {
-          resolve();
-        });
-
-        writeStream.on("error", function (error) {
-          reject(error);
-        });
-
-        readStream.pipe(writeStream);
-      });
-      entry = await zip.readEntry();
-    }
-  } catch (e) {
-    console.error(e);
-  } finally {
-    await zip.close();
+    await fs.promises.stat(filePath);
+  } catch {
+    exists = false;
   }
+  return exists;
 }
 
-export default { getReleaseInfo, getPath, PLATFORM_KV, ARCH_KV, EXE_NAME, replaceFfmpeg, globFiles, getNodeManifest, parse, unzip, validate };
+export default { fileExists, getReleaseInfo, getPath, PLATFORM_KV, ARCH_KV, EXE_NAME, replaceFfmpeg, globFiles, getNodeManifest, parse, validate };
