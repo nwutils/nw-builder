@@ -7,12 +7,12 @@ import util from "../util.js";
 import request from "./request.js";
 
 describe("request", function () {
-  
+
   let url = "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json"
   const filePath = "./test/fixture/cache/request.test.json";
 
   afterEach(async function () {
-    await fs.promises.rm(filePath);
+    await fs.promises.rm(filePath, { force: true });
   });
 
   it("downloads from specific url", async function () {
