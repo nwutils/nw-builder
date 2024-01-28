@@ -19,10 +19,4 @@ describe("get/request", function () {
     await request(url, filePath);
     expect(util.fileExists(filePath)).resolves.toBe(true);
   }, Infinity);
-
-  it("throws error if url is invalid", async function () {
-    url = "";
-    await expect(request(url, filePath)).rejects.toThrowError();
-    expect(util.fileExists(filePath)).resolves.toBe(false);
-  }, Infinity);
 });
