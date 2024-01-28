@@ -9,13 +9,13 @@ import request from "./request.js";
  * @param  {string}          version      - Runtime version
  * @param  {string}          platform     - NW supported platform
  * @param  {string}          arch         - NW supported architecture
- * @param  {string}          cacheDir     - Directory to store NW binaries
- * @return {Promise<string>}              - path of compressed file which containscommunity FFmpeg binary.
+ * @param  {string}          cacheDir     - Directory to store FFmpeg binary
+ * @return {Promise<string>}              Path of compressed file which containscommunity FFmpeg binary.
  */
 export default async function ffmpeg(downloadUrl, version, platform, arch, cacheDir) {
 
   /**
-   * URL to download specific NW.js binary from.
+   * URL to download specific FFmpeg binary from.
    *
    * @type {string}
    */
@@ -26,7 +26,7 @@ export default async function ffmpeg(downloadUrl, version, platform, arch, cache
   ].join('/');
 
   /**
-   * Absolute path of compressed file which contains NW.js binaries.
+   * Absolute path of compressed file which contains FFmpeg binary.
    */
   const ffmpegFileAbs = path.resolve(
     cacheDir,
