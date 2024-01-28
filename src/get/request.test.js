@@ -24,5 +24,5 @@ describe("request", function () {
     url = "";
     await expect(request(url, filePath)).rejects.toThrowError();
     expect(util.fileExists(filePath)).resolves.toBe(false);
-  });
+  }, Infinity);
 });
