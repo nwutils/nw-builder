@@ -22,7 +22,6 @@ For version 3, please go to the [corresponding branch](https://github.com/nwutil
 - [Concepts](https://github.com/nwutils/nw-builder#concepts)
 - [API Reference](https://github.com/nwutils/nw-builder#api-reference)
 - [Guides](https://github.com/nwutils/nw-builder#guides)
-- [Limitation/Known Issues](https://github.com/nwutils/nw-builder#limitations)
 - [Contributing](https://github.com/nwutils/nw-builder#contributing)
 - [Roadmap](https://github.com/nwutils/nw-builder#roadmap)
 - [FAQ](https://github.com/nwutils/nw-builder#faq)
@@ -258,10 +257,6 @@ nwbuild({
   nativeAddon: "gyp",
 });
 ```
-
-## Limitations
-
-- Unzipping MacOS build on MacOS platform inconsistently fails with a `End of Central Directory Record not found` error. You will have to unzip manually using the native [`unzip`](https://linux.die.net/man/1/unzip) package. Install it by [`brew`](https://formulae.brew.sh/formula/unzip#default) if it not already on your machine.
 
 ## Contributing
 
