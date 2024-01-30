@@ -57,7 +57,8 @@ async function get(options) {
     });
   }
 
-  if (util.fileExists(nwFilePath)) {
+  const nwFileExists = await util.fileExists(nwFilePath); 
+  if (nwFileExists === false) {
     nwFilePath = await nw(options.downloadUrl, options.version, options.flavor, options.platform, options.arch, options.cacheDir);
   }
 
