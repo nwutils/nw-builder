@@ -1,4 +1,4 @@
-import fs, { rm } from "node:fs";
+import fs from "node:fs";
 
 import { afterAll, beforeAll, describe, it } from "vitest";
 
