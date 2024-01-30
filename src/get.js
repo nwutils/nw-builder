@@ -5,6 +5,9 @@ import path from "node:path";
 import progress from "cli-progress";
 import tar from "tar";
 
+import decompress, { unzip } from "./get/decompress.js";
+import nw from "./get/nw.js";
+
 import util from "./util.js";
 
 /**
@@ -25,14 +28,46 @@ import util from "./util.js";
  *
  * @async
  * @function
- * @param  {GetOptions}    options                  Get mode options
- * @returns {Promise<void>}
+ * @param  {GetOptions}    options  Get mode options
+ * @return {Promise<void>}
  */
 async function get(options) {
-  if (fs.existsSync(options.cacheDir) === false) {
+
+  const cacheDirExists = await util.fileExists(options.cacheDir);
+  if (cacheDirExists === false) {
     await fs.promises.mkdir(options.cacheDir, { recursive: true });
   }
-  await getNwjs(options);
+
+  let nwFilePath = path.resolve(
+    options.cacheDir,
+    `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}.${options.platform === "linux" ? "tar.gz" : "zip"
+    }`,
+  );
+
+  let nwDirPath = path.resolve(
+    options.cacheDir,
+    `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`,
+  );
+
+  if (options.cache === false) {
+    await fs.promises.rm(nwFilePath, {
+      recursive: true,
+      force: true,
+    });
+  }
+
+  if (util.fileExists(nwFilePath)) {
+    nwFilePath = await nw(options.downloadUrl, options.version, options.flavor, options.platform, options.arch, options.cacheDir);
+  }
+
+  await fs.promises.rm(nwDirPath, { recursive: true, force: true });
+
+  await decompress(nwFilePath, options.cacheDir);
+
+  if (options.platform === "osx") {
+    await createSymlinks(options);
+  }
+
   if (options.ffmpeg === true) {
     await getFfmpeg(options);
   }
@@ -40,117 +75,6 @@ async function get(options) {
     await getNodeHeaders(options);
   }
 }
-
-const getNwjs = async (options) => {
-  const bar = new progress.SingleBar({}, progress.Presets.rect);
-  const out = path.resolve(
-    options.cacheDir,
-    `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}.${options.platform === "linux" ? "tar.gz" : "zip"
-    }`,
-  );
-  // If options.cache is false, remove cache.
-  if (options.cache === false) {
-    await fs.promises.rm(out, {
-      recursive: true,
-      force: true,
-    });
-  }
-
-  if (fs.existsSync(out) === true) {
-    await fs.promises.rm(
-      path.resolve(
-        options.cacheDir,
-        `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`,
-      ),
-      { recursive: true, force: true },
-    );
-    if (options.platform === "linux") {
-      await tar.extract({
-        file: out,
-        C: options.cacheDir
-      });
-    } else {
-      await util.unzip(out, options.cacheDir);
-      if (options.platform === "osx") {
-        await createSymlinks(options);
-      }
-    }
-    return;
-  }
-
-  const stream = fs.createWriteStream(out);
-  const request = new Promise((res, rej) => {
-    let url = "";
-
-    // Set download url and destination.
-    if (
-      options.downloadUrl === "https://dl.nwjs.io" ||
-      options.downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
-      options.downloadUrl === "https://npmmirror.com/mirrors/nwjs"
-    ) {
-      url = `${options.downloadUrl}/v${options.version}/nwjs${options.flavor === "sdk" ? "-sdk" : ""
-      }-v${options.version}-${options.platform}-${options.arch}.${options.platform === "linux" ? "tar.gz" : "zip"
-      }`;
-    }
-
-    https.get(url, (response) => {
-      // For GitHub releases and mirrors, we need to follow the redirect.
-      if (
-        options.downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
-        options.downloadUrl === "https://npmmirror.com/mirrors/nwjs"
-      ) {
-        url = response.headers.location;
-      }
-
-      https.get(url, (response) => {
-        let chunks = 0;
-        bar.start(Number(response.headers["content-length"]), 0);
-        response.on("data", (chunk) => {
-          chunks += chunk.length;
-          bar.increment();
-          bar.update(chunks);
-        });
-
-        response.on("error", (error) => {
-          rej(error);
-        });
-
-        response.on("end", () => {
-          bar.stop();
-          res();
-        });
-
-        response.pipe(stream);
-      });
-
-      response.on("error", (error) => {
-        rej(error);
-      });
-    });
-  });
-
-  await request;
-  await fs.promises.rm(
-    path.resolve(
-      options.cacheDir,
-      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`,
-    ),
-    { recursive: true, force: true },
-  );
-  if (options.platform === "linux") {
-    await tar.extract({
-      file: out,
-      C: options.cacheDir
-    });
-  } else {
-    await util.unzip(out, options.cacheDir);
-    if (options.platform === "osx") {
-      await createSymlinks(options);
-    }
-
-  }
-}
-
 
 const getFfmpeg = async (options) => {
   const nwDir = path.resolve(
@@ -213,7 +137,7 @@ const getFfmpeg = async (options) => {
 
   // Remove compressed file after download and decompress.
   await request;
-  await util.unzip(out, nwDir);
+  await unzip(out, nwDir);
   await util.replaceFfmpeg(options.platform, nwDir);
 }
 

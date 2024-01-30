@@ -50,6 +50,7 @@
   "devDependencies": {
     "@stylistic/eslint-plugin-js": "^1.5.4",
     "eslint": "^8.56.0",
+    "eslint-config-tjw-jsdoc": "^1.0.5",
     "eslint-plugin-jsdoc": "^48.0.2",
     "eslint-plugin-markdown": "^3.0.1",
     "jsdoc": "^4.0.2",
@@ -59,6 +60,7 @@
     "vitest": "^1.2.1"
   },
   "dependencies": {
+    "axios": "^1.6.7",
     "cli-progress": "^3.12.0",
     "compressing": "^1.10.0",
     "glob": "^10.3.10",
@@ -85,8 +87,8 @@
     },
     "extends": [
       "eslint:recommended",
-      "plugin:jsdoc/recommended",
-      "plugin:markdown/recommended"
+      "plugin:markdown/recommended",
+      "tjw-jsdoc"
     ],
     "plugins": [
       "@stylistic/js"
@@ -96,8 +98,7 @@
         "error",
         2
       ],
-      "jsdoc/tag-lines": "off",
-      "jsdoc/check-property-names": "off"
+      "jsdoc/require-file-overview": "off"
     }
   }
 }

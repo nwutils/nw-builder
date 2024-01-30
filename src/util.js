@@ -3,17 +3,15 @@ import fs from "node:fs";
 import https from "node:https";
 import path from "node:path";
 import process from "node:process";
-import stream from "node:stream";
 
 import * as GlobModule from "glob";
 import semver from "semver";
-import yauzl from "yauzl-promise";
 
 /**
  * Get manifest (array of NW release metadata) from URL
  *
- * @param  {string}                       manifestUrl  Url to manifest
- * @returns {Promise<object | undefined>} - Manifest object
+ * @param  {string}                      manifestUrl  Url to manifest
+ * @return {Promise<object | undefined>}              - Manifest object
  */
 function getManifest(manifestUrl) {
   let chunks = undefined;
@@ -48,7 +46,7 @@ function getManifest(manifestUrl) {
  * @param  {string} arch         NW architecture
  * @param  {string} cacheDir     Directory to store NW binaries
  * @param  {string} manifestUrl  Url to manifest
- * @returns {object}              Version specific release info
+ * @return {object}              Version specific release info
  */
 async function getReleaseInfo(
   version,
@@ -161,14 +159,14 @@ const replaceFfmpeg = async (platform, nwDir) => {
 
 /**
  * Glob files
- * 
+ *
  * @async
  * @function
  * 
- * @param {object} options - glob file options
- * @param {string | string[]} options.srcDir - app src dir
- * @param {boolean} options.glob - glob flag
- * @returns {Promise<string[]>} - Returns array of file paths
+ * @param  {object}            options         - glob file options
+ * @param  {string | string[]} options.srcDir  - app src dir
+ * @param  {boolean}           options.glob    - glob flag
+ * @return {Promise<string[]>}                 - Returns array of file paths
  
  */
 async function globFiles({
@@ -192,10 +190,10 @@ async function globFiles({
 /**
  * @async
  * @function
- * @param {object} options - node manifest options
- * @param {string | string []} options.srcDir - src dir
- * @param {boolean} options.glob - glob flag
- * @returns {object} - Node manifest
+ * @param  {object}             options         - node manifest options
+ * @param  {string | string []} options.srcDir  - src dir
+ * @param  {boolean}            options.glob    - glob flag
+ * @return {object}                             - Node manifest
  */
 async function getNodeManifest({
   srcDir, glob
@@ -221,11 +219,11 @@ async function getNodeManifest({
 }
 
 /**
- * Parse options
+ * Parse options.
  *
  * @param  {import("../../index.js").Options} options  Options
  * @param  {object}                           pkg      Package.json as JSON
- * @returns {Promise<object>}                          Options
+ * @return {Promise<object>}                           Options
  */
 export const parse = async (options, pkg) => {
   options = options ?? {};
@@ -332,7 +330,7 @@ export const parse = async (options, pkg) => {
  *
  * @param  {import("../index.js").Options} options      Options
  * @param  {object}                        releaseInfo  Version specific NW release info
- * @returns {Promise<undefined>}                         Return undefined if options are valid
+ * @return {Promise<undefined>}                         Return undefined if options are valid
  * @throws {Error}                                         Throw error if options are invalid
  */
 export const validate = async (options, releaseInfo) => {
@@ -448,13 +446,13 @@ export const validate = async (options, releaseInfo) => {
 
 /**
  * Get path to various NW specific file paths.
- * 
+ *
  * @async
  * @function
  * 
- * @param {"chromedriver"} type - NW specific file or directory
- * @param {object} options - nwbuild options
- * @returns {string} - Path to chromedriver
+ * @param  {"chromedriver"} type     - NW specific file or directory
+ * @param  {object}         options  - nwbuild options
+ * @return {string}                  - Path to chromedriver
  * @throws {Error}
  */
 async function getPath(type, options) {
@@ -471,39 +469,18 @@ async function getPath(type, options) {
 }
 
 /**
- * Wrapper for unzipping using `yauzl-promise`.
- * 
- * @async
- * @function
- * @param {string} nwZip - file path to .zip file
- * @param {string} cacheDir - directory to unzip in
+ *
+ * @param  {string}           filePath  - File path to check existence of 
+ * @return {Promise<boolean>}           `true` if exists, otherwise `false`
  */
-async function unzip(nwZip, cacheDir) {
-  const zip = await yauzl.open(nwZip, {
-    supportMacArchive: false
-  });
+async function fileExists(filePath) {
+  let exists = true;
   try {
-    for await (const entry of zip) {
-      const fullEntryPath = path.resolve(cacheDir, entry.filename);
-
-      if (entry.filename.endsWith("/")) {
-        // Create directory
-        await fs.promises.mkdir(fullEntryPath, { recursive: true });
-      } else {
-        // Create the file's directory first, if it doesn't exist
-        const directory = path.dirname(fullEntryPath);
-        await fs.promises.mkdir(directory, { recursive: true });
-
-        const readStream = await entry.openReadStream();
-        const writeStream = fs.createWriteStream(fullEntryPath);
-        await stream.promises.pipeline(readStream, writeStream);
-      }
-    }
-  } catch (e) {
-    console.error(e);
-  } finally {
-    await zip.close();
+    await fs.promises.stat(filePath);
+  } catch {
+    exists = false;
   }
+  return exists;
 }
 
-export default { getReleaseInfo, getPath, PLATFORM_KV, ARCH_KV, EXE_NAME, replaceFfmpeg, globFiles, getNodeManifest, parse, unzip, validate };
+export default { fileExists, getReleaseInfo, getPath, PLATFORM_KV, ARCH_KV, EXE_NAME, replaceFfmpeg, globFiles, getNodeManifest, parse, validate };
