@@ -7,7 +7,7 @@ import { beforeAll, describe, it } from "vitest";
 
 import get from '../../src/get.js';
 
-describe.skip("get", async () => {
+describe("get", async () => {
   const nwOptions = {
     version: "0.83.0",
     flavor: "sdk",

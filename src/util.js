@@ -219,7 +219,7 @@ async function getNodeManifest({
 }
 
 /**
- * Parse options
+ * Parse options.
  *
  * @param  {import("../../index.js").Options} options  Options
  * @param  {object}                           pkg      Package.json as JSON
