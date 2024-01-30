@@ -221,7 +221,7 @@ const createSymlinks = async (options) => {
   for await (const symlink of symlinks) {
     const buffer = await fs.promises.readFile(symlink);
     const link = buffer.toString();
-    await fs.promises.rm(symlink, { recursive: true, force: true });
+    await fs.promises.rm(symlink);
     await fs.promises.symlink(link, symlink);
   }
 };
