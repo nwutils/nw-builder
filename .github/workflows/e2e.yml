@@ -26,7 +26,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4.0.1
         with:
-          node-version: ${{ env.NODE_VER }}
+          node-version: 21
           cache: "npm"
       - name: Enable corepack
         run: corepack enable
