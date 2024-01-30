@@ -99,6 +99,8 @@ import util from "./util.js"
  */
 
 /**
+ * Build application.
+ *
  * @async
  * @function
  * @param  {BuildOptions}  options  - Build options  

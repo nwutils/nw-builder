@@ -29,7 +29,7 @@ import util from "./util.js";
  */
 
 /**
- * Main module exported
+ * Main module exported.
  *
  * @async
  * @function

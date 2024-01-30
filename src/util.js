@@ -8,7 +8,7 @@ import * as GlobModule from "glob";
 import semver from "semver";
 
 /**
- * Get manifest (array of NW release metadata) from URL
+ * Get manifest (array of NW release metadata) from URL.
  *
  * @param  {string}                      manifestUrl  Url to manifest
  * @return {Promise<object | undefined>}              - Manifest object
@@ -39,7 +39,7 @@ function getManifest(manifestUrl) {
 }
 
 /**
- * Get version specific release metadata
+ * Get version specific release metadata.
  *
  * @param  {string} version      NW version
  * @param  {string} platform     NW platform
@@ -105,7 +105,7 @@ const EXE_NAME = {
 };
 
 /**
- * Replaces the ffmpeg file in the nwjs directory with the one provided
+ * Replaces the ffmpeg file in the nwjs directory with the one provided.
  *
  * @param {string} platform  The platform to replace the ffmpeg file for
  * @param {string} nwDir     The directory of the nwjs installation
@@ -158,16 +158,14 @@ const replaceFfmpeg = async (platform, nwDir) => {
 };
 
 /**
- * Glob files
+ * Glob files.
  *
  * @async
  * @function
- * 
  * @param  {object}            options         - glob file options
  * @param  {string | string[]} options.srcDir  - app src dir
  * @param  {boolean}           options.glob    - glob flag
  * @return {Promise<string[]>}                 - Returns array of file paths
- 
  */
 async function globFiles({
   srcDir,
@@ -188,6 +186,8 @@ async function globFiles({
 }
 
 /**
+ * Get Node manifest.
+ *
  * @async
  * @function
  * @param  {object}             options         - node manifest options
@@ -219,7 +219,7 @@ async function getNodeManifest({
 }
 
 /**
- * Parse options
+ * Parse options.
  *
  * @param  {import("../../index.js").Options} options  Options
  * @param  {object}                           pkg      Package.json as JSON
@@ -326,7 +326,7 @@ export const parse = async (options, pkg) => {
 };
 
 /**
- * Validate options
+ * Validate options.
  *
  * @param  {import("../index.js").Options} options      Options
  * @param  {object}                        releaseInfo  Version specific NW release info
@@ -469,6 +469,7 @@ async function getPath(type, options) {
 }
 
 /**
+ * Check if file or directiry exists.
  *
  * @param  {string}           filePath  - File path to check existence of 
  * @return {Promise<boolean>}           `true` if exists, otherwise `false`

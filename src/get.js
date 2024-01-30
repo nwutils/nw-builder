@@ -1,7 +1,6 @@
-import child_process from "node:child_process";
 import fs from "node:fs";
 import https from "node:https";
-import path, { resolve } from "node:path";
+import path from "node:path";
 import process from "node:process";
 
 import progress from "cli-progress";
@@ -93,8 +92,8 @@ const getNwjs = async (options) => {
       options.downloadUrl === "https://npmmirror.com/mirrors/nwjs"
     ) {
       url = `${options.downloadUrl}/v${options.version}/nwjs${options.flavor === "sdk" ? "-sdk" : ""
-        }-v${options.version}-${options.platform}-${options.arch}.${options.platform === "linux" ? "tar.gz" : "zip"
-        }`;
+      }-v${options.version}-${options.platform}-${options.arch}.${options.platform === "linux" ? "tar.gz" : "zip"
+      }`;
     }
 
     https.get(url, (response) => {
@@ -128,7 +127,7 @@ const getNwjs = async (options) => {
       });
 
       response.on("error", (error) => {
-        rej(error);
+        reject(error);
       });
     });
   });

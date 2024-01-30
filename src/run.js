@@ -18,7 +18,7 @@ import util from "./util.js";
  */
 
 /**
- * Run NW.js application
+ * Run NW.js application.
  *
  * @async
  * @function
