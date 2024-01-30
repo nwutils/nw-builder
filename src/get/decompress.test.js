@@ -1,6 +1,6 @@
-import fs from "node:fs";
+import fs, { rm } from "node:fs";
 
-import { beforeAll, describe, it } from "vitest";
+import { afterAll, beforeAll, describe, it } from "vitest";
 
 import decompress from "./decompress.js";
 import request from "./request.js";
@@ -16,6 +16,10 @@ describe("get/decompress", function () {
     await request(tarUrl, "./test/fixture/cache/nw.tar.gz");
     await request(zipUrl, "./test/fixture/cache/nw.zip");
   }, Infinity);
+
+  afterAll(async function () {
+    await fs.promises.rm("./test/fixture/cache", { recursive: true, force: true });
+  });
 
   it("decompresses a Linux tarball", async function () {
     await decompress("./test/fixture/cache/nw.tar.gz", "./test/fixture/cache");
