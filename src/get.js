@@ -6,7 +6,8 @@ import process from "node:process";
 import progress from "cli-progress";
 import tar from "tar";
 
-import { unzip } from "./get/decompress.js";
+import decompress, { unzip } from "./get/decompress.js";
+import nw from "./get/nw.js";
 
 import util from "./util.js";
 
@@ -32,125 +33,47 @@ import util from "./util.js";
  * @return {Promise<void>}
  */
 async function get(options) {
-  if (fs.existsSync(options.cacheDir) === false) {
+
+  const cacheDirExists = await util.fileExists(options.cacheDir);
+  if (cacheDirExists === false) {
     await fs.promises.mkdir(options.cacheDir, { recursive: true });
   }
-  await getNwjs(options);
-  if (options.ffmpeg === true) {
-    await getFfmpeg(options);
-  }
-  if (options.nativeAddon === "gyp") {
-    await getNodeHeaders(options);
-  }
-}
 
-const getNwjs = async (options) => {
-  const bar = new progress.SingleBar({}, progress.Presets.rect);
-  const out = path.resolve(
+  let nwFilePath = path.resolve(
     options.cacheDir,
     `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}.${options.platform === "linux" ? "tar.gz" : "zip"
     }`,
   );
-  // If options.cache is false, remove cache.
+
+  let nwDirPath = path.resolve(
+    options.cacheDir,
+    `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`,
+  );
+
   if (options.cache === false) {
-    await fs.promises.rm(out, {
+    await fs.promises.rm(nwFilePath, {
       recursive: true,
       force: true,
     });
   }
 
-  if (fs.existsSync(out) === true) {
-    await fs.promises.rm(
-      path.resolve(
-        options.cacheDir,
-        `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`,
-      ),
-      { recursive: true, force: true },
-    );
-    if (options.platform === "linux") {
-      await tar.extract({
-        file: out,
-        C: options.cacheDir
-      });
-    } else {
-      await unzip(out, options.cacheDir);
-      if (options.platform === "osx") {
-        await createSymlinks(options);
-      }
-    }
-    return;
+  if (util.fileExists(nwFilePath)) {
+    nwFilePath = await nw(options.downloadUrl, options.version, options.flavor, options.platform, options.arch, options.cacheDir);
   }
 
-  const writeStream = fs.createWriteStream(out);
-  const request = new Promise((resolve, reject) => {
-    let url = "";
+  await fs.promises.rm(nwDirPath, { recursive: true, force: true });
 
-    // Set download url and destination.
-    if (
-      options.downloadUrl === "https://dl.nwjs.io" ||
-      options.downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
-      options.downloadUrl === "https://npmmirror.com/mirrors/nwjs"
-    ) {
-      url = `${options.downloadUrl}/v${options.version}/nwjs${options.flavor === "sdk" ? "-sdk" : ""
-      }-v${options.version}-${options.platform}-${options.arch}.${options.platform === "linux" ? "tar.gz" : "zip"
-      }`;
-    }
+  await decompress(nwFilePath, options.cacheDir);
 
-    https.get(url, (response) => {
-      // For GitHub releases and mirrors, we need to follow the redirect.
-      if (
-        options.downloadUrl === "https://npm.taobao.org/mirrors/nwjs" ||
-        options.downloadUrl === "https://npmmirror.com/mirrors/nwjs"
-      ) {
-        url = response.headers.location;
-      }
+  if (options.platform === "osx") {
+    await createSymlinks(options);
+  }
 
-      https.get(url, (response) => {
-        let chunks = 0;
-        bar.start(Number(response.headers["content-length"]), 0);
-        response.on("data", (chunk) => {
-          chunks += chunk.length;
-          bar.increment();
-          bar.update(chunks);
-        });
-
-        response.on("error", (error) => {
-          reject(error);
-        });
-
-        response.on("end", () => {
-          bar.stop();
-          resolve();
-        });
-
-        response.pipe(writeStream);
-      });
-
-      response.on("error", (error) => {
-        reject(error);
-      });
-    });
-  });
-
-  await request;
-  await fs.promises.rm(
-    path.resolve(
-      options.cacheDir,
-      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`,
-    ),
-    { recursive: true, force: true },
-  );
-  if (options.platform === "linux") {
-    await tar.extract({
-      file: out,
-      C: options.cacheDir
-    });
-  } else {
-    await unzip(out, options.cacheDir);
-    if (options.platform === "osx") {
-      await createSymlinks(options);
-    }
-
+  if (options.ffmpeg === true) {
+    await getFfmpeg(options);
+  }
+  if (options.nativeAddon === "gyp") {
+    await getNodeHeaders(options);
   }
 }
 
