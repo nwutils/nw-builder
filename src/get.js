@@ -212,7 +212,7 @@ const createSymlinks = async (options) => {
   let frameworksPath = path.resolve(process.cwd(), options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework")
   // Allow resolve cacheDir from another directory for prevent crash
   if (!fs.lstatSync(frameworksPath).isDirectory()) {
-      frameworksPath = path.resolve(options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework")
+    frameworksPath = path.resolve(options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework")
   }
   const symlinks = [
     path.join(frameworksPath, "Helpers"),
