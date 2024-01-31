@@ -211,7 +211,7 @@ const getNodeHeaders = async (options) => {
 }
 
 const createSymlinks = async (options) => {
-  const frameworksPath = path.join(process.cwd(), options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework");
+  const frameworksPath = path.resolve(options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework");
   const symlinks = [
     path.join(frameworksPath, "Helpers"),
     path.join(frameworksPath, "Libraries"),
