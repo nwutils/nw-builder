@@ -1,7 +1,6 @@
 import fs from "node:fs";
 import https from "node:https";
 import path from "node:path";
-import process from "node:process";
 
 import progress from "cli-progress";
 import tar from "tar";
