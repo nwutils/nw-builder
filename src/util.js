@@ -162,12 +162,11 @@ const replaceFfmpeg = async (platform, nwDir) => {
  *
  * @async
  * @function
- * 
+ *
  * @param  {object}            options         - glob file options
  * @param  {string | string[]} options.srcDir  - app src dir
  * @param  {boolean}           options.glob    - glob flag
  * @return {Promise<string[]>}                 - Returns array of file paths
- 
  */
 async function globFiles({
   srcDir,
@@ -449,7 +448,7 @@ export const validate = async (options, releaseInfo) => {
  *
  * @async
  * @function
- * 
+ *
  * @param  {"chromedriver"} type     - NW specific file or directory
  * @param  {object}         options  - nwbuild options
  * @return {string}                  - Path to chromedriver
@@ -470,7 +469,7 @@ async function getPath(type, options) {
 
 /**
  *
- * @param  {string}           filePath  - File path to check existence of 
+ * @param  {string}           filePath  - File path to check existence of
  * @return {Promise<boolean>}           `true` if exists, otherwise `false`
  */
 async function fileExists(filePath) {
