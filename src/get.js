@@ -65,9 +65,9 @@ async function get(options) {
 
   await decompress(nwFilePath, options.cacheDir);
 
-  if (options.platform === "osx") {
-    await createSymlinks(options);
-  }
+  // if (options.platform === "osx") {
+  //   await createSymlinks(options);
+  // }
 
   if (options.ffmpeg === true) {
     await getFfmpeg(options);
