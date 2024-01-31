@@ -41,7 +41,7 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
-    "lint": "eslint ./src/**/*.js ./test/**/*.js",
+    "lint": "eslint ./**/*.{js,md} ./test/**/*.js",
     "lint:fix": "eslint --fix ./**/*.{js,md} && markdownlint --fix ./README.md",
     "docs": "jsdoc -d docs ./README.md ./src/index.js ./src/get.js ./src/run.js ./src/bld.js",
     "test": "vitest",
@@ -98,7 +98,8 @@
         "error",
         2
       ],
-      "jsdoc/require-file-overview": "off"
+      "jsdoc/require-file-overview": "off",
+      "jsdoc/check-property-names": "off"
     }
   }
 }
