@@ -100,6 +100,7 @@
       ],
       "jsdoc/require-file-overview": "off",
       "jsdoc/check-property-names": "off"
-    }
+    },
+    "ignorePatterns": ["node_modules/**/*"]
   }
 }
