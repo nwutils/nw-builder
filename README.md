@@ -270,6 +270,12 @@ nwbuild({
 
 ### Maintainer guidelines
 
+- Approve pull requests before merging.
+- Enforce conventional commits before merging pull requests.
+- A commit's first line should be formatted as `<type>[optional scope]: <description>`.
+- A commit's body should have a description of changes in bullet points followed by any links it references or issues it fixes or closes. It may include an optional `Notes: ...` section to provide additional context on why the PR is being merged when it doesn't seem like it should.
+- Google's Release Please Action is used to update the changelog, bump the package version and generate GitHub releases.
+
 ## Roadmap
 
 ### Bugs
@@ -290,7 +296,6 @@ nwbuild({
 
 ### Chores
 
-- chore(cicd): use `google-github-actions/release-please-action` to automate publishing to npm, updating changelog and creating releases
 - chore(cli): migrate from `yargs` to `commander`
 - chore(get): verify sha checksum for downloads
 - chore(util): factor out file paths as constant variables

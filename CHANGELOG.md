@@ -3,7 +3,9 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
-and this project adheres to [Semantic Versioning](http://semver.org/).
+and this project adheres to [Semantic Versioning](http://semver.org/) using [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
+
+Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
 ## [4.6.0](https://github.com/nwutils/nw-builder/compare/v4.5.4...v4.6.0) (2024-02-01)
 
