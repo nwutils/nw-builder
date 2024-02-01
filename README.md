@@ -275,6 +275,7 @@ nwbuild({
 - A commit's first line should be formatted as `<type>[optional scope]: <description>`.
 - A commit's body should have a description of changes in bullet points followed by any links it references or issues it fixes or closes. It may include an optional `Notes: ...` section to provide additional context on why the PR is being merged when it doesn't seem like it should.
 - Google's Release Please Action is used to update the changelog, bump the package version and generate GitHub releases.
+- NPM Publish Action publishes to `npm` if there is a version bump.
 
 ## Roadmap
 
