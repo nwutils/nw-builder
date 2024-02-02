@@ -3,7 +3,7 @@ import fs from "node:fs";
 import fsm from "node:fs/promises";
 
 import bld from "./bld.js";
-import get from "./get.js";
+import get from "./get/index.js";
 import run from "./run.js";
 import util from "./util.js";
 
