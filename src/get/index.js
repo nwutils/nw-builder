@@ -33,7 +33,7 @@ async function get(options) {
 
   /**
    * If `options.cacheDir` exists, then `true`. Otherwise, it is `false`. 
-   * 
+   *
    * @type {boolean}
    */
   const cacheDirExists = await util.fileExists(options.cacheDir);
@@ -43,7 +43,7 @@ async function get(options) {
 
   /**
    * File path to compressed binary.
-   * 
+   *
    * @type {string}
    */
   let nwFilePath = path.resolve(
@@ -54,7 +54,7 @@ async function get(options) {
 
   /**
    * File path to directory which contain NW.js and related binaries.
-   * 
+   *
    * @type {string}
    */
   let nwDirPath = path.resolve(
@@ -78,7 +78,7 @@ async function get(options) {
 
   /**
    * If the compressed binary exists, then `true`. Otherwise, it is `false`. 
-   * 
+   *
    * @type {boolean}
    */
   const nwFilePathExists = await util.fileExists(nwFilePath);
@@ -96,11 +96,11 @@ async function get(options) {
 
   if (options.ffmpeg === true) {
 
-  /**
-   * File path to compressed binary which contains community FFmpeg binary.
-   * 
-   * @type {string}
-   */
+    /**
+     * File path to compressed binary which contains community FFmpeg binary.
+     *
+     * @type {string}
+     */
     let ffmpegFilePath = path.resolve(
       options.cacheDir,
       `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}.zip`,
@@ -123,7 +123,7 @@ async function get(options) {
 
     /**
      * Platform dependant file name of FFmpeg binary.
-     * 
+     *
      * @type {string}
      */
     let ffmpegFileName = "";
@@ -138,14 +138,14 @@ async function get(options) {
 
     /**
      * File path to platform specific FFmpeg file.
-     * 
+     *
      * @type {string}
      */
     let ffmpegBinaryPath = path.resolve(nwDirPath, ffmpegFileName);
     
     /**
      * File path of where FFmpeg will be copied to.
-     * 
+     *
      * @type {string}
      */
     let ffmpegBinaryDest = "";
@@ -175,7 +175,7 @@ async function get(options) {
 
     /**
      * File path to NW'js Node headers tarball.
-     * 
+     *
      * @type {string}
      */
     let nodeFilePath = path.resolve(
@@ -193,7 +193,7 @@ async function get(options) {
 
     /**
      * If the compressed binary exists, then `true`. Otherwise, it is `false`. 
-     * 
+     *
      * @type {boolean}
      */
     const nodeFilePathExists = await util.fileExists(nodeFilePath);
@@ -208,9 +208,8 @@ async function get(options) {
 
 /**
  * Workaround for manually creating symbolic links for MacOS builds.
- * Tracking in linked issue.
- * @link https://github.com/overlookmotel/yauzl-promise/issues/39
- * @param {*} options 
+ *
+ * @param {object} options  - options config
  */
 const createSymlinks = async (options) => {
   let frameworksPath = path.resolve(process.cwd(), options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework")
