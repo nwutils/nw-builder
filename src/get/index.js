@@ -114,6 +114,11 @@ async function get(options) {
       });
     }
 
+    /**
+     * If the compressed binary exists, then `true`. Otherwise, it is `false`. 
+     *
+     * @type {boolean}
+     */
     const ffmpegFilePathExists = await util.fileExists(ffmpegFilePath);
     if (ffmpegFilePathExists === false) {
       ffmpegFilePath = await ffmpeg(options.downloadUrl, options.version, options.platform, options.arch, options.cacheDir);
@@ -142,7 +147,7 @@ async function get(options) {
      * @type {string}
      */
     let ffmpegBinaryPath = path.resolve(nwDirPath, ffmpegFileName);
-    
+
     /**
      * File path of where FFmpeg will be copied to.
      *

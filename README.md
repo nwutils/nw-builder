@@ -298,6 +298,7 @@ nwbuild({
 ### Chores
 
 - chore(cli): migrate from `yargs` to `commander`
+- chore(get): investigate [how symlinks are identified](https://github.com/overlookmotel/yauzl-promise/issues/39) and remove the workaround where they are created manually
 - chore(get): verify sha checksum for downloads
 - chore: annotate file paths as `fs.PathLike` instead of `string`.
 - chore(bld): factor out core build step
