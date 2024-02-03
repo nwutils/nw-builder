@@ -40,6 +40,11 @@ async function unzip(zippedFile, cacheDir) {
 
 /**
  * Method for unzip with symlink.
+ * 
+ * Workaround for not being able to handle symlinks.
+ * Tracking in linked issue.
+ * 
+ * @link https://github.com/overlookmotel/yauzl-promise/issues/39
  *
  * @async
  * @function
