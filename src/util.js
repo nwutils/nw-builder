@@ -105,59 +105,6 @@ const EXE_NAME = {
 };
 
 /**
- * Replaces the ffmpeg file in the nwjs directory with the one provided
- *
- * @param {string} platform  The platform to replace the ffmpeg file for
- * @param {string} nwDir     The directory of the nwjs installation
- */
-const replaceFfmpeg = async (platform, nwDir) => {
-  let ffmpegFile;
-  if (platform === "linux") {
-    ffmpegFile = "libffmpeg.so";
-  } else if (platform === "win") {
-    ffmpegFile = "ffmpeg.dll";
-  } else if (platform === "osx") {
-    ffmpegFile = "libffmpeg.dylib";
-  }
-  const src = path.resolve(nwDir, ffmpegFile);
-  if (platform === "linux") {
-    const dest = path.resolve(nwDir, "lib", ffmpegFile);
-    await fs.promises.copyFile(src, dest);
-  } else if (platform === "win") {
-    // don't do anything for windows because the extracted file is already in the correct path
-    // await copyFile(src, path.resolve(nwDir, ffmpegFile));
-  } else if (platform === "osx") {
-    let dest = path.resolve(
-      nwDir,
-      "nwjs.app",
-      "Contents",
-      "Frameworks",
-      "nwjs Framework.framework",
-      "Versions",
-      "Current",
-      ffmpegFile,
-    );
-
-    try {
-      await fs.promises.copyFile(src, dest);
-    } catch (e) {
-      //some versions of node/macOS complain about destination being a file, and others complain when it is only a directory.
-      //the only thing I can think to do is to try both
-      dest = path.resolve(
-        nwDir,
-        "nwjs.app",
-        "Contents",
-        "Frameworks",
-        "nwjs Framework.framework",
-        "Versions",
-        "Current",
-      );
-      await fs.promises.copyFile(src, dest);
-    }
-  }
-};
-
-/**
  * Glob files
  *
  * @async
@@ -482,4 +429,4 @@ async function fileExists(filePath) {
   return exists;
 }
 
-export default { fileExists, getReleaseInfo, getPath, PLATFORM_KV, ARCH_KV, EXE_NAME, replaceFfmpeg, globFiles, getNodeManifest, parse, validate };
+export default { fileExists, getReleaseInfo, getPath, PLATFORM_KV, ARCH_KV, EXE_NAME, globFiles, getNodeManifest, parse, validate };

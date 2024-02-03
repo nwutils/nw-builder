@@ -5,7 +5,7 @@ import process from "node:process";
 
 import { beforeAll, describe, it } from "vitest";
 
-import get from '../../src/get.js';
+import get from '../../src/get/index.js';
 
 describe("get", async () => {
   const nwOptions = {

@@ -32,18 +32,17 @@ export default async function decompress(filePath, cacheDir) {
  * @param  {string}        cacheDir    - directory to unzip in
  * @return {Promise<void>}
  */
-export async function unzip(zippedFile, cacheDir) {
+async function unzip(zippedFile, cacheDir) {
   await unzipInternal(zippedFile, cacheDir, false).then(() => {
     unzipInternal(zippedFile, cacheDir, true);
   })
 }
 
 /**
- * Method for unzip with symlink in theoretical
+ * Method for unzip with symlink. Workaround for not being able to handle symlinks. Tracking in linked issue.
  *
  * @async
  * @function
- * @param                  unzipSymlink
  * @param  {string}        zippedFile    - file path to .zip file
  * @param  {string}        cacheDir      - directory to unzip in
  * @param  {boolean}       unzipSymlink  - Using or not symlink
