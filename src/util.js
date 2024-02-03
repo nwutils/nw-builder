@@ -8,7 +8,7 @@ import * as GlobModule from "glob";
 import semver from "semver";
 
 /**
- * Get manifest (array of NW release metadata) from URL
+ * Get manifest (array of NW release metadata) from URL.
  *
  * @param  {string}                      manifestUrl  Url to manifest
  * @return {Promise<object | undefined>}              - Manifest object
@@ -39,7 +39,7 @@ function getManifest(manifestUrl) {
 }
 
 /**
- * Get version specific release metadata
+ * Get version specific release metadata.
  *
  * @param  {string} version      NW version
  * @param  {string} platform     NW platform
@@ -105,7 +105,7 @@ const EXE_NAME = {
 };
 
 /**
- * Glob files
+ * Glob files.
  *
  * @async
  * @function
@@ -134,6 +134,8 @@ async function globFiles({
 }
 
 /**
+ * Get Node manifest.
+ *
  * @async
  * @function
  * @param  {object}             options         - node manifest options
@@ -272,7 +274,7 @@ export const parse = async (options, pkg) => {
 };
 
 /**
- * Validate options
+ * Validate options.
  *
  * @param  {import("../index.js").Options} options      Options
  * @param  {object}                        releaseInfo  Version specific NW release info
@@ -415,6 +417,7 @@ async function getPath(type, options) {
 }
 
 /**
+ * Check if file exists at specified path.
  *
  * @param  {string}           filePath  - File path to check existence of
  * @return {Promise<boolean>}           `true` if exists, otherwise `false`

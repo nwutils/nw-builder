@@ -9,27 +9,29 @@ import util from "./util.js";
 
 /**
  * @typedef {object} Options Configuration options
- * @property {"./" | string}                       [srcDir="./"]                             String of space separated glob patterns which correspond to NW app code
- * @property {"get" | "run" | "build"}             [mode="build"]                            Run or build application
- * @property {"latest" | "stable" | string}        [version="latest"]                        NW runtime version
- * @property {"normal" | "sdk"}                    [flavor="normal"]                         NW runtime build flavor
- * @property {"linux" | "osx" | "win"}             platform                                  NW supported platforms
- * @property {"ia32" | "x64" | "arm64"}            arch                                      NW supported architectures
+ * @property {"get" | "run" | "build"}             [mode="build"]                            Choose between get, run or build mode
+ * @property {"latest" | "stable" | string}        [version="latest"]                        Runtime version
+ * @property {"normal" | "sdk"}                    [flavor="normal"]                         Runtime flavor
+ * @property {"linux" | "osx" | "win"}             platform                                  Host platform
+ * @property {"ia32" | "x64" | "arm64"}            arch                                      Host architecture
+ * @property {"https://dl.nwjs.io" | string}       [downloadUrl="https://dl.nwjs.io"]        Download server
+ * @property {"https://nwjs.io/versions" | string} [manifestUrl="https://nwjs.io/versions"]  Versions manifest
+ * @property {"./cache" | string}                  [cacheDir="./cache"]                      Directory to cache NW binaries
+ * @property {"./" | string}                       [srcDir="./"]                             File paths to application code
  * @property {"./out" | string}                    [outDir="./out"]                          Directory to store build artifacts
- * @property {"./cache" | string}                  [cacheDir="./cache"]                      Directory to store NW binaries
- * @property {"https://dl.nwjs.io" | string}       [downloadUrl="https://dl.nwjs.io"]        URI to download NW binaries from
- * @property {"https://nwjs.io/versions" | string} [manifestUrl="https://nwjs.io/versions"]  URI to download manifest from
+ * @property {boolean | string | object}           [managedManifest = false]                 Managed manifest mode
+ * @property {false | "gyp"}                       [nodeAddon = false]                       Rebuild Node native addons
  * @property {object}                              app                                       Refer to Linux/Windows Specific Options under Getting Started in the docs
  * @property {boolean}                             [cache=true]                              If true the existing cache is used. Otherwise it removes and redownloads it.
- * @property {boolean | "zip" | "tar" | "tgz"}     [zip=false]                               If true, "zip", "tar" or "tgz" the outDir directory is compressed.
- * @property {boolean}                             [cli=false]                               If true the CLI is used to glob srcDir and parse other options
  * @property {boolean}                             [ffmpeg=false]                            If true the chromium ffmpeg is replaced by community version
- * @property {boolean}                             [glob=true]                               If true globbing is enabled
- * @property {"error" | "warn" | "info" | "debug"} [logLevel="info"]                         Specified log level.
+ * @property {boolean}                             [glob=true]                               If true file globbing is enabled when parsing srcDir.
+ * @property {"error" | "warn" | "info" | "debug"} [logLevel="info"]                         Specify level of logging. 
+ * @property {boolean | "zip" | "tar" | "tgz"}     [zip=false]                               If true, "zip", "tar" or "tgz" the outDir directory is compressed.
+ * @property {boolean}                             [cli=false]                               If true the CLI is used to parse options. This option is used internally.
  */
 
 /**
- * Main module exported
+ * Main module exported.
  *
  * @async
  * @function
@@ -37,7 +39,7 @@ import util from "./util.js";
  * @param  {Options}       options  Options
  * @return {Promise<void>}
  */
-async function nwbuild (options) {
+async function nwbuild(options) {
   let built;
   let releaseInfo = {};
   let manifest = {};

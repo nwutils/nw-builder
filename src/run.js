@@ -7,18 +7,18 @@ import util from "./util.js";
 
 /**
  * @typedef {object} RunOptions
- * @property {string | "latest" | "stable" | "lts"} [options.version = "latest"]    Runtime version
- * @property {"normal" | "sdk"}                     [options.flavor = "normal"]     Build flavor
- * @property {"linux" | "osx" | "win"}              [options.platform]              Target platform
- * @property {"ia32" | "x64" | "arm64"}             [options.arch]                  Target arch
- * @property {string}                               [options.srcDir = "./src"]      Source directory
- * @property {string}                               [options.cacheDir = "./cache"]  Cache directory
- * @property {boolean}                              [options.glob = false]          If true, throw error
- * @property {string[]}                             [options.argv = []]             CLI arguments
+ * @property {string | "latest" | "stable" | "lts"} [version = "latest"]    Runtime version
+ * @property {"normal" | "sdk"}                     [flavor = "normal"]     Build flavor
+ * @property {"linux" | "osx" | "win"}              [platform]              Target platform
+ * @property {"ia32" | "x64" | "arm64"}             [arch]                  Target arch
+ * @property {string}                               [srcDir = "./src"]      Source directory
+ * @property {string}                               [cacheDir = "./cache"]  Cache directory
+ * @property {boolean}                              [glob = false]          If true, throw error
+ * @property {string[]}                             [argv = []]             CLI arguments
  */
 
 /**
- * Run NW.js application
+ * Run NW.js application.
  *
  * @async
  * @function

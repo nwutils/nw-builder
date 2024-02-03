@@ -83,22 +83,24 @@ import util from "./util.js"
 
 /**
  * @typedef {object} BuildOptions
- * @property {string | "latest" | "stable" | "lts"} [options.version = "latest"]                        Runtime version
- * @property {"normal" | "sdk"}                     [options.flavor = "normal"]                         Build flavor
- * @property {"linux" | "osx" | "win"}              [options.platform]                                  Target platform
- * @property {"ia32" | "x64" | "arm64"}             [options.arch]                                      Target arch
- * @property {string}                               [options.manifestUrl = "https://nwjs.io/versions"]  Manifest URL
- * @property {string}                               [options.srcDir = "./src"]                          Source directory
- * @property {string}                               [options.cacheDir = "./cache"]                      Cache directory
- * @property {string}                               [options.outDir = "./out"]                          Out directory
- * @property {LinuxRc | WinRc | OsxRc}              [options.app]                                       Platform specific rc
- * @property {boolean}                              [options.glob = true]                               File globbing
- * @property {boolean | string | object}            [options.managedManifest = false]                   Manage manifest
- * @property {false | "gyp"}                        [options.nativeAddon = false]                       Rebuild native modules
- * @property {false | "zip" | "tar" | "tgz"}        [options.zip = false]                               Compress built artifacts
+ * @property {string | "latest" | "stable" | "lts"} [version = "latest"]                        Runtime version
+ * @property {"normal" | "sdk"}                     [flavor = "normal"]                         Build flavor
+ * @property {"linux" | "osx" | "win"}              [platform]                                  Target platform
+ * @property {"ia32" | "x64" | "arm64"}             [arch]                                      Target arch
+ * @property {string}                               [manifestUrl = "https://nwjs.io/versions"]  Manifest URL
+ * @property {string}                               [srcDir = "./src"]                          Source directory
+ * @property {string}                               [cacheDir = "./cache"]                      Cache directory
+ * @property {string}                               [outDir = "./out"]                          Out directory
+ * @property {LinuxRc | WinRc | OsxRc}              [app]                                       Platform specific rc
+ * @property {boolean}                              [glob = true]                               File globbing
+ * @property {boolean | string | object}            [managedManifest = false]                   Manage manifest
+ * @property {false | "gyp"}                        [nativeAddon = false]                       Rebuild native modules
+ * @property {false | "zip" | "tar" | "tgz"}        [zip = false]                               Compress built artifacts
  */
 
 /**
+ * Build NW.js application.
+ *
  * @async
  * @function
  * @param  {BuildOptions}  options  - Build options  
