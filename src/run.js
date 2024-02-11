@@ -20,6 +20,8 @@ import util from "./util.js";
 /**
  * Run NW.js application.
  *
+ * @deprecated since v4.6.0. This logic will be ported over to `nwjs/npm-installer` repo and removed in the next major release (v5.0).
+ * 
  * @async
  * @function
  * 

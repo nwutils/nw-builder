@@ -107,6 +107,8 @@ nwbuild({
 
 ### Run Mode
 
+> Deprecation warning: From v4.6.0 onward, run mode is deprecated. This logic will be ported over to `nwjs/npm-installer` repo and removed in the next major release.
+
 ```javascript
 nwbuild({
   mode: "run",
