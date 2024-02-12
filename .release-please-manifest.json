@@ -1,24 +1,3 @@
 {
-    "changelog-sections": [
-        {
-            "type": "fix",
-            "section": "Bug Fixes",
-            "hidden": false
-        },
-        {
-            "type": "feat",
-            "section": "Features",
-            "hidden": false
-        },
-        {
-            "type": "chore",
-            "section": "Miscellaneous",
-            "hidden": false
-        }
-    ],
-    "packages": {
-        ".": {
-            "release-type": "node"
-        }
-    }
+    ".": "4.6.0"
 }
