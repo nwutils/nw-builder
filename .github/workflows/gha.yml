@@ -17,4 +17,3 @@ jobs:
       - uses: google-github-actions/release-please-action@v4.0.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-
