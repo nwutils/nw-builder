@@ -17,3 +17,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           release-type: node
+          changelog-sections: >
+            [{"type":"fix","section":"Bug Fixes","hidden":false},
+            {"type":"feat","section":"Features","hidden":false},
+            {"type":"chore","section":"Chores","hidden":false},
