@@ -1,6 +1,6 @@
 {
     "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
-    "last-release-sha": "296a3bd7d8afa00c655d70ce19d4b52410328277",
+    "last-release-sha": "4ab7b8d2a1453ebbdd65aea6518b789d64e833a4",
     "release-type": "node",
     "changelog-sections": [
       { "type": "feat", "section": "Features", "hidden": false },
