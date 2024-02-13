@@ -1,5 +1,5 @@
 on:
-  push:
+  pull_request:
     branches:
       - main
 
@@ -17,4 +17,5 @@ jobs:
         uses: google-github-actions/release-please-action@v4.0.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          config-file: release-please-config.json
+          config-file: .github/release-please-config.json
+          manifest-file: .github/release-please-manifest.json
