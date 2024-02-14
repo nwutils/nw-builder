@@ -13,12 +13,7 @@ jobs:
   release-please:
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4.1.1
-      - name: Setup Node
-        uses: actions/setup-node@v4.0.2
       - name: Release Please
         uses: google-github-actions/release-please-action@v4.0.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          target-branch: chore/fixup-release-please
