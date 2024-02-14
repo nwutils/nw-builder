@@ -7,6 +7,38 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.6.1](https://github.com/nwutils/nw-builder/compare/v4.6.0...v4.6.1) (2024-02-14)
+
+
+### Chores
+
+* **ci:** add chores section to changelog ([#1028](https://github.com/nwutils/nw-builder/issues/1028)) ([d630720](https://github.com/nwutils/nw-builder/commit/d630720039ba81563aa0e00995aa004c8d5edc79))
+* **ci:** change target branch to currentc ([6619ff3](https://github.com/nwutils/nw-builder/commit/6619ff3cb9b97d4d9a2b46cccea00d2d0271cd34))
+* **ci:** checkout repo and setup node ([d565475](https://github.com/nwutils/nw-builder/commit/d565475fb71916ac8e168cfbca7285f1442af698))
+* **ci:** reconfigure release please action ([009ec37](https://github.com/nwutils/nw-builder/commit/009ec37bce3e5494c80410c417acf6da2f5ec67d))
+* **ci:** remove `schema` prop ([33238b1](https://github.com/nwutils/nw-builder/commit/33238b14fb1bff16bd351826bd2d891c7e6d136c))
+* **ci:** update config ([b49eb8f](https://github.com/nwutils/nw-builder/commit/b49eb8f36b627133afb84fb86350f19e8aef3bf2))
+* **ci:** update sha and remove token ([62bf86f](https://github.com/nwutils/nw-builder/commit/62bf86fcbb2835c9e8e5626654b8f08baac2638d))
+* **deps:** bump the gha group in /.github/workflows with 1 update ([70030df](https://github.com/nwutils/nw-builder/commit/70030df94d55e5563775df16b7f07b2537198f69))
+* **docs:** update PR template to simplify commit descriptions ([#1029](https://github.com/nwutils/nw-builder/issues/1029)) ([6da9b89](https://github.com/nwutils/nw-builder/commit/6da9b898f74309dde6ca120dddbeaa32e7bdbcfc))
+* **docs:** update readme and changelog ([63fd50b](https://github.com/nwutils/nw-builder/commit/63fd50bdbfed52de4be4332601944e058b11d793))
+* fix remaining lint errors ([334ae74](https://github.com/nwutils/nw-builder/commit/334ae744d2d1d56d973145e407a987107675eb04))
+* **get:** refactor implementation ([#1025](https://github.com/nwutils/nw-builder/issues/1025)) ([72f65e1](https://github.com/nwutils/nw-builder/commit/72f65e134b3f5dfd543aba9d292c016da8b6d7f3))
+* **release-please-action:** do not point to manifest file ([96eeec8](https://github.com/nwutils/nw-builder/commit/96eeec806e1aba0b62acd899d5b9e98070a32b64))
+* **release-please-action:** point to config and manifest ([0a6a44d](https://github.com/nwutils/nw-builder/commit/0a6a44db44ae19c246221f7f05450f6ef1e9f646))
+* **release-please-action:** update manifest file name ([3a8371c](https://github.com/nwutils/nw-builder/commit/3a8371ca4a5e7a1ad8771e1cab7bc76281d3a072))
+* **release-please:** add `last-release-sha` ([f69111c](https://github.com/nwutils/nw-builder/commit/f69111ccc63ce0fcb1a6cdb43df0e6e19437ca98))
+* **release-please:** apply config to package at project root ([e970b7c](https://github.com/nwutils/nw-builder/commit/e970b7c0b85f62644958b5e02387aab46372d1fc))
+* **release-please:** correct path to package ([3719cee](https://github.com/nwutils/nw-builder/commit/3719cee4571b46b6b4c2c4d2b6806864e3c90c16))
+* **release-please:** disable `include-component-in-tag` ([e9eb9ca](https://github.com/nwutils/nw-builder/commit/e9eb9cacf55ce559c2d09f64e021010c0bf9e9f7))
+* **release-please:** disable `include-component-in-tag` ([4f4cff8](https://github.com/nwutils/nw-builder/commit/4f4cff84a614858870d09781dd5d8a8522b0ff22))
+* **release-please:** fix json syntax ([50207fa](https://github.com/nwutils/nw-builder/commit/50207fa04fba995516d38884c95d76664342d9e0))
+* **release-please:** remove manifest ([23a16fb](https://github.com/nwutils/nw-builder/commit/23a16fbd5e93c3ad1221dad6106299079f81ea7c))
+* **release-please:** simplify config ([567b8b7](https://github.com/nwutils/nw-builder/commit/567b8b7f82e057645a7851940ff99b765caa9c05))
+* **run:** mark run mode as deprecated ([#1027](https://github.com/nwutils/nw-builder/issues/1027)) ([1115728](https://github.com/nwutils/nw-builder/commit/1115728d433cba123a7e2dd54a52abaaed4710a6))
+* **test:** disable tests ([b678b4f](https://github.com/nwutils/nw-builder/commit/b678b4ff7d30b606b02eb8a1c4e8f6cf7267102b))
+* **test:** try adding chores to release notes ([#1031](https://github.com/nwutils/nw-builder/issues/1031)) ([5cabc20](https://github.com/nwutils/nw-builder/commit/5cabc20e79bb0fe0d77687f97ac4fae8fc3e95a9))
+
 ## [4.6.0](https://github.com/nwutils/nw-builder/compare/v4.5.4...v4.6.0) (2024-02-01)
 
 
