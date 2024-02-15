@@ -306,9 +306,9 @@ export const validate = async (options, releaseInfo) => {
       `Platform ${options.platform} and architecture ${options.arch} is not supported by this download server.`,
     );
   }
-  // if (typeof options.cacheDir !== "string") {
-  //   throw new Error("Expected options.cacheDir to be a string. Got " + typeof options.cacheDir);
-  // }
+  if (typeof options.cacheDir !== "string") {
+    throw new Error("Expected options.cacheDir to be a string. Got " + typeof options.cacheDir);
+  }
   if (typeof options.cache !== "boolean") {
     return new Error(
       "Expected options.cache to be a boolean. Got " + typeof options.cache,
