@@ -24,7 +24,8 @@ export default async function decompress(filePath, cacheDir) {
 
 /**
  * Get file mode from entry.
- * Ref: https://github.com/fpsqdb/zip-lib/blob/ac447d269218d396e05cd7072d0e9cd82b5ec52c/src/unzip.ts#L380
+ *
+ * @description https://github.com/fpsqdb/zip-lib/blob/ac447d269218d396e05cd7072d0e9cd82b5ec52c/src/unzip.ts#L380
  *
  * @param  {yauzl.Entry} entry  - Yauzl entry
  * @return {number}             - entry's file mode 
@@ -68,8 +69,6 @@ async function unzip(zippedFile, cacheDir) {
       const link = buffer.toString();
       await fs.promises.rm(entryPathAbs);
       await fs.promises.symlink(link, entryPathAbs);
-    } else {
-
     }
 
     // Read next entry
