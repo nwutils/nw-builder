@@ -9,7 +9,7 @@ import get from '../../src/get/index.js';
 
 describe("get", async () => {
   const nwOptions = {
-    version: "0.83.0",
+    version: "0.84.0",
     flavor: "sdk",
     platform: "osx",
     arch: "x64",
