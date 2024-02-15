@@ -4,7 +4,6 @@ import stream from "node:stream";
 
 import tar from "tar";
 import yauzl from "yauzl-promise";
-import {ensureSymlink} from "fs-extra";
 
 /**
  * Decompresses a file at `filePath` to `cacheDir` directory.
@@ -24,7 +23,22 @@ export default async function decompress(filePath, cacheDir) {
 }
 
 /**
- * Wrapper for unzipping using `yauzl-promise`.
+ * Get file mode from entry.
+ * Ref: https://github.com/fpsqdb/zip-lib/blob/ac447d269218d396e05cd7072d0e9cd82b5ec52c/src/unzip.ts#L380
+ *
+ * @param  {yauzl.Entry} entry  - Yauzl entry
+ * @return {number}             - entry's file mode 
+ */
+function modeFromEntry(entry) {
+  const attr = entry.externalFileAttributes >> 16 || 33188;
+
+  return [448 /* S_IRWXU */, 56 /* S_IRWXG */, 7 /* S_IRWXO */]
+    .map(mask => attr & mask)
+    .reduce((a, b) => a + b, attr & 61440 /* S_IFMT */);
+}
+
+/**
+ * Unzip `zippedFile` to `cacheDir`.
  *
  * @async
  * @function
@@ -33,63 +47,25 @@ export default async function decompress(filePath, cacheDir) {
  * @return {Promise<void>}
  */
 async function unzip(zippedFile, cacheDir) {
-  await unzipInternal(zippedFile, cacheDir, false).then(() => {
-    unzipInternal(zippedFile, cacheDir, true);
-  })
-}
-
-/**
- * Method for unzip with symlink. Workaround for not being able to handle symlinks. Tracking in linked issue.
- *
- * @async
- * @function
- * @param  {string}        zippedFile    - file path to .zip file
- * @param  {string}        cacheDir      - directory to unzip in
- * @param  {boolean}       unzipSymlink  - Using or not symlink
- * @return {Promise<void>}
- */
-async function unzipInternal(zippedFile, cacheDir, unzipSymlink )  {
   const zip = await yauzl.open(zippedFile);
 
   let entry = await zip.readEntry();
 
+  let fileMode = modeFromEntry(entry);
+
+  const isSymlink = ((fileMode & 0o170000) === 0o120000);
+
+  isSymlink;
+
   while (entry !== null) {
-    // console.log(entry)
     let entryPathAbs = path.join(cacheDir, entry.filename);
     // Create the directory beforehand to prevent `ENOENT: no such file or directory` errors.
-    await fs.promises.mkdir(path.dirname(entryPathAbs), {recursive: true});
+    await fs.promises.mkdir(path.dirname(entryPathAbs), { recursive: true });
+    // Pipe read to write stream
     const readStream = await entry.openReadStream();
-
-    try {
-      if (!unzipSymlink) {
-        // Regular method and silent error at this point
-        const writeStream = fs.createWriteStream(entryPathAbs);
-        await stream.promises.pipeline(readStream, writeStream);
-      } else {
-        // Need check before if file is a symlink or not at this point
-        const pathContent = await fs.promises.lstat(entryPathAbs);
-
-        if (pathContent.isSymbolicLink()) {
-          const chunks = [];
-          readStream.on('data', (chunk) => chunks.push(chunk));
-          await stream.promises.finished(readStream);
-          // need fetch value of current symlink here
-          const linkTarget = Buffer.concat(chunks).toString('utf8').trim();
-          await ensureSymlink(entryPathAbs, path.join(path.dirname(entryPathAbs), linkTarget));
-        }else{
-          // Regular method and silent error at this point
-          const writeStream = fs.createWriteStream(entryPathAbs);
-          await stream.promises.pipeline(readStream, writeStream);
-        }
-      }
-    } catch (error) {
-      if (unzipSymlink) {
-        console.error(error);
-      }
-    }
-
+    const writeStream = fs.createWriteStream(entryPathAbs);
+    await stream.promises.pipeline(readStream, writeStream);
+    // Read next entry
     entry = await zip.readEntry();
   }
-
-  await zip.close();
 }

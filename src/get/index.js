@@ -88,12 +88,6 @@ async function get(options) {
 
   await decompress(nwFilePath, options.cacheDir);
 
-  // TODO: remove once linked issue is resolved.
-  // https://github.com/overlookmotel/yauzl-promise/issues/39
-  if (options.platform === "osx") {
-    await createSymlinks(options);
-  }
-
   if (options.ffmpeg === true) {
 
     /**
@@ -210,31 +204,5 @@ async function get(options) {
 
   }
 }
-
-/**
- * Workaround for manually creating symbolic links for MacOS builds.
- *
- * @param {object} options  - options config
- */
-const createSymlinks = async (options) => {
-  let frameworksPath = path.resolve(process.cwd(), options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework")
-  // Allow resolve cacheDir from another directory for prevent crash
-  if (!fs.lstatSync(frameworksPath).isDirectory()) {
-    frameworksPath = path.resolve(options.cacheDir, `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}`, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework")
-  }
-  const symlinks = [
-    path.join(frameworksPath, "Helpers"),
-    path.join(frameworksPath, "Libraries"),
-    path.join(frameworksPath, "nwjs Framework"),
-    path.join(frameworksPath, "Resources"),
-    path.join(frameworksPath, "Versions", "Current"),
-  ];
-  for await (const symlink of symlinks) {
-    const buffer = await fs.promises.readFile(symlink);
-    const link = buffer.toString();
-    await fs.promises.rm(symlink);
-    await fs.promises.symlink(link, symlink);
-  }
-};
 
 export default get;
