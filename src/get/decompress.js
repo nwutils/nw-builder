@@ -55,16 +55,22 @@ async function unzip(zippedFile, cacheDir) {
 
   const isSymlink = ((fileMode & 0o170000) === 0o120000);
 
-  isSymlink;
-
   while (entry !== null) {
     let entryPathAbs = path.join(cacheDir, entry.filename);
     // Create the directory beforehand to prevent `ENOENT: no such file or directory` errors.
     await fs.promises.mkdir(path.dirname(entryPathAbs), { recursive: true });
-    // Pipe read to write stream
-    const readStream = await entry.openReadStream();
-    const writeStream = fs.createWriteStream(entryPathAbs);
-    await stream.promises.pipeline(readStream, writeStream);
+
+    if (isSymlink) {
+      const buffer = await fs.promises.readFile(entryPathAbs);
+      const link = buffer.toString();
+      await fs.promises.symlink(link, entryPathAbs);
+    } else {
+      // Pipe read to write stream
+      const readStream = await entry.openReadStream();
+      const writeStream = fs.createWriteStream(entryPathAbs);
+      await stream.promises.pipeline(readStream, writeStream);
+    }
+
     // Read next entry
     entry = await zip.readEntry();
   }
