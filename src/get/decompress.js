@@ -47,31 +47,50 @@ function modeFromEntry(entry) {
  */
 async function unzip(zippedFile, cacheDir) {
   const zip = await yauzl.open(zippedFile);
-
   let entry = await zip.readEntry();
+  const symlinks = []; // Array to hold symbolic link entries
 
   while (entry !== null) {
     let entryPathAbs = path.join(cacheDir, entry.filename);
-    /* Create the directory beforehand to prevent `ENOENT: no such file or directory` errors. */
-    await fs.promises.mkdir(path.dirname(entryPathAbs), { recursive: true });
-    /* Check if entry is a symbolic link */
+    // Check if entry is a symbolic link
     const isSymlink = ((modeFromEntry(entry) & 0o170000) === 0o120000);
-    const readStream = await entry.openReadStream();
-    
+
     if (isSymlink) {
-      const chunks = [];
-      /* Read stream into Array. */
-      readStream.on("data", (chunk) => chunks.push(chunk));
-      await stream.promises.finished(readStream);
-      const link = Buffer.concat(chunks).toString('utf8').trim();
-      await fs.promises.symlink(link, entryPathAbs)
+      // Store symlink entries to process later
+      symlinks.push(entry);
     } else {
-      // Pipe read to write stream
-      const writeStream = fs.createWriteStream(entryPathAbs);
-      await stream.promises.pipeline(readStream, writeStream);
+      // Handle regular files and directories
+      await fs.promises.mkdir(path.dirname(entryPathAbs), {recursive: true});
+      if (!entry.filename.endsWith('/')) { // Skip directories
+        const readStream = await entry.openReadStream();
+        const writeStream = fs.createWriteStream(entryPathAbs);
+        await stream.promises.pipeline(readStream, writeStream);
+
+        // Set file permissions after the file has been written
+        const mode = modeFromEntry(entry);
+        await fs.promises.chmod(entryPathAbs, mode);
+      }
     }
 
     // Read next entry
     entry = await zip.readEntry();
+  }
+
+  // Process symbolic links after all other files have been extracted
+  for (const symlinkEntry of symlinks) {
+    let entryPathAbs = path.join(cacheDir, symlinkEntry.filename);
+    const readStream = await symlinkEntry.openReadStream();
+    const chunks = [];
+    readStream.on("data", (chunk) => chunks.push(chunk));
+    await new Promise(resolve => readStream.on("end", resolve));
+    const linkTarget = Buffer.concat(chunks).toString('utf8').trim();
+
+    // Check if the symlink or a file/directory already exists at the destination
+    if (fs.existsSync(entryPathAbs)) {
+      //skip
+    } else {
+      // Create symbolic link
+      await fs.promises.symlink(linkTarget, entryPathAbs);
+    }
   }
 }

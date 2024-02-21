@@ -97,7 +97,7 @@ async function get(options) {
      */
     let ffmpegFilePath = path.resolve(
       options.cacheDir,
-      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}.zip`,
+      `ffmpeg-${options.version}-${options.platform}-${options.arch}.zip`,
     );
 
     // If `options.cache` is false, then remove the compressed binary.
@@ -115,7 +115,10 @@ async function get(options) {
      */
     const ffmpegFilePathExists = await util.fileExists(ffmpegFilePath);
     if (ffmpegFilePathExists === false) {
-      ffmpegFilePath = await ffmpeg(options.downloadUrl, options.version, options.platform, options.arch, options.cacheDir);
+      // Do not update the options.downloadUrl with the ffmpeg URL here. Doing so would lead to error when options.ffmpeg and options.nativeAddon are both enabled.
+      const downloadUrl =
+        "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download";
+      ffmpegFilePath = await ffmpeg(downloadUrl, options.version, options.platform, options.arch, options.cacheDir);
     }
 
     await decompress(ffmpegFilePath, options.cacheDir);
