@@ -193,7 +193,7 @@ async function get(options) {
     }
 
     /**
-     * If the compressed binary exists, then `true`. Otherwise, it is `false`.
+     * If the compressed binary exists, then `true`. Otherwise, it is `false`. 
      *
      * @type {boolean}
      */
