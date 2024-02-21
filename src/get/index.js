@@ -38,7 +38,7 @@ async function get(options) {
    */
   const cacheDirExists = await util.fileExists(options.cacheDir);
   if (cacheDirExists === false) {
-    await fs.promises.mkdir(options.cacheDir, {recursive: true});
+    await fs.promises.mkdir(options.cacheDir, { recursive: true });
   }
 
   /**
