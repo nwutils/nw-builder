@@ -42,7 +42,8 @@
   },
   "scripts": {
     "lint": "eslint ./src/**/*.js ./test/**/*.js",
-    "lint:fix": "eslint --fix ./**/*.{js,md} && markdownlint --fix ./README.md",
+    "lint:fix": "eslint --fix ./src/**/*.js ./test/**/*.js",
+    "markdown:fix": "markdownlint --fix ./README.md",
     "docs": "jsdoc -d docs ./README.md ./src/index.js ./src/get.js ./src/run.js ./src/bld.js",
     "test": "vitest run",
     "demo": "cd test/fixture && node demo.js"

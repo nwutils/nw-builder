@@ -32,13 +32,13 @@ import util from "../util.js";
 async function get(options) {
 
   /**
-   * If `options.cacheDir` exists, then `true`. Otherwise, it is `false`. 
+   * If `options.cacheDir` exists, then `true`. Otherwise, it is `false`.
    *
    * @type {boolean}
    */
   const cacheDirExists = await util.fileExists(options.cacheDir);
   if (cacheDirExists === false) {
-    await fs.promises.mkdir(options.cacheDir, { recursive: true });
+    await fs.promises.mkdir(options.cacheDir, {recursive: true});
   }
 
   /**
@@ -74,10 +74,10 @@ async function get(options) {
   // but want a subsequent build with ffmpeg flag disabled. By removing the directory and
   // decompressing it again, we prevent the community ffmpeg files from being left over.
   // This is important since the community ffmpeg builds have specific licensing constraints.
-  await fs.promises.rm(nwDirPath, { recursive: true, force: true });
+  await fs.promises.rm(nwDirPath, {recursive: true, force: true});
 
   /**
-   * If the compressed binary exists, then `true`. Otherwise, it is `false`. 
+   * If the compressed binary exists, then `true`. Otherwise, it is `false`.
    *
    * @type {boolean}
    */
@@ -97,7 +97,7 @@ async function get(options) {
      */
     let ffmpegFilePath = path.resolve(
       options.cacheDir,
-      `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}.zip`,
+      `ffmpeg-${options.version}-${options.platform}-${options.arch}.zip`,
     );
 
     // If `options.cache` is false, then remove the compressed binary.
@@ -109,13 +109,15 @@ async function get(options) {
     }
 
     /**
-     * If the compressed binary exists, then `true`. Otherwise, it is `false`. 
+     * If the compressed binary exists, then `true`. Otherwise, it is `false`.
      *
      * @type {boolean}
      */
     const ffmpegFilePathExists = await util.fileExists(ffmpegFilePath);
     if (ffmpegFilePathExists === false) {
-      ffmpegFilePath = await ffmpeg(options.downloadUrl, options.version, options.platform, options.arch, options.cacheDir);
+      const downloadUrl =
+        "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download";
+      ffmpegFilePath = await ffmpeg(downloadUrl, options.version, options.platform, options.arch, options.cacheDir);
     }
 
     await decompress(ffmpegFilePath, options.cacheDir);
@@ -191,7 +193,7 @@ async function get(options) {
     }
 
     /**
-     * If the compressed binary exists, then `true`. Otherwise, it is `false`. 
+     * If the compressed binary exists, then `true`. Otherwise, it is `false`.
      *
      * @type {boolean}
      */
