@@ -77,7 +77,7 @@ async function get(options) {
   await fs.promises.rm(nwDirPath, {recursive: true, force: true});
 
   /**
-   * If the compressed binary exists, then `true`. Otherwise, it is `false`.
+   * If the compressed binary exists, then `true`. Otherwise, it is `false`. 
    *
    * @type {boolean}
    */
