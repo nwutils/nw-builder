@@ -32,7 +32,7 @@ import util from "../util.js";
 async function get(options) {
 
   /**
-   * If `options.cacheDir` exists, then `true`. Otherwise, it is `false`.
+   * If `options.cacheDir` exists, then `true`. Otherwise, it is `false`. 
    *
    * @type {boolean}
    */
