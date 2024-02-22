@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.6.2](https://github.com/nwutils/nw-builder/compare/v4.6.1...v4.6.2) (2024-02-22)
+
+
+### Bug Fixes
+
+* **get:** ffmpeg and symlinks ([d5c1bf5](https://github.com/nwutils/nw-builder/commit/d5c1bf53cc66afdf79c3f9653ff6b9e77a7de4b6))
+
+
+### Chores
+
+* **deps:** bump ip from 2.0.0 to 2.0.1 ([2284d52](https://github.com/nwutils/nw-builder/commit/2284d52ba0c4d1bb9a86a91e138ba99ce2af8d6c))
+
 ## [4.6.1](https://github.com/nwutils/nw-builder/compare/v4.6.0...v4.6.1) (2024-02-15)
 
 
