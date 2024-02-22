@@ -115,7 +115,7 @@ async function get(options) {
      */
     const ffmpegFilePathExists = await util.fileExists(ffmpegFilePath);
     if (ffmpegFilePathExists === false) {
-     // Do not update the options.downloadUrl with the ffmpeg URL here. Doing so would lead to error when options.ffmpeg and options.nativeAddon are both enabled.
+      // Do not update the options.downloadUrl with the ffmpeg URL here. Doing so would lead to error when options.ffmpeg and options.nativeAddon are both enabled.
       const downloadUrl =
         "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download";
       ffmpegFilePath = await ffmpeg(downloadUrl, options.version, options.platform, options.arch, options.cacheDir);
