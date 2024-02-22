@@ -265,8 +265,11 @@ nwbuild({
 ### External contributor
 
 - We use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) style of commit messages.
+- On opening a new PR, the comments will guide you on how to construct the new PR.
 - When making changes, try to follow [SOLID](https://en.wikipedia.org/wiki/SOLID) and [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) principles.
 - Pull requests are squashed and merged onto the `main` branch.
+- PR title is used as commit's first line, PR description is used as commit body.
+- Only commit messages starting with `fix`, `feat` and `chore` are recognised by the Release Please bot.
 - Lint your code before commiting your change.
 - Add tests whenever possible.
 
@@ -301,7 +304,6 @@ nwbuild({
 ### Chores
 
 - chore(cli): migrate from `yargs` to `commander`
-- chore(get): investigate [how symlinks are identified](https://github.com/overlookmotel/yauzl-promise/issues/39) and remove the workaround where they are created manually
 - chore(get): verify sha checksum for downloads
 - chore: annotate file paths as `fs.PathLike` instead of `string`.
 - chore(bld): factor out core build step
