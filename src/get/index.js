@@ -32,7 +32,7 @@ import util from "../util.js";
 async function get(options) {
 
   /**
-   * If `options.cacheDir` exists, then `true`. Otherwise, it is `false`. 
+   * If `options.cacheDir` exists, then `true`. Otherwise, it is `false`.
    *
    * @type {boolean}
    */
@@ -77,7 +77,7 @@ async function get(options) {
   await fs.promises.rm(nwDirPath, { recursive: true, force: true });
 
   /**
-   * If the compressed binary exists, then `true`. Otherwise, it is `false`. 
+   * If the compressed binary exists, then `true`. Otherwise, it is `false`.
    *
    * @type {boolean}
    */
@@ -109,7 +109,7 @@ async function get(options) {
     }
 
     /**
-     * If the compressed binary exists, then `true`. Otherwise, it is `false`. 
+     * If the compressed binary exists, then `true`. Otherwise, it is `false`.
      *
      * @type {boolean}
      */
@@ -143,7 +143,7 @@ async function get(options) {
      *
      * @type {string}
      */
-    let ffmpegBinaryPath = path.resolve(nwDirPath, ffmpegFileName);
+    let ffmpegBinaryPath = path.resolve(options.cacheDir, ffmpegFileName);
 
     /**
      * File path of where FFmpeg will be copied to.
@@ -194,7 +194,7 @@ async function get(options) {
     }
 
     /**
-     * If the compressed binary exists, then `true`. Otherwise, it is `false`. 
+     * If the compressed binary exists, then `true`. Otherwise, it is `false`.
      *
      * @type {boolean}
      */
