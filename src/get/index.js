@@ -155,7 +155,7 @@ async function get(options) {
     if (options.platform === "linux") {
       ffmpegBinaryDest = path.resolve(nwDirPath, "lib", ffmpegFileName);
     } else if (options.platform === "win") {
-      // Extracted file is already in the correct path
+      ffmpegBinaryDest = path.resolve(nwDirPath, ffmpegFileName);
     } else if (options.platform === "osx") {
       ffmpegBinaryDest = path.resolve(
         nwDirPath,
