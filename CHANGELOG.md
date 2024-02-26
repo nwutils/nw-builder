@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.8.9](https://github.com/nwutils/nw-builder/compare/v3.8.8...v3.8.9) (2024-02-26)
+
+
+### Chores
+
+* **deps:** update all to latest ([c470034](https://github.com/nwutils/nw-builder/commit/c4700348ebd0f8270bef18ba1ff4a0eb887d4fdb))
+
 ## [Unreleased]
 
 ## [3.8.8] - 2023-08-24
