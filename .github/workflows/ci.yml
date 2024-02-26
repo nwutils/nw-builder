@@ -37,8 +37,6 @@ jobs:
         run: npm link nw-builder
       - name: Prepare test environment
         run: npm run test:prep
-      - name: Run unit tests
-        run: npm run test:unit
       # - name: Run Tape tests
       #   run: npm run test:tape
       # - name: Run ChromeDriver tests

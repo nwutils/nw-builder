@@ -3,7 +3,7 @@ import { get } from "node:https";
 import { resolve } from "node:path";
 import process from "node:process";
 
-import detectCurrentPlatform from "./utilities/detectCurrentPlatform.js";
+import detectCurrentPlatform from "../lib/util/detectCurrentPlatform.cjs";
 import { log } from "./log.js";
 
 /**
