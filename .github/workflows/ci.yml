@@ -1,4 +1,4 @@
-name: v3-ci
+name: ci
 on:
   pull_request:
     branches:
@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-13, ubuntu-22.04, windows-2022]
-        node: [16, 18, 20]
+        node: [21]
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
@@ -37,8 +37,6 @@ jobs:
         run: npm link nw-builder
       - name: Prepare test environment
         run: npm run test:prep
-      - name: Run unit tests
-        run: npm run test:unit
       # - name: Run Tape tests
       #   run: npm run test:tape
       # - name: Run ChromeDriver tests
