@@ -1,4 +1,4 @@
-name: v3-ci
+name: ci
 on:
   pull_request:
     branches:
