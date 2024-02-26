@@ -41,8 +41,8 @@
   },
   "scripts": {
     "postinstall": "npm run test:prep",
-    "lint": "eslint --config=cfg/eslint.config.cjs src test",
-    "lint:fix": "eslint --config=cfg/eslint.config.cjs --fix src test",
+    "lint": "eslint ./lib/**/*.cjs",
+    "lint:fix": "eslint --fix ./lib/**/*.cjs",
     "test:prep": "esbuild src/index.js --bundle --platform=node --outfile=./dist/index.cjs",
     "test:tape": "tape './test/*.cjs'",
     "test:sanity": "node --test-reporter=spec --test e2e/test.js",
@@ -76,5 +76,22 @@
     "winston": "^3.11.0",
     "yargs": "^17.7.2"
   },
-  "packageManager": "npm@9.8.1"
+  "packageManager": "npm@10.4.0",
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": 2023,
+      "sourceType": "commonjs"
+    },
+    "env": {
+      "es6": true,
+      "node": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "tjw-jsdoc"
+    ],
+    "rules": {
+      "jsdoc/require-file-overview": "off"
+    }
+  }
 }
