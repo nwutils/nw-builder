@@ -27,7 +27,7 @@
   "license": "MIT",
   "main": "./lib/index.cjs",
   "bin": {
-    "nwbuild": "./bin/nwbuild.cjs"
+    "nwbuild": "./lib/cli.cjs"
   },
   "type": "module",
   "files": [
