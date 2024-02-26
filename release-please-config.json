@@ -1,0 +1,26 @@
+{
+    "packages": {
+        ".": {
+            "last-release-sha": "7ae45ad102eab3b6d7e7896acd08c427a9b25b346470d7bc6507b6481575d519",
+            "include-component-in-tag": false,
+            "release-type": "node",
+            "changelog-sections": [
+                {
+                    "type": "feat",
+                    "section": "Features",
+                    "hidden": false
+                },
+                {
+                    "type": "fix",
+                    "section": "Bug Fixes",
+                    "hidden": false
+                },
+                {
+                    "type": "chore",
+                    "section": "Chores",
+                    "hidden": false
+                }
+            ]
+        }
+    }
+}

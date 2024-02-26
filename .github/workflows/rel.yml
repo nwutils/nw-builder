@@ -1,0 +1,19 @@
+on:
+  push:
+    branches:
+      - v3
+
+permissions:
+  contents: write
+  pull-requests: write
+
+name: release-please
+
+jobs:
+  release-please:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Release Please
+        uses: google-github-actions/release-please-action@v4.0.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
