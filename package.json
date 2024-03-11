@@ -55,8 +55,6 @@
     "eslint-plugin-jsdoc": "^48.2.1",
     "eslint-plugin-markdown": "^4.0.1",
     "jsdoc": "^4.0.2",
-    "markdownlint": "^0.33.0",
-    "markdownlint-cli": "^0.39.0",
     "selenium-webdriver": "^4.18.1",
     "vitest": "^1.3.1"
   },
@@ -88,7 +86,7 @@
     },
     "extends": [
       "eslint:recommended",
-      "plugin:markdown/recommended",
+      "plugin:markdown/recommended-legacy",
       "tjw-jsdoc"
     ],
     "plugins": [
