@@ -287,7 +287,6 @@ nwbuild({
 ### Bugs
 
 - Managed Manifest is broken. If glob is disabled and srcDir has no package.json, build fails.
-- MacOS fails to unzip MacOS NW.js binaries consistently
 - Add back error, info, warn and debug logs
 
 ### Features
