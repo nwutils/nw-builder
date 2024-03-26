@@ -33,6 +33,13 @@ import util from "../util.js";
  */
 async function get(options) {
 
+  const uri = new url.URL(options.downloadUrl);
+
+  /* Download server is the cached directory. */
+  if (uri.protocol === 'file:') {
+    options.cacheDir = path.resolve(decodeURIComponent(options.downloadUrl.slice('file://'.length)));
+  }
+
   /**
    * If `options.cacheDir` exists, then `true`. Otherwise, it is `false`.
    *
