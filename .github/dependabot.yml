@@ -1,20 +1,43 @@
+# v4
 version: 2
 updates:
   - package-ecosystem: "npm"
+    target-branch: main
     directory: "."
     schedule:
-      interval: "weekly"
-      day: "saturday"
+      interval: "daily"
     versioning-strategy: increase
     groups:
       npm:
         patterns:
           - "*"
   - package-ecosystem: "github-actions"
+    target-branch: main
     directory: ".github/workflows"
     schedule:
-      interval: "weekly"
-      day: "saturday"
+      interval: "daily"
+    groups:
+      gha:
+        patterns:
+          - "*"
+# v3
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    target-branch: v3
+    directory: "."
+    schedule:
+      interval: "daily"
+    versioning-strategy: increase
+    groups:
+      npm:
+        patterns:
+          - "*"
+  - package-ecosystem: "github-actions"
+    target-branch: v3
+    directory: ".github/workflows"
+    schedule:
+      interval: "daily"
     groups:
       gha:
         patterns:
