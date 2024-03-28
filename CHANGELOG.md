@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.7.0](https://github.com/nwutils/nw-builder/compare/v4.6.4...v4.7.0) (2024-03-26)
+
+
+### Features
+
+* **get:** support `file://` for `options.downloadUrl` ([094567c](https://github.com/nwutils/nw-builder/commit/094567c1192c66465fb8ed43d6e5b6f0ed7cfdec))
+
+
+### Chores
+
+* **deps:** bump follow-redirects from 1.15.5 to 1.15.6 ([#1052](https://github.com/nwutils/nw-builder/issues/1052)) ([8258de9](https://github.com/nwutils/nw-builder/commit/8258de9773fe5b9e497abbb9cea6978329ee6707))
+* **deps:** bump the gha group in /.github/workflows with 1 update ([#1054](https://github.com/nwutils/nw-builder/issues/1054)) ([1935800](https://github.com/nwutils/nw-builder/commit/1935800ce560ad5c59cf422276916e3960a60a0d))
+* **deps:** bump the gha group in /.github/workflows with 2 updates ([#1051](https://github.com/nwutils/nw-builder/issues/1051)) ([0362403](https://github.com/nwutils/nw-builder/commit/0362403b9501465258b974caefe623eebfb640f1))
+* **deps:** bump the npm group with 1 update ([#1055](https://github.com/nwutils/nw-builder/issues/1055)) ([5a7bc71](https://github.com/nwutils/nw-builder/commit/5a7bc718a82b0907b89035412fda25cef54f32f6))
+* **deps:** bump the npm group with 3 updates ([#1050](https://github.com/nwutils/nw-builder/issues/1050)) ([a70aabc](https://github.com/nwutils/nw-builder/commit/a70aabc14b5614a32d4fbfa995e35af123cef65f))
+* **deps:** bump the npm group with 8 updates ([#1048](https://github.com/nwutils/nw-builder/issues/1048)) ([0ca3c34](https://github.com/nwutils/nw-builder/commit/0ca3c341f312b584b37628a9d3726eca2b4584be))
+* **get:** deprecate get mode ([#1053](https://github.com/nwutils/nw-builder/issues/1053)) ([386fc18](https://github.com/nwutils/nw-builder/commit/386fc18efc4779438591cbc3ab39c72f65473215))
+
 ## [4.6.4](https://github.com/nwutils/nw-builder/compare/v4.6.3...v4.6.4) (2024-02-24)
 
 
