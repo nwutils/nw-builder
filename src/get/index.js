@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import url from "node:url";
 
 import decompress from "./decompress.js";
 import ffmpeg from "./ffmpeg.js";
