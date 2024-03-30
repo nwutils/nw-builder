@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.7.1](https://github.com/nwutils/nw-builder/compare/v4.7.0...v4.7.1) (2024-03-30)
+
+
+### Bug Fixes
+
+* **get:** missing import ([bd2273a](https://github.com/nwutils/nw-builder/commit/bd2273a84199de3b804e96c92da88e66aa7fce32))
+
+
+### Chores
+
+* **deps:** reconfigure dependabot ([698ecd5](https://github.com/nwutils/nw-builder/commit/698ecd5817a9f4ee7e17271410ebce78157644fa))
+
 ## [4.7.0](https://github.com/nwutils/nw-builder/compare/v4.6.4...v4.7.0) (2024-03-26)
 
 
