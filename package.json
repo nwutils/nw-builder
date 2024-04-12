@@ -78,5 +78,5 @@
     "winston": "^3.11.0",
     "yargs": "^17.7.2"
   },
-  "packageManager": "npm@9.8.1"
+  "packageManager": "npm@10.5.2"
 }

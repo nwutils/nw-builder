@@ -1,9 +1,6 @@
-name: v3-ci
+name: v3
 on:
   pull_request:
-    branches:
-      - v3
-  workflow_dispatch:
     branches:
       - v3
 
@@ -15,20 +12,22 @@ jobs:
   e2e:
     strategy:
       matrix:
-        os: [macos-13, ubuntu-22.04, windows-2022]
-        node: [16, 18, 20]
+        os:
+        - macos-13
+        - ubuntu-22.04
+        - windows-2022
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3.6.0
+      - name: Get Node version from Node manifest
+        run: echo "NODE_VER=$(curl -s https://nwjs.io/versions | jq -r ".versions[0].components.node")" >> $GITHUB_ENV
       - name: Setup Node
         uses: actions/setup-node@v3.8.1
         with:
-          node-version: ${{ matrix.node }}
+          node-version: ${{ env.NODE_VER }}
           cache: "npm"
-      - name: Enable corepack
-        run: corepack enable
       - name: Install dependencies
         run: npm ci
       - name: Check for linting errors

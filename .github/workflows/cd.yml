@@ -1,4 +1,4 @@
-name: v3-cd
+name: v3
 on:
   push:
     branches:
@@ -14,13 +14,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3.6.0
+      - name: Get Node version from Node manifest
+        run: echo "NODE_VER=$(curl -s https://nwjs.io/versions | jq -r ".versions[0].components.node")" >> $GITHUB_ENV
       - name: Setup Node
         uses: actions/setup-node@v3.8.1
         with:
-          node-version: "20.5.1"
+          node-version: ${{ env.NODE_VER }}
           cache: "npm"
-      - name: Enable corepack
-        run: corepack enable
       - name: Install dependencies
         run: npm ci
       - name: Publish to npm
