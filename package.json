@@ -46,7 +46,8 @@
     "test:prep": "esbuild src/index.js --bundle --platform=node --outfile=./dist/index.cjs",
     "test:unit": "node --test test/unit/detectCurrentPlatform.js ",
     "test:tape": "tape './test/*.cjs'",
-    "test:sanity": "node --test-reporter=spec --test e2e/test.js"
+    "test:sanity": "node --test-reporter=spec --test e2e/test.js",
+    "demo": "cd test && node demo.cjs"
   },
   "devDependencies": {
     "decompress-zip": "^0.3.3",
