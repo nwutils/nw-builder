@@ -31,7 +31,6 @@
   },
   "type": "module",
   "files": [
-    "bin",
     "lib",
     "src"
   ],
@@ -42,23 +41,22 @@
   },
   "scripts": {
     "postinstall": "npm run test:prep",
-    "lint": "eslint --config=cfg/eslint.config.cjs src test",
-    "lint:fix": "eslint --config=cfg/eslint.config.cjs --fix src test",
+    "lint": "eslint src test",
+    "lint:fix": "eslint --fix src test",
     "test:prep": "esbuild src/index.js --bundle --platform=node --outfile=./dist/index.cjs",
     "test:unit": "node --test test/unit/detectCurrentPlatform.js ",
     "test:tape": "tape './test/*.cjs'",
-    "test:sanity": "node --test-reporter=spec --test e2e/test.js",
-    "demo": "npm run test:prep && npm link nw-builder && cd test && node demo.cjs"
+    "test:sanity": "node --test-reporter=spec --test e2e/test.js"
   },
   "devDependencies": {
     "decompress-zip": "^0.3.3",
-    "eslint": "^8.57.0",
-    "eslint-config-tjw-jsdoc": "^1.0.5",
+    "eslint": "^9.0.0",
     "nock": "^13.5.3",
     "redtape": "^1.0.0",
     "rimraf": "^5.0.5",
     "selenium-webdriver": "^4.18.1",
-    "tape": "^5.7.5"
+    "tape": "^5.7.5",
+    "vitest": "^1.5.0"
   },
   "dependencies": {
     "archiver": "^6.0.1",
