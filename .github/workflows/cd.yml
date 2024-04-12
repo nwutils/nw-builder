@@ -13,18 +13,18 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3.6.0
+        uses: actions/checkout@v4.1.2
       - name: Get Node version from Node manifest
         run: echo "NODE_VER=$(curl -s https://nwjs.io/versions | jq -r ".versions[0].components.node")" >> $GITHUB_ENV
       - name: Setup Node
-        uses: actions/setup-node@v3.8.1
+        uses: actions/setup-node@v4.0.2
         with:
           node-version: ${{ env.NODE_VER }}
           cache: "npm"
       - name: Install dependencies
         run: npm ci
       - name: Publish to npm
-        uses: JS-DevTools/npm-publish@v2.2.1
+        uses: JS-DevTools/npm-publish@v3.1.1
         with:
           token: ${{ secrets.NPM_TOKEN }}
           tag: stable
