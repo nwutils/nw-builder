@@ -20,7 +20,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.1.2
+        uses: actions/checkout@v4.1.3
       - name: Get Node version from Node manifest
         run: echo "NODE_VER=$(curl -s https://nwjs.io/versions | jq -r ".versions[0].components.node")" >> $GITHUB_ENV
       - name: Setup Node
