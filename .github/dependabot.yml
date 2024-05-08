@@ -20,9 +20,6 @@ updates:
       gha:
         patterns:
           - "*"
-# v3
-version: 2
-updates:
   - package-ecosystem: "npm"
     target-branch: v3
     directory: "."
