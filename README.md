@@ -303,7 +303,6 @@ nwbuild({
 
 ### Chores
 
-- chore(cli): migrate from `yargs` to `commander`
 - chore(get): verify sha checksum for downloads
 - chore: annotate file paths as `fs.PathLike` instead of `string`.
 - chore(bld): factor out core build step
@@ -314,7 +313,6 @@ nwbuild({
 - chore(bld): factor out compressing
 - chore(bld): factor out managed manifest
 - chore(bld): move `.desktop` entry file logic to `create-desktop-shortcuts` package
-- chore(util): factor out file paths as constant variables
 
 ## FAQ
 
