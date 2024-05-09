@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.7.2](https://github.com/nwutils/nw-builder/compare/v4.7.1...v4.7.2) (2024-05-09)
+
+
+### Bug Fixes
+
+* **get:** close file after reading all entries ([#1077](https://github.com/nwutils/nw-builder/issues/1077)) ([a6b090f](https://github.com/nwutils/nw-builder/commit/a6b090fd3ebeb4ed4d45d04c711d00eddf79dc9e))
+
+
+### Chores
+
+* **ci:** correct config hopefully ([0bad4d2](https://github.com/nwutils/nw-builder/commit/0bad4d2893389a76f7292bfaffaa77cdb8094571))
+* **deps:** bump the gha group in /.github/workflows with 2 updates ([#1074](https://github.com/nwutils/nw-builder/issues/1074)) ([fd8a633](https://github.com/nwutils/nw-builder/commit/fd8a6335a26a01f187171e607f289485b0d4865f))
+* **deps:** bump the npm group across 1 directory with 11 updates ([#1078](https://github.com/nwutils/nw-builder/issues/1078)) ([7158c7b](https://github.com/nwutils/nw-builder/commit/7158c7b8881d333995d1cda32812776500d7d96b))
+* **deps:** bump vite from 5.1.6 to 5.2.8 ([#1060](https://github.com/nwutils/nw-builder/issues/1060)) ([c52dbb6](https://github.com/nwutils/nw-builder/commit/c52dbb690f46d8929dbd9ba553eb9967b7683988))
+* **docs:** update contributing guidelines ([efdbdca](https://github.com/nwutils/nw-builder/commit/efdbdca0f73a91129dc279d2f7346084f8a0cefe))
+
 ## [4.7.1](https://github.com/nwutils/nw-builder/compare/v4.7.0...v4.7.1) (2024-03-30)
 
 
