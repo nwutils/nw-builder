@@ -268,7 +268,6 @@ nwbuild({
 
 - We use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) style of commit messages.
 - On opening a new PR, the comments will guide you on how to construct the new PR.
-- When making changes, try to follow [SOLID](https://en.wikipedia.org/wiki/SOLID) and [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) principles.
 - Pull requests are squashed and merged onto the `main` branch.
 - PR title is used as commit's first line, PR description is used as commit body.
 - Only commit messages starting with `fix`, `feat` and `chore` are recognised by the Release Please bot.
@@ -280,7 +279,7 @@ nwbuild({
 - Approve pull requests before merging.
 - Enforce conventional commits before merging pull requests.
 - A commit's first line should be formatted as `<type>[optional scope]: <description>`.
-- A commit's body should have a description of changes in bullet points followed by any links it references or issues it fixes or closes. It may include an optional `Notes: ...` section to provide additional context on why the PR is being merged when it doesn't seem like it should.
+- A commit's body should have a description of changes in bullet points followed by any links it references or issues it fixes or closes.
 - Google's Release Please Action is used to update the changelog, bump the package version and generate GitHub releases.
 - NPM Publish Action publishes to `npm` if there is a version bump.
 
