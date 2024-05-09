@@ -70,6 +70,7 @@ const cli = yargs(yargs_helpers.hideBin(process.argv))
     type: "string",
     description: "Specify log level",
   })
+  .strictOptions()
   .parse();
 
 nwbuild({
