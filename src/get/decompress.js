@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import stream from "node:stream";
 
-import tar from "tar";
+import * as tar from "tar";
 import yauzl from "yauzl-promise";
 
 /**
