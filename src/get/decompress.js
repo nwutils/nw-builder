@@ -75,7 +75,6 @@ async function unzip(zippedFile, cacheDir) {
     // Read next entry
     entry = await zip.readEntry();
   }
-  await zip.close();
 
   // Process symbolic links after all other files have been extracted
   for (const symlinkEntry of symlinks) {
@@ -94,4 +93,5 @@ async function unzip(zippedFile, cacheDir) {
       await fs.promises.symlink(linkTarget, entryPathAbs);
     }
   }
+  await zip.close();
 }
