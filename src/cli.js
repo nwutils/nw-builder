@@ -12,7 +12,8 @@ const cli = yargs(yargs_helpers.hideBin(process.argv))
   .command("[srcDir] [options]")
   .option("mode", {
     type: "string",
-    description: "`run` or `build` application",
+    description: "`get`, `run` or `build` application",
+    choices: ["get", "run", "build"]
   })
   .option("version", {
     type: "string",
@@ -21,14 +22,17 @@ const cli = yargs(yargs_helpers.hideBin(process.argv))
   .option("flavor", {
     type: "string",
     description: "NW.js build flavor",
+    choices: ["normal", "sdk"]
   })
   .option("platform", {
     type: "string",
     description: "NW.js supported platform",
+    choices: ["linux", "osx", "win"]
   })
   .option("arch", {
     type: "string",
     description: "NW.js supported architecture",
+    choices: ["ia32", "x64", "arm64"]
   })
   .option("outDir", {
     type: "string",
@@ -61,14 +65,16 @@ const cli = yargs(yargs_helpers.hideBin(process.argv))
   .option("zip", {
     type: "string",
     description: "Flag to enable/disable compression",
+    choices: ["zip", "tar", "tgz"]
   })
   .option("ffmpeg", {
-    type: "string",
+    type: "boolean",
     description: "Flag to enable/disable downloading community ffmpeg",
   })
   .option("logLevel", {
     type: "string",
     description: "Specify log level",
+    choices: ["error", "warn", "info", "debug"]
   })
   .strictOptions()
   .parse();
