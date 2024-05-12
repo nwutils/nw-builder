@@ -50,7 +50,7 @@
   },
   "devDependencies": {
     "@stylistic/eslint-plugin-js": "^2.1.0",
-    "eslint": "^9.2.0",
+    "eslint": "^8.57.0",
     "eslint-config-tjw-jsdoc": "^1.0.5",
     "eslint-plugin-jsdoc": "^48.2.4",
     "eslint-plugin-markdown": "^5.0.0",
