@@ -19,14 +19,14 @@ import util from "./util.js";
  * @property {"./cache" | string}                  [cacheDir="./cache"]                      Directory to cache NW binaries
  * @property {"./" | string}                       [srcDir="./"]                             File paths to application code
  * @property {"./out" | string}                    [outDir="./out"]                          Directory to store build artifacts
- * @property {boolean | string | object}           [managedManifest = false]                 Managed manifest mode
- * @property {false | "gyp"}                       [nodeAddon = false]                       Rebuild Node native addons
  * @property {object}                              app                                       Refer to Linux/Windows Specific Options under Getting Started in the docs
  * @property {boolean}                             [cache=true]                              If true the existing cache is used. Otherwise it removes and redownloads it.
  * @property {boolean}                             [ffmpeg=false]                            If true the chromium ffmpeg is replaced by community version
  * @property {boolean}                             [glob=true]                               If true file globbing is enabled when parsing srcDir.
- * @property {"error" | "warn" | "info" | "debug"} [logLevel="info"]                         Specify level of logging. 
+ * @property {"error" | "warn" | "info" | "debug"} [logLevel="info"]                         Specify level of logging.
  * @property {boolean | "zip" | "tar" | "tgz"}     [zip=false]                               If true, "zip", "tar" or "tgz" the outDir directory is compressed.
+ * @property {boolean | string | object}           [managedManifest = false]                 Managed manifest mode
+ * @property {false | "gyp"}                       [nodeAddon = false]                       Rebuild Node native addons
  * @property {boolean}                             [cli=false]                               If true the CLI is used to parse options. This option is used internally.
  */
 
@@ -35,7 +35,7 @@ import util from "./util.js";
  *
  * @async
  * @function
- * 
+ *
  * @param  {Options}       options  Options
  * @return {Promise<void>}
  */

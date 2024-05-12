@@ -34,14 +34,6 @@ const cli = yargs(yargs_helpers.hideBin(process.argv))
     description: "NW.js supported architecture",
     choices: ["ia32", "x64", "arm64"]
   })
-  .option("outDir", {
-    type: "string",
-    description: "NW.js build artifacts",
-  })
-  .option("cacheDir", {
-    type: "string",
-    description: "Cache NW.js binaries",
-  })
   .option("downloadUrl", {
     type: "string",
     description: "NW.js download server",
@@ -50,9 +42,13 @@ const cli = yargs(yargs_helpers.hideBin(process.argv))
     type: "string",
     description: "NW.js version info",
   })
-  .option("glob", {
-    type: "boolean",
-    description: "Flag to enable/disable globbing",
+  .option("cacheDir", {
+    type: "string",
+    description: "Cache NW.js binaries",
+  })
+  .option("outDir", {
+    type: "string",
+    description: "NW.js build artifacts",
   })
   .option("app", {
     type: "object",
@@ -62,19 +58,32 @@ const cli = yargs(yargs_helpers.hideBin(process.argv))
     type: "boolean",
     description: "Flag to enable/disable caching",
   })
-  .option("zip", {
-    type: "string",
-    description: "Flag to enable/disable compression",
-    choices: ["zip", "tar", "tgz"]
-  })
   .option("ffmpeg", {
     type: "boolean",
     description: "Flag to enable/disable downloading community ffmpeg",
+  })
+  .option("glob", {
+    type: "boolean",
+    description: "Flag to enable/disable globbing",
   })
   .option("logLevel", {
     type: "string",
     description: "Specify log level",
     choices: ["error", "warn", "info", "debug"]
+  })
+  .option("zip", {
+    type: "string",
+    description: "Flag to enable/disable compression",
+    choices: ["zip", "tar", "tgz"]
+  })
+  .option("managedManifest", {
+    type: "string",
+    description: "Managed manifest mode",
+  })
+  .option("nodeAddon", {
+    type: "string",
+    description: "Download NW.js Node headers",
+    choices: [false, "gyp"]
   })
   .strictOptions()
   .parse();
