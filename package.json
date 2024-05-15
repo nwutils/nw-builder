@@ -50,9 +50,9 @@
   },
   "devDependencies": {
     "@stylistic/eslint-plugin-js": "^2.1.0",
-    "eslint": "^8.57.0",
+    "eslint": "^9.2.0",
     "eslint-config-tjw-jsdoc": "^1.0.5",
-    "eslint-plugin-jsdoc": "^48.2.4",
+    "eslint-plugin-jsdoc": "^48.2.5",
     "eslint-plugin-markdown": "^5.0.0",
     "jsdoc": "^4.0.3",
     "selenium-webdriver": "^4.20.0",
@@ -62,7 +62,7 @@
     "axios": "^1.6.8",
     "cli-progress": "^3.12.0",
     "compressing": "^1.10.0",
-    "glob": "^10.3.14",
+    "glob": "^10.3.15",
     "node-gyp": "^10.1.0",
     "plist": "^3.1.0",
     "rcedit": "^4.0.1",
@@ -71,33 +71,8 @@
     "yargs": "^17.7.2",
     "yauzl-promise": "^4.0.0"
   },
-  "packageManager": "npm@10.3.0",
+  "packageManager": "npm@10.7.0",
   "engines": {
     "node": ">=14"
-  },
-  "eslintConfig": {
-    "parserOptions": {
-      "ecmaVersion": 2023,
-      "sourceType": "module"
-    },
-    "env": {
-      "es6": true,
-      "node": true
-    },
-    "extends": [
-      "eslint:recommended",
-      "plugin:markdown/recommended-legacy",
-      "tjw-jsdoc"
-    ],
-    "plugins": [
-      "@stylistic/js"
-    ],
-    "rules": {
-      "@stylistic/js/indent": [
-        "error",
-        2
-      ],
-      "jsdoc/require-file-overview": "off"
-    }
   }
 }
