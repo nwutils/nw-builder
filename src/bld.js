@@ -5,7 +5,9 @@ import fsm from "node:fs/promises";
 import process from "node:process";
 
 import compressing from "compressing";
-import rcedit from "rcedit";
+import * as resedit from "resedit";
+// pe-library is a direct dependency of resedit
+import * as peLibrary from 'pe-library';
 import plist from "plist";
 
 import util from "./util.js"
@@ -103,7 +105,7 @@ import util from "./util.js"
  *
  * @async
  * @function
- * @param  {BuildOptions}  options  - Build options  
+ * @param  {BuildOptions}  options  - Build options
  * @return {Promise<void>}
  */
 async function bld({
@@ -311,28 +313,33 @@ const setWinConfig = async ({ app, outDir }) => {
     }
   });
 
-  const rcEditOptions = {
-    "file-version": app.version,
-    "product-version": app.version,
-    "version-string": versionString,
-  };
-
+  const outDirAppExe = path.resolve(outDir, `${app.name}.exe`);
+  await fsm.rename(path.resolve(outDir, "nw.exe"), outDirAppExe);
+  const exe = peLibrary.NtExecutable.from(await fsm.readFile(outDirAppExe));
+  const res = peLibrary.NtExecutableResource.from(exe);
   if (app.icon) {
-    rcEditOptions.icon = app.icon;
+    const iconBuffer = await fsm.readFile(path.resolve(app.icon));
+    const iconFile = resedit.Data.IconFile.from(iconBuffer);
+    resedit.Resource.IconGroupEntry.replaceIconsForResource(
+      res.entries,
+      // This is the name of the icon group nw.js uses that gets shown in file exlorers
+      'IDR_MAINFRAME',
+      // 1033 means "English (United States)"
+      1033,
+      iconFile.icons.map(i => i.data)
+    );
   }
-
-  try {
-    const outDirAppExe = path.resolve(outDir, `${app.name}.exe`);
-    await fsm.rename(path.resolve(outDir, "nw.exe"), outDirAppExe);
-    await rcedit(outDirAppExe, rcEditOptions);
-  } catch (error) {
-    if (process.platform !== "win32") {
-      console.warn(
-        "Ensure WINE is installed or build your application on Windows platform",
-      );
-    }
-    throw error;
-  }
+  const [vi] = resedit.Resource.VersionInfo.fromEntries(res.entries);
+  const [major, minor, patch] = app.version.split(".");
+  vi.setFileVersion(major, minor, patch, 0, 1033);
+  vi.setStringValues({
+    lang: 1033,
+    codepage: 1200
+  }, versionString);
+  vi.outputToResourceEntries(res.entries);
+  res.outputResource(exe);
+  const outBuffer = Buffer.from(exe.generate());
+  await fsm.writeFile(outDirAppExe, outBuffer);
 };
 
 const setOsxConfig = async ({ outDir, app }) => {
