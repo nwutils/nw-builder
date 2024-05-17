@@ -188,6 +188,7 @@ Options
 
 | Name | Type    | Default   | Description |
 | ---- | ------- | --------- | ----------- |
+| app | `LinuxRc \| WinRc \| OsxRc` | Additional options for each platform. (See below.)
 | mode | `"get" \| "run" \| "build"` | `"build"` | Choose between get, run or build mode |
 | version | `string \| "latest" \| "stable"` | `"latest"` | Runtime version |
 | flavor | `"normal" \| "sdk"` | `"normal"` | Runtime flavor |
@@ -205,6 +206,73 @@ Options
 | glob | `boolean` | `true`| If true file globbing is enabled when parsing `srcDir`. |
 | logLevel | `"error" \| "warn" \| "info" \| "debug"` | `"info"`| Specify level of logging. |
 | zip | `boolean \| "zip" \| "tar" \| "tgz"` | `false`| If true, "zip", "tar" or "tgz" the `outDir` directory is compressed. |
+
+### `app` configuration object
+
+This object defines additional properties used for building for a specific platform. For each platform, pass an object with appropriate values:
+
+#### Windows-specific options (`WinRc`)
+
+| Name | Type    | Default   | Description |
+| ---- | ------- | --------- | ----------- |
+| `icon` | `string` | `undefined` | The path to the icon file. It should be a .ico file. |
+| `name` | `string` | Value of `name` in app's `package.json` | The name of the application |
+| `version` | `string` | Value of `version` in app's `package.json` | The version of the application |
+| `comments` | `string` | `undefined` | Additional information that should be displayed for diagnostic purposes. |
+| `company` | `string` | `undefined` | Company that produced the file—for example, Microsoft Corporation or Standard Microsystems Corporation, Inc. This string is required. |
+| `fileDescription` | `string` | Value of `description` in app's `package.json` | File description to be presented to users. This string may be displayed in a list box when the user is choosing files to install. For example, Keyboard Driver for AT-Style Keyboards. This string is required. |
+| `fileVersion` | `string` | Value of `version` in app's `package.json` | Version number of the file. For example, 3.10 or 5.00.RC2. This string is required. |
+| `internalName` | `string` | `undefined` |Internal name of the file, if one exists—for example, a module name if the file is a dynamic-link library. If the file has no internal name, this string should be the original filename, without extension. This string is required. |
+| `legalCopyright` | `string` | NW.js' copyright info | Copyright notices that apply to the file. This should include the full text of all notices, legal symbols, copyright dates, and so on. This string is optional. |
+| `legalTrademark` | `string` | `undefined` | Trademarks and registered trademarks that apply to the file. This should include the full text of all notices, legal symbols, trademark numbers, and so on. This string is optional. |
+| `originalFilename` | `string` | Value of `name` option | Original name of the file, not including a path. This information enables an application to determine whether a file has been renamed by a user. The format of the name depends on the file system for which the file was created. This string is required. |
+| `privateBuild` | `string` | `undefined` | Information about a private version of the file—for example, Built by TESTER1 on \\TESTBED. |
+| `productName` | `string` | Matches the package name defined in app's `package.json` | Name of the product with which the file is distributed. This string is required. |
+| `productVersion` | `string` | Value of `version` in app's `package.json` | Version of the product with which the file is distributed—for example, 3.10 or 5.00.RC2. |
+| `specialBuild` | `string` | `undefined` | Text that specifies how this version of the file differs from the standard version—for example, Private build for TESTER1 solving mouse problems on M250 and M250E computers. |
+
+#### Linux-specific options (`LinuxRc`)
+
+| Name | Type    | Description |
+| ---- | ------- | ----------- |
+| name | `string` | Name of the application |
+| genericName | `string` | Generic name of the application |
+| noDisplay | `boolean` | If true the application is not displayed |
+| comment | `string` | Tooltip for the entry, for example "View sites on the Internet". |
+| icon | `string` | Icon to display in file manager, menus, etc. |
+| hidden | `boolean` | TBD |
+| onlyShowIn | `string[]` | A list of strings identifying the desktop environments that should display a given desktop entry |
+| notShowIn | `string[]` | A list of strings identifying the desktop environments that should not display a given desktop entry |
+| dBusActivatable | `boolean` | A boolean value specifying if D-Bus activation is supported for this application |
+| tryExec | `string` | Path to an executable file on disk used to determine if the program is actually installed |
+| exec | `string` | Program to execute, possibly with arguments. |
+| path | `string` | If entry is of type Application, the working directory to run the program in. |
+| terminal | `boolean` | Whether the program runs in a terminal window. |
+| actions | `string[]` | Identifiers for application actions. |
+| mimeType | `string[]` | The MIME type(s) supported by this application. |
+| categories | `string[]` | Categories in which the entry should be shown in a menu |
+| implements | `string[]` | A list of interfaces that this application implements. |
+| keywords | `string[]` | A list of strings which may be used in addition to other metadata to describe this entry. |
+| startupNotify | `boolean` | If true, it is KNOWN that the application will send a "remove" message when started with the DESKTOP_STARTUP_ID environment variable set. If false, it is KNOWN that the application does not work with startup notification at all. |
+| startupWMClass | `string` | If specified, it is known that the application will map at least one window with the given string as its WM class or WM name hin |
+| prefersNonDefaultGPU | `boolean` | If true, the application prefers to be run on a more powerful discrete GPU if available. |
+| singleMainWindow | `string` | If true, the application has a single main window, and does not support having an additional one opened. |
+
+#### MacOS-specific options (`OsxRc`)
+
+| Name | Type    | Description |
+| ---- | ------- | ----------- |
+| name | `string` | The name of the application |
+| icon | `string` | The path to the icon file. It should be a .icns file. |
+| LSApplicationCategoryType | `string` | The category that best describes your app for the App Store. |
+| CFBundleIdentifier | `string` | A unique identifier for a bundle usually in reverse DNS format. |
+| CFBundleName | `string` | A user-visible short name for the bundle. |
+| CFBundleDisplayName | `string` | The user-visible name for the bundle. |
+| CFBundleSpokenName | `string` | A replacement for the app name in text-to-speech operations. |
+| CFBundleVersion | `string` | The version of the build that identifies an iteration of the bundle. |
+| CFBundleShortVersionString | `string` | The release or version number of the bundle. |
+| NSHumanReadableCopyright | `string` | A human-readable copyright notice for the bundle. |
+
 
 ## Guides
 
