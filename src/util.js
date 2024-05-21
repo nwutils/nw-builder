@@ -187,6 +187,7 @@ export const parse = async (options, pkg) => {
   options.cache = options.cache ?? true;
   options.ffmpeg = options.ffmpeg ?? false;
   options.logLevel = options.logLevel ?? "info";
+  options.resourceEditor = options.resourceEditor ?? "rcedit";
 
   if (options.mode === "get") {
     return { ...options };
@@ -358,6 +359,12 @@ export const validate = async (options, releaseInfo) => {
     await fs.promises.readdir(options.outDir);
   }
 
+  // TODO: Validate app options
+
+  if (!["rcedit", "resedit"].includes(options.resourceEditor)) {
+    throw new Error("Expected options.resourceEditor to be 'rcedit' or 'resedit'. Got " + options.resourceEditor);
+  }
+
   if (
     typeof options.managedManifest !== "boolean" &&
     typeof options.managedManifest !== "object" &&
@@ -388,7 +395,6 @@ export const validate = async (options, releaseInfo) => {
     }
   }
 
-  // TODO: Validate app options
   return undefined;
 };
 

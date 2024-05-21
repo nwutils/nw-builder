@@ -54,6 +54,11 @@ const cli = yargs(yargs_helpers.hideBin(process.argv))
     type: "object",
     description: "Platform specific app metadata. Refer to docs for more info",
   })
+  .option("resourceEditor", {
+    type: "string",
+    description: "Toggle between resource editors rcedit and resedit",
+    choices: ["rcedit", "resedit"]
+  })
   .option("cache", {
     type: "boolean",
     description: "Flag to enable/disable caching",

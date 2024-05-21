@@ -6,6 +6,8 @@ import process from "node:process";
 
 import compressing from "compressing";
 import rcedit from "rcedit";
+import * as resedit from "resedit";
+import * as peLibrary from 'pe-library';
 import plist from "plist";
 
 import util from "./util.js"
@@ -92,6 +94,7 @@ import util from "./util.js"
  * @property {string}                               [cacheDir = "./cache"]                      Cache directory
  * @property {string}                               [outDir = "./out"]                          Out directory
  * @property {LinuxRc | WinRc | OsxRc}              [app]                                       Platform specific rc
+ * @property {"rcedit" | "resedit"}                 [resourceEditor="rcedit"]                   Toggle between resource editors rcedit and resedit
  * @property {boolean}                              [glob = true]                               File globbing
  * @property {boolean | string | object}            [managedManifest = false]                   Manage manifest
  * @property {false | "gyp"}                        [nativeAddon = false]                       Rebuild native modules
@@ -103,7 +106,7 @@ import util from "./util.js"
  *
  * @async
  * @function
- * @param  {BuildOptions}  options  - Build options  
+ * @param  {BuildOptions}  options  - Build options
  * @return {Promise<void>}
  */
 async function bld({
@@ -116,6 +119,7 @@ async function bld({
   cacheDir = "./cache",
   outDir = "./out",
   app,
+  resourceEditor = "rcedit",
   glob = true,
   managedManifest = false,
   nativeAddon = false,
@@ -180,7 +184,7 @@ async function bld({
   if (platform === "linux") {
     await setLinuxConfig({ app, outDir });
   } else if (platform === "win") {
-    await setWinConfig({ app, outDir });
+    await setWinConfig({ app, resourceEditor, outDir });
   } else if (platform === "osx") {
     await setOsxConfig({ platform, outDir, app });
   }
@@ -289,7 +293,7 @@ const setLinuxConfig = async ({ app, outDir }) => {
   await fsm.writeFile(filePath, fileContent);
 };
 
-const setWinConfig = async ({ app, outDir }) => {
+const setWinConfig = async ({ app, resourceEditor, outDir }) => {
   let versionString = {
     Comments: app.comments,
     CompanyName: app.author,

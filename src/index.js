@@ -20,6 +20,7 @@ import util from "./util.js";
  * @property {"./" | string}                       [srcDir="./"]                             File paths to application code
  * @property {"./out" | string}                    [outDir="./out"]                          Directory to store build artifacts
  * @property {object}                              app                                       Refer to Linux/Windows Specific Options under Getting Started in the docs
+ * @property {"rcedit" | "resedit"}                [resourceEditor="rcedit"]                 Toggle between resource editors rcedit and resedit
  * @property {boolean}                             [cache=true]                              If true the existing cache is used. Otherwise it removes and redownloads it.
  * @property {boolean}                             [ffmpeg=false]                            If true the chromium ffmpeg is replaced by community version
  * @property {boolean}                             [glob=true]                               If true file globbing is enabled when parsing srcDir.
