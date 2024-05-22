@@ -332,7 +332,7 @@ const setWinConfig = async ({ app, outDir }) => {
   }
   const [vi] = resedit.Resource.VersionInfo.fromEntries(res.entries);
   const [major, minor, patch] = app.version.split(".");
-  vi.setFileVersion(major, minor, patch, 0, 1033);
+  vi.setFileVersion(major, minor, patch, 0, EN_US);
   vi.setStringValues({
     lang: 1033,
     codepage: 1200
