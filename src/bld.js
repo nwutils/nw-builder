@@ -334,7 +334,7 @@ const setWinConfig = async ({ app, outDir }) => {
   const [major, minor, patch] = app.version.split(".");
   vi.setFileVersion(major, minor, patch, 0, EN_US);
   vi.setStringValues({
-    lang: 1033,
+    lang: EN_US,
     codepage: 1200
   }, versionString);
   vi.outputToResourceEntries(res.entries);
