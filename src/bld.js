@@ -320,6 +320,8 @@ const setWinConfig = async ({ app, outDir }) => {
   if (app.icon) {
     const iconBuffer = await fsm.readFile(path.resolve(app.icon));
     const iconFile = resedit.Data.IconFile.from(iconBuffer);
+    // English (United States)
+    const EN_US = 1033;
     resedit.Resource.IconGroupEntry.replaceIconsForResource(
       res.entries,
       // This is the name of the icon group nw.js uses that gets shown in file exlorers
