@@ -5,6 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.8.9](https://github.com/nwutils/nw-builder/compare/v3.8.8...v3.8.9) (2024-05-25)
+
+
+### Bug Fixes
+
+* **build:** update module imports ([305e543](https://github.com/nwutils/nw-builder/commit/305e543de9bc9ed727105b983be649dd339c3112))
+
+
+### Chores
+
+* **ci:** reconfigure GHA to run tests on NW.js Node version ([9461a86](https://github.com/nwutils/nw-builder/commit/9461a867239d1e11ee70d06d30d24ee2f39af65c))
+* **deps-dev:** bump rimraf from 5.0.5 to 5.0.6 in the npm group ([#1083](https://github.com/nwutils/nw-builder/issues/1083)) ([32e25f7](https://github.com/nwutils/nw-builder/commit/32e25f7caaf0ca0732cc3ca725dff58393070f2c))
+* **deps-dev:** bump vitest from 1.5.2 to 1.5.3 in the npm group ([#1069](https://github.com/nwutils/nw-builder/issues/1069)) ([2252ee5](https://github.com/nwutils/nw-builder/commit/2252ee5ecf19694b2daf64275c71522d7c5ad92b))
+* **deps-dev:** bump vitest from 1.5.3 to 1.6.0 in the npm group ([#1070](https://github.com/nwutils/nw-builder/issues/1070)) ([168a12a](https://github.com/nwutils/nw-builder/commit/168a12a7b38fa362655486dde299f9b05f542c54))
+* **deps:** bump actions/checkout from 4.1.2 to 4.1.3 in /.github/workflows in the gha group ([#1064](https://github.com/nwutils/nw-builder/issues/1064)) ([a71f32c](https://github.com/nwutils/nw-builder/commit/a71f32c99ca8d6ccf00c35a7352c109275849d95))
+* **deps:** bump actions/checkout from 4.1.3 to 4.1.4 in /.github/workflows in the gha group ([#1066](https://github.com/nwutils/nw-builder/issues/1066)) ([51ed40e](https://github.com/nwutils/nw-builder/commit/51ed40e0b42aa01d25e6ee086ceb02d5c3220610))
+* **deps:** bump actions/checkout from 4.1.4 to 4.1.5 in /.github/workflows in the gha group ([#1072](https://github.com/nwutils/nw-builder/issues/1072)) ([9909cca](https://github.com/nwutils/nw-builder/commit/9909cca2a2d386e9c2f29361bd4b1d6d9126a5a7))
+* **deps:** bump actions/checkout from 4.1.5 to 4.1.6 in /.github/workflows in the gha group ([#1097](https://github.com/nwutils/nw-builder/issues/1097)) ([618b559](https://github.com/nwutils/nw-builder/commit/618b5592eeec8f5d3261583b3435eb581266bd77))
+* **deps:** bump google-github-actions/release-please-action from 4.1.0 to 4.1.1 in /.github/workflows in the gha group ([#1090](https://github.com/nwutils/nw-builder/issues/1090)) ([a146f75](https://github.com/nwutils/nw-builder/commit/a146f752a1ff1158377db643ea386692173bcd9d))
+* **deps:** bump semver from 7.6.1 to 7.6.2 in the npm group ([#1081](https://github.com/nwutils/nw-builder/issues/1081)) ([cf1ef1a](https://github.com/nwutils/nw-builder/commit/cf1ef1a0b293f619c0ee386c20e4f79461ca9316))
+* **deps:** bump the gha group in /.github/workflows with 4 updates ([#1059](https://github.com/nwutils/nw-builder/issues/1059)) ([13fdce2](https://github.com/nwutils/nw-builder/commit/13fdce2081505bacf1501064f61ee59647674c6a))
+* **deps:** bump the npm group across 1 directory with 2 updates ([#1068](https://github.com/nwutils/nw-builder/issues/1068)) ([891b57c](https://github.com/nwutils/nw-builder/commit/891b57c16f70a43481575631bdaaee43265db269))
+* **deps:** bump the npm group across 1 directory with 3 updates ([#1073](https://github.com/nwutils/nw-builder/issues/1073)) ([53b5e4e](https://github.com/nwutils/nw-builder/commit/53b5e4e461230eb5e0bf17ba8739e2247d3c003a))
+* **deps:** bump the npm group across 1 directory with 5 updates ([#1104](https://github.com/nwutils/nw-builder/issues/1104)) ([2f8333e](https://github.com/nwutils/nw-builder/commit/2f8333e051cebed0b53882143442ba69cd21ad19))
+* **deps:** bump the npm group with 6 updates ([#1065](https://github.com/nwutils/nw-builder/issues/1065)) ([7c41c94](https://github.com/nwutils/nw-builder/commit/7c41c949f0d272007369d274628a3af065ed70b8))
+* **deps:** update all to latest ([c470034](https://github.com/nwutils/nw-builder/commit/c4700348ebd0f8270bef18ba1ff4a0eb887d4fdb))
+* **deps:** upgrade `eslint` to v9 ([40b5486](https://github.com/nwutils/nw-builder/commit/40b5486b9b22caca41c76b89988a772c3cdb2f12))
+* refactor platform parsing logic ([7bd4be8](https://github.com/nwutils/nw-builder/commit/7bd4be8ca6f54cb395d16eaa4ef88a9ef096b4fe))
+* **test:** uncomment remaining tests ([5ff6477](https://github.com/nwutils/nw-builder/commit/5ff6477842ecb56726f1b32f76a59767e64196e6))
+
 ## [Unreleased]
 
 ## [3.8.8] - 2023-08-24
