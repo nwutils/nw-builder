@@ -52,7 +52,7 @@
     "@stylistic/eslint-plugin-js": "^2.1.0",
     "eslint": "^9.3.0",
     "eslint-config-tjw-jsdoc": "^1.0.5",
-    "eslint-plugin-jsdoc": "^48.2.6",
+    "eslint-plugin-jsdoc": "^48.2.7",
     "eslint-plugin-markdown": "^5.0.0",
     "jsdoc": "^4.0.3",
     "selenium-webdriver": "^4.21.0",
