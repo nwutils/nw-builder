@@ -50,9 +50,9 @@
   },
   "devDependencies": {
     "@stylistic/eslint-plugin-js": "^2.1.0",
-    "eslint": "^9.3.0",
+    "eslint": "^9.4.0",
     "eslint-config-tjw-jsdoc": "^1.0.5",
-    "eslint-plugin-jsdoc": "^48.2.6",
+    "eslint-plugin-jsdoc": "^48.2.9",
     "eslint-plugin-markdown": "^5.0.0",
     "jsdoc": "^4.0.3",
     "selenium-webdriver": "^4.21.0",
@@ -67,7 +67,7 @@
     "plist": "^3.1.0",
     "resedit": "^2.0.2",
     "semver": "^7.6.2",
-    "tar": "^7.1.0",
+    "tar": "^7.2.0",
     "yargs": "^17.7.2",
     "yauzl-promise": "^4.0.0"
   },
