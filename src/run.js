@@ -21,10 +21,10 @@ import util from "./util.js";
  * Run NW.js application.
  *
  * @deprecated since v4.6.0. This logic will be ported over to `nwjs/npm-installer` repo and removed in the next major release (v5.0).
- * 
+ *
  * @async
  * @function
- * 
+ *
  * @param  {RunOptions}    options  Run mode options
  * @return {Promise<void>}
  */
@@ -56,10 +56,7 @@ async function run({
       const nwProcess = child_process.spawn(
         path.resolve(nwDir, util.EXE_NAME[platform]),
         [...[srcDir], ...argv],
-        {
-          detached: true,
-          windowsHide: true,
-        },
+        { stdio: "inherit" },
       );
 
       nwProcess.on("close", () => {
