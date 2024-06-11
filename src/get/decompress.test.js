@@ -4,6 +4,7 @@ import { beforeAll, describe, it } from "vitest";
 
 import decompress from "./decompress.js";
 import request from "./request.js";
+import util from "../util.js";
 
 describe("get/decompress", function () {
 
@@ -11,7 +12,10 @@ describe("get/decompress", function () {
   let zipUrl = "https://dl.nwjs.io/v0.83.0/nwjs-sdk-v0.83.0-osx-x64.zip";
 
   beforeAll(async function () {
-    await fs.promises.mkdir("./test/fixture/cache");
+    const cacheExists = await util.fileExists("./test/fixture/cache")
+    if (!cacheExists) {
+      await fs.promises.mkdir("./test/fixture/cache");
+    }
 
     await request(tarUrl, "./test/fixture/cache/nw.tar.gz");
     await request(zipUrl, "./test/fixture/cache/nw.zip");
