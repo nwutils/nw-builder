@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.7.5](https://github.com/nwutils/nw-builder/compare/v4.7.4...v4.7.5) (2024-06-11)
+
+
+### Bug Fixes
+
+* **run:** set stdio behaviour to inherit ([a3d181a](https://github.com/nwutils/nw-builder/commit/a3d181a5b9b6f967c11e7082fea57db96078bf7e))
+
+
+### Chores
+
+* **bld:** migrate from rcedit with resedit ([#1094](https://github.com/nwutils/nw-builder/issues/1094)) ([03a55b9](https://github.com/nwutils/nw-builder/commit/03a55b919a7e5dfcc1d9fa3f06baa327804d67c4))
+* **deps:** bump actions/checkout from 4.1.5 to 4.1.6 in /.github/workflows in the gha group ([#1095](https://github.com/nwutils/nw-builder/issues/1095)) ([0f1b126](https://github.com/nwutils/nw-builder/commit/0f1b1260d3a36939c111313ec1ab121fe8f12955))
+* **deps:** bump google-github-actions/release-please-action from 4.1.0 to 4.1.1 in /.github/workflows in the gha group ([#1091](https://github.com/nwutils/nw-builder/issues/1091)) ([316741b](https://github.com/nwutils/nw-builder/commit/316741ba699fcd0f8a7dd1176cbd14ca05c571be))
+* **deps:** bump googleapis/release-please-action from 4.1.1 to 4.1.3 in /.github/workflows in the gha group ([#1114](https://github.com/nwutils/nw-builder/issues/1114)) ([e284f5b](https://github.com/nwutils/nw-builder/commit/e284f5b61c0df05b63388ea5d31311f5daacd858))
+* **deps:** bump the npm group across 1 directory with 3 updates ([#1112](https://github.com/nwutils/nw-builder/issues/1112)) ([fde3491](https://github.com/nwutils/nw-builder/commit/fde34914d920245f535184ae545a56d939c59b8d))
+* **deps:** bump the npm group across 1 directory with 6 updates ([#1105](https://github.com/nwutils/nw-builder/issues/1105)) ([eb63ded](https://github.com/nwutils/nw-builder/commit/eb63dedabbf2ae525fa9f1ab6aa57d9b11c63fe0))
+* **deps:** upgrade to eslint v9 ([ffe6dd0](https://github.com/nwutils/nw-builder/commit/ffe6dd0238a8401fab46beed06c2812b0fa89abd))
+* **docs:** add missing platform-specific app options info ([#1093](https://github.com/nwutils/nw-builder/issues/1093)) ([715097f](https://github.com/nwutils/nw-builder/commit/715097f53dfe69e7895634fd85e4043b6a3242e1))
+
 ## [4.7.4](https://github.com/nwutils/nw-builder/compare/v4.7.3...v4.7.4) (2024-05-12)
 
 
