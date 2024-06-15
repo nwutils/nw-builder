@@ -9,7 +9,7 @@
     "Application"
   ],
   "author": {
-    "name": "Steffen Müller",
+    "name": "Steffen MÃ¼ller",
     "url": "https://www.mllrsohn.com/"
   },
   "maintainers": [
@@ -41,6 +41,7 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
+    "postinstall": "base-volta-off-of-nwjs",
     "lint": "eslint ./src/**/*.js ./test/**/*.js",
     "lint:fix": "eslint --fix ./src/**/*.js ./test/**/*.js",
     "markdown:fix": "markdownlint --fix ./README.md",
@@ -50,11 +51,13 @@
   },
   "devDependencies": {
     "@stylistic/eslint-plugin-js": "^2.1.0",
+    "base-volta-off-of-nwjs": "^1.0.5",
     "eslint": "^9.4.0",
     "eslint-config-tjw-jsdoc": "^1.0.5",
     "eslint-plugin-jsdoc": "^48.2.9",
     "eslint-plugin-markdown": "^5.0.0",
     "jsdoc": "^4.0.3",
+    "nw": "^0.88.0-2",
     "selenium-webdriver": "^4.21.0",
     "vitest": "^1.6.0"
   },
@@ -74,5 +77,8 @@
   "packageManager": "npm@10.7.0",
   "engines": {
     "node": ">=14"
+  },
+  "volta": {
+    "node": "22.0.0"
   }
 }

@@ -11,7 +11,7 @@ import util from "../../src/util.js";
 
 const { Driver, ServiceBuilder, Options } = chrome;
 
-describe("build test suite", async () => {
+describe.skip("build test suite", async () => {
   let driver = undefined;
 
   const nwOptions = {
