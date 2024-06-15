@@ -3,11 +3,11 @@ import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
 
-import { beforeAll, describe, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 
 import get from '../../src/get/index.js';
 
-describe("get", async () => {
+describe("get test suite", async () => {
   const nwOptions = {
     version: "0.84.0",
     flavor: "sdk",
@@ -19,13 +19,13 @@ describe("get", async () => {
     ffmpeg: false,
     nativeAddon: false,
   };
-    
+
   beforeAll(async () => {
     await get(nwOptions);
   }, Infinity);
 
   it("downloads macos binary", async function () {
-    assert.strictEqual(fs.existsSync(path.resolve(process.cwd(), nwOptions.cacheDir, `nwjs${nwOptions.flavor === "sdk" ? "-sdk" : ""}-v${nwOptions.version}-${nwOptions.platform}-${nwOptions.arch}`, "nwjs.app")), true);
+    expect(fs.existsSync(path.resolve(process.cwd(), nwOptions.cacheDir, `nwjs${nwOptions.flavor === "sdk" ? "-sdk" : ""}-v${nwOptions.version}-${nwOptions.platform}-${nwOptions.arch}`, "nwjs.app"))).toEqual(true);
   });
 
   it("preserves symlinks on macos build", async function () {
@@ -40,7 +40,7 @@ describe("get", async () => {
 
     for (const symlink of symlinks) {
       const stats = await fs.promises.lstat(symlink);
-      assert.strictEqual(stats.isSymbolicLink(), true);
+      expect(stats.isSymbolicLink()).toEqual(true);
     }
   });
 });

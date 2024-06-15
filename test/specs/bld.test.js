@@ -6,13 +6,9 @@ import { By } from "selenium-webdriver";
 import chrome from "selenium-webdriver/chrome.js";
 import { beforeAll, describe, it } from "vitest";
 
-import build from "../../src/bld.js";
-import get from "../../src/get/index.js";
-import util from "../../src/util.js";
-
 const { Driver, ServiceBuilder, Options } = chrome;
 
-describe.skip("build", async () => {
+describe("build test suite", async () => {
   let driver = undefined;
 
   const nwOptions = {
@@ -41,11 +37,11 @@ describe.skip("build", async () => {
     await get(nwOptions);
   }, Infinity);
 
-  it("should build without errors", async () => {
+  it("builds without errors", async () => {
     await build(nwOptions);
   });
 
-  it.skip("should run after build", async () => {
+  it("runs after build", async () => {
     const options = new Options();
     const args = [
       `--nwapp=${path.resolve("test", "fixture", "app")}`,

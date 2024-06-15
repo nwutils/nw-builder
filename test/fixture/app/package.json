@@ -1,5 +1,6 @@
 {
-  "name": "nwapp",
+  "name": "@nwutils/demo",
+  "private": true,
   "main": "index.html",
   "version": "0.0.0"
 }
