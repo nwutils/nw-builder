@@ -9,7 +9,7 @@
     "Application"
   ],
   "author": {
-    "name": "Steffen Müller",
+    "name": "Steffen MÃ¼ller",
     "url": "https://www.mllrsohn.com/"
   },
   "maintainers": [
@@ -57,7 +57,7 @@
     "eslint-plugin-jsdoc": "^48.2.9",
     "eslint-plugin-markdown": "^5.0.0",
     "jsdoc": "^4.0.3",
-    "nw": "^0.88.0-2",
+    "nw": "^0.88.0-3",
     "selenium-webdriver": "^4.21.0",
     "vitest": "^1.6.0"
   },
