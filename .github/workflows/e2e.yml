@@ -21,7 +21,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v4.1.7
       - name: Get Node version from NW.js manifest
         uses: volta-cli/action@v4.1.1
       - name: Node.js version
