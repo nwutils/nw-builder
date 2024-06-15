@@ -8,7 +8,7 @@ import axios from "axios";
  *
  * @async
  * @function
- * 
+ *
  * @param  {string}        url       - Download server
  * @param  {string}        filePath  - file path of downloaded content
  * @return {Promise<void>}
@@ -23,5 +23,7 @@ export default async function request(url, filePath) {
     responseType: "stream"
   });
 
-  await stream.promises.pipeline(response.data, writeStream);
+  response.data.pipe(writeStream);
+
+  // await stream.promises.pipeline(response.data, writeStream);
 }
