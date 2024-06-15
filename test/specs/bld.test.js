@@ -4,7 +4,11 @@ import process from "node:process";
 
 import { By } from "selenium-webdriver";
 import chrome from "selenium-webdriver/chrome.js";
-import { beforeAll, describe, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
+
+import build from "../../src/bld.js";
+import get from "../../src/get/index.js";
+import util from "../../src/util.js";
 
 const { Driver, ServiceBuilder, Options } = chrome;
 
@@ -55,6 +59,6 @@ describe("build test suite", async () => {
 
     driver = Driver.createSession(options, service);
     const text = await driver.findElement(By.id("test")).getText();
-    assert.strictEqual(text, "Hello, World!");
+    expect(text).toBe("Hello, World!");
   }, { timeout: Infinity });
 });
