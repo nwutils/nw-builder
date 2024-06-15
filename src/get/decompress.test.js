@@ -39,7 +39,7 @@ describe("get/decompress", async function () {
   }, Infinity);
 
   it.runIf(process.platform === 'darwin')("preserves symlinks on macos", async function () {
-    const frameworksPath = path.resolve(process.cwd(), nwOutPath, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework");
+    const frameworksPath = path.resolve(process.cwd(), nwOutPath, nwDirPath, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework");
     const symlinks = [
       path.join(frameworksPath, "Helpers"),
       path.join(frameworksPath, "Libraries"),
