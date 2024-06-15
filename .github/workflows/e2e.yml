@@ -2,7 +2,8 @@ name: e2e
 
 on:
   pull_request:
-    branches: [main]
+    branches:
+    - main
 
 concurrency:
   group: ${{ github.ref }}
@@ -21,13 +22,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4.1.6
-      - name: Get Node version from Node manifest
-        run: echo "NODE_VER=$(curl -s https://nwjs.io/versions | jq -r ".versions[0].components.node")" >> $GITHUB_ENV
-      - name: Setup Node
-        uses: actions/setup-node@v4.0.2
-        with:
-          node-version: ${{ env.NODE_VER }}
-          cache: "npm"
+      - name: Get Node version from NW.js manifest
+        uses: volta-cli/action@v4.1.1
+      - name: Node.js version
+        run: node -v
+      - name: npm version
+        run: npm -v
       - name: Install dependencies
         run: npm ci
       - name: Check for linting errors

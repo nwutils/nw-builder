@@ -1,10 +1,9 @@
-import assert from "node:assert";
 import path from "node:path";
 import process from "node:process";
 
 import { By } from "selenium-webdriver";
 import chrome from "selenium-webdriver/chrome.js";
-import { beforeAll, describe, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 
 import build from "../../src/bld.js";
 import get from "../../src/get/index.js";
@@ -12,7 +11,7 @@ import util from "../../src/util.js";
 
 const { Driver, ServiceBuilder, Options } = chrome;
 
-describe.skip("build", async () => {
+describe.skip("build test suite", async () => {
   let driver = undefined;
 
   const nwOptions = {
@@ -41,11 +40,11 @@ describe.skip("build", async () => {
     await get(nwOptions);
   }, Infinity);
 
-  it("should build without errors", async () => {
+  it("builds without errors", async () => {
     await build(nwOptions);
   });
 
-  it.skip("should run after build", async () => {
+  it("runs after build", async () => {
     const options = new Options();
     const args = [
       `--nwapp=${path.resolve("test", "fixture", "app")}`,
@@ -59,6 +58,6 @@ describe.skip("build", async () => {
 
     driver = Driver.createSession(options, service);
     const text = await driver.findElement(By.id("test")).getText();
-    assert.strictEqual(text, "Hello, World!");
+    expect(text).toBe("Hello, World!");
   }, { timeout: Infinity });
 });
