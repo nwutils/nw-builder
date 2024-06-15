@@ -46,11 +46,12 @@
     "lint:fix": "eslint --fix ./src/**/*.js ./test/**/*.js",
     "markdown:fix": "markdownlint --fix ./README.md",
     "docs": "jsdoc -d docs ./README.md ./src/index.js ./src/get.js ./src/run.js ./src/bld.js",
-    "test": "vitest run",
+    "test": "vitest run --coverage",
     "demo": "cd test/fixture && node demo.js"
   },
   "devDependencies": {
     "@stylistic/eslint-plugin-js": "^2.1.0",
+    "@vitest/coverage-v8": "^1.6.0",
     "base-volta-off-of-nwjs": "^1.0.5",
     "eslint": "^9.4.0",
     "eslint-config-tjw-jsdoc": "^1.0.5",
