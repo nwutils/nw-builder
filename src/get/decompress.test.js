@@ -24,7 +24,7 @@ describe("get/decompress", async function () {
   });
 
   it("decompresses a NW.js binary", async function () {
-    expect(await decompress(nwPath, nwOutPath)).not.toThrowError();;
+    expect(await decompress(nwFilePath, nwOutPath)).not.toThrowError();;
   });
 
   it("preserves symlinks on macos", async function () {
