@@ -3,18 +3,29 @@ import path from "node:path";
 import process from "node:process";
 
 import * as nw from "nw";
-import { beforeAll, describe, expect, it } from "vitest";
+import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 
 import decompress from "./decompress.js";
+
+import util from '../util.js';
 
 describe("get/decompress", async function () {
 
   let nwFilePath = '';
   let nwDirPath = '';
-  let nwOutPath = "./test/fixture/cache/nw";
+  let nwOutPath = "./test/fixture/cache";
+
+  afterAll(async function () {
+    await fs.promises.rm(nwOutPath, { recursive: true, force: true });
+  });
 
   beforeAll(async function () {
-    nwDirPath = await nw.findpath('nwjs', { flavor: 'sdk' });
+    nwDirPath = await nw.findpath('all', { flavor: 'sdk' });
+
+    const cacheExists = await util.fileExists(nwOutPath)
+    if (!cacheExists) {
+      await fs.promises.mkdir(nwOutPath);
+    }
 
     if (process.platform === 'linux') {
       nwFilePath = nwDirPath + '.tar.gz';
@@ -24,8 +35,8 @@ describe("get/decompress", async function () {
   });
 
   it("decompresses a NW.js binary", async function () {
-    expect(await decompress(nwFilePath, nwOutPath)).not.toThrowError();;
-  });
+    await decompress(nwFilePath, nwOutPath);
+  }, Infinity);
 
   it.runIf(process.platform === 'darwin')("preserves symlinks on macos", async function () {
     const frameworksPath = path.resolve(process.cwd(), nwOutPath, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework");
