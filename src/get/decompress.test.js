@@ -1,31 +1,45 @@
 import fs from "node:fs";
+import path from "node:path";
+import process from "node:process";
 
-import { beforeAll, describe, it } from "vitest";
+import * as nw from "nw";
+import { beforeAll, describe, expect, it } from "vitest";
 
 import decompress from "./decompress.js";
-import request from "./request.js";
-import util from "../util.js";
 
-describe("get/decompress", function () {
+describe("get/decompress", async function () {
 
-  let tarUrl = "https://dl.nwjs.io/v0.83.0/nwjs-sdk-v0.83.0-linux-x64.tar.gz";
-  let zipUrl = "https://dl.nwjs.io/v0.83.0/nwjs-sdk-v0.83.0-osx-x64.zip";
+  let nwFilePath = '';
+  let nwDirPath = '';
+  let nwOutPath = "./test/fixture/cache/nw";
 
   beforeAll(async function () {
-    const cacheExists = await util.fileExists("./test/fixture/cache")
-    if (!cacheExists) {
-      await fs.promises.mkdir("./test/fixture/cache");
+    nwDirPath = await nw.findpath('nwjs', { flavor: 'sdk' });
+
+    if (process.platform === 'linux') {
+      nwFilePath = nwDirPath + '.tar.gz';
+    } else {
+      nwFilePath = nwDirPath + '.zip';
     }
+  });
 
-    await request(tarUrl, "./test/fixture/cache/nw.tar.gz");
-    await request(zipUrl, "./test/fixture/cache/nw.zip");
-  }, Infinity);
+  it("decompresses a NW.js binary", async function () {
+    expect(await decompress(nwPath, nwOutPath)).not.toThrowError();;
+  });
 
-  it("decompresses a Linux tarball", async function () {
-    await decompress("./test/fixture/cache/nw.tar.gz", "./test/fixture/cache");
-  }, Infinity);
+  it("preserves symlinks on macos", async function () {
+    const frameworksPath = path.resolve(process.cwd(), nwOutPath, "nwjs.app", "Contents", "Frameworks", "nwjs Framework.framework");
+    const symlinks = [
+      path.join(frameworksPath, "Helpers"),
+      path.join(frameworksPath, "Libraries"),
+      path.join(frameworksPath, "nwjs Framework"),
+      path.join(frameworksPath, "Resources"),
+      path.join(frameworksPath, "Versions", "Current"),
+    ];
 
-  it("decompresses a MacOS zip", async function () {
-    await decompress("./test/fixture/cache/nw.zip", "./test/fixture/cache");
-  }, Infinity);
+    for (const symlink of symlinks) {
+      const stats = await fs.promises.lstat(symlink);
+      expect(stats.isSymbolicLink()).toEqual(true);
+    }
+  });
 });
