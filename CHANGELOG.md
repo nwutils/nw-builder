@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.7.6](https://github.com/nwutils/nw-builder/compare/v4.7.5...v4.7.6) (2024-06-19)
+
+
+### Bug Fixes
+
+* **bld:** resolve undefined reference ([#1127](https://github.com/nwutils/nw-builder/issues/1127)) ([006b517](https://github.com/nwutils/nw-builder/commit/006b517be0420e08134b5670e5d62a91f8b9107c)), closes [#1125](https://github.com/nwutils/nw-builder/issues/1125)
+
+
+### Chores
+
+* **deps-dev:** bump @stylistic/eslint-plugin-js from 2.1.0 to 2.2.1 in the npm group ([#1123](https://github.com/nwutils/nw-builder/issues/1123)) ([fcd83a9](https://github.com/nwutils/nw-builder/commit/fcd83a9875068ed9e86870cb4bbdabcb86b74bef))
+* **deps-dev:** bump ws from 8.17.0 to 8.17.1 ([#1126](https://github.com/nwutils/nw-builder/issues/1126)) ([7aa6f08](https://github.com/nwutils/nw-builder/commit/7aa6f08927869c8ceb5da686bb53e48f537f7a40))
+* **deps:** bump actions/checkout from 4.1.6 to 4.1.7 in /.github/workflows in the gha group ([#1116](https://github.com/nwutils/nw-builder/issues/1116)) ([eefde68](https://github.com/nwutils/nw-builder/commit/eefde686e344ae3e51191caf66a5b6b0b1b736fe))
+* **test:** enable e2e tests ([#1120](https://github.com/nwutils/nw-builder/issues/1120)) ([f802947](https://github.com/nwutils/nw-builder/commit/f80294712240caf8ccf225684eaec20ecb5f80a8))
+
 ## [4.7.5](https://github.com/nwutils/nw-builder/compare/v4.7.4...v4.7.5) (2024-06-11)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "nw-builder",
-  "version": "4.7.5",
+  "version": "4.7.6",
   "description": "Build NW.js desktop applications for MacOS, Windows and Linux.",
   "keywords": [
     "NW.js",
