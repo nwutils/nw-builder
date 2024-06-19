@@ -317,11 +317,11 @@ const setWinConfig = async ({ app, outDir }) => {
   await fsm.rename(path.resolve(outDir, "nw.exe"), outDirAppExe);
   const exe = peLibrary.NtExecutable.from(await fsm.readFile(outDirAppExe));
   const res = peLibrary.NtExecutableResource.from(exe);
+  // English (United States)
+  const EN_US = 1033;
   if (app.icon) {
     const iconBuffer = await fsm.readFile(path.resolve(app.icon));
     const iconFile = resedit.Data.IconFile.from(iconBuffer);
-    // English (United States)
-    const EN_US = 1033;
     resedit.Resource.IconGroupEntry.replaceIconsForResource(
       res.entries,
       // This is the name of the icon group nw.js uses that gets shown in file exlorers
