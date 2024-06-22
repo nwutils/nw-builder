@@ -41,7 +41,7 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
-    "postinstall": "base-volta-off-of-nwjs",
+    "postinstall": "node ./scripts/postinstall.js",
     "lint": "eslint ./src/**/*.js ./test/**/*.js",
     "lint:fix": "eslint --fix ./src/**/*.js ./test/**/*.js",
     "markdown:fix": "markdownlint --fix ./README.md",
