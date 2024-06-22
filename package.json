@@ -41,7 +41,7 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
-    "postinstall": "base-volta-off-of-nwjs",
+    "postinstall": "node ./src/postinstall.js",
     "lint": "eslint ./src/**/*.js ./test/**/*.js",
     "lint:fix": "eslint --fix ./src/**/*.js ./test/**/*.js",
     "markdown:fix": "markdownlint --fix ./README.md",
@@ -75,10 +75,7 @@
     "yargs": "^17.7.2",
     "yauzl-promise": "^4.0.0"
   },
-  "packageManager": "npm@10.7.0",
-  "engines": {
-    "node": ">=14"
-  },
+  "packageManager": "npm@10.8.1",
   "volta": {
     "node": "22.0.0"
   }
