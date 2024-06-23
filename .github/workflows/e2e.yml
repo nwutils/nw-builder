@@ -52,6 +52,6 @@ jobs:
         run: npm ci
       - name: Enable Coverage
         run: vitest --coverage.enabled true
-    - name: Report Coverage
-      if: always()
-      uses:  davelosert/vitest-coverage-report-action@v2.4.0
+      - name: Report Coverage
+        if: always()
+        uses:  davelosert/vitest-coverage-report-action@v2.4.0
