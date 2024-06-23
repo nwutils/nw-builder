@@ -1,6 +1,7 @@
 .DS_Store
 
 .idea
+coverage
 node_modules
 
 test/fixture/cache

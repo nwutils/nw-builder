@@ -23,7 +23,5 @@ export default async function request(url, filePath) {
     responseType: "stream"
   });
 
-  response.data.pipe(writeStream);
-
-  // await stream.promises.pipeline(response.data, writeStream);
+  await stream.promises.pipeline(response.data, writeStream);
 }
