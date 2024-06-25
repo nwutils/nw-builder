@@ -52,7 +52,7 @@
     "tmp": "vitest --coverage.enabled true"
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin-js": "^2.2.2",
+    "@stylistic/eslint-plugin-js": "^2.3.0",
     "@vitest/coverage-v8": "^1.6.0",
     "base-volta-off-of-nwjs": "^1.0.5",
     "eslint": "^9.4.0",
