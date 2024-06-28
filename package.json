@@ -52,15 +52,15 @@
     "tmp": "vitest --coverage.enabled true"
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin-js": "^2.2.2",
+    "@stylistic/eslint-plugin-js": "^2.3.0",
     "@vitest/coverage-v8": "^1.6.0",
     "base-volta-off-of-nwjs": "^1.0.5",
-    "eslint": "^9.4.0",
+    "eslint": "^9.6.0",
     "eslint-config-tjw-jsdoc": "^1.0.5",
-    "eslint-plugin-jsdoc": "^48.4.0",
+    "eslint-plugin-jsdoc": "^48.5.0",
     "eslint-plugin-markdown": "^5.0.0",
     "jsdoc": "^4.0.3",
-    "nw": "^0.88.0-5",
+    "nw": "^0.89.0",
     "selenium-webdriver": "^4.22.0",
     "vitest": "^1.6.0"
   },
