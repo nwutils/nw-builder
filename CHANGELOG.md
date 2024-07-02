@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.7.8](https://github.com/nwutils/nw-builder/compare/v4.7.7...v4.7.8) (2024-07-02)
+
+
+### Chores
+
+* **ci:** add Vitest Coverage Action ([#1136](https://github.com/nwutils/nw-builder/issues/1136)) ([4d32845](https://github.com/nwutils/nw-builder/commit/4d32845877ee7a64b61e8226b5593f6c8137524a)), closes [#1041](https://github.com/nwutils/nw-builder/issues/1041)
+* **deps-dev:** bump eslint-plugin-jsdoc from 48.2.13 to 48.4.0 in the npm group ([#1138](https://github.com/nwutils/nw-builder/issues/1138)) ([61189de](https://github.com/nwutils/nw-builder/commit/61189de946bf5bafd2acdd7b37b05e5a68e6b9a3))
+* **deps-dev:** bump the npm group across 1 directory with 4 updates ([#1142](https://github.com/nwutils/nw-builder/issues/1142)) ([761963d](https://github.com/nwutils/nw-builder/commit/761963d60db32aa53fd585204ea83868164986ae))
+* **deps:** bump davelosert/vitest-coverage-report-action from 2.4.0 to 2.5.0 in /.github/workflows in the gha group ([#1140](https://github.com/nwutils/nw-builder/issues/1140)) ([fddaf9f](https://github.com/nwutils/nw-builder/commit/fddaf9f1a2f53b8c9b8314b4043d5a0523be2e35))
+* **test:** enable vitest json reporter ([e44aadb](https://github.com/nwutils/nw-builder/commit/e44aadb880b794b99516069d2c40473a72f18dc5))
+
 ## [4.7.7](https://github.com/nwutils/nw-builder/compare/v4.7.6...v4.7.7) (2024-06-22)
 
 
