@@ -1,5 +1,10 @@
 {
     "greenLicenses": [
       "BlueOak"
-    ]
+    ],
+    "packageAllowlist": [
+    "string-width-cjs",
+    "strip-ansi-cjs",
+    "wrap-ansi-cjs"
+  ]
 }
