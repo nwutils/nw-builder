@@ -49,7 +49,7 @@
     "test": "vitest run --coverage",
     "test:cov": "vitest --coverage.enabled true",
     "demo": "cd test/fixture && node demo.js",
-    "tmp": "vitest --coverage.enabled true"
+    "license-check": "jsgl -l ."
   },
   "devDependencies": {
     "@stylistic/eslint-plugin-js": "^2.3.0",
