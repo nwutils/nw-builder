@@ -10,6 +10,21 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  license:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.7
+      - name: Setup Volta
+        uses: volta-cli/action@v4.1.1
+      - name: Node.js version
+        run: node -v
+      - name: npm version
+        run: npm -v
+      - name: Install dependencies
+        run: npm ci
+      - name: License check
+        run: npm run license-check
   e2e:
     strategy:
       matrix:
