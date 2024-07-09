@@ -9,7 +9,7 @@
     "Application"
   ],
   "author": {
-    "name": "Steffen Müller",
+    "name": "Steffen MÃ¼ller",
     "url": "https://www.mllrsohn.com/"
   },
   "maintainers": [
@@ -78,8 +78,8 @@
     "yargs": "^17.7.2",
     "yauzl-promise": "^4.0.0"
   },
-  "packageManager": "npm@10.8.1",
   "volta": {
-    "node": "22.0.0"
+    "node": "22.2.0",
+    "npm": "10.8.1"
   }
 }
