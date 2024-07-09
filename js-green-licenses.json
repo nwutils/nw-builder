@@ -3,8 +3,8 @@
       "BlueOak"
     ],
     "packageAllowlist": [
-    "string-width-cjs",
-    "strip-ansi-cjs",
-    "wrap-ansi-cjs"
+    "string-width",
+    "strip-ansi",
+    "wrap-ansi"
   ]
 }
