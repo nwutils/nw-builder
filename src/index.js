@@ -1,6 +1,5 @@
 import console from "node:console";
 import fs from "node:fs";
-import fsm from "node:fs/promises";
 
 import bld from "./bld.js";
 import get from "./get/index.js";
@@ -59,13 +58,13 @@ async function nwbuild(options) {
 
     built = fs.existsSync(options.cacheDir);
     if (built === false) {
-      await fsm.mkdir(options.cacheDir, { recursive: true });
+      await fs.promises.mkdir(options.cacheDir, { recursive: true });
     }
 
     if (options.mode === "build") {
       built = fs.existsSync(options.outDir);
       if (built === false) {
-        await fsm.mkdir(options.outDir, { recursive: true });
+        await fs.promises.mkdir(options.outDir, { recursive: true });
       }
     }
 

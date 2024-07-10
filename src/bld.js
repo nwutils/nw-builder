@@ -1,7 +1,7 @@
 import child_process from "node:child_process";
 import console from "node:console";
+import fs from "node:fs";
 import path from "node:path";
-import fsm from "node:fs/promises";
 import process from "node:process";
 
 import compressing from "compressing";
@@ -129,15 +129,15 @@ async function bld({
     }-${arch}`,
   );
 
-  await fsm.rm(outDir, { force: true, recursive: true });
-  await fsm.cp(nwDir, outDir, { recursive: true, verbatimSymlinks: true });
+  await fs.promises.rm(outDir, { force: true, recursive: true });
+  await fs.promises.cp(nwDir, outDir, { recursive: true, verbatimSymlinks: true });
 
   const files = await util.globFiles({ srcDir, glob });
   const manifest = await util.getNodeManifest({ srcDir, glob });
 
   if (glob) {
     for (let file of files) {
-      await fsm.cp(
+      await fs.promises.cp(
         file,
         path.resolve(
           outDir,
@@ -150,7 +150,7 @@ async function bld({
       );
     }
   } else {
-    await fsm.cp(
+    await fs.promises.cp(
       files,
       path.resolve(
         outDir,
@@ -208,7 +208,7 @@ const manageManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
   }
 
   if (typeof managedManifest === "string") {
-    manifest = JSON.parse(await fsm.readFile(managedManifest));
+    manifest = JSON.parse(await fs.promises.readFile(managedManifest));
   }
 
   if (manifest.devDependencies) {
@@ -216,7 +216,7 @@ const manageManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
   }
   manifest.packageManager = manifest.packageManager ?? "npm@*";
 
-  await fsm.writeFile(
+  await fs.promises.writeFile(
     path.resolve(
       outDir,
       platform !== "osx"
@@ -279,7 +279,7 @@ const setLinuxConfig = async ({ app, outDir }) => {
     SingleMainWindow: app.singleMainWindow,
   };
 
-  await fsm.rename(`${outDir}/nw`, `${outDir}/${app.name}`);
+  await fs.promises.rename(`${outDir}/nw`, `${outDir}/${app.name}`);
 
   let fileContent = `[Desktop Entry]\n`;
   Object.keys(desktopEntryFile).forEach((key) => {
@@ -288,7 +288,7 @@ const setLinuxConfig = async ({ app, outDir }) => {
     }
   });
   let filePath = `${outDir}/${app.name}.desktop`;
-  await fsm.writeFile(filePath, fileContent);
+  await fs.promises.writeFile(filePath, fileContent);
 };
 
 const setWinConfig = async ({ app, outDir }) => {
@@ -314,13 +314,13 @@ const setWinConfig = async ({ app, outDir }) => {
   });
 
   const outDirAppExe = path.resolve(outDir, `${app.name}.exe`);
-  await fsm.rename(path.resolve(outDir, "nw.exe"), outDirAppExe);
-  const exe = peLibrary.NtExecutable.from(await fsm.readFile(outDirAppExe));
+  await fs.promises.rename(path.resolve(outDir, "nw.exe"), outDirAppExe);
+  const exe = peLibrary.NtExecutable.from(await fs.promises.readFile(outDirAppExe));
   const res = peLibrary.NtExecutableResource.from(exe);
   // English (United States)
   const EN_US = 1033;
   if (app.icon) {
-    const iconBuffer = await fsm.readFile(path.resolve(app.icon));
+    const iconBuffer = await fs.promises.readFile(path.resolve(app.icon));
     const iconFile = resedit.Data.IconFile.from(iconBuffer);
     resedit.Resource.IconGroupEntry.replaceIconsForResource(
       res.entries,
@@ -340,7 +340,7 @@ const setWinConfig = async ({ app, outDir }) => {
   vi.outputToResourceEntries(res.entries);
   res.outputResource(exe);
   const outBuffer = Buffer.from(exe.generate());
-  await fsm.writeFile(outDirAppExe, outBuffer);
+  await fs.promises.writeFile(outDirAppExe, outBuffer);
 };
 
 const setOsxConfig = async ({ outDir, app }) => {
@@ -352,16 +352,16 @@ const setOsxConfig = async ({ outDir, app }) => {
 
   try {
     const outApp = path.resolve(outDir, `${app.name}.app`);
-    await fsm.rename(path.resolve(outDir, "nwjs.app"), outApp);
+    await fs.promises.rename(path.resolve(outDir, "nwjs.app"), outApp);
     if (app.icon !== undefined) {
-      await fsm.copyFile(
+      await fs.promises.copyFile(
         path.resolve(app.icon),
         path.resolve(outApp, "Contents", "Resources", "app.icns"),
       );
     }
 
     const infoPlistPath = path.resolve(outApp, "Contents", "Info.plist");
-    const infoPlistJson = plist.parse(await fsm.readFile(infoPlistPath, "utf-8"));
+    const infoPlistJson = plist.parse(await fs.promises.readFile(infoPlistPath, "utf-8"));
 
     const infoPlistStringsPath = path.resolve(
       outApp,
@@ -370,7 +370,7 @@ const setOsxConfig = async ({ outDir, app }) => {
       "en.lproj",
       "InfoPlist.strings",
     );
-    const infoPlistStringsData = await fsm.readFile(
+    const infoPlistStringsData = await fs.promises.readFile(
       infoPlistStringsPath,
       "utf-8",
     );
@@ -398,8 +398,8 @@ const setOsxConfig = async ({ outDir, app }) => {
       }
     });
 
-    await fsm.writeFile(infoPlistPath, plist.build(infoPlistJson));
-    await fsm.writeFile(
+    await fs.promises.writeFile(infoPlistPath, plist.build(infoPlistJson));
+    await fs.promises.writeFile(
       infoPlistStringsPath,
       infoPlistStringsDataArray.toString().replace(/,/g, "\n"),
     );
@@ -434,7 +434,7 @@ const compress = async ({
     await compressing.tgz.compressDir(outDir, `${outDir}.tgz`);
   }
 
-  await fsm.rm(outDir, { recursive: true, force: true });
+  await fs.promises.rm(outDir, { recursive: true, force: true });
 };
 
 export default bld;
