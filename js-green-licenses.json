@@ -3,6 +3,6 @@
       "BlueOak"
     ],
     "packageAllowlist": [
-    "@isaacs/cliui"
+    "@glob"
   ]
 }
