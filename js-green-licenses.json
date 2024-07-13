@@ -1,8 +1,5 @@
 {
     "greenLicenses": [
       "BlueOak"
-    ],
-    "packageAllowlist": [
-    "glob"
-  ]
+    ]
 }
