@@ -9,7 +9,7 @@
     "Application"
   ],
   "author": {
-    "name": "Steffen Müller",
+    "name": "Steffen MÃ¼ller",
     "url": "https://www.mllrsohn.com/"
   },
   "maintainers": [
@@ -49,8 +49,7 @@
     "test": "vitest run --coverage",
     "test:cov": "vitest --coverage.enabled true",
     "demo": "cd test/fixture && node demo.js",
-    "license-check": "jsgl -l .",
-    "patch": "patch-package"
+    "license-check": "jsgl -l ."
   },
   "devDependencies": {
     "@stylistic/eslint-plugin-js": "^2.3.0",
@@ -82,6 +81,6 @@
   },
   "volta": {
     "node": "22.2.0",
-    "npm": "10.8.1"
+    "npm": "10.8.2"
   }
 }
