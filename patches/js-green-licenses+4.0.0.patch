@@ -1,8 +1,16 @@
 diff --git a/node_modules/js-green-licenses/build/src/checker.js b/node_modules/js-green-licenses/build/src/checker.js
-index 79a88a3..5bc7fe2 100644
+index 79a88a3..d38efa4 100644
 --- a/node_modules/js-green-licenses/build/src/checker.js
 +++ b/node_modules/js-green-licenses/build/src/checker.js
-@@ -228,6 +228,11 @@ class LicenseChecker extends events_1.EventEmitter {
+@@ -68,6 +68,7 @@ const DEFAULT_GREEN_LICENSES = [
+     'Apache-2.0',
+     'Artistic-1.0',
+     'Artistic-2.0',
++    'BlueOak-1.0.0',
+     'BSD-2-Clause',
+     'BSD-3-Clause',
+     'BSL-1.0',
+@@ -228,6 +229,11 @@ class LicenseChecker extends events_1.EventEmitter {
          const spec = `${packageName}@${versionSpec}`;
          if (this.failedPackages.has(spec))
              return;
