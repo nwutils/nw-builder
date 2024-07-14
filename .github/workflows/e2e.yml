@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  license:
+  license-check:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
