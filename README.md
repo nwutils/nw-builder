@@ -29,18 +29,21 @@ For version 3, please go to the [corresponding branch](https://github.com/nwutil
 
 ## Install
 
-Every NW.js release includes a modified Node.js binary at a specific version. It is recommended to [install](https://nodejs.org/en/download/package-manager) exactly that version on the host system. Not doing so may download ABI incompatible Node modules. Consult the NW.js [versions manifest](https://nwjs.io/versions) for what Node.js version to install. It is recommended to use a Node version manager (such as [volta](https://volta.sh), n, nvm, or nvm-windows) to be able to easily install and switch between Node versions.
-
-For example, NW.js v0.83.0 comes with Node.js v21.1.0.
-
 ```shell
-$: node --version
-v21.1.0
+npm i -D nw nw-builder base-volta-off-of-nwjs
 ```
+
+Every NW.js release includes a modified Node.js binary at a specific version. It is recommended to [install](https://nodejs.org/en/download/package-manager) exactly that version on the host system. Not doing so may download ABI incompatible Node modules. Consult the NW.js [versions manifest](https://nwjs.io/versions) for what Node.js version to install. It is recommended to use a Node version manager (such as [volta](https://volta.sh), n, nvm, or nvm-windows) to be able to easily install and switch between Node versions.
 
 ## Usage
 
 This package can be used via a command line interface, be imported as a JavaScript module, or configured via the Node manifest as a JSON object.
+
+CLI interface:
+
+```shell
+nwbuild --mode=build --glob=false --flavor=sdk --cacheDir=./node_modules/nw
+```
 
 ESM import:
 
@@ -59,6 +62,13 @@ import("nwbuild")
   .catch((error) => {
     console.error(error);
   });
+
+nwbuild({
+  mode: "build",
+  glob: false,
+  flavor: "sdk",
+  cacheDir: "./node_modules/nw",
+});
 ```
 
 Node manifest usage:
@@ -66,12 +76,15 @@ Node manifest usage:
 ```json
 {
     "nwbuild": {
-        // user specified options
+      "mode": "build",
+      "glob": false,
+      "flavor": "sdk",
+      "cacheDir": "./node_modules/nw",
     }
 }
 ```
 
-> From here on we will show `nw-builder` functionality by using the JavaScript module. Please note that the same method applies when using a command line or Node manifest.
+> From here on we will show `nw-builder` functionality by using the JavaScript module. Please note that the same functionality applies when using a command line or Node manifest.
 
 ## Concepts
 
@@ -79,7 +92,7 @@ Node manifest usage:
 
 ### Get Mode
 
-> Deprecation warning: From v4.6.4 onward, run mode is deprecated. This logic will be ported over to nwjs/npm-installer repo and removed in the next major release.
+> Deprecation warning: From v4.6.4 onward, run mode is deprecated. This logic has been ported over to `nwjs/npm-installer` repo and will be removed in the next major release.
 
 By default you get the normal build of the latest NW.js release for your specific platform and arch. For more information, please refer to the API reference.
 
@@ -109,7 +122,7 @@ nwbuild({
 
 ### Run Mode
 
-> Deprecation warning: From v4.6.0 onward, run mode is deprecated. This logic will be ported over to `nwjs/npm-installer` repo and removed in the next major release.
+> Deprecation warning: From v4.6.0 onward, run mode is deprecated. This logic has been ported over to `nwjs/npm-installer` repo and will be removed in the next major release.
 
 ```javascript
 nwbuild({
@@ -177,7 +190,7 @@ nwbuild({
 We recommend rebuilding Node addons for NW.js via `node-gyp` if you are using NW.js v0.83.0 or above.
 
 ```shell
-node-gyp rebuild --target=21.1.0 --nodedir=/path/to/nw/node/headers
+node-gyp rebuild --target=22.2.0 --nodedir=/path/to/nw/node/headers
 ```
 
 NW.js's Node version should match the Node version on the host machine due to [ABI differences in V8](https://github.com/nwjs/nw.js/issues/5025).
