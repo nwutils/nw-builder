@@ -49,7 +49,7 @@
     "test": "vitest run --coverage",
     "test:cov": "vitest --coverage.enabled true",
     "demo": "cd test/fixture && node demo.js",
-    "tmp": "vitest --coverage.enabled true"
+    "license-check": "jsgl --local ."
   },
   "devDependencies": {
     "@stylistic/eslint-plugin-js": "^2.3.0",
@@ -59,8 +59,10 @@
     "eslint-config-tjw-jsdoc": "^1.0.5",
     "eslint-plugin-jsdoc": "^48.5.0",
     "eslint-plugin-markdown": "^5.0.0",
+    "js-green-licenses": "^4.0.0",
     "jsdoc": "^4.0.3",
     "nw": "^0.89.0",
+    "patch-package": "^8.0.0",
     "selenium-webdriver": "^4.22.0",
     "vitest": "^1.6.0"
   },
@@ -77,8 +79,8 @@
     "yargs": "^17.7.2",
     "yauzl-promise": "^4.0.0"
   },
-  "packageManager": "npm@10.8.1",
   "volta": {
-    "node": "22.0.0"
+    "node": "22.2.0",
+    "npm": "10.8.2"
   }
 }
