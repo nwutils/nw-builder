@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import request from './request.js';
+import util from '../util.js';
 
 console.log(await verify('0.89.0', 'sdk', 'linux', 'x64', './node_modules/nw'))
 
@@ -31,7 +32,10 @@ export default async function verify(version, flavor, platform, arch, cacheDir) 
     /* Download text file which contains SHA256 checksum. */
     const sha256url = `https://dl.nwjs.io/v${version}/SHASUMS256.txt`;
     const sha256out = path.resolve(cacheDir, `nwjs-v${version}-${platform}-${arch}-SHASUM256.txt`);
-    await request(sha256url, sha256out);
+    const fileExists = await util.fileExists(sha256out);
+    if (fileExists === false) {
+        await request(sha256url, sha256out);
+    }
 
     /* Generate SHA256 checksum of downloaded file. */
     const fileBuffer = await fs.promises.readFile(path.resolve(cacheDir, nwFile));
