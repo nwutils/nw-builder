@@ -4,13 +4,14 @@ import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
 
-import compressing from "compressing";
+import archiver from "archiver";
 import * as resedit from "resedit";
 // pe-library is a direct dependency of resedit
 import * as peLibrary from 'pe-library';
 import plist from "plist";
+import * as tar from 'tar';
 
-import util from "./util.js"
+import util from "./util.js";
 
 /**
  * References:
@@ -427,11 +428,21 @@ const compress = async ({
   outDir,
 }) => {
   if (zip === true || zip === "zip") {
-    await compressing.zip.compressDir(outDir, `${outDir}.zip`);
+    const archive = archiver('zip');
+    const writeStream = fs.createWriteStream(`${outDir}.zip`);
+    archive.pipe(writeStream);
+    archive.directory(outDir, false);
+    archive.finalize();
   } else if (zip === "tar") {
-    await compressing.tar.compressDir(outDir, `${outDir}.tar`);
+    await tar.create({
+      gzip: false,
+      file: `${outDir}.tar`,
+    }, [outDir]);
   } else if (zip === "tgz") {
-    await compressing.tgz.compressDir(outDir, `${outDir}.tgz`);
+    await tar.create({
+      gzip: true,
+      file: `${outDir}.tgz`,
+    }, [outDir]);
   }
 
   await fs.promises.rm(outDir, { recursive: true, force: true });
