@@ -49,7 +49,7 @@ export type AppOptions<P extends SupportedPlatform> =
     : (WindowsAppOptions | OsxAppOptions | LinuxAppOptions);
 
 /** Windows configuration options
- * 
+ *
  * References:
  * - https://learn.microsoft.com/en-us/windows/win32/msi/version
  * - https://learn.microsoft.com/en-gb/windows/win32/sbscs/application-manifests
@@ -60,8 +60,6 @@ export interface WindowsAppOptions {
     /** The name of the application */
     name?: string,
     /** The version of the application */
-    version?: string,
-    /** Additional information that should be displayed for diagnostic purposes. */
     comments?: string,
     /** Company that produced the file—for example, Microsoft Corporation or Standard Microsystems Corporation, Inc. This string is required. */
     company: string,
@@ -90,25 +88,25 @@ export interface WindowsAppOptions {
 }
 
 /** Linux configuration options
- * 
+ *
  * References:
  * https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html
  */
 export interface LinuxAppOptions {
     /** Name of the application */
-    name?: string,   
+    name?: string,
     /** Generic name of the application */
-    genericName?: string,   
+    genericName?: string,
     /** If true the application is not displayed */
-    noDisplay?: boolean,  
+    noDisplay?: boolean,
     /** Tooltip for the entry, for example "View sites on the Internet". */
-    comment?: string,   
+    comment?: string,
     /** Icon to display in file manager, menus, etc. */
-    icon?: string,   
+    icon?: string,
     /** A list of strings identifying the desktop environments that should (/not) display a given desktop entry */
-    onlyShowIn?: string[], 
+    onlyShowIn?: string[],
     /**  A list of strings identifying the desktop environments that should (/not) display a given desktop entry */
-    notShowIn?: string[], 
+    notShowIn?: string[],
     /** A boolean value specifying if D-Bus activation is supported for this application */
     dBusActivatable?: boolean,
     /** Path to an executable file on disk used to determine if the program is actually installed */
@@ -140,7 +138,7 @@ export interface LinuxAppOptions {
 }
 
 /** OSX resource configuration options
- * 
+ *
  * References:
  * https://developer.apple.com/documentation/bundleresources/information_property_list
  */
@@ -148,23 +146,23 @@ export interface OsxAppOptions {
     /** The name of the application */
     name?: string,
     /** The path to the icon file. It should be a .icns file. */
-    icon?: string, 
+    icon?: string,
     /** The category that best describes your app for the App Store. */
-    LSApplicationCategoryType?: string, 
+    LSApplicationCategoryType?: string,
     /** A unique identifier for a bundle usually in reverse DNS format. */
-    CFBundleIdentifier?: string, 
+    CFBundleIdentifier?: string,
     /** A user-visible short name for the bundle. */
-    CFBundleName?: string, 
+    CFBundleName?: string,
     /** The user-visible name for the bundle. */
-    CFBundleDisplayName?: string, 
+    CFBundleDisplayName?: string,
     /** A replacement for the app name in text-to-speech operations. */
-    CFBundleSpokenName?: string, 
+    CFBundleSpokenName?: string,
     /** The version of the build that identifies an iteration of the bundle. */
-    CFBundleVersion?: string, 
+    CFBundleVersion?: string,
     /** The release or version number of the bundle. */
-    CFBundleShortVersionString?: string, 
+    CFBundleShortVersionString?: string,
     /** A human-readable copyright notice for the bundle. */
-    NSHumanReadableCopyright?: string, 
+    NSHumanReadableCopyright?: string,
 }
 
 /**

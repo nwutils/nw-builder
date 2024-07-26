@@ -230,7 +230,6 @@ This object defines additional properties used for building for a specific platf
 | ---- | ------- | --------- | ----------- |
 | `icon` | `string` | `undefined` | The path to the icon file. It should be a .ico file. |
 | `name` | `string` | Value of `name` in app's `package.json` | The name of the application |
-| `version` | `string` | Value of `version` in app's `package.json` | The version of the application |
 | `comments` | `string` | `undefined` | Additional information that should be displayed for diagnostic purposes. |
 | `company` | `string` | `undefined` | Company that produced the file—for example, Microsoft Corporation or Standard Microsystems Corporation, Inc. This string is required. |
 | `fileDescription` | `string` | Value of `description` in app's `package.json` | File description to be presented to users. This string may be displayed in a list box when the user is choosing files to install. For example, Keyboard Driver for AT-Style Keyboards. This string is required. |

@@ -68,7 +68,6 @@ import util from "./util.js";
  *
  * @typedef {object} WinRc              Windows configuration options. More info
  * @property {string} name              The name of the application
- * @property {string} version           The version of the application
  * @property {string} comments          Additional information that should be displayed for diagnostic purposes.
  * @property {string} company           Company that produced the file—for example, Microsoft Corporation or Standard Microsystems Corporation, Inc. This string is required.
  * @property {string} fileDescription   File description to be presented to users. This string may be displayed in a list box when the user is choosing files to install. For example, Keyboard Driver for AT-Style Keyboards. This string is required.
@@ -295,17 +294,17 @@ const setLinuxConfig = async ({ app, outDir }) => {
 const setWinConfig = async ({ app, outDir }) => {
   let versionString = {
     Comments: app.comments,
-    CompanyName: app.author,
+    CompanyName: app.company,
     FileDescription: app.fileDescription,
     FileVersion: app.fileVersion,
-    InternalName: app.name,
+    InternalName: app.internalName,
     LegalCopyright: app.legalCopyright,
     LegalTrademarks: app.legalTrademark,
-    OriginalFilename: app.name,
-    PrivateBuild: app.name,
-    ProductName: app.name,
-    ProductVersion: app.version,
-    SpecialBuild: app.name,
+    OriginalFilename: app.originalFilename,
+    PrivateBuild: app.privateBuild,
+    ProductName: app.productName,
+    ProductVersion: app.productVersion,
+    SpecialBuild: app.specialBuild,
   };
 
   Object.keys(versionString).forEach((option) => {
@@ -332,8 +331,8 @@ const setWinConfig = async ({ app, outDir }) => {
     );
   }
   const [vi] = resedit.Resource.VersionInfo.fromEntries(res.entries);
-  const [major, minor, patch] = app.version.split(".");
-  vi.setFileVersion(major, minor, patch, 0, EN_US);
+  const [major, minor, micro, revision] = app.fileVersion.split(".");
+  vi.setFileVersion(major, minor, micro, revision, EN_US);
   vi.setStringValues({
     lang: EN_US,
     codepage: 1200
