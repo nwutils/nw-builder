@@ -85,6 +85,8 @@ export interface WindowsAppOptions {
     productVersion: string,
     /** Text that specifies how this version of the file differs from the standard version—for example, Private build for TESTER1 solving mouse problems on M250 and M250E computers. This string should be present only if VS_FF_SPECIALBUILD is specified in the fileflags parameter of the root block. */
     specialBuild?: string,
+    /** Language of the file, defined by Microsoft, see: https://learn.microsoft.com/en-us/openspecs/office_standards/ms-oe376/6c085406-a698-4e12-9d4d-c3b0ee3dbc4a */
+    languageCode?: number,
 }
 
 /** Linux configuration options

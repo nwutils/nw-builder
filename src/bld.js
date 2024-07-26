@@ -81,6 +81,7 @@ import util from "./util.js";
  * @property {string} productName       Name of the product with which the file is distributed. This string is required.
  * @property {string} productVersion    Version of the product with which the file is distributed—for example, 3.10 or 5.00.RC2. This string is required.
  * @property {string} specialBuild      Text that specifies how this version of the file differs from the standard version—for example, Private build for TESTER1 solving mouse problems on M250 and M250E computers. This string should be present only if VS_FF_SPECIALBUILD is specified in the fileflags parameter of the root block.
+ * @property {string} languageCode      Language of the file, defined by Microsoft, see: https://learn.microsoft.com/en-us/openspecs/office_standards/ms-oe376/6c085406-a698-4e12-9d4d-c3b0ee3dbc4a
  */
 
 /**
@@ -331,10 +332,18 @@ const setWinConfig = async ({ app, outDir }) => {
     );
   }
   const [vi] = resedit.Resource.VersionInfo.fromEntries(res.entries);
+  if (app.languageCode !== EN_US) {
+    res.removeResourceEntry(16, 1, EN_US);
+    vi.removeAllStringValues({
+      lang: EN_US,
+      codepage: 1200,
+    });
+    vi.lang=app.languageCode;
+  }
   const [major, minor, micro, revision] = app.fileVersion.split(".");
-  vi.setFileVersion(major, minor, micro, revision, EN_US);
+  vi.setFileVersion(major, minor, micro, revision, app.languageCode);
   vi.setStringValues({
-    lang: EN_US,
+    lang: app.languageCode,
     codepage: 1200
   }, versionString);
   vi.outputToResourceEntries(res.entries);

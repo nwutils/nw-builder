@@ -250,6 +250,7 @@ export const parse = async (options, pkg) => {
     options.app.productName = options.app.productName ?? pkg.name;
     options.app.productVersion = options.app.productVersion ?? pkg.version;
     options.app.specialBuild = options.app.specialBuild ?? undefined;
+    options.app.languageCode = options.app.languageCode ?? 1033;
   }
 
   if (options.platform === "osx") {
