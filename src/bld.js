@@ -340,8 +340,8 @@ const setWinConfig = async ({ app, outDir }) => {
     });
     vi.lang=app.languageCode;
   }
-  const [major, minor, micro, revision] = app.fileVersion.split(".");
-  vi.setFileVersion(major, minor, micro, revision, app.languageCode);
+  vi.setFileVersion(app.fileVersion, app.languageCode);
+  vi.setProductVersion(app.productVersion, app.languageCode);
   vi.setStringValues({
     lang: app.languageCode,
     codepage: 1200
