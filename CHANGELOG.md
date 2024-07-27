@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.8.0](https://github.com/nwutils/nw-builder/compare/v4.7.8...v4.8.0) (2024-07-27)
+
+
+### Features
+
+* **bld:** add languageCode option for Windows ([#1175](https://github.com/nwutils/nw-builder/issues/1175)) ([96ad585](https://github.com/nwutils/nw-builder/commit/96ad585ec170416d31248ccf3503191831e802b0))
+
+
+### Bug Fixes
+
+* **bld:** pass nw manifest correctly when managedManifest is true ([#1176](https://github.com/nwutils/nw-builder/issues/1176)) ([949c4b7](https://github.com/nwutils/nw-builder/commit/949c4b70b89cc96ee98d88b910caa833eb99d385))
+
+
+### Chores
+
+* **ci:** check for valid licenses ([#1150](https://github.com/nwutils/nw-builder/issues/1150)) ([ab99731](https://github.com/nwutils/nw-builder/commit/ab997311046b1e75aee24397a3b9bb20d19c4d2f))
+* **deps:** bump actions/setup-node from 4.0.2 to 4.0.3 in /.github/workflows in the gha group ([#1151](https://github.com/nwutils/nw-builder/issues/1151)) ([7130930](https://github.com/nwutils/nw-builder/commit/7130930c3d7ce28c1e07c510045576830e266c77))
+* **deps:** bump the npm group across 1 directory with 8 updates ([#1177](https://github.com/nwutils/nw-builder/issues/1177)) ([9410455](https://github.com/nwutils/nw-builder/commit/94104551d8b8f8c1ece595e34caa91b3c34dc0a3))
+* **deps:** migrate from compressing to tar and archiver ([7c73903](https://github.com/nwutils/nw-builder/commit/7c73903d6c3723814df64d9241976b457cb2d149))
+* **docs:** improve install/quick start ([a87f44b](https://github.com/nwutils/nw-builder/commit/a87f44b5f6e0bdc0e09569a560b10a032766da02))
+* fsm -&gt; fs.promises ([08d79bf](https://github.com/nwutils/nw-builder/commit/08d79bf07c0b590a376af4cc53a37db4d75094cf))
+
 ## [4.7.8](https://github.com/nwutils/nw-builder/compare/v4.7.7...v4.7.8) (2024-07-02)
 
 
