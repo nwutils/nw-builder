@@ -242,15 +242,16 @@ export const parse = async (options, pkg) => {
     options.app.company = options.app.company ?? pkg.author;
     options.app.fileDescription =
       options.app.fileDescription ?? pkg.description;
-    options.app.fileVersion = options.app.fileVersion ?? pkg.version;
+    options.app.fileVersion = options.app.fileVersion ?? options.app.version ?? pkg.version;
     options.app.internalName = options.app.internalName ?? pkg.name;
     options.app.legalCopyright = options.app.legalCopyright ?? undefined;
     options.app.legalTrademark = options.app.legalTrademark ?? undefined;
-    options.app.originalFilename = options.app.originalFilename ?? pkg.name;
+    options.app.originalFilename = options.app.originalFilename ?? options.app.name;
     options.app.privateBuild = options.app.privateBuild ?? undefined;
     options.app.productName = options.app.productName ?? pkg.name;
     options.app.productVersion = options.app.productVersion ?? pkg.version;
     options.app.specialBuild = options.app.specialBuild ?? undefined;
+    options.app.languageCode = options.app.languageCode ?? 1033;
   }
 
   if (options.platform === "osx") {

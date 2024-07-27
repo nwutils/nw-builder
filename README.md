@@ -230,12 +230,12 @@ This object defines additional properties used for building for a specific platf
 | ---- | ------- | --------- | ----------- |
 | `icon` | `string` | `undefined` | The path to the icon file. It should be a .ico file. |
 | `name` | `string` | Value of `name` in app's `package.json` | The name of the application |
-| `version` | `string` | Value of `version` in app's `package.json` | The version of the application |
+| `version` | `string` | Value of `version` in app's `package.json` | (deprecated, Use `fileVersion` instead) The version of the application |
 | `comments` | `string` | `undefined` | Additional information that should be displayed for diagnostic purposes. |
-| `company` | `string` | `undefined` | Company that produced the file—for example, Microsoft Corporation or Standard Microsystems Corporation, Inc. This string is required. |
+| `company` | `string` | Value of `author` in app's `package.json` | Company that produced the file—for example, Microsoft Corporation or Standard Microsystems Corporation, Inc. This string is required. |
 | `fileDescription` | `string` | Value of `description` in app's `package.json` | File description to be presented to users. This string may be displayed in a list box when the user is choosing files to install. For example, Keyboard Driver for AT-Style Keyboards. This string is required. |
-| `fileVersion` | `string` | Value of `version` in app's `package.json` | Version number of the file. For example, 3.10 or 5.00.RC2. This string is required. |
-| `internalName` | `string` | `undefined` |Internal name of the file, if one exists—for example, a module name if the file is a dynamic-link library. If the file has no internal name, this string should be the original filename, without extension. This string is required. |
+| `fileVersion` | `string` | Value of `version` option or value of `version` in app's `package.json` | Version number of the file. For example, 3.10 or 5.00.RC2. This string is required. |
+| `internalName` | `string` | Value of `name` in app's `package.json` |Internal name of the file, if one exists—for example, a module name if the file is a dynamic-link library. If the file has no internal name, this string should be the original filename, without extension. This string is required. |
 | `legalCopyright` | `string` | NW.js' copyright info | Copyright notices that apply to the file. This should include the full text of all notices, legal symbols, copyright dates, and so on. This string is optional. |
 | `legalTrademark` | `string` | `undefined` | Trademarks and registered trademarks that apply to the file. This should include the full text of all notices, legal symbols, trademark numbers, and so on. This string is optional. |
 | `originalFilename` | `string` | Value of `name` option | Original name of the file, not including a path. This information enables an application to determine whether a file has been renamed by a user. The format of the name depends on the file system for which the file was created. This string is required. |
@@ -243,6 +243,7 @@ This object defines additional properties used for building for a specific platf
 | `productName` | `string` | Matches the package name defined in app's `package.json` | Name of the product with which the file is distributed. This string is required. |
 | `productVersion` | `string` | Value of `version` in app's `package.json` | Version of the product with which the file is distributed—for example, 3.10 or 5.00.RC2. |
 | `specialBuild` | `string` | `undefined` | Text that specifies how this version of the file differs from the standard version—for example, Private build for TESTER1 solving mouse problems on M250 and M250E computers. |
+| `languageCode` | `number` | `1033` | Language of the file, defined by Microsoft, see: https://learn.microsoft.com/en-us/openspecs/office_standards/ms-oe376/6c085406-a698-4e12-9d4d-c3b0ee3dbc4a                                                                                                 |
 
 #### Linux-specific options (`LinuxRc`)
 
