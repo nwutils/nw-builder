@@ -68,6 +68,7 @@ import util from "./util.js";
  *
  * @typedef {object} WinRc              Windows configuration options. More info
  * @property {string} name              The name of the application
+ * @property {string} version           @deprecated Use {@link fileVersion} instead. The version of the application
  * @property {string} comments          Additional information that should be displayed for diagnostic purposes.
  * @property {string} company           Company that produced the file—for example, Microsoft Corporation or Standard Microsystems Corporation, Inc. This string is required.
  * @property {string} fileDescription   File description to be presented to users. This string may be displayed in a list box when the user is choosing files to install. For example, Keyboard Driver for AT-Style Keyboards. This string is required.

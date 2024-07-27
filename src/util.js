@@ -237,11 +237,12 @@ export const parse = async (options, pkg) => {
   }
   if (options.platform === "win") {
     // windows configuration options
+    options.app.version = options.app.version ?? pkg.version;
     options.app.comments = options.app.comments ?? undefined;
     options.app.company = options.app.company ?? pkg.author;
     options.app.fileDescription =
       options.app.fileDescription ?? pkg.description;
-    options.app.fileVersion = options.app.fileVersion ?? pkg.version;
+    options.app.fileVersion = options.app.fileVersion ?? options.app.version ?? pkg.version;
     options.app.internalName = options.app.internalName ?? pkg.name;
     options.app.legalCopyright = options.app.legalCopyright ?? undefined;
     options.app.legalTrademark = options.app.legalTrademark ?? undefined;
