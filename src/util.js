@@ -246,7 +246,7 @@ export const parse = async (options, pkg) => {
     options.app.internalName = options.app.internalName ?? pkg.name;
     options.app.legalCopyright = options.app.legalCopyright ?? undefined;
     options.app.legalTrademark = options.app.legalTrademark ?? undefined;
-    options.app.originalFilename = options.app.originalFilename ?? pkg.name;
+    options.app.originalFilename = options.app.originalFilename ?? options.app.name;
     options.app.privateBuild = options.app.privateBuild ?? undefined;
     options.app.productName = options.app.productName ?? pkg.name;
     options.app.productVersion = options.app.productVersion ?? pkg.version;
