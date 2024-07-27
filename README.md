@@ -386,7 +386,6 @@ nwbuild({
 ### Chores
 
 - chore(docs): don't store JSDoc definitions in `typedef`s - get's hard to understand during development.
-- chore(get): verify sha checksum for downloads
 - chore: annotate file paths as `fs.PathLike` instead of `string`.
 - chore(bld): factor out core build step
 - chore(bld): factor out linux config

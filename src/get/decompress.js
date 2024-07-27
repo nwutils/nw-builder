@@ -5,6 +5,8 @@ import stream from "node:stream";
 import * as tar from "tar";
 import yauzl from "yauzl-promise";
 
+import util from '../util.js';
+
 /**
  * Decompresses a file at `filePath` to `cacheDir` directory.
  *
@@ -86,7 +88,8 @@ async function unzip(zippedFile, cacheDir) {
     const linkTarget = Buffer.concat(chunks).toString('utf8').trim();
 
     // Check if the symlink or a file/directory already exists at the destination
-    if (fs.existsSync(entryPathAbs)) {
+    const entryPathAbsExists = await util.fileExists(entryPathAbs);
+    if (entryPathAbsExists) {
       //skip
     } else {
       // Create symbolic link

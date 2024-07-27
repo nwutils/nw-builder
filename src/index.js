@@ -39,7 +39,10 @@ import util from "./util.js";
  * @return {Promise<void>}
  */
 async function nwbuild(options) {
-  let built;
+  /**
+   * @type {boolean}
+   */
+  let built = false;
   let releaseInfo = {};
   let manifest = {};
 
@@ -56,13 +59,13 @@ async function nwbuild(options) {
 
     //TODO: impl logging
 
-    built = fs.existsSync(options.cacheDir);
+    built = await util.fileExists(options.cacheDir);
     if (built === false) {
       await fs.promises.mkdir(options.cacheDir, { recursive: true });
     }
 
     if (options.mode === "build") {
-      built = fs.existsSync(options.outDir);
+      built = await util.fileExists(options.outDir);
       if (built === false) {
         await fs.promises.mkdir(options.outDir, { recursive: true });
       }
