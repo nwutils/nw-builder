@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.8.10](https://github.com/nwutils/nw-builder/compare/v3.8.9...v3.8.10) (2024-07-27)
+
+
+### Bug Fixes
+
+* **ci:** update release please action domain name ([59a3e73](https://github.com/nwutils/nw-builder/commit/59a3e73ad0dbeb73c0a5ecc6c29a11c50d4dfe1a))
+
+
+### Chores
+
+* **deps:** bump the gha group across 1 directory with 3 updates ([#1165](https://github.com/nwutils/nw-builder/issues/1165)) ([e829c02](https://github.com/nwutils/nw-builder/commit/e829c02dad52ac4eaf5986d77874f7b6db679521))
+* **deps:** bump the npm group across 1 directory with 8 updates ([#1171](https://github.com/nwutils/nw-builder/issues/1171)) ([2f34abc](https://github.com/nwutils/nw-builder/commit/2f34abc95d11b36a3ddd1b9131e23511285efaca))
+
 ## [3.8.9](https://github.com/nwutils/nw-builder/compare/v3.8.8...v3.8.9) (2024-05-25)
 
 
