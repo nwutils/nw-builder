@@ -230,21 +230,19 @@ const manageManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
     "utf8",
   );
 
-  process.chdir(
-    path.resolve(
-      outDir,
-      platform !== "osx"
-        ? "package.nw"
-        : "nwjs.app/Contents/Resources/app.nw",
-    ),
+  const cwd = path.resolve(
+    outDir,
+    platform !== "osx"
+      ? "package.nw"
+      : "nwjs.app/Contents/Resources/app.nw",
   );
 
   if (manifest.packageManager.startsWith("npm")) {
-    child_process.execSync(`npm install`);
+    child_process.execSync(`npm install`, { cwd });
   } else if (manifest.packageManager.startsWith("yarn")) {
-    child_process.execSync(`yarn install`);
+    child_process.execSync(`yarn install`, { cwd });
   } else if (manifest.packageManager.startsWith("pnpm")) {
-    child_process.execSync(`pnpm install`);
+    child_process.execSync(`pnpm install`, { cwd });
   }
 };
 
@@ -420,16 +418,14 @@ const setOsxConfig = async ({ outDir, app }) => {
 
 const buildNativeAddon = ({ cacheDir, version, platform, arch, outDir, nodeVersion }) => {
   let nodePath = path.resolve(cacheDir, `node-v${version}-${platform}-${arch}`);
-  process.chdir(
-    path.resolve(
-      outDir,
-      platform !== "osx"
-        ? "package.nw"
-        : "nwjs.app/Contents/Resources/app.nw",
-    ),
+  const cwd = path.resolve(
+    outDir,
+    platform !== "osx"
+      ? "package.nw"
+      : "nwjs.app/Contents/Resources/app.nw",
   );
 
-  child_process.execSync(`node-gyp rebuild --target=${nodeVersion} --nodedir=${nodePath}`);
+  child_process.execSync(`node-gyp rebuild --target=${nodeVersion} --nodedir=${nodePath}`, { cwd });
 };
 
 const compress = async ({
