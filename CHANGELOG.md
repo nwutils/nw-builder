@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.8.1](https://github.com/nwutils/nw-builder/compare/v4.8.0...v4.8.1) (2024-08-05)
+
+
+### Bug Fixes
+
+* **bld:** maintain cwd when using managedManifest or nativeAddon ([#1187](https://github.com/nwutils/nw-builder/issues/1187)) ([40223db](https://github.com/nwutils/nw-builder/commit/40223db6af75651618df7f3099b99191faa11f24)), closes [#1186](https://github.com/nwutils/nw-builder/issues/1186)
+
+
+### Chores
+
+* **deps:** bump the npm group across 1 directory with 6 updates ([#1185](https://github.com/nwutils/nw-builder/issues/1185)) ([f4c0822](https://github.com/nwutils/nw-builder/commit/f4c08224c7651b3eecf2353a7a50fd7cf240c2f0))
+* **deps:** remove unused cli-progress package ([8f4e07d](https://github.com/nwutils/nw-builder/commit/8f4e07dfbda348fcc832694d346be7616bfb1f4b))
+
 ## [4.8.0](https://github.com/nwutils/nw-builder/compare/v4.7.8...v4.8.0) (2024-07-27)
 
 
