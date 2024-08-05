@@ -16,7 +16,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4.1.7
       - name: Setup Volta
-        uses: volta-cli/action@v4.1.1
+        uses: volta-cli/action@v4.2.0
       - name: Node.js version
         run: node -v
       - name: npm version
@@ -38,7 +38,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4.1.7
       - name: Setup Volta
-        uses: volta-cli/action@v4.1.1
+        uses: volta-cli/action@v4.2.0
       - name: Node.js version
         run: node -v
       - name: npm version
@@ -58,7 +58,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4.1.7
       - name: Setup Volta
-        uses: volta-cli/action@v4.1.1
+        uses: volta-cli/action@v4.2.0
       - name: Node.js version
         run: node -v
       - name: npm version
