@@ -52,23 +52,23 @@
     "license-check": "jsgl --local ."
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin-js": "^2.3.0",
-    "@vitest/coverage-v8": "^2.0.4",
+    "@stylistic/eslint-plugin-js": "^2.6.1",
+    "@vitest/coverage-v8": "^2.0.5",
     "base-volta-off-of-nwjs": "^1.0.5",
     "eslint": "^9.8.0",
     "eslint-config-tjw-jsdoc": "^1.0.5",
-    "eslint-plugin-jsdoc": "^48.8.3",
+    "eslint-plugin-jsdoc": "^48.11.0",
     "eslint-plugin-markdown": "^5.0.0",
     "js-green-licenses": "^4.0.0",
     "jsdoc": "^4.0.3",
-    "nw": "^0.89.0",
+    "nw": "^0.90.0",
     "patch-package": "^8.0.0",
     "selenium-webdriver": "^4.23.0",
     "vitest": "^2.0.4"
   },
   "dependencies": {
     "archiver": "^7.0.1",
-    "axios": "^1.7.2",
+    "axios": "^1.7.3",
     "glob": "^11.0.0",
     "node-gyp": "^10.2.0",
     "plist": "^3.1.0",
