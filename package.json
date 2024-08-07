@@ -57,7 +57,7 @@
     "base-volta-off-of-nwjs": "^1.0.5",
     "eslint": "^9.8.0",
     "eslint-config-tjw-jsdoc": "^1.0.5",
-    "eslint-plugin-jsdoc": "^48.11.0",
+    "eslint-plugin-jsdoc": "^50.0.0",
     "eslint-plugin-markdown": "^5.0.0",
     "js-green-licenses": "^4.0.0",
     "jsdoc": "^4.0.3",
