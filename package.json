@@ -51,13 +51,13 @@
   },
   "devDependencies": {
     "decompress-zip": "^0.3.3",
-    "eslint": "^9.7.0",
+    "eslint": "^9.9.0",
     "nock": "^13.5.4",
     "redtape": "^1.0.0",
     "rimraf": "^6.0.1",
     "selenium-webdriver": "^4.23.0",
     "tape": "^5.8.1",
-    "vitest": "^2.0.4"
+    "vitest": "^2.0.5"
   },
   "dependencies": {
     "archiver": "^7.0.1",
@@ -74,7 +74,7 @@
     "temp": "^0.9.4",
     "thenify": "^3.3.1",
     "winresourcer": "^0.9.0",
-    "winston": "^3.13.1",
+    "winston": "^3.14.2",
     "yargs": "^17.7.2"
   },
   "packageManager": "npm@10.5.2"
