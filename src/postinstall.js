@@ -6,13 +6,8 @@ import url from 'node:url';
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 const baseVoltaPath = path.resolve(path.join(__dirname, '..', 'node_modules', 'base-volta-off-of-nwjs', 'index.js'));
-const patchPackagePath = path.resolve(path.join(__dirname, '..', 'node_modules', 'patch-package'));
 
 /* Execute the script in development mode only since it is used during testing */
 if (fs.existsSync(baseVoltaPath)) {
   child_process.execSync('node ' + baseVoltaPath);
-}
-
-if (fs.existsSync(patchPackagePath)) {
-  child_process.execSync('node ' + patchPackagePath);
 }

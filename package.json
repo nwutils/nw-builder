@@ -9,7 +9,7 @@
     "Application"
   ],
   "author": {
-    "name": "Steffen MÃÂ¼ller",
+    "name": "Steffen MÃÂÃÂ¼ller",
     "url": "https://www.mllrsohn.com/"
   },
   "maintainers": [
@@ -62,7 +62,6 @@
     "js-green-licenses": "^4.0.0",
     "jsdoc": "^4.0.3",
     "nw": "^0.90.0",
-    "patch-package": "^8.0.0",
     "selenium-webdriver": "^4.23.0",
     "vitest": "^2.0.4"
   },
