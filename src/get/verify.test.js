@@ -1,7 +1,5 @@
 import { describe, expect, it } from "vitest";
 
-import util from "../util.js";
-
 import verify from "./verify.js";
 
 describe("get/verify", function () {
