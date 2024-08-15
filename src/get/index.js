@@ -6,6 +6,7 @@ import decompress from "./decompress.js";
 import ffmpeg from "./ffmpeg.js";
 import node from "./node.js";
 import nw from "./nw.js";
+import verify from './verify.js';
 
 import util from "../util.js";
 
@@ -24,7 +25,7 @@ import util from "../util.js";
 
 /**
  * Get binaries.
- * 
+ *
  * @deprecated since v4.6.4. This logic will be ported over to `nwjs/npm-installer` repo and removed in the next major release (v5.0).
  *
  * @async
@@ -132,6 +133,12 @@ async function get(options) {
     }
 
     await decompress(ffmpegFilePath, options.cacheDir);
+
+    await verify(
+      `${options.downloadUrl}/v${options.version}/SHASUMS256.txt`,
+      `${options.cacheDir}/shasum/${options.version}.txt`,
+      options.cacheDir,
+    );
 
     /**
      * Platform dependant file name of FFmpeg binary.
