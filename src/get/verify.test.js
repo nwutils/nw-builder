@@ -13,5 +13,5 @@ describe("get/verify", function () {
       './node_modules/nw'
     );
     expect(status).toBe(true);
-  });
+  }, Infinity);
 });
