@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.9.0](https://github.com/nwutils/nw-builder/compare/v4.8.1...v4.9.0) (2024-08-15)
+
+
+### Features
+
+* **get:** verify sha256 checksum ([#1201](https://github.com/nwutils/nw-builder/issues/1201)) ([810944d](https://github.com/nwutils/nw-builder/commit/810944da14ffc97d8fb2b5d78d7c8d09ad514226))
+
+
+### Chores
+
+* **deps:** bump the npm group across 1 directory with 4 updates ([#1199](https://github.com/nwutils/nw-builder/issues/1199)) ([b07d1fc](https://github.com/nwutils/nw-builder/commit/b07d1fc09d4fcc8282b04c369725594d120af12a))
+* **deps:** bump volta-cli/action from 4.1.1 to 4.2.1 in /.github/workflows in the gha group across 1 directory ([#1189](https://github.com/nwutils/nw-builder/issues/1189)) ([282ea7a](https://github.com/nwutils/nw-builder/commit/282ea7ade9d93dbbf8d97c9c0770df0876c3fd8a))
+* **deps:** remove license check logic ([9dde7b2](https://github.com/nwutils/nw-builder/commit/9dde7b2b36a1ccd0effb546a89584d2075e59a17))
+
 ## [4.8.1](https://github.com/nwutils/nw-builder/compare/v4.8.0...v4.8.1) (2024-08-05)
 
 
