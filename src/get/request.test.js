@@ -4,7 +4,7 @@ import util from "../util.js";
 
 import request from "./request.js";
 
-describe.skip("get/request", function () {
+describe("get/request", function () {
 
   let url = "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json"
   const filePath = "./test/fixture/cache/request.test.json";

@@ -6,9 +6,16 @@ import request from './request.js';
 
 import util from '../util.js';
 
-console.log(await verify('https://dl.nwjs.io/v0.90.0/SHASUMS256.txt', './node_modules/nw/shasum/0.90.0.txt', './node_modules/nw/nwjs-sdk-v0.90.0-linux-x64.tar.gz'));
-
-export default async function verify(shaUrl, shaOut, filePath) {
+/**
+ * Verify the SHA256 checksum of downloaded artifacts.
+ *
+ * @param {string} shaUrl - URL to get the shasum text file from.
+ * @param {string} shaOut - File path to shasum text file.
+ * @param {string} cacheDir - File path to cache directory.
+ * @throws {Error}
+ * @returns {Promise<boolean>}
+ */
+export default async function verify(shaUrl, shaOut, cacheDir) {
   const shaOutExists = await util.fileExists(shaOut);
 
   if (shaOutExists === false) {
@@ -19,18 +26,23 @@ export default async function verify(shaUrl, shaOut, filePath) {
     await request(shaUrl, shaOut);
   }
 
+  /* Read SHASUM text file */
   const shasum = await fs.promises.readFile(shaOut, { encoding: 'utf-8' });
-  const shasumLines = shasum.split('\n');
-  for (const line of shasumLines) {
-    const [sha, file] = line.split('  ');
-    if (file === path.basename(filePath)) {
-      const fileBuffer = await fs.promises.readFile(filePath);
+  const shasums = shasum.trim().split('\n');
+  for await (const line of shasums) {
+    const [storedSha, filePath] = line.split('  ');
+    const relativeFilePath = path.resolve(cacheDir, filePath);
+    const relativefilePathExists = await util.fileExists(relativeFilePath);
+    if (relativefilePathExists) {
+      const fileBuffer = await fs.promises.readFile(relativeFilePath);
       const hash = crypto.createHash('sha256');
       hash.update(fileBuffer);
-      const fileShasum = hash.digest('hex');
-      return sha === fileShasum;
+      const generatedSha = hash.digest('hex');
+      if (storedSha !== generatedSha) {
+        throw new Error('SHA256 checksums do not match.');
+      }
     }
   }
 
-  return false;
+  return true;
 }
