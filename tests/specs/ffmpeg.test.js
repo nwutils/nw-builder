@@ -21,7 +21,7 @@ describe("get/ffmpeg", function () {
       "0.83.0",
       util.PLATFORM_KV[process.platform],
       util.ARCH_KV[process.arch],
-      "./test/fixtures"
+      "./tests/fixtures"
     );
     expect(util.fileExists(ffmpegFile)).resolves.toBe(true);
   }, Infinity);

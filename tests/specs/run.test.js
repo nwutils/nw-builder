@@ -15,7 +15,7 @@ describe.skip("build test suite", async () => {
   let driver = undefined;
 
   const nwOptions = {
-    srcDir: "test/fixtures/app",
+    srcDir: "tests/fixtures/app",
     mode: "build",
     version: "0.83.0",
     flavor: "sdk",
@@ -23,8 +23,8 @@ describe.skip("build test suite", async () => {
     arch: util.ARCH_KV[process.arch],
     downloadUrl: "https://dl.nwjs.io",
     manifestUrl: "https://nwjs.io/versions",
-    outDir: "test/fixtures/out/app",
-    cacheDir: "test/fixtures/cache",
+    outDir: "tests/fixtures/out/app",
+    cacheDir: "tests/fixtures/cache",
     cache: true,
     ffmpeg: false,
     glob: false,
