@@ -5,9 +5,9 @@ import process from "node:process";
 import * as nw from "nw";
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 
-import decompress from "./decompress.js";
+import decompress from "../../src/get/decompress.js";
 
-import util from '../util.js';
+import util from '../../src/util.js';
 
 describe("get/decompress", async function () {
 

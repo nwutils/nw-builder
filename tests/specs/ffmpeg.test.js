@@ -3,9 +3,9 @@ import process from "node:process";
 
 import { afterEach, describe, expect, it } from "vitest";
 
-import util from "../util.js";
+import util from "../../src/util.js";
 
-import ffmpeg from "./ffmpeg.js";
+import ffmpeg from "../../src/get/ffmpeg.js";
 
 describe("get/ffmpeg", function () {
 
