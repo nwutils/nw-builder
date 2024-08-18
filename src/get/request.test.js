@@ -7,7 +7,7 @@ import request from "./request.js";
 describe.skip("get/request", function () {
 
   let url = "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json"
-  const filePath = "./test/fixture/cache/request.test.json";
+  const filePath = "./test/fixtures/cache/request.test.json";
 
   it("downloads from specific url", async function () {
     await request(url, filePath);

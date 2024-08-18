@@ -4,5 +4,5 @@
 coverage
 node_modules
 
-test/fixture/cache
-test/fixture/out
+tests/fixtures/cache
+tests/fixtures/out

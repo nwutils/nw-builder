@@ -48,7 +48,7 @@
     "docs": "jsdoc -d docs ./README.md ./src/index.js ./src/get.js ./src/run.js ./src/bld.js",
     "test": "vitest run --coverage",
     "test:cov": "vitest --coverage.enabled true",
-    "demo": "cd test/fixture && node demo.js",
+    "demo": "cd test/fixtures && node demo.js",
     "license-check": "jsgl --local ."
   },
   "devDependencies": {

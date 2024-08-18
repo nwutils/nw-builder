@@ -13,7 +13,7 @@ describe("get/decompress", async function () {
 
   let nwFilePath = '';
   let nwDirPath = '';
-  let nwOutPath = "./test/fixture/cache";
+  let nwOutPath = "./test/fixtures/cache";
 
   afterAll(async function () {
     await fs.promises.rm(nwOutPath, { recursive: true, force: true });
