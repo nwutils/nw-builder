@@ -5,15 +5,15 @@ import process from "node:process";
 import * as nw from "nw";
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 
-import decompress from "./decompress.js";
+import decompress from "../../src/get/decompress.js";
 
-import util from '../util.js';
+import util from '../../src/util.js';
 
 describe("get/decompress", async function () {
 
   let nwFilePath = '';
   let nwDirPath = '';
-  let nwOutPath = "./test/fixtures/cache";
+  let nwOutPath = "./tests/fixtures/cache";
 
   afterAll(async function () {
     await fs.promises.rm(nwOutPath, { recursive: true, force: true });

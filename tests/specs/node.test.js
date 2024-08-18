@@ -2,9 +2,9 @@ import fs from "node:fs";
 
 import { afterEach, describe, expect, it } from "vitest";
 
-import util from "../util.js";
+import util from "../../src/util.js";
 
-import node from "./node.js";
+import node from "../../src/get/node.js";
 
 describe("get/node", function () {
 
@@ -18,7 +18,7 @@ describe("get/node", function () {
     nodeFile = await node(
       "https://dl.nwjs.io",
       "0.83.0",
-      "./test/fixtures"
+      "./tests/fixtures"
     );
     expect(util.fileExists(nodeFile)).resolves.toBe(true);
   }, Infinity);

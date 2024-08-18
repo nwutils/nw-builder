@@ -3,9 +3,9 @@ import process from "node:process";
 
 import { afterEach, describe, expect, it } from "vitest";
 
-import util from "../util.js";
+import util from "../../src/util.js";
 
-import nw from "./nw.js";
+import nw from "../../src/get/nw.js";
 
 describe("get/nw", function () {
 
@@ -22,7 +22,7 @@ describe("get/nw", function () {
       "sdk",
       util.PLATFORM_KV[process.platform],
       util.ARCH_KV[process.arch],
-      "./test/fixtures"
+      "./tests/fixtures"
     );
     expect(util.fileExists(nwFile)).resolves.toBe(true);
   }, Infinity);

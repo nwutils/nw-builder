@@ -3,9 +3,9 @@ import process from "node:process";
 
 import { afterEach, describe, expect, it } from "vitest";
 
-import util from "../util.js";
+import util from "../../src/util.js";
 
-import ffmpeg from "./ffmpeg.js";
+import ffmpeg from "../../src/get/ffmpeg.js";
 
 describe("get/ffmpeg", function () {
 
@@ -21,7 +21,7 @@ describe("get/ffmpeg", function () {
       "0.83.0",
       util.PLATFORM_KV[process.platform],
       util.ARCH_KV[process.arch],
-      "./test/fixtures"
+      "./tests/fixtures"
     );
     expect(util.fileExists(ffmpegFile)).resolves.toBe(true);
   }, Infinity);
