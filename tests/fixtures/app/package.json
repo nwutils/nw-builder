@@ -1,5 +1,6 @@
 {
   "name": "nwapp",
   "main": "index.html",
-  "version": "0.0.0"
+  "version": "0.0.0",
+  "product_string": "nwapp"
 }
