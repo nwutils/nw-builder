@@ -7,6 +7,7 @@ await nwbuild({
   srcDir: "./tests/fixtures/app",
   cacheDir: "./node_modules/nw",
   outDir: './tests/fixtures/out',
+  glob: false,
   app: {
     name: 'nwapp',
     // MacOS options
