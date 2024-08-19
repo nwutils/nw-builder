@@ -4,7 +4,7 @@ await nwbuild({
   mode: "get",
   flavor: "sdk",
   platform: "win",
-  srcDir: "./tests/fixture/app",
+  srcDir: "./tests/fixtures/app",
   cacheDir: "./node_modules/nw",
   app: {
     name: 'nwapp',
