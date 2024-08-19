@@ -176,7 +176,11 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
      */
     const HelperAlertsAppJson = plist.parse(
       await fs.promises.readFile(
-        HelperAlertsAppPath,
+        path.resolve(
+          HelperAlertsAppPath,
+          "Contents",
+          "Info.plist"
+        ),
         "utf-8"
       )
     );
@@ -188,7 +192,11 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
      */
     const HelperGpuAppJson = plist.parse(
       await fs.promises.readFile(
-        HelperGpuAppPath,
+        path.resolve(
+          HelperGpuAppPath,
+          "Contents",
+          "Info.plist"
+        ),
         "utf-8"
       )
     );
@@ -200,7 +208,11 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
      */
     const HelperPluginAppJson = plist.parse(
       await fs.promises.readFile(
-        HelperPluginAppPath,
+        path.resolve(
+          HelperPluginAppPath,
+          "Contents",
+          "Info.plist"
+        ),
         "utf-8"
       )
     );
@@ -212,7 +224,11 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
      */
     const HelperRendererAppJson = plist.parse(
       await fs.promises.readFile(
-        HelperRendererAppPath,
+        path.resolve(
+          HelperRendererAppPath,
+          "Contents",
+          "Info.plist"
+        ),
         "utf-8"
       )
     );
