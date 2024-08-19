@@ -27,13 +27,88 @@ export default async function setOsxConfig({ outDir, app }) {
      */
     const outApp = path.resolve(outDir, `${app.name}.app`);
 
-    /* Rename MacOS app from `nwjs.app` to `${app.name}.app` */
+    const HelperAlertsAppPath = path.resolve(
+      outApp,
+      "Contents",
+      "Frameworks",
+      "nwjs Frameworks.framework",
+      "Helpers",
+      `${app.name} Helper (Alerts).app`,
+    );
+
+    const HelperGpuAppPath = path.resolve(
+      outApp,
+      "Contents",
+      "Frameworks",
+      "nwjs Frameworks.framework",
+      "Helpers",
+      `${app.name} Helper (GPU).app`,
+    );
+
+    const HelperPluginAppPath = path.resolve(
+      outApp,
+      "Contents",
+      "Frameworks",
+      "nwjs Frameworks.framework",
+      "Helpers",
+      `${app.name} Helper (Plugin).app`,
+    );
+
+    const HelperRendererAppPath = path.resolve(
+      outApp,
+      "Contents",
+      "Frameworks",
+      "nwjs Frameworks.framework",
+      "Helpers",
+      `${app.name} Helper (Renderer).app`,
+    );
+
+    const HelperAppPath = path.resolve(
+      outApp,
+      "Contents",
+      "Frameworks",
+      "nwjs Frameworks.framework",
+      "Helpers",
+      `${app.name} Helper.app`,
+    );
+
+    /* Rename `nwjs.app` to `${app.name}.app` */
     await fs.promises.rename(nwjsApp, outApp);
 
     /* Rename `Contents/MacOS/nwjs` to `Contents/MacOS/${app.name}` */
     await fs.promises.rename(
       path.resolve(outApp, "Contents", "MacOS", "nwjs"),
       path.resolve(outApp, "Contents", "MacOS", app.name),
+    );
+
+    /* Rename `${app.name} Helper (Alerts)/Contents/MacOS/nwjs Helper (Alerts)` to `${app.name} Helper (Alerts)/Contents/MacOS/${app.name} Helper (Alerts)` */
+    await fs.promises.rename(
+      path.resolve(HelperAlertsAppPath, "Contents", "MacOS", "nwjs Helper (Alerts)"),
+      path.resolve(HelperAlertsAppPath, "Contents", "MacOS", `${app.name} Helper (Alerts)`),
+    );
+
+    /* Rename `${app.name} Helper (GPU)/Contents/MacOS/nwjs Helper (GPU)` to `${app.name} Helper (GPU)/Contents/MacOS/${app.name} Helper (GPU)` */
+    await fs.promises.rename(
+      path.resolve(HelperGpuAppPath, "Contents", "MacOS", "nwjs Helper (GPU)"),
+      path.resolve(HelperGpuAppPath, "Contents", "MacOS", `${app.name} Helper (GPU)`),
+    );
+
+    /* Rename `${app.name} Helper (Plugin)/Contents/MacOS/nwjs Helper (Plugin)` to `${app.name} Helper (Plugin)/Contents/MacOS/${app.name} Helper (Plugin)` */
+    await fs.promises.rename(
+      path.resolve(HelperPluginAppPath, "Contents", "MacOS", "nwjs Helper (Plugin)"),
+      path.resolve(HelperPluginAppPath, "Contents", "MacOS", `${app.name} Helper (Plugin)`),
+    );
+
+    /* Rename `${app.name} Helper (Renderer)/Contents/MacOS/nwjs Helper (Renderer)` to `${app.name} Helper (Renderer)/Contents/MacOS/${app.name} Helper (Renderer)` */
+    await fs.promises.rename(
+      path.resolve(HelperRendererAppPath, "Contents", "MacOS", "nwjs Helper (Renderer)"),
+      path.resolve(HelperRendererAppPath, "Contents", "MacOS", `${app.name} Helper (Renderer)`),
+    );
+
+    /* Rename `${app.name} Helper/Contents/MacOS/nwjs Helper` to `${app.name} Helper/Contents/MacOS/${app.name} Helper` */
+    await fs.promises.rename(
+      path.resolve(HelperAppPath, "Contents", "MacOS", "nwjs Helper"),
+      path.resolve(HelperAppPath, "Contents", "MacOS", `${app.name} Helper`),
     );
 
     /* Replace default icon with user defined icon if specified. */
@@ -76,6 +151,18 @@ export default async function setOsxConfig({ outDir, app }) {
     const ContentsInfoPlistJson = plist.parse(
       await fs.promises.readFile(
         ContentsInfoPlistPath,
+        "utf-8"
+      )
+    );
+
+    /**
+     * JSON from `nwjs.app/Contents/Frameworks/nwjs Frameworks.framework/Helpers/${app.name} Helper.app/Contents/Info.plist`
+     *
+     * @type {object}
+     */
+    const HelperAlertsAppJson = plist.parse(
+      await fs.promises.readFile(
+        HelperAlertsAppPath,
         "utf-8"
       )
     );
