@@ -5,7 +5,7 @@ import process from 'node:process';
 
 import plist from 'plist';
 
-export default async function setOsxConfig({ outDir, app }) {
+export default async function setOsxConfig({ app, outDir, releaseInfo }) {
   if (process.platform === "win32") {
     console.warn(
       "MacOS apps built on Windows platform do not preserve all file permissions. See #716",
@@ -13,6 +13,10 @@ export default async function setOsxConfig({ outDir, app }) {
   }
 
   try {
+    /**
+     * @type {string | null}
+     */
+    const chromiumVersion = releaseInfo?.components?.chromium ?? null;
     /**
      * Path to MacOS application.
      *
@@ -32,6 +36,8 @@ export default async function setOsxConfig({ outDir, app }) {
       "Contents",
       "Frameworks",
       "nwjs Framework.framework",
+      "Versions",
+      chromiumVersion,
       "Helpers",
       `${app.name} Helper (Alerts).app`,
     );
@@ -41,6 +47,8 @@ export default async function setOsxConfig({ outDir, app }) {
       "Contents",
       "Frameworks",
       "nwjs Framework.framework",
+      "Versions",
+      chromiumVersion,
       "Helpers",
       `${app.name} Helper (GPU).app`,
     );
@@ -50,6 +58,8 @@ export default async function setOsxConfig({ outDir, app }) {
       "Contents",
       "Frameworks",
       "nwjs Framework.framework",
+      "Versions",
+      chromiumVersion,
       "Helpers",
       `${app.name} Helper (Plugin).app`,
     );
@@ -59,6 +69,8 @@ export default async function setOsxConfig({ outDir, app }) {
       "Contents",
       "Frameworks",
       "nwjs Framework.framework",
+      "Versions",
+      chromiumVersion,
       "Helpers",
       `${app.name} Helper (Renderer).app`,
     );
@@ -68,6 +80,8 @@ export default async function setOsxConfig({ outDir, app }) {
       "Contents",
       "Frameworks",
       "nwjs Framework.framework",
+      "Versions",
+      chromiumVersion,
       "Helpers",
       `${app.name} Helper.app`,
     );

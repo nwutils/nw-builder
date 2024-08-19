@@ -100,6 +100,7 @@ import setOsxConfig from "./bld/osx.js";
  * @property {boolean | string | object}            [managedManifest = false]                   Manage manifest
  * @property {false | "gyp"}                        [nativeAddon = false]                       Rebuild native modules
  * @property {false | "zip" | "tar" | "tgz"}        [zip = false]                               Compress built artifacts
+ * @property {object}                               [releaseInfo = {}]                          Version specific release metadata.
  */
 
 /**
@@ -124,6 +125,7 @@ async function bld({
   managedManifest = false,
   nativeAddon = false,
   zip = false,
+  releaseInfo = {},
 }) {
   const nwDir = path.resolve(
     cacheDir,
@@ -186,7 +188,7 @@ async function bld({
   } else if (platform === "win") {
     await setWinConfig({ app, outDir });
   } else if (platform === "osx") {
-    await setOsxConfig({ platform, outDir, app });
+    await setOsxConfig({ app, outDir, releaseInfo });
   }
 
   if (nativeAddon === "gyp") {
