@@ -268,26 +268,31 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
 
     /* Update Helper (Alerts) app's Plist values. */
     HelperAlertsAppJson.CFBundleDisplayName = `${app.name} Helper (Alerts)`;
+    HelperAlertsAppJson.CFBundleName = `${app.name} Helper (Alerts)`;
     HelperAlertsAppJson.CFBundleExecutable = `${app.name} Helper (Alerts)`;
     HelperAlertsAppJson.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper.alert`;
 
     /* Update Helper (GPU) app's Plist values. */
     HelperGpuAppJson.CFBundleDisplayName = `${app.name} Helper (GPU)`;
+    HelperGpuAppJson.CFBundleName = `${app.name} Helper (GPU)`;
     HelperGpuAppJson.CFBundleExecutable = `${app.name} Helper (GPU)`;
     HelperGpuAppJson.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper.gpu`;
 
     /* Update Helper (Plugin) app's Plist values. */
     HelperPluginAppJson.CFBundleDisplayName = `${app.name} Helper (Plugin)`;
+  HelperPluginAppJson.CFBundleName = `${app.name} Helper (Plugin)`;
     HelperPluginAppJson.CFBundleExecutable = `${app.name} Helper (Plugin)`;
     HelperPluginAppJson.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper.plugin`;
 
     /* Update Helper (Renderer) app's Plist values. */
     HelperRendererAppJson.CFBundleDisplayName = `${app.name} Helper (Renderer)`;
+    HelperRendererAppJson.CFBundleName = `${app.name} Helper (Renderer)`;
     HelperRendererAppJson.CFBundleExecutable = `${app.name} Helper (Renderer)`;
     HelperRendererAppJson.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper.renderer`;
 
     /* Update Helper app's Plist values. */
     HelperAppJson.CFBundleDisplayName = `${app.name} Helper`;
+    HelperAppJson.CFBundleName = `${app.name} Helper`;
     HelperAppJson.CFBundleExecutable = `${app.name} Helper`;
     HelperAppJson.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper`;
 
