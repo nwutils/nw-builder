@@ -240,7 +240,11 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
      */
     const HelperAppJson = plist.parse(
       await fs.promises.readFile(
-        HelperAppPath,
+        path.resolve(
+          HelperAppPath,
+          "Contents",
+          "Info.plist"
+        ),
         "utf-8"
       )
     );
