@@ -97,32 +97,32 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
 
     /* Rename `${app.name} Helper (Alerts)/Contents/MacOS/nwjs Helper (Alerts)` to `${app.name} Helper (Alerts)/Contents/MacOS/${app.name} Helper (Alerts)` */
     await fs.promises.rename(
-      path.resolve(HelperAlertsAppPath, "Contents", "MacOS", "nwjs Helper (Alerts)"),
-      path.resolve(HelperAlertsAppPath, "Contents", "MacOS", `${app.name} Helper (Alerts)`),
+      path.resolve(HelperAlertsAppPath, "Contents", "MacOS", "nwjs Helper (Alerts).app"),
+      path.resolve(HelperAlertsAppPath, "Contents", "MacOS", `${app.name} Helper (Alerts).app`),
     );
 
     /* Rename `${app.name} Helper (GPU)/Contents/MacOS/nwjs Helper (GPU)` to `${app.name} Helper (GPU)/Contents/MacOS/${app.name} Helper (GPU)` */
     await fs.promises.rename(
-      path.resolve(HelperGpuAppPath, "Contents", "MacOS", "nwjs Helper (GPU)"),
-      path.resolve(HelperGpuAppPath, "Contents", "MacOS", `${app.name} Helper (GPU)`),
+      path.resolve(HelperGpuAppPath, "Contents", "MacOS", "nwjs Helper (GPU).app"),
+      path.resolve(HelperGpuAppPath, "Contents", "MacOS", `${app.name} Helper (GPU).app`),
     );
 
     /* Rename `${app.name} Helper (Plugin)/Contents/MacOS/nwjs Helper (Plugin)` to `${app.name} Helper (Plugin)/Contents/MacOS/${app.name} Helper (Plugin)` */
     await fs.promises.rename(
-      path.resolve(HelperPluginAppPath, "Contents", "MacOS", "nwjs Helper (Plugin)"),
-      path.resolve(HelperPluginAppPath, "Contents", "MacOS", `${app.name} Helper (Plugin)`),
+      path.resolve(HelperPluginAppPath, "Contents", "MacOS", "nwjs Helper (Plugin).app"),
+      path.resolve(HelperPluginAppPath, "Contents", "MacOS", `${app.name} Helper (Plugin).app`),
     );
 
     /* Rename `${app.name} Helper (Renderer)/Contents/MacOS/nwjs Helper (Renderer)` to `${app.name} Helper (Renderer)/Contents/MacOS/${app.name} Helper (Renderer)` */
     await fs.promises.rename(
-      path.resolve(HelperRendererAppPath, "Contents", "MacOS", "nwjs Helper (Renderer)"),
-      path.resolve(HelperRendererAppPath, "Contents", "MacOS", `${app.name} Helper (Renderer)`),
+      path.resolve(HelperRendererAppPath, "Contents", "MacOS", "nwjs Helper (Renderer).app"),
+      path.resolve(HelperRendererAppPath, "Contents", "MacOS", `${app.name} Helper (Renderer).app`),
     );
 
     /* Rename `${app.name} Helper/Contents/MacOS/nwjs Helper` to `${app.name} Helper/Contents/MacOS/${app.name} Helper` */
     await fs.promises.rename(
-      path.resolve(HelperAppPath, "Contents", "MacOS", "nwjs Helper"),
-      path.resolve(HelperAppPath, "Contents", "MacOS", `${app.name} Helper`),
+      path.resolve(HelperAppPath, "Contents", "MacOS", "nwjs Helper.app"),
+      path.resolve(HelperAppPath, "Contents", "MacOS", `${app.name} Helper.app`),
     );
 
     /* Replace default icon with user defined icon if specified. */
