@@ -1,11 +1,12 @@
 import nwbuild from "../../src/index.js";
 
 await nwbuild({
-  mode: "get",
+  mode: "build",
   flavor: "sdk",
   platform: "win",
   srcDir: "./tests/fixtures/app",
   cacheDir: "./node_modules/nw",
+  outDir: './tests/fixtures/out',
   app: {
     name: 'nwapp',
     // MacOS options
