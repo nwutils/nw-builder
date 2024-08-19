@@ -60,7 +60,6 @@
     "eslint-config-tjw-jsdoc": "^1.0.5",
     "eslint-plugin-jsdoc": "^50.2.2",
     "eslint-plugin-markdown": "^5.0.0",
-    "js-green-licenses": "^4.0.0",
     "jsdoc": "^4.0.3",
     "nw": "^0.90.0",
     "selenium-webdriver": "^4.23.0",
