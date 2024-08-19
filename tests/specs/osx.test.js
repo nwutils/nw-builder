@@ -15,11 +15,9 @@ describe("bld/setOsxConfig", async function () {
 
   it("", async function () {
     // verify if apps are renamed properly
-    expect(1+1).toEqual(2);
   });
 
   it("", async function () {
     // verify if bundle's plist values are renamed properly
-    expect(1+1).toEqual(2);
   });
 });
