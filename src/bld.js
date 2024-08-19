@@ -166,13 +166,6 @@ async function bld({
     );
   }
 
-  const releaseInfo = await util.getReleaseInfo(
-    version,
-    platform,
-    arch,
-    cacheDir,
-    manifestUrl,
-  );
   const nodeVersion = releaseInfo.components.node;
 
   if (
