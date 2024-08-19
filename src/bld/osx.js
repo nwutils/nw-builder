@@ -156,13 +156,61 @@ export default async function setOsxConfig({ outDir, app }) {
     );
 
     /**
-     * JSON from `nwjs.app/Contents/Frameworks/nwjs Frameworks.framework/Helpers/${app.name} Helper.app/Contents/Info.plist`
+     * JSON from `${app.name} Helper.app (Alerts)/Contents/Info.plist`
      *
      * @type {object}
      */
     const HelperAlertsAppJson = plist.parse(
       await fs.promises.readFile(
         HelperAlertsAppPath,
+        "utf-8"
+      )
+    );
+
+    /**
+     * JSON from `${app.name} Helper (GPU).app/Contents/Info.plist`
+     *
+     * @type {object}
+     */
+    const HelperGpuAppJson = plist.parse(
+      await fs.promises.readFile(
+        HelperGpuAppPath,
+        "utf-8"
+      )
+    );
+
+    /**
+     * JSON from `${app.name} Helper (Plugin).app/Contents/Info.plist`
+     *
+     * @type {object}
+     */
+    const HelperPluginAppJson = plist.parse(
+      await fs.promises.readFile(
+        HelperPluginAppPath,
+        "utf-8"
+      )
+    );
+
+    /**
+     * JSON from `${app.name} Helper (Renderer).app/Contents/Info.plist`
+     *
+     * @type {object}
+     */
+    const HelperRendererAppJson = plist.parse(
+      await fs.promises.readFile(
+        HelperRendererAppPath,
+        "utf-8"
+      )
+    );
+
+    /**
+     * JSON from `${app.name} Helper.app/Contents/Info.plist`
+     *
+     * @type {object}
+     */
+    const HelperAppJson = plist.parse(
+      await fs.promises.readFile(
+        HelperAppPath,
         "utf-8"
       )
     );
@@ -183,6 +231,31 @@ export default async function setOsxConfig({ outDir, app }) {
         delete ContentsInfoPlistJson[option];
       }
     });
+
+    /* Update Helper (Alerts) app's Plist values. */
+    HelperAlertsAppJson.CFBundleDisplayName = `${app.name} Helper (Alerts)`;
+    HelperAlertsAppJson.CFBundleExecutable = `${app.name} Helper (Alerts)`;
+    HelperAlertsAppJson.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper.alert`;
+
+    /* Update Helper (GPU) app's Plist values. */
+    HelperGpuAppJson.CFBundleDisplayName = `${app.name} Helper (GPU)`;
+    HelperGpuAppJson.CFBundleExecutable = `${app.name} Helper (GPU)`;
+    HelperGpuAppJson.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper.gpu`;
+
+    /* Update Helper (Plugin) app's Plist values. */
+    HelperPluginAppJson.CFBundleDisplayName = `${app.name} Helper (Plugin)`;
+    HelperPluginAppJson.CFBundleExecutable = `${app.name} Helper (Plugin)`;
+    HelperPluginAppJson.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper.plugin`;
+
+    /* Update Helper (Renderer) app's Plist values. */
+    HelperRendererAppJson.CFBundleDisplayName = `${app.name} Helper (Renderer)`;
+    HelperRendererAppJson.CFBundleExecutable = `${app.name} Helper (Renderer)`;
+    HelperRendererAppJson.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper.renderer`;
+
+    /* Update Helper app's Plist values. */
+    HelperAppJson.CFBundleDisplayName = `${app.name} Helper`;
+    HelperAppJson.CFBundleExecutable = `${app.name} Helper`;
+    HelperAppJson.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper`;
 
     /**
      * Data from `nwjs.app/Contents/Resources/en.lproj/InfoPlist.settings`
@@ -207,6 +280,26 @@ export default async function setOsxConfig({ outDir, app }) {
     await fs.promises.writeFile(
       ContentsResourcesEnLprojInfoPlistStringsPath,
       ContentsResourcesEnLprojInfoPlistStringsArray.toString().replace(/,/g, "\n"),
+    );
+    await fs.promises.writeFile(
+      path.resolve(HelperAlertsAppPath, "Contents", "Info.plist"),
+      plist.build(HelperAlertsAppJson)
+    );
+    await fs.promises.writeFile(
+      path.resolve(HelperGpuAppPath, "Contents", "Info.plist"),
+      plist.build(HelperGpuAppJson)
+    );
+    await fs.promises.writeFile(
+      path.resolve(HelperPluginAppPath, "Contents", "Info.plist"),
+      plist.build(HelperPluginAppJson)
+    );
+    await fs.promises.writeFile(
+      path.resolve(HelperRendererAppPath, "Contents", "Info.plist"),
+      plist.build(HelperRendererAppJson)
+    );
+    await fs.promises.writeFile(
+      path.resolve(HelperAppPath, "Contents", "Info.plist"),
+      plist.build(HelperAppJson)
     );
   } catch (error) {
     console.error(error);
