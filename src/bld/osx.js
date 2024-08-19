@@ -30,6 +30,12 @@ export default async function setOsxConfig({ outDir, app }) {
     /* Rename MacOS app from `nwjs.app` to `${app.name}.app` */
     await fs.promises.rename(nwjsApp, outApp);
 
+    /* Rename `Contents/MacOS/nwjs` to `Contents/MacOS/${app.name}` */
+    await fs.promises.rename(
+      path.resolve(outApp, "Contents", "MacOS", "nwjs"),
+      path.resolve(outApp, "Contents", "MacOS", app.name),
+    );
+
     /* Replace default icon with user defined icon if specified. */
     if (app.icon !== undefined) {
       await fs.promises.copyFile(
@@ -82,6 +88,7 @@ export default async function setOsxConfig({ outDir, app }) {
     ContentsInfoPlistJson.CFBundleSpokenName = app.CFBundleSpokenName;
     ContentsInfoPlistJson.CFBundleVersion = app.CFBundleVersion;
     ContentsInfoPlistJson.CFBundleShortVersionString = app.CFBundleShortVersionString;
+    ContentsInfoPlistJson.CFBundleExecutable = app.name;
 
     /* Remove properties that were not updated by the user. */
     Object.keys(ContentsInfoPlistJson).forEach((option) => {
