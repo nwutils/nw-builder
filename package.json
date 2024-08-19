@@ -48,7 +48,8 @@
     "docs": "jsdoc -d docs ./README.md ./src/index.js ./src/get.js ./src/run.js ./src/bld.js",
     "test": "vitest run --coverage",
     "test:cov": "vitest --coverage.enabled true",
-    "demo": "cd tests/fixtures && node demo.js",
+    "demo:bld": "cd tests/fixtures && node demo.js",
+    "demo:exe": "./tests/fixtures/out/nwapp.app/Contents/MacOS/nwapp",
     "license-check": "jsgl --local ."
   },
   "devDependencies": {
