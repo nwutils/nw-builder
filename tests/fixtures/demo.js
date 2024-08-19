@@ -5,5 +5,16 @@ await nwbuild({
   flavor: "sdk",
   platform: "win",
   srcDir: "app",
-  cacheDir: "./node_modules/nw"
+  cacheDir: "./node_modules/nw",
+  app: {
+    name: 'nwapp',
+    // MacOS options
+    LSApplicationCategoryType: 'public.app-category.utilities',
+    CFBundleIdentifier: 'io.nwutils.demo',
+    CFBundleName: 'Demo',
+    CFBundleDisplayName: 'Demo',
+    CFBundleSpokenName: 'Demo',
+    CFBundleVersion: '0.0.0',
+    CFBundleShortVersionString: ''
+  }
 });
