@@ -15,6 +15,7 @@ await nwbuild({
     CFBundleDisplayName: 'Demo',
     CFBundleSpokenName: 'Demo',
     CFBundleVersion: '0.0.0',
-    CFBundleShortVersionString: ''
+    CFBundleShortVersionString: '0.0.0',
+    NSHumanReadableCopyright: 'Copyright (c) 2024 NW.js Utilities'
   }
 });
