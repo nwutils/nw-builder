@@ -31,7 +31,7 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
      */
     const outApp = path.resolve(outDir, `${app.name}.app`);
 
-    const HelperAlertsAppPath = path.resolve(
+    const nwjsHelperAlertsAppPath = path.resolve(
       outApp,
       "Contents",
       "Frameworks",
@@ -41,8 +41,18 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
       "Helpers",
       `nwjs Helper (Alerts).app`,
     );
+    const HelperAlertsAppPath = path.resolve(
+      outApp,
+      "Contents",
+      "Frameworks",
+      "nwjs Framework.framework",
+      "Versions",
+      chromiumVersion,
+      "Helpers",
+      `${app.name} Helper (Alerts).app`,
+    );
 
-    const HelperGpuAppPath = path.resolve(
+    const nwjsHelperGpuAppPath = path.resolve(
       outApp,
       "Contents",
       "Frameworks",
@@ -52,8 +62,18 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
       "Helpers",
       `nwjs Helper (GPU).app`,
     );
+    const HelperGpuAppPath = path.resolve(
+      outApp,
+      "Contents",
+      "Frameworks",
+      "nwjs Framework.framework",
+      "Versions",
+      chromiumVersion,
+      "Helpers",
+      `${app.name} Helper (GPU).app`,
+    );
 
-    const HelperPluginAppPath = path.resolve(
+    const nwjsHelperPluginAppPath = path.resolve(
       outApp,
       "Contents",
       "Frameworks",
@@ -63,8 +83,18 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
       "Helpers",
       `nwjs Helper (Plugin).app`,
     );
+    const HelperPluginAppPath = path.resolve(
+      outApp,
+      "Contents",
+      "Frameworks",
+      "nwjs Framework.framework",
+      "Versions",
+      chromiumVersion,
+      "Helpers",
+      `${app.name} Helper (Plugin).app`,
+    );
 
-    const HelperRendererAppPath = path.resolve(
+    const nwjsHelperRendererAppPath = path.resolve(
       outApp,
       "Contents",
       "Frameworks",
@@ -74,8 +104,18 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
       "Helpers",
       `nwjs Helper (Renderer).app`,
     );
+    const HelperRendererAppPath = path.resolve(
+      outApp,
+      "Contents",
+      "Frameworks",
+      "nwjs Framework.framework",
+      "Versions",
+      chromiumVersion,
+      "Helpers",
+      `${app.name} Helper (Renderer).app`,
+    );
 
-    const HelperAppPath = path.resolve(
+    const nwjsHelperAppPath = path.resolve(
       outApp,
       "Contents",
       "Frameworks",
@@ -85,6 +125,16 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
       "Helpers",
       `nwjs Helper.app`,
     );
+    const HelperAppPath = path.resolve(
+      outApp,
+      "Contents",
+      "Frameworks",
+      "nwjs Framework.framework",
+      "Versions",
+      chromiumVersion,
+      "Helpers",
+      `${app.name} Helper.app`,
+    );
 
     /* Rename `nwjs.app` to `${app.name}.app` */
     await fs.promises.rename(nwjsApp, outApp);
@@ -93,6 +143,36 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
     await fs.promises.rename(
       path.resolve(outApp, "Contents", "MacOS", "nwjs"),
       path.resolve(outApp, "Contents", "MacOS", app.name),
+    );
+
+    /* Rename Helper (Alert) */
+    await fs.promises.rename(
+      nwjsHelperAlertsAppPath,
+      HelperAlertsAppPath,
+    );
+
+    /* Rename Helper (GPU) */
+    await fs.promises.rename(
+      nwjsHelperGpuAppPath,
+      HelperGpuAppPath,
+    );
+
+    /* Rename Helper (Plugin) */
+    await fs.promises.rename(
+      nwjsHelperPluginAppPath,
+      HelperPluginAppPath,
+    );
+
+    /* Rename Helper (Renderer) */
+    await fs.promises.rename(
+      nwjsHelperRendererAppPath,
+      HelperRendererAppPath,
+    );
+
+    /* Rename Helper */
+    await fs.promises.rename(
+      nwjsHelperAppPath,
+      HelperAppPath,
     );
 
     /* Rename `nwjs Helper (Alerts)/Contents/MacOS/nwjs Helper (Alerts)` to `${app.name} Helper (Alerts)/Contents/MacOS/${app.name} Helper (Alerts)` */
