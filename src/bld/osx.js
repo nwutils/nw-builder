@@ -31,7 +31,7 @@ export default async function setOsxConfig({ outDir, app }) {
       outApp,
       "Contents",
       "Frameworks",
-      "nwjs Frameworks.framework",
+      "nwjs Framework.framework",
       "Helpers",
       `${app.name} Helper (Alerts).app`,
     );
@@ -40,7 +40,7 @@ export default async function setOsxConfig({ outDir, app }) {
       outApp,
       "Contents",
       "Frameworks",
-      "nwjs Frameworks.framework",
+      "nwjs Framework.framework",
       "Helpers",
       `${app.name} Helper (GPU).app`,
     );
@@ -49,7 +49,7 @@ export default async function setOsxConfig({ outDir, app }) {
       outApp,
       "Contents",
       "Frameworks",
-      "nwjs Frameworks.framework",
+      "nwjs Framework.framework",
       "Helpers",
       `${app.name} Helper (Plugin).app`,
     );
@@ -58,7 +58,7 @@ export default async function setOsxConfig({ outDir, app }) {
       outApp,
       "Contents",
       "Frameworks",
-      "nwjs Frameworks.framework",
+      "nwjs Framework.framework",
       "Helpers",
       `${app.name} Helper (Renderer).app`,
     );
@@ -67,7 +67,7 @@ export default async function setOsxConfig({ outDir, app }) {
       outApp,
       "Contents",
       "Frameworks",
-      "nwjs Frameworks.framework",
+      "nwjs Framework.framework",
       "Helpers",
       `${app.name} Helper.app`,
     );
