@@ -8,7 +8,7 @@ import setOsxConfig from "../../src/bld/osx.js";
 
 describe("bld/setOsxConfig", async function () {
 
-  beforeAll("", async function () {
+  beforeAll(async function () {
     // copy nwjs exe to outDir
     // call setOsxConfig function
   });
