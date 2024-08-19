@@ -13,8 +13,24 @@ export default async function setOsxConfig({ outDir, app }) {
   }
 
   try {
+    /**
+     * Path to MacOS application.
+     *
+     * @type {string}
+     */
+    const nwjsApp = path.resolve(outDir, 'nwjs.app');
+
+    /**
+     * Path to renamed MacOS application.
+     *
+     * @type {string}
+     */
     const outApp = path.resolve(outDir, `${app.name}.app`);
-    await fs.promises.rename(path.resolve(outDir, "nwjs.app"), outApp);
+
+    /* Rename MacOS app from `nwjs.app` to `${app.name}.app` */
+    await fs.promises.rename(nwjsApp, outApp);
+
+    /* Replace default icon with user defined icon if specified. */
     if (app.icon !== undefined) {
       await fs.promises.copyFile(
         path.resolve(app.icon),
@@ -22,11 +38,22 @@ export default async function setOsxConfig({ outDir, app }) {
       );
     }
 
+    /**
+     * Path to `nwjs.app/Contents/Info.plist`
+     *
+     * @type {string}
+     */
     const ContentsInfoPlistPath = path.resolve(
       outApp,
       "Contents",
       "Info.plist"
     );
+
+    /**
+     * Path to `nwjs.app/Contents/Resources/en.lproj/InfoPlist.settings`
+     *
+     * @type {string}
+     */
     const ContentsResourcesEnLprojInfoPlistStringsPath = path.resolve(
       outApp,
       "Contents",
@@ -35,6 +62,11 @@ export default async function setOsxConfig({ outDir, app }) {
       "InfoPlist.strings",
     );
 
+    /**
+     * JSON from `nwjs.app/Contents/Info.plist`
+     *
+     * @type {object}
+     */
     const ContentsInfoPlistJson = plist.parse(
       await fs.promises.readFile(
         ContentsInfoPlistPath,
@@ -42,6 +74,7 @@ export default async function setOsxConfig({ outDir, app }) {
       )
     );
 
+    /* Update Plist with user defined values. */
     ContentsInfoPlistJson.LSApplicationCategoryType = app.LSApplicationCategoryType;
     ContentsInfoPlistJson.CFBundleIdentifier = app.CFBundleIdentifier;
     ContentsInfoPlistJson.CFBundleName = app.CFBundleName;
@@ -50,12 +83,18 @@ export default async function setOsxConfig({ outDir, app }) {
     ContentsInfoPlistJson.CFBundleVersion = app.CFBundleVersion;
     ContentsInfoPlistJson.CFBundleShortVersionString = app.CFBundleShortVersionString;
 
+    /* Remove properties that were not updated by the user. */
     Object.keys(ContentsInfoPlistJson).forEach((option) => {
       if (ContentsInfoPlistJson[option] === undefined) {
         delete ContentsInfoPlistJson[option];
       }
     });
 
+    /**
+     * Data from `nwjs.app/Contents/Resources/en.lproj/InfoPlist.settings`
+     *
+     * @type {string[]}
+     */
     const ContentsResourcesEnLprojInfoPlistStringsArray = (await fs.promises.readFile(
       ContentsResourcesEnLprojInfoPlistStringsPath,
       "utf-8",
@@ -67,6 +106,7 @@ export default async function setOsxConfig({ outDir, app }) {
       }
     });
 
+    /* Write the updated values to their config files. */
     await fs.promises.writeFile(
       ContentsInfoPlistPath,
       plist.build(ContentsInfoPlistJson));
