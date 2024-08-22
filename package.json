@@ -52,7 +52,7 @@
     "license-check": "jsgl --local ."
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin-js": "^2.6.2",
+    "@stylistic/eslint-plugin-js": "^2.6.4",
     "@vitest/coverage-v8": "^2.0.5",
     "base-volta-off-of-nwjs": "^1.0.5",
     "eslint": "^9.9.0",
@@ -61,7 +61,7 @@
     "eslint-plugin-markdown": "^5.0.0",
     "js-green-licenses": "^4.0.0",
     "jsdoc": "^4.0.3",
-    "nw": "^0.90.0",
+    "nw": "^0.91.0",
     "selenium-webdriver": "^4.23.0",
     "vitest": "^2.0.4"
   },
