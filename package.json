@@ -44,13 +44,10 @@
     "postinstall": "node ./src/postinstall.js",
     "lint": "eslint ./src/**/*.js ./tests/**/*.js",
     "lint:fix": "eslint --fix ./src/**/*.js ./tests/**/*.js",
-    "markdown:fix": "markdownlint --fix ./README.md",
-    "docs": "jsdoc -d docs ./README.md ./src/index.js ./src/get.js ./src/run.js ./src/bld.js",
     "test": "vitest run --coverage",
     "test:cov": "vitest --coverage.enabled true",
     "demo:bld": "node ./tests/fixtures/demo.js",
-    "demo:exe": "./tests/fixtures/out/nwapp.app/Contents/MacOS/nwapp",
-    "license-check": "jsgl --local ."
+    "demo:exe": "./tests/fixtures/out/nwapp.app/Contents/MacOS/nwapp"
   },
   "devDependencies": {
     "@stylistic/eslint-plugin-js": "^2.6.2",
