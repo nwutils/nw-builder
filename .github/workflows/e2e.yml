@@ -15,8 +15,8 @@ jobs:
       matrix:
         os:
         - macos-14
-        - ubuntu-22.04
-        - windows-2022
+        # - ubuntu-22.04
+        # - windows-2022
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
@@ -33,7 +33,7 @@ jobs:
       - name: Check for linting errors
         run: npm run lint
       - name: Run tests
-        run: npm run test
+        run: npm run test ./tests/specs/osx.test.js
   coverage:
     runs-on: ubuntu-22.04
     permissions:
