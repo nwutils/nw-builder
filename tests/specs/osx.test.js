@@ -17,7 +17,8 @@ describe
 
   beforeAll(async function () {
     /* Copy the cached NW.js into a specific `outDir`. */
-    await fs.promises.cp(nw.findpath('all', { flavor: 'sdk' }), outDir, { recursive: true, force: true });
+    const nwDir = await nw.findpath('all', { flavor: 'sdk' })
+    await fs.promises.cp(nwDir, outDir, { recursive: true, force: true });
 
     /* Rename relevant bundles' plists and executables. */
     await setOsxConfig({
