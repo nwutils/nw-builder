@@ -9,9 +9,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import setOsxConfig from "../../src/bld/osx.js";
 import util from "../../src/util.js";
 
-describe
-  // .runIf(process.platform === 'darwin')
-  ("bld/setOsxConfig", async function () {
+describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function () {
 
     const outDir = './tests/fixtures/macos';
 
