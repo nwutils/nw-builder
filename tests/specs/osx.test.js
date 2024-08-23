@@ -187,57 +187,58 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
     expect(HelperGpuAppJson.CFBundleDisplayName).toEqual("nwapp Helper (GPU)");
     expect(HelperGpuAppJson.DisplayName).toEqual("nwapp Helper (GPU)");
     expect(HelperGpuAppJson.CFBundleIdentifier).toEqual("io.nwutils.demo.helper.gpu");
-    expect(HelperGpuAppJson.CFBundleExecutable).toEqual("nwapp Helper (GPU)");)
+    expect(HelperGpuAppJson.CFBundleExecutable).toEqual("nwapp Helper (GPU)");
 
-  const HelperPluginAppJson = plist.parse(
-    await fs.promises.readFile(
-      path.resolve(
-        helperPluginPath,
-        "Contents",
-        "Info.plist"
-      ),
-      "utf-8"
-    )
-  );
+    const HelperPluginAppJson = plist.parse(
+      await fs.promises.readFile(
+        path.resolve(
+          helperPluginPath,
+          "Contents",
+          "Info.plist"
+        ),
+        "utf-8"
+      )
+    );
 
-  expect(HelperPluginAppJson.CFBundleDisplayName).toEqual("nwapp Helper (Plugin)");
-  expect(HelperPluginAppJson.DisplayName).toEqual("nwapp Helper (Plugin)");
-  expect(HelperPluginAppJson.CFBundleIdentifier).toEqual("io.nwutils.demo.helper.plugin");
-  expect(HelperPluginAppJson.CFBundleExecutable).toEqual("nwapp Helper (Plugin)");
+    expect(HelperPluginAppJson.CFBundleDisplayName).toEqual("nwapp Helper (Plugin)");
+    expect(HelperPluginAppJson.DisplayName).toEqual("nwapp Helper (Plugin)");
+    expect(HelperPluginAppJson.CFBundleIdentifier).toEqual("io.nwutils.demo.helper.plugin");
+    expect(HelperPluginAppJson.CFBundleExecutable).toEqual("nwapp Helper (Plugin)");
 
-  const HelperRendererAppJson = plist.parse(
-    await fs.promises.readFile(
-      path.resolve(
-        helperRendererPath,
-        "Contents",
-        "Info.plist"
-      ),
-      "utf-8"
-    )
-  );
+    const HelperRendererAppJson = plist.parse(
+      await fs.promises.readFile(
+        path.resolve(
+          helperRendererPath,
+          "Contents",
+          "Info.plist"
+        ),
+        "utf-8"
+      )
+    );
 
-  expect(HelperRendererAppJson.CFBundleDisplayName).toEqual("nwapp Helper (Renderer)");
-  expect(HelperRendererAppJson.DisplayName).toEqual("nwapp Helper (Renderer)");
-  expect(HelperRendererAppJson.CFBundleIdentifier).toEqual("io.nwutils.demo.helper.renderer");
-  expect(HelperRendererAppJson.CFBundleExecutable).toEqual("nwapp Helper (Renderer)");
+    expect(HelperRendererAppJson.CFBundleDisplayName).toEqual("nwapp Helper (Renderer)");
+    expect(HelperRendererAppJson.DisplayName).toEqual("nwapp Helper (Renderer)");
+    expect(HelperRendererAppJson.CFBundleIdentifier).toEqual("io.nwutils.demo.helper.renderer");
+    expect(HelperRendererAppJson.CFBundleExecutable).toEqual("nwapp Helper (Renderer)");
 
-  const HelperAppJson = plist.parse(
-    await fs.promises.readFile(
-      path.resolve(
-        helperPath,
-        "Contents",
-        "Info.plist"
-      ),
-      "utf-8"
-    )
-  );
+    const HelperAppJson = plist.parse(
+      await fs.promises.readFile(
+        path.resolve(
+          helperPath,
+          "Contents",
+          "Info.plist"
+        ),
+        "utf-8"
+      )
+    );
 
-  expect(HelperAppJson.CFBundleDisplayName).toEqual("nwapp Helper");
-  expect(HelperAppJson.DisplayName).toEqual("nwapp Helper");
-  expect(HelperAppJson.CFBundleIdentifier).toEqual("io.nwutils.demo.helper");
-  expect(HelperAppJson.CFBundleExecutable).toEqual("nwapp Helper");
+    expect(HelperAppJson.CFBundleDisplayName).toEqual("nwapp Helper");
+    expect(HelperAppJson.DisplayName).toEqual("nwapp Helper");
+    expect(HelperAppJson.CFBundleIdentifier).toEqual("io.nwutils.demo.helper");
+    expect(HelperAppJson.CFBundleExecutable).toEqual("nwapp Helper");
 
-  afterAll(async function () {
-    await fs.promises.rm('./tests/fixtures/macos', { recursive: true, force: true });
-  });
+    afterAll(async function () {
+      await fs.promises.rm('./tests/fixtures/macos', { recursive: true, force: true });
+    });
+  })
 });
