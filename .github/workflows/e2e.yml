@@ -19,30 +19,6 @@ jobs:
         - windows-2022
       fail-fast: false
     runs-on: ${{ matrix.os }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4.1.7
-      - name: Setup Volta
-        uses: volta-cli/action@v4.2.1
-      - name: Node.js version
-        run: node -v
-      - name: npm version
-        run: npm -v
-      - name: Install dependencies
-        run: npm ci
-      - name: Check for linting errors
-        run: npm run lint
-      - name: Run tests
-        run: npm run test ./tests/specs/osx.test.js
-  coverage:
-    strategy:
-      matrix:
-        os:
-        - macos-14
-        - ubuntu-22.04
-        - windows-2022
-      fail-fast: false
-    runs-on: ${{ matrix.os }}
     permissions:
       contents: read
       pull-requests: write
@@ -57,7 +33,9 @@ jobs:
         run: npm -v
       - name: Install dependencies
         run: npm ci
-      - name: Enable Coverage
+      - name: Check for linting errors
+        run: npm run lint
+      - name: Run tests
         run: npm run test:cov
       - name: Report Coverage
         if: always()
