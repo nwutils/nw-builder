@@ -16,7 +16,10 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
     /**
      * @type {string | null}
      */
-    const chromiumVersion = releaseInfo?.components?.chromium ?? null;
+    const chromiumVersion = releaseInfo?.components?.chromium;
+    if (!chromiumVersion) {
+      throw new Error("Chromium version is missing.");
+    }
     /**
      * Path to MacOS application.
      *
