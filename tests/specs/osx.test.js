@@ -129,7 +129,7 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
 
   it("", async function () {
     const ContentsInfoPlistPath = path.resolve(
-      outDir,
+      appPath,
       "Contents",
       "Info.plist"
     );
