@@ -128,7 +128,90 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
   });
 
   it("", async function () {
-    // verify if bundle's plist values are renamed properly
+    const ContentsInfoPlistPath = path.resolve(
+      outDir,
+      "Contents",
+      "Info.plist"
+    );
+    const ContentsInfoPlistJson = plist.parse(
+      await fs.promises.readFile(
+        ContentsInfoPlistPath,
+        "utf-8"
+      )
+    );
+    expect(ContentsInfoPlistJson.name).toEqual("nwapp");
+    expect(ContentsInfoPlistJson.LSApplicationCategoryType).toEqual("public.app-category.utilities");
+    expect(ContentsInfoPlistJson.CFBundleIdentifier).toEqual("io.nwutils.demo");
+    expect(ContentsInfoPlistJson.CFBundleName).toEqual("Demo");
+    expect(ContentsInfoPlistJson.CFBundleDisplayName).toEqual("Demo");
+    expect(ContentsInfoPlistJson.CFBundleSpokenName).toEqual("Demo");
+    expect(ContentsInfoPlistJson.CFBundleVersion).toEqual("0.0.0");
+    expect(ContentsInfoPlistJson.CFBundleShortVersionString).toEqual("0.0.0");
+    expect(ContentsInfoPlistJson.NSHumanReadableCopyright).toEqual('Copyright (c) 2024 NW.js Utilities');
+    expect(ContentsInfoPlistJson.CFBundleExecutable).toEqual("nwapp");
+
+    const ContentsResourcesEnLprojInfoPlistStringsPath = path.resolve(
+      outDir,
+      "Contents",
+      "Resources",
+      "en.lproj",
+      "InfoPlist.strings",
+    );
+
+    const HelperAlertsAppJson = plist.parse(
+      await fs.promises.readFile(
+        path.resolve(
+          helperAlertsPath,
+          "Contents",
+          "Info.plist"
+        ),
+        "utf-8"
+      )
+    );
+
+    const HelperGpuAppJson = plist.parse(
+      await fs.promises.readFile(
+        path.resolve(
+          helperGPUPath,
+          "Contents",
+          "Info.plist"
+        ),
+        "utf-8"
+      )
+    );
+
+    const HelperPluginAppJson = plist.parse(
+      await fs.promises.readFile(
+        path.resolve(
+          helperPluginPath,
+          "Contents",
+          "Info.plist"
+        ),
+        "utf-8"
+      )
+    );
+
+    const HelperRendererAppJson = plist.parse(
+      await fs.promises.readFile(
+        path.resolve(
+          helperRendererPath,
+          "Contents",
+          "Info.plist"
+        ),
+        "utf-8"
+      )
+    );
+
+    const HelperAppJson = plist.parse(
+      await fs.promises.readFile(
+        path.resolve(
+          helperPath,
+          "Contents",
+          "Info.plist"
+        ),
+        "utf-8"
+      )
+    );
   });
 
   afterAll(async function () {
