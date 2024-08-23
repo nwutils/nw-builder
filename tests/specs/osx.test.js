@@ -160,7 +160,7 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
     );
 
     expect(HelperAlertsAppJson.CFBundleDisplayName).toEqual("nwapp Helper (Alerts)");
-    expect(HelperAlertsAppJson.DisplayName).toEqual("nwapp Helper (Alerts)");
+    expect(HelperAlertsAppJson.CFBundleName).toEqual("nwapp Helper (Alerts)");
     expect(HelperAlertsAppJson.CFBundleIdentifier).toEqual("io.nwutils.demo.helper.alert");
     expect(HelperAlertsAppJson.CFBundleExecutable).toEqual("nwapp Helper (Alerts)");
 
@@ -176,7 +176,7 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
     );
 
     expect(HelperGpuAppJson.CFBundleDisplayName).toEqual("nwapp Helper (GPU)");
-    expect(HelperGpuAppJson.DisplayName).toEqual("nwapp Helper (GPU)");
+    expect(HelperGpuAppJson.CFBundleName).toEqual("nwapp Helper (GPU)");
     expect(HelperGpuAppJson.CFBundleIdentifier).toEqual("io.nwutils.demo.helper.gpu");
     expect(HelperGpuAppJson.CFBundleExecutable).toEqual("nwapp Helper (GPU)");
 
@@ -192,7 +192,7 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
     );
 
     expect(HelperPluginAppJson.CFBundleDisplayName).toEqual("nwapp Helper (Plugin)");
-    expect(HelperPluginAppJson.DisplayName).toEqual("nwapp Helper (Plugin)");
+    expect(HelperPluginAppJson.CFBundleName).toEqual("nwapp Helper (Plugin)");
     expect(HelperPluginAppJson.CFBundleIdentifier).toEqual("io.nwutils.demo.helper.plugin");
     expect(HelperPluginAppJson.CFBundleExecutable).toEqual("nwapp Helper (Plugin)");
 
@@ -208,7 +208,7 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
     );
 
     expect(HelperRendererAppJson.CFBundleDisplayName).toEqual("nwapp Helper (Renderer)");
-    expect(HelperRendererAppJson.DisplayName).toEqual("nwapp Helper (Renderer)");
+    expect(HelperRendererAppJson.CFBundleName).toEqual("nwapp Helper (Renderer)");
     expect(HelperRendererAppJson.CFBundleIdentifier).toEqual("io.nwutils.demo.helper.renderer");
     expect(HelperRendererAppJson.CFBundleExecutable).toEqual("nwapp Helper (Renderer)");
 
@@ -224,7 +224,7 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
     );
 
     expect(HelperAppJson.CFBundleDisplayName).toEqual("nwapp Helper");
-    expect(HelperAppJson.DisplayName).toEqual("nwapp Helper");
+    expect(HelperAppJson.CFBundleName).toEqual("nwapp Helper");
     expect(HelperAppJson.CFBundleIdentifier).toEqual("io.nwutils.demo.helper");
     expect(HelperAppJson.CFBundleExecutable).toEqual("nwapp Helper");
 
