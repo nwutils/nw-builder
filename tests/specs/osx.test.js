@@ -74,7 +74,7 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
         "Versions",
         "127.0.6533.73",
         "Helpers",
-        `nwapp Helper (Service).app`);
+        `nwapp Helper (Plugin).app`);
       const helperPluginPathExists = await util.fileExists(helperPluginPath);
       expect(helperPluginPathExists).toEqual(true);
 
