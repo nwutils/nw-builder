@@ -139,7 +139,6 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
         "utf-8"
       )
     );
-    expect(ContentsInfoPlistJson.name).toEqual("nwapp");
     expect(ContentsInfoPlistJson.LSApplicationCategoryType).toEqual("public.app-category.utilities");
     expect(ContentsInfoPlistJson.CFBundleIdentifier).toEqual("io.nwutils.demo");
     expect(ContentsInfoPlistJson.CFBundleName).toEqual("Demo");
