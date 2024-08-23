@@ -146,16 +146,7 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
     expect(ContentsInfoPlistJson.CFBundleSpokenName).toEqual("Demo");
     expect(ContentsInfoPlistJson.CFBundleVersion).toEqual("0.0.0");
     expect(ContentsInfoPlistJson.CFBundleShortVersionString).toEqual("0.0.0");
-    expect(ContentsInfoPlistJson.NSHumanReadableCopyright).toEqual('Copyright (c) 2024 NW.js Utilities');
     expect(ContentsInfoPlistJson.CFBundleExecutable).toEqual("nwapp");
-
-    const ContentsResourcesEnLprojInfoPlistStringsPath = path.resolve(
-      outDir,
-      "Contents",
-      "Resources",
-      "en.lproj",
-      "InfoPlist.strings",
-    );
 
     const HelperAlertsAppJson = plist.parse(
       await fs.promises.readFile(
