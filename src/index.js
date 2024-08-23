@@ -126,6 +126,7 @@ async function nwbuild(options) {
         managedManifest: options.managedManifest,
         nativeAddon: options.nativeAddon,
         zip: options.zip,
+        releaseInfo: releaseInfo,
       });
     }
   } catch (error) {

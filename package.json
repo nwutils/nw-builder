@@ -9,7 +9,7 @@
     "Application"
   ],
   "author": {
-    "name": "Steffen MÃÂÃÂ¼ller",
+    "name": "Steffen Muller",
     "url": "https://www.mllrsohn.com/"
   },
   "maintainers": [
@@ -44,12 +44,10 @@
     "postinstall": "node ./src/postinstall.js",
     "lint": "eslint ./src/**/*.js ./tests/**/*.js",
     "lint:fix": "eslint --fix ./src/**/*.js ./tests/**/*.js",
-    "markdown:fix": "markdownlint --fix ./README.md",
-    "docs": "jsdoc -d docs ./README.md ./src/index.js ./src/get.js ./src/run.js ./src/bld.js",
     "test": "vitest run --coverage",
     "test:cov": "vitest --coverage.enabled true",
-    "demo": "cd tests/fixtures && node demo.js",
-    "license-check": "jsgl --local ."
+    "demo:bld": "node ./tests/fixtures/demo.js",
+    "demo:exe": "./tests/fixtures/out/nwapp.app/Contents/MacOS/nwapp"
   },
   "devDependencies": {
     "@stylistic/eslint-plugin-js": "^2.6.2",
@@ -59,7 +57,6 @@
     "eslint-config-tjw-jsdoc": "^1.0.5",
     "eslint-plugin-jsdoc": "^50.2.2",
     "eslint-plugin-markdown": "^5.0.0",
-    "js-green-licenses": "^4.0.0",
     "jsdoc": "^4.0.3",
     "nw": "^0.90.0",
     "selenium-webdriver": "^4.23.0",
