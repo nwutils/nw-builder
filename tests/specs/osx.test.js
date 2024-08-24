@@ -67,8 +67,6 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
     const nwDir = await nw.findpath('all', { flavor: 'sdk' })
     await fs.promises.cp(nwDir, outDir, { recursive: true, force: true });
 
-    const chromiumVersion = releaseInfo.components.chromium;
-
     /* Rename relevant bundles' plists and executables. */
     await setOsxConfig({
       app: {
