@@ -9,16 +9,18 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import setOsxConfig from "../../src/bld/osx.js";
 import util from "../../src/util.js";
 
+import nodeManifest from "../../package.json";
+
 describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function () {
 
   const outDir = './tests/fixtures/macos';
   const appPath = path.join(outDir, 'nwapp.app');
   const releaseInfo = await util.getReleaseInfo(
-    options.version,
-    options.platform,
-    options.arch,
-    options.cacheDir,
-    options.manifestUrl,
+    nodeManifest.version,
+    util.PLATFORM_KV['darwin'],
+    util.ARCH_KV['arm64'],
+    './node_modules/nw',
+    'https://nwjs.io/versions',
   );
   const chromiumVersion = releaseInfo.components.chromium;
   const helperAlertsPath = path.join(appPath,
