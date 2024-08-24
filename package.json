@@ -42,8 +42,8 @@
   },
   "scripts": {
     "postinstall": "node ./src/postinstall.js",
-    "lint": "eslint ./src/**/*.js ./tests/**/*.js",
-    "lint:fix": "eslint --fix ./src/**/*.js ./tests/**/*.js",
+    "lint": "eslint ./src ./tests",
+    "lint:fix": "eslint --fix ./src ./tests",
     "test": "vitest run --coverage",
     "test:cov": "vitest --coverage.enabled true",
     "demo:bld": "node ./tests/fixtures/demo.js",
