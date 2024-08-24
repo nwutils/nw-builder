@@ -1,9 +1,9 @@
-import child_process from "node:child_process";
-import console from "node:console";
-import path from "node:path";
-import process from "node:process";
+import child_process from 'node:child_process';
+import console from 'node:console';
+import path from 'node:path';
+import process from 'node:process';
 
-import util from "./util.js";
+import util from './util.js';
 
 /**
  * @typedef {object} RunOptions
@@ -19,36 +19,33 @@ import util from "./util.js";
 
 /**
  * Run NW.js application.
- *
  * @deprecated since v4.6.0. This logic will be ported over to `nwjs/npm-installer` repo and removed in the next major release (v5.0).
- *
  * @async
  * @function
- *
  * @param  {RunOptions}    options  Run mode options
- * @return {Promise<void>}
+ * @returns {Promise<void>}
  */
 async function run({
-  version = "latest",
-  flavor = "normal",
+  version = 'latest',
+  flavor = 'normal',
   platform = util.PLATFORM_KV[process.platform],
   arch = util.ARCH_KV[process.arch],
-  srcDir = "./src",
-  cacheDir = "./cache",
+  srcDir = './src',
+  cacheDir = './cache',
   glob = false,
   argv = [],
 }) {
   try {
     if (util.EXE_NAME[platform] === undefined) {
-      throw new Error("Unsupported platform.");
+      throw new Error('Unsupported platform.');
     }
     if (glob === true) {
-      throw new Error("Globbing is not supported with run mode.");
+      throw new Error('Globbing is not supported with run mode.');
     }
 
     const nwDir = path.resolve(
       cacheDir,
-      `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}`,
+      `nwjs${flavor === 'sdk' ? '-sdk' : ''}-v${version}-${platform}-${arch}`,
     );
 
     return new Promise((res, rej) => {
@@ -56,14 +53,14 @@ async function run({
       const nwProcess = child_process.spawn(
         path.resolve(nwDir, util.EXE_NAME[platform]),
         [...[srcDir], ...argv],
-        { stdio: "inherit" },
+        { stdio: 'inherit' },
       );
 
-      nwProcess.on("close", () => {
+      nwProcess.on('close', () => {
         res();
       });
 
-      nwProcess.on("error", (error) => {
+      nwProcess.on('error', (error) => {
         console.error(error);
         rej(error);
       });

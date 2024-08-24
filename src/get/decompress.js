@@ -1,18 +1,17 @@
-import fs from "node:fs";
-import path from "node:path";
-import stream from "node:stream";
+import fs from 'node:fs';
+import path from 'node:path';
+import stream from 'node:stream';
 
-import * as tar from "tar";
-import yauzl from "yauzl-promise";
+import * as tar from 'tar';
+import yauzl from 'yauzl-promise';
 
 /**
  * Decompresses a file at `filePath` to `cacheDir` directory.
- *
  * @param {string} filePath  - file path to compressed binary
  * @param {string} cacheDir  - directory to decompress into
  */
 export default async function decompress(filePath, cacheDir) {
-  if (filePath.endsWith(".zip")) {
+  if (filePath.endsWith('.zip')) {
     await unzip(filePath, cacheDir);
   } else {
     await tar.extract({
@@ -24,9 +23,8 @@ export default async function decompress(filePath, cacheDir) {
 
 /**
  * Get file mode from entry. Reference implementation is [here](https://github.com/fpsqdb/zip-lib/blob/ac447d269218d396e05cd7072d0e9cd82b5ec52c/src/unzip.ts#L380).
- *
  * @param  {yauzl.Entry} entry  - Yauzl entry
- * @return {number}             - entry's file mode
+ * @returns {number}             - entry's file mode
  */
 function modeFromEntry(entry) {
   const attr = entry.externalFileAttributes >> 16 || 33188;
@@ -38,12 +36,11 @@ function modeFromEntry(entry) {
 
 /**
  * Unzip `zippedFile` to `cacheDir`.
- *
  * @async
  * @function
  * @param  {string}        zippedFile  - file path to .zip file
  * @param  {string}        cacheDir    - directory to unzip in
- * @return {Promise<void>}
+ * @returns {Promise<void>}
  */
 async function unzip(zippedFile, cacheDir) {
   const zip = await yauzl.open(zippedFile);
@@ -81,8 +78,8 @@ async function unzip(zippedFile, cacheDir) {
     let entryPathAbs = path.join(cacheDir, symlinkEntry.filename);
     const readStream = await symlinkEntry.openReadStream();
     const chunks = [];
-    readStream.on("data", (chunk) => chunks.push(chunk));
-    await new Promise(resolve => readStream.on("end", resolve));
+    readStream.on('data', (chunk) => chunks.push(chunk));
+    await new Promise(resolve => readStream.on('end', resolve));
     const linkTarget = Buffer.concat(chunks).toString('utf8').trim();
 
     // Check if the symlink or a file/directory already exists at the destination

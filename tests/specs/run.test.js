@@ -1,30 +1,30 @@
-import path from "node:path";
-import process from "node:process";
+import path from 'node:path';
+import process from 'node:process';
 
-import { By } from "selenium-webdriver";
-import chrome from "selenium-webdriver/chrome.js";
-import { beforeAll, describe, expect, it } from "vitest";
+import { By } from 'selenium-webdriver';
+import chrome from 'selenium-webdriver/chrome.js';
+import { beforeAll, describe, expect, it } from 'vitest';
 
-import build from "../../src/bld.js";
-import get from "../../src/get/index.js";
-import util from "../../src/util.js";
+import build from '../../src/bld.js';
+import get from '../../src/get/index.js';
+import util from '../../src/util.js';
 
 const { Driver, ServiceBuilder, Options } = chrome;
 
-describe.skip("build test suite", async () => {
+describe.skip('build test suite', async () => {
   let driver = undefined;
 
   const nwOptions = {
-    srcDir: "tests/fixtures/app",
-    mode: "build",
-    version: "0.83.0",
-    flavor: "sdk",
+    srcDir: 'tests/fixtures/app',
+    mode: 'build',
+    version: '0.83.0',
+    flavor: 'sdk',
     platform: util.PLATFORM_KV[process.platform],
     arch: util.ARCH_KV[process.arch],
-    downloadUrl: "https://dl.nwjs.io",
-    manifestUrl: "https://nwjs.io/versions",
-    outDir: "tests/fixtures/out/app",
-    cacheDir: "tests/fixtures/cache",
+    downloadUrl: 'https://dl.nwjs.io',
+    manifestUrl: 'https://nwjs.io/versions',
+    outDir: 'tests/fixtures/out/app',
+    cacheDir: 'tests/fixtures/cache',
     cache: true,
     ffmpeg: false,
     glob: false,
@@ -32,7 +32,7 @@ describe.skip("build test suite", async () => {
     nativeAddon: false,
     zip: false,
     app: {
-      name: "demo"
+      name: 'demo'
     }
   };
 
@@ -40,24 +40,24 @@ describe.skip("build test suite", async () => {
     await get(nwOptions);
   }, Infinity);
 
-  it("builds without errors", async () => {
+  it('builds without errors', async () => {
     await build(nwOptions);
   });
 
-  it("runs after build", async () => {
+  it('runs after build', async () => {
     const options = new Options();
     const args = [
-      `--nwapp=${path.resolve("test", "fixture", "app")}`,
-      "--headless=new",
+      `--nwapp=${path.resolve('test', 'fixture', 'app')}`,
+      '--headless=new',
     ];
     options.addArguments(args);
 
-    const chromedriverPath = util.getPath("chromedriver", nwOptions);
+    const chromedriverPath = util.getPath('chromedriver', nwOptions);
 
     const service = new ServiceBuilder(chromedriverPath).build();
 
     driver = Driver.createSession(options, service);
-    const text = await driver.findElement(By.id("test")).getText();
-    expect(text).toBe("Hello, World!");
+    const text = await driver.findElement(By.id('test')).getText();
+    expect(text).toBe('Hello, World!');
   }, { timeout: Infinity });
 });

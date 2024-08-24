@@ -1,21 +1,21 @@
+import js from "@eslint/js";
+import jsdoc from 'eslint-plugin-jsdoc';
+import globals from "globals";
 
-import stylistic from "@stylistic/eslint-plugin-js";
-import jsdoc from "eslint-plugin-jsdoc";
-import markdownPlugin from "eslint-plugin-markdown";
-
-export default {
-  languageOptions: {
-    parserOptions: {
-      ecmaVersion: "latest",
-      sourceType: "module"
-    },
+export default [
+  {
+    languageOptions:
+    {
+      globals: globals.node
+    }
   },
-  plugins: {
-    "@stylistic/js": stylistic.configs["all-flat"],
-    "plugin:markdown/recommended": markdownPlugin.configs.recommended,
-    "jsdoc": jsdoc.configs.recommended,
-  },
-  rules: {
-    "jsdoc/require-file-overview": "off"
+  js.configs.recommended,
+  jsdoc.configs['flat/recommended'],
+  {
+    rules: {
+      "semi": ["error", "always"],
+      "quotes": ["error", "single"],
+    }
   }
-}
+
+];

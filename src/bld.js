@@ -1,22 +1,21 @@
-import child_process from "node:child_process";
-import console from "node:console";
-import fs from "node:fs";
-import path from "node:path";
-import process from "node:process";
+import child_process from 'node:child_process';
+import console from 'node:console';
+import fs from 'node:fs';
+import path from 'node:path';
+import process from 'node:process';
 
-import archiver from "archiver";
-import * as resedit from "resedit";
+import archiver from 'archiver';
+import * as resedit from 'resedit';
 // pe-library is a direct dependency of resedit
 import * as peLibrary from 'pe-library';
 import * as tar from 'tar';
 
-import util from "./util.js";
-import setOsxConfig from "./bld/osx.js";
+import util from './util.js';
+import setOsxConfig from './bld/osx.js';
 
 /**
  * References:
  * https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html
- *
  * @typedef  {object}   LinuxRc               Linux configuration options
  * @property {string}   name                  Name of the application
  * @property {string}   genericName           Generic name of the application
@@ -45,7 +44,6 @@ import setOsxConfig from "./bld/osx.js";
 /**
  * References:
  * https://developer.apple.com/documentation/bundleresources/information_property_list
- *
  * @typedef  {object} OsxRc                       OSX resource configuration options
  * @property {string} name                        The name of the application
  * @property {string} icon                        The path to the icon file. It should be a .icns file.
@@ -65,7 +63,6 @@ import setOsxConfig from "./bld/osx.js";
  * https://learn.microsoft.com/en-gb/windows/win32/sbscs/application-manifests
  * https://learn.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2015/deployment/trustinfo-element-clickonce-application?view=vs-2015#requestedexecutionlevel
  * https://learn.microsoft.com/en-gb/windows/win32/menurc/versioninfo-resource
- *
  * @typedef {object} WinRc              Windows configuration options. More info
  * @property {string} name              The name of the application
  * @property {string} version           @deprecated Use {@link fileVersion} instead. The version of the application
@@ -105,21 +102,19 @@ import setOsxConfig from "./bld/osx.js";
 
 /**
  * Build NW.js application.
- *
  * @async
  * @function
  * @param  {BuildOptions}  options  - Build options
- * @return {Promise<void>}
+ * @returns {Promise<void>}
  */
 async function bld({
-  version = "latest",
-  flavor = "normal",
+  version = 'latest',
+  flavor = 'normal',
   platform = util.PLATFORM_KV[process.platform],
   arch = util.ARCH_KV[process.arch],
-  manifestUrl = "https://nwjs.io/versions",
-  srcDir = "./src",
-  cacheDir = "./cache",
-  outDir = "./out",
+  srcDir = './src',
+  cacheDir = './cache',
+  outDir = './out',
   app,
   glob = true,
   managedManifest = false,
@@ -129,7 +124,7 @@ async function bld({
 }) {
   const nwDir = path.resolve(
     cacheDir,
-    `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform
+    `nwjs${flavor === 'sdk' ? '-sdk' : ''}-v${version}-${platform
     }-${arch}`,
   );
 
@@ -145,9 +140,9 @@ async function bld({
         file,
         path.resolve(
           outDir,
-          platform !== "osx"
-            ? "package.nw"
-            : "nwjs.app/Contents/Resources/app.nw",
+          platform !== 'osx'
+            ? 'package.nw'
+            : 'nwjs.app/Contents/Resources/app.nw',
           file,
         ),
         { recursive: true, verbatimSymlinks: true },
@@ -158,9 +153,9 @@ async function bld({
       files,
       path.resolve(
         outDir,
-        platform !== "osx"
-          ? "package.nw"
-          : "nwjs.app/Contents/Resources/app.nw",
+        platform !== 'osx'
+          ? 'package.nw'
+          : 'nwjs.app/Contents/Resources/app.nw',
       ),
       { recursive: true, verbatimSymlinks: true },
     );
@@ -170,21 +165,21 @@ async function bld({
 
   if (
     managedManifest === true ||
-    typeof managedManifest === "object" ||
-    typeof managedManifest === "string"
+    typeof managedManifest === 'object' ||
+    typeof managedManifest === 'string'
   ) {
     await manageManifest({ nwPkg: manifest, managedManifest, outDir, platform });
   }
 
-  if (platform === "linux") {
+  if (platform === 'linux') {
     await setLinuxConfig({ app, outDir });
-  } else if (platform === "win") {
+  } else if (platform === 'win') {
     await setWinConfig({ app, outDir });
-  } else if (platform === "osx") {
+  } else if (platform === 'osx') {
     await setOsxConfig({ app, outDir, releaseInfo });
   }
 
-  if (nativeAddon === "gyp") {
+  if (nativeAddon === 'gyp') {
     buildNativeAddon({ cacheDir, version, platform, arch, outDir, nodeVersion });
   }
 
@@ -200,56 +195,56 @@ const manageManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
     manifest = nwPkg;
   }
 
-  if (typeof managedManifest === "object") {
+  if (typeof managedManifest === 'object') {
     manifest = managedManifest;
   }
 
-  if (typeof managedManifest === "string") {
+  if (typeof managedManifest === 'string') {
     manifest = JSON.parse(await fs.promises.readFile(managedManifest));
   }
 
   if (manifest.devDependencies) {
     manifest.devDependencies = undefined;
   }
-  manifest.packageManager = manifest.packageManager ?? "npm@*";
+  manifest.packageManager = manifest.packageManager ?? 'npm@*';
 
   await fs.promises.writeFile(
     path.resolve(
       outDir,
-      platform !== "osx"
-        ? "package.nw"
-        : "nwjs.app/Contents/Resources/app.nw",
-      "package.json",
+      platform !== 'osx'
+        ? 'package.nw'
+        : 'nwjs.app/Contents/Resources/app.nw',
+      'package.json',
     ),
     JSON.stringify(manifest, null, 2),
-    "utf8",
+    'utf8',
   );
 
   const cwd = path.resolve(
     outDir,
-    platform !== "osx"
-      ? "package.nw"
-      : "nwjs.app/Contents/Resources/app.nw",
+    platform !== 'osx'
+      ? 'package.nw'
+      : 'nwjs.app/Contents/Resources/app.nw',
   );
 
-  if (manifest.packageManager.startsWith("npm")) {
-    child_process.execSync(`npm install`, { cwd });
-  } else if (manifest.packageManager.startsWith("yarn")) {
-    child_process.execSync(`yarn install`, { cwd });
-  } else if (manifest.packageManager.startsWith("pnpm")) {
-    child_process.execSync(`pnpm install`, { cwd });
+  if (manifest.packageManager.startsWith('npm')) {
+    child_process.execSync('npm install', { cwd });
+  } else if (manifest.packageManager.startsWith('yarn')) {
+    child_process.execSync('yarn install', { cwd });
+  } else if (manifest.packageManager.startsWith('pnpm')) {
+    child_process.execSync('pnpm install', { cwd });
   }
 };
 
 const setLinuxConfig = async ({ app, outDir }) => {
-  if (process.platform === "win32") {
+  if (process.platform === 'win32') {
     console.warn(
-      "Linux apps built on Windows platform do not preserve all file permissions. See #716",
+      'Linux apps built on Windows platform do not preserve all file permissions. See #716',
     );
   }
   let desktopEntryFile = {
-    Type: "Application",
-    Version: "1.5",
+    Type: 'Application',
+    Version: '1.5',
     Name: app.name,
     GenericName: app.genericName,
     NoDisplay: app.noDisplay,
@@ -276,7 +271,7 @@ const setLinuxConfig = async ({ app, outDir }) => {
 
   await fs.promises.rename(`${outDir}/nw`, `${outDir}/${app.name}`);
 
-  let fileContent = `[Desktop Entry]\n`;
+  let fileContent = '[Desktop Entry]\n';
   Object.keys(desktopEntryFile).forEach((key) => {
     if (desktopEntryFile[key] !== undefined) {
       fileContent += `${key}=${desktopEntryFile[key]}\n`;
@@ -309,7 +304,7 @@ const setWinConfig = async ({ app, outDir }) => {
   });
 
   const outDirAppExe = path.resolve(outDir, `${app.name}.exe`);
-  await fs.promises.rename(path.resolve(outDir, "nw.exe"), outDirAppExe);
+  await fs.promises.rename(path.resolve(outDir, 'nw.exe'), outDirAppExe);
   const exe = peLibrary.NtExecutable.from(await fs.promises.readFile(outDirAppExe));
   const res = peLibrary.NtExecutableResource.from(exe);
   // English (United States)
@@ -350,9 +345,9 @@ const buildNativeAddon = ({ cacheDir, version, platform, arch, outDir, nodeVersi
   let nodePath = path.resolve(cacheDir, `node-v${version}-${platform}-${arch}`);
   const cwd = path.resolve(
     outDir,
-    platform !== "osx"
-      ? "package.nw"
-      : "nwjs.app/Contents/Resources/app.nw",
+    platform !== 'osx'
+      ? 'package.nw'
+      : 'nwjs.app/Contents/Resources/app.nw',
   );
 
   child_process.execSync(`node-gyp rebuild --target=${nodeVersion} --nodedir=${nodePath}`, { cwd });
@@ -362,18 +357,18 @@ const compress = async ({
   zip,
   outDir,
 }) => {
-  if (zip === true || zip === "zip") {
+  if (zip === true || zip === 'zip') {
     const archive = archiver('zip');
     const writeStream = fs.createWriteStream(`${outDir}.zip`);
     archive.pipe(writeStream);
     archive.directory(outDir, false);
     archive.finalize();
-  } else if (zip === "tar") {
+  } else if (zip === 'tar') {
     await tar.create({
       gzip: false,
       file: `${outDir}.tar`,
     }, [outDir]);
-  } else if (zip === "tgz") {
+  } else if (zip === 'tgz') {
     await tar.create({
       gzip: true,
       file: `${outDir}.tgz`,

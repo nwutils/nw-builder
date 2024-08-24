@@ -1,11 +1,11 @@
-import nwbuild from "../../src/index.js";
+import nwbuild from '../../src/index.js';
 
 await nwbuild({
-  mode: "build",
-  flavor: "sdk",
-  platform: "osx",
-  srcDir: "./tests/fixtures/app",
-  cacheDir: "./node_modules/nw",
+  mode: 'build',
+  flavor: 'sdk',
+  platform: 'osx',
+  srcDir: './tests/fixtures/app',
+  cacheDir: './node_modules/nw',
   outDir: './tests/fixtures/out',
   glob: false,
   app: {

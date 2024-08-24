@@ -1,13 +1,13 @@
-import fs from "node:fs";
-import process from "node:process";
+import fs from 'node:fs';
+import process from 'node:process';
 
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from 'vitest';
 
-import util from "../../src/util.js";
+import util from '../../src/util.js';
 
-import nw from "../../src/get/nw.js";
+import nw from '../../src/get/nw.js';
 
-describe("get/nw", function () {
+describe('get/nw', function () {
 
   let nwFile = '';
 
@@ -15,14 +15,14 @@ describe("get/nw", function () {
     fs.promises.rm(nwFile, { recursive: true, force: true });
   });
 
-  it("downloades a NW.js Linux tarball or Windows/MacOS zip", async function () {
+  it('downloades a NW.js Linux tarball or Windows/MacOS zip', async function () {
     nwFile = await nw(
-      "https://dl.nwjs.io",
-      "0.83.0",
-      "sdk",
+      'https://dl.nwjs.io',
+      '0.83.0',
+      'sdk',
       util.PLATFORM_KV[process.platform],
       util.ARCH_KV[process.arch],
-      "./tests/fixtures"
+      './tests/fixtures'
     );
     expect(util.fileExists(nwFile)).resolves.toBe(true);
   }, Infinity);

@@ -5,10 +5,18 @@ import process from 'node:process';
 
 import plist from 'plist';
 
+/**
+ *
+ * @param {object} options              - Options.
+ * @param {object} options.app          - Application configuration.
+ * @param {string} options.outDir       - Output directory.
+ * @param {string} options.releaseInfo  - Release information.
+ * @returns {Promise<void>}             - Promise.
+ */
 export default async function setOsxConfig({ app, outDir, releaseInfo }) {
-  if (process.platform === "win32") {
+  if (process.platform === 'win32') {
     console.warn(
-      "MacOS apps built on Windows platform do not preserve all file permissions. See #716",
+      'MacOS apps built on Windows platform do not preserve all file permissions. See #716',
     );
   }
 
@@ -18,124 +26,122 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
      */
     const chromiumVersion = releaseInfo?.components?.chromium;
     if (!chromiumVersion) {
-      throw new Error("Chromium version is missing.");
+      throw new Error('Chromium version is missing.');
     }
     /**
      * Path to MacOS application.
-     *
      * @type {string}
      */
     const nwjsApp = path.resolve(outDir, 'nwjs.app');
 
     /**
      * Path to renamed MacOS application.
-     *
      * @type {string}
      */
     const outApp = path.resolve(outDir, `${app.name}.app`);
 
     const nwjsHelperAlertsAppPath = path.resolve(
       outApp,
-      "Contents",
-      "Frameworks",
-      "nwjs Framework.framework",
-      "Versions",
+      'Contents',
+      'Frameworks',
+      'nwjs Framework.framework',
+      'Versions',
       chromiumVersion,
-      "Helpers",
-      `nwjs Helper (Alerts).app`,
+      'Helpers',
+      'nwjs Helper (Alerts).app',
     );
     const HelperAlertsAppPath = path.resolve(
       outApp,
-      "Contents",
-      "Frameworks",
-      "nwjs Framework.framework",
-      "Versions",
+      'Contents',
+      'Frameworks',
+      'nwjs Framework.framework',
+      'Versions',
       chromiumVersion,
-      "Helpers",
+      'Helpers',
       `${app.name} Helper (Alerts).app`,
     );
 
     const nwjsHelperGpuAppPath = path.resolve(
       outApp,
-      "Contents",
-      "Frameworks",
-      "nwjs Framework.framework",
-      "Versions",
+      'Contents',
+      'Frameworks',
+      'nwjs Framework.framework',
+      'Versions',
       chromiumVersion,
-      "Helpers",
-      `nwjs Helper (GPU).app`,
+      'Helpers',
+      'nwjs Helper (GPU).app',
     );
     const HelperGpuAppPath = path.resolve(
       outApp,
-      "Contents",
-      "Frameworks",
-      "nwjs Framework.framework",
-      "Versions",
+      'Contents',
+      'Frameworks',
+      'nwjs Framework.framework',
+      'Versions',
       chromiumVersion,
-      "Helpers",
+      'Helpers',
       `${app.name} Helper (GPU).app`,
     );
 
     const nwjsHelperPluginAppPath = path.resolve(
       outApp,
-      "Contents",
-      "Frameworks",
-      "nwjs Framework.framework",
-      "Versions",
+      'Contents',
+      'Frameworks',
+      'nwjs Framework.framework',
+      'Versions',
       chromiumVersion,
-      "Helpers",
-      `nwjs Helper (Plugin).app`,
+      'Helpers',
+      'nwjs Helper (Plugin).app',
     );
     const HelperPluginAppPath = path.resolve(
       outApp,
-      "Contents",
-      "Frameworks",
-      "nwjs Framework.framework",
-      "Versions",
+      'Contents',
+      'Frameworks',
+      'nwjs Framework.framework',
+      'Versions',
       chromiumVersion,
-      "Helpers",
+      'Helpers',
       `${app.name} Helper (Plugin).app`,
     );
 
     const nwjsHelperRendererAppPath = path.resolve(
       outApp,
-      "Contents",
-      "Frameworks",
-      "nwjs Framework.framework",
-      "Versions",
+      'Contents',
+      'Frameworks',
+      'nwjs Framework.framework',
+      'Versions',
       chromiumVersion,
-      "Helpers",
-      `nwjs Helper (Renderer).app`,
+      'Helpers',
+      'nwjs Helper (Renderer).app',
     );
     const HelperRendererAppPath = path.resolve(
       outApp,
-      "Contents",
-      "Frameworks",
-      "nwjs Framework.framework",
-      "Versions",
+      'Contents',
+      'Frameworks',
+      'nwjs Framework.framework',
+      'Versions',
       chromiumVersion,
-      "Helpers",
+      'Helpers',
       `${app.name} Helper (Renderer).app`,
     );
 
     const nwjsHelperAppPath = path.resolve(
       outApp,
-      "Contents",
-      "Frameworks",
-      "nwjs Framework.framework",
-      "Versions",
+      'Contents',
+      'Frameworks',
+      'nwjs Framework.framework',
+      'Versions',
       chromiumVersion,
-      "Helpers",
-      `nwjs Helper.app`,
+      'Helpers',
+      'nwjs Helper.app',
     );
     const HelperAppPath = path.resolve(
       outApp,
-      "Contents",
-      "Frameworks",
-      "nwjs Framework.framework",
-      "Versions",
+      'Contents',
+      'Frameworks',
+      'nwjs Framework.framework',
+      'Versions',
       chromiumVersion,
-      "Helpers",
+      'Helpers',
       `${app.name} Helper.app`,
     );
 
@@ -144,8 +150,8 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
 
     /* Rename `Contents/MacOS/nwjs` to `Contents/MacOS/${app.name}` */
     await fs.promises.rename(
-      path.resolve(outApp, "Contents", "MacOS", "nwjs"),
-      path.resolve(outApp, "Contents", "MacOS", app.name),
+      path.resolve(outApp, 'Contents', 'MacOS', 'nwjs'),
+      path.resolve(outApp, 'Contents', 'MacOS', app.name),
     );
 
     /* Rename Helper (Alert) */
@@ -180,155 +186,147 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
 
     /* Rename `nwjs Helper (Alerts)/Contents/MacOS/nwjs Helper (Alerts)` to `${app.name} Helper (Alerts)/Contents/MacOS/${app.name} Helper (Alerts)` */
     await fs.promises.rename(
-      path.resolve(HelperAlertsAppPath, "Contents", "MacOS", "nwjs Helper (Alerts)"),
-      path.resolve(HelperAlertsAppPath, "Contents", "MacOS", `${app.name} Helper (Alerts)`),
+      path.resolve(HelperAlertsAppPath, 'Contents', 'MacOS', 'nwjs Helper (Alerts)'),
+      path.resolve(HelperAlertsAppPath, 'Contents', 'MacOS', `${app.name} Helper (Alerts)`),
     );
 
     /* Rename `${app.name} Helper (GPU)/Contents/MacOS/nwjs Helper (GPU)` to `${app.name} Helper (GPU)/Contents/MacOS/${app.name} Helper (GPU)` */
     await fs.promises.rename(
-      path.resolve(HelperGpuAppPath, "Contents", "MacOS", "nwjs Helper (GPU)"),
-      path.resolve(HelperGpuAppPath, "Contents", "MacOS", `${app.name} Helper (GPU)`),
+      path.resolve(HelperGpuAppPath, 'Contents', 'MacOS', 'nwjs Helper (GPU)'),
+      path.resolve(HelperGpuAppPath, 'Contents', 'MacOS', `${app.name} Helper (GPU)`),
     );
 
     /* Rename `${app.name} Helper (Plugin)/Contents/MacOS/nwjs Helper (Plugin)` to `${app.name} Helper (Plugin)/Contents/MacOS/${app.name} Helper (Plugin)` */
     await fs.promises.rename(
-      path.resolve(HelperPluginAppPath, "Contents", "MacOS", "nwjs Helper (Plugin)"),
-      path.resolve(HelperPluginAppPath, "Contents", "MacOS", `${app.name} Helper (Plugin)`),
+      path.resolve(HelperPluginAppPath, 'Contents', 'MacOS', 'nwjs Helper (Plugin)'),
+      path.resolve(HelperPluginAppPath, 'Contents', 'MacOS', `${app.name} Helper (Plugin)`),
     );
 
     /* Rename `${app.name} Helper (Renderer)/Contents/MacOS/nwjs Helper (Renderer)` to `${app.name} Helper (Renderer)/Contents/MacOS/${app.name} Helper (Renderer)` */
     await fs.promises.rename(
-      path.resolve(HelperRendererAppPath, "Contents", "MacOS", "nwjs Helper (Renderer)"),
-      path.resolve(HelperRendererAppPath, "Contents", "MacOS", `${app.name} Helper (Renderer)`),
+      path.resolve(HelperRendererAppPath, 'Contents', 'MacOS', 'nwjs Helper (Renderer)'),
+      path.resolve(HelperRendererAppPath, 'Contents', 'MacOS', `${app.name} Helper (Renderer)`),
     );
 
     /* Rename `${app.name} Helper/Contents/MacOS/nwjs Helper` to `${app.name} Helper/Contents/MacOS/${app.name} Helper` */
     await fs.promises.rename(
-      path.resolve(HelperAppPath, "Contents", "MacOS", "nwjs Helper"),
-      path.resolve(HelperAppPath, "Contents", "MacOS", `${app.name} Helper`),
+      path.resolve(HelperAppPath, 'Contents', 'MacOS', 'nwjs Helper'),
+      path.resolve(HelperAppPath, 'Contents', 'MacOS', `${app.name} Helper`),
     );
 
     /* Replace default icon with user defined icon if specified. */
     if (app.icon !== undefined) {
       await fs.promises.copyFile(
         path.resolve(app.icon),
-        path.resolve(outApp, "Contents", "Resources", "app.icns"),
+        path.resolve(outApp, 'Contents', 'Resources', 'app.icns'),
       );
     }
 
     /**
      * Path to `nwjs.app/Contents/Info.plist`
-     *
      * @type {string}
      */
     const ContentsInfoPlistPath = path.resolve(
       outApp,
-      "Contents",
-      "Info.plist"
+      'Contents',
+      'Info.plist'
     );
 
     /**
      * Path to `nwjs.app/Contents/Resources/en.lproj/InfoPlist.settings`
-     *
      * @type {string}
      */
     const ContentsResourcesEnLprojInfoPlistStringsPath = path.resolve(
       outApp,
-      "Contents",
-      "Resources",
-      "en.lproj",
-      "InfoPlist.strings",
+      'Contents',
+      'Resources',
+      'en.lproj',
+      'InfoPlist.strings',
     );
 
     /**
      * JSON from `nwjs.app/Contents/Info.plist`
-     *
      * @type {object}
      */
     const ContentsInfoPlistJson = plist.parse(
       await fs.promises.readFile(
         ContentsInfoPlistPath,
-        "utf-8"
+        'utf-8'
       )
     );
 
     /**
      * JSON from `${app.name} Helper.app (Alerts)/Contents/Info.plist`
-     *
      * @type {object}
      */
     const HelperAlertsAppJson = plist.parse(
       await fs.promises.readFile(
         path.resolve(
           HelperAlertsAppPath,
-          "Contents",
-          "Info.plist"
+          'Contents',
+          'Info.plist'
         ),
-        "utf-8"
+        'utf-8'
       )
     );
 
     /**
      * JSON from `${app.name} Helper (GPU).app/Contents/Info.plist`
-     *
      * @type {object}
      */
     const HelperGpuAppJson = plist.parse(
       await fs.promises.readFile(
         path.resolve(
           HelperGpuAppPath,
-          "Contents",
-          "Info.plist"
+          'Contents',
+          'Info.plist'
         ),
-        "utf-8"
+        'utf-8'
       )
     );
 
     /**
      * JSON from `${app.name} Helper (Plugin).app/Contents/Info.plist`
-     *
      * @type {object}
      */
     const HelperPluginAppJson = plist.parse(
       await fs.promises.readFile(
         path.resolve(
           HelperPluginAppPath,
-          "Contents",
-          "Info.plist"
+          'Contents',
+          'Info.plist'
         ),
-        "utf-8"
+        'utf-8'
       )
     );
 
     /**
      * JSON from `${app.name} Helper (Renderer).app/Contents/Info.plist`
-     *
      * @type {object}
      */
     const HelperRendererAppJson = plist.parse(
       await fs.promises.readFile(
         path.resolve(
           HelperRendererAppPath,
-          "Contents",
-          "Info.plist"
+          'Contents',
+          'Info.plist'
         ),
-        "utf-8"
+        'utf-8'
       )
     );
 
     /**
      * JSON from `${app.name} Helper.app/Contents/Info.plist`
-     *
      * @type {object}
      */
     const HelperAppJson = plist.parse(
       await fs.promises.readFile(
         path.resolve(
           HelperAppPath,
-          "Contents",
-          "Info.plist"
+          'Contents',
+          'Info.plist'
         ),
-        "utf-8"
+        'utf-8'
       )
     );
 
@@ -381,15 +379,14 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
 
     /**
      * Data from `nwjs.app/Contents/Resources/en.lproj/InfoPlist.settings`
-     *
      * @type {string[]}
      */
     const ContentsResourcesEnLprojInfoPlistStringsArray = (await fs.promises.readFile(
       ContentsResourcesEnLprojInfoPlistStringsPath,
-      "utf-8",
+      'utf-8',
     )).split('\n');
     ContentsResourcesEnLprojInfoPlistStringsArray.forEach((line, idx, arr) => {
-      if (line.includes("NSHumanReadableCopyright")) {
+      if (line.includes('NSHumanReadableCopyright')) {
         arr[idx] =
           `NSHumanReadableCopyright = "${app.NSHumanReadableCopyright}";`;
       }
@@ -401,26 +398,26 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
       plist.build(ContentsInfoPlistJson));
     await fs.promises.writeFile(
       ContentsResourcesEnLprojInfoPlistStringsPath,
-      ContentsResourcesEnLprojInfoPlistStringsArray.toString().replace(/,/g, "\n"),
+      ContentsResourcesEnLprojInfoPlistStringsArray.toString().replace(/,/g, '\n'),
     );
     await fs.promises.writeFile(
-      path.resolve(HelperAlertsAppPath, "Contents", "Info.plist"),
+      path.resolve(HelperAlertsAppPath, 'Contents', 'Info.plist'),
       plist.build(HelperAlertsAppJson)
     );
     await fs.promises.writeFile(
-      path.resolve(HelperGpuAppPath, "Contents", "Info.plist"),
+      path.resolve(HelperGpuAppPath, 'Contents', 'Info.plist'),
       plist.build(HelperGpuAppJson)
     );
     await fs.promises.writeFile(
-      path.resolve(HelperPluginAppPath, "Contents", "Info.plist"),
+      path.resolve(HelperPluginAppPath, 'Contents', 'Info.plist'),
       plist.build(HelperPluginAppJson)
     );
     await fs.promises.writeFile(
-      path.resolve(HelperRendererAppPath, "Contents", "Info.plist"),
+      path.resolve(HelperRendererAppPath, 'Contents', 'Info.plist'),
       plist.build(HelperRendererAppJson)
     );
     await fs.promises.writeFile(
-      path.resolve(HelperAppPath, "Contents", "Info.plist"),
+      path.resolve(HelperAppPath, 'Contents', 'Info.plist'),
       plist.build(HelperAppJson)
     );
   } catch (error) {

@@ -1,10 +1,10 @@
-import console from "node:console";
-import fs from "node:fs";
+import console from 'node:console';
+import fs from 'node:fs';
 
-import bld from "./bld.js";
-import get from "./get/index.js";
-import run from "./run.js";
-import util from "./util.js";
+import bld from './bld.js';
+import get from './get/index.js';
+import run from './run.js';
+import util from './util.js';
 
 /**
  * @typedef {object} Options Configuration options
@@ -31,12 +31,10 @@ import util from "./util.js";
 
 /**
  * Main module exported.
- *
  * @async
  * @function
- *
  * @param  {Options}       options  Options
- * @return {Promise<void>}
+ * @returns {Promise<void>}
  */
 async function nwbuild(options) {
   let built;
@@ -48,7 +46,7 @@ async function nwbuild(options) {
     options = await util.parse(options, manifest);
 
     manifest = await util.getNodeManifest({ srcDir: options.srcDir, glob: options.glob });
-    if (typeof manifest?.nwbuild === "object") {
+    if (typeof manifest?.nwbuild === 'object') {
       options = manifest.nwbuild;
     }
 
@@ -61,7 +59,7 @@ async function nwbuild(options) {
       await fs.promises.mkdir(options.cacheDir, { recursive: true });
     }
 
-    if (options.mode === "build") {
+    if (options.mode === 'build') {
       built = fs.existsSync(options.outDir);
       if (built === false) {
         await fs.promises.mkdir(options.outDir, { recursive: true });
@@ -95,12 +93,12 @@ async function nwbuild(options) {
       nativeAddon: options.nativeAddon,
     });
 
-    if (options.mode === "get") {
+    if (options.mode === 'get') {
       // Do nothing else since we have already downloaded the binaries.
       return;
     }
 
-    if (options.mode === "run") {
+    if (options.mode === 'run') {
       await run({
         version: options.version,
         flavor: options.flavor,
@@ -111,7 +109,7 @@ async function nwbuild(options) {
         glob: options.glob,
         argv: options.argv,
       });
-    } else if (options.mode === "build") {
+    } else if (options.mode === 'build') {
       await bld({
         version: options.version,
         flavor: options.flavor,
