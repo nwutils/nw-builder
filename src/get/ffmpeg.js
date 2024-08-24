@@ -1,6 +1,6 @@
-import path from "node:path";
+import path from 'node:path';
 
-import request from "./request.js";
+import request from './request.js';
 
 /**
  * Download community FFmpeg binary from `https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt`.

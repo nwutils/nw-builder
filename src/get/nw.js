@@ -1,6 +1,6 @@
-import path from "node:path";
+import path from 'node:path';
 
-import request from "./request.js";
+import request from './request.js';
 
 /**
  * Download NW.js binary.
@@ -21,7 +21,7 @@ export default async function nw(downloadUrl, version, flavor, platform, arch, c
    * @type {string}
    */
   const nwDir = [
-    `nwjs`,
+    'nwjs',
     flavor === 'sdk' ? '-sdk' : '',
     `-v${version}-${platform}-${arch}`,
   ].join('');
@@ -33,7 +33,7 @@ export default async function nw(downloadUrl, version, flavor, platform, arch, c
    */
   const nwFile = [
     nwDir,
-    platform === 'linux' ? "tar.gz" : "zip"
+    platform === 'linux' ? 'tar.gz' : 'zip'
   ].join('.');
 
   /**

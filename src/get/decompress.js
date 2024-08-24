@@ -1,9 +1,9 @@
-import fs from "node:fs";
-import path from "node:path";
-import stream from "node:stream";
+import fs from 'node:fs';
+import path from 'node:path';
+import stream from 'node:stream';
 
-import * as tar from "tar";
-import yauzl from "yauzl-promise";
+import * as tar from 'tar';
+import yauzl from 'yauzl-promise';
 
 /**
  * Decompresses a file at `filePath` to `cacheDir` directory.
@@ -12,7 +12,7 @@ import yauzl from "yauzl-promise";
  * @param {string} cacheDir  - directory to decompress into
  */
 export default async function decompress(filePath, cacheDir) {
-  if (filePath.endsWith(".zip")) {
+  if (filePath.endsWith('.zip')) {
     await unzip(filePath, cacheDir);
   } else {
     await tar.extract({
@@ -81,8 +81,8 @@ async function unzip(zippedFile, cacheDir) {
     let entryPathAbs = path.join(cacheDir, symlinkEntry.filename);
     const readStream = await symlinkEntry.openReadStream();
     const chunks = [];
-    readStream.on("data", (chunk) => chunks.push(chunk));
-    await new Promise(resolve => readStream.on("end", resolve));
+    readStream.on('data', (chunk) => chunks.push(chunk));
+    await new Promise(resolve => readStream.on('end', resolve));
     const linkTarget = Buffer.concat(chunks).toString('utf8').trim();
 
     // Check if the symlink or a file/directory already exists at the destination

@@ -1,6 +1,6 @@
-import path from "node:path";
+import path from 'node:path';
 
-import request from "./request.js";
+import request from './request.js';
 
 /**
  * Download NW.js's Node.js headers.
@@ -24,7 +24,7 @@ export default async function nw(downloadUrl, version, cacheDir) {
    *
    * @type {string}
    */
-  const nwFile = `${nodeDir}.tar.gz`
+  const nwFile = `${nodeDir}.tar.gz`;
 
   /**
    * URL to download specific Node headers from.

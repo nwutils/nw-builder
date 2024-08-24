@@ -1,7 +1,7 @@
-import fs from "node:fs";
-import stream from "node:stream";
+import fs from 'node:fs';
+import stream from 'node:stream';
 
-import axios from "axios";
+import axios from 'axios';
 
 /**
  * Download from `url`.
@@ -18,9 +18,9 @@ export default async function request(url, filePath) {
   const writeStream = fs.createWriteStream(filePath);
 
   const response = await axios({
-    method: "get",
+    method: 'get',
     url: url,
-    responseType: "stream"
+    responseType: 'stream'
   });
 
   await stream.promises.pipeline(response.data, writeStream);
