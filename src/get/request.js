@@ -5,13 +5,11 @@ import axios from 'axios';
 
 /**
  * Download from `url`.
- *
  * @async
  * @function
- *
  * @param  {string}        url       - Download server
  * @param  {string}        filePath  - file path of downloaded content
- * @return {Promise<void>}
+ * @returns {Promise<void>}
  */
 export default async function request(url, filePath) {
 

@@ -4,19 +4,17 @@ import request from './request.js';
 
 /**
  * Download community FFmpeg binary from `https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt`.
- *
  * @param  {string}          downloadUrl  - Download server
  * @param  {string}          version      - Runtime version
  * @param  {string}          platform     - NW supported platform
  * @param  {string}          arch         - NW supported architecture
  * @param  {string}          cacheDir     - Directory to store FFmpeg binary
- * @return {Promise<string>}              Path of compressed file which containscommunity FFmpeg binary.
+ * @returns {Promise<string>}              Path of compressed file which containscommunity FFmpeg binary.
  */
 export default async function ffmpeg(downloadUrl, version, platform, arch, cacheDir) {
 
   /**
    * URL to download specific FFmpeg binary from.
-   *
    * @type {string}
    */
   const url = [

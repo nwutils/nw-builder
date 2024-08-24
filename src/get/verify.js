@@ -8,12 +8,11 @@ import util from '../util.js';
 
 /**
  * Verify the SHA256 checksum of downloaded artifacts.
- *
  * @param {string} shaUrl - URL to get the shasum text file from.
  * @param {string} shaOut - File path to shasum text file.
  * @param {string} cacheDir - File path to cache directory.
  * @throws {Error}
- * @returns {Promise<boolean>}
+ * @returns {Promise<boolean>} - Returns true if the checksums match.
  */
 export default async function verify(shaUrl, shaOut, cacheDir) {
   const shaOutExists = await util.fileExists(shaOut);

@@ -25,13 +25,11 @@ import util from '../util.js';
 
 /**
  * Get binaries.
- *
  * @deprecated since v4.6.4. This logic will be ported over to `nwjs/npm-installer` repo and removed in the next major release (v5.0).
- *
  * @async
  * @function
  * @param  {GetOptions}    options  Get mode options
- * @return {Promise<void>}
+ * @returns {Promise<void>}
  */
 async function get(options) {
 
@@ -44,7 +42,6 @@ async function get(options) {
 
   /**
    * If `options.cacheDir` exists, then `true`. Otherwise, it is `false`.
-   *
    * @type {boolean}
    */
   const cacheDirExists = await util.fileExists(options.cacheDir);
@@ -54,7 +51,6 @@ async function get(options) {
 
   /**
    * File path to compressed binary.
-   *
    * @type {string}
    */
   let nwFilePath = path.resolve(
@@ -65,7 +61,6 @@ async function get(options) {
 
   /**
    * File path to directory which contain NW.js and related binaries.
-   *
    * @type {string}
    */
   let nwDirPath = path.resolve(
@@ -89,7 +84,6 @@ async function get(options) {
 
   /**
    * If the compressed binary exists, then `true`. Otherwise, it is `false`.
-   *
    * @type {boolean}
    */
   const nwFilePathExists = await util.fileExists(nwFilePath);
@@ -103,7 +97,6 @@ async function get(options) {
 
     /**
      * File path to compressed binary which contains community FFmpeg binary.
-     *
      * @type {string}
      */
     let ffmpegFilePath = path.resolve(
@@ -121,7 +114,6 @@ async function get(options) {
 
     /**
      * If the compressed binary exists, then `true`. Otherwise, it is `false`.
-     *
      * @type {boolean}
      */
     const ffmpegFilePathExists = await util.fileExists(ffmpegFilePath);
@@ -142,7 +134,6 @@ async function get(options) {
 
     /**
      * Platform dependant file name of FFmpeg binary.
-     *
      * @type {string}
      */
     let ffmpegFileName = '';
@@ -157,14 +148,12 @@ async function get(options) {
 
     /**
      * File path to platform specific FFmpeg file.
-     *
      * @type {string}
      */
     let ffmpegBinaryPath = path.resolve(options.cacheDir, ffmpegFileName);
 
     /**
      * File path of where FFmpeg will be copied to.
-     *
      * @type {string}
      */
     let ffmpegBinaryDest = '';
@@ -194,7 +183,6 @@ async function get(options) {
 
     /**
      * File path to NW'js Node headers tarball.
-     *
      * @type {string}
      */
     let nodeFilePath = path.resolve(
@@ -212,7 +200,6 @@ async function get(options) {
 
     /**
      * If the compressed binary exists, then `true`. Otherwise, it is `false`.
-     *
      * @type {boolean}
      */
     const nodeFilePathExists = await util.fileExists(nodeFilePath);

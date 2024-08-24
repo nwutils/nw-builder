@@ -5,6 +5,14 @@ import process from 'node:process';
 
 import plist from 'plist';
 
+/**
+ *
+ * @param {object} options              - Options.
+ * @param {object} options.app          - Application configuration.
+ * @param {string} options.outDir       - Output directory.
+ * @param {string} options.releaseInfo  - Release information.
+ * @returns {Promise<void>}             - Promise.
+ */
 export default async function setOsxConfig({ app, outDir, releaseInfo }) {
   if (process.platform === 'win32') {
     console.warn(
@@ -22,14 +30,12 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
     }
     /**
      * Path to MacOS application.
-     *
      * @type {string}
      */
     const nwjsApp = path.resolve(outDir, 'nwjs.app');
 
     /**
      * Path to renamed MacOS application.
-     *
      * @type {string}
      */
     const outApp = path.resolve(outDir, `${app.name}.app`);
@@ -218,7 +224,6 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
 
     /**
      * Path to `nwjs.app/Contents/Info.plist`
-     *
      * @type {string}
      */
     const ContentsInfoPlistPath = path.resolve(
@@ -229,7 +234,6 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
 
     /**
      * Path to `nwjs.app/Contents/Resources/en.lproj/InfoPlist.settings`
-     *
      * @type {string}
      */
     const ContentsResourcesEnLprojInfoPlistStringsPath = path.resolve(
@@ -242,7 +246,6 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
 
     /**
      * JSON from `nwjs.app/Contents/Info.plist`
-     *
      * @type {object}
      */
     const ContentsInfoPlistJson = plist.parse(
@@ -254,7 +257,6 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
 
     /**
      * JSON from `${app.name} Helper.app (Alerts)/Contents/Info.plist`
-     *
      * @type {object}
      */
     const HelperAlertsAppJson = plist.parse(
@@ -270,7 +272,6 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
 
     /**
      * JSON from `${app.name} Helper (GPU).app/Contents/Info.plist`
-     *
      * @type {object}
      */
     const HelperGpuAppJson = plist.parse(
@@ -286,7 +287,6 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
 
     /**
      * JSON from `${app.name} Helper (Plugin).app/Contents/Info.plist`
-     *
      * @type {object}
      */
     const HelperPluginAppJson = plist.parse(
@@ -302,7 +302,6 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
 
     /**
      * JSON from `${app.name} Helper (Renderer).app/Contents/Info.plist`
-     *
      * @type {object}
      */
     const HelperRendererAppJson = plist.parse(
@@ -318,7 +317,6 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
 
     /**
      * JSON from `${app.name} Helper.app/Contents/Info.plist`
-     *
      * @type {object}
      */
     const HelperAppJson = plist.parse(
@@ -381,7 +379,6 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
 
     /**
      * Data from `nwjs.app/Contents/Resources/en.lproj/InfoPlist.settings`
-     *
      * @type {string[]}
      */
     const ContentsResourcesEnLprojInfoPlistStringsArray = (await fs.promises.readFile(
