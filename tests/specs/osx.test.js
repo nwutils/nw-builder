@@ -9,16 +9,26 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import setOsxConfig from "../../src/bld/osx.js";
 import util from "../../src/util.js";
 
+import nodeManifest from "../../package.json";
+
 describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function () {
 
   const outDir = './tests/fixtures/macos';
   const appPath = path.join(outDir, 'nwapp.app');
+  const releaseInfo = await util.getReleaseInfo(
+    nodeManifest.devDependencies.nw.split('^')[1],
+    util.PLATFORM_KV['darwin'],
+    util.ARCH_KV['arm64'],
+    './node_modules/nw',
+    'https://nwjs.io/versions',
+  );
+  const chromiumVersion = releaseInfo.components.chromium;
   const helperAlertsPath = path.join(appPath,
     "Contents",
     "Frameworks",
     "nwjs Framework.framework",
     "Versions",
-    "127.0.6533.73",
+    chromiumVersion,
     "Helpers",
     `nwapp Helper (Alerts).app`);
   const helperGPUPath = path.join(appPath,
@@ -26,7 +36,7 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
     "Frameworks",
     "nwjs Framework.framework",
     "Versions",
-    "127.0.6533.73",
+    chromiumVersion,
     "Helpers",
     `nwapp Helper (GPU).app`);
   const helperPluginPath = path.join(appPath,
@@ -34,7 +44,7 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
     "Frameworks",
     "nwjs Framework.framework",
     "Versions",
-    "127.0.6533.73",
+    chromiumVersion,
     "Helpers",
     `nwapp Helper (Plugin).app`);
   const helperRendererPath = path.join(appPath,
@@ -42,7 +52,7 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
     "Frameworks",
     "nwjs Framework.framework",
     "Versions",
-    "127.0.6533.73",
+    chromiumVersion,
     "Helpers",
     `nwapp Helper (Renderer).app`);
   const helperPath = path.join(appPath,
@@ -50,7 +60,7 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
     "Frameworks",
     "nwjs Framework.framework",
     "Versions",
-    "127.0.6533.73",
+    chromiumVersion,
     "Helpers",
     `nwapp Helper.app`);
 
@@ -75,7 +85,7 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
       outDir: outDir,
       releaseInfo: {
         components: {
-          chromium: "127.0.6533.73",
+          chromium: chromiumVersion,
         }
       },
     });
