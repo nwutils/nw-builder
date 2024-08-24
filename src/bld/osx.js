@@ -1,9 +1,31 @@
 import console from 'node:console';
-import fs from 'node:fs';
+import {
+    copyFile,
+    readFile,
+    rename,
+    writeFile
+} from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 
 import plist from 'plist';
+
+/**
+ * Function to update Helper App Plist Files
+ * @param {string} plistPath             - Path to Helper App Plist File
+ * @param {string} helperName            - Helper App Name
+ * @param {string} helperId              - Helper App ID
+ * @param {string} appCFBundleIdentifier - options.app.CFBundleIdentifier
+ */
+async function updateHelperPlist (plistPath, helperName, helperId, appCFBundleIdentifier) {
+  const plistFullPath = path.resolve(plistPath, 'Contents/Info.plist');
+  const plistJson = plist.parse(await readFile(plistFullPath, 'utf-8'));
+  plistJson.CFBundleDisplayName = helperName;
+  plistJson.CFBundleName = helperName;
+  plistJson.CFBundleExecutable = helperName;
+  plistJson.CFBundleIdentifier = `${appCFBundleIdentifier}.${helperId}`;
+  await writeFile(plistFullPath, plist.build(plistJson));
+}
 
 /**
  *
@@ -40,183 +62,53 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
      */
     const outApp = path.resolve(outDir, `${app.name}.app`);
 
-    const nwjsHelperAlertsAppPath = path.resolve(
-      outApp,
-      'Contents',
-      'Frameworks',
-      'nwjs Framework.framework',
-      'Versions',
-      chromiumVersion,
-      'Helpers',
-      'nwjs Helper (Alerts).app',
-    );
-    const HelperAlertsAppPath = path.resolve(
-      outApp,
-      'Contents',
-      'Frameworks',
-      'nwjs Framework.framework',
-      'Versions',
-      chromiumVersion,
-      'Helpers',
-      `${app.name} Helper (Alerts).app`,
-    );
-
-    const nwjsHelperGpuAppPath = path.resolve(
-      outApp,
-      'Contents',
-      'Frameworks',
-      'nwjs Framework.framework',
-      'Versions',
-      chromiumVersion,
-      'Helpers',
-      'nwjs Helper (GPU).app',
-    );
-    const HelperGpuAppPath = path.resolve(
-      outApp,
-      'Contents',
-      'Frameworks',
-      'nwjs Framework.framework',
-      'Versions',
-      chromiumVersion,
-      'Helpers',
-      `${app.name} Helper (GPU).app`,
-    );
-
-    const nwjsHelperPluginAppPath = path.resolve(
-      outApp,
-      'Contents',
-      'Frameworks',
-      'nwjs Framework.framework',
-      'Versions',
-      chromiumVersion,
-      'Helpers',
-      'nwjs Helper (Plugin).app',
-    );
-    const HelperPluginAppPath = path.resolve(
-      outApp,
-      'Contents',
-      'Frameworks',
-      'nwjs Framework.framework',
-      'Versions',
-      chromiumVersion,
-      'Helpers',
-      `${app.name} Helper (Plugin).app`,
-    );
-
-    const nwjsHelperRendererAppPath = path.resolve(
-      outApp,
-      'Contents',
-      'Frameworks',
-      'nwjs Framework.framework',
-      'Versions',
-      chromiumVersion,
-      'Helpers',
-      'nwjs Helper (Renderer).app',
-    );
-    const HelperRendererAppPath = path.resolve(
-      outApp,
-      'Contents',
-      'Frameworks',
-      'nwjs Framework.framework',
-      'Versions',
-      chromiumVersion,
-      'Helpers',
-      `${app.name} Helper (Renderer).app`,
-    );
-
-    const nwjsHelperAppPath = path.resolve(
-      outApp,
-      'Contents',
-      'Frameworks',
-      'nwjs Framework.framework',
-      'Versions',
-      chromiumVersion,
-      'Helpers',
-      'nwjs Helper.app',
-    );
-    const HelperAppPath = path.resolve(
-      outApp,
-      'Contents',
-      'Frameworks',
-      'nwjs Framework.framework',
-      'Versions',
-      chromiumVersion,
-      'Helpers',
-      `${app.name} Helper.app`,
-    );
-
     /* Rename `nwjs.app` to `${app.name}.app` */
-    await fs.promises.rename(nwjsApp, outApp);
+    await rename(nwjsApp, outApp);
 
     /* Rename `Contents/MacOS/nwjs` to `Contents/MacOS/${app.name}` */
-    await fs.promises.rename(
+    await rename(
       path.resolve(outApp, 'Contents', 'MacOS', 'nwjs'),
       path.resolve(outApp, 'Contents', 'MacOS', app.name),
     );
 
-    /* Rename Helper (Alert) */
-    await fs.promises.rename(
-      nwjsHelperAlertsAppPath,
-      HelperAlertsAppPath,
+    /* Rename all Helper apps */
+    const helperBaseDir = path.resolve(
+      outApp,
+      'Contents/Frameworks/nwjs Framework.framework/Versions',
+      chromiumVersion,
+      'Helpers/'
     );
 
-    /* Rename Helper (GPU) */
-    await fs.promises.rename(
-      nwjsHelperGpuAppPath,
-      HelperGpuAppPath,
-    );
+    const helperApps = [
+      { name: 'nwjs Helper (Alerts).app', id: 'helper.alert' },
+      { name: 'nwjs Helper (GPU).app', id: 'helper.gpu' },
+      { name: 'nwjs Helper (Plugin).app', id: 'helper.plugin' },
+      { name: 'nwjs Helper (Renderer).app', id: 'helper.renderer' },
+      { name: 'nwjs Helper.app', id: 'helper' },
+    ];
 
-    /* Rename Helper (Plugin) */
-    await fs.promises.rename(
-      nwjsHelperPluginAppPath,
-      HelperPluginAppPath,
-    );
+    for (const helperApp of helperApps) {
+      const newHelperAppName = helperApp.name.replace(/^nwjs/, app.name);
+      const oldPath = path.resolve(helperBaseDir, helperApp.name);
+      const newPath = path.resolve(helperBaseDir, newHelperAppName);
 
-    /* Rename Helper (Renderer) */
-    await fs.promises.rename(
-      nwjsHelperRendererAppPath,
-      HelperRendererAppPath,
-    );
+      // Rename Helper base directory
+      await rename(oldPath, newPath);
 
-    /* Rename Helper */
-    await fs.promises.rename(
-      nwjsHelperAppPath,
-      HelperAppPath,
-    );
+      // Rename Helper sub-directory
+      const helperBaseName = helperApp.name.replace(/.app$/, '');
+      const subPathBase = path.resolve(newPath, 'Contents/MacOS/');
+      const oldSubPath = path.resolve(subPathBase, helperBaseName);
+      const newSubPath = path.resolve(subPathBase, helperBaseName.replace(/^nwjs/, app.name));
+      await rename(oldSubPath, newSubPath);
 
-    /* Rename `nwjs Helper (Alerts)/Contents/MacOS/nwjs Helper (Alerts)` to `${app.name} Helper (Alerts)/Contents/MacOS/${app.name} Helper (Alerts)` */
-    await fs.promises.rename(
-      path.resolve(HelperAlertsAppPath, 'Contents', 'MacOS', 'nwjs Helper (Alerts)'),
-      path.resolve(HelperAlertsAppPath, 'Contents', 'MacOS', `${app.name} Helper (Alerts)`),
-    );
-
-    /* Rename `${app.name} Helper (GPU)/Contents/MacOS/nwjs Helper (GPU)` to `${app.name} Helper (GPU)/Contents/MacOS/${app.name} Helper (GPU)` */
-    await fs.promises.rename(
-      path.resolve(HelperGpuAppPath, 'Contents', 'MacOS', 'nwjs Helper (GPU)'),
-      path.resolve(HelperGpuAppPath, 'Contents', 'MacOS', `${app.name} Helper (GPU)`),
-    );
-
-    /* Rename `${app.name} Helper (Plugin)/Contents/MacOS/nwjs Helper (Plugin)` to `${app.name} Helper (Plugin)/Contents/MacOS/${app.name} Helper (Plugin)` */
-    await fs.promises.rename(
-      path.resolve(HelperPluginAppPath, 'Contents', 'MacOS', 'nwjs Helper (Plugin)'),
-      path.resolve(HelperPluginAppPath, 'Contents', 'MacOS', `${app.name} Helper (Plugin)`),
-    );
-
-    /* Rename `${app.name} Helper (Renderer)/Contents/MacOS/nwjs Helper (Renderer)` to `${app.name} Helper (Renderer)/Contents/MacOS/${app.name} Helper (Renderer)` */
-    await fs.promises.rename(
-      path.resolve(HelperRendererAppPath, 'Contents', 'MacOS', 'nwjs Helper (Renderer)'),
-      path.resolve(HelperRendererAppPath, 'Contents', 'MacOS', `${app.name} Helper (Renderer)`),
-    );
-
-    /* Rename `${app.name} Helper/Contents/MacOS/nwjs Helper` to `${app.name} Helper/Contents/MacOS/${app.name} Helper` */
-    await fs.promises.rename(
-      path.resolve(HelperAppPath, 'Contents', 'MacOS', 'nwjs Helper'),
-      path.resolve(HelperAppPath, 'Contents', 'MacOS', `${app.name} Helper`),
-    );
+      // Update Helper Plist file
+      await updateHelperPlist(newPath, newHelperAppName, helperApp.id, app.CFBundleIdentifier);
+    }
 
     /* Replace default icon with user defined icon if specified. */
     if (app.icon !== undefined) {
-      await fs.promises.copyFile(
+      await copyFile(
         path.resolve(app.icon),
         path.resolve(outApp, 'Contents', 'Resources', 'app.icns'),
       );
@@ -226,7 +118,7 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
      * Path to `nwjs.app/Contents/Info.plist`
      * @type {string}
      */
-    const ContentsInfoPlistPath = path.resolve(
+    const contentsInfoPlistPath = path.resolve(
       outApp,
       'Contents',
       'Info.plist'
@@ -236,7 +128,7 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
      * Path to `nwjs.app/Contents/Resources/en.lproj/InfoPlist.settings`
      * @type {string}
      */
-    const ContentsResourcesEnLprojInfoPlistStringsPath = path.resolve(
+    const contentsResourcesEnLprojInfoPlistStringsPath = path.resolve(
       outApp,
       'Contents',
       'Resources',
@@ -248,144 +140,39 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
      * JSON from `nwjs.app/Contents/Info.plist`
      * @type {object}
      */
-    const ContentsInfoPlistJson = plist.parse(
-      await fs.promises.readFile(
-        ContentsInfoPlistPath,
-        'utf-8'
-      )
-    );
-
-    /**
-     * JSON from `${app.name} Helper.app (Alerts)/Contents/Info.plist`
-     * @type {object}
-     */
-    const HelperAlertsAppJson = plist.parse(
-      await fs.promises.readFile(
-        path.resolve(
-          HelperAlertsAppPath,
-          'Contents',
-          'Info.plist'
-        ),
-        'utf-8'
-      )
-    );
-
-    /**
-     * JSON from `${app.name} Helper (GPU).app/Contents/Info.plist`
-     * @type {object}
-     */
-    const HelperGpuAppJson = plist.parse(
-      await fs.promises.readFile(
-        path.resolve(
-          HelperGpuAppPath,
-          'Contents',
-          'Info.plist'
-        ),
-        'utf-8'
-      )
-    );
-
-    /**
-     * JSON from `${app.name} Helper (Plugin).app/Contents/Info.plist`
-     * @type {object}
-     */
-    const HelperPluginAppJson = plist.parse(
-      await fs.promises.readFile(
-        path.resolve(
-          HelperPluginAppPath,
-          'Contents',
-          'Info.plist'
-        ),
-        'utf-8'
-      )
-    );
-
-    /**
-     * JSON from `${app.name} Helper (Renderer).app/Contents/Info.plist`
-     * @type {object}
-     */
-    const HelperRendererAppJson = plist.parse(
-      await fs.promises.readFile(
-        path.resolve(
-          HelperRendererAppPath,
-          'Contents',
-          'Info.plist'
-        ),
-        'utf-8'
-      )
-    );
-
-    /**
-     * JSON from `${app.name} Helper.app/Contents/Info.plist`
-     * @type {object}
-     */
-    const HelperAppJson = plist.parse(
-      await fs.promises.readFile(
-        path.resolve(
-          HelperAppPath,
-          'Contents',
-          'Info.plist'
-        ),
+    const contentsInfoPlistJson = plist.parse(
+      await readFile(
+        contentsInfoPlistPath,
         'utf-8'
       )
     );
 
     /* Update Plist with user defined values. */
-    ContentsInfoPlistJson.LSApplicationCategoryType = app.LSApplicationCategoryType;
-    ContentsInfoPlistJson.CFBundleIdentifier = app.CFBundleIdentifier;
-    ContentsInfoPlistJson.CFBundleName = app.CFBundleName;
-    ContentsInfoPlistJson.CFBundleDisplayName = app.CFBundleDisplayName;
-    ContentsInfoPlistJson.CFBundleSpokenName = app.CFBundleSpokenName;
-    ContentsInfoPlistJson.CFBundleVersion = app.CFBundleVersion;
-    ContentsInfoPlistJson.CFBundleShortVersionString = app.CFBundleShortVersionString;
-    ContentsInfoPlistJson.CFBundleExecutable = app.name;
+    contentsInfoPlistJson.LSApplicationCategoryType = app.LSApplicationCategoryType;
+    contentsInfoPlistJson.CFBundleIdentifier = app.CFBundleIdentifier;
+    contentsInfoPlistJson.CFBundleName = app.CFBundleName;
+    contentsInfoPlistJson.CFBundleDisplayName = app.CFBundleDisplayName;
+    contentsInfoPlistJson.CFBundleSpokenName = app.CFBundleSpokenName;
+    contentsInfoPlistJson.CFBundleVersion = app.CFBundleVersion;
+    contentsInfoPlistJson.CFBundleShortVersionString = app.CFBundleShortVersionString;
+    contentsInfoPlistJson.CFBundleExecutable = app.name;
 
     /* Remove properties that were not updated by the user. */
-    Object.keys(ContentsInfoPlistJson).forEach((option) => {
-      if (ContentsInfoPlistJson[option] === undefined) {
-        delete ContentsInfoPlistJson[option];
+    Object.keys(contentsInfoPlistJson).forEach((option) => {
+      if (contentsInfoPlistJson[option] === undefined) {
+        delete contentsInfoPlistJson[option];
       }
     });
-
-    /* Update Helper (Alerts) app's Plist values. */
-    HelperAlertsAppJson.CFBundleDisplayName = `${app.name} Helper (Alerts)`;
-    HelperAlertsAppJson.CFBundleName = `${app.name} Helper (Alerts)`;
-    HelperAlertsAppJson.CFBundleExecutable = `${app.name} Helper (Alerts)`;
-    HelperAlertsAppJson.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper.alert`;
-
-    /* Update Helper (GPU) app's Plist values. */
-    HelperGpuAppJson.CFBundleDisplayName = `${app.name} Helper (GPU)`;
-    HelperGpuAppJson.CFBundleName = `${app.name} Helper (GPU)`;
-    HelperGpuAppJson.CFBundleExecutable = `${app.name} Helper (GPU)`;
-    HelperGpuAppJson.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper.gpu`;
-
-    /* Update Helper (Plugin) app's Plist values. */
-    HelperPluginAppJson.CFBundleDisplayName = `${app.name} Helper (Plugin)`;
-  HelperPluginAppJson.CFBundleName = `${app.name} Helper (Plugin)`;
-    HelperPluginAppJson.CFBundleExecutable = `${app.name} Helper (Plugin)`;
-    HelperPluginAppJson.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper.plugin`;
-
-    /* Update Helper (Renderer) app's Plist values. */
-    HelperRendererAppJson.CFBundleDisplayName = `${app.name} Helper (Renderer)`;
-    HelperRendererAppJson.CFBundleName = `${app.name} Helper (Renderer)`;
-    HelperRendererAppJson.CFBundleExecutable = `${app.name} Helper (Renderer)`;
-    HelperRendererAppJson.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper.renderer`;
-
-    /* Update Helper app's Plist values. */
-    HelperAppJson.CFBundleDisplayName = `${app.name} Helper`;
-    HelperAppJson.CFBundleName = `${app.name} Helper`;
-    HelperAppJson.CFBundleExecutable = `${app.name} Helper`;
-    HelperAppJson.CFBundleIdentifier = `${app.CFBundleIdentifier}.helper`;
 
     /**
      * Data from `nwjs.app/Contents/Resources/en.lproj/InfoPlist.settings`
      * @type {string[]}
      */
-    const ContentsResourcesEnLprojInfoPlistStringsArray = (await fs.promises.readFile(
-      ContentsResourcesEnLprojInfoPlistStringsPath,
+    const contentsResourcesEnLprojInfoPlistStringsArray = (await readFile(
+      contentsResourcesEnLprojInfoPlistStringsPath,
       'utf-8',
     )).split('\n');
-    ContentsResourcesEnLprojInfoPlistStringsArray.forEach((line, idx, arr) => {
+    contentsResourcesEnLprojInfoPlistStringsArray.forEach((line, idx, arr) => {
       if (line.includes('NSHumanReadableCopyright')) {
         arr[idx] =
           `NSHumanReadableCopyright = "${app.NSHumanReadableCopyright}";`;
@@ -393,33 +180,14 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
     });
 
     /* Write the updated values to their config files. */
-    await fs.promises.writeFile(
-      ContentsInfoPlistPath,
-      plist.build(ContentsInfoPlistJson));
-    await fs.promises.writeFile(
-      ContentsResourcesEnLprojInfoPlistStringsPath,
-      ContentsResourcesEnLprojInfoPlistStringsArray.toString().replace(/,/g, '\n'),
+    await writeFile(
+      contentsInfoPlistPath,
+      plist.build(contentsInfoPlistJson));
+    await writeFile(
+      contentsResourcesEnLprojInfoPlistStringsPath,
+      contentsResourcesEnLprojInfoPlistStringsArray.toString().replace(/,/g, '\n'),
     );
-    await fs.promises.writeFile(
-      path.resolve(HelperAlertsAppPath, 'Contents', 'Info.plist'),
-      plist.build(HelperAlertsAppJson)
-    );
-    await fs.promises.writeFile(
-      path.resolve(HelperGpuAppPath, 'Contents', 'Info.plist'),
-      plist.build(HelperGpuAppJson)
-    );
-    await fs.promises.writeFile(
-      path.resolve(HelperPluginAppPath, 'Contents', 'Info.plist'),
-      plist.build(HelperPluginAppJson)
-    );
-    await fs.promises.writeFile(
-      path.resolve(HelperRendererAppPath, 'Contents', 'Info.plist'),
-      plist.build(HelperRendererAppJson)
-    );
-    await fs.promises.writeFile(
-      path.resolve(HelperAppPath, 'Contents', 'Info.plist'),
-      plist.build(HelperAppJson)
-    );
+
   } catch (error) {
     console.error(error);
   }
