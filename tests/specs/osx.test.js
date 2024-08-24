@@ -13,12 +13,20 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
 
   const outDir = './tests/fixtures/macos';
   const appPath = path.join(outDir, 'nwapp.app');
+  const releaseInfo = await util.getReleaseInfo(
+    options.version,
+    options.platform,
+    options.arch,
+    options.cacheDir,
+    options.manifestUrl,
+  );
+  const chromiumVersion = releaseInfo.components.chromium;
   const helperAlertsPath = path.join(appPath,
     "Contents",
     "Frameworks",
     "nwjs Framework.framework",
     "Versions",
-    "127.0.6533.73",
+    chromiumVersion,
     "Helpers",
     `nwapp Helper (Alerts).app`);
   const helperGPUPath = path.join(appPath,
@@ -26,7 +34,7 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
     "Frameworks",
     "nwjs Framework.framework",
     "Versions",
-    "127.0.6533.73",
+    chromiumVersion,
     "Helpers",
     `nwapp Helper (GPU).app`);
   const helperPluginPath = path.join(appPath,
@@ -34,7 +42,7 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
     "Frameworks",
     "nwjs Framework.framework",
     "Versions",
-    "127.0.6533.73",
+    chromiumVersion,
     "Helpers",
     `nwapp Helper (Plugin).app`);
   const helperRendererPath = path.join(appPath,
@@ -42,7 +50,7 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
     "Frameworks",
     "nwjs Framework.framework",
     "Versions",
-    "127.0.6533.73",
+    chromiumVersion,
     "Helpers",
     `nwapp Helper (Renderer).app`);
   const helperPath = path.join(appPath,
@@ -50,7 +58,7 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
     "Frameworks",
     "nwjs Framework.framework",
     "Versions",
-    "127.0.6533.73",
+    chromiumVersion,
     "Helpers",
     `nwapp Helper.app`);
 
@@ -58,6 +66,8 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
     /* Copy the cached NW.js into a specific `outDir`. */
     const nwDir = await nw.findpath('all', { flavor: 'sdk' })
     await fs.promises.cp(nwDir, outDir, { recursive: true, force: true });
+
+    const chromiumVersion = releaseInfo.components.chromium;
 
     /* Rename relevant bundles' plists and executables. */
     await setOsxConfig({
@@ -75,7 +85,7 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
       outDir: outDir,
       releaseInfo: {
         components: {
-          chromium: "127.0.6533.73",
+          chromium: chromiumVersion,
         }
       },
     });
