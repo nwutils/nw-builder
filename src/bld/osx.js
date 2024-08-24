@@ -103,7 +103,7 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
       await rename(oldSubPath, newSubPath);
 
       // Update Helper Plist file
-      await updateHelperPlist(newPath, newHelperAppName, helperApp.id, app.CFBundleIdentifier);
+      await updateHelperPlist(newPath, newHelperAppName.replace(/.app$/, ''), helperApp.id, app.CFBundleIdentifier);
     }
 
     /* Replace default icon with user defined icon if specified. */
