@@ -42,22 +42,14 @@
   },
   "scripts": {
     "postinstall": "node ./src/postinstall.js",
-    "lint": "eslint ./src/**/*.js ./tests/**/*.js",
-    "lint:fix": "eslint --fix ./src/**/*.js ./tests/**/*.js",
     "test": "vitest run --coverage",
     "test:cov": "vitest --coverage.enabled true",
     "demo:bld": "node ./tests/fixtures/demo.js",
     "demo:exe": "./tests/fixtures/out/nwapp.app/Contents/MacOS/nwapp"
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin-js": "^2.6.4",
     "@vitest/coverage-v8": "^2.0.5",
     "base-volta-off-of-nwjs": "^1.0.5",
-    "eslint": "^9.9.0",
-    "eslint-config-tjw-jsdoc": "^1.0.5",
-    "eslint-plugin-jsdoc": "^50.2.2",
-    "eslint-plugin-markdown": "^5.0.0",
-    "jsdoc": "^4.0.3",
     "nw": "^0.91.0",
     "selenium-webdriver": "^4.23.0",
     "vitest": "^2.0.4"
