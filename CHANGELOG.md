@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.10.0](https://github.com/nwutils/nw-builder/compare/v4.9.0...v4.10.0) (2024-08-24)
+
+
+### Features
+
+* **bld:** rename MacOS Helper apps ([#1206](https://github.com/nwutils/nw-builder/issues/1206)) ([9f3b30f](https://github.com/nwutils/nw-builder/commit/9f3b30f9e04c2d2d103f5ec19078c0a14fbf12f7))
+
+
+### Chores
+
+* **deps:** bump davelosert/vitest-coverage-report-action from 2.5.0 to 2.5.1 in /.github/workflows in the gha group ([#1210](https://github.com/nwutils/nw-builder/issues/1210)) ([6d69ae3](https://github.com/nwutils/nw-builder/commit/6d69ae36bc1edcf1867aa25e464e4a9b1aa28aa4))
+* **deps:** bump the npm group across 1 directory with 3 updates ([#1212](https://github.com/nwutils/nw-builder/issues/1212)) ([20b7e81](https://github.com/nwutils/nw-builder/commit/20b7e8190f022bc8a50776176bdcc70d3bdcd08f))
+* **get:** improve error message when comparing shasums ([#1213](https://github.com/nwutils/nw-builder/issues/1213)) ([b37068f](https://github.com/nwutils/nw-builder/commit/b37068f9228c1f00877d51c5fe607be7096b6564)), closes [#1209](https://github.com/nwutils/nw-builder/issues/1209)
+* **test:** move tests to seperate dir ([#1205](https://github.com/nwutils/nw-builder/issues/1205)) ([da0e353](https://github.com/nwutils/nw-builder/commit/da0e353e805b8e4b249f298c74a352a114b2737d))
+* **test:** rename fixtures dir ([c6193bb](https://github.com/nwutils/nw-builder/commit/c6193bb67fa32d750b42f9a8a7d44db507126519))
+
 ## [4.9.0](https://github.com/nwutils/nw-builder/compare/v4.8.1...v4.9.0) (2024-08-15)
 
 
