@@ -16,7 +16,7 @@ describe.runIf(process.platform === 'darwin')("bld/setOsxConfig", async function
   const outDir = './tests/fixtures/macos';
   const appPath = path.join(outDir, 'nwapp.app');
   const releaseInfo = await util.getReleaseInfo(
-    nodeManifest.version,
+    nodeManifest.devDependencies.nw.split('^')[1],
     util.PLATFORM_KV['darwin'],
     util.ARCH_KV['arm64'],
     './node_modules/nw',
