@@ -38,7 +38,7 @@ export default async function verify(shaUrl, shaOut, cacheDir) {
       hash.update(fileBuffer);
       const generatedSha = hash.digest('hex');
       if (storedSha !== generatedSha) {
-        throw new Error('SHA256 checksums do not match.');
+        throw new Error(`SHA256 checksums do not match. The file ${filePath} expected shasum is ${storedSha} but the actual shasum is ${generatedSha}.`);
       }
     }
   }
