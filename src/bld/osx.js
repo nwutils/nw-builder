@@ -1,10 +1,5 @@
 import console from 'node:console';
-import {
-    copyFile,
-    readFile,
-    rename,
-    writeFile
-} from 'node:fs/promises';
+import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 
@@ -19,12 +14,12 @@ import plist from 'plist';
  */
 async function updateHelperPlist (plistPath, helperName, helperId, appCFBundleIdentifier) {
   const plistFullPath = path.resolve(plistPath, 'Contents/Info.plist');
-  const plistJson = plist.parse(await readFile(plistFullPath, 'utf-8'));
+  const plistJson = plist.parse(await fs.promises.readFile(plistFullPath, 'utf-8'));
   plistJson.CFBundleDisplayName = helperName;
   plistJson.CFBundleName = helperName;
   plistJson.CFBundleExecutable = helperName;
   plistJson.CFBundleIdentifier = `${appCFBundleIdentifier}.${helperId}`;
-  await writeFile(plistFullPath, plist.build(plistJson));
+  await fs.promises.writeFile(plistFullPath, plist.build(plistJson));
 }
 
 /**
@@ -63,10 +58,10 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
     const outApp = path.resolve(outDir, `${app.name}.app`);
 
     /* Rename `nwjs.app` to `${app.name}.app` */
-    await rename(nwjsApp, outApp);
+    await fs.promises.rename(nwjsApp, outApp);
 
     /* Rename `Contents/MacOS/nwjs` to `Contents/MacOS/${app.name}` */
-    await rename(
+    await fs.promises.rename(
       path.resolve(outApp, 'Contents', 'MacOS', 'nwjs'),
       path.resolve(outApp, 'Contents', 'MacOS', app.name),
     );
@@ -93,14 +88,14 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
       const newPath = path.resolve(helperBaseDir, newHelperAppName);
 
       // Rename Helper base directory
-      await rename(oldPath, newPath);
+      await fs.promises.rename(oldPath, newPath);
 
       // Rename Helper sub-directory
       const helperBaseName = helperApp.name.replace(/.app$/, '');
       const subPathBase = path.resolve(newPath, 'Contents/MacOS/');
       const oldSubPath = path.resolve(subPathBase, helperBaseName);
       const newSubPath = path.resolve(subPathBase, helperBaseName.replace(/^nwjs/, app.name));
-      await rename(oldSubPath, newSubPath);
+      await fs.promises.rename(oldSubPath, newSubPath);
 
       // Update Helper Plist file
       await updateHelperPlist(newPath, newHelperAppName.replace(/.app$/, ''), helperApp.id, app.CFBundleIdentifier);
@@ -108,7 +103,7 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
 
     /* Replace default icon with user defined icon if specified. */
     if (app.icon !== undefined) {
-      await copyFile(
+      await fs.promises.copyFile(
         path.resolve(app.icon),
         path.resolve(outApp, 'Contents', 'Resources', 'app.icns'),
       );
@@ -141,7 +136,7 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
      * @type {object}
      */
     const contentsInfoPlistJson = plist.parse(
-      await readFile(
+      await fs.promises.readFile(
         contentsInfoPlistPath,
         'utf-8'
       )
@@ -168,7 +163,7 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
      * Data from `nwjs.app/Contents/Resources/en.lproj/InfoPlist.settings`
      * @type {string[]}
      */
-    const contentsResourcesEnLprojInfoPlistStringsArray = (await readFile(
+    const contentsResourcesEnLprojInfoPlistStringsArray = (await fs.promises.readFile(
       contentsResourcesEnLprojInfoPlistStringsPath,
       'utf-8',
     )).split('\n');
@@ -180,10 +175,10 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
     });
 
     /* Write the updated values to their config files. */
-    await writeFile(
+    await fs.promises.writeFile(
       contentsInfoPlistPath,
       plist.build(contentsInfoPlistJson));
-    await writeFile(
+    await fs.promises.writeFile(
       contentsResourcesEnLprojInfoPlistStringsPath,
       contentsResourcesEnLprojInfoPlistStringsArray.toString().replace(/,/g, '\n'),
     );
