@@ -375,7 +375,6 @@ nwbuild({
 ### Features
 
 - feat(get): support canary releases
-- feat(bld): rename MacOS Helper apps
 - feat(pkg): add `AppImage` installer
 - feat(pkg): add `NSIS` installer
 - feat(pkg): add `DMG` installer
@@ -389,7 +388,6 @@ nwbuild({
 - chore: annotate file paths as `fs.PathLike` instead of `string`.
 - chore(bld): factor out core build step
 - chore(bld): factor out linux config
-- chore(bld): factor out macos config
 - chore(bld): factor out windows config
 - chore(bld): factor out native addon
 - chore(bld): factor out compressing
