@@ -21,7 +21,7 @@ program
   .option('--logLevel', 'Specify log level')
   .option('--zip', 'Flag to enable/disable compression')
   .option('--managedManifest', 'Managed manifest mode')
-  .option('--nodeAddon', 'Download NW.js Node headers')
+  .option('--nodeAddon', 'Download NW.js Node headers');
 
 program.parse();
 
