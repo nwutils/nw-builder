@@ -58,12 +58,12 @@
     "eslint-plugin-jsdoc": "^50.2.2",
     "globals": "^15.9.0",
     "nw": "^0.91.0",
-    "selenium-webdriver": "^4.23.0",
+    "selenium-webdriver": "^4.24.0",
     "vitest": "^2.0.4"
   },
   "dependencies": {
     "archiver": "^7.0.1",
-    "axios": "^1.7.5",
+    "axios": "^1.7.6",
     "commander": "^12.1.0",
     "glob": "^11.0.0",
     "node-gyp": "^10.2.0",
