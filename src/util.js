@@ -263,6 +263,8 @@ export const parse = async (options, pkg) => {
       options.app.CFBundleShortVersionString ?? pkg.version;
     options.app.NSHumanReadableCopyright =
       options.app.NSHumanReadableCopyright ?? undefined;
+    options.app.NSLocalNetworkUsageDescription =
+      options.app.NSLocalNetworkUsageDescription ?? undefined;
   }
 
   return { ...options };

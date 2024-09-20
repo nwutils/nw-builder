@@ -167,6 +167,8 @@ export interface OsxAppOptions {
     CFBundleShortVersionString?: string,
     /** A human-readable copyright notice for the bundle. */
     NSHumanReadableCopyright?: string,
+    /** A human-readable description of why the application needs access to the local network. */
+    NSLocalNetworkUsageDescription?: string,
 }
 
 /**
