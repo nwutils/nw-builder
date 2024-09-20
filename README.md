@@ -286,6 +286,7 @@ This object defines additional properties used for building for a specific platf
 | CFBundleVersion | `string` | The version of the build that identifies an iteration of the bundle. |
 | CFBundleShortVersionString | `string` | The release or version number of the bundle. |
 | NSHumanReadableCopyright | `string` | A human-readable copyright notice for the bundle. |
+| NSLocalNetworkUsageDescription | `string` | A human-readable description of why the application needs access to the local network. |
 
 
 ## Guides

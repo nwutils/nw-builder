@@ -80,7 +80,8 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
         CFBundleSpokenName: 'Demo',
         CFBundleVersion: '0.0.0',
         CFBundleShortVersionString: '0.0.0',
-        NSHumanReadableCopyright: 'Copyright (c) 2024 NW.js Utilities'
+        NSHumanReadableCopyright: 'Copyright (c) 2024 NW.js Utilities',
+        NSLocalNetworkUsageDescription: 'This test application needs to access the local network for testing purposes.'
       },
       outDir: outDir,
       releaseInfo: {
@@ -157,6 +158,7 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
     expect(ContentsInfoPlistJson.CFBundleVersion).toEqual('0.0.0');
     expect(ContentsInfoPlistJson.CFBundleShortVersionString).toEqual('0.0.0');
     expect(ContentsInfoPlistJson.CFBundleExecutable).toEqual('nwapp');
+    expect(ContentsInfoPlistJson.NSLocalNetworkUsageDescription).toEqual('This test application needs to access the local network for testing purposes.');
 
     const HelperAlertsAppJson = plist.parse(
       await fs.promises.readFile(

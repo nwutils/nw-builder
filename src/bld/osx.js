@@ -151,6 +151,7 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
     contentsInfoPlistJson.CFBundleVersion = app.CFBundleVersion;
     contentsInfoPlistJson.CFBundleShortVersionString = app.CFBundleShortVersionString;
     contentsInfoPlistJson.CFBundleExecutable = app.name;
+    contentsInfoPlistJson.NSLocalNetworkUsageDescription = app.NSLocalNetworkUsageDescription;
 
     /* Remove properties that were not updated by the user. */
     Object.keys(contentsInfoPlistJson).forEach((option) => {
