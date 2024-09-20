@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.11.0](https://github.com/nwutils/nw-builder/compare/v4.10.0...v4.11.0) (2024-09-20)
+
+
+### Features
+
+* **bld:** add NSLocalNetworkUsageDescription option for MacOS ([#1236](https://github.com/nwutils/nw-builder/issues/1236)) ([eea3f69](https://github.com/nwutils/nw-builder/commit/eea3f69ee1951e24f4fbc8d1550b0bee1e43951f)), closes [#1235](https://github.com/nwutils/nw-builder/issues/1235)
+
+
+### Chores
+
+* **bld:** remove repetitive code for updating MacOS Helper apps ([#1214](https://github.com/nwutils/nw-builder/issues/1214)) ([e1edc05](https://github.com/nwutils/nw-builder/commit/e1edc051c1660ef474643b903ac4e9a0f2968a05))
+* **cli:** migrate from yargs to commander ([#1216](https://github.com/nwutils/nw-builder/issues/1216)) ([7ca5a28](https://github.com/nwutils/nw-builder/commit/7ca5a28f40078ab179aab72cf0f3260ef5f118f2))
+* **deps:** bump actions/setup-node from 4.0.3 to 4.0.4 in /.github/workflows in the gha group ([#1232](https://github.com/nwutils/nw-builder/issues/1232)) ([8473fc6](https://github.com/nwutils/nw-builder/commit/8473fc63811fd08066b7801c019d00565918770b))
+* **deps:** bump the npm group across 1 directory with 7 updates ([#1233](https://github.com/nwutils/nw-builder/issues/1233)) ([9efa2f4](https://github.com/nwutils/nw-builder/commit/9efa2f439e46aaadf55c79d9c3bd404cea1144aa))
+* **deps:** bump vite from 5.3.5 to 5.4.6 ([#1231](https://github.com/nwutils/nw-builder/issues/1231)) ([6135682](https://github.com/nwutils/nw-builder/commit/6135682dc01f8a1dad12660957ddd637e6a20864))
+
 ## [4.10.0](https://github.com/nwutils/nw-builder/compare/v4.9.0...v4.10.0) (2024-08-24)
 
 
