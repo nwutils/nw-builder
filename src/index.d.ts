@@ -39,6 +39,8 @@ export interface Options<P extends SupportedPlatform = SupportedPlatform> {
     glob?: boolean,
     /** Specified log level. */
     logLevel?: "error" | "warn" | "info" | "debug",
+	/** Managed manifest */
+	managedManifest?: boolean | string | object,
 }
 
 /** Platform-specific application options */
