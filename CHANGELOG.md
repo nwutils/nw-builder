@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.11.1](https://github.com/nwutils/nw-builder/compare/v4.11.0...v4.11.1) (2024-10-01)
+
+
+### Bug Fixes
+
+* **types:** add managedManifest parameter in options ([#1249](https://github.com/nwutils/nw-builder/issues/1249)) ([8b3b407](https://github.com/nwutils/nw-builder/commit/8b3b407ab96e8f4162abf92b6e8158923f71687f)), closes [#1248](https://github.com/nwutils/nw-builder/issues/1248)
+
+
+### Chores
+
+* **deps-dev:** bump the npm group across 1 directory with 6 updates ([#1250](https://github.com/nwutils/nw-builder/issues/1250)) ([94da963](https://github.com/nwutils/nw-builder/commit/94da963848ef2f311d13da49a1d78e6b8f117b22))
+* **deps:** bump rollup from 4.22.1 to 4.22.4 ([#1241](https://github.com/nwutils/nw-builder/issues/1241)) ([6601ebc](https://github.com/nwutils/nw-builder/commit/6601ebc3db46e28964e0aa05de37a2f68745ba46))
+* **deps:** bump the gha group across 1 directory with 2 updates ([#1247](https://github.com/nwutils/nw-builder/issues/1247)) ([526454e](https://github.com/nwutils/nw-builder/commit/526454e276c67bac435c02699109ae563fe1c4d7))
+
 ## [4.11.0](https://github.com/nwutils/nw-builder/compare/v4.10.0...v4.11.0) (2024-09-20)
 
 
