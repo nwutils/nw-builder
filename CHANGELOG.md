@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.11.3](https://github.com/nwutils/nw-builder/compare/v4.11.2...v4.11.3) (2024-10-02)
+
+
+### Bug Fixes
+
+* **get:** do not check integrity of community ffmpeg but give a warning ([#1253](https://github.com/nwutils/nw-builder/issues/1253)) ([0c05a34](https://github.com/nwutils/nw-builder/commit/0c05a3493c25a172c018e0d788a563c80592c2ef)), closes [#1209](https://github.com/nwutils/nw-builder/issues/1209)
+
 ## [4.11.2](https://github.com/nwutils/nw-builder/compare/v4.11.1...v4.11.2) (2024-10-02)
 
 
