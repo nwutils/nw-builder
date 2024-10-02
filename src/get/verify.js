@@ -15,7 +15,7 @@ import util from '../util.js';
  * @throws {Error}
  * @returns {Promise<boolean>} - Returns true if the checksums match.
  */
-export default async function verify(shaUrl, shaOut, cacheDir) {
+export default async function verify(shaUrl, shaOut, cacheDir, ffmpeg) {
   const shaOutExists = await util.fileExists(shaOut);
 
   if (shaOutExists === false) {
