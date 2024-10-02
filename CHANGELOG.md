@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.11.2](https://github.com/nwutils/nw-builder/compare/v4.11.1...v4.11.2) (2024-10-02)
+
+
+### Bug Fixes
+
+* **get:** verify shasum for official ffmpeg not community ffmpeg ([#1251](https://github.com/nwutils/nw-builder/issues/1251)) ([9385836](https://github.com/nwutils/nw-builder/commit/938583602788f55f1e050013e78890118e19ed7a)), closes [#1209](https://github.com/nwutils/nw-builder/issues/1209)
+
 ## [4.11.1](https://github.com/nwutils/nw-builder/compare/v4.11.0...v4.11.1) (2024-10-01)
 
 

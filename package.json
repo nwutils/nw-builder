@@ -1,6 +1,6 @@
 {
   "name": "nw-builder",
-  "version": "4.11.1",
+  "version": "4.11.2",
   "description": "Build NW.js desktop applications for MacOS, Windows and Linux.",
   "keywords": [
     "NW.js",
@@ -74,7 +74,7 @@
     "yauzl-promise": "^4.0.0"
   },
   "volta": {
-    "node": "22.2.0",
+    "node": "22.7.0",
     "npm": "10.8.2"
   }
 }
