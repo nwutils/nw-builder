@@ -93,6 +93,12 @@ async function get(options) {
 
   await decompress(nwFilePath, options.cacheDir);
 
+  await verify(
+    `${options.downloadUrl}/v${options.version}/SHASUMS256.txt`,
+    `${options.cacheDir}/shasum/${options.version}.txt`,
+    options.cacheDir,
+  );
+
   if (options.ffmpeg === true) {
 
     /**
@@ -125,12 +131,6 @@ async function get(options) {
     }
 
     await decompress(ffmpegFilePath, options.cacheDir);
-
-    await verify(
-      `${options.downloadUrl}/v${options.version}/SHASUMS256.txt`,
-      `${options.cacheDir}/shasum/${options.version}.txt`,
-      options.cacheDir,
-    );
 
     /**
      * Platform dependant file name of FFmpeg binary.
