@@ -97,6 +97,7 @@ async function get(options) {
     `${options.downloadUrl}/v${options.version}/SHASUMS256.txt`,
     `${options.cacheDir}/shasum/${options.version}.txt`,
     options.cacheDir,
+    options.ffmpeg,
   );
 
   if (options.ffmpeg === true) {

@@ -11,10 +11,11 @@ import util from '../util.js';
  * @param {string} shaUrl - URL to get the shasum text file from.
  * @param {string} shaOut - File path to shasum text file.
  * @param {string} cacheDir - File path to cache directory.
+ * @param {ffmpeg} ffmpeg - Toggle between community (true) and official (false) ffmpeg binary
  * @throws {Error}
  * @returns {Promise<boolean>} - Returns true if the checksums match.
  */
-export default async function verify(shaUrl, shaOut, cacheDir) {
+export default async function verify(shaUrl, shaOut, cacheDir, ffmpeg) {
   const shaOutExists = await util.fileExists(shaOut);
 
   if (shaOutExists === false) {
@@ -38,7 +39,11 @@ export default async function verify(shaUrl, shaOut, cacheDir) {
       hash.update(fileBuffer);
       const generatedSha = hash.digest('hex');
       if (storedSha !== generatedSha) {
-        throw new Error(`SHA256 checksums do not match. The file ${filePath} expected shasum is ${storedSha} but the actual shasum is ${generatedSha}.`);
+        if (filePath.includes('ffmpeg') && ffmpeg) {
+          console.warn(`The generated shasum for the community ffmpeg at ${filePath} is ${generatedSha}. The integrity of this file should be manually verified.`);
+        } else {
+          throw new Error(`SHA256 checksums do not match. The file ${filePath} expected shasum is ${storedSha} but the actual shasum is ${generatedSha}.`);
+        }
       }
     }
   }
