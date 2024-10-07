@@ -304,7 +304,8 @@ const setWinConfig = async ({ app, outDir }) => {
     }
   });
 
-  const outDirAppExe = path.resolve(outDir, `${app.name}.exe`);
+  const executableName = app.name.replace(/[<>:"/\\|?*\u0000-\u001F]/g, "");
+  const outDirAppExe = path.resolve(outDir, `${executableName}.exe`);
   await fs.promises.rename(path.resolve(outDir, 'nw.exe'), outDirAppExe);
   const exe = peLibrary.NtExecutable.from(await fs.promises.readFile(outDirAppExe));
   const res = peLibrary.NtExecutableResource.from(exe);
