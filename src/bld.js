@@ -122,44 +122,65 @@ async function bld({
   nativeAddon = false,
   zip = false,
   releaseInfo = {},
+  mode = 'build'
 }) {
   const nwDir = path.resolve(
     cacheDir,
     `nwjs${flavor === 'sdk' ? '-sdk' : ''}-v${version}-${platform
     }-${arch}`,
   );
+  
+  if(mode == "build"){
+    // TODO: Check if outDir is really a previous built dir (known files?) to avoid catastrophy on misconfiguration
+    await fs.promises.rm(outDir, { force: true, recursive: true });
+    await fs.promises.cp(nwDir, outDir, { recursive: true, verbatimSymlinks: true });
 
-  await fs.promises.rm(outDir, { force: true, recursive: true });
-  await fs.promises.cp(nwDir, outDir, { recursive: true, verbatimSymlinks: true });
+    const files = await util.globFiles({ srcDir, glob });
+    const manifest = await util.getNodeManifest({ srcDir, glob });
 
-  const files = await util.globFiles({ srcDir, glob });
-  const manifest = await util.getNodeManifest({ srcDir, glob });
-
-  if (glob) {
-    for (let file of files) {
+    if (glob) {
+      for (let file of files) {
+        await fs.promises.cp(
+          file,
+          path.resolve(
+            outDir,
+            platform !== 'osx'
+              ? 'package.nw'
+              : 'nwjs.app/Contents/Resources/app.nw',
+            file,
+          ),
+          { recursive: true, verbatimSymlinks: true },
+        );
+      }
+    } else {
       await fs.promises.cp(
-        file,
+        files,
         path.resolve(
           outDir,
           platform !== 'osx'
             ? 'package.nw'
             : 'nwjs.app/Contents/Resources/app.nw',
-          file,
         ),
         { recursive: true, verbatimSymlinks: true },
       );
     }
-  } else {
-    await fs.promises.cp(
-      files,
-      path.resolve(
-        outDir,
-        platform !== 'osx'
-          ? 'package.nw'
-          : 'nwjs.app/Contents/Resources/app.nw',
-      ),
-      { recursive: true, verbatimSymlinks: true },
-    );
+  }
+  
+  var appInfo = {version, flavor, platform, arch, srcDir, cacheDir, outDir, app, glob, managedManifest, nativeAddon, zip, releaseInfo, mode};
+  if (platform === 'linux') {
+    Object.assign(appInfo, prepareLinuxConfig(appInfo));
+    if(mode=='prepare')
+      return appInfo;
+    await applyLinuxConfig(appInfo);
+  } else if (platform === 'win') {
+    Object.assign(appInfo, prepareWinConfig(appInfo));
+    if(mode=='prepare')
+      return appInfo;
+    await applyWinConfig(appInfo);
+  } else if (platform === 'osx') {
+    Object.assign(appInfo, await setOsxConfig(appInfo));
+    if(mode=='prepare')
+      return appInfo;
   }
 
   const nodeVersion = releaseInfo.components.node;
@@ -172,14 +193,6 @@ async function bld({
     await manageManifest({ nwPkg: manifest, managedManifest, outDir, platform });
   }
 
-  if (platform === 'linux') {
-    await setLinuxConfig({ app, outDir });
-  } else if (platform === 'win') {
-    await setWinConfig({ app, outDir });
-  } else if (platform === 'osx') {
-    await setOsxConfig({ app, outDir, releaseInfo });
-  }
-
   if (nativeAddon === 'gyp') {
     buildNativeAddon({ cacheDir, version, platform, arch, outDir, nodeVersion });
   }
@@ -187,6 +200,7 @@ async function bld({
   if (zip !== false) {
     await compress({ zip, outDir });
   }
+  return appInfo;
 }
 
 const manageManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
@@ -237,7 +251,7 @@ const manageManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
   }
 };
 
-const setLinuxConfig = async ({ app, outDir }) => {
+const prepareLinuxConfig = async ({ app, outDir }) => {
   if (process.platform === 'win32') {
     console.warn(
       'Linux apps built on Windows platform do not preserve all file permissions. See #716',
@@ -270,7 +284,21 @@ const setLinuxConfig = async ({ app, outDir }) => {
     SingleMainWindow: app.singleMainWindow,
   };
 
-  await fs.promises.rename(`${outDir}/nw`, `${outDir}/${app.name}`);
+  return {
+    outDir,
+    executablePath: `${outDir}/${app.name}`,
+    desktopEntryFile
+  };
+};
+
+const applyLinuxConfig = async ({ outDir, executablePath, desktopEntryFile }) => {
+  if (process.platform === 'win32') {
+    console.warn(
+      'Linux apps built on Windows platform do not preserve all file permissions. See #716',
+    );
+  }
+
+  await fs.promises.rename(`${outDir}/nw`, executablePath);
 
   let fileContent = '[Desktop Entry]\n';
   Object.keys(desktopEntryFile).forEach((key) => {
@@ -278,12 +306,12 @@ const setLinuxConfig = async ({ app, outDir }) => {
       fileContent += `${key}=${desktopEntryFile[key]}\n`;
     }
   });
-  let filePath = `${outDir}/${app.name}.desktop`;
+  let filePath = `${executablePath}.desktop`;
   await fs.promises.writeFile(filePath, fileContent);
 };
 
-const setWinConfig = async ({ app, outDir }) => {
-  let versionString = {
+const prepareWinConfig = ({ app, outDir }) => {
+  let versionInfo = {
     Comments: app.comments,
     CompanyName: app.company,
     FileDescription: app.fileDescription,
@@ -298,15 +326,18 @@ const setWinConfig = async ({ app, outDir }) => {
     SpecialBuild: app.specialBuild,
   };
 
-  Object.keys(versionString).forEach((option) => {
-    if (versionString[option] === undefined) {
-      delete versionString[option];
+  Object.keys(versionInfo).forEach((option) => {
+    if (versionInfo[option] === undefined) {
+      delete versionInfo[option];
     }
   });
-
-  const outDirAppExe = path.resolve(outDir, `${app.name}.exe`);
-  await fs.promises.rename(path.resolve(outDir, 'nw.exe'), outDirAppExe);
-  const exe = peLibrary.NtExecutable.from(await fs.promises.readFile(outDirAppExe));
+  const executableName = app.name.replace(/[<>:"/\\|?*\u0000-\u001F]/g, "");
+  const executablePath = path.resolve(outDir, `${executableName}.exe`);
+  return { versionInfo, outDir, executablePath };
+};
+const applyWinConfig = async ({ app, versionInfo, outDir, executablePath }) => {
+  await fs.promises.rename(path.resolve(outDir, 'nw.exe'), executablePath);
+  const exe = peLibrary.NtExecutable.from(await fs.promises.readFile(executablePath));
   const res = peLibrary.NtExecutableResource.from(exe);
   // English (United States)
   const EN_US = 1033;
@@ -335,11 +366,11 @@ const setWinConfig = async ({ app, outDir }) => {
   vi.setStringValues({
     lang: app.languageCode,
     codepage: 1200
-  }, versionString);
+  }, versionInfo);
   vi.outputToResourceEntries(res.entries);
   res.outputResource(exe);
   const outBuffer = Buffer.from(exe.generate());
-  await fs.promises.writeFile(outDirAppExe, outBuffer);
+  await fs.promises.writeFile(executablePath, outBuffer);
 };
 
 const buildNativeAddon = ({ cacheDir, version, platform, arch, outDir, nodeVersion }) => {

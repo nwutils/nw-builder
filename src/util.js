@@ -202,7 +202,8 @@ export const parse = async (options, pkg) => {
 
   options.app = options.app ?? {};
   options.app.name = options.app.name ?? pkg.name;
-  options.app.icon = options.app.icon ?? undefined;
+  options.app.name = options.app.name.replace(/[<>:"/\\|?*\u0000-\u001F]/g, "");
+  options.app.icon = options.app.icon ? path.resolve(options.app.icon) : undefined;
 
   // TODO(#737): move this out
   if (options.platform === 'linux') {
@@ -278,10 +279,9 @@ export const parse = async (options, pkg) => {
  * @throws {Error}                                         Throw error if options are invalid
  */
 export const validate = async (options, releaseInfo) => {
-  if (!['get', 'run', 'build'].includes(options.mode)) {
+  if (!['get', 'run', 'build', 'prepare'].includes(options.mode)) {
     throw new Error(
-      `Unknown mode ${options.mode}. Expected "get", "run" or "build".`,
-    );
+      `Unknown mode ${options.mode}. Expected "get", "run", "build" or "prepare".`);
   }
   if (typeof releaseInfo === 'undefined') {
     throw new Error(

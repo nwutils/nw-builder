@@ -30,7 +30,8 @@ async function updateHelperPlist (plistPath, helperName, helperId, appCFBundleId
  * @param {string} options.releaseInfo  - Release information.
  * @returns {Promise<void>}             - Promise.
  */
-export default async function setOsxConfig({ app, outDir, releaseInfo }) {
+// TODO: implement "prepare" mode
+export default async function setOsxConfig({ app, outDir, releaseInfo, mode }) {
   if (process.platform === 'win32') {
     console.warn(
       'MacOS apps built on Windows platform do not preserve all file permissions. See #716',
