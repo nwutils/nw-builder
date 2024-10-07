@@ -43,12 +43,19 @@ async function nwbuild(options) {
 
   try {
     // Parse options
-    options = await util.parse(options, manifest);
+    // options = await util.parse(options, manifest); // Preserve user input for now, assign manifest overwrites, only then parse
+    var isPrepare = options.mode === 'prepare';
 
     manifest = await util.getNodeManifest({ srcDir: options.srcDir, glob: options.glob });
     if (typeof manifest?.nwbuild === 'object') {
-      options = manifest.nwbuild;
+      if(typeof manifest.nwbuild.app === 'object')
+        Object.assign(options.app, manifest.nwbuild.app);
+      let appOptions = options.app;
+      Object.assign(options, manifest.nwbuild);
+      options.app = appOptions;
     }
+    if(isPrepare)
+      options.mode = 'prepare';
 
     options = await util.parse(options, manifest);
 
@@ -109,8 +116,9 @@ async function nwbuild(options) {
         glob: options.glob,
         argv: options.argv,
       });
-    } else if (options.mode === 'build') {
-      await bld({
+    } else if (options.mode === 'build' || options.mode === 'prepare') {
+      return await bld({
+        mode: options.mode,
         version: options.version,
         flavor: options.flavor,
         platform: options.platform,

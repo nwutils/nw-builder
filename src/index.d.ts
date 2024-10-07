@@ -8,7 +8,7 @@ export interface Options<P extends SupportedPlatform = SupportedPlatform> {
     /** String of space separated glob patterns which correspond to NW app code */
     srcDir?: "./" | string,
     /** Run or build application */
-    mode?: "build" | "get" | "run",
+    mode?: "build" | "get" | "run" | "prepare",
     /** NW runtime version */
     version?: "latest" | "stable" | string,
     /** NW runtime flavor */
