@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.11.4](https://github.com/nwutils/nw-builder/compare/v4.11.3...v4.11.4) (2024-10-09)
+
+
+### Bug Fixes
+
+* **util:** strip special and control characters from app.name ([#1259](https://github.com/nwutils/nw-builder/issues/1259)) ([b035bc3](https://github.com/nwutils/nw-builder/commit/b035bc3d7393b7ae15c3996e62eb24afbf691945))
+
+
+### Chores
+
+* **deps:** drop Dependabot support for v3 branch ([19cf479](https://github.com/nwutils/nw-builder/commit/19cf47973057c420dc0bb70ddb5e50df1aa0de4c))
+
 ## [4.11.3](https://github.com/nwutils/nw-builder/compare/v4.11.2...v4.11.3) (2024-10-02)
 
 
