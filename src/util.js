@@ -202,7 +202,7 @@ export const parse = async (options, pkg) => {
 
   options.app = options.app ?? {};
   options.app.name = options.app.name ?? pkg.name;
-  options.app.name = options.app.name.replace(/[<>:"/\\|?*\u0000-\u001F]/g, "");
+  options.app.name = options.app.name.replace(/[<>:"/\\|?*\u0000-\u001F]/g, '');
   options.app.icon = options.app.icon ?? undefined;
 
   // TODO(#737): move this out
