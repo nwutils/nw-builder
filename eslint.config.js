@@ -13,6 +13,7 @@ export default [
   jsdoc.configs['flat/recommended'],
   {
     rules: {
+      "no-control-regex": ["off"],
       "semi": ["error", "always"],
       "quotes": ["error", "single"],
     }
