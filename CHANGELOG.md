@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.8.10](https://github.com/nwutils/nw-builder/compare/v3.8.9...v3.8.10) (2024-10-09)
+
+
+### Bug Fixes
+
+* **ci:** update release please action domain name ([59a3e73](https://github.com/nwutils/nw-builder/commit/59a3e73ad0dbeb73c0a5ecc6c29a11c50d4dfe1a))
+
+
+### Chores
+
+* **deps:** bump actions/checkout from 4.2.0 to 4.2.1 in /.github/workflows in the gha group ([#1269](https://github.com/nwutils/nw-builder/issues/1269)) ([3699915](https://github.com/nwutils/nw-builder/commit/3699915c066546d3bfe65546c164e961ece98781))
+* **deps:** bump the gha group across 1 directory with 2 updates ([#1244](https://github.com/nwutils/nw-builder/issues/1244)) ([ec3bdcb](https://github.com/nwutils/nw-builder/commit/ec3bdcb38966633fef975da0475afea827dd36c9))
+* **deps:** bump the gha group across 1 directory with 3 updates ([#1165](https://github.com/nwutils/nw-builder/issues/1165)) ([e829c02](https://github.com/nwutils/nw-builder/commit/e829c02dad52ac4eaf5986d77874f7b6db679521))
+* **deps:** bump the npm group across 1 directory with 3 updates ([#1266](https://github.com/nwutils/nw-builder/issues/1266)) ([e64ecc6](https://github.com/nwutils/nw-builder/commit/e64ecc672fe1fe00224e6ff11fb2d68cbbef0ddf))
+* **deps:** bump the npm group across 1 directory with 7 updates ([#1239](https://github.com/nwutils/nw-builder/issues/1239)) ([dfc24a2](https://github.com/nwutils/nw-builder/commit/dfc24a2baf792f60c6d35e66e0cb0985a05e6813))
+* **deps:** bump the npm group across 1 directory with 8 updates ([#1171](https://github.com/nwutils/nw-builder/issues/1171)) ([2f34abc](https://github.com/nwutils/nw-builder/commit/2f34abc95d11b36a3ddd1b9131e23511285efaca))
+* drop support for v3 ([#1272](https://github.com/nwutils/nw-builder/issues/1272)) ([27cde1a](https://github.com/nwutils/nw-builder/commit/27cde1a874ebe10dc4b393cf6c1085c33a5e6146))
+
 ## [3.8.9](https://github.com/nwutils/nw-builder/compare/v3.8.8...v3.8.9) (2024-05-25)
 
 
