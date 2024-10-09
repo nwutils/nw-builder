@@ -1,5 +1,7 @@
 # nw-builder
 
+> Version 3 will no longer be supported. Please consider upgrading to version 4.
+
 [![npm](https://img.shields.io/npm/v/nw-builder/stable)](https://www.npmjs.com/package/nw-builder/v/stable)
 [![Join the chat at https://gitter.im/nwjs/nw-builder](https://badges.gitter.im/repo.svg)](https://app.gitter.im/#/room/#nwjs_nw-builder:gitter.im)
 
