@@ -24,7 +24,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.2.0
+        uses: actions/checkout@v4.2.1
       - name: Setup Volta
         uses: volta-cli/action@v4.2.1
       - name: Node.js version
