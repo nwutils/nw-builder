@@ -43,11 +43,15 @@ async function nwbuild(options) {
 
   try {
     // Parse options
-    options = await util.parse(options, manifest);
+    // options = await util.parse(options, manifest); // Preserve user input for now, assign manifest overwrites, only then parse
 
     manifest = await util.getNodeManifest({ srcDir: options.srcDir, glob: options.glob });
     if (typeof manifest?.nwbuild === 'object') {
-      options = manifest.nwbuild;
+      if(typeof manifest.nwbuild.app === 'object')
+        Object.assign(options.app, manifest.nwbuild.app);
+      let appOptions = options.app;
+      Object.assign(options, manifest.nwbuild);
+      options.app = appOptions;
     }
 
     options = await util.parse(options, manifest);
