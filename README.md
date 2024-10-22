@@ -5,15 +5,13 @@
 
 Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and Linux.
 
-For version 3, please go to the [corresponding branch](https://github.com/nwutils/nw-builder/tree/v3).
-
 ## Major Features
 
 - Get, run or build applications.
 - Integrate [FFmpeg community builds](https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt)
 - Configure executable fields and icons
 - Downloading from mirrors
-- Node Native Addon support
+- Node Native Addon support (partial)
 
 ## Table of Contents
 
@@ -30,19 +28,19 @@ For version 3, please go to the [corresponding branch](https://github.com/nwutil
 ## Install
 
 ```shell
-npm i -D nw nw-builder base-volta-off-of-nwjs
+npm i -D nw-builder
 ```
 
 Every NW.js release includes a modified Node.js binary at a specific version. It is recommended to [install](https://nodejs.org/en/download/package-manager) exactly that version on the host system. Not doing so may download ABI incompatible Node modules. Consult the NW.js [versions manifest](https://nwjs.io/versions) for what Node.js version to install. It is recommended to use a Node version manager (such as [volta](https://volta.sh), n, nvm, or nvm-windows) to be able to easily install and switch between Node versions.
 
 ## Usage
 
-This package can be used via a command line interface, be imported as a JavaScript module, or configured via the Node manifest as a JSON object. If options are defined in NW.js manifest, then they will be used over options defined in CLI or JavaScript API.
+This package can be used via a command line interface, be imported as a JavaScript module, or configured via the Node manifest as a JSON object. If options are defined in Node manifest, then they will be used over options defined in CLI or JavaScript API.
 
 CLI interface:
 
 ```shell
-nwbuild --mode=build --glob=false --flavor=sdk --cacheDir=./node_modules/nw
+nwbuild --mode=build --glob=false --flavor=sdk --cacheDir=./node_modules/nw /path/to/project
 ```
 
 ESM import:
@@ -68,6 +66,7 @@ nwbuild({
   glob: false,
   flavor: "sdk",
   cacheDir: "./node_modules/nw",
+  srcDir: "/path/to/project",
 });
 ```
 
@@ -80,6 +79,7 @@ Node manifest usage:
       "glob": false,
       "flavor": "sdk",
       "cacheDir": "./node_modules/nw",
+      "srcDir": "/path/to/project"
     }
 }
 ```
