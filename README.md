@@ -37,7 +37,7 @@ Every NW.js release includes a modified Node.js binary at a specific version. It
 
 ## Usage
 
-This package can be used via a command line interface, be imported as a JavaScript module, or configured via the Node manifest as a JSON object.
+This package can be used via a command line interface, be imported as a JavaScript module, or configured via the Node manifest as a JSON object. If options are defined in NW.js manifest, then they will be used over options defined in CLI or JavaScript API.
 
 CLI interface:
 
