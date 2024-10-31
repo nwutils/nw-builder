@@ -167,7 +167,6 @@ async function getNodeManifest({
  * @returns {any} 
  */
 function str2Bool (option) {
-  console.log('debugg', option);
   if (typeof option === 'string') {
     if (option === 'true') {
       return true;
@@ -206,7 +205,6 @@ export const parse = async (options, pkg) => {
 
   options.argv = options.argv ?? [];
   options.glob = str2Bool(options.glob) ?? true;
-  console.log('weee', str2Bool(options.glob));
   options.srcDir = options.srcDir ?? (options.glob ? './*' : '.');
 
   if (options.mode === 'run') {
