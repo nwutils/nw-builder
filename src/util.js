@@ -219,6 +219,7 @@ export const parse = async (options, pkg) => {
   options.nativeAddon = str2Bool(options.nativeAddon) ?? false;
 
   options.app = options.app ?? {};
+  console.log(pkg);
   options.app.name = options.app.name ?? pkg.name;
   /* Remove special and control characters from app.name to mitigate potential path traversal. */
   options.app.name = options.app.name.replace(/[<>:"/\\|?*\u0000-\u001F]/g, '');
