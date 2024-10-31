@@ -162,6 +162,24 @@ async function getNodeManifest({
 }
 
 /**
+ * 
+ * @param {any} option
+ * @returns {any} 
+ */
+function str2Bool (option) {
+  console.log('debugg', option);
+  if (typeof option === 'string') {
+    if (option === 'true') {
+      return true;
+    } else if (option === 'false') {
+      return false;
+    } 
+  } else {
+    return option;
+  } 
+}
+
+/**
  * Parse options.
  * @param  {import("../../index.js").Options} options  Options
  * @param  {object}                           pkg      Package.json as JSON
@@ -178,8 +196,8 @@ export const parse = async (options, pkg) => {
   options.downloadUrl = options.downloadUrl ?? 'https://dl.nwjs.io';
   options.manifestUrl = options.manifestUrl ?? 'https://nwjs.io/versions';
   options.cacheDir = options.cacheDir ?? './cache';
-  options.cache = options.cache ?? true;
-  options.ffmpeg = options.ffmpeg ?? false;
+  options.cache = str2Bool(options.cache ?? true);
+  options.ffmpeg = str2Bool(options.ffmpeg ?? false);
   options.logLevel = options.logLevel ?? 'info';
 
   if (options.mode === 'get') {
@@ -187,7 +205,8 @@ export const parse = async (options, pkg) => {
   }
 
   options.argv = options.argv ?? [];
-  options.glob = options.glob ?? true;
+  options.glob = str2Bool(options.glob) ?? true;
+  console.log('weee', str2Bool(options.glob));
   options.srcDir = options.srcDir ?? (options.glob ? './*' : '.');
 
   if (options.mode === 'run') {
@@ -195,10 +214,10 @@ export const parse = async (options, pkg) => {
   }
 
   options.outDir = path.resolve(options.outDir ?? './out');
-  options.zip = options.zip ?? false;
+  options.zip = str2Bool(options.zip) ?? false;
 
-  options.managedManifest = options.managedManifest ?? false;
-  options.nativeAddon = options.nativeAddon ?? false;
+  options.managedManifest = str2Bool(options.managedManifest) ?? false;
+  options.nativeAddon = str2Bool(options.nativeAddon) ?? false;
 
   options.app = options.app ?? {};
   options.app.name = options.app.name ?? pkg.name;
