@@ -26,8 +26,6 @@ program
 
 program.parse();
 
-console.log(program.args.join(' '))
-console.log(program.opts())
 nwbuild({
   ...program.opts(),
   srcDir: program.args.join(' '),

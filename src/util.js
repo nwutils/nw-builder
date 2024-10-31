@@ -162,9 +162,10 @@ async function getNodeManifest({
 }
 
 /**
- * 
- * @param {any} option
- * @returns {any} 
+ * Function to convert `'true'` and `'false'` into `true` and `false`.
+ * `commander` does not do the conversion automatically. 
+ * @param {any} option - a boolean type option
+ * @returns {any} Usually `undefined`, `true` or `false`. if not then it is validated later on.
  */
 function str2Bool (option) {
   if (typeof option === 'string') {
