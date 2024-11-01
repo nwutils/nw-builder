@@ -9,7 +9,7 @@ await nwbuild({
   outDir: './tests/fixtures/out',
   glob: false,
   app: {
-    name: 'nwapp',
+    name: 'Demo',
     // MacOS options
     LSApplicationCategoryType: 'public.app-category.utilities',
     CFBundleIdentifier: 'io.nwutils.demo',

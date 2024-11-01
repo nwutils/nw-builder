@@ -39,18 +39,21 @@ import util from './util.js';
 async function nwbuild(options) {
   let built;
   let releaseInfo = {};
-  let manifest = {};
+  let manifest = {
+    path: '',
+    json: undefined,
+  };
 
   try {
     // Parse options
     options = await util.parse(options, manifest);
 
     manifest = await util.getNodeManifest({ srcDir: options.srcDir, glob: options.glob });
-    if (typeof manifest?.nwbuild === 'object') {
-      options = manifest.nwbuild;
+    if (typeof manifest.json?.nwbuild === 'object') {
+      options = manifest.json.nwbuild;
     }
 
-    options = await util.parse(options, manifest);
+    options = await util.parse(options, manifest.json);
 
     //TODO: impl logging
 
