@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.11.6](https://github.com/nwutils/nw-builder/compare/v4.11.5...v4.11.6) (2024-11-01)
+
+
+### Bug Fixes
+
+* **bld:** set product_string property in manifest to rename MacOS Helper apps ([#1290](https://github.com/nwutils/nw-builder/issues/1290)) ([b1caad7](https://github.com/nwutils/nw-builder/commit/b1caad7343c95f8f37251f3b3132f86adc31f38a)), closes [#1286](https://github.com/nwutils/nw-builder/issues/1286)
+
 ## [4.11.5](https://github.com/nwutils/nw-builder/compare/v4.11.4...v4.11.5) (2024-11-01)
 
 
