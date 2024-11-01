@@ -48,7 +48,7 @@
     "test:cov": "vitest --coverage.enabled true",
     "demo:bld": "node ./tests/fixtures/demo.js",
     "demo:exe": "./tests/fixtures/out/Demo.app/Contents/MacOS/Demo",
-    "demo:cli": "nwbuild --mode=run --version=0.92.0 --flavor=sdk --glob=false --cacheDir=./node_modules/nw ./tests/fixtures/app"
+    "demo:cli": "nwbuild --mode=run --flavor=sdk --glob=false --cacheDir=./node_modules/nw ./tests/fixtures/app"
   },
   "devDependencies": {
     "@eslint/js": "^9.12.0",

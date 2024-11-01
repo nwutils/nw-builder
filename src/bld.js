@@ -133,7 +133,13 @@ async function bld({
   await fs.promises.cp(nwDir, outDir, { recursive: true, verbatimSymlinks: true });
 
   const files = await util.globFiles({ srcDir, glob });
-  const manifest = await util.getNodeManifest({ srcDir, glob });
+  let manifest = await util.getNodeManifest({ srcDir, glob });
+
+  /* Set `product_string` in manifest for MacOS. This is used in renaming the Helper apps. */
+  if (options.platform === 'osx') {
+    manifest.json.product_string = app.name;
+    await fs.promises.writeFile(manifest.path, manifest.json);
+  }
 
   if (glob) {
     for (let file of files) {
@@ -169,7 +175,7 @@ async function bld({
     typeof managedManifest === 'object' ||
     typeof managedManifest === 'string'
   ) {
-    await manageManifest({ nwPkg: manifest, managedManifest, outDir, platform });
+    await manageManifest({ nwPkg: manifest.json, managedManifest, outDir, platform });
   }
 
   if (platform === 'linux') {

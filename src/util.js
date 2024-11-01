@@ -136,25 +136,30 @@ async function globFiles({
  * @param  {object}             options         - node manifest options
  * @param  {string | string []} options.srcDir  - src dir
  * @param  {boolean}            options.glob    - glob flag
- * @returns {object}                             - Node manifest
+ * @returns {Promise.<{path: string, json: object}>}      - Node manifest
  */
 async function getNodeManifest({
   srcDir, glob
 }) {
-  let manifest;
+  let manifest = {
+    path: '',
+    json: undefined,
+  };
   let files;
   if (glob) {
     files = await globFiles({ srcDir, glob });
     for (const file of files) {
       if (path.basename(file) === 'package.json' && manifest === undefined) {
-        manifest = JSON.parse(await fs.promises.readFile(file));
+        manifest.path = file;
+        manifest.json = JSON.parse(await fs.promises.readFile(file));
       }
     }
   } else {
-    manifest = JSON.parse(await fs.promises.readFile(path.resolve(srcDir, 'package.json')));
+    manifest.path = path.resolve(srcDir, 'package.json');
+    manifest.json = JSON.parse(await fs.promises.readFile(path.resolve(srcDir, 'package.json')));
   }
 
-  if (manifest === undefined) {
+  if (manifest.json === undefined) {
     throw new Error('package.json not found in srcDir file glob patterns.');
   }
 
