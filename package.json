@@ -51,10 +51,10 @@
     "demo:cli": "nwbuild --mode=run --flavor=sdk --glob=false --cacheDir=./node_modules/nw ./tests/fixtures/app"
   },
   "devDependencies": {
-    "@eslint/js": "^9.12.0",
+    "@eslint/js": "^9.14.0",
     "@vitest/coverage-v8": "^2.1.2",
     "base-volta-off-of-nwjs": "^1.0.5",
-    "eslint": "^9.12.0",
+    "eslint": "^9.14.0",
     "eslint-plugin-jsdoc": "^50.3.2",
     "globals": "^15.11.0",
     "nw": "^0.93.0",
