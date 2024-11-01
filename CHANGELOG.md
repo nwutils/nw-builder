@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.11.5](https://github.com/nwutils/nw-builder/compare/v4.11.4...v4.11.5) (2024-11-01)
+
+
+### Bug Fixes
+
+* **cli:** handle boolean type options correctly ([#1255](https://github.com/nwutils/nw-builder/issues/1255)) ([524fe34](https://github.com/nwutils/nw-builder/commit/524fe34438493d3aa0f4236741d91462cfb068e3)), closes [#1277](https://github.com/nwutils/nw-builder/issues/1277)
+
+
+### Chores
+
+* **deps-dev:** bump nw from 0.92.0 to 0.93.0 in the npm group across 1 directory ([#1289](https://github.com/nwutils/nw-builder/issues/1289)) ([ed275ad](https://github.com/nwutils/nw-builder/commit/ed275ad120105d8b5d8f324e97b311c791a92d1a))
+* **deps:** bump the gha group across 1 directory with 2 updates ([#1285](https://github.com/nwutils/nw-builder/issues/1285)) ([13081c9](https://github.com/nwutils/nw-builder/commit/13081c918ce2b76cf39a31b8b25ef26e3903f91c))
+* **docs:** clarify priority for defined options ([#1281](https://github.com/nwutils/nw-builder/issues/1281)) ([632db41](https://github.com/nwutils/nw-builder/commit/632db4105dd3b205d448c6fe02b26e46167d6549)), closes [#1261](https://github.com/nwutils/nw-builder/issues/1261)
+* **docs:** improve terminology ([84fa2a4](https://github.com/nwutils/nw-builder/commit/84fa2a4e55e88e490f46e91dade60e2ab285480b))
+
 ## [4.11.4](https://github.com/nwutils/nw-builder/compare/v4.11.3...v4.11.4) (2024-10-13)
 
 
