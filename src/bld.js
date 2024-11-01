@@ -136,7 +136,7 @@ async function bld({
   let manifest = await util.getNodeManifest({ srcDir, glob });
 
   /* Set `product_string` in manifest for MacOS. This is used in renaming the Helper apps. */
-  if (options.platform === 'osx') {
+  if (platform === 'osx') {
     manifest.json.product_string = app.name;
     await fs.promises.writeFile(manifest.path, manifest.json);
   }
