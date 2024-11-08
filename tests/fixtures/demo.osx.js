@@ -8,6 +8,7 @@ await nwbuild({
   cacheDir: './node_modules/nw',
   outDir: './tests/fixtures/out',
   glob: false,
+  logLevel: 'debug',
   app: {
     name: 'Demo',
     // MacOS options

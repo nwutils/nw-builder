@@ -47,13 +47,18 @@ async function nwbuild(options) {
   try {
     // Parse options
     options = await util.parse(options, manifest);
+    util.log('debug', 'info', 'Parse initial options');
 
+    util.log('debug', 'info', 'Get node manifest...');
     manifest = await util.getNodeManifest({ srcDir: options.srcDir, glob: options.glob });
     if (typeof manifest.json?.nwbuild === 'object') {
       options = manifest.json.nwbuild;
     }
 
+    util.log('info', options.logLevel, 'Parse final options');
     options = await util.parse(options, manifest.json);
+    util.log('debug', options.logLevel, 'Manifest path: ', manifest.path);
+    util.log('debug', options.logLevel, 'Manifest file:\n', manifest.json);
 
     built = fs.existsSync(options.cacheDir);
     if (built === false) {
