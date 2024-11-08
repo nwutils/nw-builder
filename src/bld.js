@@ -319,10 +319,11 @@ const setWinConfig = async ({ app, outDir }) => {
   if (app.icon) {
     const iconBuffer = await fs.promises.readFile(path.resolve(app.icon));
     const iconFile = resedit.Data.IconFile.from(iconBuffer);
+    const iconGroupIDs = resedit.Resource.IconGroupEntry.fromEntries(res.entries).map((entry) => entry.id);
     resedit.Resource.IconGroupEntry.replaceIconsForResource(
       res.entries,
-      // This is the name of the icon group nw.js uses that gets shown in file exlorers
-      'IDR_MAINFRAME',
+      /*  Should be `IDR_MAINFRAME` */
+      iconGroupIDs[0],
       EN_US,
       iconFile.icons.map(i => i.data)
     );
