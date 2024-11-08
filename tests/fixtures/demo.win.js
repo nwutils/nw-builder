@@ -12,5 +12,14 @@ await nwbuild({
     name: 'Demo',
     /* Relative to where the manifest will be located */
     icon: './icon.ico',
+    version: '0.0.0',
+    comments: 'Diagnostic information',
+    company: 'NW.js Utilities',
+    fileDescription: 'This is a demo app to test nw-builder functionality',
+    fileVersion: '0.0.0',
+    internalName: 'Demo',
+    legalCopyright: '2024 (c) NW.js Utilties. All Rights Reserved',
+    originalFilename: 'Demo',
+    
   }
 });
