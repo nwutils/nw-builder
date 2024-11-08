@@ -385,7 +385,6 @@ nwbuild({
 
 ### Chores
 
-- chore: add Linux, MacOS and Windows fixtures
 - chore(docs): don't store JSDoc definitions in `typedef`s - get's hard to understand during development.
 - chore: annotate file paths as `fs.PathLike` instead of `string`.
 - chore(bld): factor out core build step
