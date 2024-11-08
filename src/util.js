@@ -458,9 +458,17 @@ async function fileExists(filePath) {
  * @param {'debug' | 'info' | 'warn' | 'error'} severity - severity of message
  * @param {'debug' | 'info' | 'warn' | 'error'} logLevel - log level requested by user
  * @param {string} message - contents of message
+ * @throws {Error} - throw error on invalid input
  * @returns {string} - stdout
  */
-function log(severity, logLevel = 'error', message) {
+function log(severity, logLevel, message) {
+  if (!['debug', 'info', 'warn', 'error'].includes(severity)) {
+    throw new Error(`Expected debug, info, warn or error message severity. Got ${severity}`);
+  }
+  if (!['debug', 'info', 'warn', 'error'].includes(logLevel)) {
+    throw new Error(`Expected debug, info, warn or error user defined log level. Got ${logLevel}`);
+  }
+
   const sev = {
     'debug': 4,
     'info': 3,
