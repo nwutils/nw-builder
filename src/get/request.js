@@ -16,9 +16,9 @@ export default async function request(url, filePath) {
 
   const writeStream = fs.createWriteStream(filePath);
 
-  // Listen for SIGINT (Ctrl+C)
+  /* Listen for SIGINT (Ctrl+C) */
   process.on('SIGINT', function () {
-    /* Delete file if it exists. This prevents unecessary `Centrol Directory not found` errors. */
+    /* Delete file if it exists. This prevents unnecessary `Central Directory not found` errors. */
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
     }
