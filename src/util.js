@@ -453,4 +453,31 @@ async function fileExists(filePath) {
   return exists;
 }
 
-export default { fileExists, getReleaseInfo, getPath, PLATFORM_KV, ARCH_KV, EXE_NAME, globFiles, getNodeManifest, parse, validate };
+/**
+ * Custom logging function
+ * @param {'debug' | 'info' | 'warn' | 'error'} severity - severity of message
+ * @param {'debug' | 'info' | 'warn' | 'error'} logLevel - log level requested by user
+ * @param {string} message - contents of message
+ * @returns {string} - stdout
+ */
+function log(severity, logLevel = 'error', message) {
+  const sev = {
+    'debug': 4,
+    'info': 3,
+    'warn': 2,
+    'error': 1,
+  };
+  let stdout = '';
+  const messageSeverity = sev[severity];
+  const userDefSeverity = sev[logLevel];
+
+  if (messageSeverity <= userDefSeverity) {
+    stdout = `[ ${severity.toUpperCase()} ] ${message}`;
+  }
+
+  console.log(stdout);
+
+  return stdout;
+}
+
+export default { fileExists, getReleaseInfo, getPath, PLATFORM_KV, ARCH_KV, EXE_NAME, globFiles, getNodeManifest, parse, validate, log };
