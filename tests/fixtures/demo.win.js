@@ -12,7 +12,7 @@ await nwbuild({
   app: {
     name: 'Demo',
     /* Relative to where the manifest will be located */
-    icon: './icon.ico',
+    icon: './tests/fixtures/app/icon.ico',
     version: '0.0.0',
     comments: 'Diagnostic information',
     company: 'NW.js Utilities',
