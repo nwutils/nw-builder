@@ -6,7 +6,7 @@ await nwbuild({
   platform: 'osx',
   srcDir: './tests/fixtures/app',
   cacheDir: './node_modules/nw',
-  outDir: './tests/fixtures/out',
+  outDir: './tests/fixtures/out/osx',
   glob: false,
   logLevel: 'debug',
   app: {

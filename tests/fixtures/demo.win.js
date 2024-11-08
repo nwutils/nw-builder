@@ -6,7 +6,7 @@ await nwbuild({
   platform: 'win',
   srcDir: './tests/fixtures/app',
   cacheDir: './node_modules/nw',
-  outDir: './tests/fixtures/out',
+  outDir: './tests/fixtures/out/win',
   glob: false,
   app: {
     name: 'Demo',
