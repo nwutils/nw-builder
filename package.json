@@ -47,7 +47,7 @@
     "test": "vitest run --coverage",
     "test:cov": "vitest --coverage.enabled true",
     "demo:bld:osx": "node ./tests/fixtures/demo.osx.js",
-    "demo:bld:win": "node ./tests/fixtures/demo.osx.js",
+    "demo:bld:win": "node ./tests/fixtures/demo.win.js",
     "demo:exe:osx": "./tests/fixtures/out/osx/Demo.app/Contents/MacOS/Demo",
     "demo:exe:win": "./tests/fixtures/out/win/Demo.exe",
     "demo:cli": "nwbuild --mode=run --flavor=sdk --glob=false --cacheDir=./node_modules/nw ./tests/fixtures/app"
