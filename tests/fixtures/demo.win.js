@@ -20,6 +20,7 @@ await nwbuild({
     internalName: 'Demo',
     legalCopyright: '2024 (c) NW.js Utilties. All Rights Reserved',
     originalFilename: 'Demo',
-    
+    productName: 'Demo',
+    productVersion: '0.0.0',
   }
 });
