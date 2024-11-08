@@ -62,7 +62,7 @@ import setOsxConfig from './bld/osx.js';
  * References:
  * https://learn.microsoft.com/en-us/windows/win32/msi/version
  * https://learn.microsoft.com/en-gb/windows/win32/sbscs/application-manifests
- * https://learn.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2015/deployment/trustinfo-element-clickonce-application?view=vs-2015#requestedexecutionlevel
+ * https://learn.microsoft.com/en-us/visualstudio/deployment/trustinfo-element-clickonce-application?view=vs-2022#requestedexecutionlevel
  * https://learn.microsoft.com/en-gb/windows/win32/menurc/versioninfo-resource
  * @typedef {object} WinRc              Windows configuration options. More info
  * @property {string} name              The name of the application
