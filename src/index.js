@@ -55,8 +55,6 @@ async function nwbuild(options) {
 
     options = await util.parse(options, manifest.json);
 
-    //TODO: impl logging
-
     built = fs.existsSync(options.cacheDir);
     if (built === false) {
       await fs.promises.mkdir(options.cacheDir, { recursive: true });
