@@ -62,11 +62,11 @@ import setOsxConfig from './bld/osx.js';
  * References:
  * https://learn.microsoft.com/en-us/windows/win32/msi/version
  * https://learn.microsoft.com/en-gb/windows/win32/sbscs/application-manifests
- * https://learn.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2015/deployment/trustinfo-element-clickonce-application?view=vs-2015#requestedexecutionlevel
+ * https://learn.microsoft.com/en-us/visualstudio/deployment/trustinfo-element-clickonce-application?view=vs-2022#requestedexecutionlevel
  * https://learn.microsoft.com/en-gb/windows/win32/menurc/versioninfo-resource
  * @typedef {object} WinRc              Windows configuration options. More info
  * @property {string} name              The name of the application
- * @property {string} version           @deprecated Use {@link fileVersion} instead. The version of the application
+ * @property {string} version           The version of the application
  * @property {string} comments          Additional information that should be displayed for diagnostic purposes.
  * @property {string} company           Company that produced the file—for example, Microsoft Corporation or Standard Microsystems Corporation, Inc. This string is required.
  * @property {string} fileDescription   File description to be presented to users. This string may be displayed in a list box when the user is choosing files to install. For example, Keyboard Driver for AT-Style Keyboards. This string is required.
@@ -256,13 +256,13 @@ const setLinuxConfig = async ({ app, outDir }) => {
     GenericName: app.genericName,
     NoDisplay: app.noDisplay,
     Comment: app.comment,
-    Icon: app.icon,
+    Icon: path.resolve(outDir, 'package.nw', path.basename(app.icon)),
     Hidden: app.hidden,
     OnlyShowIn: app.onlyShowIn,
     NotShowIn: app.notShowIn,
     DBusActivatable: app.dBusActivatable,
     TryExec: app.tryExec,
-    Exec: app.name,
+    Exec: app.exec,
     Path: app.path,
     Terminal: app.terminal,
     Actions: app.actions,
@@ -319,10 +319,11 @@ const setWinConfig = async ({ app, outDir }) => {
   if (app.icon) {
     const iconBuffer = await fs.promises.readFile(path.resolve(app.icon));
     const iconFile = resedit.Data.IconFile.from(iconBuffer);
+    const iconGroupIDs = resedit.Resource.IconGroupEntry.fromEntries(res.entries).map((entry) => entry.id);
     resedit.Resource.IconGroupEntry.replaceIconsForResource(
       res.entries,
-      // This is the name of the icon group nw.js uses that gets shown in file exlorers
-      'IDR_MAINFRAME',
+      /*  Should be `IDR_MAINFRAME` */
+      iconGroupIDs[0],
       EN_US,
       iconFile.icons.map(i => i.data)
     );

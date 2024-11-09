@@ -230,7 +230,8 @@ export const parse = async (options, pkg) => {
     /* Remove special and control characters from app.name to mitigate potential path traversal. */
     options.app.name = options.app.name.replace(/[<>:"/\\|?*\u0000-\u001F]/g, '');
   }
-  options.app.icon = options.app.icon ?? undefined;
+  /* Path to where the icon currently is in the filesystem */
+  options.app.icon = path.resolve(options.app.icon) ?? undefined;
 
   // TODO(#737): move this out
   if (options.platform === 'linux') {
@@ -243,7 +244,7 @@ export const parse = async (options, pkg) => {
     options.app.notShowIn = options.app.notShowIn ?? undefined;
     options.app.dBusActivatable = options.app.dBusActivatable ?? undefined;
     options.app.tryExec = options.app.tryExec ?? undefined;
-    options.app.exec = options.app.name ?? undefined;
+    options.app.exec = path.resolve(options.app.exec) ?? undefined;
     options.app.path = options.app.path ?? undefined;
     options.app.terminal = options.app.terminal ?? undefined;
     options.app.actions = options.app.actions ?? undefined;
@@ -453,4 +454,39 @@ async function fileExists(filePath) {
   return exists;
 }
 
-export default { fileExists, getReleaseInfo, getPath, PLATFORM_KV, ARCH_KV, EXE_NAME, globFiles, getNodeManifest, parse, validate };
+/**
+ * Custom logging function
+ * @param {'debug' | 'info' | 'warn' | 'error'} severity - severity of message
+ * @param {'debug' | 'info' | 'warn' | 'error'} logLevel - log level requested by user
+ * @param {string} message - contents of message
+ * @throws {Error} - throw error on invalid input
+ * @returns {string} - stdout
+ */
+function log(severity, logLevel, message) {
+  if (!['debug', 'info', 'warn', 'error'].includes(severity)) {
+    throw new Error(`Expected debug, info, warn or error message severity. Got ${severity}`);
+  }
+  if (!['debug', 'info', 'warn', 'error'].includes(logLevel)) {
+    throw new Error(`Expected debug, info, warn or error user defined log level. Got ${logLevel}`);
+  }
+
+  const sev = {
+    'debug': 4,
+    'info': 3,
+    'warn': 2,
+    'error': 1,
+  };
+  let stdout = '';
+  const messageSeverity = sev[severity];
+  const userDefSeverity = sev[logLevel];
+
+  if (messageSeverity <= userDefSeverity) {
+    stdout = `[ ${severity.toUpperCase()} ] ${message}`;
+  }
+
+  console.log(stdout);
+
+  return stdout;
+}
+
+export default { fileExists, getReleaseInfo, getPath, PLATFORM_KV, ARCH_KV, EXE_NAME, globFiles, getNodeManifest, parse, validate, log };

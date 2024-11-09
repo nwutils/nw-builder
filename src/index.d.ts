@@ -61,7 +61,7 @@ export type AppOptions<P extends SupportedPlatform> =
 export interface WindowsAppOptions {
     /** The name of the application */
     name?: string,
-    /** @deprecated Use {@link fileVersion} instead. The version of the application */
+    /** The version of the application */
     version?: string,
     /** Additional information that should be displayed for diagnostic purposes. */
     comments?: string,

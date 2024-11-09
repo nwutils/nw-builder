@@ -35,6 +35,8 @@ Every NW.js release includes a modified Node.js binary at a specific version. It
 
 ## Usage
 
+> Using this package might feel overwhelming due to the abundence of options. There are demo applications built for Linux, MacOS and Windows which can be found in `/tests/fixtures/app`. You can build a Linux application by cloning this repo and running `npm run demo:bld:linux && npm run demo:exe:linux`. Commands for the other operating systems can be found inside `scripts` prefixed with `demo:*` in the `package.json`.
+
 This package can be used via a command line interface, be imported as a JavaScript module, or configured via the Node manifest as a JSON object. If options are defined in Node manifest, then they will be used over options defined in CLI or JavaScript API.
 
 CLI interface:
@@ -228,20 +230,20 @@ This object defines additional properties used for building for a specific platf
 
 | Name | Type    | Default   | Description |
 | ---- | ------- | --------- | ----------- |
-| `icon` | `string` | `undefined` | The path to the icon file. It should be a .ico file. |
-| `name` | `string` | Value of `name` in app's `package.json` | The name of the application |
-| `version` | `string` | Value of `version` in app's `package.json` | (deprecated, Use `fileVersion` instead) The version of the application |
+| `icon` | `string` | `undefined` | The path to the icon file. It should be a .ico file. (**WARNING**: Please define the icon in the NW.js manifest instead) |
+| `name` | `string` | Value of `name` in NW.js manifest | The name of the application |
+| `version` | `string` | Value of `version` in NW.js manifest | The version of the application |
 | `comments` | `string` | `undefined` | Additional information that should be displayed for diagnostic purposes. |
-| `company` | `string` | Value of `author` in app's `package.json` | Company that produced the file—for example, Microsoft Corporation or Standard Microsystems Corporation, Inc. This string is required. |
-| `fileDescription` | `string` | Value of `description` in app's `package.json` | File description to be presented to users. This string may be displayed in a list box when the user is choosing files to install. For example, Keyboard Driver for AT-Style Keyboards. This string is required. |
-| `fileVersion` | `string` | Value of `version` option or value of `version` in app's `package.json` | Version number of the file. For example, 3.10 or 5.00.RC2. This string is required. |
-| `internalName` | `string` | Value of `name` in app's `package.json` |Internal name of the file, if one exists—for example, a module name if the file is a dynamic-link library. If the file has no internal name, this string should be the original filename, without extension. This string is required. |
-| `legalCopyright` | `string` | NW.js' copyright info | Copyright notices that apply to the file. This should include the full text of all notices, legal symbols, copyright dates, and so on. This string is optional. |
+| `company` | `string` | Value of `author` in NW.js manifest | Company that produced the file—for example, Microsoft Corporation or Standard Microsystems Corporation, Inc. This string is required. |
+| `fileDescription` | `string` | Value of `description` in NW.js manifest | File description to be presented to users. This string may be displayed in a list box when the user is choosing files to install. For example, Keyboard Driver for AT-Style Keyboards. This string is required. |
+| `fileVersion` | `string` | Value of `version` or value of `version` in NW.js manifest | Version number of the file. For example, 3.10 or 5.00.RC2. This string is required. |
+| `internalName` | `string` | Value of `name` in NW.js manifest |Internal name of the file, if one exists—for example, a module name if the file is a dynamic-link library. If the file has no internal name, this string should be the original filename, without extension. This string is required. |
+| `legalCopyright` | `string` | `undefined` | Copyright notices that apply to the file. This should include the full text of all notices, legal symbols, copyright dates, and so on. This string is optional. |
 | `legalTrademark` | `string` | `undefined` | Trademarks and registered trademarks that apply to the file. This should include the full text of all notices, legal symbols, trademark numbers, and so on. This string is optional. |
 | `originalFilename` | `string` | Value of `name` option | Original name of the file, not including a path. This information enables an application to determine whether a file has been renamed by a user. The format of the name depends on the file system for which the file was created. This string is required. |
 | `privateBuild` | `string` | `undefined` | Information about a private version of the file—for example, Built by TESTER1 on \\TESTBED. |
-| `productName` | `string` | Matches the package name defined in app's `package.json` | Name of the product with which the file is distributed. This string is required. |
-| `productVersion` | `string` | Value of `version` in app's `package.json` | Version of the product with which the file is distributed—for example, 3.10 or 5.00.RC2. |
+| `productName` | `string` | `name` in NW.js manifest | Name of the product with which the file is distributed. This string is required. |
+| `productVersion` | `string` | Value of `version` in NW.js manifest | Version of the product with which the file is distributed—for example, 3.10 or 5.00.RC2. |
 | `specialBuild` | `string` | `undefined` | Text that specifies how this version of the file differs from the standard version—for example, Private build for TESTER1 solving mouse problems on M250 and M250E computers. |
 | `languageCode` | `number` | `1033` | Language of the file, defined by Microsoft, see: https://learn.microsoft.com/en-us/openspecs/office_standards/ms-oe376/6c085406-a698-4e12-9d4d-c3b0ee3dbc4a                                                                                                 |
 
@@ -253,7 +255,7 @@ This object defines additional properties used for building for a specific platf
 | genericName | `string` | Generic name of the application |
 | noDisplay | `boolean` | If true the application is not displayed |
 | comment | `string` | Tooltip for the entry, for example "View sites on the Internet". |
-| icon | `string` | Icon to display in file manager, menus, etc. |
+| icon | `string` | Icon to display in file manager, menus, etc. (**WARNING**: Please define the icon in the NW.js manifest instead) |
 | hidden | `boolean` | TBD |
 | onlyShowIn | `string[]` | A list of strings identifying the desktop environments that should display a given desktop entry |
 | notShowIn | `string[]` | A list of strings identifying the desktop environments that should not display a given desktop entry |
@@ -277,7 +279,7 @@ This object defines additional properties used for building for a specific platf
 | Name | Type    | Description |
 | ---- | ------- | ----------- |
 | name | `string` | The name of the application |
-| icon | `string` | The path to the icon file. It should be a .icns file. |
+| icon | `string` | The path to the icon file. It should be a .icns file. (**WARNING**: Please define the icon in the NW.js manifest instead) |
 | LSApplicationCategoryType | `string` | The category that best describes your app for the App Store. |
 | CFBundleIdentifier | `string` | A unique identifier for a bundle usually in reverse DNS format. |
 | CFBundleName | `string` | A user-visible short name for the bundle. |
@@ -385,7 +387,6 @@ nwbuild({
 
 ### Chores
 
-- chore: add Linux, MacOS and Windows fixtures
 - chore(docs): don't store JSDoc definitions in `typedef`s - get's hard to understand during development.
 - chore: annotate file paths as `fs.PathLike` instead of `string`.
 - chore(bld): factor out core build step
