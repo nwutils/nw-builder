@@ -11,7 +11,7 @@ await nwbuild({
   logLevel: 'debug',
   app: {
     name: 'Demo',
-    /* Relative to where the manifest will be located */
+    /* File path of icon from where it is copied. */
     icon: './tests/fixtures/app/icon.ico',
     version: '0.0.0',
     comments: 'Diagnostic information',
@@ -19,7 +19,7 @@ await nwbuild({
     fileDescription: 'This is a demo app to test nw-builder functionality',
     fileVersion: '0.0.0',
     internalName: 'Demo',
-    legalCopyright: '2024 (c) NW.js Utilties. All Rights Reserved',
+    legalCopyright: 'Copyright (c) 2024 NW.js Utilities',
     originalFilename: 'Demo',
     productName: 'Demo',
     productVersion: '0.0.0',
