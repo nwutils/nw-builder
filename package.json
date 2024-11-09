@@ -49,7 +49,7 @@
     "demo:bld:linux": "node ./tests/fixtures/demo.linux.js",
     "demo:bld:osx": "node ./tests/fixtures/demo.osx.js",
     "demo:bld:win": "node ./tests/fixtures/demo.win.js",
-    "demo:exe:linux": "node ./tests/fixtures/out/linux/Demo",
+    "demo:exe:linux": "./tests/fixtures/out/linux/Demo",
     "demo:exe:osx": "./tests/fixtures/out/osx/Demo.app/Contents/MacOS/Demo",
     "demo:exe:win": "./tests/fixtures/out/win/Demo.exe",
     "demo:cli": "nwbuild --mode=run --flavor=sdk --glob=false --cacheDir=./node_modules/nw ./tests/fixtures/app"
