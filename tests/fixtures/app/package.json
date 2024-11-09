@@ -4,7 +4,6 @@
   "version": "0.0.0",
   "product_string": "Demo",
   "window": {
-    // This icon file path should be relative to the manifest file path
     "icon": "./icon.png"
   }
 }
