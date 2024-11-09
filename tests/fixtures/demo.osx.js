@@ -24,3 +24,5 @@ await nwbuild({
     NSLocalNetworkUsageDescription: 'Demo requires access to network to showcase its capabilities',
   }
 });
+
+console.log('Execute npm run demo:exe:osx to run the application.');

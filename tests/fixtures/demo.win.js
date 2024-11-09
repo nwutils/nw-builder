@@ -25,3 +25,5 @@ await nwbuild({
     productVersion: '0.0.0',
   }
 });
+
+console.log('Execute npm run demo:exe:win to run the application.');

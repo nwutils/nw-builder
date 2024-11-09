@@ -26,3 +26,5 @@ await nwbuild({
     exec: './tests/fixtures/out/linux/Demo',
   }
 });
+
+console.log('Execute npm run demo:exe:linux to run the application.');
