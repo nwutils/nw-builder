@@ -27,4 +27,4 @@ await nwbuild({
   }
 });
 
-console.log('Execute npm run demo:exe:linux to run the application.');
+console.log('\nExecute `npm run demo:exe:linux` to run the application.');
