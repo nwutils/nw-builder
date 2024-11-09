@@ -230,7 +230,7 @@ This object defines additional properties used for building for a specific platf
 
 | Name | Type    | Default   | Description |
 | ---- | ------- | --------- | ----------- |
-| `icon` | `string` | `undefined` | The path to the icon file. It should be a .ico file. (Please define the icon in the NW.js manifest instead) |
+| `icon` | `string` | `undefined` | The path to the icon file. It should be a .ico file. (**WARNING**: Please define the icon in the NW.js manifest instead) |
 | `name` | `string` | Value of `name` in NW.js manifest | The name of the application |
 | `version` | `string` | Value of `version` in NW.js manifest | The version of the application |
 | `comments` | `string` | `undefined` | Additional information that should be displayed for diagnostic purposes. |
@@ -255,7 +255,7 @@ This object defines additional properties used for building for a specific platf
 | genericName | `string` | Generic name of the application |
 | noDisplay | `boolean` | If true the application is not displayed |
 | comment | `string` | Tooltip for the entry, for example "View sites on the Internet". |
-| icon | `string` | Icon to display in file manager, menus, etc. (Please define the icon in the NW.js manifest instead) |
+| icon | `string` | Icon to display in file manager, menus, etc. (**WARNING**: Please define the icon in the NW.js manifest instead) |
 | hidden | `boolean` | TBD |
 | onlyShowIn | `string[]` | A list of strings identifying the desktop environments that should display a given desktop entry |
 | notShowIn | `string[]` | A list of strings identifying the desktop environments that should not display a given desktop entry |
@@ -279,7 +279,7 @@ This object defines additional properties used for building for a specific platf
 | Name | Type    | Description |
 | ---- | ------- | ----------- |
 | name | `string` | The name of the application |
-| icon | `string` | The path to the icon file. It should be a .icns file. (Please define the icon in the NW.js manifest instead) |
+| icon | `string` | The path to the icon file. It should be a .icns file. (**WARNING**: Please define the icon in the NW.js manifest instead) |
 | LSApplicationCategoryType | `string` | The category that best describes your app for the App Store. |
 | CFBundleIdentifier | `string` | A unique identifier for a bundle usually in reverse DNS format. |
 | CFBundleName | `string` | A user-visible short name for the bundle. |
