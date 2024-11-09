@@ -2,7 +2,7 @@ import nwbuild from '../../src/index.js';
 
 await nwbuild({
   mode: 'build',
-  flavor: 'normal',
+  flavor: 'sdk',
   platform: 'win',
   srcDir: './tests/fixtures/app',
   cacheDir: './node_modules/nw',
