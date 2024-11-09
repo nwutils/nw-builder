@@ -230,7 +230,7 @@ export const parse = async (options, pkg) => {
     /* Remove special and control characters from app.name to mitigate potential path traversal. */
     options.app.name = options.app.name.replace(/[<>:"/\\|?*\u0000-\u001F]/g, '');
   }
-  options.app.icon = options.app.icon ?? undefined;
+  options.app.icon = path.resolve(options.app.icon) ?? undefined;
 
   // TODO(#737): move this out
   if (options.platform === 'linux') {
