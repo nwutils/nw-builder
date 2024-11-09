@@ -19,5 +19,49 @@ describe('util/log', function () {
   it('throws error if user defined log level is invalid', async function () {
     expect(() => util.log('debug', 'errory', 'Lorem ipsum')).toThrow();
   });
-  
+
+});
+
+describe('util/validate', function () {
+
+  it('throws error on invalid mode', async function () {
+    await expect(util.validate({ mode: 'gety' }, {})).rejects.toThrow(Error);
+  });
+
+  it('throws error if releases info is undefined', async function () {
+    await expect(util.validate({ mode: 'get' }, undefined)).rejects.toThrow(Error);
+  });
+
+  it('throws error on invalid flavor', async function () {
+    await expect(util.validate({ mode: 'get', flavor: 'notsdk' }, { flavours: ['normal'] })).rejects.toThrow(Error);
+  });
+
+  it('throws error on invalid platform', async function () {
+    await expect(util.validate({ mode: 'get', flavor: 'normal', platform: 'linox' }, { flavours: ['normal'], files: ['linux-x64'] })).rejects.toThrow(Error);
+  });
+
+  it('throws error on invalid architecture', async function () {
+    await expect(util.validate({ mode: 'get', flavor: 'normal', platform: 'linux', arch: 'x64000' }, { flavors: ['normal'], files: ['linux-x64'] })).rejects.toThrow(Error);
+  });
+
+  it('throws error on invalid download url', async function () {
+    await expect(util.validate({ mode: 'get', flavor: 'normal', platform: 'linux', arch: 'x64', downloadUrl: null }, { flavors: ['normal'], files: ['linux-x64'] })).rejects.toThrow(Error);
+  });
+
+  it('throws error on invalid manifest url', async function () {
+    await expect(util.validate({ mode: 'get', flavor: 'normal', platform: 'linux', arch: 'x64', downloadUrl: 'file://path/to/fs', manifestUrl: null }, { flavors: ['normal'], files: ['linux-x64'] })).rejects.toThrow(Error);
+  });
+
+  it('throws error on invalid cache directory', async function () {
+    await expect(util.validate({ mode: 'get', flavor: 'normal', platform: 'linux', arch: 'x64', downloadUrl: 'file://path/to/fs', manifestUrl: 'http://path/to/manifest', cacheDir: null }, { flavors: ['normal'], files: ['linux-x64'] })).rejects.toThrow(Error);
+  });
+
+  it('throws error on invalid cache flag', async function () {
+    await expect(util.validate({ mode: 'get', flavor: 'normal', platform: 'linux', arch: 'x64', downloadUrl: 'file://path/to/fs', manifestUrl: 'http://path/to/manifest', cacheDir: './path/to/cache', cache: 'true' }, { flavors: ['normal'], files: ['linux-x64'] })).rejects.toThrow(Error);
+  });
+
+  it('throws error on invalid ffmpeg flag', async function () {
+    await expect(util.validate({ mode: 'get', flavor: 'normal', platform: 'linux', arch: 'x64', downloadUrl: 'file://path/to/fs', manifestUrl: 'http://path/to/manifest', cacheDir: './path/to/cache', cache: true, ffmpeg: 'true' }, { flavors: ['normal'], files: ['linux-x64'] })).rejects.toThrow(Error);
+  });
+
 });
