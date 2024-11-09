@@ -262,7 +262,7 @@ const setLinuxConfig = async ({ app, outDir }) => {
     NotShowIn: app.notShowIn,
     DBusActivatable: app.dBusActivatable,
     TryExec: app.tryExec,
-    Exec: app.name,
+    Exec: app.exec,
     Path: app.path,
     Terminal: app.terminal,
     Actions: app.actions,
