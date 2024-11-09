@@ -35,6 +35,8 @@ Every NW.js release includes a modified Node.js binary at a specific version. It
 
 ## Usage
 
+> Using this package might feel overwhelming due to the abundence of options. There are demo applications built for Linux, MacOS and Windows which can be found in `/tests/fixtures/app`. You can build a Linux application by cloning this repo and running `npm run demo:bld:linux && npm run demo:exe:linux`. Commands for the other operating systems can be found inside `scripts` prefixed with `demo:*` in the `package.json`.
+
 This package can be used via a command line interface, be imported as a JavaScript module, or configured via the Node manifest as a JSON object. If options are defined in Node manifest, then they will be used over options defined in CLI or JavaScript API.
 
 CLI interface:
