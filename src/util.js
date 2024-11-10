@@ -336,13 +336,13 @@ export const validate = async (options, releaseInfo) => {
     );
   }
   if (typeof options.downloadUrl === 'string' && !options.downloadUrl.startsWith('http') && !options.downloadUrl.startsWith('file')) {
-    throw new Error("Expected options.downloadUrl to be a string and starts with `http` or `file`.");
+    throw new Error('Expected options.downloadUrl to be a string and starts with `http` or `file`.');
   }
   if (typeof options.manifestUrl === 'string' && !options.manifestUrl.startsWith('http') && !options.manifestUrl.startsWith('file')) {
-    throw new Error("Expected options.manifestUrl to be a string and starts with `http` or `file`.");
+    throw new Error('Expected options.manifestUrl to be a string and starts with `http` or `file`.');
   }
   if (typeof options.cacheDir !== 'string') {
-    throw new Error("Expected options.cacheDir to be a string. Got " + typeof options.cacheDir);
+    throw new Error('Expected options.cacheDir to be a string. Got ' + typeof options.cacheDir);
   }
   
   if (typeof options.cache !== 'boolean') {
@@ -372,7 +372,7 @@ export const validate = async (options, releaseInfo) => {
     return undefined;
   }
   if (typeof options.srcDir !== 'string') {
-    throw new Error("Expected options.srcDir to be a string. Got " + typeof options.srcDir);
+    throw new Error('Expected options.srcDir to be a string. Got ' + typeof options.srcDir);
   }
   if (Array.isArray(options.argv)) {
     throw new Error(
@@ -390,7 +390,7 @@ export const validate = async (options, releaseInfo) => {
   }
 
   if (typeof options.outDir !== 'string') {
-    throw new Error("Expected options.outDir to be a string. Got " + typeof options.outDir);
+    throw new Error('Expected options.outDir to be a string. Got ' + typeof options.outDir);
   }
 
   if (
