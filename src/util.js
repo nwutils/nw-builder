@@ -421,6 +421,10 @@ export const validate = async (options, releaseInfo) => {
     if (semver.parse(options.version).minor >= '83' && options.nativeAddon !== false) {
       throw new Error('Native addons are not supported for NW.js v0.82.0 and below');
     }
+
+    if (typeof options.zip !== "boolean" && options.zip !== "zip" && options.zip !== "tar" && options.zip !== "tgz") {
+      throw new Error('Expected options.zip to be a boolean, `zip`, `tar` or `tgz`. Got ' + typeof options.zip);
+    }
   }
 
   // TODO: Validate app options
