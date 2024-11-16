@@ -307,7 +307,11 @@ export const parse = async (options, pkg) => {
  * @throws {Error}                                         Throw error if options are invalid
  */
 export const validate = async (options, releaseInfo) => {
-  if (!['get', 'run', 'build'].includes(options.mode)) {
+  if (
+    options.mode !== 'get' &&
+    options.mode !== 'run' &&
+    options.mode !== 'build'
+  ) {
     throw new Error(
       `Unknown mode ${options.mode}. Expected "get", "run" or "build".`,
     );
@@ -331,16 +335,23 @@ export const validate = async (options, releaseInfo) => {
       `Platform ${options.platform} and architecture ${options.arch} is not supported by this download server.`,
     );
   }
-  // if (typeof options.cacheDir !== "string") {
-  //   throw new Error("Expected options.cacheDir to be a string. Got " + typeof options.cacheDir);
-  // }
+  if (typeof options.downloadUrl === 'string' && !options.downloadUrl.startsWith('http') && !options.downloadUrl.startsWith('file')) {
+    throw new Error('Expected options.downloadUrl to be a string and starts with `http` or `file`.');
+  }
+  if (typeof options.manifestUrl === 'string' && !options.manifestUrl.startsWith('http') && !options.manifestUrl.startsWith('file')) {
+    throw new Error('Expected options.manifestUrl to be a string and starts with `http` or `file`.');
+  }
+  if (typeof options.cacheDir !== 'string') {
+    throw new Error('Expected options.cacheDir to be a string. Got ' + typeof options.cacheDir);
+  }
+  
   if (typeof options.cache !== 'boolean') {
-    return new Error(
+    throw new Error(
       'Expected options.cache to be a boolean. Got ' + typeof options.cache,
     );
   }
   if (typeof options.ffmpeg !== 'boolean') {
-    return new Error(
+    throw new Error(
       'Expected options.ffmpeg to be a boolean. Got ' + typeof options.ffmpeg,
     );
   }
@@ -360,27 +371,26 @@ export const validate = async (options, releaseInfo) => {
   if (options.mode === 'get') {
     return undefined;
   }
+  if (typeof options.srcDir !== 'string') {
+    throw new Error('Expected options.srcDir to be a string. Got ' + typeof options.srcDir);
+  }
   if (Array.isArray(options.argv)) {
-    return new Error(
+    throw new Error(
       'Expected options.argv to be an array. Got ' + typeof options.argv,
     );
   }
   if (typeof options.glob !== 'boolean') {
-    return new Error(
+    throw new Error(
       'Expected options.glob to be a boolean. Got ' + typeof options.glob,
     );
-  }
-
-  if (options.srcDir) {
-    await fs.promises.readdir(options.srcDir);
   }
 
   if (options.mode === 'run') {
     return undefined;
   }
 
-  if (options.outDir) {
-    await fs.promises.readdir(options.outDir);
+  if (typeof options.outDir !== 'string') {
+    throw new Error('Expected options.outDir to be a string. Got ' + typeof options.outDir);
   }
 
   if (
@@ -388,7 +398,7 @@ export const validate = async (options, releaseInfo) => {
     typeof options.managedManifest !== 'object' &&
     typeof options.managedManifest !== 'string'
   ) {
-    return new Error(
+    throw new Error(
       'Expected options.managedManifest to be a boolean, object or string. Got ' +
       typeof options.managedManifest,
     );
@@ -396,20 +406,27 @@ export const validate = async (options, releaseInfo) => {
 
   if (typeof options.managedManifest === 'object') {
     if (options.managedManifest.name === undefined) {
-      return new Error('Expected NW.js Manifest to have a `name` property.');
+      throw new Error('Expected NW.js Manifest to have a `name` property.');
     }
     if (options.managedManifest.main === undefined) {
-      return new Error('Expected NW.js Manifest to have a `main` property.');
+      throw new Error('Expected NW.js Manifest to have a `main` property.');
     }
   }
 
   if (typeof options.nativeAddon !== 'boolean') {
     if (typeof options.nativeAddon !== 'boolean' && typeof options.nativeAddon !== 'string') {
-      return new Error('Expected options.nativeAddon to be a boolean or string type. Got ' + typeof options.nativeAddon);
+      throw new Error('Expected options.nativeAddon to be a boolean or string type. Got ' + typeof options.nativeAddon);
     }
 
     if (semver.parse(options.version).minor >= '83' && options.nativeAddon !== false) {
-      return new Error('Native addons are not supported for NW.js v0.82.0 and below');
+      throw new Error('Native addons are not supported for NW.js v0.82.0 and below');
+    }
+
+    if (typeof options.zip !== 'boolean' &
+      options.zip !== 'zip' &&
+      options.zip !== 'tar' &&
+      options.zip !== 'tgz') {
+      throw new Error('Expected options.zip to be a boolean, `zip`, `tar` or `tgz`. Got ' + typeof options.zip);
     }
   }
 
