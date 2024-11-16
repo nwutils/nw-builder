@@ -203,7 +203,6 @@ Options
 
 | Name | Type    | Default   | Description |
 | ---- | ------- | --------- | ----------- |
-| app | `LinuxRc \| WinRc \| OsxRc` | Additional options for each platform. (See below.)
 | mode | `"get" \| "run" \| "build"` | `"build"` | Choose between get, run or build mode |
 | version | `string \| "latest" \| "stable"` | `"latest"` | Runtime version |
 | flavor | `"normal" \| "sdk"` | `"normal"` | Runtime flavor |
@@ -212,15 +211,17 @@ Options
 | downloadUrl | `"https://dl.nwjs.io" \| "https://npm.taobao.org/mirrors/nwjs" \| https://npmmirror.com/mirrors/nwjs \| "https://github.com/corwin-of-amber/nw.js/releases/"` | `"https://dl.nwjs.io"` | Download server. Supports file systems too (for example `file:///home/localghost/nwjs_mirror`) |
 | manifestUrl | `"https://nwjs.io/versions" \| "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json"` | `"https://nwjs.io/versions"` | Versions manifest |
 | cacheDir | `string` | `"./cache"` | Directory to cache NW binaries |
+| cache | `boolean` | `true`| If true the existing cache is used. Otherwise it removes and redownloads it. |
+| ffmpeg | `boolean` | `false`| If true the chromium ffmpeg is replaced by community version with proprietary codecs. |
+| logLevel | `"error" \| "warn" \| "info" \| "debug"` | `"info"`| Specify level of logging. |
 | srcDir | `string` | `"./"` | File paths to application code |
+| argv | `string[]` | `[]` | Command line arguments to pass to NW executable in run mode. You can also define these in `chromium-args` in NW.js manifest. |
+| glob | `boolean` | `true`| If true file globbing is enabled when parsing `srcDir`. |
 | outDir | `string` | `"./out"` | Directory to store build artifacts |
 | managedManifest | `boolean \| string \| object` | `false` | Managed manifest |
 | nodeAddon | `false \| "gyp"` | `false` | Rebuild Node native addons |
-| cache | `boolean` | `true`| If true the existing cache is used. Otherwise it removes and redownloads it. |
-| ffmpeg | `boolean` | `false`| If true the chromium ffmpeg is replaced by community version with proprietary codecs. |
-| glob | `boolean` | `true`| If true file globbing is enabled when parsing `srcDir`. |
-| logLevel | `"error" \| "warn" \| "info" \| "debug"` | `"info"`| Specify level of logging. |
 | zip | `boolean \| "zip" \| "tar" \| "tgz"` | `false`| If true, "zip", "tar" or "tgz" the `outDir` directory is compressed. |
+| app | `LinuxRc \| WinRc \| OsxRc` | Additional options for each platform. (See below.)
 
 ### `app` configuration object
 
