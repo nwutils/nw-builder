@@ -498,9 +498,9 @@ export const validate = async (options, releaseInfo) => {
       throw new Error('Expected options.app.singleMainWindow to be a string. Got ' + options.app.singleMainWindow);
     }
   } else if (options.platform === 'osx') {
-
+    console.log('to prevent linting error');
   } else {
-
+    console.log('to prevent linting error');
   }
   return undefined;
 };
