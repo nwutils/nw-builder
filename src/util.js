@@ -532,7 +532,57 @@ export const validate = async (options, releaseInfo) => {
       throw new Error('Expected options.app.NSLocalNetworkUsageDescription to be a string. Got ' + options.app.NSLocalNetworkUsageDescription);
     }
   } else {
-    console.log('to prevent linting error');
+    if (typeof options.app.name !== 'string') {
+      throw new Error('Expected options.app.name to be a string. Got ' + options.app.name);
+    }
+    if (typeof options.app.icon !== 'string') {
+      throw new Error('Expected options.app.icon to be a string. Got ' + options.app.icon);
+    }
+    if (typeof options.app.version !== 'string') {
+      throw new Error('Expected options.app.version to be a string. Got ' + options.app.version);
+    }
+    if (options.app.comments && typeof options.app.comments !== 'string') {
+      throw new Error('Expected options.app.comments to be a string. Got ' + options.app.comments);
+    }
+    if (typeof options.app.company !== 'string') {
+      throw new Error('Expected options.app.company to be a string. Got ' + options.app.company);
+    }
+    if (typeof options.app.fileDescription !== 'string') {
+      throw new Error('Expected options.app.fileDescription to be a string. Got ' + options.app.fileDescription);
+    }
+    if (typeof options.app.fileVersion !== 'string') {
+      throw new Error('Expected options.app.fileVersion to be a string. Got ' + options.app.fileVersion);
+    }
+    if (typeof options.app.internalName !== 'string') {
+      throw new Error('Expected options.app.internalName to be a string. Got ' + options.app.internalName);
+    }
+    if (options.app.legalCopyright && typeof options.app.legalCopyright !== 'string') {
+      throw new Error('Expected options.app.legalCopyright to be a string. Got ' + options.app.legalCopyright);
+    }
+    if (options.app.legalTrademark && typeof options.app.legalTrademark !== 'string') {
+      throw new Error('Expected options.app.legalTrademark to be a string. Got ' + options.app.legalTrademark);
+    }
+    if (typeof options.app.originalFilename !== 'string') {
+      throw new Error('Expected options.app.originalFilename to be a string. Got ' + options.app.originalFilename);
+    }
+    if (typeof options.app.privateBuild !== 'string') {
+      throw new Error('Expected options.app.privateBuild to be a string. Got ' + options.app.privateBuild);
+    }
+    if (typeof options.app.productName !== 'string') {
+      throw new Error('Expected options.app.productName to be a string. Got ' + options.app.productName);
+    }
+    if (typeof options.app.productVersion !== 'string') {
+      throw new Error('Expected options.app.productVersion to be a string. Got ' + options.app.productVersion);
+    }
+    if (options.app.specialBuild && typeof options.app.specialBuild !== 'string') {
+      throw new Error('Expected options.app.specialBuild to be a string. Got ' + options.app.specialBuild);
+    }
+    if (typeof options.app.legalCopyright !== 'string') {
+      throw new Error('Expected options.app.legalCopyright to be a string. Got ' + options.app.legalCopyright);
+    }
+    if (typeof options.app.languageCode !== 'number') {
+      throw new Error('Expected options.app.languageCode to be a number. Got ' + options.app.languageCode);
+    }
   }
   return undefined;
 };
