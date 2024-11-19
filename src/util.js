@@ -172,16 +172,16 @@ async function getNodeManifest({
  * @param {any} option - a boolean type option
  * @returns {any} Usually `undefined`, `true` or `false`. if not then it is validated later on.
  */
-function str2Bool (option) {
+function str2Bool(option) {
   if (typeof option === 'string') {
     if (option === 'true') {
       return true;
     } else if (option === 'false') {
       return false;
-    } 
+    }
   } else {
     return option;
-  } 
+  }
 }
 
 /**
@@ -344,7 +344,7 @@ export const validate = async (options, releaseInfo) => {
   if (typeof options.cacheDir !== 'string') {
     throw new Error('Expected options.cacheDir to be a string. Got ' + typeof options.cacheDir);
   }
-  
+
   if (typeof options.cache !== 'boolean') {
     throw new Error(
       'Expected options.cache to be a boolean. Got ' + typeof options.cache,
@@ -430,7 +430,78 @@ export const validate = async (options, releaseInfo) => {
     }
   }
 
-  // TODO: Validate app options
+  if (options.platform === 'linux') {
+    if (options.app.name && typeof options.app.name !== 'string') {
+      throw new Error('Expected options.app.name to be a string. Got ' + options.app.name);
+    }
+    if (options.app.genericName && typeof options.app.genericName !== 'string') {
+      throw new Error('Expected options.app.genericName to be a string. Got ' + options.app.genericName);
+    }
+    if (options.app.noDisplay && typeof options.app.noDisplay !== 'boolean') {
+      throw new Error('Expected options.app.noDisplay to be a boolean. Got ' + options.app.noDisplay);
+    }
+    if (options.app.comment && typeof options.app.comment !== 'string') {
+      throw new Error('Expected options.app.comment to be a string. Got ' + options.app.comment);
+    }
+    if (options.app.icon && typeof options.app.icon !== 'string') {
+      throw new Error('Expected options.app.icon to be a string. Got ' + options.app.icon);
+    }
+    if (options.app.hidden && typeof options.app.hidden !== 'string') {
+      throw new Error('Expected options.app.hidden to be a string. Got ' + options.app.hidden);
+    }
+    if (options.app.onlyShowIn && Array.isArray(options.app.onlyShowIn)) {
+      throw new Error('Expected options.app.onlyShowIn to be an Array<string>. Got ' + options.app.onlyShowIn);
+    }
+    if (options.app.notShowIn && Array.isArray(options.app.notShowIn)) {
+      throw new Error('Expected options.app.notShowIn to be an Array<string>. Got ' + options.app.notShowIn);
+    }
+    if (options.app.dBusActivatable && typeof options.app.dBusActivatable !== 'boolean') {
+      throw new Error('Expected options.app.dBusActivatable to be a boolean. Got ' + options.app.dBusActivatable);
+    }
+    if (options.app.tryExec && typeof options.app.tryExec !== 'string') {
+      throw new Error('Expected options.app.tryExec to be a string. Got ' + options.app.tryExec);
+    }
+    if (options.app.exec && typeof options.app.exec !== 'string') {
+      throw new Error('Expected options.app.exec to be a string. Got ' + options.app.exec);
+    }
+    if (options.app.path && typeof options.app.path !== 'string') {
+      throw new Error('Expected options.app.path to be a string. Got ' + options.app.path);
+    }
+    if (options.app.terminal && typeof options.app.terminal !== 'boolean') {
+      throw new Error('Expected options.app.terminal to be a boolean. Got ' + options.app.terminal);
+    }
+    if (options.app.actions && Array.isArray(options.app.actions)) {
+      throw new Error('Expected options.app.actions to be a Array<string>. Got ' + options.app.actions);
+    }
+    if (options.app.mimeType && Array.isArray(options.app.mimeType)) {
+      throw new Error('Expected options.app.mimeType to be a Array<string>. Got ' + options.app.mimeType);
+    }
+    if (options.app.categories && Array.isArray(options.app.categories)) {
+      throw new Error('Expected options.app.categories to be a Array<string>. Got ' + options.app.categories);
+    }
+    if (options.app.implements && Array.isArray(options.app.implements)) {
+      throw new Error('Expected options.app.implements to be a Array<string>. Got ' + options.app.implements);
+    }
+    if (options.app.keywords && Array.isArray(options.app.keywords)) {
+      throw new Error('Expected options.app.keywords to be a Array<string>. Got ' + options.app.keywords);
+    }
+    if (options.app.startupNotify && typeof options.app.startupNotify !== 'boolean') {
+      throw new Error('Expected options.app.startupNotify to be a boolean. Got ' + options.app.startupNotify);
+    }
+    if (options.app.startupWMClass && typeof options.app.startupWMClass !== 'string') {
+      throw new Error('Expected options.app.startupWMClass to be a string. Got ' + options.app.startupWMClass);
+    }
+    if (options.app.prefersNonDefaultGPU && typeof options.app.prefersNonDefaultGPU !== 'boolean') {
+      throw new Error('Expected options.app.prefersNonDefaultGPU to be a boolean. Got ' + options.app.prefersNonDefaultGPU);
+    }
+    if (options.app.singleMainWindow && typeof options.app.singleMainWindow !== 'string') {
+      throw new Error('Expected options.app.singleMainWindow to be a string. Got ' + options.app.singleMainWindow);
+    }
+  } else if (options.platform === 'osx') {
+
+  } else {
+
+  }
   return undefined;
 };
 
