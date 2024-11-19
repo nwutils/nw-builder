@@ -498,7 +498,39 @@ export const validate = async (options, releaseInfo) => {
       throw new Error('Expected options.app.singleMainWindow to be a string. Got ' + options.app.singleMainWindow);
     }
   } else if (options.platform === 'osx') {
-    console.log('to prevent linting error');
+    if (typeof options.app.name !== 'string') {
+      throw new Error('Expected options.app.name to be a string. Got ' + options.app.name);
+    }
+    if (typeof options.app.icon !== 'string') {
+      throw new Error('Expected options.app.icon to be a string. Got ' + options.app.icon);
+    }
+    if (typeof options.app.LSApplicationCategoryType !== 'string') {
+      throw new Error('Expected options.app.LSApplicationCategoryType to be a string. Got ' + options.app.LSApplicationCategoryType);
+    }
+    if (typeof options.app.CFBundleIdentifier !== 'string') {
+      throw new Error('Expected options.app.CFBundleIdentifier to be a string. Got ' + options.app.CFBundleIdentifier);
+    }
+    if (typeof options.app.CFBundleName !== 'string') {
+      throw new Error('Expected options.app.CFBundleName to be a string. Got ' + options.app.CFBundleName);
+    }
+    if (typeof options.app.CFBundleDisplayName !== 'string') {
+      throw new Error('Expected options.app.CFBundleDisplayName to be a string. Got ' + options.app.CFBundleDisplayName);
+    }
+    if (typeof options.app.CFBundleSpokenName !== 'string') {
+      throw new Error('Expected options.app.CFBundleSpokenName to be a string. Got ' + options.app.CFBundleSpokenName);
+    }
+    if (typeof options.app.CFBundleVersion !== 'string') {
+      throw new Error('Expected options.app.CFBundleVersion to be a string. Got ' + options.app.CFBundleVersion);
+    }
+    if (typeof options.app.CFBundleShortVersionString !== 'string') {
+      throw new Error('Expected options.app.CFBundleShortVersionString to be a string. Got ' + options.app.CFBundleShortVersionString);
+    }
+    if (typeof options.app.NSHumanReadableCopyright !== 'string') {
+      throw new Error('Expected options.app.NSHumanReadableCopyright to be a string. Got ' + options.app.NSHumanReadableCopyright);
+    }
+    if (typeof options.app.NSLocalNetworkUsageDescription !== 'string') {
+      throw new Error('Expected options.app.NSLocalNetworkUsageDescription to be a string. Got ' + options.app.NSLocalNetworkUsageDescription);
+    }
   } else {
     console.log('to prevent linting error');
   }
