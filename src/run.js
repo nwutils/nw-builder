@@ -23,7 +23,7 @@ import util from './util.js';
  * @async
  * @function
  * @param  {RunOptions}    options  Run mode options
- * @returns {Promise<void>}
+ * @returns {Promise<{child_process.ChildProcess | null}>}
  */
 async function run({
   version = 'latest',
@@ -35,6 +35,11 @@ async function run({
   glob = false,
   argv = [],
 }) {
+  /**
+   * @type {child_process.ChildProcess | null}
+   */
+  let nwProcess = null;
+  
   try {
     if (util.EXE_NAME[platform] === undefined) {
       throw new Error('Unsupported platform.');
@@ -49,8 +54,8 @@ async function run({
     );
 
     return new Promise((res, rej) => {
-      // It is assumed that the package.json is located at srcDir/package.json
-      const nwProcess = child_process.spawn(
+      /* It is assumed that the package.json is located at `${options.srcDir}/package.json` */
+      nwProcess = child_process.spawn(
         path.resolve(nwDir, util.EXE_NAME[platform]),
         [...[srcDir], ...argv],
         { stdio: 'inherit' },
@@ -68,6 +73,7 @@ async function run({
   } catch (error) {
     console.error(error);
   }
+  return nwProcess;
 }
 
 export default run;
