@@ -7,24 +7,25 @@ import { beforeAll, describe, expect, it } from 'vitest';
 
 import build from '../../src/bld.js';
 import get from '../../src/get/index.js';
+import run from '../../src/run.js';
 import util from '../../src/util.js';
 
 const { Driver, ServiceBuilder, Options } = chrome;
 
-describe.skip('build test suite', async () => {
+describe('run test suite', async () => {
   let driver = undefined;
 
   const nwOptions = {
     srcDir: 'tests/fixtures/app',
     mode: 'build',
-    version: '0.83.0',
+    version: '0.93.0',
     flavor: 'sdk',
     platform: util.PLATFORM_KV[process.platform],
     arch: util.ARCH_KV[process.arch],
     downloadUrl: 'https://dl.nwjs.io',
     manifestUrl: 'https://nwjs.io/versions',
     outDir: 'tests/fixtures/out/app',
-    cacheDir: 'tests/fixtures/cache',
+    cacheDir: './node_modules/nw',
     cache: true,
     ffmpeg: false,
     glob: false,
@@ -40,11 +41,11 @@ describe.skip('build test suite', async () => {
     await get(nwOptions);
   }, Infinity);
 
-  it('builds without errors', async () => {
+  it.skip('builds without errors', async () => {
     await build(nwOptions);
   });
 
-  it('runs after build', async () => {
+  it.skip('runs after build', async () => {
     const options = new Options();
     const args = [
       `--nwapp=${path.resolve('test', 'fixture', 'app')}`,
@@ -60,4 +61,12 @@ describe.skip('build test suite', async () => {
     const text = await driver.findElement(By.id('test')).getText();
     expect(text).toBe('Hello, World!');
   }, { timeout: Infinity });
+
+  it('runs and is killed via code', async () => {
+    const nwProcess = await run({...nwOptions, mode: 'run'});
+    if (nwProcess) {
+      nwProcess.kill();
+      expect(nwProcess.killed).toEqual(true);
+    }
+  });
 });
