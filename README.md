@@ -139,6 +139,8 @@ const nwProcess = await nwbuild({
 });
 ```
 
+Note: The `nwProcess` is a [Node.js process](https://nodejs.org/api/process.html#process)
+
 ### Build Mode
 
 Build with defaults:
