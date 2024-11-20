@@ -7,7 +7,6 @@ import run from '../../src/run.js';
 import util from '../../src/util.js';
 
 describe('run test suite', async () => {
-  let driver = undefined;
 
   const nwOptions = {
     srcDir: 'tests/fixtures/app',

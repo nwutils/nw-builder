@@ -7,7 +7,6 @@ import { beforeAll, describe, expect, it } from 'vitest';
 
 import build from '../../src/bld.js';
 import get from '../../src/get/index.js';
-import run from '../../src/run.js';
 import util from '../../src/util.js';
 
 const { Driver, ServiceBuilder, Options } = chrome;
