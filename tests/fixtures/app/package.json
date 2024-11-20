@@ -4,6 +4,6 @@
   "version": "0.0.0",
   "product_string": "Demo",
   "window": {
-    // "icon": "./icon.png"
+    "icon": "./icon.png"
   }
 }
