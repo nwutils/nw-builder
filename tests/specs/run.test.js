@@ -31,10 +31,7 @@ describe('run test suite', async () => {
     glob: false,
     managedManifest: false,
     nativeAddon: false,
-    zip: false,
-    app: {
-      name: 'demo'
-    }
+    zip: false
   };
 
   beforeAll(async () => {
