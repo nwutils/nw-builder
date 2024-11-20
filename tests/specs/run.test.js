@@ -5,6 +5,7 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import get from '../../src/get/index.js';
 import run from '../../src/run.js';
 import util from '../../src/util.js';
+import { platform } from 'node:os';
 
 describe('run test suite', async () => {
 
@@ -31,10 +32,10 @@ describe('run test suite', async () => {
     await get(nwOptions);
   }, Infinity);
 
-  it('runs and is killed via code', async () => {
+  it.skipIf(process.platform === 'win32')('runs and is killed via code', async () => {
     const nwProcess = await run(nwOptions);
     if (nwProcess) {
-      process.kill(nwProcess.pid);
+      nwProcess.kill();
       expect(nwProcess.killed).toEqual(true);
     }
   });
