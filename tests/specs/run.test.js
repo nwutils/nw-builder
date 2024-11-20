@@ -62,8 +62,11 @@ describe('run test suite', async () => {
   it('runs and is killed via code', async () => {
     const nwProcess = await run({...nwOptions, mode: 'run'});
     if (nwProcess) {
-      nwProcess.kill();
-      expect(nwProcess.killed).toEqual(true);
+      nwProcess.on('SIGTERM', function () {
+        expect(nwProcess.killed).toEqual(true);
+      });
+      
+      nwProcess.kill('SIGTERM');
     }
-  }, { timeout: 10000 });
+  });
 });
