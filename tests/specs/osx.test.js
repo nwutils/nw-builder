@@ -14,7 +14,7 @@ import nodeManifest from '../../package.json';
 describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function () {
 
   const outDir = './tests/fixtures/macos';
-  const appPath = path.join(outDir, 'nwapp.app');
+  const appPath = path.join(outDir, 'Demo.app');
   const releaseInfo = await util.getReleaseInfo(
     nodeManifest.devDependencies.nw.split('^')[1],
     util.PLATFORM_KV['darwin'],
@@ -30,7 +30,7 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
     'Versions',
     chromiumVersion,
     'Helpers',
-    'nwapp Helper (Alerts).app');
+    'Demo Helper (Alerts).app');
   const helperGPUPath = path.join(appPath,
     'Contents',
     'Frameworks',
@@ -38,7 +38,7 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
     'Versions',
     chromiumVersion,
     'Helpers',
-    'nwapp Helper (GPU).app');
+    'Demo Helper (GPU).app');
   const helperPluginPath = path.join(appPath,
     'Contents',
     'Frameworks',
@@ -46,7 +46,7 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
     'Versions',
     chromiumVersion,
     'Helpers',
-    'nwapp Helper (Plugin).app');
+    'Demo Helper (Plugin).app');
   const helperRendererPath = path.join(appPath,
     'Contents',
     'Frameworks',
@@ -54,7 +54,7 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
     'Versions',
     chromiumVersion,
     'Helpers',
-    'nwapp Helper (Renderer).app');
+    'Demo Helper (Renderer).app');
   const helperPath = path.join(appPath,
     'Contents',
     'Frameworks',
@@ -62,7 +62,7 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
     'Versions',
     chromiumVersion,
     'Helpers',
-    'nwapp Helper.app');
+    'Demo Helper.app');
 
   beforeAll(async function () {
     /* Copy the cached NW.js into a specific `outDir`. */
@@ -72,7 +72,7 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
     /* Rename relevant bundles' plists and executables. */
     await setOsxConfig({
       app: {
-        name: 'nwapp',
+        name: 'Demo',
         LSApplicationCategoryType: 'public.app-category.utilities',
         CFBundleIdentifier: 'io.nwutils.demo',
         CFBundleName: 'Demo',
@@ -113,27 +113,27 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
   });
 
   it('renames the executables correctly', async function () {
-    const appExePath = path.join(appPath, 'Contents', 'MacOS', 'nwapp');
+    const appExePath = path.join(appPath, 'Contents', 'MacOS', 'Demo');
     const appExePathExists = await util.fileExists(appExePath);
     expect(appExePathExists).toEqual(true);
 
-    const helperAlertsExePath = path.join(helperAlertsPath, 'Contents', 'MacOS', 'nwapp Helper (Alerts)');
+    const helperAlertsExePath = path.join(helperAlertsPath, 'Contents', 'MacOS', 'Demo Helper (Alerts)');
     const helperAlertsExePathExists = await util.fileExists(helperAlertsExePath);
     expect(helperAlertsExePathExists).toEqual(true);
 
-    const helperGPUExePath = path.join(helperGPUPath, 'Contents', 'MacOS', 'nwapp Helper (GPU)');
+    const helperGPUExePath = path.join(helperGPUPath, 'Contents', 'MacOS', 'Demo Helper (GPU)');
     const helperGPUExePathExists = await util.fileExists(helperGPUExePath);
     expect(helperGPUExePathExists).toEqual(true);
 
-    const helperPluginExePath = path.join(helperPluginPath, 'Contents', 'MacOS', 'nwapp Helper (Plugin)');
+    const helperPluginExePath = path.join(helperPluginPath, 'Contents', 'MacOS', 'Demo Helper (Plugin)');
     const helperPluginExePathExists = await util.fileExists(helperPluginExePath);
     expect(helperPluginExePathExists).toEqual(true);
 
-    const helperRendererExePath = path.join(helperRendererPath, 'Contents', 'MacOS', 'nwapp Helper (Renderer)');
+    const helperRendererExePath = path.join(helperRendererPath, 'Contents', 'MacOS', 'Demo Helper (Renderer)');
     const helperRendererExePathExists = await util.fileExists(helperRendererExePath);
     expect(helperRendererExePathExists).toEqual(true);
 
-    const helperExePath = path.join(helperPath, 'Contents', 'MacOS', 'nwapp Helper');
+    const helperExePath = path.join(helperPath, 'Contents', 'MacOS', 'Demo Helper');
     const helperExePathExists = await util.fileExists(helperExePath);
     expect(helperExePathExists).toEqual(true);
   });
@@ -157,7 +157,7 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
     expect(ContentsInfoPlistJson.CFBundleSpokenName).toEqual('Demo');
     expect(ContentsInfoPlistJson.CFBundleVersion).toEqual('0.0.0');
     expect(ContentsInfoPlistJson.CFBundleShortVersionString).toEqual('0.0.0');
-    expect(ContentsInfoPlistJson.CFBundleExecutable).toEqual('nwapp');
+    expect(ContentsInfoPlistJson.CFBundleExecutable).toEqual('Demo');
     expect(ContentsInfoPlistJson.NSLocalNetworkUsageDescription).toEqual('This test application needs to access the local network for testing purposes.');
 
     const HelperAlertsAppJson = plist.parse(
@@ -171,10 +171,10 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
       )
     );
 
-    expect(HelperAlertsAppJson.CFBundleDisplayName).toEqual('nwapp Helper (Alerts)');
-    expect(HelperAlertsAppJson.CFBundleName).toEqual('nwapp Helper (Alerts)');
+    expect(HelperAlertsAppJson.CFBundleDisplayName).toEqual('Demo Helper (Alerts)');
+    expect(HelperAlertsAppJson.CFBundleName).toEqual('Demo Helper (Alerts)');
     expect(HelperAlertsAppJson.CFBundleIdentifier).toEqual('io.nwutils.demo.helper.alert');
-    expect(HelperAlertsAppJson.CFBundleExecutable).toEqual('nwapp Helper (Alerts)');
+    expect(HelperAlertsAppJson.CFBundleExecutable).toEqual('Demo Helper (Alerts)');
 
     const HelperGpuAppJson = plist.parse(
       await fs.promises.readFile(
@@ -187,10 +187,10 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
       )
     );
 
-    expect(HelperGpuAppJson.CFBundleDisplayName).toEqual('nwapp Helper (GPU)');
-    expect(HelperGpuAppJson.CFBundleName).toEqual('nwapp Helper (GPU)');
+    expect(HelperGpuAppJson.CFBundleDisplayName).toEqual('Demo Helper (GPU)');
+    expect(HelperGpuAppJson.CFBundleName).toEqual('Demo Helper (GPU)');
     expect(HelperGpuAppJson.CFBundleIdentifier).toEqual('io.nwutils.demo.helper.gpu');
-    expect(HelperGpuAppJson.CFBundleExecutable).toEqual('nwapp Helper (GPU)');
+    expect(HelperGpuAppJson.CFBundleExecutable).toEqual('Demo Helper (GPU)');
 
     const HelperPluginAppJson = plist.parse(
       await fs.promises.readFile(
@@ -203,10 +203,10 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
       )
     );
 
-    expect(HelperPluginAppJson.CFBundleDisplayName).toEqual('nwapp Helper (Plugin)');
-    expect(HelperPluginAppJson.CFBundleName).toEqual('nwapp Helper (Plugin)');
+    expect(HelperPluginAppJson.CFBundleDisplayName).toEqual('Demo Helper (Plugin)');
+    expect(HelperPluginAppJson.CFBundleName).toEqual('Demo Helper (Plugin)');
     expect(HelperPluginAppJson.CFBundleIdentifier).toEqual('io.nwutils.demo.helper.plugin');
-    expect(HelperPluginAppJson.CFBundleExecutable).toEqual('nwapp Helper (Plugin)');
+    expect(HelperPluginAppJson.CFBundleExecutable).toEqual('Demo Helper (Plugin)');
 
     const HelperRendererAppJson = plist.parse(
       await fs.promises.readFile(
@@ -219,10 +219,10 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
       )
     );
 
-    expect(HelperRendererAppJson.CFBundleDisplayName).toEqual('nwapp Helper (Renderer)');
-    expect(HelperRendererAppJson.CFBundleName).toEqual('nwapp Helper (Renderer)');
+    expect(HelperRendererAppJson.CFBundleDisplayName).toEqual('Demo Helper (Renderer)');
+    expect(HelperRendererAppJson.CFBundleName).toEqual('Demo Helper (Renderer)');
     expect(HelperRendererAppJson.CFBundleIdentifier).toEqual('io.nwutils.demo.helper.renderer');
-    expect(HelperRendererAppJson.CFBundleExecutable).toEqual('nwapp Helper (Renderer)');
+    expect(HelperRendererAppJson.CFBundleExecutable).toEqual('Demo Helper (Renderer)');
 
     const HelperAppJson = plist.parse(
       await fs.promises.readFile(
@@ -235,10 +235,10 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
       )
     );
 
-    expect(HelperAppJson.CFBundleDisplayName).toEqual('nwapp Helper');
-    expect(HelperAppJson.CFBundleName).toEqual('nwapp Helper');
+    expect(HelperAppJson.CFBundleDisplayName).toEqual('Demo Helper');
+    expect(HelperAppJson.CFBundleName).toEqual('Demo Helper');
     expect(HelperAppJson.CFBundleIdentifier).toEqual('io.nwutils.demo.helper');
-    expect(HelperAppJson.CFBundleExecutable).toEqual('nwapp Helper');
+    expect(HelperAppJson.CFBundleExecutable).toEqual('Demo Helper');
 
     afterAll(async function () {
       await fs.promises.rm('./tests/fixtures/macos', { recursive: true, force: true });
