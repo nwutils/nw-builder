@@ -23,7 +23,7 @@ import util from './util.js';
  * @async
  * @function
  * @param  {RunOptions}    options  Run mode options
- * @returns {Promise<child_process.ChildProcess | null>}
+ * @returns {Promise<child_process.ChildProcess | null>} - A Node.js process object
  */
 async function run({
   version = 'latest',
