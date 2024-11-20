@@ -2,8 +2,5 @@
   "name": "Demo",
   "main": "index.html",
   "version": "0.0.0",
-  "product_string": "Demo",
-  "window": {
-    "icon": "./icon.png"
-  }
+  "product_string": "Demo"
 }
