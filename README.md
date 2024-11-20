@@ -132,7 +132,7 @@ nwbuild({
 > Deprecation warning: From v4.6.0 onward, run mode is deprecated. This logic has been ported over to `nwjs/npm-installer` repo and will be removed in the next major release.
 
 ```javascript
-nwbuild({
+const nwProcess = await nwbuild({
   mode: "run",
   srcDir: "./app",
   glob: false,
