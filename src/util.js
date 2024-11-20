@@ -172,16 +172,16 @@ async function getNodeManifest({
  * @param {any} option - a boolean type option
  * @returns {any} Usually `undefined`, `true` or `false`. if not then it is validated later on.
  */
-function str2Bool (option) {
+function str2Bool(option) {
   if (typeof option === 'string') {
     if (option === 'true') {
       return true;
     } else if (option === 'false') {
       return false;
-    } 
+    }
   } else {
     return option;
-  } 
+  }
 }
 
 /**
@@ -344,7 +344,7 @@ export const validate = async (options, releaseInfo) => {
   if (typeof options.cacheDir !== 'string') {
     throw new Error('Expected options.cacheDir to be a string. Got ' + typeof options.cacheDir);
   }
-  
+
   if (typeof options.cache !== 'boolean') {
     throw new Error(
       'Expected options.cache to be a boolean. Got ' + typeof options.cache,
@@ -430,7 +430,160 @@ export const validate = async (options, releaseInfo) => {
     }
   }
 
-  // TODO: Validate app options
+  if (options.platform === 'linux') {
+    if (options.app.name && typeof options.app.name !== 'string') {
+      throw new Error('Expected options.app.name to be a string. Got ' + options.app.name);
+    }
+    if (options.app.genericName && typeof options.app.genericName !== 'string') {
+      throw new Error('Expected options.app.genericName to be a string. Got ' + options.app.genericName);
+    }
+    if (options.app.noDisplay && typeof options.app.noDisplay !== 'boolean') {
+      throw new Error('Expected options.app.noDisplay to be a boolean. Got ' + options.app.noDisplay);
+    }
+    if (options.app.comment && typeof options.app.comment !== 'string') {
+      throw new Error('Expected options.app.comment to be a string. Got ' + options.app.comment);
+    }
+    if (options.app.icon && typeof options.app.icon !== 'string') {
+      throw new Error('Expected options.app.icon to be a string. Got ' + options.app.icon);
+    }
+    if (options.app.hidden && typeof options.app.hidden !== 'string') {
+      throw new Error('Expected options.app.hidden to be a string. Got ' + options.app.hidden);
+    }
+    if (options.app.onlyShowIn && Array.isArray(options.app.onlyShowIn)) {
+      throw new Error('Expected options.app.onlyShowIn to be an Array<string>. Got ' + options.app.onlyShowIn);
+    }
+    if (options.app.notShowIn && Array.isArray(options.app.notShowIn)) {
+      throw new Error('Expected options.app.notShowIn to be an Array<string>. Got ' + options.app.notShowIn);
+    }
+    if (options.app.dBusActivatable && typeof options.app.dBusActivatable !== 'boolean') {
+      throw new Error('Expected options.app.dBusActivatable to be a boolean. Got ' + options.app.dBusActivatable);
+    }
+    if (options.app.tryExec && typeof options.app.tryExec !== 'string') {
+      throw new Error('Expected options.app.tryExec to be a string. Got ' + options.app.tryExec);
+    }
+    if (options.app.exec && typeof options.app.exec !== 'string') {
+      throw new Error('Expected options.app.exec to be a string. Got ' + options.app.exec);
+    }
+    if (options.app.path && typeof options.app.path !== 'string') {
+      throw new Error('Expected options.app.path to be a string. Got ' + options.app.path);
+    }
+    if (options.app.terminal && typeof options.app.terminal !== 'boolean') {
+      throw new Error('Expected options.app.terminal to be a boolean. Got ' + options.app.terminal);
+    }
+    if (options.app.actions && Array.isArray(options.app.actions)) {
+      throw new Error('Expected options.app.actions to be a Array<string>. Got ' + options.app.actions);
+    }
+    if (options.app.mimeType && Array.isArray(options.app.mimeType)) {
+      throw new Error('Expected options.app.mimeType to be a Array<string>. Got ' + options.app.mimeType);
+    }
+    if (options.app.categories && Array.isArray(options.app.categories)) {
+      throw new Error('Expected options.app.categories to be a Array<string>. Got ' + options.app.categories);
+    }
+    if (options.app.implements && Array.isArray(options.app.implements)) {
+      throw new Error('Expected options.app.implements to be a Array<string>. Got ' + options.app.implements);
+    }
+    if (options.app.keywords && Array.isArray(options.app.keywords)) {
+      throw new Error('Expected options.app.keywords to be a Array<string>. Got ' + options.app.keywords);
+    }
+    if (options.app.startupNotify && typeof options.app.startupNotify !== 'boolean') {
+      throw new Error('Expected options.app.startupNotify to be a boolean. Got ' + options.app.startupNotify);
+    }
+    if (options.app.startupWMClass && typeof options.app.startupWMClass !== 'string') {
+      throw new Error('Expected options.app.startupWMClass to be a string. Got ' + options.app.startupWMClass);
+    }
+    if (options.app.prefersNonDefaultGPU && typeof options.app.prefersNonDefaultGPU !== 'boolean') {
+      throw new Error('Expected options.app.prefersNonDefaultGPU to be a boolean. Got ' + options.app.prefersNonDefaultGPU);
+    }
+    if (options.app.singleMainWindow && typeof options.app.singleMainWindow !== 'string') {
+      throw new Error('Expected options.app.singleMainWindow to be a string. Got ' + options.app.singleMainWindow);
+    }
+  } else if (options.platform === 'osx') {
+    if (typeof options.app.name !== 'string') {
+      throw new Error('Expected options.app.name to be a string. Got ' + options.app.name);
+    }
+    if (typeof options.app.icon !== 'string') {
+      throw new Error('Expected options.app.icon to be a string. Got ' + options.app.icon);
+    }
+    if (typeof options.app.LSApplicationCategoryType !== 'string') {
+      throw new Error('Expected options.app.LSApplicationCategoryType to be a string. Got ' + options.app.LSApplicationCategoryType);
+    }
+    if (typeof options.app.CFBundleIdentifier !== 'string') {
+      throw new Error('Expected options.app.CFBundleIdentifier to be a string. Got ' + options.app.CFBundleIdentifier);
+    }
+    if (typeof options.app.CFBundleName !== 'string') {
+      throw new Error('Expected options.app.CFBundleName to be a string. Got ' + options.app.CFBundleName);
+    }
+    if (typeof options.app.CFBundleDisplayName !== 'string') {
+      throw new Error('Expected options.app.CFBundleDisplayName to be a string. Got ' + options.app.CFBundleDisplayName);
+    }
+    if (typeof options.app.CFBundleSpokenName !== 'string') {
+      throw new Error('Expected options.app.CFBundleSpokenName to be a string. Got ' + options.app.CFBundleSpokenName);
+    }
+    if (typeof options.app.CFBundleVersion !== 'string') {
+      throw new Error('Expected options.app.CFBundleVersion to be a string. Got ' + options.app.CFBundleVersion);
+    }
+    if (typeof options.app.CFBundleShortVersionString !== 'string') {
+      throw new Error('Expected options.app.CFBundleShortVersionString to be a string. Got ' + options.app.CFBundleShortVersionString);
+    }
+    if (typeof options.app.NSHumanReadableCopyright !== 'string') {
+      throw new Error('Expected options.app.NSHumanReadableCopyright to be a string. Got ' + options.app.NSHumanReadableCopyright);
+    }
+    if (typeof options.app.NSLocalNetworkUsageDescription !== 'string') {
+      throw new Error('Expected options.app.NSLocalNetworkUsageDescription to be a string. Got ' + options.app.NSLocalNetworkUsageDescription);
+    }
+  } else {
+    if (typeof options.app.name !== 'string') {
+      throw new Error('Expected options.app.name to be a string. Got ' + options.app.name);
+    }
+    if (typeof options.app.icon !== 'string') {
+      throw new Error('Expected options.app.icon to be a string. Got ' + options.app.icon);
+    }
+    if (typeof options.app.version !== 'string') {
+      throw new Error('Expected options.app.version to be a string. Got ' + options.app.version);
+    }
+    if (options.app.comments && typeof options.app.comments !== 'string') {
+      throw new Error('Expected options.app.comments to be a string. Got ' + options.app.comments);
+    }
+    if (typeof options.app.company !== 'string') {
+      throw new Error('Expected options.app.company to be a string. Got ' + options.app.company);
+    }
+    if (typeof options.app.fileDescription !== 'string') {
+      throw new Error('Expected options.app.fileDescription to be a string. Got ' + options.app.fileDescription);
+    }
+    if (typeof options.app.fileVersion !== 'string') {
+      throw new Error('Expected options.app.fileVersion to be a string. Got ' + options.app.fileVersion);
+    }
+    if (typeof options.app.internalName !== 'string') {
+      throw new Error('Expected options.app.internalName to be a string. Got ' + options.app.internalName);
+    }
+    if (options.app.legalCopyright && typeof options.app.legalCopyright !== 'string') {
+      throw new Error('Expected options.app.legalCopyright to be a string. Got ' + options.app.legalCopyright);
+    }
+    if (options.app.legalTrademark && typeof options.app.legalTrademark !== 'string') {
+      throw new Error('Expected options.app.legalTrademark to be a string. Got ' + options.app.legalTrademark);
+    }
+    if (typeof options.app.originalFilename !== 'string') {
+      throw new Error('Expected options.app.originalFilename to be a string. Got ' + options.app.originalFilename);
+    }
+    if (typeof options.app.privateBuild !== 'string') {
+      throw new Error('Expected options.app.privateBuild to be a string. Got ' + options.app.privateBuild);
+    }
+    if (typeof options.app.productName !== 'string') {
+      throw new Error('Expected options.app.productName to be a string. Got ' + options.app.productName);
+    }
+    if (typeof options.app.productVersion !== 'string') {
+      throw new Error('Expected options.app.productVersion to be a string. Got ' + options.app.productVersion);
+    }
+    if (options.app.specialBuild && typeof options.app.specialBuild !== 'string') {
+      throw new Error('Expected options.app.specialBuild to be a string. Got ' + options.app.specialBuild);
+    }
+    if (typeof options.app.legalCopyright !== 'string') {
+      throw new Error('Expected options.app.legalCopyright to be a string. Got ' + options.app.legalCopyright);
+    }
+    if (typeof options.app.languageCode !== 'number') {
+      throw new Error('Expected options.app.languageCode to be a number. Got ' + options.app.languageCode);
+    }
+  }
   return undefined;
 };
 

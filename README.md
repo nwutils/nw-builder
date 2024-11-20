@@ -35,8 +35,6 @@ Every NW.js release includes a modified Node.js binary at a specific version. It
 
 ## Usage
 
-> Using this package might feel overwhelming due to the abundence of options. There are demo applications built for Linux, MacOS and Windows which can be found in `/tests/fixtures/app`. You can build a Linux application by cloning this repo and running `npm run demo:bld:linux && npm run demo:exe:linux`. Commands for the other operating systems can be found inside `scripts` prefixed with `demo:*` in the `package.json`.
-
 This package can be used via a command line interface, be imported as a JavaScript module, or configured via the Node manifest as a JSON object. If options are defined in Node manifest, then they will be used over options defined in CLI or JavaScript API.
 
 CLI interface:
@@ -86,7 +84,14 @@ Node manifest usage:
 }
 ```
 
-> From here on we will show `nw-builder` functionality by using the JavaScript module. Please note that the same functionality applies when using a command line or Node manifest.
+See `nw-builder` in action by building the demo application.
+
+1. `git clone https://github.com/nwutils/nw-builder`
+1. Run `npm run demo:bld:linux && npm run demo:exe:linux` to build and execute a Linux application.
+1. Run `npm run demo:bld:osx && npm run demo:exe:osx` to build and execute a MacOS application.
+1. Run `npm run demo:bld:win && npm run demo:exe:win` to build and execute a Windows application.
+
+> From here on we will show `nw-builder` functionality by using the JavaScript module. Please note that the same functionality applies when using a command line or manifest file.
 
 ## Concepts
 
@@ -94,7 +99,7 @@ Node manifest usage:
 
 ### Get Mode
 
-> Deprecation warning: From v4.6.4 onward, run mode is deprecated. This logic has been ported over to `nwjs/npm-installer` repo and will be removed in the next major release.
+> Deprecation warning: From v4.6.4 onward, get mode is deprecated. This logic has been ported over to `nwjs/npm-installer` repo and will be removed in the next major release.
 
 By default you get the normal build of the latest NW.js release for your specific platform and arch. For more information, please refer to the API reference.
 
@@ -144,7 +149,7 @@ nwbuild({
 });
 ```
 
-Managed Manifest
+#### Managed Manifest
 
 You can let `nw-builder` manage your node modules. The `managedManifest` options accepts a `boolean`, `string` or `object` type. It will then remove `devDependencies`, autodetect and download `dependencies` via the relevant `packageManager`. If none is specified, it uses `npm` as default.
 
@@ -178,7 +183,7 @@ nwbuild({
 });
 ```
 
-Rebuild Node addons
+#### Rebuild Node addons
 
 Currently this feature is quite limited. It only builds node addons which have a `binding.gyp` file in the `srcDir`. There are plans to support nan, cmake, ffi and gn and auto rebuild native addons which are installed as node modules.
 
@@ -203,7 +208,6 @@ Options
 
 | Name | Type    | Default   | Description |
 | ---- | ------- | --------- | ----------- |
-| app | `LinuxRc \| WinRc \| OsxRc` | Additional options for each platform. (See below.)
 | mode | `"get" \| "run" \| "build"` | `"build"` | Choose between get, run or build mode |
 | version | `string \| "latest" \| "stable"` | `"latest"` | Runtime version |
 | flavor | `"normal" \| "sdk"` | `"normal"` | Runtime flavor |
@@ -212,15 +216,17 @@ Options
 | downloadUrl | `"https://dl.nwjs.io" \| "https://npm.taobao.org/mirrors/nwjs" \| https://npmmirror.com/mirrors/nwjs \| "https://github.com/corwin-of-amber/nw.js/releases/"` | `"https://dl.nwjs.io"` | Download server. Supports file systems too (for example `file:///home/localghost/nwjs_mirror`) |
 | manifestUrl | `"https://nwjs.io/versions" \| "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json"` | `"https://nwjs.io/versions"` | Versions manifest |
 | cacheDir | `string` | `"./cache"` | Directory to cache NW binaries |
+| cache | `boolean` | `true`| If true the existing cache is used. Otherwise it removes and redownloads it. |
+| ffmpeg | `boolean` | `false`| If true the chromium ffmpeg is replaced by community version with proprietary codecs. |
+| logLevel | `"error" \| "warn" \| "info" \| "debug"` | `"info"`| Specify level of logging. |
 | srcDir | `string` | `"./"` | File paths to application code |
+| argv | `string[]` | `[]` | Command line arguments to pass to NW executable in run mode. You can also define these in `chromium-args` in NW.js manifest. |
+| glob | `boolean` | `true`| If true file globbing is enabled when parsing `srcDir`. |
 | outDir | `string` | `"./out"` | Directory to store build artifacts |
 | managedManifest | `boolean \| string \| object` | `false` | Managed manifest |
 | nodeAddon | `false \| "gyp"` | `false` | Rebuild Node native addons |
-| cache | `boolean` | `true`| If true the existing cache is used. Otherwise it removes and redownloads it. |
-| ffmpeg | `boolean` | `false`| If true the chromium ffmpeg is replaced by community version with proprietary codecs. |
-| glob | `boolean` | `true`| If true file globbing is enabled when parsing `srcDir`. |
-| logLevel | `"error" \| "warn" \| "info" \| "debug"` | `"info"`| Specify level of logging. |
 | zip | `boolean \| "zip" \| "tar" \| "tgz"` | `false`| If true, "zip", "tar" or "tgz" the `outDir` directory is compressed. |
+| app | `LinuxRc \| WinRc \| OsxRc` | Additional options for each platform. (See below.)
 
 ### `app` configuration object
 
