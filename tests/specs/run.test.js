@@ -34,7 +34,7 @@ describe('run test suite', async () => {
   it('runs and is killed via code', async () => {
     const nwProcess = await run(nwOptions);
     if (nwProcess) {
-      nwProcess.kill();
+      process.kill(nwProcess.pid);
       expect(nwProcess.killed).toEqual(true);
     }
   });
