@@ -5,7 +5,6 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import get from '../../src/get/index.js';
 import run from '../../src/run.js';
 import util from '../../src/util.js';
-import { platform } from 'node:os';
 
 describe('run test suite', async () => {
 
