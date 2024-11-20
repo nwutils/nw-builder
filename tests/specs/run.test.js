@@ -66,7 +66,7 @@ describe('run test suite', async () => {
         expect(nwProcess.killed).toEqual(true);
       });
       
-      nwProcess.kill('SIGTERM');
+      process.kill(nwProcess.pid, 'SIGTERM');
     }
   });
 });
