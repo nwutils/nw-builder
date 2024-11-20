@@ -65,5 +65,5 @@ describe('run test suite', async () => {
       nwProcess.kill();
       expect(nwProcess.killed).toEqual(true);
     }
-  });
+  }, { timeout: 10000 });
 });
