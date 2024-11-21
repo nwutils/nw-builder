@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.12.0](https://github.com/nwutils/nw-builder/compare/v4.11.6...v4.12.0) (2024-11-21)
+
+
+### Features
+
+* **run:** return NW.js process reference ([#1304](https://github.com/nwutils/nw-builder/issues/1304)) ([bd2f926](https://github.com/nwutils/nw-builder/commit/bd2f9263d6bf61a98db2e0ec14c5d0ca68aa4b0f))
+
+
+### Bug Fixes
+
+* miscellaneous quality of life improvements ([#1296](https://github.com/nwutils/nw-builder/issues/1296)) ([a82c140](https://github.com/nwutils/nw-builder/commit/a82c140bd6ebd234dcfe5bb0bff668cfb18d60bc))
+* **util:** validate options.* correctly ([#1298](https://github.com/nwutils/nw-builder/issues/1298)) ([3034f5c](https://github.com/nwutils/nw-builder/commit/3034f5cd4214f9b1e4ee5d459a20463eb4d0a50d))
+* **util:** validate options.app.* values ([#1302](https://github.com/nwutils/nw-builder/issues/1302)) ([4f388a9](https://github.com/nwutils/nw-builder/commit/4f388a95b3ad634330290ddbc9afca9ab1cda576)), closes [#1279](https://github.com/nwutils/nw-builder/issues/1279) [#1293](https://github.com/nwutils/nw-builder/issues/1293)
+
+
+### Chores
+
+* **deps-dev:** bump the npm group across 1 directory with 6 updates ([#1301](https://github.com/nwutils/nw-builder/issues/1301)) ([56c1192](https://github.com/nwutils/nw-builder/commit/56c11929d1ae0bce83f4f12ba6fd315d70fd43f3))
+* **deps:** bump cross-spawn from 7.0.3 to 7.0.6 ([#1305](https://github.com/nwutils/nw-builder/issues/1305)) ([2803af3](https://github.com/nwutils/nw-builder/commit/2803af3d46ff49bb87487ce3ce59de764ee57cbd))
+* **deps:** bump davelosert/vitest-coverage-report-action from 2.6.0 to 2.7.0 in /.github/workflows in the gha group ([#1295](https://github.com/nwutils/nw-builder/issues/1295)) ([23aaad8](https://github.com/nwutils/nw-builder/commit/23aaad85322ac5eb2a3ccb8546a43884c4d89b04))
+* **deps:** bump davelosert/vitest-coverage-report-action from 2.7.0 to 2.8.0 in /.github/workflows in the gha group ([#1303](https://github.com/nwutils/nw-builder/issues/1303)) ([ceaf348](https://github.com/nwutils/nw-builder/commit/ceaf348f2d62243576f0c8b6ff57aab1ea1848dc))
+
 ## [4.11.6](https://github.com/nwutils/nw-builder/compare/v4.11.5...v4.11.6) (2024-11-01)
 
 
