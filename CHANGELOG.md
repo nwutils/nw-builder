@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.12.1](https://github.com/nwutils/nw-builder/compare/v4.12.0...v4.12.1) (2024-11-24)
+
+
+### Bug Fixes
+
+* **util:** correct Array.isArray usage ([31c4132](https://github.com/nwutils/nw-builder/commit/31c4132bc3313c687f85e7b9ecf2562c483b6639))
+
 ## [4.12.0](https://github.com/nwutils/nw-builder/compare/v4.11.6...v4.12.0) (2024-11-21)
 
 
