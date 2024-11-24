@@ -384,8 +384,8 @@ export const validate = async (options, releaseInfo) => {
   if (options.mode === 'get') {
     return undefined;
   }
-  if (typeof options.srcDir !== 'string') {
-    throw new Error('Expected options.srcDir to be a string. Got ' + typeof options.srcDir);
+  if (typeof options.srcDir !== 'string' && Array.isArray(options.srcDir)) {
+    throw new Error('Expected options.srcDir to be a string or Array<string>. Got ' + typeof options.srcDir);
   }
   if (!Array.isArray(options.argv)) {
     throw new Error(
