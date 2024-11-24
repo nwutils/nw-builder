@@ -374,7 +374,7 @@ export const validate = async (options, releaseInfo) => {
   if (typeof options.srcDir !== 'string') {
     throw new Error('Expected options.srcDir to be a string. Got ' + typeof options.srcDir);
   }
-  if (Array.isArray(options.argv)) {
+  if (!Array.isArray(options.argv)) {
     throw new Error(
       'Expected options.argv to be an array. Got ' + typeof options.argv,
     );
@@ -449,10 +449,10 @@ export const validate = async (options, releaseInfo) => {
     if (options.app.hidden && typeof options.app.hidden !== 'string') {
       throw new Error('Expected options.app.hidden to be a string. Got ' + options.app.hidden);
     }
-    if (options.app.onlyShowIn && Array.isArray(options.app.onlyShowIn)) {
+    if (options.app.onlyShowIn && !Array.isArray(options.app.onlyShowIn)) {
       throw new Error('Expected options.app.onlyShowIn to be an Array<string>. Got ' + options.app.onlyShowIn);
     }
-    if (options.app.notShowIn && Array.isArray(options.app.notShowIn)) {
+    if (options.app.notShowIn && !Array.isArray(options.app.notShowIn)) {
       throw new Error('Expected options.app.notShowIn to be an Array<string>. Got ' + options.app.notShowIn);
     }
     if (options.app.dBusActivatable && typeof options.app.dBusActivatable !== 'boolean') {
@@ -470,19 +470,19 @@ export const validate = async (options, releaseInfo) => {
     if (options.app.terminal && typeof options.app.terminal !== 'boolean') {
       throw new Error('Expected options.app.terminal to be a boolean. Got ' + options.app.terminal);
     }
-    if (options.app.actions && Array.isArray(options.app.actions)) {
+    if (options.app.actions && !Array.isArray(options.app.actions)) {
       throw new Error('Expected options.app.actions to be a Array<string>. Got ' + options.app.actions);
     }
-    if (options.app.mimeType && Array.isArray(options.app.mimeType)) {
+    if (options.app.mimeType && !Array.isArray(options.app.mimeType)) {
       throw new Error('Expected options.app.mimeType to be a Array<string>. Got ' + options.app.mimeType);
     }
-    if (options.app.categories && Array.isArray(options.app.categories)) {
+    if (options.app.categories && !Array.isArray(options.app.categories)) {
       throw new Error('Expected options.app.categories to be a Array<string>. Got ' + options.app.categories);
     }
-    if (options.app.implements && Array.isArray(options.app.implements)) {
+    if (options.app.implements && !Array.isArray(options.app.implements)) {
       throw new Error('Expected options.app.implements to be a Array<string>. Got ' + options.app.implements);
     }
-    if (options.app.keywords && Array.isArray(options.app.keywords)) {
+    if (options.app.keywords && !Array.isArray(options.app.keywords)) {
       throw new Error('Expected options.app.keywords to be a Array<string>. Got ' + options.app.keywords);
     }
     if (options.app.startupNotify && typeof options.app.startupNotify !== 'boolean') {
