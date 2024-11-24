@@ -231,7 +231,10 @@ export const parse = async (options, pkg) => {
     options.app.name = options.app.name.replace(/[<>:"/\\|?*\u0000-\u001F]/g, '');
   }
   /* Path to where the icon currently is in the filesystem */
-  options.app.icon = path.resolve(options.app.icon) ?? undefined;
+  options.app.icon = options.app.icon ?? undefined;
+  if (options.app.icon) {
+    options.app.icon = path.resolve(options.app.icon);
+  }
 
   // TODO(#737): move this out
   if (options.platform === 'linux') {
