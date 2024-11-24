@@ -11,11 +11,13 @@ import util from '../util.js';
  * @param {string} shaUrl - URL to get the shasum text file from.
  * @param {string} shaOut - File path to shasum text file.
  * @param {string} cacheDir - File path to cache directory.
- * @param {ffmpeg} ffmpeg - Toggle between community (true) and official (false) ffmpeg binary
+ * @param {boolean} ffmpeg - Toggle between community (true) and official (false) ffmpeg binary
+ * @param {string} logLevel - User defined log level.
+ * @param {boolean} shaSum - Throws error if true, otherwise logs a warning. 
  * @throws {Error}
  * @returns {Promise<boolean>} - Returns true if the checksums match.
  */
-export default async function verify(shaUrl, shaOut, cacheDir, ffmpeg) {
+export default async function verify(shaUrl, shaOut, cacheDir, ffmpeg, logLevel, shaSum) {
   const shaOutExists = await util.fileExists(shaOut);
 
   if (shaOutExists === false) {
@@ -42,7 +44,12 @@ export default async function verify(shaUrl, shaOut, cacheDir, ffmpeg) {
         if (filePath.includes('ffmpeg') && ffmpeg) {
           console.warn(`The generated shasum for the community ffmpeg at ${filePath} is ${generatedSha}. The integrity of this file should be manually verified.`);
         } else {
-          throw new Error(`SHA256 checksums do not match. The file ${filePath} expected shasum is ${storedSha} but the actual shasum is ${generatedSha}.`);
+          const message = `SHA256 checksums do not match. The file ${filePath} expected shasum is ${storedSha} but the actual shasum is ${generatedSha}.`;
+          if (shaSum) {
+            throw new Error(message);
+          } else {
+            util.log('warn', logLevel, message);
+          }
         }
       }
     }

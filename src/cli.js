@@ -20,6 +20,7 @@ program
   .option('--ffmpeg <boolean>', 'Flag to enable/disable downloading community ffmpeg', false)
   .option('--glob <boolean>', 'Flag to enable/disable globbing', true)
   .option('--logLevel <string>', 'Specify log level')
+  .option('--shaSum <string>', 'Flag to enable/disable shasum', true)
   .option('--zip <string>', 'Flag to enable/disable compression', false)
   .option('--managedManifest <string>', 'Managed manifest mode', false)
   .option('--nodeAddon <boolean>', 'Download NW.js Node headers', false);

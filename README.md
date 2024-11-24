@@ -221,6 +221,7 @@ Options
 | cache | `boolean` | `true`| If true the existing cache is used. Otherwise it removes and redownloads it. |
 | ffmpeg | `boolean` | `false`| If true the chromium ffmpeg is replaced by community version with proprietary codecs. |
 | logLevel | `"error" \| "warn" \| "info" \| "debug"` | `"info"`| Specify level of logging. |
+| shaSum | `boolean` | `true` | Flag to enable/disable shasum checks. |
 | srcDir | `string` | `"./"` | File paths to application code |
 | argv | `string[]` | `[]` | Command line arguments to pass to NW executable in run mode. You can also define these in `chromium-args` in NW.js manifest. |
 | glob | `boolean` | `true`| If true file globbing is enabled when parsing `srcDir`. |

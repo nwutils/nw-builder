@@ -24,6 +24,7 @@ import util from './util.js';
  * @property {boolean}                             [ffmpeg=false]                            If true the chromium ffmpeg is replaced by community version
  * @property {boolean}                             [glob=true]                               If true file globbing is enabled when parsing srcDir.
  * @property {"error" | "warn" | "info" | "debug"} [logLevel="info"]                         Specify level of logging.
+ * @property {boolean}                             [shaSum = true]                           If true, shasum is enabled. Otherwise, disabled.
  * @property {boolean | "zip" | "tar" | "tgz"}     [zip=false]                               If true, "zip", "tar" or "tgz" the outDir directory is compressed.
  * @property {boolean | string | object}           [managedManifest = false]                 Managed manifest mode
  * @property {false | "gyp"}                       [nodeAddon = false]                       Rebuild Node native addons
@@ -101,6 +102,8 @@ async function nwbuild(options) {
       cache: options.cache,
       ffmpeg: options.ffmpeg,
       nativeAddon: options.nativeAddon,
+      shaSum: options.shaSum,
+      logLevel: options.logLevel,
     });
 
     if (options.mode === 'get') {
