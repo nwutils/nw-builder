@@ -21,6 +21,8 @@ import util from '../util.js';
  * @property {boolean}                              [cache = true]                        If false, remove cache and redownload.
  * @property {boolean}                              [ffmpeg = false]                      If true, ffmpeg is not downloaded.
  * @property {false | "gyp"}                        [nativeAddon = false]                 Rebuild native modules
+ * @property {string}                               [logLevel = 'info']                   User defined log level.
+ * @property {boolean}                              [shaSum = true]                       If true shasum is enabled, otherwise disabled.
  */
 
 /**
@@ -98,6 +100,8 @@ async function get(options) {
     `${options.cacheDir}/shasum/${options.version}.txt`,
     options.cacheDir,
     options.ffmpeg,
+    options.logLevel,
+    options.shaSum,
   );
 
   if (options.ffmpeg === true) {

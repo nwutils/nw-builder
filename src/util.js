@@ -116,9 +116,16 @@ async function globFiles({
   glob,
 }) {
   let files;
+  let patterns;
   if (glob) {
     files = [];
-    const patterns = srcDir.split(' ');
+    patterns = [];
+    if (Array.isArray(srcDir)) {
+      patterns = srcDir;
+    } else {
+      patterns = srcDir.split(' ');
+    }
+    
     for (const pattern of patterns) {
       let filePath = await GlobModule.glob(pattern);
       files.push(...filePath);
@@ -149,7 +156,7 @@ async function getNodeManifest({
   if (glob) {
     files = await globFiles({ srcDir, glob });
     for (const file of files) {
-      if (path.basename(file) === 'package.json' && manifest === undefined) {
+      if (path.basename(file) === 'package.json' && manifest.json === undefined) {
         manifest.path = file;
         manifest.json = JSON.parse(await fs.promises.readFile(file));
       }
@@ -204,6 +211,7 @@ export const parse = async (options, pkg) => {
   options.cache = str2Bool(options.cache ?? true);
   options.ffmpeg = str2Bool(options.ffmpeg ?? false);
   options.logLevel = options.logLevel ?? 'info';
+  options.shaSum = options.shaSum ?? true;
 
   if (options.mode === 'get') {
     return { ...options };
@@ -231,7 +239,10 @@ export const parse = async (options, pkg) => {
     options.app.name = options.app.name.replace(/[<>:"/\\|?*\u0000-\u001F]/g, '');
   }
   /* Path to where the icon currently is in the filesystem */
-  options.app.icon = path.resolve(options.app.icon) ?? undefined;
+  options.app.icon = options.app.icon ?? undefined;
+  if (options.app.icon) {
+    options.app.icon = path.resolve(options.app.icon);
+  }
 
   // TODO(#737): move this out
   if (options.platform === 'linux') {
@@ -244,7 +255,10 @@ export const parse = async (options, pkg) => {
     options.app.notShowIn = options.app.notShowIn ?? undefined;
     options.app.dBusActivatable = options.app.dBusActivatable ?? undefined;
     options.app.tryExec = options.app.tryExec ?? undefined;
-    options.app.exec = path.resolve(options.app.exec) ?? undefined;
+    options.app.exec = options.app.exec ?? undefined;
+    if (options.app.exec) {
+      options.app.exec = path.resolve(options.app.exec);
+    }
     options.app.path = options.app.path ?? undefined;
     options.app.terminal = options.app.terminal ?? undefined;
     options.app.actions = options.app.actions ?? undefined;
@@ -368,11 +382,17 @@ export const validate = async (options, releaseInfo) => {
     );
   }
 
+  if (typeof options.shaSum !== 'boolean') {
+    throw new Error(
+      'Expected options.shaSum to be a boolean. Got ' + typeof options.shaSum,
+    );
+  }
+
   if (options.mode === 'get') {
     return undefined;
   }
-  if (typeof options.srcDir !== 'string') {
-    throw new Error('Expected options.srcDir to be a string. Got ' + typeof options.srcDir);
+  if (typeof options.srcDir !== 'string' && !Array.isArray(options.srcDir)) {
+    throw new Error('Expected options.srcDir to be a string or Array<string>. Got ' + typeof options.srcDir);
   }
   if (!Array.isArray(options.argv)) {
     throw new Error(
