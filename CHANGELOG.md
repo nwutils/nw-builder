@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.13.1](https://github.com/nwutils/nw-builder/compare/v4.13.0...v4.13.1) (2024-11-24)
+
+
+### Bug Fixes
+
+* **run:** return NW.js Node process during run mode from nwbuild function ([fa94df2](https://github.com/nwutils/nw-builder/commit/fa94df284c3e6d23e0efd44d363b71b564cf1f26))
+* **types:** correct nwbuild function return type ([b274d27](https://github.com/nwutils/nw-builder/commit/b274d27dbb843b76e26be751249b994f233ac696))
+
 ## [4.13.0](https://github.com/nwutils/nw-builder/compare/v4.12.1...v4.13.0) (2024-11-24)
 
 
