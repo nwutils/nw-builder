@@ -116,9 +116,16 @@ async function globFiles({
   glob,
 }) {
   let files;
+  let patterns;
   if (glob) {
     files = [];
-    const patterns = srcDir.split(' ');
+    patterns = [];
+    if (Array.isArray(srcDir)) {
+      patterns = srcDir;
+    } else {
+      patterns = srcDir.split(' ');
+    }
+    
     for (const pattern of patterns) {
       let filePath = await GlobModule.glob(pattern);
       files.push(...filePath);
@@ -149,7 +156,7 @@ async function getNodeManifest({
   if (glob) {
     files = await globFiles({ srcDir, glob });
     for (const file of files) {
-      if (path.basename(file) === 'package.json' && manifest === undefined) {
+      if (path.basename(file) === 'package.json' && manifest.json === undefined) {
         manifest.path = file;
         manifest.json = JSON.parse(await fs.promises.readFile(file));
       }
