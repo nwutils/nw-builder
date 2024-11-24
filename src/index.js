@@ -36,7 +36,7 @@ import util from './util.js';
  * @async
  * @function
  * @param  {Options}       options  Options
- * @returns {Promise<void>}
+ * @returns {Promise<child_process.ChildProcess | null | undefined>}
  */
 async function nwbuild(options) {
   let built;
@@ -108,12 +108,12 @@ async function nwbuild(options) {
 
     if (options.mode === 'get') {
       // Do nothing else since we have already downloaded the binaries.
-      return;
+      return undefined;
     }
 
     if (options.mode === 'run') {
       util.log('info', options.logLevel, 'Running NW.js in run mode...');
-      await run({
+      const nwProcess = await run({
         version: options.version,
         flavor: options.flavor,
         platform: options.platform,
@@ -123,6 +123,7 @@ async function nwbuild(options) {
         glob: options.glob,
         argv: options.argv,
       });
+      return nwProcess;
     } else if (options.mode === 'build') {
       util.log('info', options.logLevel, `Build a NW.js application for ${options.platform} ${options.arch}...`);
       await bld({
@@ -147,6 +148,8 @@ async function nwbuild(options) {
     console.error(error);
     throw error;
   }
+
+  return undefined;
 }
 
 export default nwbuild;
