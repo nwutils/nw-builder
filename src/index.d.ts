@@ -176,6 +176,6 @@ export interface OsxAppOptions {
 /**
  * Automates building an NW.js application.
  */
-declare function nwbuild<P extends SupportedPlatform>(options: Options<P>): Promise<void>;
+declare function nwbuild<P extends SupportedPlatform>(options: Options<P>): Promise<child_process.ChildProcess | null | undefined>;
 
 export default nwbuild;
