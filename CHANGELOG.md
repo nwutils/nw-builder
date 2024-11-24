@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.13.0](https://github.com/nwutils/nw-builder/compare/v4.12.1...v4.13.0) (2024-11-24)
+
+
+### Features
+
+* **get:** add options.shaSum to enable/disable shasum checks ([#1307](https://github.com/nwutils/nw-builder/issues/1307)) ([98abcaf](https://github.com/nwutils/nw-builder/commit/98abcafeb884a42c34208a6a83f37eb7d518122c))
+
 ## [4.12.1](https://github.com/nwutils/nw-builder/compare/v4.12.0...v4.12.1) (2024-11-24)
 
 
