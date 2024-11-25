@@ -156,7 +156,6 @@ async function bld({
             : 'nwjs.app/Contents/Resources/app.nw',
           file,
         ),
-        { recursive: true, verbatimSymlinks: true },
       );
     }
   } else {
