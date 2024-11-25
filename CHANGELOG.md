@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.13.2](https://github.com/nwutils/nw-builder/compare/v4.13.1...v4.13.2) (2024-11-25)
+
+
+### Bug Fixes
+
+* **bld:** parse options.app.icon correctly during build mode ([bd0ef96](https://github.com/nwutils/nw-builder/commit/bd0ef96f50660be90398e1075434ef003112bbc5))
+* **bld:** use fs.promises.copyFile to copy app files in build mode with glob enabled ([e1843f0](https://github.com/nwutils/nw-builder/commit/e1843f00c6f2ec389933565ba0b3975c2c93bc23))
+
 ## [4.13.1](https://github.com/nwutils/nw-builder/compare/v4.13.0...v4.13.1) (2024-11-24)
 
 
