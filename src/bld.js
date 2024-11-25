@@ -143,7 +143,11 @@ async function bld({
 
   if (glob) {
     for (let file of files) {
-      await fs.promises.cp(
+      const stats = await fs.promises.stat(file);
+      if (stats.isDirectory()) {
+        continue;
+      }
+      await fs.promises.copyFile(
         file,
         path.resolve(
           outDir,
