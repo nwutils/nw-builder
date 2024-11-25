@@ -62,7 +62,7 @@
     "eslint-plugin-jsdoc": "^50.5.0",
     "globals": "^15.12.0",
     "nw": "^0.93.0",
-    "selenium-webdriver": "^4.25.0",
+    "selenium-webdriver": "^4.27.0",
     "vitest": "^2.0.4"
   },
   "dependencies": {
