@@ -256,7 +256,7 @@ const setLinuxConfig = async ({ app, outDir }) => {
     GenericName: app.genericName,
     NoDisplay: app.noDisplay,
     Comment: app.comment,
-    Icon: path.resolve(outDir, 'package.nw', path.basename(app.icon)),
+    Icon: app.icon ? path.resolve(outDir, 'package.nw', app.icon) : '',
     Hidden: app.hidden,
     OnlyShowIn: app.onlyShowIn,
     NotShowIn: app.notShowIn,
