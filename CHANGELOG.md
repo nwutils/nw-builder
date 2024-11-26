@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.13.4](https://github.com/nwutils/nw-builder/compare/v4.13.3...v4.13.4) (2024-11-26)
+
+
+### Bug Fixes
+
+* **util:** validate options.app.company iff defined ([a273e23](https://github.com/nwutils/nw-builder/commit/a273e2335c29922e662b7cc69aeeb0ffe40fba33))
+
 ## [4.13.3](https://github.com/nwutils/nw-builder/compare/v4.13.2...v4.13.3) (2024-11-25)
 
 
