@@ -567,37 +567,37 @@ export const validate = async (options, releaseInfo) => {
     if (options.app.company && typeof options.app.company !== 'string') {
       throw new Error('Expected options.app.company to be a string. Got ' + options.app.company);
     }
-    if (typeof options.app.fileDescription !== 'string') {
+    if (options.app.fileDescription && typeof options.app.fileDescription !== 'string') {
       throw new Error('Expected options.app.fileDescription to be a string. Got ' + options.app.fileDescription);
     }
-    if (typeof options.app.fileVersion !== 'string') {
+    if (options.app.fileVersion && typeof options.app.fileVersion !== 'string') {
       throw new Error('Expected options.app.fileVersion to be a string. Got ' + options.app.fileVersion);
     }
-    if (typeof options.app.internalName !== 'string') {
+    if (options.app.internalName && typeof options.app.internalName !== 'string') {
       throw new Error('Expected options.app.internalName to be a string. Got ' + options.app.internalName);
     }
-    if (options.app.legalCopyright && typeof options.app.legalCopyright !== 'string') {
+    if (options.app.legalCopyright && options.app.legalCopyright && typeof options.app.legalCopyright !== 'string') {
       throw new Error('Expected options.app.legalCopyright to be a string. Got ' + options.app.legalCopyright);
     }
     if (options.app.legalTrademark && typeof options.app.legalTrademark !== 'string') {
       throw new Error('Expected options.app.legalTrademark to be a string. Got ' + options.app.legalTrademark);
     }
-    if (typeof options.app.originalFilename !== 'string') {
+    if (options.app.originalFilename && typeof options.app.originalFilename !== 'string') {
       throw new Error('Expected options.app.originalFilename to be a string. Got ' + options.app.originalFilename);
     }
-    if (typeof options.app.privateBuild !== 'string') {
+    if (options.app.privateBuild && typeof options.app.privateBuild !== 'string') {
       throw new Error('Expected options.app.privateBuild to be a string. Got ' + options.app.privateBuild);
     }
-    if (typeof options.app.productName !== 'string') {
+    if (options.app.productName && typeof options.app.productName !== 'string') {
       throw new Error('Expected options.app.productName to be a string. Got ' + options.app.productName);
     }
-    if (typeof options.app.productVersion !== 'string') {
+    if (options.app.productVersion && typeof options.app.productVersion !== 'string') {
       throw new Error('Expected options.app.productVersion to be a string. Got ' + options.app.productVersion);
     }
-    if (options.app.specialBuild && typeof options.app.specialBuild !== 'string') {
+    if (options.app.specialBuild && options.app.specialBuild && typeof options.app.specialBuild !== 'string') {
       throw new Error('Expected options.app.specialBuild to be a string. Got ' + options.app.specialBuild);
     }
-    if (typeof options.app.legalCopyright !== 'string') {
+    if (options.app.legalCopyright && typeof options.app.legalCopyright !== 'string') {
       throw new Error('Expected options.app.legalCopyright to be a string. Got ' + options.app.legalCopyright);
     }
     if (typeof options.app.languageCode !== 'number') {
