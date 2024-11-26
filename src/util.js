@@ -564,7 +564,7 @@ export const validate = async (options, releaseInfo) => {
     if (options.app.comments && typeof options.app.comments !== 'string') {
       throw new Error('Expected options.app.comments to be a string. Got ' + options.app.comments);
     }
-    if (typeof options.app.company !== 'string') {
+    if (options.app.company && typeof options.app.company !== 'string') {
       throw new Error('Expected options.app.company to be a string. Got ' + options.app.company);
     }
     if (typeof options.app.fileDescription !== 'string') {
