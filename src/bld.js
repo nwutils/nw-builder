@@ -147,7 +147,7 @@ async function bld({
       if (stats.isDirectory()) {
         continue;
       }
-      await fs.promises.copyFile(
+      await fs.promises.cp(
         file,
         path.resolve(
           outDir,
@@ -156,6 +156,7 @@ async function bld({
             : 'nwjs.app/Contents/Resources/app.nw',
           file,
         ),
+        { recursive: true, force: true },
       );
     }
   } else {
