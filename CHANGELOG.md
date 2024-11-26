@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.13.6](https://github.com/nwutils/nw-builder/compare/v4.13.5...v4.13.6) (2024-11-26)
+
+
+### Bug Fixes
+
+* **bld:** fs.promises.copyFile -&gt; fs.promises.cp ([c1909c7](https://github.com/nwutils/nw-builder/commit/c1909c7d84e1513339625667fc6cab1525677f3b))
+
 ## [4.13.5](https://github.com/nwutils/nw-builder/compare/v4.13.4...v4.13.5) (2024-11-26)
 
 
