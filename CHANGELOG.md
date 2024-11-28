@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.13.7](https://github.com/nwutils/nw-builder/compare/v4.13.6...v4.13.7) (2024-11-28)
+
+
+### Bug Fixes
+
+* **get:** use \s+ to split lines containing shasum info ([64f5709](https://github.com/nwutils/nw-builder/commit/64f5709f230199e3d6a6e837e95ec4e0f74dc806)), closes [#1317](https://github.com/nwutils/nw-builder/issues/1317)
+
 ## [4.13.6](https://github.com/nwutils/nw-builder/compare/v4.13.5...v4.13.6) (2024-11-26)
 
 
