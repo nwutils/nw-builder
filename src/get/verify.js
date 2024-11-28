@@ -32,7 +32,7 @@ export default async function verify(shaUrl, shaOut, cacheDir, ffmpeg, logLevel,
   const shasum = await fs.promises.readFile(shaOut, { encoding: 'utf-8' });
   const shasums = shasum.trim().split('\n');
   for await (const line of shasums) {
-    const [storedSha, filePath] = line.split('  ');
+    const [storedSha, filePath] = line.split(/\s+/);
     const relativeFilePath = path.resolve(cacheDir, filePath);
     const relativefilePathExists = await util.fileExists(relativeFilePath);
     if (relativefilePathExists) {
