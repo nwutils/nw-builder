@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.13.8](https://github.com/nwutils/nw-builder/compare/v4.13.7...v4.13.8) (2024-12-16)
+
+
+### Chores
+
+* **test:** download latest NW.js version for Linux demo app ([8c09908](https://github.com/nwutils/nw-builder/commit/8c09908943eba0414b03a7e79c2a87a5f076bfff)), closes [#1324](https://github.com/nwutils/nw-builder/issues/1324)
+
 ## [4.13.7](https://github.com/nwutils/nw-builder/compare/v4.13.6...v4.13.7) (2024-11-28)
 
 
