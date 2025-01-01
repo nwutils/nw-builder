@@ -54,8 +54,8 @@ CJS import:
 ```javascript
 let nwbuild;
 import("nwbuild")
-  .then((object) => {
-    nwbuild = obj;
+  .then((moduleObject) => {
+    nwbuild = moduleObject;
   })
   .catch((error) => {
     console.error(error);
