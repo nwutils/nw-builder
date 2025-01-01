@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.13.8](https://github.com/nwutils/nw-builder/compare/v4.13.7...v4.13.8) (2025-01-01)
+
+
+### Bug Fixes
+
+* **bld:** await archiver.finalize ([#1333](https://github.com/nwutils/nw-builder/issues/1333)) ([580668f](https://github.com/nwutils/nw-builder/commit/580668f7a56d050d43078c7e0014eacdc3ee7dfc)), closes [#1328](https://github.com/nwutils/nw-builder/issues/1328)
+
+
+### Chores
+
+* **deps:** bump the npm group across 1 directory with 11 updates ([#1332](https://github.com/nwutils/nw-builder/issues/1332)) ([b9b96ff](https://github.com/nwutils/nw-builder/commit/b9b96ff565921a518893770996568bb30cee179b))
+* **docs:** clarify CJS usage ([d673459](https://github.com/nwutils/nw-builder/commit/d673459141e68a190964c1d4f02203e32296a8b9)), closes [#1331](https://github.com/nwutils/nw-builder/issues/1331)
+* **docs:** clarify non-usage of srcDir in CLi interface ([1b61bd1](https://github.com/nwutils/nw-builder/commit/1b61bd1acb58a1ea966bd3606c7d7d7140cfb1d5)), closes [#1330](https://github.com/nwutils/nw-builder/issues/1330)
+* **docs:** fix CJS import usage example ([5f323df](https://github.com/nwutils/nw-builder/commit/5f323df441212d495de75a2dceda5031ddce56d5)), closes [#1331](https://github.com/nwutils/nw-builder/issues/1331)
+* **test:** download latest NW.js version for Linux demo app ([8c09908](https://github.com/nwutils/nw-builder/commit/8c09908943eba0414b03a7e79c2a87a5f076bfff)), closes [#1324](https://github.com/nwutils/nw-builder/issues/1324)
+
 ## [4.13.7](https://github.com/nwutils/nw-builder/compare/v4.13.6...v4.13.7) (2024-11-28)
 
 
