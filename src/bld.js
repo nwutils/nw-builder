@@ -374,7 +374,7 @@ const compress = async ({
     const writeStream = fs.createWriteStream(`${outDir}.zip`);
     archive.pipe(writeStream);
     archive.directory(outDir, false);
-    archive.finalize();
+    await archive.finalize();
   } else if (zip === 'tar') {
     await tar.create({
       gzip: false,
