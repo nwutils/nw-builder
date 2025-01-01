@@ -55,7 +55,7 @@ CJS import:
 
 ```javascript
 let nwbuild;
-import("nwbuild")
+import("nw-builder")
   .then((moduleObject) => {
     nwbuild = moduleObject;
   })
