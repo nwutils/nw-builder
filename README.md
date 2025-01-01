@@ -43,6 +43,8 @@ CLI interface:
 nwbuild --mode=build --glob=false --flavor=sdk --cacheDir=./node_modules/nw /path/to/project
 ```
 
+> Note: While using the CLI interface, `/path/to/project` refers to `options.srcDir` in the JavaScript API or JSON object.
+
 ESM import:
 
 ```javascript
