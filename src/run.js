@@ -19,7 +19,6 @@ import util from './util.js';
 
 /**
  * Run NW.js application.
- * @deprecated since v4.6.0. This logic will be ported over to `nwjs/npm-installer` repo and removed in the next major release (v5.0).
  * @async
  * @function
  * @param  {RunOptions}    options  Run mode options
@@ -39,7 +38,7 @@ async function run({
    * @type {child_process.ChildProcess | null}
    */
   let nwProcess = null;
-  
+
   try {
     if (util.EXE_NAME[platform] === undefined) {
       throw new Error('Unsupported platform.');

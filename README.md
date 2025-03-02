@@ -101,8 +101,6 @@ See `nw-builder` in action by building the demo application.
 
 ### Get Mode
 
-> Deprecation warning: From v4.6.4 onward, get mode is deprecated. This logic has been ported over to `nwjs/npm-installer` repo and will be removed in the next major release.
-
 By default you get the normal build of the latest NW.js release for your specific platform and arch. For more information, please refer to the API reference.
 
 ```javascript
@@ -130,8 +128,6 @@ nwbuild({
 ```
 
 ### Run Mode
-
-> Deprecation warning: From v4.6.0 onward, run mode is deprecated. This logic has been ported over to `nwjs/npm-installer` repo and will be removed in the next major release.
 
 ```javascript
 const nwProcess = await nwbuild({

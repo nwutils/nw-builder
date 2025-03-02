@@ -27,7 +27,6 @@ import util from '../util.js';
 
 /**
  * Get binaries.
- * @deprecated since v4.6.4. This logic will be ported over to `nwjs/npm-installer` repo and removed in the next major release (v5.0).
  * @async
  * @function
  * @param  {GetOptions}    options  Get mode options
