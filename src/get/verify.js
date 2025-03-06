@@ -40,7 +40,7 @@ export default async function verify(shaUrl, shaOut, cacheDir, ffmpeg, logLevel,
       const hash = crypto.createHash('sha256');
       hash.update(fileBuffer);
       const generatedSha = hash.digest('hex');
-      if (storedSha !== generatedSha) {
+      if (!crypto.timingSafeEqual(Buffer.from(generatedSha, 'hex'), Buffer.from(storedSha, 'hex'))) {
         if (filePath.includes('ffmpeg') && ffmpeg) {
           console.warn(`The generated shasum for the community ffmpeg at ${filePath} is ${generatedSha}. The integrity of this file should be manually verified.`);
         } else {
