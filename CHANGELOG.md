@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.13.9](https://github.com/nwutils/nw-builder/compare/v4.13.8...v4.13.9) (2025-03-06)
+
+
+### Bug Fixes
+
+* **get/verify:** use crypto.timingSafeEqual to verify shasums ([3dd449a](https://github.com/nwutils/nw-builder/commit/3dd449aaa55a8f646027f7f454afbe0dc74db35b))
+
+
+### Chores
+
+* **deps:** bump the gha group across 1 directory with 2 updates ([#1358](https://github.com/nwutils/nw-builder/issues/1358)) ([48e4947](https://github.com/nwutils/nw-builder/commit/48e49474c5aa0c13add585489ae74b6d9adef541))
+* **deps:** bump the npm group across 1 directory with 13 updates ([#1357](https://github.com/nwutils/nw-builder/issues/1357)) ([9d3fe0c](https://github.com/nwutils/nw-builder/commit/9d3fe0c95a8209d68055ac25a5f3581c1f6db48a))
+* reverse undeprecation of get and run mode ([e139740](https://github.com/nwutils/nw-builder/commit/e1397405929302f07d5bd1bcec913550050c3aa0))
+
 ## [4.13.8](https://github.com/nwutils/nw-builder/compare/v4.13.7...v4.13.8) (2025-01-01)
 
 
