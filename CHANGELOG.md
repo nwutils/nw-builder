@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.13.10](https://github.com/nwutils/nw-builder/compare/v4.13.9...v4.13.10) (2025-03-11)
+
+
+### Bug Fixes
+
+* **ci:** give release please write permissions ([920e4a0](https://github.com/nwutils/nw-builder/commit/920e4a02863d71d0acac374678d3c017070a1e9f))
+* **codeql:** address code scanning alerts ([#1360](https://github.com/nwutils/nw-builder/issues/1360)) ([10cb3ba](https://github.com/nwutils/nw-builder/commit/10cb3baa94803bcf0e119333a0c253e14f8bf00f))
+
+
+### Chores
+
+* **deps:** bump googleapis/release-please-action from 4.1.4 to 4.2.0 in /.github/workflows in the gha group across 1 directory ([#1364](https://github.com/nwutils/nw-builder/issues/1364)) ([0f28592](https://github.com/nwutils/nw-builder/commit/0f28592f543b62af07b9b4f8aa291712e4e45432))
+* **deps:** bump the npm group across 1 directory with 6 updates ([#1368](https://github.com/nwutils/nw-builder/issues/1368)) ([1aaffa5](https://github.com/nwutils/nw-builder/commit/1aaffa5803454e5df17c9d57f4461823f979ea88))
+
 ## [4.13.9](https://github.com/nwutils/nw-builder/compare/v4.13.8...v4.13.9) (2025-03-06)
 
 
