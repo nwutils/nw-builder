@@ -1,3 +1,4 @@
+import child_process from 'node:child_process';
 import console from 'node:console';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -36,7 +37,7 @@ import util from './util.js';
  * @async
  * @function
  * @param  {Options}       options  Options
- * @returns {Promise<child_process.ChildProcess | null | undefined>}
+ * @returns {Promise<child_process.ChildProcess | null | undefined>} - Returns NW.js process if run mode, otherwise returns `undefined`.
  */
 async function nwbuild(options) {
   let built;
