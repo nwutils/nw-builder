@@ -36,7 +36,7 @@ import util from './util.js';
  * @async
  * @function
  * @param  {Options}       options  Options
- * @returns {Promise<child_process.ChildProcess | null | undefined>}
+ * @returns {Promise<child_process.ChildProcess | null | undefined>} - Returns NW.js process if run mode, otherwise returns `undefined`.
  */
 async function nwbuild(options) {
   let built;
