@@ -5,6 +5,10 @@ on:
     branches:
     - main
 
+permissions:
+  contents: read
+  pull-requests: write
+
 concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: true
@@ -19,9 +23,6 @@ jobs:
         - windows-2025
       fail-fast: false
     runs-on: ${{ matrix.os }}
-    permissions:
-      contents: read
-      pull-requests: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4.2.2
