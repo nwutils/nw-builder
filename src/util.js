@@ -125,7 +125,7 @@ async function globFiles({
     } else {
       patterns = srcDir.split(' ');
     }
-    
+
     for (const pattern of patterns) {
       let filePath = await GlobModule.glob(pattern);
       files.push(...filePath);
@@ -153,7 +153,7 @@ async function getNodeManifest({
     json: undefined,
   };
   let files;
-  if (glob) {
+  if (glob === true) {
     files = await globFiles({ srcDir, glob });
     for (const file of files) {
       if (path.basename(file) === 'package.json' && manifest.json === undefined) {
@@ -175,7 +175,7 @@ async function getNodeManifest({
 
 /**
  * Function to convert `'true'` and `'false'` into `true` and `false`.
- * `commander` does not do the conversion automatically. 
+ * `commander` does not do the conversion automatically.
  * @param {any} option - a boolean type option
  * @returns {any} Usually `undefined`, `true` or `false`. if not then it is validated later on.
  */
