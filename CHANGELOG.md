@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.13.12](https://github.com/nwutils/nw-builder/compare/v4.13.11...v4.13.12) (2025-03-19)
+
+
+### Chores
+
+* **ci:** check if NPM_TOKEN exists as action step ([6b7e64e](https://github.com/nwutils/nw-builder/commit/6b7e64ed100789c314f97cc786ad59fbdff5bca1))
+* **ci:** move NPM_TOKEN conditional inside action steps ([ea6ea4c](https://github.com/nwutils/nw-builder/commit/ea6ea4c0d63184822a69ec2627a361892a6121d7))
+
 ## [4.13.11](https://github.com/nwutils/nw-builder/compare/v4.13.10...v4.13.11) (2025-03-19)
 
 
