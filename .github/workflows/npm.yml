@@ -17,6 +17,13 @@ jobs:
   npm:
     runs-on: ubuntu-24.04
     steps:
+      - name: Check if NPM_TOKEN is set
+        run: |
+          if [ -z "${{ secrets.NPM_TOKEN }}" ]; then
+            echo "NPM_TOKEN is not set, skipping job."
+            exit 1
+          fi
+        continue-on-error: true
       - name: Checkout repository
         uses: actions/checkout@v4.2.2
       - name: Setup Node
@@ -26,7 +33,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Publish to npm
-        if: secrets.NPM_TOKEN != ''
         uses: JS-DevTools/npm-publish@v3.1.1
         with:
           token: ${{ secrets.NPM_TOKEN }}
