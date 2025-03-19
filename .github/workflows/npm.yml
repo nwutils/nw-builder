@@ -16,14 +16,17 @@ permissions:
 jobs:
   npm:
     runs-on: ubuntu-24.04
-    if: secrets.NPM_TOKEN != ''
     steps:
-      - uses: actions/checkout@v4.2.2
-      - uses: actions/setup-node@v4.3.0
+      - name: Checkout repository
+        uses: actions/checkout@v4.2.2
+      - name: Setup Node
+        uses: actions/setup-node@v4.3.0
         with:
-          node-version: 21
-
-      - run: npm ci
-      - uses: JS-DevTools/npm-publish@v3.1.1
+          node-version: 23
+      - name: Install dependencies
+        run: npm ci
+      - name: Publish to npm
+        if: secrets.NPM_TOKEN != ''
+        uses: JS-DevTools/npm-publish@v3.1.1
         with:
           token: ${{ secrets.NPM_TOKEN }}
