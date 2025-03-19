@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.13.11](https://github.com/nwutils/nw-builder/compare/v4.13.10...v4.13.11) (2025-03-19)
+
+
+### Bug Fixes
+
+* **util:** use strict boolean check for glob flag ([63c931d](https://github.com/nwutils/nw-builder/commit/63c931dad34c2b5449c74b540924a91d8ed51685))
+
+
+### Chores
+
+* **ci:** add concurrency ([41494f5](https://github.com/nwutils/nw-builder/commit/41494f535a583ba2a69daa651b8d1582726a4ad7))
+* **ci:** do not run npm publish job if NPM_TOKEN is not available ([e21051c](https://github.com/nwutils/nw-builder/commit/e21051cc8098f12d1006e184108755a88f435517))
+* **deps:** bump @babel/runtime from 7.26.0 to 7.26.10 in the npm_and_yarn group ([#1373](https://github.com/nwutils/nw-builder/issues/1373)) ([0b2d34e](https://github.com/nwutils/nw-builder/commit/0b2d34e11d9bf939a9e608bb6ca6415a929457e0))
+* **deps:** bump actions/setup-node from 4.2.0 to 4.3.0 in /.github/workflows in the gha group ([#1370](https://github.com/nwutils/nw-builder/issues/1370)) ([5509ca9](https://github.com/nwutils/nw-builder/commit/5509ca93acd5fa68f9e860f1ff3c30d96ea739b1))
+* **deps:** bump the npm group across 1 directory with 5 updates ([#1371](https://github.com/nwutils/nw-builder/issues/1371)) ([ba554d2](https://github.com/nwutils/nw-builder/commit/ba554d241e7f3d33c8492b658f4d45f723834fd0))
+
 ## [4.13.10](https://github.com/nwutils/nw-builder/compare/v4.13.9...v4.13.10) (2025-03-11)
 
 
