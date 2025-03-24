@@ -55,19 +55,19 @@
     "demo:cli": "nwbuild --mode=get --flavor=sdk --glob=false --cacheDir=./node_modules/nw --logLevel=debug './tests/fixtures/app'"
   },
   "devDependencies": {
-    "@eslint/js": "^9.22.0",
+    "@eslint/js": "^9.23.0",
     "@vitest/coverage-v8": "^3.0.9",
     "base-volta-off-of-nwjs": "^1.0.5",
-    "eslint": "^9.22.0",
-    "eslint-plugin-jsdoc": "^50.6.8",
+    "eslint": "^9.23.0",
+    "eslint-plugin-jsdoc": "^50.6.9",
     "globals": "^16.0.0",
     "nw": "^0.97.0",
-    "selenium-webdriver": "^4.29.0",
+    "selenium-webdriver": "^4.30.0",
     "vitest": "^3.0.7"
   },
   "dependencies": {
     "archiver": "^7.0.1",
-    "axios": "^1.8.3",
+    "axios": "^1.8.4",
     "commander": "^13.1.0",
     "glob": "^11.0.1",
     "node-gyp": "^11.1.0",
