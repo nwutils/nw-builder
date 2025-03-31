@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.13.12](https://github.com/nwutils/nw-builder/compare/v4.13.11...v4.13.12) (2025-03-31)
+
+
+### Chores
+
+* **ci:** check if NPM_TOKEN exists as action step ([6b7e64e](https://github.com/nwutils/nw-builder/commit/6b7e64ed100789c314f97cc786ad59fbdff5bca1))
+* **ci:** move NPM_TOKEN conditional inside action steps ([ea6ea4c](https://github.com/nwutils/nw-builder/commit/ea6ea4c0d63184822a69ec2627a361892a6121d7))
+* **deps:** bump the npm group across 1 directory with 6 updates ([#1378](https://github.com/nwutils/nw-builder/issues/1378)) ([5df5c51](https://github.com/nwutils/nw-builder/commit/5df5c51a173d65863544751abda2a1097d9a8225))
+* **deps:** bump vite from 6.2.2 to 6.2.3 in the npm_and_yarn group ([#1377](https://github.com/nwutils/nw-builder/issues/1377)) ([4f4379d](https://github.com/nwutils/nw-builder/commit/4f4379dd25348cd834df078a970564a114ba5e89))
+
 ## [4.13.11](https://github.com/nwutils/nw-builder/compare/v4.13.10...v4.13.11) (2025-03-19)
 
 
