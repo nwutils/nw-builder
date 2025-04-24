@@ -40,4 +40,4 @@ jobs:
         run: npm run test:cov
       - name: Report Coverage
         if: always()
-        uses:  davelosert/vitest-coverage-report-action@v2.8.0
+        uses:  davelosert/vitest-coverage-report-action@v2.8.1
