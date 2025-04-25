@@ -59,15 +59,15 @@
     "@vitest/coverage-v8": "^3.1.2",
     "base-volta-off-of-nwjs": "^1.0.5",
     "eslint": "^9.25.1",
-    "eslint-plugin-jsdoc": "^50.6.10",
+    "eslint-plugin-jsdoc": "^50.6.11",
     "globals": "^16.0.0",
-    "nw": "^0.98.2",
+    "nw": "^0.99.0",
     "selenium-webdriver": "^4.31.0",
     "vitest": "^3.0.7"
   },
   "dependencies": {
     "archiver": "^7.0.1",
-    "axios": "^1.8.4",
+    "axios": "^1.9.0",
     "commander": "^13.1.0",
     "glob": "^11.0.2",
     "node-gyp": "^11.2.0",
