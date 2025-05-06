@@ -21,9 +21,9 @@ jobs:
         run: |
           if [ -z "${{ secrets.NPM_TOKEN }}" ]; then
             echo "NPM_TOKEN is not set, skipping job."
-            exit 1
+            exit 0
           fi
-        continue-on-error: true
+        continue-on-error: false
       - name: Checkout repository
         uses: actions/checkout@v4.2.2
       - name: Setup Node
