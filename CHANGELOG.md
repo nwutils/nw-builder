@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.13.12](https://github.com/nwutils/nw-builder/compare/v4.13.11...v4.13.12) (2025-05-06)
+
+
+### Bug Fixes
+
+* **util:** specify default values in CLI invocation ([3b3799d](https://github.com/nwutils/nw-builder/commit/3b3799d6923c3b2a2c361f26978f35dd35d089ac))
+
+
+### Chores
+
+* **ci:** check if NPM_TOKEN exists as action step ([6b7e64e](https://github.com/nwutils/nw-builder/commit/6b7e64ed100789c314f97cc786ad59fbdff5bca1))
+* **ci:** fail if NPM_TOKEN not set ([84484a1](https://github.com/nwutils/nw-builder/commit/84484a1fcd9e307d6225a4b453f778e3f44fd542))
+* **ci:** move NPM_TOKEN conditional inside action steps ([ea6ea4c](https://github.com/nwutils/nw-builder/commit/ea6ea4c0d63184822a69ec2627a361892a6121d7))
+* **ci:** set continue-on-error to false ([3b9a8a2](https://github.com/nwutils/nw-builder/commit/3b9a8a29030a27fbc4792b367e2c91158b3e60b3))
+* **deps:** bump davelosert/vitest-coverage-report-action from 2.8.1 to 2.8.2 in /.github/workflows in the gha group ([#1388](https://github.com/nwutils/nw-builder/issues/1388)) ([7a51dd4](https://github.com/nwutils/nw-builder/commit/7a51dd4fac0c70b8c23f2a345eb130e9e007dc97))
+* **deps:** bump the gha group across 1 directory with 2 updates ([#1385](https://github.com/nwutils/nw-builder/issues/1385)) ([2a98e27](https://github.com/nwutils/nw-builder/commit/2a98e27868d149323fa2ef39dd1eeaaad77e464f))
+* **deps:** bump the npm group across 1 directory with 6 updates ([#1378](https://github.com/nwutils/nw-builder/issues/1378)) ([5df5c51](https://github.com/nwutils/nw-builder/commit/5df5c51a173d65863544751abda2a1097d9a8225))
+* **deps:** bump the npm group across 1 directory with 8 updates ([#1390](https://github.com/nwutils/nw-builder/issues/1390)) ([a5ce5be](https://github.com/nwutils/nw-builder/commit/a5ce5be72cb7ed9c05837ca1f2e40dfc1b81d3af))
+* **deps:** bump the npm group across 1 directory with 9 updates ([#1386](https://github.com/nwutils/nw-builder/issues/1386)) ([1f55773](https://github.com/nwutils/nw-builder/commit/1f557731367fa3c3189f3f9a2ac74f19fb378c34))
+* **deps:** bump vite from 6.2.2 to 6.2.3 in the npm_and_yarn group ([#1377](https://github.com/nwutils/nw-builder/issues/1377)) ([4f4379d](https://github.com/nwutils/nw-builder/commit/4f4379dd25348cd834df078a970564a114ba5e89))
+* **deps:** bump vite from 6.2.3 to 6.2.4 in the npm_and_yarn group ([#1379](https://github.com/nwutils/nw-builder/issues/1379)) ([e425d56](https://github.com/nwutils/nw-builder/commit/e425d563ae37ec2ca6419763e53508337db57d1a))
+
 ## [4.13.11](https://github.com/nwutils/nw-builder/compare/v4.13.10...v4.13.11) (2025-03-19)
 
 
