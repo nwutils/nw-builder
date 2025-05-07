@@ -362,7 +362,7 @@ const buildNativeAddon = ({ cacheDir, version, platform, arch, outDir, nodeVersi
       : 'nwjs.app/Contents/Resources/app.nw',
   );
 
-  child_process.execSync(`node-gyp rebuild --target=${nodeVersion} --nodedir=${nodePath}`, { cwd });
+  child_process.execFileSync('node-gyp', ['rebuild', `--target=${nodeVersion}`, `--nodedir=${nodePath}`], { cwd });
 };
 
 const compress = async ({
