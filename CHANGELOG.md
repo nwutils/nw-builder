@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.13.13](https://github.com/nwutils/nw-builder/compare/v4.13.12...v4.13.13) (2025-05-07)
+
+
+### Bug Fixes
+
+* **security:** use execFileSync instead of execSync ([48193f0](https://github.com/nwutils/nw-builder/commit/48193f0e14cae4f02a8217df736d056204f446d9))
+
 ## [4.13.12](https://github.com/nwutils/nw-builder/compare/v4.13.11...v4.13.12) (2025-05-06)
 
 
