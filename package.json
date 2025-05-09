@@ -60,8 +60,8 @@
     "base-volta-off-of-nwjs": "^1.0.5",
     "eslint": "^9.26.0",
     "eslint-plugin-jsdoc": "^50.6.11",
-    "globals": "^16.0.0",
-    "nw": "^0.99.0",
+    "globals": "^16.1.0",
+    "nw": "^0.99.1",
     "selenium-webdriver": "^4.32.0",
     "vitest": "^3.0.7"
   },
