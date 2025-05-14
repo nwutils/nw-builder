@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.13.14](https://github.com/nwutils/nw-builder/compare/v4.13.13...v4.13.14) (2025-05-14)
+
+
+### Bug Fixes
+
+* **bld:** disable rebuilding Node addons ([464dca2](https://github.com/nwutils/nw-builder/commit/464dca25759c1ae6960977b1e83bdf03b57d2bb2))
+
+
+### Chores
+
+* **ci:** check for NPM_TOKEN in separate job ([74ca486](https://github.com/nwutils/nw-builder/commit/74ca486a8f8660636e5d17fec9c5ce40e36f9cae))
+* **deps:** bump the npm group across 1 directory with 4 updates ([#1394](https://github.com/nwutils/nw-builder/issues/1394)) ([560dd73](https://github.com/nwutils/nw-builder/commit/560dd738162b10555a68109cf146725f821151eb))
+* **docs:** clarify addon rebuilding disabled ([bb910e1](https://github.com/nwutils/nw-builder/commit/bb910e193759b6551f1681a5b2da084f9c28be27))
+* **docs:** remove mention of rebuilding node addons ([e3ae5b3](https://github.com/nwutils/nw-builder/commit/e3ae5b379e302baa9bbf532d9666ea52dc2639e7))
+
 ## [4.13.13](https://github.com/nwutils/nw-builder/compare/v4.13.12...v4.13.13) (2025-05-07)
 
 
