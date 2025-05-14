@@ -191,6 +191,7 @@ async function bld({
   }
 
   if (nativeAddon === 'gyp') {
+    throw new Error('Rebuilding Node addons functionality is broken and has been disabled. This functionality may be removed in the future.');
     buildNativeAddon({ cacheDir, version, platform, arch, outDir, nodeVersion });
   }
 
