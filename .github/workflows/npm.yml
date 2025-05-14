@@ -14,7 +14,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  npm:
+  env:
     runs-on: ubuntu-24.04
     steps:
       - name: Check if NPM_TOKEN is set
@@ -23,6 +23,10 @@ jobs:
             echo "NPM_TOKEN is not set, skipping job."
             exit 1
           fi
+  npm:
+    needs: [ env ]
+    runs-on: ubuntu-24.04
+    steps:
       - name: Checkout repository
         uses: actions/checkout@v4.2.2
       - name: Setup Node
