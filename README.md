@@ -9,9 +9,8 @@ Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and L
 
 - Get, run or build applications.
 - Integrate [FFmpeg community builds](https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt)
-- Configure executable fields and icons
+- Configure executable fields, icons and rename Helper apps
 - Downloading from mirrors
-- Node Native Addon support (partial)
 
 ## Table of Contents
 
