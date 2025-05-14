@@ -184,7 +184,9 @@ nwbuild({
 
 #### Rebuild Node addons
 
-Currently this feature is quite limited. It only builds node addons which have a `binding.gyp` file in the `srcDir`. There are plans to support nan, cmake, ffi and gn and auto rebuild native addons which are installed as node modules.
+> Currently this feature is disabled and it may be removed in the future.
+
+It only builds node addons which have a `binding.gyp` file in the `srcDir`. There are plans to support nan, cmake, ffi and gn and auto rebuild native addons which are installed as node modules.
 
 ```javascript
 nwbuild({
