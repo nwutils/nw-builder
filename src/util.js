@@ -326,8 +326,8 @@ export const validate = async (options, releaseInfo) => {
     options.mode !== 'get' &&
     options.mode !== 'run' &&
     options.mode !== 'build' &&
-    options.mode !== 'package' &&
-  ) {
+    options.mode !== 'package'
+) {
     throw new Error(
       `Unknown mode ${options.mode}. Expected "get", "run", "build" or "package".`,
     );
