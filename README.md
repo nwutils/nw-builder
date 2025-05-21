@@ -148,6 +148,18 @@ nwbuild({
 });
 ```
 
+### Package mode
+
+Package application as AppImage for Linux:
+
+```js
+nwbuild({
+  mode: "package",
+  platform: "linux",
+  appimage: true,
+});
+```
+
 #### Managed Manifest
 
 You can let `nw-builder` manage your node modules. The `managedManifest` options accepts a `boolean`, `string` or `object` type. It will then remove `devDependencies`, autodetect and download `dependencies` via the relevant `packageManager`. If none is specified, it uses `npm` as default.
