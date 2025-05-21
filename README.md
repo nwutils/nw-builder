@@ -209,7 +209,7 @@ Options
 
 | Name | Type    | Default   | Description |
 | ---- | ------- | --------- | ----------- |
-| mode | `"get" \| "run" \| "build"` | `"build"` | Choose between get, run or build mode |
+| mode | `"get" \| "run" \| "build" \| "package"` | `"build"` | Choose between get, run, build or package mode |
 | version | `string \| "latest" \| "stable"` | `"latest"` | Runtime version |
 | flavor | `"normal" \| "sdk"` | `"normal"` | Runtime flavor |
 | platform | `"linux" \| "osx" \| "win"` | | Host platform |
@@ -228,6 +228,7 @@ Options
 | managedManifest | `boolean \| string \| object` | `false` | Managed manifest |
 | nodeAddon | `false \| "gyp"` | `false` | Rebuild Node native addons |
 | zip | `boolean \| "zip" \| "tar" \| "tgz"` | `false`| If true, "zip", "tar" or "tgz" the `outDir` directory is compressed. |
+| appimage | `boolean` | `false` | Package the application as an AppImage for Linux |
 | app | `LinuxRc \| WinRc \| OsxRc` | Additional options for each platform. (See below.)
 
 ### `app` configuration object
