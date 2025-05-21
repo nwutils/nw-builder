@@ -401,7 +401,7 @@ nwbuild({
 
 - feat(get): support canary releases
 - feat(pkg): add `AppImage` installer
-- feat(pkg): add `NSIS` installer
+- feat(pkg): add `MSIX` installer
 - feat(pkg): add `DMG` installer
 - feat(get): add Linux ARM unofficial support
 - feat(bld): add source code protection
