@@ -230,6 +230,7 @@ export const parse = async (options, pkg) => {
 
   options.managedManifest = str2Bool(options.managedManifest) ?? false;
   options.nativeAddon = str2Bool(options.nativeAddon) ?? false;
+  options.appimage = str2Bool(options.appimage) ?? false;
 
   options.app = options.app ?? {};
   options.app.name = options.app.name ?? pkg.name;
@@ -324,10 +325,11 @@ export const validate = async (options, releaseInfo) => {
   if (
     options.mode !== 'get' &&
     options.mode !== 'run' &&
-    options.mode !== 'build'
+    options.mode !== 'build' &&
+    options.mode !== 'package' &&
   ) {
     throw new Error(
-      `Unknown mode ${options.mode}. Expected "get", "run" or "build".`,
+      `Unknown mode ${options.mode}. Expected "get", "run", "build" or "package".`,
     );
   }
   if (typeof releaseInfo === 'undefined') {
@@ -448,6 +450,13 @@ export const validate = async (options, releaseInfo) => {
       options.zip !== 'tgz') {
       throw new Error('Expected options.zip to be a boolean, `zip`, `tar` or `tgz`. Got ' + typeof options.zip);
     }
+  }
+
+  if (typeof options.appimage !== 'boolean') {
+    throw new Error('Expected options.appimage to be a boolean. Got ' + typeof options.appimage);
+  }
+  if (options.appimage === true && (options.platform !== 'linux' || options.mode !== 'package')) {
+    throw new Error('Expected options.appimage to be true iff platform is `linux` and mode is `package`.');
   }
 
   if (options.platform === 'linux') {
