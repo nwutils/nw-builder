@@ -66,6 +66,7 @@
     "vitest": "^3.0.7"
   },
   "dependencies": {
+    "appimage": "^0.2.2",
     "archiver": "^7.0.1",
     "axios": "^1.11.0",
     "commander": "^14.0.0",
