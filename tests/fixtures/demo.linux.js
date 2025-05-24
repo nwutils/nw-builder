@@ -1,13 +1,14 @@
 import nwbuild from '../../src/index.js';
 
 await nwbuild({
-  mode: 'build',
+  mode: 'package',
   flavor: 'sdk',
   platform: 'linux',
   srcDir: './tests/fixtures/app',
   cacheDir: './node_modules/nw',
   outDir: './tests/fixtures/out/linux',
   glob: false,
+  appimage: true,
   logLevel: 'debug',
   app: {
     name: 'Demo',
