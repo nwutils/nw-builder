@@ -8,6 +8,7 @@ await nwbuild({
   cacheDir: './node_modules/nw',
   outDir: './tests/fixtures/out/linux',
   glob: false,
+  appimage: true,
   logLevel: 'debug',
   app: {
     name: 'Demo',
