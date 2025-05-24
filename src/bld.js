@@ -172,7 +172,7 @@ async function bld({
     );
   }
 
-  const nodeVersion = releaseInfo.components.node;
+  // const nodeVersion = releaseInfo.components.node;
 
   if (
     managedManifest === true ||
@@ -192,7 +192,7 @@ async function bld({
 
   if (nativeAddon === 'gyp') {
     throw new Error('Rebuilding Node addons functionality is broken and has been disabled. This functionality may be removed in the future.');
-    buildNativeAddon({ cacheDir, version, platform, arch, outDir, nodeVersion });
+    // buildNativeAddon({ cacheDir, version, platform, arch, outDir, nodeVersion });
   }
 
   if (zip !== false) {
@@ -354,6 +354,7 @@ const setWinConfig = async ({ app, outDir }) => {
   await fs.promises.writeFile(outDirAppExe, outBuffer);
 };
 
+/*
 const buildNativeAddon = ({ cacheDir, version, platform, arch, outDir, nodeVersion }) => {
   let nodePath = path.resolve(cacheDir, `node-v${version}-${platform}-${arch}`);
   const cwd = path.resolve(
@@ -365,6 +366,7 @@ const buildNativeAddon = ({ cacheDir, version, platform, arch, outDir, nodeVersi
 
   child_process.execFileSync('node-gyp', ['rebuild', `--target=${nodeVersion}`, `--nodedir=${nodePath}`], { cwd });
 };
+*/
 
 const compress = async ({
   zip,
