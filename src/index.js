@@ -6,7 +6,7 @@ import path from 'node:path';
 import bld from './bld.js';
 import get from './get/index.js';
 import run from './run.js';
-import pkg from './pkg.js';
+import pkg from './pkg/index.js';
 import util from './util.js';
 
 /**

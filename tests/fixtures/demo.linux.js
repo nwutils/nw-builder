@@ -1,7 +1,7 @@
 import nwbuild from '../../src/index.js';
 
 await nwbuild({
-  mode: 'build',
+  mode: 'package',
   flavor: 'sdk',
   platform: 'linux',
   srcDir: './tests/fixtures/app',
