@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.13.15](https://github.com/nwutils/nw-builder/compare/v4.13.14...v4.13.15) (2025-05-24)
+
+
+### Chores
+
+* fix linting errors ([a7f57ed](https://github.com/nwutils/nw-builder/commit/a7f57edc281d3fecd18ba81591a12bcf744f3d14))
+
 ## [4.13.14](https://github.com/nwutils/nw-builder/compare/v4.13.13...v4.13.14) (2025-05-14)
 
 
