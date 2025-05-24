@@ -6,11 +6,12 @@ import path from 'node:path';
 import bld from './bld.js';
 import get from './get/index.js';
 import run from './run.js';
+import pkg from './pkg.js';
 import util from './util.js';
 
 /**
  * @typedef {object} Options Configuration options
- * @property {"get" | "run" | "build"}             [mode="build"]                            Choose between get, run or build mode
+ * @property {"get" | "run" | "build" | "package"} [mode="build"]                            Choose between get, run or build package mode
  * @property {"latest" | "stable" | string}        [version="latest"]                        Runtime version
  * @property {"normal" | "sdk"}                    [flavor="normal"]                         Runtime flavor
  * @property {"linux" | "osx" | "win"}             platform                                  Host platform
@@ -29,6 +30,7 @@ import util from './util.js';
  * @property {boolean | "zip" | "tar" | "tgz"}     [zip=false]                               If true, "zip", "tar" or "tgz" the outDir directory is compressed.
  * @property {boolean | string | object}           [managedManifest = false]                 Managed manifest mode
  * @property {false | "gyp"}                       [nodeAddon = false]                       Rebuild Node native addons
+ * @property {boolean}                             [appimage = false]                        Package the application as an AppImage for Linux
  * @property {boolean}                             [cli=false]                               If true the CLI is used to parse options. This option is used internally.
  */
 
@@ -125,7 +127,7 @@ async function nwbuild(options) {
         argv: options.argv,
       });
       return nwProcess;
-    } else if (options.mode === 'build') {
+    } else if (options.mode === 'build' || options.mode === 'package') {
       util.log('info', options.logLevel, `Build a NW.js application for ${options.platform} ${options.arch}...`);
       await bld({
         version: options.version,
@@ -144,6 +146,16 @@ async function nwbuild(options) {
         releaseInfo: releaseInfo,
       });
       util.log('info', options.logLevel, `Appliction is available at ${path.resolve(options.outDir)}`);
+
+      if (options.mode === 'package') {
+        util.log('info', options.logLevel, `Packages a NW.js application for ${options.platform} ${options.arch}...`);
+        await pkg({
+          outDir: options.outDir,
+          pkgDir: path.dirname(options.outDir),
+          appimage: options.appimage,
+          app: options.app,
+        });
+      }
     }
   } catch (error) {
     console.error(error);
