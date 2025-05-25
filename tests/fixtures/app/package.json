@@ -1,8 +1,9 @@
 {
-  "name": "Demo",
+  "name": "demo",
   "main": "index.html",
   "version": "0.0.0",
-  "product_string": "Demo",
+  "chromium-args": "--disable-gpu --disable-software-rasterize --use-gl=egl",
+  "product_string": "demo",
   "window": {
     "icon": "./icon.png"
   }
