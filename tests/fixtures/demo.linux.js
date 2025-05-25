@@ -11,20 +11,13 @@ await nwbuild({
   appimage: true,
   logLevel: 'debug',
   app: {
-    name: 'Demo',
-    genericName: 'Demo',
+    name: 'nw',
+    genericName: 'nw',
     noDisplay: false,
     comment: 'Tooltip information',
+    categories: ['Utility'],
     /* File path of icon from where it is copied. */
-    icon: './tests/fixtures/app/icon.png',
-    hidden: false,
-    // TODO: test in different Linux desktop environments
-    // onlyShowIn: [],
-    // notShowIn: [],
-    dBusActivatable: true,
-    // TODO: test in Linux environment
-    // tryExec: '/path/to/exe?'
-    exec: './tests/fixtures/out/linux/Demo',
+    icon: '/usr/bin/demo/package.nw/icon',
   }
 });
 
