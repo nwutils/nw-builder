@@ -23,6 +23,7 @@ jobs:
             echo "NPM_TOKEN is not set, skipping job."
             exit 1
           fi
+        continue-on-error: true
   npm:
     needs: [ env ]
     runs-on: ubuntu-24.04
