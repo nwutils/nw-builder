@@ -6,4 +6,4 @@ node_modules
 
 tests/fixtures/cache
 tests/fixtures/out
-tests/fixtures
+tests/fixtures/macos
