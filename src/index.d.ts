@@ -24,7 +24,7 @@ export interface Options<P extends SupportedPlatform = SupportedPlatform> {
     /** URI to download NW binaries from */
     downloadUrl?: "https://dl.nwjs.io" | string,
     /** URI to download manifest */
-    manifestUrl?: "https://nwjs.io/versions" | string,
+    manifestUrl?: "https://nwjs.io/versions.json" | string,
     /** Refer to Linux/Windows/Osx specific options */
     app: AppOptions<P>,
     /** If true the existing cache is used. Otherwise it removes and redownloads it. */
