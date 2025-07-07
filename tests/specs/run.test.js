@@ -16,7 +16,7 @@ describe('run test suite', async () => {
     platform: util.PLATFORM_KV[process.platform],
     arch: util.ARCH_KV[process.arch],
     downloadUrl: 'https://dl.nwjs.io',
-    manifestUrl: 'https://nwjs.io/versions',
+    manifestUrl: 'https://nwjs.io/versions.json',
     outDir: 'tests/fixtures/out/app',
     cacheDir: './node_modules/nw',
     cache: true,

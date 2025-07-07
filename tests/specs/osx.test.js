@@ -20,7 +20,7 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
     util.PLATFORM_KV['darwin'],
     util.ARCH_KV['arm64'],
     './node_modules/nw',
-    'https://nwjs.io/versions',
+    'https://nwjs.io/versions.json',
   );
   const chromiumVersion = releaseInfo.components.chromium;
   const helperAlertsPath = path.join(appPath,
