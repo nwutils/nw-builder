@@ -10,10 +10,10 @@ import semver from 'semver';
 /**
  * Get manifest (array of NW release metadata) from URL.
  * @param  {string}                      manifestUrl  Url to manifest
- * @returns {Promise<object | undefined>}              - Manifest object
+ * @returns {Promise<string>}              - Manifest object
  */
 function getManifest(manifestUrl) {
-  let chunks = undefined;
+  let chunks = '';
 
   return new Promise((resolve) => {
     const req = https.get(manifestUrl, (response) => {
@@ -23,7 +23,7 @@ function getManifest(manifestUrl) {
 
       response.on('error', (e) => {
         console.error(e);
-        resolve(undefined);
+        resolve('');
       });
 
       response.on('end', () => {
@@ -32,7 +32,7 @@ function getManifest(manifestUrl) {
     });
     req.on('error', (e) => {
       console.error(e);
-      resolve(undefined);
+      resolve('');
     });
   });
 }
@@ -63,11 +63,11 @@ async function getReleaseInfo(
 
   try {
     const data = await getManifest(manifestUrl);
-    if (data !== undefined) {
-      await fs.promises.writeFile(manifestPath, data.slice(9));
+    if (data.length) {
+      await fs.promises.writeFile(manifestPath, data);
     }
 
-    let manifest = JSON.parse(await fs.promises.readFile(manifestPath));
+    const manifest = JSON.parse(await fs.promises.readFile(manifestPath));
     if (version === 'latest' || version === 'stable' || version === 'lts') {
       // Remove leading "v" from version string
       version = manifest[version].slice(1);
