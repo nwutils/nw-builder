@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.13.15](https://github.com/nwutils/nw-builder/compare/v4.13.14...v4.13.15) (2025-07-07)
+
+
+### Bug Fixes
+
+* update default NW.js version url ([#1412](https://github.com/nwutils/nw-builder/issues/1412)) ([467bab8](https://github.com/nwutils/nw-builder/commit/467bab8bdf51f34447ec80617b905308dc8f6804)), closes [#1411](https://github.com/nwutils/nw-builder/issues/1411)
+
+
+### Chores
+
+* **ci:** enable continue-on-error for env job ([b6ee211](https://github.com/nwutils/nw-builder/commit/b6ee211518943ce60bdeda85eae3fab0e43b6d20))
+* **deps:** bump davelosert/vitest-coverage-report-action from 2.8.2 to 2.8.3 in /.github/workflows in the gha group ([#1398](https://github.com/nwutils/nw-builder/issues/1398)) ([548d0e5](https://github.com/nwutils/nw-builder/commit/548d0e5d09e091ba9eaceaa957dbd49a01becdad))
+* **deps:** bump the npm group across 1 directory with 10 updates ([#1409](https://github.com/nwutils/nw-builder/issues/1409)) ([6dd0311](https://github.com/nwutils/nw-builder/commit/6dd0311b1f1c04c1a42534ba9a372b19047b882e))
+* **deps:** bump the npm group across 1 directory with 9 updates ([#1404](https://github.com/nwutils/nw-builder/issues/1404)) ([29204c1](https://github.com/nwutils/nw-builder/commit/29204c1849daf0341a226e9cf0d6fac6765a3d68))
+* fix linting errors ([a7f57ed](https://github.com/nwutils/nw-builder/commit/a7f57edc281d3fecd18ba81591a12bcf744f3d14))
+
 ## [4.13.14](https://github.com/nwutils/nw-builder/compare/v4.13.13...v4.13.14) (2025-05-14)
 
 
