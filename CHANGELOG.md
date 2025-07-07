@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.13.16](https://github.com/nwutils/nw-builder/compare/v4.13.15...v4.13.16) (2025-07-07)
+
+
+### Bug Fixes
+
+* **util:** update getManifest return type and handle empty response ([#1410](https://github.com/nwutils/nw-builder/issues/1410)) ([c287c07](https://github.com/nwutils/nw-builder/commit/c287c074c7da15b3c62bae3ddc2c9922304b150f))
+
 ## [4.13.15](https://github.com/nwutils/nw-builder/compare/v4.13.14...v4.13.15) (2025-07-07)
 
 
