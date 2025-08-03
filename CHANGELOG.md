@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.14.0](https://github.com/nwutils/nw-builder/compare/v4.13.16...v4.14.0) (2025-08-03)
+
+
+### Features
+
+* **deps:** NW.js v102, Node v24.3.0, npm v11.5.2 ([1971786](https://github.com/nwutils/nw-builder/commit/197178680c2c2edefaa9b559b6dc44f8888b07bf))
+
+
+### Bug Fixes
+
+* **cli:** parse --app.* options ([#1422](https://github.com/nwutils/nw-builder/issues/1422)) ([175a263](https://github.com/nwutils/nw-builder/commit/175a2631fbff392b42f8a5e94d78b4e0c379b6e0)), closes [#1419](https://github.com/nwutils/nw-builder/issues/1419)
+* **deps:** security update for braces-expansion ([96f00f4](https://github.com/nwutils/nw-builder/commit/96f00f41c9de2246347d0e2c1c1200c00824f2ec))
+* **deps:** security update for form-data ([#1416](https://github.com/nwutils/nw-builder/issues/1416)) ([95fbfa1](https://github.com/nwutils/nw-builder/commit/95fbfa1b1e4cc0b558cee92780bdb887b7505654))
+
+
+### Chores
+
+* **ci:** enforce excluding nw only ([87ade48](https://github.com/nwutils/nw-builder/commit/87ade48a8c88f3db17f0522f695598f2af186e69))
+* **ci:** update nw seperately ([884a07b](https://github.com/nwutils/nw-builder/commit/884a07b1de5d3f5dbbba967245622627e755672d))
+* **deps:** bump the npm group across 1 directory with 5 updates ([#1418](https://github.com/nwutils/nw-builder/issues/1418)) ([7675df5](https://github.com/nwutils/nw-builder/commit/7675df55907cbe90adcfe5e3501f0cc7f4ad351f))
+* **docs:** update maintainer guidelines ([c364721](https://github.com/nwutils/nw-builder/commit/c3647219414181313db1688018ce9853ebf6041f))
+
 ## [4.13.16](https://github.com/nwutils/nw-builder/compare/v4.13.15...v4.13.16) (2025-07-07)
 
 
