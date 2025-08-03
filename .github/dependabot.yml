@@ -13,7 +13,7 @@ updates:
         patterns:
           - "*"  # catches everything else
         exclude-patterns:
-          - "nw*"
+          - "nw"
 
   - package-ecosystem: "github-actions"
     directory: ".github/workflows"
