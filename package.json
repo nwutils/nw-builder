@@ -52,7 +52,7 @@
     "demo:exe:linux": "./tests/fixtures/out/linux/Demo",
     "demo:exe:osx": "./tests/fixtures/out/osx/Demo.app/Contents/MacOS/Demo",
     "demo:exe:win": "./tests/fixtures/out/win/Demo.exe",
-    "demo:cli": "nwbuild --mode=get --flavor=sdk --glob=false --cacheDir=./node_modules/nw --logLevel=debug './tests/fixtures/app'"
+    "demo:cli": "nwbuild --mode=build --flavor=sdk --glob=false --cacheDir=./node_modules/nw --logLevel=debug --outDir=./tests/fixtures/out/linux --app.name=Demo --app.icon=./tests/fixtures/app/icon.png ./tests/fixtures/app"
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
