@@ -1,11 +1,17 @@
 name: security
 
+on:
+  pull_request:
+    branches:
+    - main
+
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   codeql:
     runs-on: ubuntu-24.04
-    permissions:
-      contents: read
-      security-events: write
     steps:
       runs-on: ubuntu-24.04
       steps:
