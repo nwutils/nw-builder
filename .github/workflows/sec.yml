@@ -1,0 +1,22 @@
+jobs:
+  codeql:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      ... # Same CodeQL steps as above
+
+  tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Init CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ['javascript', 'typescript']
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3

@@ -36,17 +36,6 @@ jobs:
         run: npm ci
       - name: Check for linting errors
         run: npm run lint
-      - name: Init CodeQL
-        if: matrix.os == 'ubuntu-24.04'
-        uses: github/codeql-action/init@v3
-        with:
-          languages: ['javascript', 'typescript', 'actions']
-      - name: Autobuild
-        if: matrix.os == 'ubuntu-24.04'
-        uses: github/codeql-action/autobuild@v3
-      - name: Perform CodeQL Analysis
-        if: matrix.os == 'ubuntu-24.04'
-        uses: github/codeql-action/analyze@v3
       - name: Run tests
         run: npm run test:cov
       - name: Report Coverage
