@@ -46,6 +46,4 @@ const opts = {
   cli: true,
 };
 
-console.log(opts)
-
 nwbuild(opts);
