@@ -36,11 +36,13 @@ jobs:
         run: npm ci
       - name: Check for linting errors
         run: npm run lint
-      - name: CodeQL Analysis
+      - name: Init CodeQL
         uses: github/codeql-action/init@v3
         with:
           languages: ['javascript', 'typescript', 'actions']
+      - name: Autobuild
         uses: github/codeql-action/autobuild@v3
+      - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
       - name: Run tests
         run: npm run test:cov
