@@ -148,6 +148,18 @@ nwbuild({
 });
 ```
 
+### Package mode
+
+Package application as AppImage for Linux:
+
+```js
+nwbuild({
+  mode: "package",
+  platform: "linux",
+  appimage: true,
+});
+```
+
 #### Managed Manifest
 
 You can let `nw-builder` manage your node modules. The `managedManifest` options accepts a `boolean`, `string` or `object` type. It will then remove `devDependencies`, autodetect and download `dependencies` via the relevant `packageManager`. If none is specified, it uses `npm` as default.
@@ -209,7 +221,7 @@ Options
 
 | Name | Type    | Default   | Description |
 | ---- | ------- | --------- | ----------- |
-| mode | `"get" \| "run" \| "build"` | `"build"` | Choose between get, run or build mode |
+| mode | `"get" \| "run" \| "build" \| "package"` | `"build"` | Choose between get, run, build or package mode |
 | version | `string \| "latest" \| "stable"` | `"latest"` | Runtime version |
 | flavor | `"normal" \| "sdk"` | `"normal"` | Runtime flavor |
 | platform | `"linux" \| "osx" \| "win"` | | Host platform |
@@ -228,6 +240,7 @@ Options
 | managedManifest | `boolean \| string \| object` | `false` | Managed manifest |
 | nodeAddon | `false \| "gyp"` | `false` | Rebuild Node native addons |
 | zip | `boolean \| "zip" \| "tar" \| "tgz"` | `false`| If true, "zip", "tar" or "tgz" the `outDir` directory is compressed. |
+| appimage | `boolean` | `false` | Package the application as an AppImage for Linux |
 | app | `LinuxRc \| WinRc \| OsxRc` | Additional options for each platform. (See below.)
 
 ### `app` configuration object
@@ -388,7 +401,7 @@ nwbuild({
 
 - feat(get): support canary releases
 - feat(pkg): add `AppImage` installer
-- feat(pkg): add `NSIS` installer
+- feat(pkg): add `MSIX` installer
 - feat(pkg): add `DMG` installer
 - feat(get): add Linux ARM unofficial support
 - feat(bld): add source code protection

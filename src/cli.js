@@ -8,7 +8,7 @@ import util from './util.js';
 
 program
   .argument('<string>', 'File path(s) to project')
-  .option('--mode <string>', 'get, run or build mode', 'build')
+  .option('--mode <string>', 'get, run, build or package mode', 'build')
   .option('--version <string>', 'NW.js version', 'latest')
   .option('--flavor <string>', 'NW.js build flavor', 'normal')
   .option('--platform <string>', 'NW.js supported platform', util.PLATFORM_KV[process.platform])
@@ -25,7 +25,8 @@ program
   .option('--shaSum <string>', 'Enable/disable shasum', true)
   .option('--zip <string>', 'Enable/disable compression', false)
   .option('--managedManifest <string>', 'Managed manifest mode', false)
-  .option('--nodeAddon <boolean>', 'Download NW.js Node headers', false);
+  .option('--nodeAddon <boolean>', 'Download NW.js Node headers', false)
+  .option('--appimage <boolean>', 'Package the application as an AppImage for Linux', false);
 
 // Handle unknown --app.* arguments
 const unknownArgs = program.parseOptions(process.argv).unknown;
