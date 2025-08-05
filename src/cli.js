@@ -25,10 +25,12 @@ program
   .option('--shaSum <string>', 'Enable/disable shasum', true)
   .option('--zip <string>', 'Enable/disable compression', false)
   .option('--managedManifest <string>', 'Managed manifest mode', false)
-  .option('--nodeAddon <boolean>', 'Download NW.js Node headers', false);
+  .option('--nodeAddon <boolean>', 'Download NW.js Node headers', false)
+  .allowUnknownOption(true)
+  .allowExcessArguments(true);
 
 // Handle unknown --app.* arguments
-const unknownArgs = program.parseOptions(process.argv).unknown;
+const unknownArgs = program.parse(process.argv).args;
 const appConfig = {};
 for (const arg of unknownArgs) {
   const match = arg.match(/^--app\.([^.=]+)=(.*)$/);
@@ -42,7 +44,7 @@ for (const arg of unknownArgs) {
 const opts = {
   ...program.opts(),
   app: appConfig,
-  srcDir: program.args[0],
+  srcDir: program.args.find((arg) => !arg.startsWith('--app')),
   cli: true,
 };
 
