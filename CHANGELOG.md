@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.14.1](https://github.com/nwutils/nw-builder/compare/v4.14.0...v4.14.1) (2025-08-06)
+
+
+### Bug Fixes
+
+* **cli:** parse argument as srcDir option ([#1425](https://github.com/nwutils/nw-builder/issues/1425)) ([8483dd4](https://github.com/nwutils/nw-builder/commit/8483dd4576268d213ce8ab492ee46573213c725e)), closes [#1424](https://github.com/nwutils/nw-builder/issues/1424)
+* **deps:** security update for tmp ([#1426](https://github.com/nwutils/nw-builder/issues/1426)) ([106d545](https://github.com/nwutils/nw-builder/commit/106d545611a25e6a6e6057bdb641107c18d6703f))
+
 ## [4.14.0](https://github.com/nwutils/nw-builder/compare/v4.13.16...v4.14.0) (2025-08-03)
 
 
