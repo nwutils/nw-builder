@@ -240,9 +240,6 @@ export const parse = async (options, pkg) => {
   }
   /* Path to where the icon currently is in the filesystem */
   options.app.icon = options.app.icon ?? pkg.window?.icon ?? undefined;
-  if (options.app.icon) {
-    options.app.icon = path.resolve(options.app.icon);
-  }
 
   // TODO(#737): move this out
   if (options.platform === 'linux') {
