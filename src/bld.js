@@ -267,8 +267,8 @@ const setLinuxConfig = async ({ app, outDir }) => {
     NotShowIn: app.notShowIn,
     DBusActivatable: app.dBusActivatable,
     TryExec: app.tryExec,
-    Exec: app.exec,
-    Path: app.path,
+    Exec: app.exec ?? app.name,
+    Path: app.path ?? outDir,
     Terminal: app.terminal,
     Actions: app.actions,
     MimeType: app.mimeType,
@@ -340,7 +340,7 @@ const setWinConfig = async ({ app, outDir }) => {
       lang: EN_US,
       codepage: 1200,
     });
-    vi.lang=app.languageCode;
+    vi.lang = app.languageCode;
   }
   vi.setFileVersion(app.fileVersion, app.languageCode);
   vi.setProductVersion(app.productVersion, app.languageCode);
