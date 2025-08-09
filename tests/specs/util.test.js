@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import util from '../../src/util.js';
 
@@ -64,4 +64,12 @@ describe('util/validate', function () {
     await expect(util.validate({ mode: 'get', flavor: 'normal', platform: 'linux', arch: 'x64', downloadUrl: 'file://path/to/fs', manifestUrl: 'http://path/to/manifest', cacheDir: './path/to/cache', cache: true, ffmpeg: 'true' }, { flavors: ['normal'], files: ['linux-x64'] })).rejects.toThrow(Error);
   });
 
+});
+
+describe('util/parse', function () {
+  // It is the job of the respective `set<platformName>Config` to resolve the app.icon path
+  it('doesnt resolve app.icon', async function () {
+    const newOptions = await util.parse({ app: { icon: '.' } }, {});
+    expect(newOptions.app.icon).toBe('.')
+  });
 });
