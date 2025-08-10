@@ -340,7 +340,7 @@ const setWinConfig = async ({ app, outDir }) => {
       lang: EN_US,
       codepage: 1200,
     });
-    vi.lang=app.languageCode;
+    vi.lang = app.languageCode;
   }
   vi.setFileVersion(app.fileVersion, app.languageCode);
   vi.setProductVersion(app.productVersion, app.languageCode);
