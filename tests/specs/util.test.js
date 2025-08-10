@@ -65,3 +65,11 @@ describe('util/validate', function () {
   });
 
 });
+
+describe('util/parse', function () {
+  // It is the job of the respective `set<platformName>Config` to resolve the app.icon path
+  it('doesnt resolve app.icon', async function () {
+    const newOptions = await util.parse({ app: { icon: '.' } }, {});
+    expect(newOptions.app.icon).toBe('.');
+  });
+});
