@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.14.2](https://github.com/nwutils/nw-builder/compare/v4.14.1...v4.14.2) (2025-08-10)
+
+
+### Bug Fixes
+
+* **util:** add default value for Exec in Desktop Entry file ([#1434](https://github.com/nwutils/nw-builder/issues/1434)) ([0b7f75a](https://github.com/nwutils/nw-builder/commit/0b7f75aef5b0049131489c8e29a67c0fad5ddd0e)), closes [#1433](https://github.com/nwutils/nw-builder/issues/1433)
+* **util:** remove path.resolve for options.app.icon ([#1432](https://github.com/nwutils/nw-builder/issues/1432)) ([bf7be13](https://github.com/nwutils/nw-builder/commit/bf7be13aa55bf192f55272e3801e1cb26171cc1a))
+
+
+### Chores
+
+* **deps-dev:** bump eslint-plugin-jsdoc from 52.0.2 to 52.0.4 in the npm-all group ([#1427](https://github.com/nwutils/nw-builder/issues/1427)) ([6efefe7](https://github.com/nwutils/nw-builder/commit/6efefe7a9eb8aea5a2534330e07814590a4b8bce))
+
 ## [4.14.1](https://github.com/nwutils/nw-builder/compare/v4.14.0...v4.14.1) (2025-08-06)
 
 
