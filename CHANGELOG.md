@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.15.0](https://github.com/nwutils/nw-builder/compare/v4.14.2...v4.15.0) (2025-08-16)
+
+
+### Features
+
+* **deps:** NW.js v0.102.1, Node v24.5.0, npm v11.5.2 ([#1439](https://github.com/nwutils/nw-builder/issues/1439)) ([11b7240](https://github.com/nwutils/nw-builder/commit/11b72404322a5c122742fc597ce4594ad3e0ce7c))
+
+
+### Chores
+
+* **deps-dev:** bump the npm-all group across 1 directory with 4 updates ([#1438](https://github.com/nwutils/nw-builder/issues/1438)) ([c1a5660](https://github.com/nwutils/nw-builder/commit/c1a5660f64c05086f705f5fe27cd8caa484afff9))
+* **deps:** bump actions/checkout from 4.2.2 to 5.0.0 in /.github/workflows in the gha group ([#1436](https://github.com/nwutils/nw-builder/issues/1436)) ([ac79b8b](https://github.com/nwutils/nw-builder/commit/ac79b8bbe47a7da16f0e5e52d403f2c1d1ade1b4))
+
 ## [4.14.2](https://github.com/nwutils/nw-builder/compare/v4.14.1...v4.14.2) (2025-08-10)
 
 
