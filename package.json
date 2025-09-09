@@ -61,7 +61,7 @@
     "eslint": "^9.35.0",
     "eslint-plugin-jsdoc": "^55.0.0",
     "globals": "^16.3.0",
-    "nw": "^0.102.1",
+    "nw": "^0.103.0",
     "selenium-webdriver": "^4.35.0",
     "vitest": "^3.0.7"
   },
