@@ -37,6 +37,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Publish to npm
-        uses: JS-DevTools/npm-publish@v3.1.1
+        uses: JS-DevTools/npm-publish@v4.1.1
         with:
           token: ${{ secrets.NPM_TOKEN }}
