@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.16.0](https://github.com/nwutils/nw-builder/compare/v4.15.0...v4.16.0) (2025-10-05)
+
+
+### Features
+
+* **deps:** NW.js 0.103.0, Node v24.5.0, npm v11.5.2 ([#1446](https://github.com/nwutils/nw-builder/issues/1446)) ([b9e2e37](https://github.com/nwutils/nw-builder/commit/b9e2e3710eb16f61993c0d1d0722d039f0714984))
+* **deps:** NW.js v0.104.0, Node v24.7.0, npm v11.6.1 ([#1449](https://github.com/nwutils/nw-builder/issues/1449)) ([eeb39bf](https://github.com/nwutils/nw-builder/commit/eeb39bff7c90b8edfcb8d1ec92283ddbc2944702))
+
+
+### Bug Fixes
+
+* **util:** parse options.managedManifest correctly ([d3ae0da](https://github.com/nwutils/nw-builder/commit/d3ae0daf2893ff3b547b21b692f2f10abc8513aa))
+
+
+### Chores
+
+* **deps:** bump actions ([83c1df4](https://github.com/nwutils/nw-builder/commit/83c1df4ff708d5811a0031673ab0c937731bf34a))
+* **deps:** bump actions/setup-node from 4.4.0 to 5.0.0 in /.github/workflows in the gha group ([#1447](https://github.com/nwutils/nw-builder/issues/1447)) ([7c50902](https://github.com/nwutils/nw-builder/commit/7c50902e52d45909bf8daa5162626cbdbf1dfe24))
+* **deps:** bump googleapis/release-please-action from 4.2.0 to 4.3.0 in /.github/workflows in the gha group ([#1442](https://github.com/nwutils/nw-builder/issues/1442)) ([1cab1a8](https://github.com/nwutils/nw-builder/commit/1cab1a846f4d2c7f7580179ff13c0e9b429839c8))
+* **deps:** bump the npm-all group across 1 directory with 4 updates ([#1443](https://github.com/nwutils/nw-builder/issues/1443)) ([124d8fb](https://github.com/nwutils/nw-builder/commit/124d8fb773cf7e4c862a62d336b076e345b6c2d0))
+* **deps:** bump the npm-all group across 1 directory with 4 updates ([#1448](https://github.com/nwutils/nw-builder/issues/1448)) ([8053fe1](https://github.com/nwutils/nw-builder/commit/8053fe19d280fbe2d4e36499f3ec936881e3fd65))
+* **deps:** bump the npm-all group across 1 directory with 8 updates ([#1458](https://github.com/nwutils/nw-builder/issues/1458)) ([a3e2afa](https://github.com/nwutils/nw-builder/commit/a3e2afab544d8bd6660d425835bddba2f7e8b5f9))
+
 ## [4.15.0](https://github.com/nwutils/nw-builder/compare/v4.14.2...v4.15.0) (2025-08-16)
 
 
