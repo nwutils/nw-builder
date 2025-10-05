@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.16.1](https://github.com/nwutils/nw-builder/compare/v4.16.0...v4.16.1) (2025-10-05)
+
+
+### Chores
+
+* **deps:** bump vite from 7.0.2 to 7.1.5 in the npm_and_yarn group across 1 directory ([#1451](https://github.com/nwutils/nw-builder/issues/1451)) ([9b985e2](https://github.com/nwutils/nw-builder/commit/9b985e26537f99d0466255e900bd820a295037f2))
+
 ## [4.16.0](https://github.com/nwutils/nw-builder/compare/v4.15.0...v4.16.0) (2025-10-05)
 
 
