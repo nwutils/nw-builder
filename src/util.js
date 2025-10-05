@@ -176,16 +176,14 @@ async function getNodeManifest({
 /**
  * Function to convert `'true'` and `'false'` into `true` and `false`.
  * `commander` does not do the conversion automatically.
- * @param {any} option - a boolean type option
- * @returns {any} Usually `undefined`, `true` or `false`. if not then it is validated later on.
+ * @param {string} option - a boolean type option
+ * @returns {true | false | string} `true`, `false` or file path
  */
 function str2Bool(option) {
-  if (typeof option === 'string') {
-    if (option === 'true') {
-      return true;
-    } else if (option === 'false') {
-      return false;
-    }
+  if (option === 'true') {
+    return true;
+  } else if (option === 'false') {
+    return false;
   } else {
     return option;
   }
