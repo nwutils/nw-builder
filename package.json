@@ -59,7 +59,7 @@
     "@vitest/coverage-v8": "^3.2.4",
     "base-volta-off-of-nwjs": "^1.0.5",
     "eslint": "^9.37.0",
-    "eslint-plugin-jsdoc": "^60.8.1",
+    "eslint-plugin-jsdoc": "^60.8.3",
     "globals": "^16.4.0",
     "nw": "^0.104.0",
     "selenium-webdriver": "^4.36.0",
