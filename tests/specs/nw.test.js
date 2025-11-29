@@ -11,11 +11,11 @@ describe('get/nw', function () {
 
   let nwFile = '';
 
-  afterEach(function () {
-    fs.promises.rm(nwFile, { recursive: true, force: true });
+  afterEach(async function () {
+    await fs.promises.rm(nwFile, { recursive: true, force: true });
   });
 
-  it('downloades a NW.js Linux tarball or Windows/MacOS zip', async function () {
+  it('downloades a NW.js Linux tarball or Windows/MacOS zip', { timeout: Infinity }, async function () {
     nwFile = await nw(
       'https://dl.nwjs.io',
       '0.83.0',
@@ -25,5 +25,5 @@ describe('get/nw', function () {
       './tests/fixtures'
     );
     expect(util.fileExists(nwFile)).resolves.toBe(true);
-  }, Infinity);
+  });
 });

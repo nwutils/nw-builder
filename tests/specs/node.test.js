@@ -10,16 +10,16 @@ describe('get/node', function () {
 
   let nodeFile = '';
 
-  afterEach(function () {
-    fs.promises.rm(nodeFile, { recursive: true, force: true });
+  afterEach(async function () {
+    await fs.promises.rm(nodeFile, { recursive: true, force: true });
   });
 
-  it('downloades Node headers', async function () {
+  it('downloades Node headers', { timeout: Infinity }, async function () {
     nodeFile = await node(
       'https://dl.nwjs.io',
-      '0.83.0',
+      '0.106.0',
       './tests/fixtures'
     );
     expect(util.fileExists(nodeFile)).resolves.toBe(true);
-  }, Infinity);
+  });
 });

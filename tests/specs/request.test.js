@@ -11,6 +11,6 @@ describe.skip('get/request', function () {
 
   it('downloads from specific url', async function () {
     await request(url, filePath);
-    expect(util.fileExists(filePath)).resolves.toBe(true);
+    await expect(util.fileExists(filePath)).resolves.toBe(true);
   });
 });

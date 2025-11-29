@@ -17,7 +17,7 @@ describe.skip('bld test suite', async () => {
   const nwOptions = {
     srcDir: 'tests/fixtures/app',
     mode: 'build',
-    version: '0.93.0',
+    version: '0.106.0',
     flavor: 'sdk',
     platform: util.PLATFORM_KV[process.platform],
     arch: util.ARCH_KV[process.arch],
@@ -41,7 +41,7 @@ describe.skip('bld test suite', async () => {
     await build(nwOptions);
   });
 
-  it('runs after build', async () => {
+  it('runs after build', { timeout: Infinity }, async () => {
     const options = new Options();
     const args = [
       `--nwapp=${path.resolve('test', 'fixture', 'app')}`,
@@ -56,6 +56,6 @@ describe.skip('bld test suite', async () => {
     driver = Driver.createSession(options, service);
     const text = await driver.findElement(By.id('test')).getText();
     expect(text).toBe('Hello, World!');
-  }, { timeout: Infinity });
+  });
 
 });

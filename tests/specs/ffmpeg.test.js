@@ -11,18 +11,18 @@ describe('get/ffmpeg', function () {
 
   let ffmpegFile = '';
 
-  afterEach(function () {
-    fs.promises.rm(ffmpegFile, { recursive: true, force: true });
+  afterEach(async function () {
+    await fs.promises.rm(ffmpegFile, { recursive: true, force: true });
   });
 
-  it('downloades community prebuild FFmpeg for specifc platform', async function () {
+  it('downloades community prebuild FFmpeg for specifc platform', { timeout: Infinity }, async function () {
     ffmpegFile = await ffmpeg(
       'https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download',
-      '0.83.0',
+      '0.106.0',
       util.PLATFORM_KV[process.platform],
       util.ARCH_KV[process.arch],
       './tests/fixtures'
     );
-    expect(util.fileExists(ffmpegFile)).resolves.toBe(true);
-  }, Infinity);
+    await expect(util.fileExists(ffmpegFile)).resolves.toBe(true);
+  });
 });

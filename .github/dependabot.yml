@@ -6,14 +6,9 @@ updates:
       interval: "daily"
     versioning-strategy: increase
     groups:
-      npm-nw:
+      npm:
         patterns:
-          - "nw*"
-      npm-all:
-        patterns:
-          - "*"  # catches everything else
-        exclude-patterns:
-          - "nw"
+          - "*"
 
   - package-ecosystem: "github-actions"
     directory: ".github/workflows"

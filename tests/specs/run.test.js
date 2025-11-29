@@ -11,7 +11,7 @@ describe('run test suite', async () => {
   const nwOptions = {
     srcDir: 'tests/fixtures/app',
     mode: 'build',
-    version: '0.93.0',
+    version: '0.106.0',
     flavor: 'sdk',
     platform: util.PLATFORM_KV[process.platform],
     arch: util.ARCH_KV[process.arch],

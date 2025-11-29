@@ -6,12 +6,12 @@ import nodeManifest from '../../package.json';
 
 describe('get/verify', function () {
 
-  it('verify shasums', async function () {
+  it('verify shasums', { timeout: Infinity }, async function () {
     const status = await verify(
       `https://dl.nwjs.io/v${nodeManifest.devDependencies.nw.split('^')[1]}/SHASUMS256.txt`,
       `./node_modules/nw/shasum/${nodeManifest.devDependencies.nw.split('^')[1]}.txt`,
       './node_modules/nw'
     );
     expect(status).toBe(true);
-  }, Infinity);
+  });
 });
