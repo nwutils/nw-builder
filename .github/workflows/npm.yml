@@ -1,42 +1,25 @@
-name: cd
+name: npm
 
 on:
   push:
-    branches:
-    - main
-
-concurrency:
-  group: ${{ github.ref }}
-  cancel-in-progress: true
+    tags:
+      - 'v*'
 
 permissions:
+  id-token: write
   contents: read
-  pull-requests: write
 
 jobs:
-  env:
+  publish:
     runs-on: ubuntu-24.04
     steps:
-      - name: Check if NPM_TOKEN is set
-        run: |
-          if [ -z "${{ secrets.NPM_TOKEN }}" ]; then
-            echo "NPM_TOKEN is not set, skipping job."
-            exit 1
-          fi
-        continue-on-error: true
-  npm:
-    needs: [ env ]
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6.0.0
-      - name: Setup Node
-        uses: actions/setup-node@v6.0.0
+      - uses: actions/checkout@v6.0.0
+      - uses: actions/setup-node@v6.0.0
         with:
-          node-version: 23
-      - name: Install dependencies
-        run: npm ci
-      - name: Publish to npm
-        uses: JS-DevTools/npm-publish@v4.1.1
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm install -g npm@latest
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test
+      - run: npm publish --tag latest --provenance --access public
