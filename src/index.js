@@ -28,7 +28,7 @@ import util from './util.js';
  * @property {boolean}                             [shaSum = true]                           If true, shasum is enabled. Otherwise, disabled.
  * @property {boolean | "zip" | "tar" | "tgz"}     [zip=false]                               If true, "zip", "tar" or "tgz" the outDir directory is compressed.
  * @property {boolean | string | object}           [managedManifest = false]                 Managed manifest mode
- * @property {false | "gyp"}                       [nodeAddon = false]                       Rebuild Node native addons
+ * @property {boolean}                             [nodeAddon = false]                       Rebuild Node native addons
  * @property {boolean}                             [cli=false]                               If true the CLI is used to parse options. This option is used internally.
  */
 
@@ -139,7 +139,6 @@ async function nwbuild(options) {
         app: options.app,
         glob: options.glob,
         managedManifest: options.managedManifest,
-        nativeAddon: options.nativeAddon,
         zip: options.zip,
         releaseInfo: releaseInfo,
       });

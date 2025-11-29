@@ -426,21 +426,15 @@ export const validate = async (options, releaseInfo) => {
   }
 
   if (typeof options.nativeAddon !== 'boolean') {
-    if (typeof options.nativeAddon !== 'boolean' && typeof options.nativeAddon !== 'string') {
-      throw new Error('Expected options.nativeAddon to be a boolean or string type. Got ' + typeof options.nativeAddon);
-    }
+      throw new Error('Expected options.nativeAddon to be a boolean. Got ' + typeof options.nativeAddon);
+  }
 
-    if (semver.parse(options.version).minor >= '83' && options.nativeAddon !== false) {
-      throw new Error('Native addons are not supported for NW.js v0.82.0 and below');
-    }
-
-    if (typeof options.zip !== 'boolean' &
+  if (typeof options.zip !== 'boolean' &
       options.zip !== 'zip' &&
       options.zip !== 'tar' &&
       options.zip !== 'tgz') {
       throw new Error('Expected options.zip to be a boolean, `zip`, `tar` or `tgz`. Got ' + typeof options.zip);
     }
-  }
 
   if (options.platform === 'linux') {
     if (options.app.name && typeof options.app.name !== 'string') {

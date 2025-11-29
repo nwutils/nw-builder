@@ -122,7 +122,7 @@ Get Node headers if you have to rebuild Node addons.
 ```javascript
 nwbuild({
   mode: "get",
-  nativeAddon: "gyp"
+  nativeAddon: true,
 });
 ```
 
@@ -226,7 +226,7 @@ Options
 | glob | `boolean` | `true`| If true file globbing is enabled when parsing `srcDir`. |
 | outDir | `string` | `"./out"` | Directory to store build artifacts |
 | managedManifest | `boolean \| string \| object` | `false` | Managed manifest |
-| nodeAddon | `false \| "gyp"` | `false` | Rebuild Node native addons |
+| nodeAddon | `boolean` | `false` | Rebuild Node native addons |
 | zip | `boolean \| "zip" \| "tar" \| "tgz"` | `false`| If true, "zip", "tar" or "tgz" the `outDir` directory is compressed. |
 | app | `LinuxRc \| WinRc \| OsxRc` | Additional options for each platform. (See below.)
 
@@ -340,18 +340,6 @@ Singapore mirror:
 nwbuild({
   mode: "get",
   downloadUrl: "https://cnpmjs.org/mirrors/nwjs/",
-});
-```
-
-### Let `nw-builder` manage your native addons
-
-> Note: this behaviour is buggy and quite limited. This guide is to show what will be possible in the coming minor releases.
-
-```javascript
-nwbuild({
-  mode: "build",
-  managedManifest: true,
-  nativeAddon: "gyp",
 });
 ```
 

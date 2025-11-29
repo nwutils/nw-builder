@@ -20,7 +20,7 @@ import util from '../util.js';
  * @property {string}                               [cacheDir = "./cache"]                Cache directory
  * @property {boolean}                              [cache = true]                        If false, remove cache and redownload.
  * @property {boolean}                              [ffmpeg = false]                      If true, ffmpeg is not downloaded.
- * @property {false | "gyp"}                        [nativeAddon = false]                 Rebuild native modules
+ * @property {boolean}                              [nativeAddon = false]                 Download Node headers for native addons.
  * @property {string}                               [logLevel = 'info']                   User defined log level.
  * @property {boolean}                              [shaSum = true]                       If true shasum is enabled, otherwise disabled.
  */
@@ -183,7 +183,7 @@ async function get(options) {
 
   }
 
-  if (options.nativeAddon === 'gyp') {
+  if (options.nativeAddon === true) {
 
     /**
      * File path to NW'js Node headers tarball.

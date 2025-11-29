@@ -96,7 +96,6 @@ import setOsxConfig from './bld/osx.js';
  * @property {LinuxRc | WinRc | OsxRc}              [app]                                       Platform specific rc
  * @property {boolean}                              [glob = true]                               File globbing
  * @property {boolean | string | object}            [managedManifest = false]                   Manage manifest
- * @property {false | "gyp"}                        [nativeAddon = false]                       Rebuild native modules
  * @property {false | "zip" | "tar" | "tgz"}        [zip = false]                               Compress built artifacts
  * @property {object}                               [releaseInfo = {}]                          Version specific release metadata.
  */
@@ -119,7 +118,6 @@ async function bld({
   app,
   glob = true,
   managedManifest = false,
-  nativeAddon = false,
   zip = false,
   releaseInfo = {},
 }) {
@@ -188,11 +186,6 @@ async function bld({
     await setWinConfig({ app, outDir });
   } else if (platform === 'osx') {
     await setOsxConfig({ app, outDir, releaseInfo });
-  }
-
-  if (nativeAddon === 'gyp') {
-    throw new Error('Rebuilding Node addons functionality is broken and has been disabled. This functionality may be removed in the future.');
-    // buildNativeAddon({ cacheDir, version, platform, arch, outDir, nodeVersion });
   }
 
   if (zip !== false) {
@@ -353,20 +346,6 @@ const setWinConfig = async ({ app, outDir }) => {
   const outBuffer = Buffer.from(exe.generate());
   await fs.promises.writeFile(outDirAppExe, outBuffer);
 };
-
-/*
-const buildNativeAddon = ({ cacheDir, version, platform, arch, outDir, nodeVersion }) => {
-  let nodePath = path.resolve(cacheDir, `node-v${version}-${platform}-${arch}`);
-  const cwd = path.resolve(
-    outDir,
-    platform !== 'osx'
-      ? 'package.nw'
-      : 'nwjs.app/Contents/Resources/app.nw',
-  );
-
-  child_process.execFileSync('node-gyp', ['rebuild', `--target=${nodeVersion}`, `--nodedir=${nodePath}`], { cwd });
-};
-*/
 
 const compress = async ({
   zip,
