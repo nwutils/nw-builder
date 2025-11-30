@@ -5,7 +5,6 @@ import path from 'node:path';
 import process from 'node:process';
 
 import * as GlobModule from 'glob';
-import semver from 'semver';
 
 /**
  * Get manifest (array of NW release metadata) from URL.

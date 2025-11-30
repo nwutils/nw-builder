@@ -6,7 +6,7 @@ import chrome from 'selenium-webdriver/chrome.js';
 import { beforeAll, describe, expect, it } from 'vitest';
 
 import build from '../../src/bld.js';
-import get from '../../src/get/index.js';
+import get from '@nwutils/getter';
 import util from '../../src/util.js';
 
 const { Driver, ServiceBuilder, Options } = chrome;
@@ -30,6 +30,7 @@ describe.skip('bld test suite', async () => {
     glob: false,
     managedManifest: false,
     nativeAddon: false,
+    shaSum: true,
     zip: false
   };
 

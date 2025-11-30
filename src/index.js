@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import bld from './bld.js';
-import get from './get/index.js';
+import get from '@nwutils/getter';
 import run from './run.js';
 import util from './util.js';
 
@@ -88,9 +88,6 @@ async function nwbuild(options) {
     util.log('info', options.logLevel, 'Validate options.* ...');
     await util.validate(options, releaseInfo);
     util.log('debug', options.logLevel, `Options:\n${JSON.stringify(options, null, 2)}`);
-
-    /* Remove leading "v" from version string */
-    options.version = releaseInfo.version.slice(1);
 
     util.log('info', options.logLevel, 'Getting NW.js and related binaries...');
     await get({
