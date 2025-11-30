@@ -30,6 +30,7 @@ describe.skip('bld test suite', async () => {
     glob: false,
     managedManifest: false,
     nativeAddon: false,
+    shaSum: true,
     zip: false
   };
 
