@@ -89,9 +89,6 @@ async function nwbuild(options) {
     await util.validate(options, releaseInfo);
     util.log('debug', options.logLevel, `Options:\n${JSON.stringify(options, null, 2)}`);
 
-    /* Remove leading "v" from version string */
-    options.version = releaseInfo.version.slice(1);
-
     util.log('info', options.logLevel, 'Getting NW.js and related binaries...');
     await get({
       version: options.version,
