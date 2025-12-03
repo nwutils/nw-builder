@@ -25,7 +25,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6.0.0
+        uses: actions/checkout@v6.0.1
       - name: Setup Volta
         uses: volta-cli/action@v4.2.1
       - name: Node.js version
@@ -40,4 +40,4 @@ jobs:
         run: npm run test:cov
       - name: Report Coverage
         if: always()
-        uses:  davelosert/vitest-coverage-report-action@v2.8.3
+        uses:  davelosert/vitest-coverage-report-action@v2.9.0
