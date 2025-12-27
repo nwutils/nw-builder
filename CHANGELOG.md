@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.16.1](https://github.com/nwutils/nw-builder/compare/v4.16.0...v4.16.1) (2025-12-27)
+
+
+### Bug Fixes
+
+* **cli:** handle options.shaSum properly ([#1489](https://github.com/nwutils/nw-builder/issues/1489)) ([8a4d2c7](https://github.com/nwutils/nw-builder/commit/8a4d2c7b52c04a2f20ae66efb34974bb6b51af1d)), closes [#1488](https://github.com/nwutils/nw-builder/issues/1488)
+* **deps:** upgrade Vitest ([b1d8cf5](https://github.com/nwutils/nw-builder/commit/b1d8cf56d949e748a3dc531a814de838562b66fc))
+
+
+### Chores
+
+* **ci:** switch to npm oidc ([5ca9dfa](https://github.com/nwutils/nw-builder/commit/5ca9dfa673aa1e753f7c2cefb21bab295b23d86f))
+* **deps-dev:** bump js-yaml from 4.1.0 to 4.1.1 ([#1473](https://github.com/nwutils/nw-builder/issues/1473)) ([8f52716](https://github.com/nwutils/nw-builder/commit/8f52716bc955b5239bd1a187186db132213f597e))
+* **deps-dev:** bump nw from 0.104.0 to 0.104.1 in the npm-nw group ([#1462](https://github.com/nwutils/nw-builder/issues/1462)) ([4262a62](https://github.com/nwutils/nw-builder/commit/4262a62e74e4468638407c1d11cce0169f15b860))
+* **deps:** bump glob ([#1478](https://github.com/nwutils/nw-builder/issues/1478)) ([8e58d6a](https://github.com/nwutils/nw-builder/commit/8e58d6a0b66674a79f6ce351b5d83a359bb23afe))
+* **deps:** bump tar from 7.5.1 to 7.5.2 ([#1474](https://github.com/nwutils/nw-builder/issues/1474)) ([e8150e6](https://github.com/nwutils/nw-builder/commit/e8150e6898fdb639b8ac1df77f6637d7da0b3dcd))
+* **deps:** bump the gha group across 1 directory with 3 updates ([#1477](https://github.com/nwutils/nw-builder/issues/1477)) ([f13e5ee](https://github.com/nwutils/nw-builder/commit/f13e5eeb816769283657faa6111d91a1a2c6ddd5))
+* **deps:** bump the gha group across 1 directory with 3 updates ([#1487](https://github.com/nwutils/nw-builder/issues/1487)) ([3f111c9](https://github.com/nwutils/nw-builder/commit/3f111c97e2ab6c4895caf125d066a815b59a9889))
+* **deps:** bump the npm group across 1 directory with 13 updates ([#1485](https://github.com/nwutils/nw-builder/issues/1485)) ([5d6163c](https://github.com/nwutils/nw-builder/commit/5d6163c082e63c3a8dcd6395cf13a3723aed8022))
+* **deps:** bump vite from 7.0.2 to 7.1.5 in the npm_and_yarn group across 1 directory ([#1451](https://github.com/nwutils/nw-builder/issues/1451)) ([9b985e2](https://github.com/nwutils/nw-builder/commit/9b985e26537f99d0466255e900bd820a295037f2))
+* **deps:** remove unused dependency semver ([f420a1a](https://github.com/nwutils/nw-builder/commit/f420a1a28cc48f0b010ef735b0f506b410184f43))
+* git ignore tarballs ([e77f7cd](https://github.com/nwutils/nw-builder/commit/e77f7cd8512141553348e0e57111c9c71cc43e22))
+* remove node-gyp and related ([ea181c4](https://github.com/nwutils/nw-builder/commit/ea181c4ed0d8847a76276fd8746a6af38efa6297))
+
 ## [4.16.0](https://github.com/nwutils/nw-builder/compare/v4.15.0...v4.16.0) (2025-10-05)
 
 
