@@ -208,7 +208,7 @@ export const parse = async (options, pkg) => {
   options.cache = str2Bool(options.cache ?? true);
   options.ffmpeg = str2Bool(options.ffmpeg ?? false);
   options.logLevel = options.logLevel ?? 'info';
-  options.shaSum = options.shaSum ?? true;
+  options.shaSum = str2Bool(options.shaSum ?? true);
 
   if (options.mode === 'get') {
     return { ...options };
