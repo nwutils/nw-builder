@@ -22,7 +22,7 @@ program
   .option('--ffmpeg <boolean>', 'Enable/disable community ffmpeg', false)
   .option('--glob <boolean>', 'Enable/disable globbing', true)
   .option('--logLevel <string>', 'Specify log level', 'info')
-  .option('--shaSum <string>', 'Enable/disable shasum', true)
+  .option('--shaSum <boolean>', 'Enable/disable shasum', true)
   .option('--zip <string>', 'Enable/disable compression', false)
   .option('--managedManifest <string>', 'Managed manifest mode', false)
   .option('--nodeAddon <boolean>', 'Download NW.js Node headers', false)
