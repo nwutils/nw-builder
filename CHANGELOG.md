@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.16.2](https://github.com/nwutils/nw-builder/compare/v4.16.1...v4.16.2) (2025-12-28)
+
+
+### Bug Fixes
+
+* **ci:** integrate OIDC with Release Please Action ([ffc0057](https://github.com/nwutils/nw-builder/commit/ffc00578e57632caebe2e7dfcc0d0dc372d400e4))
+
+
+### Chores
+
+* **docs:** remove rebuilding native addons instructions ([05095fc](https://github.com/nwutils/nw-builder/commit/05095fc2fa82337beff62b42d92a13859e36b0f0))
+
 ## [4.16.1](https://github.com/nwutils/nw-builder/compare/v4.16.0...v4.16.1) (2025-12-27)
 
 
