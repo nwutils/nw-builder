@@ -182,27 +182,6 @@ nwbuild({
 });
 ```
 
-#### Rebuild Node addons
-
-> Currently this feature is disabled and it may be removed in the future.
-
-It only builds node addons which have a `binding.gyp` file in the `srcDir`. There are plans to support nan, cmake, ffi and gn and auto rebuild native addons which are installed as node modules.
-
-```javascript
-nwbuild({
-  mode: "build",
-  nodeAddon: "gyp",
-});
-```
-
-We recommend rebuilding Node addons for NW.js via `node-gyp` if you are using NW.js v0.83.0 or above.
-
-```shell
-node-gyp rebuild --target=22.2.0 --nodedir=/path/to/nw/node/headers
-```
-
-NW.js's Node version should match the Node version on the host machine due to [ABI differences in V8](https://github.com/nwjs/nw.js/issues/5025).
-
 ## API Reference
 
 Options
