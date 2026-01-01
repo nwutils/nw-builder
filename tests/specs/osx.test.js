@@ -11,7 +11,7 @@ import util from '../../src/util.js';
 
 import nodeManifest from '../../package.json';
 
-describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function () {
+describe('bld/setOsxConfig', async function () {
 
   const outDir = './tests/fixtures/macos';
   const appPath = path.join(outDir, 'Demo.app');
