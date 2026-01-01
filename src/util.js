@@ -15,7 +15,7 @@ async function getManifest(manifestUrl) {
 
   if (manifestUrl.startsWith('file://')) {
     const filePath = manifestUrl.replace('file://', '');
-    return fs.readFileSync(filePath, { encoding: 'utf-8' });
+    return fs.readFileSync(path.resolve(filePath), { encoding: 'utf-8' });
   } else {
     const response = await axios.get(manifestUrl, { responseType: 'json' });
     return response.data;
