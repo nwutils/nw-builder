@@ -73,3 +73,10 @@ describe('util/parse', function () {
     expect(newOptions.app.icon).toBe('.');
   });
 });
+
+describe('util/getManifest', function () {
+  it('parses local file correctly', async function () {
+    const localManifestFile = JSON.parse(await util.getManifest(`file:///${process.cwd()}/tests/fixtures/util/getManifest_manifest.json`));
+    expect(localManifestFile).toHaveProperty('latest', 'v0.106.1');
+  });
+});

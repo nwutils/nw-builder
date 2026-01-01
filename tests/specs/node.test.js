@@ -20,6 +20,6 @@ describe('get/node', function () {
       '0.106.0',
       './tests/fixtures'
     );
-    expect(util.fileExists(nodeFile)).resolves.toBe(true);
+    await expect(util.fileExists(nodeFile)).resolves.toBe(true);
   });
 });

@@ -24,6 +24,6 @@ describe('get/nw', function () {
       util.ARCH_KV[process.arch],
       './tests/fixtures'
     );
-    expect(util.fileExists(nwFile)).resolves.toBe(true);
+    await expect(util.fileExists(nwFile)).resolves.toBe(true);
   });
 });

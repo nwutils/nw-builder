@@ -1,9 +1,9 @@
 import console from 'node:console';
 import fs from 'node:fs';
-import https from 'node:https';
 import path from 'node:path';
 import process from 'node:process';
 
+import axios from 'axios';
 import * as GlobModule from 'glob';
 
 /**
@@ -11,34 +11,16 @@ import * as GlobModule from 'glob';
  * @param  {string}                      manifestUrl  Url to manifest
  * @returns {Promise<string>}              - Manifest object
  */
-function getManifest(manifestUrl) {
+async function getManifest(manifestUrl) {
   let chunks = '';
 
   if (manifestUrl.startsWith('file://')) {
     const filePath = manifestUrl.replace('file://', '');
     return fs.readFileSync(filePath, { encoding: 'utf-8' });
+  } else {
+    const response = await axios.get(manifestUrl, { responseType: 'json' });
+    return response.data;
   }
-
-  return new Promise((resolve) => {
-    const req = https.get(manifestUrl, (response) => {
-      response.on('data', (chunk) => {
-        chunks += chunk;
-      });
-
-      response.on('error', (e) => {
-        console.error(e);
-        resolve('');
-      });
-
-      response.on('end', () => {
-        resolve(chunks);
-      });
-    });
-    req.on('error', (e) => {
-      console.error(e);
-      resolve('');
-    });
-  });
 }
 
 /**
@@ -669,4 +651,4 @@ function log(severity, logLevel, message) {
   return stdout;
 }
 
-export default { fileExists, getReleaseInfo, getPath, PLATFORM_KV, ARCH_KV, EXE_NAME, globFiles, getNodeManifest, parse, validate, log };
+export default { fileExists, getReleaseInfo, getManifest, getPath, PLATFORM_KV, ARCH_KV, EXE_NAME, globFiles, getNodeManifest, parse, validate, log };
