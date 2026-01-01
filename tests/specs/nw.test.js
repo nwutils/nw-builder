@@ -18,7 +18,7 @@ describe('get/nw', function () {
   it('downloades a NW.js Linux tarball or Windows/MacOS zip', { timeout: Infinity }, async function () {
     nwFile = await nw(
       'https://dl.nwjs.io',
-      '0.83.0',
+      '0.106.0',
       'sdk',
       util.PLATFORM_KV[process.platform],
       util.ARCH_KV[process.arch],

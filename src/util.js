@@ -12,7 +12,6 @@ import * as GlobModule from 'glob';
  * @returns {Promise<string>}              - Manifest object
  */
 async function getManifest(manifestUrl) {
-  let chunks = '';
 
   if (manifestUrl.startsWith('file://')) {
     const filePath = manifestUrl.replace('file://', '');
