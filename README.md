@@ -194,7 +194,7 @@ Options
 | platform | `"linux" \| "osx" \| "win"` | | Host platform |
 | arch | `"ia32" \| "x64" \| "arm64"` | | Host architecture |
 | downloadUrl | `"https://dl.nwjs.io" \| "https://npm.taobao.org/mirrors/nwjs" \| https://npmmirror.com/mirrors/nwjs \| "https://github.com/corwin-of-amber/nw.js/releases/"` | `"https://dl.nwjs.io"` | Download server. Supports file systems too (for example `file:///home/localghost/nwjs_mirror`) |
-| manifestUrl | `"https://nwjs.io/versions.json" \| "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json"` | `"https://nwjs.io/versions.json"` | Versions manifest, can be HTTP(S) for FILE |
+| manifestUrl | `"https://nwjs.io/versions.json" \| "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json"` | `"https://nwjs.io/versions.json"` | Versions manifest gotten via https or local file |
 | cacheDir | `string` | `"./cache"` | Directory to cache NW binaries |
 | cache | `boolean` | `true`| If true the existing cache is used. Otherwise it removes and redownloads it. |
 | ffmpeg | `boolean` | `false`| If true the chromium ffmpeg is replaced by community version with proprietary codecs. |
