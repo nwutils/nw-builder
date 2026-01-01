@@ -29,7 +29,7 @@ async function getManifest(manifestUrl) {
  * @param  {string} arch         NW architecture
  * @param  {string} cacheDir     Directory to store NW binaries
  * @param  {string} manifestUrl  Versions manifest URI, https or file path
- * @returns {object}              Version specific release info
+ * @returns {Promise<object>}    Version specific release info
  */
 async function getReleaseInfo(
   version,
