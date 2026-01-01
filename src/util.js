@@ -14,6 +14,11 @@ import * as GlobModule from 'glob';
 function getManifest(manifestUrl) {
   let chunks = '';
 
+  if (manifestUrl.startsWith('file://')) {
+    const filePath = manifestUrl.replace('file://', '');
+    return fs.readFileSync(filePath, { encoding: 'utf-8' });
+  }
+
   return new Promise((resolve) => {
     const req = https.get(manifestUrl, (response) => {
       response.on('data', (chunk) => {
@@ -425,15 +430,15 @@ export const validate = async (options, releaseInfo) => {
   }
 
   if (typeof options.nativeAddon !== 'boolean') {
-      throw new Error('Expected options.nativeAddon to be a boolean. Got ' + typeof options.nativeAddon);
+    throw new Error('Expected options.nativeAddon to be a boolean. Got ' + typeof options.nativeAddon);
   }
 
   if (typeof options.zip !== 'boolean' &
-      options.zip !== 'zip' &&
-      options.zip !== 'tar' &&
-      options.zip !== 'tgz') {
-      throw new Error('Expected options.zip to be a boolean, `zip`, `tar` or `tgz`. Got ' + typeof options.zip);
-    }
+    options.zip !== 'zip' &&
+    options.zip !== 'tar' &&
+    options.zip !== 'tgz') {
+    throw new Error('Expected options.zip to be a boolean, `zip`, `tar` or `tgz`. Got ' + typeof options.zip);
+  }
 
   if (options.platform === 'linux') {
     if (options.app.name && typeof options.app.name !== 'string') {
