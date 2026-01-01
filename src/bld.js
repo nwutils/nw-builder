@@ -89,7 +89,7 @@ import setOsxConfig from './bld/osx.js';
  * @property {"normal" | "sdk"}                     [flavor = "normal"]                         Build flavor
  * @property {"linux" | "osx" | "win"}              [platform]                                  Target platform
  * @property {"ia32" | "x64" | "arm64"}             [arch]                                      Target arch
- * @property {string}                               [manifestUrl = "https://nwjs.io/versions.json"]  Manifest URL, https or file path
+ * @property {string}                               [manifestUrl = "https://nwjs.io/versions.json"] Versions manifest URI, https or file path
  * @property {string}                               [srcDir = "./src"]                          Source directory
  * @property {string}                               [cacheDir = "./cache"]                      Cache directory
  * @property {string}                               [outDir = "./out"]                          Out directory

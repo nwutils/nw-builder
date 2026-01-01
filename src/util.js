@@ -8,7 +8,7 @@ import * as GlobModule from 'glob';
 
 /**
  * Get manifest (array of NW release metadata) from URL.
- * @param  {string}                      manifestUrl  Url to manifest, https or file path
+ * @param  {string}                      manifestUrl  Versions manifest URI, https or file path
  * @returns {Promise<string>}              - Manifest object
  */
 async function getManifest(manifestUrl) {
@@ -29,7 +29,7 @@ async function getManifest(manifestUrl) {
  * @param  {string} platform     NW platform
  * @param  {string} arch         NW architecture
  * @param  {string} cacheDir     Directory to store NW binaries
- * @param  {string} manifestUrl  Url to manifest
+ * @param  {string} manifestUrl  Versions manifest URI, https or file path
  * @returns {object}              Version specific release info
  */
 async function getReleaseInfo(
