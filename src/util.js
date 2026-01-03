@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import https from 'node:https';
 import path from 'node:path';
 import process from 'node:process';
+import url from 'node:url';
 
 import * as GlobModule from 'glob';
 
@@ -15,8 +16,8 @@ function getManifest(manifestUrl) {
   let chunks = '';
 
   if (manifestUrl.startsWith('file://')) {
-    const filePath = manifestUrl.replace('file://', '');
-    return fs.readFileSync(path.resolve(filePath), { encoding: 'utf-8' });
+    const filePath = url.fileURLToPath(manifestUrl);
+    return fs.readFileSync(filePath, 'utf-8');
   }
 
   return new Promise((resolve) => {
