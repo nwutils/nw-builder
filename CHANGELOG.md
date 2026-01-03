@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.17.0](https://github.com/nwutils/nw-builder/compare/v4.16.2...v4.17.0) (2026-01-03)
+
+
+### Features
+
+* **util:** support local files for options.manifestUrl ([#1494](https://github.com/nwutils/nw-builder/issues/1494)) ([5d77ea1](https://github.com/nwutils/nw-builder/commit/5d77ea197faebb94bd7be718dd19084d91e5aa25)), closes [#1490](https://github.com/nwutils/nw-builder/issues/1490)
+
+
+### Chores
+
+* **deps-dev:** bump globals from 16.5.0 to 17.0.0 in the npm group ([#1495](https://github.com/nwutils/nw-builder/issues/1495)) ([c816533](https://github.com/nwutils/nw-builder/commit/c81653370892017f60f56cc4d321c3ce79176563))
+* **deps:** bump the gha group in /.github/workflows with 2 updates ([#1492](https://github.com/nwutils/nw-builder/issues/1492)) ([23327e5](https://github.com/nwutils/nw-builder/commit/23327e5a99e492e9f679b9f335d781290a04c936))
+
 ## [4.16.2](https://github.com/nwutils/nw-builder/compare/v4.16.1...v4.16.2) (2025-12-28)
 
 
