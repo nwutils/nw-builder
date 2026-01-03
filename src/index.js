@@ -16,7 +16,7 @@ import util from './util.js';
  * @property {"linux" | "osx" | "win"}             platform                                  Host platform
  * @property {"ia32" | "x64" | "arm64"}            arch                                      Host architecture
  * @property {"https://dl.nwjs.io" | string}       [downloadUrl="https://dl.nwjs.io"]        Download server
- * @property {"https://nwjs.io/versions.json" | string} [manifestUrl="https://nwjs.io/versions.json"]  Versions manifest
+ * @property {"https://nwjs.io/versions.json" | string} [manifestUrl="https://nwjs.io/versions.json"] Versions manifest URI, https or file path
  * @property {"./cache" | string}                  [cacheDir="./cache"]                      Directory to cache NW binaries
  * @property {"./" | string}                       [srcDir="./"]                             File paths to application code
  * @property {"./out" | string}                    [outDir="./out"]                          Directory to store build artifacts

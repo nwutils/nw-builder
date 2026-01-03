@@ -3,16 +3,22 @@ import fs from 'node:fs';
 import https from 'node:https';
 import path from 'node:path';
 import process from 'node:process';
+import url from 'node:url';
 
 import * as GlobModule from 'glob';
 
 /**
  * Get manifest (array of NW release metadata) from URL.
- * @param  {string}                      manifestUrl  Url to manifest
- * @returns {Promise<string>}              - Manifest object
+ * @param  {string}                      manifestUrl  Versions manifest URI, https or file path
+ * @returns {string} - Manifest object
  */
 function getManifest(manifestUrl) {
   let chunks = '';
+
+  if (manifestUrl.startsWith('file://')) {
+    const filePath = url.fileURLToPath(manifestUrl);
+    return fs.readFileSync(filePath, 'utf-8');
+  }
 
   return new Promise((resolve) => {
     const req = https.get(manifestUrl, (response) => {
@@ -42,8 +48,8 @@ function getManifest(manifestUrl) {
  * @param  {string} platform     NW platform
  * @param  {string} arch         NW architecture
  * @param  {string} cacheDir     Directory to store NW binaries
- * @param  {string} manifestUrl  Url to manifest
- * @returns {object}              Version specific release info
+ * @param  {string} manifestUrl  Versions manifest URI, https or file path
+ * @returns {Promise<object>}    Version specific release info
  */
 async function getReleaseInfo(
   version,
@@ -343,8 +349,8 @@ export const validate = async (options, releaseInfo) => {
   if (typeof options.downloadUrl === 'string' && !options.downloadUrl.startsWith('http') && !options.downloadUrl.startsWith('file')) {
     throw new Error('Expected options.downloadUrl to be a string and starts with `http` or `file`.');
   }
-  if (typeof options.manifestUrl === 'string' && !options.manifestUrl.startsWith('http') && !options.manifestUrl.startsWith('file')) {
-    throw new Error('Expected options.manifestUrl to be a string and starts with `http` or `file`.');
+  if (typeof options.manifestUrl === 'string' && !options.manifestUrl.startsWith('https') && !options.manifestUrl.startsWith('file')) {
+    throw new Error('Expected options.manifestUrl to be a string and starts with `https` or `file`.');
   }
   if (typeof options.cacheDir !== 'string') {
     throw new Error('Expected options.cacheDir to be a string. Got ' + typeof options.cacheDir);
@@ -425,15 +431,15 @@ export const validate = async (options, releaseInfo) => {
   }
 
   if (typeof options.nativeAddon !== 'boolean') {
-      throw new Error('Expected options.nativeAddon to be a boolean. Got ' + typeof options.nativeAddon);
+    throw new Error('Expected options.nativeAddon to be a boolean. Got ' + typeof options.nativeAddon);
   }
 
   if (typeof options.zip !== 'boolean' &
-      options.zip !== 'zip' &&
-      options.zip !== 'tar' &&
-      options.zip !== 'tgz') {
-      throw new Error('Expected options.zip to be a boolean, `zip`, `tar` or `tgz`. Got ' + typeof options.zip);
-    }
+    options.zip !== 'zip' &&
+    options.zip !== 'tar' &&
+    options.zip !== 'tgz') {
+    throw new Error('Expected options.zip to be a boolean, `zip`, `tar` or `tgz`. Got ' + typeof options.zip);
+  }
 
   if (options.platform === 'linux') {
     if (options.app.name && typeof options.app.name !== 'string') {
@@ -664,4 +670,4 @@ function log(severity, logLevel, message) {
   return stdout;
 }
 
-export default { fileExists, getReleaseInfo, getPath, PLATFORM_KV, ARCH_KV, EXE_NAME, globFiles, getNodeManifest, parse, validate, log };
+export default { fileExists, getReleaseInfo, getManifest, getPath, PLATFORM_KV, ARCH_KV, EXE_NAME, globFiles, getNodeManifest, parse, validate, log };

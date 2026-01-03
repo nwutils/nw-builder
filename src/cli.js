@@ -14,7 +14,7 @@ program
   .option('--platform <string>', 'NW.js supported platform', util.PLATFORM_KV[process.platform])
   .option('--arch <string>', 'NW.js supported architecture', util.ARCH_KV[process.arch])
   .option('--downloadUrl <string>', 'NW.js download server', 'https://dl.nwjs.io')
-  .option('--manifestUrl <string>', 'NW.js version info', 'https://nwjs.io/versions.json')
+  .option('--manifestUrl <string>', 'NW.js versions manifest URI', 'https://nwjs.io/versions.json')
   .option('--cacheDir <string>', 'Cache NW.js binaries', './cache')
   .option('--outDir <string>', 'NW.js build artifacts', './out')
   .option('--app <object>', 'Platform specific app metadata. Refer to docs for more info', {})
