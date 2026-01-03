@@ -5,7 +5,7 @@ export default defineConfig({
     coverage: {
       exclude: ["**/node_modules/**", "**/tests/**"],
       include: [
-        'src',
+        '**/src/**/*.js',
       ],
       provider: 'v8',
       reporter: ['json', 'json-summary'],
