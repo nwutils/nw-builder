@@ -9,9 +9,9 @@ import * as GlobModule from 'glob';
 /**
  * Get manifest (array of NW release metadata) from URL.
  * @param  {string}                      manifestUrl  Versions manifest URI, https or file path
- * @returns {Promise<string>}              - Manifest object
+ * @returns {string} - Manifest object
  */
-async function getManifest(manifestUrl) {
+function getManifest(manifestUrl) {
   let chunks = '';
 
   if (manifestUrl.startsWith('file://')) {
