@@ -3,7 +3,7 @@ name: e2e
 on:
   pull_request:
     branches:
-    - main
+      - main
 
 permissions:
   contents: read
@@ -18,9 +18,9 @@ jobs:
     strategy:
       matrix:
         os:
-        - macos-15
-        - ubuntu-24.04
-        - windows-2025
+          - macos-15
+          - ubuntu-24.04
+          - windows-2025
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
@@ -36,8 +36,19 @@ jobs:
         run: npm ci
       - name: Check for linting errors
         run: npm run lint
-      - name: Run tests
+      - name: Run tests with coverage
         run: npm run test:cov
+        env:
+          CI: true
+      - name: Upload coverage artifact
+        if: always()
+        uses: actions/upload-artifact@v6.0.0
+        with:
+          name: coverage-${{ matrix.os }}
+          path: coverage
       - name: Report Coverage
         if: always()
-        uses:  davelosert/vitest-coverage-report-action@v2.9.0
+        uses: davelosert/vitest-coverage-report-action@v2.9.0
+        with:
+          name: Vitest Coverage (${{ matrix.os }})
+          json-summary-path: coverage/coverage-summary.json
