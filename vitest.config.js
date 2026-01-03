@@ -6,7 +6,7 @@ export default defineConfig({
       provider: 'v8',
       all: true,
       include: ['src/**/*.js'],
-      reporter: ['json-summary'],
+      reporter: ['json', 'json-summary'],
     },
   },
 });
