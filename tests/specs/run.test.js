@@ -2,7 +2,7 @@ import process from 'node:process';
 
 import { beforeAll, describe, expect, it } from 'vitest';
 
-import get from '../../src/get/index.js';
+import get from '@nwutils/getter';
 import run from '../../src/run.js';
 import util from '../../src/util.js';
 
@@ -24,7 +24,8 @@ describe('run test suite', async () => {
     glob: false,
     managedManifest: false,
     nativeAddon: false,
-    zip: false
+    zip: false,
+    shaSum: false,
   };
 
   beforeAll(async () => {
