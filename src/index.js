@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import bld from './bld.js';
-import get from './get/index.js';
+import get from "@nwutils/getter";
 import run from './run.js';
 import util from './util.js';
 

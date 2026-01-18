@@ -66,6 +66,7 @@
     "vitest": "^4.0.14"
   },
   "dependencies": {
+    "@nwutils/getter": "^0.2.0",
     "archiver": "^7.0.1",
     "axios": "^1.13.2",
     "commander": "^14.0.2",
