@@ -24,7 +24,8 @@ describe('run test suite', async () => {
     glob: false,
     managedManifest: false,
     nativeAddon: false,
-    zip: false
+    zip: false,
+    shaSum: false,
   };
 
   beforeAll(async () => {
