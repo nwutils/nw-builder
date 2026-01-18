@@ -61,21 +61,18 @@
     "eslint": "^9.39.2",
     "eslint-plugin-jsdoc": "^61.5.0",
     "globals": "^17.0.0",
-    "nw": "^0.106.1",
+    "nw": "^0.107.0",
     "selenium-webdriver": "^4.39.0",
     "vitest": "^4.0.14"
   },
   "dependencies": {
     "@nwutils/getter": "^0.2.0",
     "archiver": "^7.0.1",
-    "axios": "^1.13.2",
     "commander": "^14.0.2",
     "glob": "^13.0.0",
     "plist": "^3.1.0",
     "resedit": "^3.0.1",
-    "semver": "^7.7.3",
-    "tar": "^7.5.2",
-    "yauzl-promise": "^4.0.0"
+    "tar": "^7.5.2"
   },
   "volta": {
     "node": "25.2.1",
