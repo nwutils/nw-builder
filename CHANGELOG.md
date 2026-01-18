@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.17.1](https://github.com/nwutils/nw-builder/compare/v4.17.0...v4.17.1) (2026-01-18)
+
+
+### Chores
+
+* **deps-dev:** bump the npm group across 1 directory with 3 updates ([#1502](https://github.com/nwutils/nw-builder/issues/1502)) ([ac25b1a](https://github.com/nwutils/nw-builder/commit/ac25b1abb1cd37cab7c5d3cbb1c8b3430ea41252))
+* **deps:** bump actions/setup-node from 6.1.0 to 6.2.0 in /.github/workflows in the gha group ([#1498](https://github.com/nwutils/nw-builder/issues/1498)) ([a689b09](https://github.com/nwutils/nw-builder/commit/a689b09cf27c05a2772172e8ef4ac426988cb016))
+* **deps:** migrate to @nwutils/getter ([#1500](https://github.com/nwutils/nw-builder/issues/1500)) ([027289c](https://github.com/nwutils/nw-builder/commit/027289cb2214c5a6a5335b9316c471368a30beb7))
+
 ## [4.17.0](https://github.com/nwutils/nw-builder/compare/v4.16.2...v4.17.0) (2026-01-03)
 
 
