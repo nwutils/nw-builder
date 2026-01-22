@@ -15,7 +15,7 @@ import * as GlobModule from 'glob';
 function getManifest(manifestUrl) {
   let chunks = '';
 
-  if (manifestUrl.startsWith('file://')) {
+  if (manifestUrl && manifestUrl.startsWith('file://')) {
     const filePath = url.fileURLToPath(manifestUrl);
     return fs.readFileSync(filePath, 'utf-8');
   }
