@@ -55,7 +55,7 @@ async function nwbuild(options) {
     util.log('debug', 'info', 'Get node manifest...');
     manifest = await util.getNodeManifest({ srcDir: options.srcDir, glob: options.glob });
     if (typeof manifest.json?.nwbuild === 'object') {
-      options = { ...options, ...manifest.json.nwbuild };
+      options = manifest.json.nwbuild;
     }
 
     util.log('info', options.logLevel, 'Parse final options using node manifest');
