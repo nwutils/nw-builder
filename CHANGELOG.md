@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.17.2](https://github.com/nwutils/nw-builder/compare/v4.17.1...v4.17.2) (2026-01-29)
+
+
+### Bug Fixes
+
+* **deps:** bump lodash from 4.17.21 to 4.17.23 ([#1507](https://github.com/nwutils/nw-builder/issues/1507)) ([889f5a9](https://github.com/nwutils/nw-builder/commit/889f5a96fd210fa1360072445846d022a463f9d3))
+* **util:** add options.manifestUrl null check ([#1508](https://github.com/nwutils/nw-builder/issues/1508)) ([78f6f73](https://github.com/nwutils/nw-builder/commit/78f6f7313b35d6a061bfa4ba15aa5a6602cc4d23))
+
+
+### Chores
+
+* **deps:** bump tar from 7.5.6 to 7.5.7 in the npm group ([#1514](https://github.com/nwutils/nw-builder/issues/1514)) ([3d72012](https://github.com/nwutils/nw-builder/commit/3d7201222050386e0a2ae7813414bd49ae450085))
+* **deps:** bump the gha group in /.github/workflows with 2 updates ([#1509](https://github.com/nwutils/nw-builder/issues/1509)) ([9fa20be](https://github.com/nwutils/nw-builder/commit/9fa20be2f2835171bd5524e0e7a8c2722e66a96d))
+* **deps:** bump the npm group across 1 directory with 7 updates ([#1512](https://github.com/nwutils/nw-builder/issues/1512)) ([ee75e55](https://github.com/nwutils/nw-builder/commit/ee75e55797ad2e21910b7bfcbefaa5d1e52287e0))
+
 ## [4.17.1](https://github.com/nwutils/nw-builder/compare/v4.17.0...v4.17.1) (2026-01-18)
 
 
