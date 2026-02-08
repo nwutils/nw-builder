@@ -99,6 +99,7 @@ async function nwbuild(options) {
       platform: options.platform,
       arch: options.arch,
       downloadUrl: options.downloadUrl,
+      manifestUrl: options.manifestUrl,
       cacheDir: options.cacheDir,
       cache: options.cache,
       ffmpeg: options.ffmpeg,
