@@ -59,8 +59,8 @@
     "@vitest/coverage-v8": "^4.0.18",
     "base-volta-off-of-nwjs": "^1.0.5",
     "eslint": "^9.39.2",
-    "eslint-plugin-jsdoc": "^62.4.1",
-    "globals": "^17.2.0",
+    "eslint-plugin-jsdoc": "^62.5.4",
+    "globals": "^17.3.0",
     "nw": "^0.107.0",
     "selenium-webdriver": "^4.40.0",
     "vitest": "^4.0.14"
@@ -68,10 +68,10 @@
   "dependencies": {
     "@nwutils/getter": "^0.2.2",
     "archiver": "^7.0.1",
-    "commander": "^14.0.2",
-    "glob": "^13.0.0",
+    "commander": "^14.0.3",
+    "glob": "^13.0.1",
     "plist": "^3.1.0",
-    "resedit": "^3.0.1",
+    "resedit": "^3.0.2",
     "tar": "^7.5.7"
   },
   "volta": {
