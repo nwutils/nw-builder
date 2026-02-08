@@ -539,7 +539,7 @@ export const validate = async (options, releaseInfo) => {
     if (typeof options.app.NSHumanReadableCopyright !== 'string') {
       throw new Error('Expected options.app.NSHumanReadableCopyright to be a string. Got ' + options.app.NSHumanReadableCopyright);
     }
-    if (typeof options.app.NSLocalNetworkUsageDescription !== 'string') {
+    if (options.app.NSLocalNetworkUsageDescription && typeof options.app.NSLocalNetworkUsageDescription !== 'string') {
       throw new Error('Expected options.app.NSLocalNetworkUsageDescription to be a string. Got ' + options.app.NSLocalNetworkUsageDescription);
     }
   } else {
