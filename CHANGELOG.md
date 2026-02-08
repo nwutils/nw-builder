@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.17.3](https://github.com/nwutils/nw-builder/compare/v4.17.2...v4.17.3) (2026-02-08)
+
+
+### Bug Fixes
+
+* **deps:** bump @isaacs/brace-expansion from 5.0.0 to 5.0.1 ([#1517](https://github.com/nwutils/nw-builder/issues/1517)) ([fd3fe74](https://github.com/nwutils/nw-builder/commit/fd3fe74b80de480ae2dc6239ad3bfbf84d1a88b6))
+* pass options.manifestUrl to @nwutils/getter ([#1522](https://github.com/nwutils/nw-builder/issues/1522)) ([41e2a1a](https://github.com/nwutils/nw-builder/commit/41e2a1a492aef77cbcc661d269f1e197d18c46f9)), closes [#1521](https://github.com/nwutils/nw-builder/issues/1521)
+
+
+### Chores
+
+* **deps:** bump the npm group across 1 directory with 7 updates ([#1523](https://github.com/nwutils/nw-builder/issues/1523)) ([819db4b](https://github.com/nwutils/nw-builder/commit/819db4b61aeee09083902853dee0149c52de5128))
+
 ## [4.17.2](https://github.com/nwutils/nw-builder/compare/v4.17.1...v4.17.2) (2026-01-29)
 
 
