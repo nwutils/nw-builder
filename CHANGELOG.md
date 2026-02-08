@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.17.4](https://github.com/nwutils/nw-builder/compare/v4.17.3...v4.17.4) (2026-02-08)
+
+
+### Chores
+
+* **util:** add null check for options.app.NSLocalNetworkUsageDescription ([bb88ce2](https://github.com/nwutils/nw-builder/commit/bb88ce27a499d2e02f1af46803ebef01290201e3))
+
 ## [4.17.3](https://github.com/nwutils/nw-builder/compare/v4.17.2...v4.17.3) (2026-02-08)
 
 
