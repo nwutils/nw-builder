@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.17.5](https://github.com/nwutils/nw-builder/compare/v4.17.4...v4.17.5) (2026-02-14)
+
+
+### Chores
+
+* **bld:** modify NW.js manifest in options.outDir not options.srcDir ([#1529](https://github.com/nwutils/nw-builder/issues/1529)) ([e1b5b87](https://github.com/nwutils/nw-builder/commit/e1b5b878c1e192a0fc9607dee65263142e4120d6)), closes [#1528](https://github.com/nwutils/nw-builder/issues/1528)
+* **test:** remove product_string from NW.js manifest ([8ebb298](https://github.com/nwutils/nw-builder/commit/8ebb2988fb5f477b9da77e60099ac20ee4a2cf4e)), closes [#1528](https://github.com/nwutils/nw-builder/issues/1528)
+
 ## [4.17.4](https://github.com/nwutils/nw-builder/compare/v4.17.3...v4.17.4) (2026-02-08)
 
 
