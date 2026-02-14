@@ -166,12 +166,12 @@ async function bld({
     );
   }
 
-  const builtManifest = JSON.parse(await fs.promises.readFile(path.resolve(nwProjectDir,'package.json'), 'utf8'));
+  const builtManifest = JSON.parse(await fs.promises.readFile(path.resolve(nwProjectDir, 'package.json'), 'utf8'));
 
   /* Set `product_string` in manifest for MacOS. This is used in renaming the Helper apps. */
   if (platform === 'osx') {
     builtManifest.product_string = app.name;
-    await fs.promises.writeFile(path.resolve(nwProjectDir,'package.json'), JSON.stringify(builtManifest, null, 2));
+    await fs.promises.writeFile(path.resolve(nwProjectDir, 'package.json'), JSON.stringify(builtManifest, null, 2));
   }
 
   if (
@@ -217,7 +217,10 @@ const manageManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
 
   await fs.promises.writeFile(
     path.resolve(
-      nwProjectDir,
+      outDir,
+      platform !== 'osx'
+        ? 'package.nw'
+        : 'nwjs.app/Contents/Resources/app.nw',
       'package.json',
     ),
     JSON.stringify(manifest, null, 2),
@@ -225,7 +228,10 @@ const manageManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
   );
 
   const cwd = path.resolve(
-    nwProjectDir,
+    outDir,
+    platform !== 'osx'
+      ? 'package.nw'
+      : 'nwjs.app/Contents/Resources/app.nw',
   );
 
   if (manifest.packageManager.startsWith('npm')) {
