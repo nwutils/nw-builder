@@ -131,7 +131,6 @@ async function bld({
   await fs.promises.cp(nwDir, outDir, { recursive: true, verbatimSymlinks: true });
 
   const files = await util.globFiles({ srcDir, glob });
-  let manifest = await util.getNodeManifest({ srcDir, glob });
 
   const nwProjectDir = path.resolve(
     outDir,
@@ -167,9 +166,10 @@ async function bld({
     );
   }
 
+  const builtManifest = JSON.parse(await fs.promises.readFile(path.resolve(nwProjectDir,'package.json'), 'utf8'));
+
   /* Set `product_string` in manifest for MacOS. This is used in renaming the Helper apps. */
   if (platform === 'osx') {
-    const builtManifest = JSON.parse(await fs.promises.readFile(path.resolve(nwProjectDir,'package.json'), 'utf8'));
     builtManifest.product_string = app.name;
     await fs.promises.writeFile(path.resolve(nwProjectDir,'package.json'), JSON.stringify(builtManifest, null, 2));
   }
@@ -179,7 +179,7 @@ async function bld({
     typeof managedManifest === 'object' ||
     typeof managedManifest === 'string'
   ) {
-    await manageManifest({ nwPkg: manifest.json, managedManifest, outDir, platform });
+    await manageManifest({ nwPkg: builtManifest, managedManifest, outDir, platform });
   }
 
   if (platform === 'linux') {
@@ -217,10 +217,7 @@ const manageManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
 
   await fs.promises.writeFile(
     path.resolve(
-      outDir,
-      platform !== 'osx'
-        ? 'package.nw'
-        : 'nwjs.app/Contents/Resources/app.nw',
+      nwProjectDir,
       'package.json',
     ),
     JSON.stringify(manifest, null, 2),
@@ -228,10 +225,7 @@ const manageManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
   );
 
   const cwd = path.resolve(
-    outDir,
-    platform !== 'osx'
-      ? 'package.nw'
-      : 'nwjs.app/Contents/Resources/app.nw',
+    nwProjectDir,
   );
 
   if (manifest.packageManager.startsWith('npm')) {
