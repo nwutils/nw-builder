@@ -133,11 +133,14 @@ async function bld({
   const files = await util.globFiles({ srcDir, glob });
   let manifest = await util.getNodeManifest({ srcDir, glob });
 
-  /* Set `product_string` in manifest for MacOS. This is used in renaming the Helper apps. */
-  if (platform === 'osx') {
-    manifest.json.product_string = app.name;
-    await fs.promises.writeFile(manifest.path, JSON.stringify(manifest.json, null, 2));
-  }
+  const nwProjectDir = path.resolve(
+    outDir,
+    platform !== 'osx'
+      ? 'package.nw'
+      : 'nwjs.app/Contents/Resources/app.nw',
+  );
+
+  await fs.promises.mkdir(nwProjectDir, { recursive: true });
 
   if (glob) {
     for (let file of files) {
@@ -148,10 +151,7 @@ async function bld({
       await fs.promises.cp(
         file,
         path.resolve(
-          outDir,
-          platform !== 'osx'
-            ? 'package.nw'
-            : 'nwjs.app/Contents/Resources/app.nw',
+          nwProjectDir,
           file,
         ),
         { recursive: true, force: true },
@@ -161,16 +161,18 @@ async function bld({
     await fs.promises.cp(
       files,
       path.resolve(
-        outDir,
-        platform !== 'osx'
-          ? 'package.nw'
-          : 'nwjs.app/Contents/Resources/app.nw',
+        nwProjectDir,
       ),
       { recursive: true, verbatimSymlinks: true },
     );
   }
 
-  // const nodeVersion = releaseInfo.components.node;
+  /* Set `product_string` in manifest for MacOS. This is used in renaming the Helper apps. */
+  if (platform === 'osx') {
+    const builtManifest = JSON.parse(await fs.promises.readFile(path.resolve(nwProjectDir,'package.json'), 'utf8'));
+    builtManifest.product_string = app.name;
+    await fs.promises.writeFile(path.resolve(nwProjectDir,'package.json'), JSON.stringify(builtManifest, null, 2));
+  }
 
   if (
     managedManifest === true ||
