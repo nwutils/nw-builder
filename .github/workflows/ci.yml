@@ -48,7 +48,7 @@ jobs:
           path: coverage
       - name: Report Coverage
         if: always()
-        uses: davelosert/vitest-coverage-report-action@v2.9.2
+        uses: davelosert/vitest-coverage-report-action@v2.9.3
         with:
           name: Vitest Coverage (${{ matrix.os }})
           json-summary-path: coverage/coverage-summary.json
