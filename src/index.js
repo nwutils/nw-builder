@@ -41,7 +41,7 @@ import util from './util.js';
  */
 async function nwbuild(options) {
   let built;
-  let releaseInfo = {};
+  let releaseInfo;
   let manifest = {
     path: '',
     json: undefined,

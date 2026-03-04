@@ -55,11 +55,11 @@
     "demo:cli": "nwbuild --mode=build --flavor=sdk --glob=false --cacheDir=./node_modules/nw --logLevel=debug --managedManifest=./tests/fixtures/app/package.json --outDir=./tests/fixtures/out/linux --app.name=Demo --app.icon=./tests/fixtures/app/icon.png ./tests/fixtures/app"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.2",
+    "@eslint/js": "^10.0.1",
     "@vitest/coverage-v8": "^4.0.18",
     "base-volta-off-of-nwjs": "^1.0.5",
-    "eslint": "^9.39.2",
-    "eslint-plugin-jsdoc": "^62.5.4",
+    "eslint": "^10.0.2",
+    "eslint-plugin-jsdoc": "^62.7.1",
     "globals": "^17.3.0",
     "nw": "^0.107.0",
     "selenium-webdriver": "^4.40.0",
@@ -76,6 +76,6 @@
   },
   "volta": {
     "node": "25.2.1",
-    "npm": "11.7.0"
+    "npm": "11.11.0"
   }
 }

@@ -59,7 +59,7 @@ async function getReleaseInfo(
   manifestUrl,
 ) {
   let releaseData = undefined;
-  let manifestPath = undefined;
+  let manifestPath;
   if (platform === 'osx' && arch === 'arm64') {
     manifestPath = path.resolve(cacheDir, 'manifest.mac.arm.json');
   } else {
@@ -124,7 +124,6 @@ async function globFiles({
   let patterns;
   if (glob) {
     files = [];
-    patterns = [];
     if (Array.isArray(srcDir)) {
       patterns = srcDir;
     } else {
