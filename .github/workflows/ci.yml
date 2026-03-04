@@ -42,13 +42,13 @@ jobs:
           CI: true
       - name: Upload coverage artifact
         if: always()
-        uses: actions/upload-artifact@v6.0.0
+        uses: actions/upload-artifact@v7.0.0
         with:
           name: coverage-${{ matrix.os }}
           path: coverage
       - name: Report Coverage
         if: always()
-        uses: davelosert/vitest-coverage-report-action@v2.9.2
+        uses: davelosert/vitest-coverage-report-action@v2.9.3
         with:
           name: Vitest Coverage (${{ matrix.os }})
           json-summary-path: coverage/coverage-summary.json
