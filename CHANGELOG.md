@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.17.6](https://github.com/nwutils/nw-builder/compare/v4.17.5...v4.17.6) (2026-03-06)
+
+
+### Bug Fixes
+
+* **deps:** bump rollup from 4.57.0 to 4.59.0 ([#1540](https://github.com/nwutils/nw-builder/issues/1540)) ([41eb131](https://github.com/nwutils/nw-builder/commit/41eb1315c65775a2edc70ee7a293fd211287649e))
+* **deps:** bump tar from 7.5.9 to 7.5.10 in the npm group ([#1546](https://github.com/nwutils/nw-builder/issues/1546)) ([5aa79fe](https://github.com/nwutils/nw-builder/commit/5aa79fef74e87ad30152206352223c2a20af277c))
+
+
+### Chores
+
+* **ci:** resolve linting errors ([a4b6b91](https://github.com/nwutils/nw-builder/commit/a4b6b91e858e31c049414551bd091e96ce80cc0e))
+* **deps:** bump actions/setup-node from 6.2.0 to 6.3.0 in /.github/workflows in the gha group ([#1545](https://github.com/nwutils/nw-builder/issues/1545)) ([1484f40](https://github.com/nwutils/nw-builder/commit/1484f406b1857f8478a3447e0b94d81e74df2ebe))
+* **deps:** bump minimatch from 5.1.6 to 5.1.9 ([#1543](https://github.com/nwutils/nw-builder/issues/1543)) ([3017eb8](https://github.com/nwutils/nw-builder/commit/3017eb8e362ecb3b7e16b154961a59cab27cefd3))
+* **deps:** bump the gha group across 1 directory with 2 updates ([#1538](https://github.com/nwutils/nw-builder/issues/1538)) ([6262e99](https://github.com/nwutils/nw-builder/commit/6262e99e7a24dd7ba75a13981471f7a1abb68830))
+* **deps:** bump the npm group across 1 directory with 5 updates ([#1544](https://github.com/nwutils/nw-builder/issues/1544)) ([c03076a](https://github.com/nwutils/nw-builder/commit/c03076a4a6675367fc52bc2ce47fb84d8d46c239))
+
 ## [4.17.5](https://github.com/nwutils/nw-builder/compare/v4.17.4...v4.17.5) (2026-02-14)
 
 
