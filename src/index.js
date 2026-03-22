@@ -103,6 +103,7 @@ async function nwbuild(options) {
       cacheDir: options.cacheDir,
       cache: options.cache,
       ffmpeg: options.ffmpeg,
+      // undefined but should be boolean...
       nativeAddon: options.nativeAddon,
       shaSum: options.shaSum,
       logLevel: options.logLevel,
