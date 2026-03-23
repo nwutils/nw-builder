@@ -56,12 +56,12 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@vitest/coverage-v8": "^4.0.18",
+    "@vitest/coverage-v8": "^4.1.1",
     "base-volta-off-of-nwjs": "^1.0.5",
-    "eslint": "^10.0.2",
-    "eslint-plugin-jsdoc": "^62.7.1",
+    "eslint": "^10.1.0",
+    "eslint-plugin-jsdoc": "^62.8.0",
     "globals": "^17.4.0",
-    "nw": "^0.109.0",
+    "nw": "^0.109.1",
     "selenium-webdriver": "^4.41.0",
     "vitest": "^4.0.14"
   },
@@ -72,7 +72,7 @@
     "glob": "^13.0.6",
     "plist": "^3.1.0",
     "resedit": "^3.0.2",
-    "tar": "^7.5.10"
+    "tar": "^7.5.13"
   },
   "volta": {
     "node": "25.2.1",
