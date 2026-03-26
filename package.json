@@ -30,7 +30,8 @@
   "type": "module",
   "files": [
     "LICENSE",
-    "src"
+    "src",
+    "types"
   ],
   "homepage": "https://github.com/nwutils/runner",
   "repository": {

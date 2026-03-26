@@ -25,10 +25,6 @@ export type Options = {
      */
     cacheDir: string;
     /**
-     * If true, throw error
-     */
-    glob: boolean;
-    /**
      * CLI arguments
      */
     argv: string[];
@@ -41,7 +37,6 @@ export type Options = {
  * @property {"ia32" | "x64" | "arm64"}             arch        Target arch
  * @property {string}                               srcDir      Source directory
  * @property {string}                               cacheDir    Cache directory
- * @property {boolean}                              glob        If true, throw error
  * @property {string[]}                             argv        CLI arguments
  */
 /**
