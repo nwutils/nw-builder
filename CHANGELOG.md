@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/nwutils/runner/compare/v0.2.2...v0.2.3) (2026-03-26)
+
+
+### Bug Fixes
+
+* **types:** point to correct path ([3c71472](https://github.com/nwutils/runner/commit/3c7147273923f69e1f84cddcf831b0024fab054d))
+
 ## [0.2.2](https://github.com/nwutils/runner/compare/v0.2.1...v0.2.2) (2026-03-26)
 
 
