@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@nwutils/getter": "^0.2.2",
+    "@nwutils/getter": "^0.2.3",
     "@types/node": "^25.3.3",
     "eslint": "^10.0.2",
     "eslint-plugin-jsdoc": "^62.7.1",
