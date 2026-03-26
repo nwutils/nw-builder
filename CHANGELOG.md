@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.2.2](https://github.com/nwutils/runner/compare/v0.2.1...v0.2.2) (2026-03-26)
+
+
+### Bug Fixes
+
+* **deps:** upgrade flatted ([dc9014b](https://github.com/nwutils/runner/commit/dc9014bfa343fbced4ca69a460dc1bfd6fc8a276))
+* export types ([d2bc8bd](https://github.com/nwutils/runner/commit/d2bc8bd03784af17ebe4ebf762ff3502ea609712))
+* export types ([6ecd02f](https://github.com/nwutils/runner/commit/6ecd02f8a2e4d927c24ae0483bcf8743dc885b09))
+
 ## [0.2.1](https://github.com/nwutils/runner/compare/v0.2.0...v0.2.1) (2026-03-04)
 
 
