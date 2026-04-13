@@ -214,6 +214,7 @@ export const parse = async (options, pkg) => {
   options.ffmpeg = str2Bool(options.ffmpeg ?? false);
   options.logLevel = options.logLevel ?? 'info';
   options.shaSum = str2Bool(options.shaSum ?? true);
+  options.nativeAddon = str2Bool(options.nativeAddon) ?? false;
 
   if (options.mode === 'get') {
     return { ...options };
@@ -231,7 +232,6 @@ export const parse = async (options, pkg) => {
   options.zip = str2Bool(options.zip) ?? false;
 
   options.managedManifest = str2Bool(options.managedManifest) ?? false;
-  options.nativeAddon = str2Bool(options.nativeAddon) ?? false;
 
   options.app = options.app ?? {};
   options.app.name = options.app.name ?? pkg.name;
