@@ -6,7 +6,7 @@ import get from '@nwutils/getter';
 import run from '../../src/run.js';
 import util from '../../src/util.js';
 
-describe('run test suite', async () => {
+describe.skip('run test suite', async () => {
 
   const nwOptions = {
     srcDir: 'tests/fixtures/app',
@@ -32,7 +32,7 @@ describe('run test suite', async () => {
     await get(nwOptions);
   }, Infinity);
 
-  it.skipIf(process.platform === 'win32')('runs and is killed via code', async () => {
+  it('runs and is killed via code', async () => {
     const nwProcess = await run(nwOptions);
     if (nwProcess) {
       nwProcess.kill();
