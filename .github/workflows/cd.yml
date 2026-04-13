@@ -19,7 +19,7 @@ jobs:
           fetch-depth: 0
 
       - id: release
-        uses: googleapis/release-please-action@v4.4.0
+        uses: googleapis/release-please-action@v4.4.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config-file: .github/release-please/config.json
