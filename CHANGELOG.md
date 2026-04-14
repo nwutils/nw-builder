@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.17.7](https://github.com/nwutils/nw-builder/compare/v4.17.6...v4.17.7) (2026-04-14)
+
+
+### Bug Fixes
+
+* **deps-dev:** bump axios from 1.13.6 to 1.15.0 ([#1563](https://github.com/nwutils/nw-builder/issues/1563)) ([ee48cb9](https://github.com/nwutils/nw-builder/commit/ee48cb9b93b196ae533a7fd7925d4872160362c1))
+* **deps-dev:** bump flatted from 3.3.3 to 3.4.2 ([#1550](https://github.com/nwutils/nw-builder/issues/1550)) ([da72d3e](https://github.com/nwutils/nw-builder/commit/da72d3e28691adabda2bb078fea55762b3bc5f94))
+* **deps-dev:** bump follow-redirects from 1.15.11 to 1.16.0 ([#1569](https://github.com/nwutils/nw-builder/issues/1569)) ([5dfea88](https://github.com/nwutils/nw-builder/commit/5dfea8858dd7a66e2096b02377983bb19cf45715))
+* **deps:** bump @xmldom/xmldom from 0.8.10 to 0.8.12 ([#1557](https://github.com/nwutils/nw-builder/issues/1557)) ([cd02e4e](https://github.com/nwutils/nw-builder/commit/cd02e4e85f8914e6cb637b66c1b173c5619288b8))
+* **deps:** bump brace-expansion from 2.0.2 to 2.1.0 ([#1565](https://github.com/nwutils/nw-builder/issues/1565)) ([9c83fc0](https://github.com/nwutils/nw-builder/commit/9c83fc08e036b8c3eaec839b805c57c703b05131))
+* **deps:** bump lodash from 4.17.23 to 4.18.1 ([#1561](https://github.com/nwutils/nw-builder/issues/1561)) ([f842b9b](https://github.com/nwutils/nw-builder/commit/f842b9bea09c021bc417bddf52830b4042378da8))
+
+
+### Chores
+
+* **deps:** bump the gha group across 1 directory with 4 updates ([#1568](https://github.com/nwutils/nw-builder/issues/1568)) ([356389f](https://github.com/nwutils/nw-builder/commit/356389f6d850c505ad8e2edd7a0fc728c31f299a))
+* **deps:** bump the npm group across 1 directory with 9 updates ([#1566](https://github.com/nwutils/nw-builder/issues/1566)) ([78dc27b](https://github.com/nwutils/nw-builder/commit/78dc27b93b34118c2f9abb3a171e58dfbe2db597))
+* **test:** skip run test ([47860f8](https://github.com/nwutils/nw-builder/commit/47860f8c9c3073cbd411245fdc39f9844ab85921))
+
 ## [4.17.6](https://github.com/nwutils/nw-builder/compare/v4.17.5...v4.17.6) (2026-04-13)
 
 
