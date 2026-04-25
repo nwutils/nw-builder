@@ -5,6 +5,8 @@
 
 Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and Linux.
 
+> The `stable` tag is deprecated and will be removed. Please use the default `latest` tag.
+
 ## Major Features
 
 - Get, run or build applications.
@@ -166,7 +168,7 @@ Setting it to a `string` implies that you are passing the file path to the NW ma
 ```javascript
 nwbuild({
   mode: "build",
-  managedManifest: "./nw.js",
+  managedManifest: "./nw.json",
 });
 ```
 
