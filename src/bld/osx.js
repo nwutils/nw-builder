@@ -77,7 +77,6 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
     const helperApps = [
       { name: 'nwjs Helper (Alerts).app', id: 'helper.alert' },
       { name: 'nwjs Helper (GPU).app', id: 'helper.gpu' },
-      { name: 'nwjs Helper (Plugin).app', id: 'helper.plugin' },
       { name: 'nwjs Helper (Renderer).app', id: 'helper.renderer' },
       { name: 'nwjs Helper.app', id: 'helper' },
     ];
