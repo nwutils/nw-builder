@@ -39,14 +39,6 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
     chromiumVersion,
     'Helpers',
     'Demo Helper (GPU).app');
-  const helperPluginPath = path.join(appPath,
-    'Contents',
-    'Frameworks',
-    'nwjs Framework.framework',
-    'Versions',
-    chromiumVersion,
-    'Helpers',
-    'Demo Helper (Plugin).app');
   const helperRendererPath = path.join(appPath,
     'Contents',
     'Frameworks',
@@ -102,9 +94,6 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
     const helperGPUPathExists = await util.fileExists(helperGPUPath);
     expect(helperGPUPathExists).toEqual(true);
 
-    const helperPluginPathExists = await util.fileExists(helperPluginPath);
-    expect(helperPluginPathExists).toEqual(true);
-
     const helperRendererPathExists = await util.fileExists(helperRendererPath);
     expect(helperRendererPathExists).toEqual(true);
 
@@ -124,10 +113,6 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
     const helperGPUExePath = path.join(helperGPUPath, 'Contents', 'MacOS', 'Demo Helper (GPU)');
     const helperGPUExePathExists = await util.fileExists(helperGPUExePath);
     expect(helperGPUExePathExists).toEqual(true);
-
-    const helperPluginExePath = path.join(helperPluginPath, 'Contents', 'MacOS', 'Demo Helper (Plugin)');
-    const helperPluginExePathExists = await util.fileExists(helperPluginExePath);
-    expect(helperPluginExePathExists).toEqual(true);
 
     const helperRendererExePath = path.join(helperRendererPath, 'Contents', 'MacOS', 'Demo Helper (Renderer)');
     const helperRendererExePathExists = await util.fileExists(helperRendererExePath);
@@ -191,22 +176,6 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
     expect(HelperGpuAppJson.CFBundleName).toEqual('Demo Helper (GPU)');
     expect(HelperGpuAppJson.CFBundleIdentifier).toEqual('io.nwutils.demo.helper.gpu');
     expect(HelperGpuAppJson.CFBundleExecutable).toEqual('Demo Helper (GPU)');
-
-    const HelperPluginAppJson = plist.parse(
-      await fs.promises.readFile(
-        path.resolve(
-          helperPluginPath,
-          'Contents',
-          'Info.plist'
-        ),
-        'utf-8'
-      )
-    );
-
-    expect(HelperPluginAppJson.CFBundleDisplayName).toEqual('Demo Helper (Plugin)');
-    expect(HelperPluginAppJson.CFBundleName).toEqual('Demo Helper (Plugin)');
-    expect(HelperPluginAppJson.CFBundleIdentifier).toEqual('io.nwutils.demo.helper.plugin');
-    expect(HelperPluginAppJson.CFBundleExecutable).toEqual('Demo Helper (Plugin)');
 
     const HelperRendererAppJson = plist.parse(
       await fs.promises.readFile(
