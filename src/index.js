@@ -3,9 +3,10 @@ import console from 'node:console';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import bld from './bld.js';
 import get from '@nwutils/getter';
-import run from './run.js';
+import run from '@nwutils/runner';
+
+import bld from './bld.js';
 import util from './util.js';
 
 /**
@@ -115,6 +116,9 @@ async function nwbuild(options) {
 
     if (options.mode === 'run') {
       util.log('info', options.logLevel, 'Running NW.js in run mode...');
+      if (options.glob) {
+        throw new Error('Glob option is not supported when mode is set to run.');
+      }
       const nwProcess = await run({
         version: options.version,
         flavor: options.flavor,
@@ -122,7 +126,6 @@ async function nwbuild(options) {
         arch: options.arch,
         srcDir: options.srcDir,
         cacheDir: options.cacheDir,
-        glob: options.glob,
         argv: options.argv,
       });
       return nwProcess;
