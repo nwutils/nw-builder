@@ -67,6 +67,7 @@
   },
   "dependencies": {
     "@nwutils/getter": "^0.2.4",
+    "@nwutils/runner": "^0.2.3",
     "archiver": "^7.0.1",
     "commander": "^14.0.3",
     "glob": "^13.0.6",
@@ -75,7 +76,7 @@
     "tar": "^7.5.10"
   },
   "volta": {
-    "node": "25.2.1",
-    "npm": "11.11.0"
+    "node": "25.8.2",
+    "npm": "11.13.0"
   }
 }
