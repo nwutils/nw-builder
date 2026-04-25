@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.17.8](https://github.com/nwutils/nw-builder/compare/v4.17.7...v4.17.8) (2026-04-25)
+
+
+### Bug Fixes
+
+* **bld:** remove MacOS Plugin Helper renaming logic ([#1581](https://github.com/nwutils/nw-builder/issues/1581)) ([43f2caa](https://github.com/nwutils/nw-builder/commit/43f2caa624658ef7baded32c64cde9eb0527c822))
+* **deps:** bump @xmldom/xmldom from 0.8.12 to 0.8.13 ([#1574](https://github.com/nwutils/nw-builder/issues/1574)) ([becde28](https://github.com/nwutils/nw-builder/commit/becde28fadd6c5dcd8f2d778a5d94ff47a70d9c9))
+* do not replace but merge Node manifest options into default options ([#1577](https://github.com/nwutils/nw-builder/issues/1577)) ([04dc8b7](https://github.com/nwutils/nw-builder/commit/04dc8b7aadc8a5fe0eab90cfb92f9a6743746863))
+
+
+### Chores
+
+* **deps:** bump the gha group across 1 directory with 2 updates ([#1573](https://github.com/nwutils/nw-builder/issues/1573)) ([70a79c4](https://github.com/nwutils/nw-builder/commit/70a79c460e938124c58efeb161294f708cbae7e5))
+* **deps:** bump the npm group across 1 directory with 4 updates ([#1582](https://github.com/nwutils/nw-builder/issues/1582)) ([805bb51](https://github.com/nwutils/nw-builder/commit/805bb519374f4cd3779a6c4994850996821aed21))
+* refactor out run mode logic to @nwutils/runner ([#1579](https://github.com/nwutils/nw-builder/issues/1579)) ([ef38439](https://github.com/nwutils/nw-builder/commit/ef38439cc76edd610f9e142fbce1c1016957a70d))
+
 ## [4.17.7](https://github.com/nwutils/nw-builder/compare/v4.17.6...v4.17.7) (2026-04-14)
 
 
