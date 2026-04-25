@@ -34,7 +34,7 @@ jobs:
         run: npm audit
       - name: Check for linting errors
         run: npm run lint
-      - name: Check for testing errors
+      - name: Run test suite
         run: npm run test:cov
         env:
           CI: true
