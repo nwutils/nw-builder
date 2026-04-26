@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.17.9](https://github.com/nwutils/nw-builder/compare/v4.17.8...v4.17.9) (2026-04-26)
+
+
+### Bug Fixes
+
+* **bld:** rename Plugin Helper iff version is less than 0.111.0 ([860cbaf](https://github.com/nwutils/nw-builder/commit/860cbafe269d6e7f35ffa443a9d794e3c3659b6c))
+
+
+### Chores
+
+* **docs:** the package stable tag has been deprecated ([84b773f](https://github.com/nwutils/nw-builder/commit/84b773fc07ff43ca03108a0f4e8e8b7457a881d9))
+
 ## [4.17.8](https://github.com/nwutils/nw-builder/compare/v4.17.7...v4.17.8) (2026-04-25)
 
 
