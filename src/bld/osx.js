@@ -4,6 +4,7 @@ import path from 'node:path';
 import process from 'node:process';
 
 import plist from 'plist';
+import semver from 'semver';
 
 /**
  * Function to update Helper App Plist Files
@@ -25,12 +26,13 @@ async function updateHelperPlist (plistPath, helperName, helperId, appCFBundleId
 /**
  *
  * @param {object} options              - Options.
+ * @param {string} options.version      - NW.js version.
  * @param {object} options.app          - Application configuration.
  * @param {string} options.outDir       - Output directory.
  * @param {string} options.releaseInfo  - Release information.
  * @returns {Promise<void>}             - Promise.
  */
-export default async function setOsxConfig({ app, outDir, releaseInfo }) {
+export default async function setOsxConfig({ version, app, outDir, releaseInfo }) {
   if (process.platform === 'win32') {
     console.warn(
       'MacOS apps built on Windows platform do not preserve all file permissions. See #716',
@@ -80,6 +82,11 @@ export default async function setOsxConfig({ app, outDir, releaseInfo }) {
       { name: 'nwjs Helper (Renderer).app', id: 'helper.renderer' },
       { name: 'nwjs Helper.app', id: 'helper' },
     ];
+
+    /* MacOS Plugin Helper is removed in NW.js v0.111.0 (Chromium M148) */
+    if (semver.lt(version, "0.111.0")) {
+      helperApps.push({ name: 'nwjs Helper (Plugin).app', id: 'helper.plugin' });
+    }
 
     for (const helperApp of helperApps) {
       const newHelperAppName = helperApp.name.replace(/^nwjs/, app.name);
