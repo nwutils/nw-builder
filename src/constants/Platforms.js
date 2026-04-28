@@ -108,6 +108,21 @@ const Platforms = {
     },
     versionNameTemplate: "v${ version }/${ name }-v${ version }-osx-x64.zip",
   },
+  osxarm64: {
+    needsZip: false,
+    getRunnable: function (version) {
+      if (semver.satisfies(version, ">=0.12.0 || ~0.12.0-alpha")) {
+        return "nwjs.app/Contents/MacOS/nwjs";
+      } else {
+        return "node-webkit.app/Contents/MacOS/node-webkit";
+      }
+    },
+    files: {
+      "<0.12.0-alpha": ["node-webkit.app"],
+      ">=0.12.0 || ~0.12.0-alpha": ["nwjs.app"],
+    },
+    versionNameTemplate: "v${ version }/${ name }-v${ version }-osx-arm64.zip",
+  },
   linux32: {
     needsZip: true,
     chmod: "0755",

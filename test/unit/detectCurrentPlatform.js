@@ -23,6 +23,15 @@ describe("detectCurrentPlatform", () => {
     strictEqual(detectCurrentPlatform(process), Platform.OSX_64);
   });
 
+  it("for OSX ARM64 (Apple Silicon) platform", () => {
+    const process = {
+      platform: "darwin",
+      arch: "arm64",
+    };
+
+    strictEqual(detectCurrentPlatform(process), Platform.OSX_ARM64);
+  });
+
   it("for Linux 32 platform", () => {
     const process = {
       platform: "linux",

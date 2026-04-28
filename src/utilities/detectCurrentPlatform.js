@@ -7,6 +7,7 @@ import Platform from "../constants/Platform.js";
 const detectCurrentPlatform = (process) => {
   switch (process.platform) {
     case "darwin":
+      if (process.arch === "arm64") return Platform.OSX_ARM64;
       return process.arch === "x64" ? Platform.OSX_64 : Platform.OSX_32;
 
     case "win32":
