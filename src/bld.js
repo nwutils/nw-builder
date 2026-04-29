@@ -187,7 +187,7 @@ async function bld({
   } else if (platform === 'win') {
     await setWinConfig({ app, outDir });
   } else if (platform === 'osx') {
-    await setOsxConfig({ app, outDir, releaseInfo });
+    await setOsxConfig({ version, app, outDir, releaseInfo });
   }
 
   if (zip !== false) {
