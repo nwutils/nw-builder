@@ -84,7 +84,7 @@ export default async function setOsxConfig({ version, app, outDir, releaseInfo }
     ];
 
     /* MacOS Plugin Helper is removed in NW.js v0.111.0 (Chromium M148) */
-    if (semver.lt(version, "0.111.0")) {
+    if (semver.lt(version, '0.111.0')) {
       helperApps.push({ name: 'nwjs Helper (Plugin).app', id: 'helper.plugin' });
     }
 
