@@ -3,7 +3,7 @@ import path from 'node:path';
 import process from 'node:process';
 
 import * as nw from 'nw';
-import plist from 'plist';
+import { parse } from 'plist';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import setOsxConfig from '../../src/bld/osx.js';
