@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 
-import plist from 'plist';
+import { parse } from 'plist';
 import semver from 'semver';
 
 /**
@@ -141,7 +141,7 @@ export default async function setOsxConfig({ version, app, outDir, releaseInfo }
      * JSON from `nwjs.app/Contents/Info.plist`
      * @type {object}
      */
-    const contentsInfoPlistJson = plist.parse(
+    const contentsInfoPlistJson = parse(
       await fs.promises.readFile(
         contentsInfoPlistPath,
         'utf-8'
