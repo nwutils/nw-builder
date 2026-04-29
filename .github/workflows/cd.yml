@@ -39,9 +39,3 @@ jobs:
 
       - run: npm publish --tag latest --provenance --access public
         if: ${{ steps.release.outputs.release_created }}
-
-      - run: |
-          VERSION=$( node -p "require('./package.json').version")
-          npm dist-tag add nw-builder@$VERSION stable
-        if: ${{ steps.release.outputs.release_created }}
-        
