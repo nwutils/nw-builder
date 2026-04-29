@@ -63,6 +63,7 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
 
     /* Rename relevant bundles' plists and executables. */
     await setOsxConfig({
+      version: releaseInfo.version,
       app: {
         name: 'Demo',
         LSApplicationCategoryType: 'public.app-category.utilities',
@@ -129,7 +130,7 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
       'Contents',
       'Info.plist'
     );
-    const ContentsInfoPlistJson = plist.parse(
+    const ContentsInfoPlistJson = parse(
       await fs.promises.readFile(
         ContentsInfoPlistPath,
         'utf-8'
@@ -145,7 +146,7 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
     expect(ContentsInfoPlistJson.CFBundleExecutable).toEqual('Demo');
     expect(ContentsInfoPlistJson.NSLocalNetworkUsageDescription).toEqual('This test application needs to access the local network for testing purposes.');
 
-    const HelperAlertsAppJson = plist.parse(
+    const HelperAlertsAppJson = parse(
       await fs.promises.readFile(
         path.resolve(
           helperAlertsPath,
@@ -161,7 +162,7 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
     expect(HelperAlertsAppJson.CFBundleIdentifier).toEqual('io.nwutils.demo.helper.alert');
     expect(HelperAlertsAppJson.CFBundleExecutable).toEqual('Demo Helper (Alerts)');
 
-    const HelperGpuAppJson = plist.parse(
+    const HelperGpuAppJson = parse(
       await fs.promises.readFile(
         path.resolve(
           helperGPUPath,
@@ -177,7 +178,7 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
     expect(HelperGpuAppJson.CFBundleIdentifier).toEqual('io.nwutils.demo.helper.gpu');
     expect(HelperGpuAppJson.CFBundleExecutable).toEqual('Demo Helper (GPU)');
 
-    const HelperRendererAppJson = plist.parse(
+    const HelperRendererAppJson = parse(
       await fs.promises.readFile(
         path.resolve(
           helperRendererPath,
@@ -193,7 +194,7 @@ describe.runIf(process.platform === 'darwin')('bld/setOsxConfig', async function
     expect(HelperRendererAppJson.CFBundleIdentifier).toEqual('io.nwutils.demo.helper.renderer');
     expect(HelperRendererAppJson.CFBundleExecutable).toEqual('Demo Helper (Renderer)');
 
-    const HelperAppJson = plist.parse(
+    const HelperAppJson = parse(
       await fs.promises.readFile(
         path.resolve(
           helperPath,
