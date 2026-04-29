@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.17.11](https://github.com/nwutils/nw-builder/compare/v4.17.10...v4.17.11) (2026-04-29)
+
+
+### Bug Fixes
+
+* **ci:** remove npm dist-tag since it requires npm token ([302d04d](https://github.com/nwutils/nw-builder/commit/302d04d098b4bba7e871615004bd94ee94dfcd41))
+
 ## [4.17.10](https://github.com/nwutils/nw-builder/compare/v4.17.9...v4.17.10) (2026-04-29)
 
 
