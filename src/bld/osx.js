@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 
-import plist from 'plist';
+import { build, parse } from 'plist';
 import semver from 'semver';
 
 /**
@@ -15,12 +15,12 @@ import semver from 'semver';
  */
 async function updateHelperPlist (plistPath, helperName, helperId, appCFBundleIdentifier) {
   const plistFullPath = path.resolve(plistPath, 'Contents/Info.plist');
-  const plistJson = plist.parse(await fs.promises.readFile(plistFullPath, 'utf-8'));
+  const plistJson = parse(await fs.promises.readFile(plistFullPath, 'utf-8'));
   plistJson.CFBundleDisplayName = helperName;
   plistJson.CFBundleName = helperName;
   plistJson.CFBundleExecutable = helperName;
   plistJson.CFBundleIdentifier = `${appCFBundleIdentifier}.${helperId}`;
-  await fs.promises.writeFile(plistFullPath, plist.build(plistJson));
+  await fs.promises.writeFile(plistFullPath, build(plistJson));
 }
 
 /**
@@ -141,7 +141,7 @@ export default async function setOsxConfig({ version, app, outDir, releaseInfo }
      * JSON from `nwjs.app/Contents/Info.plist`
      * @type {object}
      */
-    const contentsInfoPlistJson = plist.parse(
+    const contentsInfoPlistJson = parse(
       await fs.promises.readFile(
         contentsInfoPlistPath,
         'utf-8'
@@ -184,7 +184,7 @@ export default async function setOsxConfig({ version, app, outDir, releaseInfo }
     /* Write the updated values to their config files. */
     await fs.promises.writeFile(
       contentsInfoPlistPath,
-      plist.build(contentsInfoPlistJson));
+      build(contentsInfoPlistJson));
     await fs.promises.writeFile(
       contentsResourcesEnLprojInfoPlistStringsPath,
       contentsResourcesEnLprojInfoPlistStringsArray.toString().replace(/,/g, '\n'),
