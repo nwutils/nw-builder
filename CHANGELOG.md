@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.17.10](https://github.com/nwutils/nw-builder/compare/v4.17.9...v4.17.10) (2026-04-29)
+
+
+### Bug Fixes
+
+* **bld:** pass missing version param in osx config function ([86edf13](https://github.com/nwutils/nw-builder/commit/86edf1330f3628390588f16abf1e0343c758d776))
+* **deps:** bump plist from 3.1.1 to 4.0.0 in the npm group across 1 directory ([#1584](https://github.com/nwutils/nw-builder/issues/1584)) ([8abbe81](https://github.com/nwutils/nw-builder/commit/8abbe819f56de15336b407587bce090119f0fc33))
+
+
+### Chores
+
+* **ci:** resolve lint error ([19d05c2](https://github.com/nwutils/nw-builder/commit/19d05c283c5112bed2dd3051f8d566d73aa54bcd))
+* **ci:** update npm stable tag ([c2429d2](https://github.com/nwutils/nw-builder/commit/c2429d2a20e894c72c55696e24563c59d34065d2))
+
 ## [4.17.9](https://github.com/nwutils/nw-builder/compare/v4.17.8...v4.17.9) (2026-04-26)
 
 
