@@ -25,7 +25,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.0
       - name: Setup Volta
         uses: volta-cli/action@v5.0.0
       - name: Install third party dependencies
@@ -46,7 +46,7 @@ jobs:
           path: coverage
       - name: Report Coverage
         if: always()
-        uses: davelosert/vitest-coverage-report-action@v2.11.2
+        uses: davelosert/vitest-coverage-report-action@v2.12.1
         with:
           name: Vitest Coverage (${{ matrix.os }})
           json-summary-path: coverage/coverage-summary.json
