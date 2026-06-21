@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.17.12](https://github.com/nwutils/nw-builder/compare/v4.17.11...v4.17.12) (2026-06-21)
+
+
+### Bug Fixes
+
+* **deps:** resolve Dependabot alerts ([2f10461](https://github.com/nwutils/nw-builder/commit/2f104615acbfcb9c316a3ba9083b46121e189e82))
+
+
+### Chores
+
+* **deps:** bump the npm group across 1 directory with 11 updates ([#1608](https://github.com/nwutils/nw-builder/issues/1608)) ([be3d17f](https://github.com/nwutils/nw-builder/commit/be3d17f2636e3afbb87900b6a0db11433beee834))
+
 ## [4.17.11](https://github.com/nwutils/nw-builder/compare/v4.17.10...v4.17.11) (2026-05-26)
 
 
