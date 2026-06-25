@@ -59,8 +59,8 @@
     "@vitest/coverage-v8": "^4.1.9",
     "base-volta-off-of-nwjs": "^1.0.5",
     "eslint": "^10.5.0",
-    "eslint-plugin-jsdoc": "^63.0.6",
-    "globals": "^17.6.0",
+    "eslint-plugin-jsdoc": "^63.0.8",
+    "globals": "^17.7.0",
     "nw": "^0.112.0",
     "selenium-webdriver": "^4.45.0",
     "vitest": "^4.0.14"
@@ -74,7 +74,7 @@
     "plist": "^5.0.0",
     "resedit": "^3.0.2",
     "semver": "^7.8.5",
-    "tar": "^7.5.10"
+    "tar": "^7.5.17"
   },
   "volta": {
     "node": "25.8.2",
