@@ -151,7 +151,7 @@ async function bld({
         file,
         path.resolve(
           nwProjectDir,
-          file,
+          (file.substring(0, 3) == '..' + path.sep ? '.' + path.sep + file.substring(file.indexOf(path.sep,3)) : file),
         ),
         { recursive: true, force: true },
       );
