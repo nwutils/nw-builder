@@ -56,12 +56,12 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@vitest/coverage-v8": "^4.1.9",
+    "@vitest/coverage-v8": "^4.1.10",
     "base-volta-off-of-nwjs": "^1.0.5",
     "eslint": "^10.6.0",
-    "eslint-plugin-jsdoc": "^63.0.10",
+    "eslint-plugin-jsdoc": "^63.0.12",
     "globals": "^17.7.0",
-    "nw": "^0.112.0",
+    "nw": "^0.113.0",
     "selenium-webdriver": "^4.45.0",
     "vitest": "^4.0.14"
   },
