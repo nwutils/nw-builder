@@ -1,8 +1,8 @@
-import fs from 'node:fs';
-import process from 'node:process';
-import http from 'node:http';
-import https from 'node:https';
-import { URL } from 'node:url';
+import fs from "node:fs";
+import http from "node:http";
+import https from "node:https";
+import process from "node:process";
+import { URL } from "node:url";
 
 /**
  * Download from `url` and save at `filePath`.
@@ -12,13 +12,13 @@ import { URL } from 'node:url';
  */
 export default function request(url, filePath) {
   const parsedUrl = new URL(url);
-  const client = parsedUrl.protocol === 'https:' ? https : http;
+  const client = parsedUrl.protocol === "https:" ? https : http;
 
   return new Promise((resolve, reject) => {
     const writeStream = fs.createWriteStream(filePath);
 
     /* Handle writeStream errors immediately */
-    writeStream.on('error', (err) => {
+    writeStream.on("error", (err) => {
       cleanup();
       reject(err);
     });
@@ -31,52 +31,62 @@ export default function request(url, filePath) {
       }
       process.exit();
     };
-    process.once('SIGINT', onSigInt);
+    process.once("SIGINT", onSigInt);
 
     const req = client.get(
       {
         hostname: parsedUrl.hostname,
-        port: parsedUrl.port || (parsedUrl.protocol === 'https:' ? 443 : 80),
+        port: parsedUrl.port || (parsedUrl.protocol === "https:" ? 443 : 80),
         path: parsedUrl.pathname + parsedUrl.search,
         headers: {
-          'User-Agent': 'node:http(s)'
-        }
+          "User-Agent": "node:http(s)",
+        },
       },
       (res) => {
         /* Redirect handling */
-        if (res.statusCode && res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+        if (
+          res.statusCode &&
+          res.statusCode >= 300 &&
+          res.statusCode < 400 &&
+          res.headers.location
+        ) {
           cleanup();
 
-          const redirectedUrl = new URL(res.headers.location, parsedUrl).toString();
+          const redirectedUrl = new URL(
+            res.headers.location,
+            parsedUrl,
+          ).toString();
           return resolve(request(redirectedUrl, filePath));
         }
 
         if (res.statusCode !== 200) {
           cleanup();
-          return reject(new Error(`Request failed. Status code: ${res.statusCode}`));
+          return reject(
+            new Error(`Request failed. Status code: ${res.statusCode}`),
+          );
         }
 
         res.pipe(writeStream);
 
-        writeStream.on('finish', () => {
+        writeStream.on("finish", () => {
           cleanup();
           resolve();
         });
 
-        res.on('error', (err) => {
+        res.on("error", (err) => {
           cleanup();
           reject(err);
         });
-      }
+      },
     );
 
-    req.on('error', (err) => {
+    req.on("error", (err) => {
       cleanup();
       reject(err);
     });
 
     function cleanup() {
-      process.removeListener('SIGINT', onSigInt);
+      process.removeListener("SIGINT", onSigInt);
       req.destroy();
       writeStream.destroy();
     }

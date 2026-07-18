@@ -1,4 +1,4 @@
-name: ci
+name: Node.js CI
 
 on:
   pull_request:
@@ -18,30 +18,53 @@ jobs:
     strategy:
       matrix:
         os:
-          - macos-15
+          - macos-26
+          - macos-26-intel
           - ubuntu-24.04
+          - ubuntu-24.04-arm
           - windows-2025
+          - windows-11-arm
+        include:
+          - os: macos-26
+            display: MacOS 26 ARM
+          - os: macos-26-intel
+            display: MacOS 26 Intel
+          - os: ubuntu-24.04
+            display: Ubuntu 24.04 Intel
+          - os: ubuntu-24.04-arm
+            display: Ubuntu 24.04 ARM
+          - os: windows-2025
+            display: Windows 11 Intel
+          - os: windows-11-arm
+            display: Windows 11 (ARM)
       fail-fast: false
+
+    name: ${{ matrix.display }}
 
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.0
 
-      - name: Setup Volta
-        uses: volta-cli/action@v4.2.1
+      - name: Setup Node
+        uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 26.1.0
 
-      - name: Install dependencies
+      - name: Install third party dependencies
         run: npm ci
+
+      - name: Check for third party vulnerabilities
+        run: npm audit
+
+      - name: Check for formatting errors
+        run: npm run format
 
       - name: Check for linting errors
         run: npm run lint
-      
-      - name: Check for type errors
-        run: npm run type
 
-      - name: Check for typing errors
+      - name: Check for type errors
         run: npm run type
 
       - name: Run tests with coverage

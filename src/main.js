@@ -34,24 +34,26 @@ import verify from "./verify.js";
  * @returns {Promise<void>}
  */
 async function get(options) {
-
   /* If `options.cacheDir` exists, then `true`. Otherwise, it is `false`. */
   if (fs.existsSync(options.cacheDir) === false) {
     await fs.promises.mkdir(options.cacheDir, { recursive: true });
   }
 
   const manifestFilePath = path.resolve(options.cacheDir, "manifest.json");
-  if (options.manifestUrl.startsWith('file://')) {
+  if (options.manifestUrl.startsWith("file://")) {
     const filePath = url.fileURLToPath(options.manifestUrl);
-    fs.writeFileSync(manifestFilePath, fs.readFileSync(filePath, 'utf-8'));
+    fs.writeFileSync(manifestFilePath, fs.readFileSync(filePath, "utf-8"));
   } else {
     await request(options.manifestUrl, manifestFilePath);
   }
-  const manifestData = JSON.parse(await fs.promises.readFile(manifestFilePath, "utf-8"));
+  const manifestData = JSON.parse(
+    await fs.promises.readFile(manifestFilePath, "utf-8"),
+  );
 
-  if (options.version === "latest"
-    || options.version === "stable"
-    || options.version === "lts"
+  if (
+    options.version === "latest" ||
+    options.version === "stable" ||
+    options.version === "lts"
   ) {
     options.version = manifestData[options.version].slice(1);
   } else {
@@ -59,63 +61,107 @@ async function get(options) {
     if (coerced && semver.valid(coerced)) {
       options.version = coerced.version;
     } else {
-      throw new Error('Expected "options.version" to be "latest", "stable", "lts" or a valid semver version. Received: ' + options.version);
+      throw new Error(
+        'Expected "options.version" to be "latest", "stable", "lts" or a valid semver version. Received: ' +
+          options.version,
+      );
     }
   }
 
   if (options.flavor !== "normal" && options.flavor !== "sdk") {
-    throw new Error('Expected "options.flavor" to be "normal" or "sdk". Received: ' + options.flavor);
+    throw new Error(
+      'Expected "options.flavor" to be "normal" or "sdk". Received: ' +
+        options.flavor,
+    );
   }
 
-  if (options.platform !== "linux" && options.platform !== "osx" && options.platform !== "win") {
-    throw new Error('Expected "options.platform" to be "linux", "osx" or "win". Received: ' + options.platform);
+  if (
+    options.platform !== "linux" &&
+    options.platform !== "osx" &&
+    options.platform !== "win"
+  ) {
+    throw new Error(
+      'Expected "options.platform" to be "linux", "osx" or "win". Received: ' +
+        options.platform,
+    );
   }
 
-  if (options.arch !== "ia32" && options.arch !== "x64" && options.arch !== "arm64") {
-    throw new Error('Expected "options.arch" to be "ia32", "x64" or "arm64". Received: ' + options.arch);
+  if (
+    options.arch !== "ia32" &&
+    options.arch !== "x64" &&
+    options.arch !== "arm64"
+  ) {
+    throw new Error(
+      'Expected "options.arch" to be "ia32", "x64" or "arm64". Received: ' +
+        options.arch,
+    );
   }
 
   if (typeof options.downloadUrl !== "string") {
-    throw new Error('Expected "options.downloadUrl" to be a string. Received: ' + options.downloadUrl);
+    throw new Error(
+      'Expected "options.downloadUrl" to be a string. Received: ' +
+        options.downloadUrl,
+    );
   }
 
   if (typeof options.manifestUrl !== "string") {
-    throw new Error('Expected "options.manifestUrl" to be a string. Received: ' + options.manifestUrl);
+    throw new Error(
+      'Expected "options.manifestUrl" to be a string. Received: ' +
+        options.manifestUrl,
+    );
   }
 
-  if (typeof options.manifestUrl == "string"
-    && options.manifestUrl.startsWith('file://') === false
-    && options.manifestUrl.startsWith('http://') === false
-    && options.manifestUrl.startsWith('https://') === false
+  if (
+    typeof options.manifestUrl == "string" &&
+    options.manifestUrl.startsWith("file://") === false &&
+    options.manifestUrl.startsWith("http://") === false &&
+    options.manifestUrl.startsWith("https://") === false
   ) {
-    throw new Error('Expected "options.manifestUrl" to be a string starting with "file://", "http://", or "https://". Received: ' + options.manifestUrl);
+    throw new Error(
+      'Expected "options.manifestUrl" to be a string starting with "file://", "http://", or "https://". Received: ' +
+        options.manifestUrl,
+    );
   }
 
   if (typeof options.cacheDir !== "string") {
-    throw new Error('Expected "options.cacheDir" to be a string. Received: ' + options.cacheDir);
+    throw new Error(
+      'Expected "options.cacheDir" to be a string. Received: ' +
+        options.cacheDir,
+    );
   }
 
   if (typeof options.cache !== "boolean") {
-    throw new Error('Expected "options.cache" to be a boolean. Received: ' + options.cache);
+    throw new Error(
+      'Expected "options.cache" to be a boolean. Received: ' + options.cache,
+    );
   }
 
   if (typeof options.ffmpeg !== "boolean") {
-    throw new Error('Expected "options.ffmpeg" to be a boolean. Received: ' + options.ffmpeg);
+    throw new Error(
+      'Expected "options.ffmpeg" to be a boolean. Received: ' + options.ffmpeg,
+    );
   }
 
   if (typeof options.nativeAddon !== "boolean") {
-    throw new Error('Expected "options.nativeAddon" to be a boolean. Received: ' + options.nativeAddon);
+    throw new Error(
+      'Expected "options.nativeAddon" to be a boolean. Received: ' +
+        options.nativeAddon,
+    );
   }
 
   if (typeof options.shaSum !== "boolean") {
-    throw new Error('Expected "options.shaSum" to be a boolean. Received: ' + options.shaSum);
+    throw new Error(
+      'Expected "options.shaSum" to be a boolean. Received: ' + options.shaSum,
+    );
   }
 
   const uri = new url.URL(options.downloadUrl);
 
   /* Download server is the cached directory. */
   if (uri.protocol === "file:") {
-    options.cacheDir = path.resolve(decodeURIComponent(options.downloadUrl.slice("file://".length)));
+    options.cacheDir = path.resolve(
+      decodeURIComponent(options.downloadUrl.slice("file://".length)),
+    );
   }
 
   /**
@@ -124,7 +170,8 @@ async function get(options) {
    */
   let nwFilePath = path.resolve(
     options.cacheDir,
-    `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}.${options.platform === "linux" ? "tar.gz" : "zip"
+    `nwjs${options.flavor === "sdk" ? "-sdk" : ""}-v${options.version}-${options.platform}-${options.arch}.${
+      options.platform === "linux" ? "tar.gz" : "zip"
     }`,
   );
 
@@ -153,7 +200,14 @@ async function get(options) {
 
   /* If the compressed binary exists, then `true`. Otherwise, it is `false`. */
   if (fs.existsSync(nwFilePath) === false) {
-    nwFilePath = await nw(options.downloadUrl, options.version, options.flavor, options.platform, options.arch, options.cacheDir);
+    nwFilePath = await nw(
+      options.downloadUrl,
+      options.version,
+      options.flavor,
+      options.platform,
+      options.arch,
+      options.cacheDir,
+    );
   }
 
   await decompress(nwFilePath, options.cacheDir);
@@ -167,7 +221,6 @@ async function get(options) {
   );
 
   if (options.ffmpeg === true) {
-
     /**
      * File path to compressed binary which contains community FFmpeg binary.
      * @type {string}
@@ -190,7 +243,13 @@ async function get(options) {
       // Do not update the options.downloadUrl with the ffmpeg URL here. Doing so would lead to error when options.ffmpeg and options.nativeAddon are both enabled.
       const downloadUrl =
         "https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/download";
-      ffmpegFilePath = await ffmpeg(downloadUrl, options.version, options.platform, options.arch, options.cacheDir);
+      ffmpegFilePath = await ffmpeg(
+        downloadUrl,
+        options.version,
+        options.platform,
+        options.arch,
+        options.cacheDir,
+      );
     }
 
     await decompress(ffmpegFilePath, options.cacheDir);
@@ -239,11 +298,9 @@ async function get(options) {
     }
 
     await fs.promises.copyFile(ffmpegBinaryPath, ffmpegBinaryDest);
-
   }
 
   if (options.nativeAddon === true) {
-
     /**
      * File path to NW.js Node headers tarball.
      * @type {string}
@@ -263,7 +320,11 @@ async function get(options) {
 
     /* If the compressed binary exists, then `true`. Otherwise, it is `false`. */
     if (fs.existsSync(nodeFilePath) === false) {
-      nodeFilePath = await node(options.downloadUrl, options.version, options.cacheDir);
+      nodeFilePath = await node(
+        options.downloadUrl,
+        options.version,
+        options.cacheDir,
+      );
     }
 
     await decompress(nodeFilePath, options.cacheDir);

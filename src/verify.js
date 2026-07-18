@@ -1,8 +1,8 @@
-import crypto from 'node:crypto';
-import fs from 'node:fs';
-import path from 'node:path';
+import crypto from "node:crypto";
+import fs from "node:fs";
+import path from "node:path";
 
-import request from './request.js';
+import request from "./request.js";
 
 /**
  * Verify the SHA256 checksum of downloaded artifacts.
@@ -12,7 +12,7 @@ import request from './request.js';
  * @param {string} shaOut - File path to shasum text file.
  * @param {string} cacheDir - File path to cache directory.
  * @param {boolean} ffmpeg - Toggle between community (true) and official (false) ffmpeg binary
- * @param {boolean} shaSum - Throws error if true, otherwise logs a warning. 
+ * @param {boolean} shaSum - Throws error if true, otherwise logs a warning.
  * @throws {Error}
  * @returns {Promise<boolean>} - Returns true if the checksums match.
  */
@@ -28,20 +28,27 @@ export default async function verify(shaUrl, shaOut, cacheDir, ffmpeg, shaSum) {
   }
 
   /* Read SHASUM text file */
-  const shasum = await fs.promises.readFile(shaOut, { encoding: 'utf-8' });
-  const shasums = shasum.trim().split('\n');
+  const shasum = await fs.promises.readFile(shaOut, { encoding: "utf-8" });
+  const shasums = shasum.trim().split("\n");
   for await (const line of shasums) {
     const [storedSha, filePath] = line.split(/\s+/);
     const relativeFilePath = path.resolve(cacheDir, filePath);
     const relativefilePathExists = fs.existsSync(relativeFilePath);
     if (relativefilePathExists) {
       const fileBuffer = await fs.promises.readFile(relativeFilePath);
-      const hash = crypto.createHash('sha256');
+      const hash = crypto.createHash("sha256");
       hash.update(fileBuffer);
-      const generatedSha = hash.digest('hex');
-      if (!crypto.timingSafeEqual(Buffer.from(generatedSha, 'hex'), Buffer.from(storedSha, 'hex'))) {
-        if (filePath.includes('ffmpeg') && ffmpeg) {
-          console.warn(`The generated shasum for the community ffmpeg at ${filePath} is ${generatedSha}. The integrity of this file should be manually verified.`);
+      const generatedSha = hash.digest("hex");
+      if (
+        !crypto.timingSafeEqual(
+          Buffer.from(generatedSha, "hex"),
+          Buffer.from(storedSha, "hex"),
+        )
+      ) {
+        if (filePath.includes("ffmpeg") && ffmpeg) {
+          console.warn(
+            `The generated shasum for the community ffmpeg at ${filePath} is ${generatedSha}. The integrity of this file should be manually verified.`,
+          );
         } else {
           const message = `SHA256 checksums do not match. The file ${filePath} expected shasum is ${storedSha} but the actual shasum is ${generatedSha}.`;
           if (shaSum) {

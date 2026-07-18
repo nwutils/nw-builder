@@ -1,10 +1,9 @@
+import fs from "node:fs";
+import path from "node:path";
+import stream from "node:stream";
 
-import fs from 'node:fs';
-import path from 'node:path';
-import stream from 'node:stream';
-
-import * as tar from 'tar';
-import yauzl from 'yauzl-promise';
+import * as tar from "tar";
+import yauzl from "yauzl-promise";
 
 /**
  * Decompresses a file at `filePath` to `cacheDir` directory.
@@ -16,12 +15,12 @@ import yauzl from 'yauzl-promise';
  * @returns {Promise<void>}
  */
 export default async function decompress(filePath, cacheDir) {
-  if (filePath.endsWith('.zip')) {
+  if (filePath.endsWith(".zip")) {
     await unzip(filePath, cacheDir);
   } else {
     await tar.extract({
       file: filePath,
-      C: cacheDir
+      C: cacheDir,
     });
   }
 }
@@ -37,7 +36,7 @@ function modeFromEntry(entry) {
   const attr = entry.externalFileAttributes >> 16 || 33188;
 
   return [448 /* S_IRWXU */, 56 /* S_IRWXG */, 7 /* S_IRWXO */]
-    .map(mask => attr & mask)
+    .map((mask) => attr & mask)
     .reduce((a, b) => a + b, attr & 61440 /* S_IFMT */);
 }
 
@@ -59,16 +58,16 @@ async function unzip(zippedFile, cacheDir) {
   while (entry !== null) {
     let entryPathAbs = path.join(cacheDir, entry.filename);
     /* Check if entry is a symbolic link */
-    const isSymlink = ((modeFromEntry(entry) & 0o170000) === 0o120000);
+    const isSymlink = (modeFromEntry(entry) & 0o170000) === 0o120000;
 
     if (isSymlink) {
       /* Store symlink entries to process later */
       symlinks.push(entry);
     } else {
       /* Handle regular files and directories */
-      await fs.promises.mkdir(path.dirname(entryPathAbs), {recursive: true});
-       /* Skip directories */
-      if (!entry.filename.endsWith('/')) {
+      await fs.promises.mkdir(path.dirname(entryPathAbs), { recursive: true });
+      /* Skip directories */
+      if (!entry.filename.endsWith("/")) {
         const readStream = await entry.openReadStream();
         const writeStream = fs.createWriteStream(entryPathAbs);
         await stream.promises.pipeline(readStream, writeStream);
@@ -89,9 +88,9 @@ async function unzip(zippedFile, cacheDir) {
     const readStream = await symlinkEntry.openReadStream();
     /** @type {Buffer[]} */
     const chunks = [];
-    readStream.on('data', (chunk) => chunks.push(chunk));
-    await new Promise(resolve => readStream.on('end', resolve));
-    const linkTarget = Buffer.concat(chunks).toString('utf8').trim();
+    readStream.on("data", (chunk) => chunks.push(chunk));
+    await new Promise((resolve) => readStream.on("end", resolve));
+    const linkTarget = Buffer.concat(chunks).toString("utf8").trim();
 
     /* Check if the symlink or a file/directory already exists at the destination */
     if (fs.existsSync(entryPathAbs)) {
