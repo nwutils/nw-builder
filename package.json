@@ -43,23 +43,31 @@
     "type": "tsc",
     "test": "node --test --experimental-test-coverage --test-coverage-exclude=\"tests/**/*\" \"tests/specs/*.test.js\""
   },
-  "volta": {
-    "node": "25.1.0",
-    "npm": "11.7.0"
-  },
   "dependencies": {
-    "semver": "^7.7.4",
-    "tar": "^7.5.11",
+    "semver": "^7.8.5",
+    "tar": "^7.5.20",
     "yauzl-promise": "^4.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@types/node": "^25.3.3",
+    "@types/node": "^26.1.1",
     "@types/semver": "^7.7.1",
     "@types/yauzl-promise": "^4.0.1",
-    "eslint": "^10.0.2",
-    "eslint-plugin-jsdoc": "^62.7.1",
+    "eslint": "^10.7.0",
+    "eslint-plugin-jsdoc": "^63.1.0",
     "globals": "^17.4.0",
-    "typescript": "^5.9.3"
+    "typescript": "^7.0.2"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "26.1.0",
+      "onFail": "warn"
+    },
+    "packageManager": {
+      "name": "npm",
+      "version": "12.0.1",
+      "onFail": "warn"
+    }
   }
 }
