@@ -1,6 +1,6 @@
 {
   "name": "@nwutils/getter",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Get NW.js and related binaries for Linux, MacOS and Windows.",
   "keywords": [
     "NW.js",

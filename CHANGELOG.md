@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.2.5](https://github.com/nwutils/getter/compare/v0.2.4...v0.2.5) (2026-07-18)
+
+
+### Bug Fixes
+
+* update to account for headers file name change ([#41](https://github.com/nwutils/getter/issues/41)) ([9185393](https://github.com/nwutils/getter/commit/91853935c21b8e1d199079fcdb4819f8a739835f))
+
+
+### Chores
+
+* **ci:** git ignore /types ([499c7a0](https://github.com/nwutils/getter/commit/499c7a0cc2d10fe22399f2929f396136ce948675))
+* **deps:** bump the gha group in /.github/workflows with 2 updates ([#32](https://github.com/nwutils/getter/issues/32)) ([363e4d6](https://github.com/nwutils/getter/commit/363e4d6d53672d4488dccfc1197df39f9d1efb10))
+
 ## [0.2.4](https://github.com/nwutils/getter/compare/v0.2.3...v0.2.4) (2026-03-26)
 
 ### Bug Fixes
