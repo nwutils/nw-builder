@@ -42,6 +42,8 @@
   },
   "scripts": {
     "postinstall": "node ./src/postinstall.js",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
     "lint": "eslint ./src ./tests",
     "lint:fix": "eslint --fix ./src ./tests",
     "test": "vitest run --coverage",
@@ -60,8 +62,10 @@
     "base-volta-off-of-nwjs": "^1.0.5",
     "eslint": "^10.6.0",
     "eslint-plugin-jsdoc": "^63.0.10",
+    "eslint-plugin-simple-import-sort": "^14.0.0",
     "globals": "^17.7.0",
     "nw": "^0.112.0",
+    "prettier": "^3.9.6",
     "selenium-webdriver": "^4.45.0",
     "vitest": "^4.0.14"
   },

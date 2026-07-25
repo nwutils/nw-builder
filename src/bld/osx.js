@@ -1,10 +1,10 @@
-import console from 'node:console';
-import fs from 'node:fs';
-import path from 'node:path';
-import process from 'node:process';
+import console from "node:console";
+import fs from "node:fs";
+import path from "node:path";
+import process from "node:process";
 
-import { build, parse } from 'plist';
-import semver from 'semver';
+import { build, parse } from "plist";
+import semver from "semver";
 
 /**
  * Function to update Helper App Plist Files
@@ -13,9 +13,14 @@ import semver from 'semver';
  * @param {string} helperId              - Helper App ID
  * @param {string} appCFBundleIdentifier - options.app.CFBundleIdentifier
  */
-async function updateHelperPlist (plistPath, helperName, helperId, appCFBundleIdentifier) {
-  const plistFullPath = path.resolve(plistPath, 'Contents/Info.plist');
-  const plistJson = parse(await fs.promises.readFile(plistFullPath, 'utf-8'));
+async function updateHelperPlist(
+  plistPath,
+  helperName,
+  helperId,
+  appCFBundleIdentifier,
+) {
+  const plistFullPath = path.resolve(plistPath, "Contents/Info.plist");
+  const plistJson = parse(await fs.promises.readFile(plistFullPath, "utf-8"));
   plistJson.CFBundleDisplayName = helperName;
   plistJson.CFBundleName = helperName;
   plistJson.CFBundleExecutable = helperName;
@@ -32,10 +37,15 @@ async function updateHelperPlist (plistPath, helperName, helperId, appCFBundleId
  * @param {string} options.releaseInfo  - Release information.
  * @returns {Promise<void>}             - Promise.
  */
-export default async function setOsxConfig({ version, app, outDir, releaseInfo }) {
-  if (process.platform === 'win32') {
+export default async function setOsxConfig({
+  version,
+  app,
+  outDir,
+  releaseInfo,
+}) {
+  if (process.platform === "win32") {
     console.warn(
-      'MacOS apps built on Windows platform do not preserve all file permissions. See #716',
+      "MacOS apps built on Windows platform do not preserve all file permissions. See #716",
     );
   }
 
@@ -45,13 +55,13 @@ export default async function setOsxConfig({ version, app, outDir, releaseInfo }
      */
     const chromiumVersion = releaseInfo?.components?.chromium;
     if (!chromiumVersion) {
-      throw new Error('Chromium version is missing.');
+      throw new Error("Chromium version is missing.");
     }
     /**
      * Path to MacOS application.
      * @type {string}
      */
-    const nwjsApp = path.resolve(outDir, 'nwjs.app');
+    const nwjsApp = path.resolve(outDir, "nwjs.app");
 
     /**
      * Path to renamed MacOS application.
@@ -64,28 +74,31 @@ export default async function setOsxConfig({ version, app, outDir, releaseInfo }
 
     /* Rename `Contents/MacOS/nwjs` to `Contents/MacOS/${app.name}` */
     await fs.promises.rename(
-      path.resolve(outApp, 'Contents', 'MacOS', 'nwjs'),
-      path.resolve(outApp, 'Contents', 'MacOS', app.name),
+      path.resolve(outApp, "Contents", "MacOS", "nwjs"),
+      path.resolve(outApp, "Contents", "MacOS", app.name),
     );
 
     /* Rename all Helper apps */
     const helperBaseDir = path.resolve(
       outApp,
-      'Contents/Frameworks/nwjs Framework.framework/Versions',
+      "Contents/Frameworks/nwjs Framework.framework/Versions",
       chromiumVersion,
-      'Helpers/'
+      "Helpers/",
     );
 
     const helperApps = [
-      { name: 'nwjs Helper (Alerts).app', id: 'helper.alert' },
-      { name: 'nwjs Helper (GPU).app', id: 'helper.gpu' },
-      { name: 'nwjs Helper (Renderer).app', id: 'helper.renderer' },
-      { name: 'nwjs Helper.app', id: 'helper' },
+      { name: "nwjs Helper (Alerts).app", id: "helper.alert" },
+      { name: "nwjs Helper (GPU).app", id: "helper.gpu" },
+      { name: "nwjs Helper (Renderer).app", id: "helper.renderer" },
+      { name: "nwjs Helper.app", id: "helper" },
     ];
 
     /* MacOS Plugin Helper is removed in NW.js v0.111.0 (Chromium M148) */
-    if (semver.lt(version, '0.111.0')) {
-      helperApps.push({ name: 'nwjs Helper (Plugin).app', id: 'helper.plugin' });
+    if (semver.lt(version, "0.111.0")) {
+      helperApps.push({
+        name: "nwjs Helper (Plugin).app",
+        id: "helper.plugin",
+      });
     }
 
     for (const helperApp of helperApps) {
@@ -97,21 +110,29 @@ export default async function setOsxConfig({ version, app, outDir, releaseInfo }
       await fs.promises.rename(oldPath, newPath);
 
       // Rename Helper sub-directory
-      const helperBaseName = helperApp.name.replace(/.app$/, '');
-      const subPathBase = path.resolve(newPath, 'Contents/MacOS/');
+      const helperBaseName = helperApp.name.replace(/.app$/, "");
+      const subPathBase = path.resolve(newPath, "Contents/MacOS/");
       const oldSubPath = path.resolve(subPathBase, helperBaseName);
-      const newSubPath = path.resolve(subPathBase, helperBaseName.replace(/^nwjs/, app.name));
+      const newSubPath = path.resolve(
+        subPathBase,
+        helperBaseName.replace(/^nwjs/, app.name),
+      );
       await fs.promises.rename(oldSubPath, newSubPath);
 
       // Update Helper Plist file
-      await updateHelperPlist(newPath, newHelperAppName.replace(/.app$/, ''), helperApp.id, app.CFBundleIdentifier);
+      await updateHelperPlist(
+        newPath,
+        newHelperAppName.replace(/.app$/, ""),
+        helperApp.id,
+        app.CFBundleIdentifier,
+      );
     }
 
     /* Replace default icon with user defined icon if specified. */
     if (app.icon !== undefined) {
       await fs.promises.copyFile(
         path.resolve(app.icon),
-        path.resolve(outApp, 'Contents', 'Resources', 'app.icns'),
+        path.resolve(outApp, "Contents", "Resources", "app.icns"),
       );
     }
 
@@ -121,8 +142,8 @@ export default async function setOsxConfig({ version, app, outDir, releaseInfo }
      */
     const contentsInfoPlistPath = path.resolve(
       outApp,
-      'Contents',
-      'Info.plist'
+      "Contents",
+      "Info.plist",
     );
 
     /**
@@ -131,10 +152,10 @@ export default async function setOsxConfig({ version, app, outDir, releaseInfo }
      */
     const contentsResourcesEnLprojInfoPlistStringsPath = path.resolve(
       outApp,
-      'Contents',
-      'Resources',
-      'en.lproj',
-      'InfoPlist.strings',
+      "Contents",
+      "Resources",
+      "en.lproj",
+      "InfoPlist.strings",
     );
 
     /**
@@ -142,22 +163,22 @@ export default async function setOsxConfig({ version, app, outDir, releaseInfo }
      * @type {object}
      */
     const contentsInfoPlistJson = parse(
-      await fs.promises.readFile(
-        contentsInfoPlistPath,
-        'utf-8'
-      )
+      await fs.promises.readFile(contentsInfoPlistPath, "utf-8"),
     );
 
     /* Update Plist with user defined values. */
-    contentsInfoPlistJson.LSApplicationCategoryType = app.LSApplicationCategoryType;
+    contentsInfoPlistJson.LSApplicationCategoryType =
+      app.LSApplicationCategoryType;
     contentsInfoPlistJson.CFBundleIdentifier = app.CFBundleIdentifier;
     contentsInfoPlistJson.CFBundleName = app.CFBundleName;
     contentsInfoPlistJson.CFBundleDisplayName = app.CFBundleDisplayName;
     contentsInfoPlistJson.CFBundleSpokenName = app.CFBundleSpokenName;
     contentsInfoPlistJson.CFBundleVersion = app.CFBundleVersion;
-    contentsInfoPlistJson.CFBundleShortVersionString = app.CFBundleShortVersionString;
+    contentsInfoPlistJson.CFBundleShortVersionString =
+      app.CFBundleShortVersionString;
     contentsInfoPlistJson.CFBundleExecutable = app.name;
-    contentsInfoPlistJson.NSLocalNetworkUsageDescription = app.NSLocalNetworkUsageDescription;
+    contentsInfoPlistJson.NSLocalNetworkUsageDescription =
+      app.NSLocalNetworkUsageDescription;
 
     /* Remove properties that were not updated by the user. */
     Object.keys(contentsInfoPlistJson).forEach((option) => {
@@ -170,12 +191,14 @@ export default async function setOsxConfig({ version, app, outDir, releaseInfo }
      * Data from `nwjs.app/Contents/Resources/en.lproj/InfoPlist.settings`
      * @type {string[]}
      */
-    const contentsResourcesEnLprojInfoPlistStringsArray = (await fs.promises.readFile(
-      contentsResourcesEnLprojInfoPlistStringsPath,
-      'utf-8',
-    )).split('\n');
+    const contentsResourcesEnLprojInfoPlistStringsArray = (
+      await fs.promises.readFile(
+        contentsResourcesEnLprojInfoPlistStringsPath,
+        "utf-8",
+      )
+    ).split("\n");
     contentsResourcesEnLprojInfoPlistStringsArray.forEach((line, idx, arr) => {
-      if (line.includes('NSHumanReadableCopyright')) {
+      if (line.includes("NSHumanReadableCopyright")) {
         arr[idx] =
           `NSHumanReadableCopyright = "${app.NSHumanReadableCopyright}";`;
       }
@@ -184,13 +207,15 @@ export default async function setOsxConfig({ version, app, outDir, releaseInfo }
     /* Write the updated values to their config files. */
     await fs.promises.writeFile(
       contentsInfoPlistPath,
-      build(contentsInfoPlistJson));
+      build(contentsInfoPlistJson),
+    );
     await fs.promises.writeFile(
       contentsResourcesEnLprojInfoPlistStringsPath,
-      contentsResourcesEnLprojInfoPlistStringsArray.toString().replace(/,/g, '\n'),
+      contentsResourcesEnLprojInfoPlistStringsArray
+        .toString()
+        .replace(/,/g, "\n"),
     );
-
   } catch (error) {
     console.error(error);
   }
-};
+}

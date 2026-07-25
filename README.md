@@ -77,13 +77,13 @@ Node manifest usage:
 
 ```json
 {
-    "nwbuild": {
-      "mode": "build",
-      "glob": false,
-      "flavor": "sdk",
-      "cacheDir": "./node_modules/nw",
-      "srcDir": "/path/to/project"
-    }
+  "nwbuild": {
+    "mode": "build",
+    "glob": false,
+    "flavor": "sdk",
+    "cacheDir": "./node_modules/nw",
+    "srcDir": "/path/to/project"
+  }
 }
 ```
 
@@ -106,7 +106,7 @@ By default you get the normal build of the latest NW.js release for your specifi
 
 ```javascript
 nwbuild({
-  mode: "get"
+  mode: "get",
 });
 ```
 
@@ -115,7 +115,7 @@ Get the community built FFmeg which contains proprietary codecs. This options is
 ```javascript
 nwbuild({
   mode: "get",
-  ffmpeg: true
+  ffmpeg: true,
 });
 ```
 
@@ -179,7 +179,7 @@ nwbuild({
   mode: "build",
   managedManifest: {
     name: "nwdemo",
-    main: "index.html"
+    main: "index.html",
   },
 });
 ```
@@ -188,28 +188,28 @@ nwbuild({
 
 Options
 
-| Name | Type    | Default   | Description |
-| ---- | ------- | --------- | ----------- |
-| mode | `"get" \| "run" \| "build"` | `"build"` | Choose between get, run or build mode |
-| version | `string \| "latest" \| "stable"` | `"latest"` | Runtime version |
-| flavor | `"normal" \| "sdk"` | `"normal"` | Runtime flavor |
-| platform | `"linux" \| "osx" \| "win"` | | Host platform |
-| arch | `"ia32" \| "x64" \| "arm64"` | | Host architecture |
-| downloadUrl | `"https://dl.nwjs.io" \| "https://npm.taobao.org/mirrors/nwjs" \| https://npmmirror.com/mirrors/nwjs \| "https://github.com/corwin-of-amber/nw.js/releases/"` | `"https://dl.nwjs.io"` | Download server. Supports file systems too (for example `file:///home/localghost/nwjs_mirror`) |
-| manifestUrl | `"https://nwjs.io/versions.json" \| "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json"` | `"https://nwjs.io/versions.json"` | Versions manifest URI, gotten via https or local file |
-| cacheDir | `string` | `"./cache"` | Directory to cache NW binaries |
-| cache | `boolean` | `true`| If true the existing cache is used. Otherwise it removes and redownloads it. |
-| ffmpeg | `boolean` | `false`| If true the chromium ffmpeg is replaced by community version with proprietary codecs. |
-| logLevel | `"error" \| "warn" \| "info" \| "debug"` | `"info"`| Specify level of logging. |
-| shaSum | `boolean` | `true` | Flag to enable/disable shasum checks. |
-| srcDir | `string` | `"./"` | File paths to application code |
-| argv | `string[]` | `[]` | Command line arguments to pass to NW executable in run mode. You can also define these in `chromium-args` in NW.js manifest. |
-| glob | `boolean` | `true`| If true file globbing is enabled when parsing `srcDir`. |
-| outDir | `string` | `"./out"` | Directory to store build artifacts |
-| managedManifest | `boolean \| string \| object` | `false` | Managed manifest |
-| nodeAddon | `boolean` | `false` | Rebuild Node native addons |
-| zip | `boolean \| "zip" \| "tar" \| "tgz"` | `false`| If true, "zip", "tar" or "tgz" the `outDir` directory is compressed. |
-| app | `LinuxRc \| WinRc \| OsxRc` | Additional options for each platform. (See below.)
+| Name            | Type                                                                                                                                                          | Default                                            | Description                                                                                                                  |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| mode            | `"get" \| "run" \| "build"`                                                                                                                                   | `"build"`                                          | Choose between get, run or build mode                                                                                        |
+| version         | `string \| "latest" \| "stable"`                                                                                                                              | `"latest"`                                         | Runtime version                                                                                                              |
+| flavor          | `"normal" \| "sdk"`                                                                                                                                           | `"normal"`                                         | Runtime flavor                                                                                                               |
+| platform        | `"linux" \| "osx" \| "win"`                                                                                                                                   |                                                    | Host platform                                                                                                                |
+| arch            | `"ia32" \| "x64" \| "arm64"`                                                                                                                                  |                                                    | Host architecture                                                                                                            |
+| downloadUrl     | `"https://dl.nwjs.io" \| "https://npm.taobao.org/mirrors/nwjs" \| https://npmmirror.com/mirrors/nwjs \| "https://github.com/corwin-of-amber/nw.js/releases/"` | `"https://dl.nwjs.io"`                             | Download server. Supports file systems too (for example `file:///home/localghost/nwjs_mirror`)                               |
+| manifestUrl     | `"https://nwjs.io/versions.json" \| "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json"`                               | `"https://nwjs.io/versions.json"`                  | Versions manifest URI, gotten via https or local file                                                                        |
+| cacheDir        | `string`                                                                                                                                                      | `"./cache"`                                        | Directory to cache NW binaries                                                                                               |
+| cache           | `boolean`                                                                                                                                                     | `true`                                             | If true the existing cache is used. Otherwise it removes and redownloads it.                                                 |
+| ffmpeg          | `boolean`                                                                                                                                                     | `false`                                            | If true the chromium ffmpeg is replaced by community version with proprietary codecs.                                        |
+| logLevel        | `"error" \| "warn" \| "info" \| "debug"`                                                                                                                      | `"info"`                                           | Specify level of logging.                                                                                                    |
+| shaSum          | `boolean`                                                                                                                                                     | `true`                                             | Flag to enable/disable shasum checks.                                                                                        |
+| srcDir          | `string`                                                                                                                                                      | `"./"`                                             | File paths to application code                                                                                               |
+| argv            | `string[]`                                                                                                                                                    | `[]`                                               | Command line arguments to pass to NW executable in run mode. You can also define these in `chromium-args` in NW.js manifest. |
+| glob            | `boolean`                                                                                                                                                     | `true`                                             | If true file globbing is enabled when parsing `srcDir`.                                                                      |
+| outDir          | `string`                                                                                                                                                      | `"./out"`                                          | Directory to store build artifacts                                                                                           |
+| managedManifest | `boolean \| string \| object`                                                                                                                                 | `false`                                            | Managed manifest                                                                                                             |
+| nodeAddon       | `boolean`                                                                                                                                                     | `false`                                            | Rebuild Node native addons                                                                                                   |
+| zip             | `boolean \| "zip" \| "tar" \| "tgz"`                                                                                                                          | `false`                                            | If true, "zip", "tar" or "tgz" the `outDir` directory is compressed.                                                         |
+| app             | `LinuxRc \| WinRc \| OsxRc`                                                                                                                                   | Additional options for each platform. (See below.) |
 
 ### `app` configuration object
 
@@ -217,68 +217,67 @@ This object defines additional properties used for building for a specific platf
 
 #### Windows-specific options (`WinRc`)
 
-| Name | Type    | Default   | Description |
-| ---- | ------- | --------- | ----------- |
-| `icon` | `string` | `undefined` | The path to the icon file. It should be a .ico file. (**WARNING**: Please define the icon in the NW.js manifest instead) |
-| `name` | `string` | Value of `name` in NW.js manifest | The name of the application |
-| `version` | `string` | Value of `version` in NW.js manifest | The version of the application |
-| `comments` | `string` | `undefined` | Additional information that should be displayed for diagnostic purposes. |
-| `company` | `string` | Value of `author` in NW.js manifest | Company that produced the file—for example, Microsoft Corporation or Standard Microsystems Corporation, Inc. This string is required. |
-| `fileDescription` | `string` | Value of `description` in NW.js manifest | File description to be presented to users. This string may be displayed in a list box when the user is choosing files to install. For example, Keyboard Driver for AT-Style Keyboards. This string is required. |
-| `fileVersion` | `string` | Value of `version` or value of `version` in NW.js manifest | Version number of the file. For example, 3.10 or 5.00.RC2. This string is required. |
-| `internalName` | `string` | Value of `name` in NW.js manifest |Internal name of the file, if one exists—for example, a module name if the file is a dynamic-link library. If the file has no internal name, this string should be the original filename, without extension. This string is required. |
-| `legalCopyright` | `string` | `undefined` | Copyright notices that apply to the file. This should include the full text of all notices, legal symbols, copyright dates, and so on. This string is optional. |
-| `legalTrademark` | `string` | `undefined` | Trademarks and registered trademarks that apply to the file. This should include the full text of all notices, legal symbols, trademark numbers, and so on. This string is optional. |
-| `originalFilename` | `string` | Value of `name` option | Original name of the file, not including a path. This information enables an application to determine whether a file has been renamed by a user. The format of the name depends on the file system for which the file was created. This string is required. |
-| `privateBuild` | `string` | `undefined` | Information about a private version of the file—for example, Built by TESTER1 on \\TESTBED. |
-| `productName` | `string` | `name` in NW.js manifest | Name of the product with which the file is distributed. This string is required. |
-| `productVersion` | `string` | Value of `version` in NW.js manifest | Version of the product with which the file is distributed—for example, 3.10 or 5.00.RC2. |
-| `specialBuild` | `string` | `undefined` | Text that specifies how this version of the file differs from the standard version—for example, Private build for TESTER1 solving mouse problems on M250 and M250E computers. |
-| `languageCode` | `number` | `1033` | Language of the file, defined by Microsoft, see: https://learn.microsoft.com/en-us/openspecs/office_standards/ms-oe376/6c085406-a698-4e12-9d4d-c3b0ee3dbc4a                                                                                                 |
+| Name               | Type     | Default                                                    | Description                                                                                                                                                                                                                                                 |
+| ------------------ | -------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `icon`             | `string` | `undefined`                                                | The path to the icon file. It should be a .ico file. (**WARNING**: Please define the icon in the NW.js manifest instead)                                                                                                                                    |
+| `name`             | `string` | Value of `name` in NW.js manifest                          | The name of the application                                                                                                                                                                                                                                 |
+| `version`          | `string` | Value of `version` in NW.js manifest                       | The version of the application                                                                                                                                                                                                                              |
+| `comments`         | `string` | `undefined`                                                | Additional information that should be displayed for diagnostic purposes.                                                                                                                                                                                    |
+| `company`          | `string` | Value of `author` in NW.js manifest                        | Company that produced the file—for example, Microsoft Corporation or Standard Microsystems Corporation, Inc. This string is required.                                                                                                                       |
+| `fileDescription`  | `string` | Value of `description` in NW.js manifest                   | File description to be presented to users. This string may be displayed in a list box when the user is choosing files to install. For example, Keyboard Driver for AT-Style Keyboards. This string is required.                                             |
+| `fileVersion`      | `string` | Value of `version` or value of `version` in NW.js manifest | Version number of the file. For example, 3.10 or 5.00.RC2. This string is required.                                                                                                                                                                         |
+| `internalName`     | `string` | Value of `name` in NW.js manifest                          | Internal name of the file, if one exists—for example, a module name if the file is a dynamic-link library. If the file has no internal name, this string should be the original filename, without extension. This string is required.                       |
+| `legalCopyright`   | `string` | `undefined`                                                | Copyright notices that apply to the file. This should include the full text of all notices, legal symbols, copyright dates, and so on. This string is optional.                                                                                             |
+| `legalTrademark`   | `string` | `undefined`                                                | Trademarks and registered trademarks that apply to the file. This should include the full text of all notices, legal symbols, trademark numbers, and so on. This string is optional.                                                                        |
+| `originalFilename` | `string` | Value of `name` option                                     | Original name of the file, not including a path. This information enables an application to determine whether a file has been renamed by a user. The format of the name depends on the file system for which the file was created. This string is required. |
+| `privateBuild`     | `string` | `undefined`                                                | Information about a private version of the file—for example, Built by TESTER1 on \\TESTBED.                                                                                                                                                                 |
+| `productName`      | `string` | `name` in NW.js manifest                                   | Name of the product with which the file is distributed. This string is required.                                                                                                                                                                            |
+| `productVersion`   | `string` | Value of `version` in NW.js manifest                       | Version of the product with which the file is distributed—for example, 3.10 or 5.00.RC2.                                                                                                                                                                    |
+| `specialBuild`     | `string` | `undefined`                                                | Text that specifies how this version of the file differs from the standard version—for example, Private build for TESTER1 solving mouse problems on M250 and M250E computers.                                                                               |
+| `languageCode`     | `number` | `1033`                                                     | Language of the file, defined by Microsoft, see: https://learn.microsoft.com/en-us/openspecs/office_standards/ms-oe376/6c085406-a698-4e12-9d4d-c3b0ee3dbc4a                                                                                                 |
 
 #### Linux-specific options (`LinuxRc`)
 
-| Name | Type    | Description |
-| ---- | ------- | ----------- |
-| name | `string` | Name of the application |
-| genericName | `string` | Generic name of the application |
-| noDisplay | `boolean` | If true the application is not displayed |
-| comment | `string` | Tooltip for the entry, for example "View sites on the Internet". |
-| icon | `string` | Icon to display in file manager, menus, etc. (**WARNING**: Please define the icon in the NW.js manifest instead) |
-| hidden | `boolean` | TBD |
-| onlyShowIn | `string[]` | A list of strings identifying the desktop environments that should display a given desktop entry |
-| notShowIn | `string[]` | A list of strings identifying the desktop environments that should not display a given desktop entry |
-| dBusActivatable | `boolean` | A boolean value specifying if D-Bus activation is supported for this application |
-| tryExec | `string` | Path to an executable file on disk used to determine if the program is actually installed |
-| exec | `string` | Program to execute, possibly with arguments. |
-| path | `string` | If entry is of type Application, the working directory to run the program in. |
-| terminal | `boolean` | Whether the program runs in a terminal window. |
-| actions | `string[]` | Identifiers for application actions. |
-| mimeType | `string[]` | The MIME type(s) supported by this application. |
-| categories | `string[]` | Categories in which the entry should be shown in a menu |
-| implements | `string[]` | A list of interfaces that this application implements. |
-| keywords | `string[]` | A list of strings which may be used in addition to other metadata to describe this entry. |
-| startupNotify | `boolean` | If true, it is KNOWN that the application will send a "remove" message when started with the DESKTOP_STARTUP_ID environment variable set. If false, it is KNOWN that the application does not work with startup notification at all. |
-| startupWMClass | `string` | If specified, it is known that the application will map at least one window with the given string as its WM class or WM name hin |
-| prefersNonDefaultGPU | `boolean` | If true, the application prefers to be run on a more powerful discrete GPU if available. |
-| singleMainWindow | `string` | If true, the application has a single main window, and does not support having an additional one opened. |
+| Name                 | Type       | Description                                                                                                                                                                                                                          |
+| -------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| name                 | `string`   | Name of the application                                                                                                                                                                                                              |
+| genericName          | `string`   | Generic name of the application                                                                                                                                                                                                      |
+| noDisplay            | `boolean`  | If true the application is not displayed                                                                                                                                                                                             |
+| comment              | `string`   | Tooltip for the entry, for example "View sites on the Internet".                                                                                                                                                                     |
+| icon                 | `string`   | Icon to display in file manager, menus, etc. (**WARNING**: Please define the icon in the NW.js manifest instead)                                                                                                                     |
+| hidden               | `boolean`  | TBD                                                                                                                                                                                                                                  |
+| onlyShowIn           | `string[]` | A list of strings identifying the desktop environments that should display a given desktop entry                                                                                                                                     |
+| notShowIn            | `string[]` | A list of strings identifying the desktop environments that should not display a given desktop entry                                                                                                                                 |
+| dBusActivatable      | `boolean`  | A boolean value specifying if D-Bus activation is supported for this application                                                                                                                                                     |
+| tryExec              | `string`   | Path to an executable file on disk used to determine if the program is actually installed                                                                                                                                            |
+| exec                 | `string`   | Program to execute, possibly with arguments.                                                                                                                                                                                         |
+| path                 | `string`   | If entry is of type Application, the working directory to run the program in.                                                                                                                                                        |
+| terminal             | `boolean`  | Whether the program runs in a terminal window.                                                                                                                                                                                       |
+| actions              | `string[]` | Identifiers for application actions.                                                                                                                                                                                                 |
+| mimeType             | `string[]` | The MIME type(s) supported by this application.                                                                                                                                                                                      |
+| categories           | `string[]` | Categories in which the entry should be shown in a menu                                                                                                                                                                              |
+| implements           | `string[]` | A list of interfaces that this application implements.                                                                                                                                                                               |
+| keywords             | `string[]` | A list of strings which may be used in addition to other metadata to describe this entry.                                                                                                                                            |
+| startupNotify        | `boolean`  | If true, it is KNOWN that the application will send a "remove" message when started with the DESKTOP_STARTUP_ID environment variable set. If false, it is KNOWN that the application does not work with startup notification at all. |
+| startupWMClass       | `string`   | If specified, it is known that the application will map at least one window with the given string as its WM class or WM name hin                                                                                                     |
+| prefersNonDefaultGPU | `boolean`  | If true, the application prefers to be run on a more powerful discrete GPU if available.                                                                                                                                             |
+| singleMainWindow     | `string`   | If true, the application has a single main window, and does not support having an additional one opened.                                                                                                                             |
 
 #### MacOS-specific options (`OsxRc`)
 
-| Name | Type    | Description |
-| ---- | ------- | ----------- |
-| name | `string` | The name of the application |
-| icon | `string` | The path to the icon file. It should be a .icns file. (**WARNING**: Please define the icon in the NW.js manifest instead) |
-| LSApplicationCategoryType | `string` | The category that best describes your app for the App Store. |
-| CFBundleIdentifier | `string` | A unique identifier for a bundle usually in reverse DNS format. |
-| CFBundleName | `string` | A user-visible short name for the bundle. |
-| CFBundleDisplayName | `string` | The user-visible name for the bundle. |
-| CFBundleSpokenName | `string` | A replacement for the app name in text-to-speech operations. |
-| CFBundleVersion | `string` | The version of the build that identifies an iteration of the bundle. |
-| CFBundleShortVersionString | `string` | The release or version number of the bundle. |
-| NSHumanReadableCopyright | `string` | A human-readable copyright notice for the bundle. |
-| NSLocalNetworkUsageDescription | `string` | A human-readable description of why the application needs access to the local network. |
-
+| Name                           | Type     | Description                                                                                                               |
+| ------------------------------ | -------- | ------------------------------------------------------------------------------------------------------------------------- |
+| name                           | `string` | The name of the application                                                                                               |
+| icon                           | `string` | The path to the icon file. It should be a .icns file. (**WARNING**: Please define the icon in the NW.js manifest instead) |
+| LSApplicationCategoryType      | `string` | The category that best describes your app for the App Store.                                                              |
+| CFBundleIdentifier             | `string` | A unique identifier for a bundle usually in reverse DNS format.                                                           |
+| CFBundleName                   | `string` | A user-visible short name for the bundle.                                                                                 |
+| CFBundleDisplayName            | `string` | The user-visible name for the bundle.                                                                                     |
+| CFBundleSpokenName             | `string` | A replacement for the app name in text-to-speech operations.                                                              |
+| CFBundleVersion                | `string` | The version of the build that identifies an iteration of the bundle.                                                      |
+| CFBundleShortVersionString     | `string` | The release or version number of the bundle.                                                                              |
+| NSHumanReadableCopyright       | `string` | A human-readable copyright notice for the bundle.                                                                         |
+| NSLocalNetworkUsageDescription | `string` | A human-readable description of why the application needs access to the local network.                                    |
 
 ## Guides
 
@@ -298,7 +297,8 @@ nwbuild({
   platform: "osx",
   arch: "arm64",
   downloadUrl: "https://github.com/corwin-of-amber/nw.js/releases/download",
-  manifestUrl: "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json",
+  manifestUrl:
+    "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json",
 });
 ```
 

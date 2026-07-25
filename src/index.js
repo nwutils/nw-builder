@@ -1,13 +1,13 @@
-import child_process from 'node:child_process';
-import console from 'node:console';
-import fs from 'node:fs';
-import path from 'node:path';
+import child_process from "node:child_process";
+import console from "node:console";
+import fs from "node:fs";
+import path from "node:path";
 
-import get from '@nwutils/getter';
-import run from '@nwutils/runner';
+import get from "@nwutils/getter";
+import run from "@nwutils/runner";
 
-import bld from './bld.js';
-import util from './util.js';
+import bld from "./bld.js";
+import util from "./util.js";
 
 /**
  * @typedef {object} Options Configuration options
@@ -44,31 +44,43 @@ async function nwbuild(options) {
   let built;
   let releaseInfo;
   let manifest = {
-    path: '',
+    path: "",
     json: undefined,
   };
 
   try {
     /* Parse options */
     options = await util.parse(options, manifest);
-    util.log('debug', 'info', 'Parse initial options');
+    util.log("debug", "info", "Parse initial options");
 
-    util.log('debug', 'info', 'Get node manifest...');
-    manifest = await util.getNodeManifest({ srcDir: options.srcDir, glob: options.glob });
-    if (typeof manifest.json?.nwbuild === 'object') {
+    util.log("debug", "info", "Get node manifest...");
+    manifest = await util.getNodeManifest({
+      srcDir: options.srcDir,
+      glob: options.glob,
+    });
+    if (typeof manifest.json?.nwbuild === "object") {
       options = { ...options, ...manifest.json.nwbuild };
     }
 
-    util.log('info', options.logLevel, 'Parse final options using node manifest');
+    util.log(
+      "info",
+      options.logLevel,
+      "Parse final options using node manifest",
+    );
     options = await util.parse(options, manifest.json);
-    util.log('debug', options.logLevel, 'Manifest: ', `${manifest.path}\n${manifest.json}\n`);
+    util.log(
+      "debug",
+      options.logLevel,
+      "Manifest: ",
+      `${manifest.path}\n${manifest.json}\n`,
+    );
 
     built = fs.existsSync(options.cacheDir);
     if (built === false) {
       await fs.promises.mkdir(options.cacheDir, { recursive: true });
     }
 
-    if (options.mode === 'build') {
+    if (options.mode === "build") {
       built = fs.existsSync(options.outDir);
       if (built === false) {
         await fs.promises.mkdir(options.outDir, { recursive: true });
@@ -76,7 +88,7 @@ async function nwbuild(options) {
     }
 
     /* Validate options.version to get the version specific release info */
-    util.log('info', options.logLevel, 'Get version specific release info...');
+    util.log("info", options.logLevel, "Get version specific release info...");
     releaseInfo = await util.getReleaseInfo(
       options.version,
       options.platform,
@@ -84,16 +96,24 @@ async function nwbuild(options) {
       options.cacheDir,
       options.manifestUrl,
     );
-    util.log('debug', options.logLevel, `Release info:\n${JSON.stringify(releaseInfo, null, 2)}\n`);
+    util.log(
+      "debug",
+      options.logLevel,
+      `Release info:\n${JSON.stringify(releaseInfo, null, 2)}\n`,
+    );
 
-    util.log('info', options.logLevel, 'Validate options.* ...');
+    util.log("info", options.logLevel, "Validate options.* ...");
     await util.validate(options, releaseInfo);
-    util.log('debug', options.logLevel, `Options:\n${JSON.stringify(options, null, 2)}`);
+    util.log(
+      "debug",
+      options.logLevel,
+      `Options:\n${JSON.stringify(options, null, 2)}`,
+    );
 
     /* Remove leading "v" from version string */
     options.version = releaseInfo.version.slice(1);
 
-    util.log('info', options.logLevel, 'Getting NW.js and related binaries...');
+    util.log("info", options.logLevel, "Getting NW.js and related binaries...");
     await get({
       version: options.version,
       flavor: options.flavor,
@@ -109,15 +129,17 @@ async function nwbuild(options) {
       logLevel: options.logLevel,
     });
 
-    if (options.mode === 'get') {
+    if (options.mode === "get") {
       // Do nothing else since we have already downloaded the binaries.
       return undefined;
     }
 
-    if (options.mode === 'run') {
-      util.log('info', options.logLevel, 'Running NW.js in run mode...');
+    if (options.mode === "run") {
+      util.log("info", options.logLevel, "Running NW.js in run mode...");
       if (options.glob) {
-        throw new Error('Glob option is not supported when mode is set to run.');
+        throw new Error(
+          "Glob option is not supported when mode is set to run.",
+        );
       }
       const nwProcess = await run({
         version: options.version,
@@ -129,8 +151,12 @@ async function nwbuild(options) {
         argv: options.argv,
       });
       return nwProcess;
-    } else if (options.mode === 'build') {
-      util.log('info', options.logLevel, `Build a NW.js application for ${options.platform} ${options.arch}...`);
+    } else if (options.mode === "build") {
+      util.log(
+        "info",
+        options.logLevel,
+        `Build a NW.js application for ${options.platform} ${options.arch}...`,
+      );
       await bld({
         version: options.version,
         flavor: options.flavor,
@@ -146,7 +172,11 @@ async function nwbuild(options) {
         zip: options.zip,
         releaseInfo: releaseInfo,
       });
-      util.log('info', options.logLevel, `Appliction is available at ${path.resolve(options.outDir)}`);
+      util.log(
+        "info",
+        options.logLevel,
+        `Appliction is available at ${path.resolve(options.outDir)}`,
+      );
     }
   } catch (error) {
     console.error(error);
