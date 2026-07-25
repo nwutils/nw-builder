@@ -23,6 +23,7 @@ describe.runIf(process.platform === "darwin")(
       "./node_modules/nw",
       "https://nwjs.io/versions.json",
     );
+    /* TODO: Version mismatch tracked in https://github.com/nwjs/nw.js/issues/8371 */
     const chromiumVersion = releaseInfo.components.chromium;
     const helperAlertsPath = path.join(
       appPath,
@@ -30,7 +31,7 @@ describe.runIf(process.platform === "darwin")(
       "Frameworks",
       "nwjs Framework.framework",
       "Versions",
-      chromiumVersion,
+      "Current",
       "Helpers",
       "Demo Helper (Alerts).app",
     );
@@ -40,7 +41,7 @@ describe.runIf(process.platform === "darwin")(
       "Frameworks",
       "nwjs Framework.framework",
       "Versions",
-      chromiumVersion,
+      "Current",
       "Helpers",
       "Demo Helper (GPU).app",
     );
@@ -50,7 +51,7 @@ describe.runIf(process.platform === "darwin")(
       "Frameworks",
       "nwjs Framework.framework",
       "Versions",
-      chromiumVersion,
+      "Current",
       "Helpers",
       "Demo Helper (Renderer).app",
     );
@@ -60,7 +61,7 @@ describe.runIf(process.platform === "darwin")(
       "Frameworks",
       "nwjs Framework.framework",
       "Versions",
-      chromiumVersion,
+      "Current",
       "Helpers",
       "Demo Helper.app",
     );
