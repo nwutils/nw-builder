@@ -130,7 +130,9 @@ async function globFiles({
       patterns = srcDir.split(' ');
     }
 
-    let filePath = await GlobModule.glob(patterns.filter(el => el.substring(0,1) != '!'), {ignore: patterns.filter(el => el.substring(0,1) == '!').map(el => el.substring(1))});
+    const include = patterns.filter(p => !p.startsWith('!'));
+    const ignore  = patterns.filter(p =>  p.startsWith('!')).map(p => p.substring(1));
+    let filePath = await GlobModule.glob(include, { ignore });
     files.push(...filePath);
   } else {
     files = srcDir;
