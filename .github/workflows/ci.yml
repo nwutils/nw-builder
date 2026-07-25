@@ -42,7 +42,7 @@ jobs:
     name: ${{ matrix.display }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7.0.0
+        uses: actions/checkout@v7.0.1
 
       - name: Setup Volta
         uses: volta-cli/action@v5.0.0
@@ -73,7 +73,7 @@ jobs:
 
       - name: Report Coverage
         if: always()
-        uses: davelosert/vitest-coverage-report-action@v2.12.1
+        uses: davelosert/vitest-coverage-report-action@v2.12.2
         with:
           name: Vitest Coverage (${{ matrix.os }})
           json-summary-path: coverage/coverage-summary.json
