@@ -82,7 +82,8 @@ export default async function setOsxConfig({
     const helperBaseDir = path.resolve(
       outApp,
       "Contents/Frameworks/nwjs Framework.framework/Versions",
-      chromiumVersion,
+      /* TODO: Version mismatch tracked in https://github.com/nwutils/nw-builder/issues/1624 */
+      "Current",
       "Helpers/",
     );
 
