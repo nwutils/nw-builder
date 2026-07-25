@@ -45,7 +45,7 @@ export default async function setOsxConfig({
 }) {
   if (process.platform === "win32") {
     console.warn(
-      "MacOS apps built on Windows platform do not preserve all file permissions. See #716",
+      "MacOS apps built on Windows platform do not preserve all file permissions. See https://github.com/nwutils/nw-builder/issues/716",
     );
   }
 
@@ -84,7 +84,7 @@ export default async function setOsxConfig({
       "Contents/Frameworks/nwjs Framework.framework/Versions",
       /* TODO: Version mismatch tracked in https://github.com/nwutils/nw-builder/issues/1624 */
       "Current",
-      "Helpers/",
+      "Helpers",
     );
 
     const helperApps = [
