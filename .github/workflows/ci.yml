@@ -1,4 +1,4 @@
-name: e2e
+name: Node.js CI
 
 on:
   pull_request:
@@ -19,31 +19,58 @@ jobs:
       matrix:
         os:
           - macos-26
+          - macos-26-intel
           - ubuntu-24.04
+          - ubuntu-24.04-arm
           - windows-2025
+          - windows-11-arm
+        include:
+          - os: macos-26
+            display: MacOS 26 ARM
+          - os: macos-26-intel
+            display: MacOS 26 Intel
+          - os: ubuntu-24.04
+            display: Ubuntu 24.04 Intel
+          - os: ubuntu-24.04-arm
+            display: Ubuntu 24.04 ARM
+          - os: windows-2025
+            display: Windows 11 Intel
+          - os: windows-11-arm
+            display: Windows 11 (ARM)
       fail-fast: false
     runs-on: ${{ matrix.os }}
+    name: ${{ matrix.display }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7.0.0
+
       - name: Setup Volta
         uses: volta-cli/action@v5.0.0
+
       - name: Install third party dependencies
         run: npm ci
-      - name: Check third party dependencies for vulnerabilities
+
+      - name: Check third party vulnerabilities
         run: npm audit
+
+      - name: Check for formatting errors
+        run: npm run format
+
       - name: Check for linting errors
         run: npm run lint
+
       - name: Run test suite
         run: npm run test:cov
         env:
           CI: true
+
       - name: Upload coverage artifact
         if: always()
         uses: actions/upload-artifact@v7.0.1
         with:
           name: coverage-${{ matrix.os }}
           path: coverage
+
       - name: Report Coverage
         if: always()
         uses: davelosert/vitest-coverage-report-action@v2.12.1
