@@ -1,0 +1,81 @@
+{
+  "name": "@nwutils/doctor",
+  "version": "0.1.0",
+  "description": "Configure NW.js environments for Linux, MacOS and Windows.",
+  "keywords": [
+    "NW.js",
+    "node-webkit",
+    "Desktop",
+    "Application"
+  ],
+  "author": {
+    "name": "Ayushman Chhabra",
+    "url": "https://ayushmanchhabra.com"
+  },
+  "maintainers": [
+    {
+      "name": "Ayushman Chhabra",
+      "url": "https://ayushmanchhabra.com"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "@nwutils/doctor Contributors",
+      "url": "https://github.com/nwutils/doctor/graphs/contributors"
+    }
+  ],
+  "license": "MIT",
+  "main": "./src/main.js",
+  "types": "types/main.d.ts",
+  "type": "module",
+  "files": [
+    "LICENSE",
+    "src",
+    "types"
+  ],
+  "homepage": "https://github.com/nwutils/doctor#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nwutils/doctor.git"
+  },
+  "scripts": {
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type": "tsc",
+    "test": "node --test --experimental-test-coverage --test-coverage-exclude=\"tests/**/*\" \"tests/specs/*.test.js\""
+  },
+  "dependencies": {
+    "semver": "^7.8.5",
+    "tar": "^7.5.20",
+    "yauzl-promise": "^4.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^26.1.1",
+    "@types/semver": "^7.7.1",
+    "@types/yauzl-promise": "^4.0.1",
+    "eslint": "^10.7.0",
+    "eslint-plugin-jsdoc": "^63.1.0",
+    "eslint-plugin-simple-import-sort": "^14.0.0",
+    "globals": "^17.7.0",
+    "prettier": "^3.9.5",
+    "typescript": "^7.0.2"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "onFail": "warn",
+      "version": "26.1.0"
+    },
+    "packageManager": {
+      "name": "npm",
+      "version": "12.0.0",
+      "onFail": "warn"
+    }
+  },
+  "prettier": {
+    "endOfLine": "lf"
+  }
+}
