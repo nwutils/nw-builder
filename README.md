@@ -27,10 +27,10 @@ The shell output
 
 ```shell
 [ INFO ] The required Node.js version is: 26.1.0
-[ WARN ] Your current Node.js version is: 24.18.0. Native addons may not build properly.
+[ WARN ] Your installed Node.js version is: 24.18.0. Native addons may not build properly.
 [ INFO ] Install the required Node.js version via a Node verssion manager (e.g., nvm, n, volta) or download it from https://nodejs.org/en/download/releases/.
 [ INFO ] The latest npm version is: 12.0.2
-[ WARN ] The current npm version is: 11.16.0
+[ WARN ] The installed npm version is: 11.16.0
 ```
 
 ## API Reference

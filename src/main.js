@@ -46,7 +46,7 @@ async function doctor(options) {
   const nodeCurrentVersion = process.versions["node"];
   if (nodeCurrentVersion !== nodeRequiredVersion) {
     console.log(
-      "[ WARN ] Your current Node.js version is: " +
+      "[ WARN ] Your installed Node.js version is: " +
         nodeCurrentVersion +
         ". Native addons may not build properly.",
     );
@@ -54,7 +54,7 @@ async function doctor(options) {
       "[ INFO ] Install the required Node.js version via a Node verssion manager (e.g., nvm, n, volta) or download it from https://nodejs.org/en/download/releases/.",
     );
   } else {
-    console.log("[ INFO ] Your current Node.js version is compatible.");
+    console.log("[ INFO ] Your installed Node.js version is compatible.");
   }
 
   await util.request(
@@ -71,7 +71,7 @@ async function doctor(options) {
   const npmCurrentVersion = child_process
     .execSync("npm --version", { encoding: "utf8" })
     .trim();
-  console.log("[ WARN ] The current npm version is: " + npmCurrentVersion);
+  console.log("[ WARN ] The installed npm version is: " + npmCurrentVersion);
 
   const nodeManifestPath = path.resolve(options.srcDir, "package.json");
   if (fs.existsSync(nodeManifestPath) && nodeVersionManager === "none") {
