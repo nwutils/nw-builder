@@ -83,7 +83,7 @@ export default async function setOsxConfig({
       outApp,
       "Contents/Frameworks/nwjs Framework.framework/Versions",
       /* TODO: Version mismatch tracked in https://github.com/nwjs/nw.js/issues/8371 */
-      "Current",
+      chromiumVersion,
       "Helpers",
     );
 
