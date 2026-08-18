@@ -253,7 +253,7 @@ describe.runIf(process.platform === "darwin")(
         "io.nwutils.demo.helper",
       );
       expect(HelperAppJson.CFBundleExecutable).toEqual("Demo Helper");
-      expect(HelperAppJson.LSFileQuarantineEnabled).toEqual(true);
+      expect(HelperAppJson.LSFileQuarantineEnabled).toEqual(false);
 
       afterAll(async function () {
         await fs.promises.rm("./tests/fixtures/macos", {
