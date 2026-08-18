@@ -60,13 +60,13 @@
     "@eslint/js": "^10.0.1",
     "@vitest/coverage-v8": "^4.1.10",
     "base-volta-off-of-nwjs": "^1.0.5",
-    "eslint": "^10.8.0",
-    "eslint-plugin-jsdoc": "^63.2.2",
+    "eslint": "^10.8.1",
+    "eslint-plugin-jsdoc": "^64.2.0",
     "eslint-plugin-simple-import-sort": "^14.0.0",
-    "globals": "^17.7.0",
-    "nw": "^0.114.0",
+    "globals": "^17.11.0",
+    "nw": "^0.114.1",
     "prettier": "^3.9.6",
-    "selenium-webdriver": "^4.46.0",
+    "selenium-webdriver": "^4.47.0",
     "vitest": "^4.0.14"
   },
   "dependencies": {
