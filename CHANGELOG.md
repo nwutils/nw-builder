@@ -9,22 +9,19 @@ Since `v4.6.0`, we have switched to automated releases and this file does not ne
 
 ## [4.18.0](https://github.com/nwutils/nw-builder/compare/v4.17.13...v4.18.0) (2026-07-25)
 
-
 ### Features
 
-* **bld:** add option to ignore files/folder during file globbing ([#1615](https://github.com/nwutils/nw-builder/issues/1615)) ([6a3eb87](https://github.com/nwutils/nw-builder/commit/6a3eb87a91f9d5361b598e9a6297844a6208a594))
-
+- **bld:** add option to ignore files/folder during file globbing ([#1615](https://github.com/nwutils/nw-builder/issues/1615)) ([6a3eb87](https://github.com/nwutils/nw-builder/commit/6a3eb87a91f9d5361b598e9a6297844a6208a594))
 
 ### Bug Fixes
 
-* **bld:** workaround for version mismatch in nwjs.app ([#1628](https://github.com/nwutils/nw-builder/issues/1628)) ([fdddcf0](https://github.com/nwutils/nw-builder/commit/fdddcf088b7b7626c98288b73d53682bbdf6273c)), closes [#1624](https://github.com/nwutils/nw-builder/issues/1624)
-
+- **bld:** workaround for version mismatch in nwjs.app ([#1628](https://github.com/nwutils/nw-builder/issues/1628)) ([fdddcf0](https://github.com/nwutils/nw-builder/commit/fdddcf088b7b7626c98288b73d53682bbdf6273c)), closes [#1624](https://github.com/nwutils/nw-builder/issues/1624)
 
 ### Chores
 
-* **ci:** run tests on {Linux, Mac, Windows} x {Intel, ARM} ([#1625](https://github.com/nwutils/nw-builder/issues/1625)) ([846ca3b](https://github.com/nwutils/nw-builder/commit/846ca3b2c6de0b1b690edc164f09aaed3412cfc3))
-* **deps:** bump the gha group across 1 directory with 3 updates ([#1622](https://github.com/nwutils/nw-builder/issues/1622)) ([9d4ed4f](https://github.com/nwutils/nw-builder/commit/9d4ed4f50c3b2f7ff212ab3b670c3cd544314a13))
-* **deps:** bump the npm group across 1 directory with 7 updates ([#1627](https://github.com/nwutils/nw-builder/issues/1627)) ([9a9cdd5](https://github.com/nwutils/nw-builder/commit/9a9cdd5c8b5085851bb78c11abc23881f3ec8899))
+- **ci:** run tests on {Linux, Mac, Windows} x {Intel, ARM} ([#1625](https://github.com/nwutils/nw-builder/issues/1625)) ([846ca3b](https://github.com/nwutils/nw-builder/commit/846ca3b2c6de0b1b690edc164f09aaed3412cfc3))
+- **deps:** bump the gha group across 1 directory with 3 updates ([#1622](https://github.com/nwutils/nw-builder/issues/1622)) ([9d4ed4f](https://github.com/nwutils/nw-builder/commit/9d4ed4f50c3b2f7ff212ab3b670c3cd544314a13))
+- **deps:** bump the npm group across 1 directory with 7 updates ([#1627](https://github.com/nwutils/nw-builder/issues/1627)) ([9a9cdd5](https://github.com/nwutils/nw-builder/commit/9a9cdd5c8b5085851bb78c11abc23881f3ec8899))
 
 ## [4.17.13](https://github.com/nwutils/nw-builder/compare/v4.17.12...v4.17.13) (2026-07-02)
 

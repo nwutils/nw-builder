@@ -183,6 +183,7 @@ describe.runIf(process.platform === "darwin")(
       expect(ContentsInfoPlistJson.NSLocalNetworkUsageDescription).toEqual(
         "This test application needs to access the local network for testing purposes.",
       );
+      expect(ContentsInfoPlistJson.LSFileQuarantineEnabled).toEqual(false);
 
       const HelperAlertsAppJson = parse(
         await fs.promises.readFile(
@@ -201,6 +202,7 @@ describe.runIf(process.platform === "darwin")(
       expect(HelperAlertsAppJson.CFBundleExecutable).toEqual(
         "Demo Helper (Alerts)",
       );
+      expect(HelperAlertsAppJson.LSFileQuarantineEnabled).toEqual(false);
 
       const HelperGpuAppJson = parse(
         await fs.promises.readFile(
@@ -215,6 +217,7 @@ describe.runIf(process.platform === "darwin")(
         "io.nwutils.demo.helper.gpu",
       );
       expect(HelperGpuAppJson.CFBundleExecutable).toEqual("Demo Helper (GPU)");
+      expect(HelperGpuAppJson.LSFileQuarantineEnabled).toEqual(false);
 
       const HelperRendererAppJson = parse(
         await fs.promises.readFile(
@@ -235,6 +238,7 @@ describe.runIf(process.platform === "darwin")(
       expect(HelperRendererAppJson.CFBundleExecutable).toEqual(
         "Demo Helper (Renderer)",
       );
+      expect(HelperRendererAppJson.LSFileQuarantineEnabled).toEqual(false);
 
       const HelperAppJson = parse(
         await fs.promises.readFile(
@@ -249,6 +253,7 @@ describe.runIf(process.platform === "darwin")(
         "io.nwutils.demo.helper",
       );
       expect(HelperAppJson.CFBundleExecutable).toEqual("Demo Helper");
+      expect(HelperAppJson.LSFileQuarantineEnabled).toEqual(false);
 
       afterAll(async function () {
         await fs.promises.rm("./tests/fixtures/macos", {
