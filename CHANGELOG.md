@@ -9,15 +9,13 @@ Since `v4.6.0`, we have switched to automated releases and this file does not ne
 
 ## [4.18.1](https://github.com/nwutils/nw-builder/compare/v4.18.0...v4.18.1) (2026-08-19)
 
-
 ### Bug Fixes
 
-* set LSFileQuarantineEnabled to false ([#1631](https://github.com/nwutils/nw-builder/issues/1631)) ([e59b34d](https://github.com/nwutils/nw-builder/commit/e59b34d8029ab46f30d5d504218a897758e10aef))
-
+- set LSFileQuarantineEnabled to false ([#1631](https://github.com/nwutils/nw-builder/issues/1631)) ([e59b34d](https://github.com/nwutils/nw-builder/commit/e59b34d8029ab46f30d5d504218a897758e10aef))
 
 ### Chores
 
-* **deps-dev:** bump the npm group across 1 directory with 5 updates ([#1633](https://github.com/nwutils/nw-builder/issues/1633)) ([1a2e085](https://github.com/nwutils/nw-builder/commit/1a2e085d9e0eb63782ad86e4d0c9d61a369cecb6))
+- **deps-dev:** bump the npm group across 1 directory with 5 updates ([#1633](https://github.com/nwutils/nw-builder/issues/1633)) ([1a2e085](https://github.com/nwutils/nw-builder/commit/1a2e085d9e0eb63782ad86e4d0c9d61a369cecb6))
 
 ## [4.18.0](https://github.com/nwutils/nw-builder/compare/v4.17.13...v4.18.0) (2026-07-25)
 

@@ -31,7 +31,7 @@ describe.runIf(process.platform === "darwin")(
       "Frameworks",
       "nwjs Framework.framework",
       "Versions",
-      "Current",
+      chromiumVersion,
       "Helpers",
       "Demo Helper (Alerts).app",
     );
@@ -41,7 +41,7 @@ describe.runIf(process.platform === "darwin")(
       "Frameworks",
       "nwjs Framework.framework",
       "Versions",
-      "Current",
+      chromiumVersion,
       "Helpers",
       "Demo Helper (GPU).app",
     );
@@ -51,7 +51,7 @@ describe.runIf(process.platform === "darwin")(
       "Frameworks",
       "nwjs Framework.framework",
       "Versions",
-      "Current",
+      chromiumVersion,
       "Helpers",
       "Demo Helper (Renderer).app",
     );
@@ -61,7 +61,7 @@ describe.runIf(process.platform === "darwin")(
       "Frameworks",
       "nwjs Framework.framework",
       "Versions",
-      "Current",
+      chromiumVersion,
       "Helpers",
       "Demo Helper.app",
     );

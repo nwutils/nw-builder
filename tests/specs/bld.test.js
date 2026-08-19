@@ -17,7 +17,7 @@ describe.skip("bld test suite", async () => {
   const nwOptions = {
     srcDir: "tests/fixtures/app",
     mode: "build",
-    version: "0.114.0",
+    version: "0.115.0",
     flavor: "sdk",
     platform: util.PLATFORM_KV[process.platform],
     arch: util.ARCH_KV[process.arch],
