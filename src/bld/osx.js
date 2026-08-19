@@ -25,6 +25,7 @@ async function updateHelperPlist(
   plistJson.CFBundleName = helperName;
   plistJson.CFBundleExecutable = helperName;
   plistJson.CFBundleIdentifier = `${appCFBundleIdentifier}.${helperId}`;
+  plistJson.LSFileQuarantineEnabled = false;
   await fs.promises.writeFile(plistFullPath, build(plistJson));
 }
 
@@ -180,6 +181,8 @@ export default async function setOsxConfig({
     contentsInfoPlistJson.CFBundleExecutable = app.name;
     contentsInfoPlistJson.NSLocalNetworkUsageDescription =
       app.NSLocalNetworkUsageDescription;
+    /* Workaround for https://github.com/nwjs/nw.js/issues/7646 */
+    contentsInfoPlistJson.LSFileQuarantineEnabled = false;
 
     /* Remove properties that were not updated by the user. */
     Object.keys(contentsInfoPlistJson).forEach((option) => {
