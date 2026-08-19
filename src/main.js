@@ -19,7 +19,7 @@ async function doctor(options) {
   // TODO: Implement detection of Node version managers (nvm, n, volta) and check if the required Node.js version is installed. If not, provide instructions to install it.
   const nodeVersionManager = "none";
   /* Get the NW.js versions manifest */
-  const manifestPath = path.resolve(options.cacheDir, "versions.json");
+  const manifestPath = path.resolve(options.cacheDir, "manifest.json");
   fs.mkdirSync(path.dirname(manifestPath), { recursive: true });
   await util.request(options.manifestUrl, manifestPath);
 

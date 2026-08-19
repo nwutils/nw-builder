@@ -21,7 +21,7 @@ describe("doctor test suite", function () {
   });
 
   it("downloads the manifest", async () => {
-    assert.ok(fs.existsSync("./cache/versions.json"));
+    assert.ok(fs.existsSync("./cache/manifest.json"));
   });
 
   it("updates the package.json file with devEngines", async () => {
