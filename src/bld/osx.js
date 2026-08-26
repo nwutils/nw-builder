@@ -12,12 +12,14 @@ import semver from "semver";
  * @param {string} helperName            - Helper App Name
  * @param {string} helperId              - Helper App ID
  * @param {string} appCFBundleIdentifier - options.app.CFBundleIdentifier
+ * @param {string} LSFileQuarantineEnabled - options.app.LSFileQuarantineEnabled
  */
 async function updateHelperPlist(
   plistPath,
   helperName,
   helperId,
   appCFBundleIdentifier,
+  LSFileQuarantineEnabled,
 ) {
   const plistFullPath = path.resolve(plistPath, "Contents/Info.plist");
   const plistJson = parse(await fs.promises.readFile(plistFullPath, "utf-8"));
@@ -25,7 +27,7 @@ async function updateHelperPlist(
   plistJson.CFBundleName = helperName;
   plistJson.CFBundleExecutable = helperName;
   plistJson.CFBundleIdentifier = `${appCFBundleIdentifier}.${helperId}`;
-  plistJson.LSFileQuarantineEnabled = false;
+  plistJson.LSFileQuarantineEnabled = LSFileQuarantineEnabled;
   await fs.promises.writeFile(plistFullPath, build(plistJson));
 }
 
@@ -181,8 +183,8 @@ export default async function setOsxConfig({
     contentsInfoPlistJson.CFBundleExecutable = app.name;
     contentsInfoPlistJson.NSLocalNetworkUsageDescription =
       app.NSLocalNetworkUsageDescription;
-    /* Workaround for https://github.com/nwjs/nw.js/issues/7646 */
-    contentsInfoPlistJson.LSFileQuarantineEnabled = false;
+    /* See https://github.com/nwjs/nw.js/issues/7646 */
+    contentsInfoPlistJson.LSFileQuarantineEnabled = app.LSFileQuarantineEnabled;
 
     /* Remove properties that were not updated by the user. */
     Object.keys(contentsInfoPlistJson).forEach((option) => {

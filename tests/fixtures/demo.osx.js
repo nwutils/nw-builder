@@ -23,6 +23,7 @@ await nwbuild({
     NSHumanReadableCopyright: "Copyright (c) 2024 NW.js Utilities",
     NSLocalNetworkUsageDescription:
       "Demo requires access to network to showcase its capabilities",
+    LSFileQuarantineEnabled: false,
   },
 });
 

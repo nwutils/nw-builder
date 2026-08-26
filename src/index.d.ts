@@ -172,6 +172,8 @@ export interface OsxAppOptions {
   NSHumanReadableCopyright?: string;
   /** A human-readable description of why the application needs access to the local network. */
   NSLocalNetworkUsageDescription?: string;
+  /** A Boolean value indicating whether the files this app creates are quarantined by default. */
+  LSFileQuarantineEnabled?: boolean;
 }
 
 /**
