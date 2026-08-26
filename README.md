@@ -265,20 +265,20 @@ This object defines additional properties used for building for a specific platf
 
 #### MacOS-specific options (`OsxRc`)
 
-| Name                           | Type     | Description                                                                                                               |
-| ------------------------------ | -------- | ------------------------------------------------------------------------------------------------------------------------- |
-| name                           | `string` | The name of the application                                                                                               |
-| icon                           | `string` | The path to the icon file. It should be a .icns file. (**WARNING**: Please define the icon in the NW.js manifest instead) |
-| LSApplicationCategoryType      | `string` | The category that best describes your app for the App Store.                                                              |
-| CFBundleIdentifier             | `string` | A unique identifier for a bundle usually in reverse DNS format.                                                           |
-| CFBundleName                   | `string` | A user-visible short name for the bundle.                                                                                 |
-| CFBundleDisplayName            | `string` | The user-visible name for the bundle.                                                                                     |
-| CFBundleSpokenName             | `string` | A replacement for the app name in text-to-speech operations.                                                              |
-| CFBundleVersion                | `string` | The version of the build that identifies an iteration of the bundle.                                                      |
-| CFBundleShortVersionString     | `string` | The release or version number of the bundle.                                                                              |
-| NSHumanReadableCopyright       | `string` | A human-readable copyright notice for the bundle.                                                                         |
-| NSLocalNetworkUsageDescription | `string` | A human-readable description of why the application needs access to the local network.                                    |
-| LSFileQuarantineEnabled        | `boolean`| A Boolean value indicating whether the files this app creates are quarantined by default.                                    |
+| Name                           | Type      | Description                                                                                                               |
+| ------------------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------- |
+| name                           | `string`  | The name of the application                                                                                               |
+| icon                           | `string`  | The path to the icon file. It should be a .icns file. (**WARNING**: Please define the icon in the NW.js manifest instead) |
+| LSApplicationCategoryType      | `string`  | The category that best describes your app for the App Store.                                                              |
+| CFBundleIdentifier             | `string`  | A unique identifier for a bundle usually in reverse DNS format.                                                           |
+| CFBundleName                   | `string`  | A user-visible short name for the bundle.                                                                                 |
+| CFBundleDisplayName            | `string`  | The user-visible name for the bundle.                                                                                     |
+| CFBundleSpokenName             | `string`  | A replacement for the app name in text-to-speech operations.                                                              |
+| CFBundleVersion                | `string`  | The version of the build that identifies an iteration of the bundle.                                                      |
+| CFBundleShortVersionString     | `string`  | The release or version number of the bundle.                                                                              |
+| NSHumanReadableCopyright       | `string`  | A human-readable copyright notice for the bundle.                                                                         |
+| NSLocalNetworkUsageDescription | `string`  | A human-readable description of why the application needs access to the local network.                                    |
+| LSFileQuarantineEnabled        | `boolean` | A Boolean value indicating whether the files this app creates are quarantined by default.                                 |
 
 ## Guides
 

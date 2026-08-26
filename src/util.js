@@ -685,7 +685,7 @@ export const validate = async (options, releaseInfo) => {
           options.app.NSLocalNetworkUsageDescription,
       );
     }
-     if (
+    if (
       options.app.LSFileQuarantineEnabled &&
       typeof options.app.LSFileQuarantineEnabled !== "boolean"
     ) {
