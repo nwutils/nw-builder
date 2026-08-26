@@ -7,13 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
-## [4.18.0](https://github.com/nwutils/nw-builder/compare/v4.17.13...v4.18.0) (2026-07-25)
+## [4.18.1](https://github.com/nwutils/nw-builder/compare/v4.18.0...v4.18.1) (2026-08-19)
 
 ### Features
 
 - **bld:** add option to ignore files/folder during file globbing ([#1615](https://github.com/nwutils/nw-builder/issues/1615)) ([6a3eb87](https://github.com/nwutils/nw-builder/commit/6a3eb87a91f9d5361b598e9a6297844a6208a594))
 
-### Bug Fixes
+### Chores
+
+* **deps-dev:** bump the npm group across 1 directory with 5 updates ([#1633](https://github.com/nwutils/nw-builder/issues/1633)) ([1a2e085](https://github.com/nwutils/nw-builder/commit/1a2e085d9e0eb63782ad86e4d0c9d61a369cecb6))
 
 - **bld:** workaround for version mismatch in nwjs.app ([#1628](https://github.com/nwutils/nw-builder/issues/1628)) ([fdddcf0](https://github.com/nwutils/nw-builder/commit/fdddcf088b7b7626c98288b73d53682bbdf6273c)), closes [#1624](https://github.com/nwutils/nw-builder/issues/1624)
 
