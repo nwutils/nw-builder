@@ -15,9 +15,9 @@ Since `v4.6.0`, we have switched to automated releases and this file does not ne
 
 ### Chores
 
-* **deps-dev:** bump the npm group across 1 directory with 5 updates ([#1633](https://github.com/nwutils/nw-builder/issues/1633)) ([1a2e085](https://github.com/nwutils/nw-builder/commit/1a2e085d9e0eb63782ad86e4d0c9d61a369cecb6))
+- **deps-dev:** bump the npm group across 1 directory with 5 updates ([#1633](https://github.com/nwutils/nw-builder/issues/1633)) ([1a2e085](https://github.com/nwutils/nw-builder/commit/1a2e085d9e0eb63782ad86e4d0c9d61a369cecb6))
 
-- **bld:** workaround for version mismatch in nwjs.app ([#1628](https://github.com/nwutils/nw-builder/issues/1628)) ([fdddcf0](https://github.com/nwutils/nw-builder/commit/fdddcf088b7b7626c98288b73d53682bbdf6273c)), closes [#1624](https://github.com/nwutils/nw-builder/issues/1624)
+* **bld:** workaround for version mismatch in nwjs.app ([#1628](https://github.com/nwutils/nw-builder/issues/1628)) ([fdddcf0](https://github.com/nwutils/nw-builder/commit/fdddcf088b7b7626c98288b73d53682bbdf6273c)), closes [#1624](https://github.com/nwutils/nw-builder/issues/1624)
 
 ### Chores
 
