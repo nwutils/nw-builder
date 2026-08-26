@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.19.0](https://github.com/nwutils/nw-builder/compare/v4.18.1...v4.19.0) (2026-08-26)
+
+
+### Features
+
+* add options.app.LSFileQuarantineEnabled ([#1634](https://github.com/nwutils/nw-builder/issues/1634)) ([643b827](https://github.com/nwutils/nw-builder/commit/643b827a721ad6d5c66ecddb47eeb4b5935d17ec))
+
 ## [4.18.1](https://github.com/nwutils/nw-builder/compare/v4.18.0...v4.18.1) (2026-08-19)
 
 ### Features
