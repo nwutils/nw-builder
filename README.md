@@ -234,7 +234,7 @@ This object defines additional properties used for building for a specific platf
 | `productName`      | `string` | `name` in NW.js manifest                                   | Name of the product with which the file is distributed. This string is required.                                                                                                                                                                            |
 | `productVersion`   | `string` | Value of `version` in NW.js manifest                       | Version of the product with which the file is distributed—for example, 3.10 or 5.00.RC2.                                                                                                                                                                    |
 | `specialBuild`     | `string` | `undefined`                                                | Text that specifies how this version of the file differs from the standard version—for example, Private build for TESTER1 solving mouse problems on M250 and M250E computers.                                                                               |
-| `languageCode`     | `number` | `1033`                                                     | Language of the file, defined by Microsoft, see: https://learn.microsoft.com/en-us/openspecs/office_standards/ms-oe376/6c085406-a698-4e12-9d4d-c3b0ee3dbc4a                                                                                                 |
+| `languageCode`     | `number` | `1033`                                                     | Language of the file, defined by Microsoft, see [MS-OE376](https://learn.microsoft.com/en-us/openspecs/office_standards/ms-oe376)6c085406-a698-4e12-9d4d-c3b0ee3dbc4a                                                                                       |
 
 #### Linux-specific options (`LinuxRc`)
 
@@ -265,19 +265,20 @@ This object defines additional properties used for building for a specific platf
 
 #### MacOS-specific options (`OsxRc`)
 
-| Name                           | Type     | Description                                                                                                               |
-| ------------------------------ | -------- | ------------------------------------------------------------------------------------------------------------------------- |
-| name                           | `string` | The name of the application                                                                                               |
-| icon                           | `string` | The path to the icon file. It should be a .icns file. (**WARNING**: Please define the icon in the NW.js manifest instead) |
-| LSApplicationCategoryType      | `string` | The category that best describes your app for the App Store.                                                              |
-| CFBundleIdentifier             | `string` | A unique identifier for a bundle usually in reverse DNS format.                                                           |
-| CFBundleName                   | `string` | A user-visible short name for the bundle.                                                                                 |
-| CFBundleDisplayName            | `string` | The user-visible name for the bundle.                                                                                     |
-| CFBundleSpokenName             | `string` | A replacement for the app name in text-to-speech operations.                                                              |
-| CFBundleVersion                | `string` | The version of the build that identifies an iteration of the bundle.                                                      |
-| CFBundleShortVersionString     | `string` | The release or version number of the bundle.                                                                              |
-| NSHumanReadableCopyright       | `string` | A human-readable copyright notice for the bundle.                                                                         |
-| NSLocalNetworkUsageDescription | `string` | A human-readable description of why the application needs access to the local network.                                    |
+| Name                           | Type      | Description                                                                                                               |
+| ------------------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------- |
+| name                           | `string`  | The name of the application                                                                                               |
+| icon                           | `string`  | The path to the icon file. It should be a .icns file. (**WARNING**: Please define the icon in the NW.js manifest instead) |
+| LSApplicationCategoryType      | `string`  | The category that best describes your app for the App Store.                                                              |
+| CFBundleIdentifier             | `string`  | A unique identifier for a bundle usually in reverse DNS format.                                                           |
+| CFBundleName                   | `string`  | A user-visible short name for the bundle.                                                                                 |
+| CFBundleDisplayName            | `string`  | The user-visible name for the bundle.                                                                                     |
+| CFBundleSpokenName             | `string`  | A replacement for the app name in text-to-speech operations.                                                              |
+| CFBundleVersion                | `string`  | The version of the build that identifies an iteration of the bundle.                                                      |
+| CFBundleShortVersionString     | `string`  | The release or version number of the bundle.                                                                              |
+| NSHumanReadableCopyright       | `string`  | A human-readable copyright notice for the bundle.                                                                         |
+| NSLocalNetworkUsageDescription | `string`  | A human-readable description of why the application needs access to the local network.                                    |
+| LSFileQuarantineEnabled        | `boolean` | A Boolean value indicating whether the files this app creates are quarantined by default.                                 |
 
 ## Guides
 

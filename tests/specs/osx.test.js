@@ -86,6 +86,7 @@ describe.runIf(process.platform === "darwin")(
           NSHumanReadableCopyright: "Copyright (c) 2024 NW.js Utilities",
           NSLocalNetworkUsageDescription:
             "This test application needs to access the local network for testing purposes.",
+          LSFileQuarantineEnabled: false,
         },
         outDir: outDir,
         releaseInfo: {

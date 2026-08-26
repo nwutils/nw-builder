@@ -307,6 +307,7 @@ export const parse = async (options, pkg) => {
       options.app.NSHumanReadableCopyright ?? undefined;
     options.app.NSLocalNetworkUsageDescription =
       options.app.NSLocalNetworkUsageDescription ?? undefined;
+    options.app.LSFileQuarantineEnabled ?? false;
   }
 
   return { ...options };
@@ -682,6 +683,15 @@ export const validate = async (options, releaseInfo) => {
       throw new Error(
         "Expected options.app.NSLocalNetworkUsageDescription to be a string. Got " +
           options.app.NSLocalNetworkUsageDescription,
+      );
+    }
+    if (
+      options.app.LSFileQuarantineEnabled &&
+      typeof options.app.LSFileQuarantineEnabled !== "boolean"
+    ) {
+      throw new Error(
+        "Expected options.app.LSFileQuarantineEnabled to be a boolean. Got " +
+          options.app.LSFileQuarantineEnabled,
       );
     }
   } else {
