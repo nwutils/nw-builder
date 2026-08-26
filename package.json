@@ -58,16 +58,16 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@vitest/coverage-v8": "^4.1.10",
+    "@vitest/coverage-v8": "^4.1.11",
     "base-volta-off-of-nwjs": "^1.0.5",
-    "eslint": "^10.8.1",
-    "eslint-plugin-jsdoc": "^64.2.0",
+    "eslint": "^10.9.1",
+    "eslint-plugin-jsdoc": "^64.2.1",
     "eslint-plugin-simple-import-sort": "^14.0.0",
     "globals": "^17.11.0",
-    "nw": "^0.114.1",
+    "nw": "^0.115.0",
     "prettier": "^3.9.6",
     "selenium-webdriver": "^4.47.0",
-    "vitest": "^4.0.14"
+    "vitest": "^4.1.11"
   },
   "dependencies": {
     "@nwutils/getter": "^0.2.5",
@@ -76,12 +76,12 @@
     "commander": "^15.0.0",
     "glob": "^13.0.6",
     "plist": "^5.0.0",
-    "resedit": "^3.0.2",
+    "resedit": "^3.1.0",
     "semver": "^7.8.5",
-    "tar": "^7.5.19"
+    "tar": "^7.5.22"
   },
   "volta": {
-    "node": "26.1.0",
+    "node": "26.7.0",
     "npm": "11.13.0"
   }
 }
