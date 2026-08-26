@@ -129,6 +129,7 @@ export default async function setOsxConfig({
         newHelperAppName.replace(/.app$/, ""),
         helperApp.id,
         app.CFBundleIdentifier,
+        app.LSFileQuarantineEnabled,
       );
     }
 
