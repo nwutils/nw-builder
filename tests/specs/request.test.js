@@ -13,7 +13,8 @@ describe("request test suite", function () {
       recursive: true,
       force: true,
     });
-    await new Promise((resolve) => {
+    await new Promise((resolve, reject) => {
+      testServer.on("error", reject);
       testServer.listen(8080, resolve);
     });
     console.log("[ DEBUG ] Starting test server for request tests...");

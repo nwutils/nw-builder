@@ -26,8 +26,15 @@ export default function request(url, filePath) {
     /* Ctrl+C cleanup */
     const onSigInt = () => {
       writeStream.destroy();
-      if (fs.existsSync(filePath)) {
+      /*
+       * Unlink unconditionally and swallow ENOENT: checking with existsSync
+       * first is a check-then-act race (CWE-367) - the file can vanish between
+       * the two calls, and on SIGINT there is no useful recovery either way.
+       */
+      try {
         fs.unlinkSync(filePath);
+      } catch {
+        /* Nothing to clean up. */
       }
       process.exit();
     };

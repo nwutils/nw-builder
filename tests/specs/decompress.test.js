@@ -26,14 +26,10 @@ describe("decompress test suite", function () {
     fs.rmSync(outFilePath, { recursive: true, force: true });
   });
 
-  it(
-    "decompresses a .zip file",
-    { skip: platform === "linux" },
-    async function () {
-      await decompress(nwFilePath, path.resolve("cache"));
-      assert.strictEqual(fs.existsSync(outFilePath), true);
-    },
-  );
+  it("decompresses a .zip file", async function () {
+    await decompress(nwFilePath, path.resolve("cache"));
+    assert.strictEqual(fs.existsSync(outFilePath), true);
+  });
 
   it(
     "decompresses a .tar.gz file",
