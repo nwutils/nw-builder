@@ -14,18 +14,18 @@ jobs:
   publish:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
 
       - id: release
-        uses: googleapis/release-please-action@v4.4.0
+        uses: googleapis/release-please-action@v5.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config-file: .github/release-please/config.json
           manifest-file: .github/release-please/manifest.json
 
-      - uses: actions/setup-node@v6.3.0
+      - uses: actions/setup-node@v7.0.0
         if: ${{ steps.release.outputs.release_created }}
         with:
           node-version: "24"
