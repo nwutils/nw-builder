@@ -1,5 +1,5 @@
-import child_process from 'node:child_process';
-import path from 'node:path';
+import child_process from "node:child_process";
+import path from "node:path";
 
 /**
  * @typedef {object} Options
@@ -11,6 +11,18 @@ import path from 'node:path';
  * @property {string}                               cacheDir    Cache directory
  * @property {string[]}                             argv        CLI arguments
  */
+
+const EXE_NAME = {
+  win: "nw.exe",
+  osx: "nwjs.app/Contents/MacOS/nwjs",
+  linux: "nw",
+};
+
+const VALID_ARCHES = ["ia32", "x64", "arm64"];
+
+const VALID_FLAVORS = ["normal", "sdk"];
+
+const VALID_VERSION = /^(latest|stable|lts|[\w.+-]+)$/;
 
 /**
  * Run NW.js application.
@@ -28,33 +40,54 @@ async function run({
   cacheDir,
   argv,
 }) {
+  if (!Object.prototype.hasOwnProperty.call(EXE_NAME, platform)) {
+    throw new Error(`Invalid platform: ${platform}`);
+  }
+
+  if (!VALID_ARCHES.includes(arch)) {
+    throw new Error(`Invalid arch: ${arch}`);
+  }
+
+  if (!VALID_FLAVORS.includes(flavor)) {
+    throw new Error(`Invalid flavor: ${flavor}`);
+  }
+
+  if (
+    typeof version !== "string" ||
+    !VALID_VERSION.test(version) ||
+    version.includes("..")
+  ) {
+    throw new Error(`Invalid version: ${version}`);
+  }
+
+  const resolvedCacheDir = path.resolve(cacheDir);
+
   const nwDir = path.resolve(
-    cacheDir,
-    `nwjs${flavor === 'sdk' ? '-sdk' : ''}-v${version}-${platform}-${arch}`,
+    resolvedCacheDir,
+    `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}`,
   );
 
-  const EXE_NAME = {
-    win: 'nw.exe',
-    osx: 'nwjs.app/Contents/MacOS/nwjs',
-    linux: 'nw',
-  };
-
   const nwExe = path.resolve(nwDir, EXE_NAME[platform]);
+
+  if (
+    nwExe !== resolvedCacheDir &&
+    !nwExe.startsWith(resolvedCacheDir + path.sep)
+  ) {
+    throw new Error("Resolved executable path escapes cacheDir");
+  }
 
   /**
    * @type {child_process.ChildProcess | null}
    */
-  let nwProcess = child_process.spawn(
-    nwExe,
-    [...[srcDir], ...argv],
-    { stdio: 'inherit' },
-  );
+  let nwProcess = child_process.spawn(nwExe, [...[srcDir], ...argv], {
+    stdio: "inherit",
+  });
 
-  nwProcess.on('close', () => {
+  nwProcess.on("close", () => {
     // define callback on close
   });
 
-  nwProcess.on('error', () => {
+  nwProcess.on("error", () => {
     // define callback on error
   });
 

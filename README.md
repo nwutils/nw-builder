@@ -15,13 +15,13 @@ Run NW.js on Linux, MacOS and Windows hosts.
 import run from "@nwutils/runner";
 
 const nwProcess = await run({
-    version: "latest",
-    flavor: "normal",
-    platform: "linux",
-    arch: "x64",
-    srcDir: "./src",
-    cacheDir: "./cache",
-    argv: [],
+  version: "latest",
+  flavor: "normal",
+  platform: "linux",
+  arch: "x64",
+  srcDir: "./src",
+  cacheDir: "./cache",
+  argv: [],
 });
 
 nwProcess.kill();
@@ -31,14 +31,14 @@ nwProcess.kill();
 
 Options
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| version | `string` | Runtime version |
-| flavor | `"normal" \| "sdk"` | Runtime flavor |
-| platform | `"linux" \| "osx" \| "win"` | Host platform |
-| arch | `"ia32" \| "x64" \| "arm64"` | Host architecture |
-| cacheDir | `string` | Directory to cache NW binaries |
-| argv | `string[]` | List of CLI arguments to be passed to NW.js. |
+| Name     | Type                         | Description                                  |
+| -------- | ---------------------------- | -------------------------------------------- |
+| version  | `string`                     | Runtime version                              |
+| flavor   | `"normal" \| "sdk"`          | Runtime flavor                               |
+| platform | `"linux" \| "osx" \| "win"`  | Host platform                                |
+| arch     | `"ia32" \| "x64" \| "arm64"` | Host architecture                            |
+| cacheDir | `string`                     | Directory to cache NW binaries               |
+| argv     | `string[]`                   | List of CLI arguments to be passed to NW.js. |
 
 ## Contributing
 

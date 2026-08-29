@@ -39,21 +39,37 @@
     "url": "git+https://github.com/nwutils/runner.git"
   },
   "scripts": {
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "type": "tsc",
     "test": "node --test --experimental-test-coverage --test-coverage-exclude=\"tests/**/*\" \"tests/specs/*.test.js\""
   },
-  "volta": {
-    "node": "25.2.1",
-    "npm": "11.11.0"
-  },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@nwutils/getter": "^0.2.3",
-    "@types/node": "^25.3.3",
-    "eslint": "^10.0.2",
-    "eslint-plugin-jsdoc": "^62.7.1",
-    "globals": "^17.4.0",
-    "typescript": "^5.9.3"
+    "@nwutils/getter": "^0.2.6",
+    "@types/node": "^26.4.0",
+    "eslint": "^10.9.1",
+    "eslint-plugin-jsdoc": "^64.2.1",
+    "eslint-plugin-simple-import-sort": "^14.0.0",
+    "globals": "^17.11.0",
+    "prettier": "^3.9.6",
+    "typescript": "^7.0.2"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "26.1.0",
+      "onFail": "warn"
+    },
+    "packageManager": {
+      "name": "npm",
+      "version": "12.0.1",
+      "onFail": "warn"
+    }
+  },
+  "prettier": {
+    "endOfLine": "lf"
   }
 }
