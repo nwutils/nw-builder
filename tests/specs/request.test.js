@@ -103,6 +103,17 @@ describe("request test suite", function () {
     assert.ok(fs.existsSync(filePath), "File should exist after redirect");
   });
 
+  it("rejects after too many redirects", async function () {
+    const filePath = path.resolve("./tests/fixtures/cache/redirect-loop.txt");
+
+    fs.mkdirSync(path.dirname(filePath), { recursive: true });
+
+    await assert.rejects(
+      request("http://localhost:8080/redirect-loop", filePath),
+      /Too many redirects/,
+    );
+  });
+
   after(async function () {
     await new Promise((resolve) => testServer.close(resolve));
     console.log("[ DEBUG ] Stopping test server for request tests...");

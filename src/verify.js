@@ -12,11 +12,19 @@ import request from "./request.js";
  * @param {string} shaOut - File path to shasum text file.
  * @param {string} cacheDir - File path to cache directory.
  * @param {boolean} ffmpeg - Toggle between community (true) and official (false) ffmpeg binary
- * @param {boolean} shaSum - Throws error if true, otherwise logs a warning.
+ * @param {boolean} shaSum - Throws error if true, otherwise logs a warning. Applies to both a checksum mismatch and `expectedFile` never being checked at all.
+ * @param {string} [expectedFile] - Relative path, as listed in the SHASUMS file, that this call is actually relying on being verified. Other listed files that don't exist locally (eg. other platforms) are still skipped silently - only `expectedFile` going unchecked is treated as a failure, since that means the caller's "integrity verified" belief was never actually true.
  * @throws {Error}
  * @returns {Promise<boolean>} - Returns true if the checksums match.
  */
-export default async function verify(shaUrl, shaOut, cacheDir, ffmpeg, shaSum) {
+export default async function verify(
+  shaUrl,
+  shaOut,
+  cacheDir,
+  ffmpeg,
+  shaSum,
+  expectedFile,
+) {
   const shaOutExists = fs.existsSync(shaOut);
 
   if (shaOutExists === false) {
@@ -30,11 +38,17 @@ export default async function verify(shaUrl, shaOut, cacheDir, ffmpeg, shaSum) {
   /* Read SHASUM text file */
   const shasum = await fs.promises.readFile(shaOut, { encoding: "utf-8" });
   const shasums = shasum.trim().split("\n");
+  let expectedFileWasChecked = false;
+
   for await (const line of shasums) {
     const [storedSha, filePath] = line.split(/\s+/);
     const relativeFilePath = path.resolve(cacheDir, filePath);
     const relativefilePathExists = fs.existsSync(relativeFilePath);
     if (relativefilePathExists) {
+      if (filePath === expectedFile) {
+        expectedFileWasChecked = true;
+      }
+
       const fileBuffer = await fs.promises.readFile(relativeFilePath);
       const hash = crypto.createHash("sha256");
       hash.update(fileBuffer);
@@ -58,6 +72,21 @@ export default async function verify(shaUrl, shaOut, cacheDir, ffmpeg, shaSum) {
           }
         }
       }
+    }
+  }
+
+  /*
+   * Most of `expectedFile` unchecked would mean nothing was actually
+   * verified - eg. a naming mismatch, or the entry missing from the SHASUMS
+   * file - while every other unmatched line above is legitimately silent
+   * (other platforms/flavors listed in the same file).
+   */
+  if (expectedFile && !expectedFileWasChecked) {
+    const message = `Expected a checksum entry for ${JSON.stringify(expectedFile)} in ${JSON.stringify(shaOut)}, but it was not found or does not exist locally - the archive's integrity was not actually checked.`;
+    if (shaSum) {
+      throw new Error(message);
+    } else {
+      console.warn(message);
     }
   }
 

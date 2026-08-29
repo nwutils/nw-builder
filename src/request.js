@@ -5,12 +5,19 @@ import process from "node:process";
 import { URL } from "node:url";
 
 /**
+ * Maximum number of HTTP redirects to follow before giving up.
+ * @type {number}
+ */
+const MAX_REDIRECTS = 5;
+
+/**
  * Download from `url` and save at `filePath`.
  * @param {string} url
  * @param {string} filePath
+ * @param {number} [redirectCount] - Number of redirects already followed. Used internally for recursive calls.
  * @returns {Promise<void>}
  */
-export default function request(url, filePath) {
+export default function request(url, filePath, redirectCount = 0) {
   const parsedUrl = new URL(url);
   const client = parsedUrl.protocol === "https:" ? https : http;
 
@@ -59,11 +66,35 @@ export default function request(url, filePath) {
         ) {
           cleanup();
 
-          const redirectedUrl = new URL(
-            res.headers.location,
-            parsedUrl,
-          ).toString();
-          return resolve(request(redirectedUrl, filePath));
+          if (redirectCount >= MAX_REDIRECTS) {
+            return reject(
+              new Error(
+                `Too many redirects (> ${MAX_REDIRECTS}) while requesting ${url}`,
+              ),
+            );
+          }
+
+          const redirectedUrl = new URL(res.headers.location, parsedUrl);
+
+          /*
+           * A redirect response can be injected by a network attacker even
+           * when the original request can't be, so refuse one that would
+           * silently strip transport security from the rest of the chain.
+           */
+          if (
+            parsedUrl.protocol === "https:" &&
+            redirectedUrl.protocol === "http:"
+          ) {
+            return reject(
+              new Error(
+                `Refusing to follow redirect from ${url} to ${redirectedUrl.toString()}: downgrades from https to http.`,
+              ),
+            );
+          }
+
+          return resolve(
+            request(redirectedUrl.toString(), filePath, redirectCount + 1),
+          );
         }
 
         if (res.statusCode !== 200) {

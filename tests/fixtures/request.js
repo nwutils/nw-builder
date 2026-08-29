@@ -18,6 +18,9 @@ const server = http.createServer((req, res) => {
   } else if (req.url === "/redirect") {
     res.writeHead(301, { Location: "http://localhost:8080/request_test.txt" });
     res.end();
+  } else if (req.url === "/redirect-loop") {
+    res.writeHead(301, { Location: "http://localhost:8080/redirect-loop" });
+    res.end();
   } else if (req.url === "/error") {
     res.writeHead(200, { "Content-Type": "text/plain" });
     res.write("some data");

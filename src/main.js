@@ -6,7 +6,7 @@ import semver from "semver";
 
 import decompress from "./decompress.js";
 import ffmpeg from "./ffmpeg.js";
-import node from "./node.js";
+import node, { headersFileName } from "./node.js";
 import nw from "./nw.js";
 import request from "./request.js";
 import verify from "./verify.js";
@@ -42,7 +42,22 @@ async function get(options) {
   const manifestFilePath = path.resolve(options.cacheDir, "manifest.json");
   if (options.manifestUrl.startsWith("file://")) {
     const filePath = url.fileURLToPath(options.manifestUrl);
-    fs.writeFileSync(manifestFilePath, fs.readFileSync(filePath, "utf-8"));
+    const manifestContents = fs.readFileSync(filePath, "utf-8");
+
+    /*
+     * `manifestUrl` can point at any local path the caller supplies. Refuse
+     * to copy it into cacheDir unless it's actually a JSON manifest, rather
+     * than blindly persisting whatever bytes were found at that path.
+     */
+    try {
+      JSON.parse(manifestContents);
+    } catch {
+      throw new Error(
+        `Expected "options.manifestUrl" file to contain valid JSON. Received: ${JSON.stringify(options.manifestUrl)}`,
+      );
+    }
+
+    fs.writeFileSync(manifestFilePath, manifestContents);
   } else {
     await request(options.manifestUrl, manifestFilePath);
   }
@@ -159,9 +174,23 @@ async function get(options) {
 
   /* Download server is the cached directory. */
   if (uri.protocol === "file:") {
-    options.cacheDir = path.resolve(
+    const mirrorDir = path.resolve(
       decodeURIComponent(options.downloadUrl.slice("file://".length)),
     );
+
+    /*
+     * `cacheDir` is used as the root for a recursive delete and for archive
+     * extraction. A filesystem root has no parent to contain those operations,
+     * so refuse it rather than let a mistyped or attacker-influenced
+     * `downloadUrl` point either at the whole drive.
+     */
+    if (mirrorDir === path.parse(mirrorDir).root) {
+      throw new Error(
+        `Expected "options.downloadUrl" file path to not be a filesystem root. Received: ${JSON.stringify(mirrorDir)}`,
+      );
+    }
+
+    options.cacheDir = mirrorDir;
   }
 
   /**
@@ -210,15 +239,28 @@ async function get(options) {
     );
   }
 
-  await decompress(nwFilePath, options.cacheDir);
+  /*
+   * Checksums are always fetched from the canonical NW.js host, even when
+   * `downloadUrl` points at a different mirror. Otherwise a compromised or
+   * malicious mirror could serve both the binary and the checksum used to
+   * "verify" it, making the check worthless against a hostile source. A
+   * `file://` `downloadUrl` is local mirror/offline mode, so it still
+   * resolves the checksum file from there rather than requiring network access.
+   */
+  const checksumHost =
+    uri.protocol === "file:" ? options.downloadUrl : "https://dl.nwjs.io";
 
+  /* Verify the archive's checksum before extracting its contents. */
   await verify(
-    `${options.downloadUrl}/v${options.version}/SHASUMS256.txt`,
+    `${checksumHost}/v${options.version}/SHASUMS256.txt`,
     `${options.cacheDir}/shasum/${options.version}.txt`,
     options.cacheDir,
     options.ffmpeg,
     options.shaSum,
+    path.basename(nwFilePath),
   );
+
+  await decompress(nwFilePath, options.cacheDir);
 
   if (options.ffmpeg === true) {
     /**
@@ -307,7 +349,7 @@ async function get(options) {
      */
     let nodeFilePath = path.resolve(
       options.cacheDir,
-      `headers-v${options.version}.tar.gz`,
+      headersFileName(options.version),
     );
 
     // If `options.cache` is false, then remove the compressed binary.
@@ -326,6 +368,20 @@ async function get(options) {
         options.cacheDir,
       );
     }
+
+    /*
+     * Unlike the community ffmpeg build, SHASUMS256.txt already publishes a
+     * checksum for the Node headers tarball - verify it the same way as the
+     * main archive, before extracting it.
+     */
+    await verify(
+      `${checksumHost}/v${options.version}/SHASUMS256.txt`,
+      `${options.cacheDir}/shasum/${options.version}.txt`,
+      options.cacheDir,
+      options.ffmpeg,
+      options.shaSum,
+      headersFileName(options.version),
+    );
 
     await decompress(nodeFilePath, options.cacheDir);
   }
