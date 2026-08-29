@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.2.6](https://github.com/nwutils/getter/compare/v0.2.5...v0.2.6) (2026-08-29)
+
+
+### Bug Fixes
+
+* **decompress:** a zip symlink must not point outside the destination ([#48](https://github.com/nwutils/getter/issues/48)) ([83287f7](https://github.com/nwutils/getter/commit/83287f7de30374f839e914231f60abbbc9e02b80))
+* harden multiple areas ([#49](https://github.com/nwutils/getter/issues/49)) ([9fdce00](https://github.com/nwutils/getter/commit/9fdce00bdc4674b300c23d01fb9629299f11b51e))
+
+
+### Chores
+
+* **ci:** format remaining files ([ac9cc11](https://github.com/nwutils/getter/commit/ac9cc117ce714ec01c5405169d1f6c478019dbba))
+* **deps-dev:** bump globals from 17.4.0 to 17.7.0 in the npm group across 1 directory ([#43](https://github.com/nwutils/getter/issues/43)) ([571decb](https://github.com/nwutils/getter/commit/571decb71ad657072df6d6ab27a6cdc2d900a148))
+* **deps:** bump the gha group across 1 directory with 3 updates ([#42](https://github.com/nwutils/getter/issues/42)) ([5cd17ca](https://github.com/nwutils/getter/commit/5cd17cac67f9548acfdecb192a22515ae6eacb47))
+
 ## [0.2.5](https://github.com/nwutils/getter/compare/v0.2.4...v0.2.5) (2026-07-18)
 
 ### Bug Fixes
