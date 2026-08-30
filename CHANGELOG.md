@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.4](https://github.com/nwutils/runner/compare/v0.2.3...v0.2.4) (2026-08-29)
+
+
+### Bug Fixes
+
+* harden codebase ([#12](https://github.com/nwutils/runner/issues/12)) ([e8a1f94](https://github.com/nwutils/runner/commit/e8a1f94714c350306f8a9149b4832360606ba3bd))
+
+
+### Chores
+
+* **deps:** bump the gha group across 1 directory with 3 updates ([#14](https://github.com/nwutils/runner/issues/14)) ([3348576](https://github.com/nwutils/runner/commit/3348576bbe5bd79aadea700f460087bc15999cf5))
+
 ## [0.2.3](https://github.com/nwutils/runner/compare/v0.2.2...v0.2.3) (2026-03-26)
 
 ### Bug Fixes
