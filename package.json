@@ -66,7 +66,7 @@
     "globals": "^17.11.0",
     "nw": "^0.115.0",
     "prettier": "^3.9.6",
-    "selenium-webdriver": "^4.47.0",
+    "selenium-webdriver": "^4.48.0",
     "vitest": "^4.1.11"
   },
   "dependencies": {
