@@ -3,16 +3,16 @@ import path from "node:path";
 
 /** @type {Record<'darwin' | 'linux' | 'win32', string>} */
 const PLATFORM_KV = {
-  darwin: 'osx',
-  linux: 'linux',
-  win32: 'win',
+  darwin: "osx",
+  linux: "linux",
+  win32: "win",
 };
 
 /** @type {Record<'x64' | 'ia32' | 'arm64', string>} */
 const ARCH_KV = {
-  x64: 'x64',
-  ia32: 'ia32',
-  arm64: 'arm64',
+  x64: "x64",
+  ia32: "ia32",
+  arm64: "arm64",
 };
 
 /**
@@ -43,7 +43,7 @@ function resolveArch() {
   return ARCH_KV[typedKey];
 }
 
-const CACHE_DIR = path.join(os.homedir(), '.nw-cli', 'cache');
+const CACHE_DIR = path.join(os.homedir(), ".nw-cli", "cache");
 
 export default {
   resolvePlatform,

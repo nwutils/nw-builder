@@ -1,3 +1,3 @@
-import polyfill from './polyfills/index.js';
+import polyfill from "./polyfills/index.js";
 
 export { polyfill };

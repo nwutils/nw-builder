@@ -62,7 +62,7 @@ Options:
 Apply NW.js specific polyfills to your NW.js application.
 
 ```js
-import { pollyfill } from '@nwutils/cli';
+import { pollyfill } from "@nwutils/cli";
 
 // Run this as early in your application lifecycle as possible.
 pollyfill();
@@ -70,8 +70,8 @@ pollyfill();
 
 ## Roadmap
 
-* [ ] Add react-js template
-* [ ] Package custom node test coverage action.
+- [ ] Add react-js template
+- [ ] Package custom node test coverage action.
 
 ## Contributing
 

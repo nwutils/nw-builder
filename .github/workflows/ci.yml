@@ -81,6 +81,51 @@ jobs:
           name: Vitest Coverage (${{ matrix.os }})
           json-summary-path: packages/nw-builder/coverage/coverage-summary.json
 
+      - name: Run cli test suite with coverage
+        id: coverage-cli
+        shell: bash
+        run: |
+          { npm run test --workspace=@nwutils/cli || true; } \
+            | sed 's/\x1b\[[0-9;]*m//g' \
+            | awk '
+                /start of coverage report/ {printing=1; next}
+                /end of coverage report/   {printing=0}
+                printing
+              ' > coverage-cli.txt
+
+          echo "COVERAGE<<EOF" >> $GITHUB_OUTPUT
+          cat coverage-cli.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Convert cli coverage to markdown
+        id: markdown-cli
+        shell: bash
+        run: |
+          {
+            echo "### 📊 cli Coverage Report — ${{ matrix.os }}"
+            echo
+            echo "| File | Line % | Branch % | Funcs % | Uncovered Lines |"
+            echo "|------|--------|----------|---------|------------------|"
+            grep '|' coverage-cli.txt | \
+            grep -vE "file\s*\|\s*line|----" | \
+            while read -r line; do
+              clean=$(echo "$line" | sed 's/^ℹ\s*//' | tr -s ' ')
+              echo "| ${clean// | / | } |"
+            done
+            echo
+          } > coverage-cli.md
+
+          echo "MARKDOWN<<EOF" >> $GITHUB_OUTPUT
+          cat coverage-cli.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Comment cli coverage on PR
+        uses: marocchino/sticky-pull-request-comment@v3
+        with:
+          key: coverage-cli-${{ matrix.os }}
+          header: "cli Coverage Report – ${{ matrix.os }}"
+          message: ${{ steps.markdown-cli.outputs.MARKDOWN }}
+
       - name: Run doctor test suite with coverage
         id: coverage-doctor
         shell: bash

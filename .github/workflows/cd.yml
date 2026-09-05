@@ -13,6 +13,7 @@ jobs:
       pull-requests: write
     outputs:
       nw-builder--release_created: ${{ steps.release.outputs['packages/nw-builder--release_created'] }}
+      cli--release_created: ${{ steps.release.outputs['packages/cli--release_created'] }}
       doctor--release_created: ${{ steps.release.outputs['packages/doctor--release_created'] }}
       getter--release_created: ${{ steps.release.outputs['packages/getter--release_created'] }}
       runner--release_created: ${{ steps.release.outputs['packages/runner--release_created'] }}
@@ -48,6 +49,29 @@ jobs:
       - run: npm ci
 
       - run: npm publish --tag latest --provenance --access public --workspace=nw-builder
+
+  publish-cli:
+    name: Publish @nwutils/cli to npm
+    needs: release-please
+    if: ${{ needs.release-please.outputs.cli--release_created }}
+    runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7.0.1
+
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+
+      - run: npm install -g npm@latest
+
+      - run: npm ci
+
+      - run: npm run type --workspace=@nwutils/cli
+
+      - run: npm publish --tag latest --provenance --access public --workspace=@nwutils/cli
 
   publish-doctor:
     name: Publish @nwutils/doctor to npm

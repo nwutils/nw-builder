@@ -11,6 +11,17 @@
         { "type": "chore", "section": "Chores", "hidden": false }
       ]
     },
+    "packages/cli": {
+      "package-name": "@nwutils/cli",
+      "component": "cli",
+      "include-component-in-tag": true,
+      "release-type": "node",
+      "changelog-sections": [
+        { "type": "feat", "section": "Features", "hidden": false },
+        { "type": "fix", "section": "Bug Fixes", "hidden": false },
+        { "type": "chore", "section": "Chores", "hidden": false }
+      ]
+    },
     "packages/doctor": {
       "package-name": "@nwutils/doctor",
       "component": "doctor",
