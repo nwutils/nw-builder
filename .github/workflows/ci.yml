@@ -27,39 +27,29 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7.0.1
-
-      - name: Filter changed paths
-        uses: dorny/paths-filter@v3
-        id: filter
         with:
-          filters: |
-            shared:
-              - 'package.json'
-              - 'package-lock.json'
-              - 'eslint.config.js'
-              - 'tsconfig.json'
-              - '.github/workflows/ci.yml'
-              - 'packages/test-coverage/**'
-            nw-builder:
-              - 'packages/nw-builder/**'
-              - 'tests/specs/nw-builder/**'
-              - 'tests/fixtures/nw-builder/**'
-            cli:
-              - 'packages/cli/**'
-              - 'tests/specs/cli/**'
-              - 'tests/fixtures/cli/**'
-            doctor:
-              - 'packages/doctor/**'
-              - 'tests/specs/doctor/**'
-              - 'tests/fixtures/doctor/**'
-            getter:
-              - 'packages/getter/**'
-              - 'tests/specs/getter/**'
-              - 'tests/fixtures/getter/**'
-            runner:
-              - 'packages/runner/**'
-              - 'tests/specs/runner/**'
-              - 'tests/fixtures/runner/**'
+          fetch-depth: 0
+
+      - name: Detect changed paths
+        id: filter
+        shell: bash
+        run: |
+          CHANGED="$(git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}")"
+          echo "Changed files:"
+          echo "$CHANGED"
+
+          matches() {
+            echo "$CHANGED" | grep -qE "$1" && echo "true" || echo "false"
+          }
+
+          {
+            echo "shared=$(matches '^(package\.json|package-lock\.json|eslint\.config\.js|tsconfig\.json|\.github/workflows/ci\.yml|packages/test-coverage/)')"
+            echo "nw-builder=$(matches '^(packages/nw-builder/|tests/specs/nw-builder/|tests/fixtures/nw-builder/)')"
+            echo "cli=$(matches '^(packages/cli/|tests/specs/cli/|tests/fixtures/cli/)')"
+            echo "doctor=$(matches '^(packages/doctor/|tests/specs/doctor/|tests/fixtures/doctor/)')"
+            echo "getter=$(matches '^(packages/getter/|tests/specs/getter/|tests/fixtures/getter/)')"
+            echo "runner=$(matches '^(packages/runner/|tests/specs/runner/|tests/fixtures/runner/)')"
+          } >> "$GITHUB_OUTPUT"
 
   tests:
     needs: changes
