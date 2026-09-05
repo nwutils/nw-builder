@@ -5,6 +5,8 @@ import { before, describe, it } from "node:test";
 
 import decompress from "../../src/decompress.js";
 
+const cacheDir = path.resolve(import.meta.dirname, "..", "..", "cache");
+
 describe("decompress test suite", function () {
   const platform =
     process.platform === "win32"
@@ -13,12 +15,12 @@ describe("decompress test suite", function () {
         ? "osx"
         : "linux";
 
-  const nwFilePath = path.resolve(
-    "cache",
+  const nwFilePath = path.join(
+    cacheDir,
     `nwjs-v0.107.0-${platform}-${process.arch}.${platform === "linux" ? "tar.gz" : "zip"}`,
   );
-  const outFilePath = path.resolve(
-    "cache",
+  const outFilePath = path.join(
+    cacheDir,
     `nwjs-v0.107.0-${platform}-${process.arch}`,
   );
 
@@ -27,7 +29,7 @@ describe("decompress test suite", function () {
   });
 
   it("decompresses a .zip file", async function () {
-    await decompress(nwFilePath, path.resolve("cache"));
+    await decompress(nwFilePath, cacheDir);
     assert.strictEqual(fs.existsSync(outFilePath), true);
   });
 
@@ -35,7 +37,7 @@ describe("decompress test suite", function () {
     "decompresses a .tar.gz file",
     { skip: platform !== "linux" },
     async function () {
-      await decompress(nwFilePath, path.resolve("cache"));
+      await decompress(nwFilePath, cacheDir);
       assert.strictEqual(fs.existsSync(outFilePath), true);
     },
   );

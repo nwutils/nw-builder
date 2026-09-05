@@ -42,8 +42,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "type": "tsc",
-    "test": "vitest run",
-    "test:cov": "vitest run --coverage"
+    "test": "node --test --experimental-test-coverage --test-coverage-exclude=\"tests/**/*\" \"tests/specs/*.test.js\""
   },
   "devDependencies": {
     "@nwutils/getter": "^0.2.6",

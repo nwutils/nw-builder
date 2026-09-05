@@ -1,9 +1,12 @@
 import assert from "node:assert";
+import path from "node:path";
 import process from "node:process";
 import { before, describe, it } from "node:test";
 
 import get from "@nwutils/getter";
 import run from "../../src/main.js";
+
+const packageRoot = path.resolve(import.meta.dirname, "..", "..");
 
 const PLATFORM_KV = {
   darwin: "osx",
@@ -19,7 +22,7 @@ const ARCH_KV = {
 
 describe("runner test suite", async () => {
   const nwOptions = {
-    srcDir: "tests/fixtures/app",
+    srcDir: path.join(packageRoot, "tests/fixtures/app"),
     mode: "build",
     version: "0.108.0",
     flavor: "sdk",
@@ -27,8 +30,8 @@ describe("runner test suite", async () => {
     arch: ARCH_KV[process.arch],
     downloadUrl: "https://dl.nwjs.io",
     manifestUrl: "https://nwjs.io/versions.json",
-    outDir: "tests/fixtures/out/app",
-    cacheDir: "./cache/nw",
+    outDir: path.join(packageRoot, "tests/fixtures/out/app"),
+    cacheDir: path.join(packageRoot, "cache/nw"),
     cache: true,
     ffmpeg: false,
     glob: false,

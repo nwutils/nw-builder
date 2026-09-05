@@ -1,12 +1,17 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import path from "node:path";
 import { describe, it } from "node:test";
 
 import get from "../../src/main.js";
 
+const packageRoot = path.resolve(import.meta.dirname, "..", "..");
+const cacheDir = path.join(packageRoot, "cache");
+
 describe("getter test suite", function () {
   it("downloads a file from a test server", async function () {
-    if (!fs.existsSync("./cache/nwjs-v0.107.0-linux-x64")) {
+    const nwArchivePath = path.join(cacheDir, "nwjs-v0.107.0-linux-x64");
+    if (!fs.existsSync(nwArchivePath)) {
       await get({
         version: "0.107.0",
         flavor: "normal",
@@ -14,7 +19,7 @@ describe("getter test suite", function () {
         arch: "x64",
         downloadUrl: "https://dl.nwjs.io",
         manifestUrl: "https://nwjs.io/versions.json",
-        cacheDir: "./cache",
+        cacheDir,
         cache: true,
         ffmpeg: false,
         nativeAddon: false,
@@ -22,11 +27,12 @@ describe("getter test suite", function () {
       });
     }
 
-    assert.strictEqual(fs.existsSync("./cache/nwjs-v0.107.0-linux-x64"), true);
+    assert.strictEqual(fs.existsSync(nwArchivePath), true);
   });
 
   it("downloads and verifies node headers when nativeAddon is enabled", async function () {
-    if (!fs.existsSync("./cache/nw-headers-v0.107.0.tar.gz")) {
+    const headersPath = path.join(cacheDir, "nw-headers-v0.107.0.tar.gz");
+    if (!fs.existsSync(headersPath)) {
       await get({
         version: "0.107.0",
         flavor: "normal",
@@ -34,7 +40,7 @@ describe("getter test suite", function () {
         arch: "x64",
         downloadUrl: "https://dl.nwjs.io",
         manifestUrl: "https://nwjs.io/versions.json",
-        cacheDir: "./cache",
+        cacheDir,
         cache: true,
         ffmpeg: false,
         nativeAddon: true,
@@ -48,10 +54,7 @@ describe("getter test suite", function () {
      * that verify() can actually find and check it - if verification had
      * silently found nothing, shaSum: true above would have thrown.
      */
-    assert.strictEqual(
-      fs.existsSync("./cache/nw-headers-v0.107.0.tar.gz"),
-      true,
-    );
+    assert.strictEqual(fs.existsSync(headersPath), true);
   });
 
   it("parses manifestUrl file:/// path correctly", async function () {
@@ -61,8 +64,8 @@ describe("getter test suite", function () {
       platform: "linux",
       arch: "x64",
       downloadUrl: "https://dl.nwjs.io",
-      manifestUrl: `file:///${process.cwd()}/tests/fixtures/main_manifest.json`,
-      cacheDir: "./cache",
+      manifestUrl: `file:///${path.join(packageRoot, "tests/fixtures/main_manifest.json")}`,
+      cacheDir,
       cache: true,
       ffmpeg: false,
       nativeAddon: false,
@@ -70,7 +73,7 @@ describe("getter test suite", function () {
     });
     const localManifestFile = JSON.parse(
       await fs.promises.readFile(
-        `${process.cwd()}/cache/manifest.json`,
+        path.join(cacheDir, "manifest.json"),
         "utf-8",
       ),
     );
@@ -85,8 +88,8 @@ describe("getter test suite", function () {
         platform: "linux",
         arch: "x64",
         downloadUrl: "file:///",
-        manifestUrl: `file:///${process.cwd()}/tests/fixtures/main_manifest.json`,
-        cacheDir: "./cache",
+        manifestUrl: `file:///${path.join(packageRoot, "tests/fixtures/main_manifest.json")}`,
+        cacheDir,
         cache: true,
         ffmpeg: false,
         nativeAddon: false,
@@ -104,8 +107,8 @@ describe("getter test suite", function () {
         platform: "linux",
         arch: "x64",
         downloadUrl: "https://dl.nwjs.io",
-        manifestUrl: `file:///${process.cwd()}/tests/fixtures/request_test.txt`,
-        cacheDir: "./cache",
+        manifestUrl: `file:///${path.join(packageRoot, "tests/fixtures/request_test.txt")}`,
+        cacheDir,
         cache: true,
         ffmpeg: false,
         nativeAddon: false,

@@ -1,31 +1,36 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import path from "node:path";
 import { after, before, describe, it } from "node:test";
 
 import doctor from "../../src/main.js";
+
+const packageRoot = path.resolve(import.meta.dirname, "..", "..");
+const cacheDir = path.join(packageRoot, "cache");
+const srcDir = path.join(packageRoot, "tests/fixtures/app");
 
 describe("doctor test suite", function () {
   before(async function () {
     let options = {
       manifestUrl: "https://nwjs.io/versions.json",
-      cacheDir: "cache",
+      cacheDir,
       version: "latest",
-      srcDir: "tests/fixtures/app",
+      srcDir,
     };
 
     await doctor(options);
   });
 
   it("creates the cache directory", async () => {
-    assert.ok(fs.existsSync("./cache"));
+    assert.ok(fs.existsSync(cacheDir));
   });
 
   it("downloads the manifest", async () => {
-    assert.ok(fs.existsSync("./cache/manifest.json"));
+    assert.ok(fs.existsSync(path.join(cacheDir, "manifest.json")));
   });
 
   it("updates the package.json file with devEngines", async () => {
-    const packageJsonPath = "tests/fixtures/app/package.json";
+    const packageJsonPath = path.join(srcDir, "package.json");
     assert.ok(fs.existsSync(packageJsonPath));
 
     const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
@@ -37,6 +42,6 @@ describe("doctor test suite", function () {
   });
 
   after(function () {
-    fs.rmSync("cache", { recursive: true });
+    fs.rmSync(cacheDir, { recursive: true });
   });
 });

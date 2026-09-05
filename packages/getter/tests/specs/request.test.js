@@ -7,9 +7,12 @@ import { after, before, describe, it } from "node:test";
 import request from "../../src/request.js";
 import testServer from "../fixtures/request.js";
 
+const packageRoot = path.resolve(import.meta.dirname, "..", "..");
+const cacheDir = path.join(packageRoot, "tests/fixtures/cache");
+
 describe("request test suite", function () {
   before(async function () {
-    fs.rmSync(path.resolve("./tests/fixtures/cache/"), {
+    fs.rmSync(cacheDir, {
       recursive: true,
       force: true,
     });
@@ -21,7 +24,7 @@ describe("request test suite", function () {
   });
 
   it("downloads a file from a test server", async function () {
-    const filePath = path.resolve("./tests/fixtures/cache/test.txt");
+    const filePath = path.join(cacheDir, "test.txt");
 
     fs.mkdirSync(path.dirname(filePath), { recursive: true });
 
@@ -31,11 +34,16 @@ describe("request test suite", function () {
   });
 
   it("deletes partially downloaded file on SIGINT (Ctrl + C)", async function () {
-    const filePath = path.resolve("./tests/fixtures/cache/partial.txt");
+    const filePath = path.join(cacheDir, "partial.txt");
 
-    const child = child_process.spawn("node", ["./tests/fixtures/sigint.js"], {
-      stdio: "ignore", // no logs needed
-    });
+    const child = child_process.spawn(
+      "node",
+      [path.join(packageRoot, "tests/fixtures/sigint.js")],
+      {
+        cwd: packageRoot,
+        stdio: "ignore", // no logs needed
+      },
+    );
 
     child.kill("SIGINT");
 
@@ -49,7 +57,7 @@ describe("request test suite", function () {
   });
 
   it("rejects with error when status code is not 200", async function () {
-    const filePath = path.resolve("./tests/fixtures/cache/nonexistent.txt");
+    const filePath = path.join(cacheDir, "nonexistent.txt");
 
     fs.mkdirSync(path.dirname(filePath), { recursive: true });
 
@@ -66,7 +74,7 @@ describe("request test suite", function () {
 
   it("rejects with error when write stream fails", async function () {
     // Try to write to an existing directory instead of a file
-    const filePath = path.resolve("./tests/fixtures/cache");
+    const filePath = cacheDir;
 
     await assert.rejects(
       async () => {
@@ -79,7 +87,7 @@ describe("request test suite", function () {
   });
 
   it("rejects with error when response stream fails", async function () {
-    const filePath = path.resolve("./tests/fixtures/cache/response_error.txt");
+    const filePath = path.join(cacheDir, "response_error.txt");
 
     fs.mkdirSync(path.dirname(filePath), { recursive: true });
 
@@ -94,7 +102,7 @@ describe("request test suite", function () {
   });
 
   it("follows redirect and downloads file", async function () {
-    const filePath = path.resolve("./tests/fixtures/cache/redirected.txt");
+    const filePath = path.join(cacheDir, "redirected.txt");
 
     fs.mkdirSync(path.dirname(filePath), { recursive: true });
 
@@ -104,7 +112,7 @@ describe("request test suite", function () {
   });
 
   it("rejects after too many redirects", async function () {
-    const filePath = path.resolve("./tests/fixtures/cache/redirect-loop.txt");
+    const filePath = path.join(cacheDir, "redirect-loop.txt");
 
     fs.mkdirSync(path.dirname(filePath), { recursive: true });
 
