@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@types/node": "^26.4.0",
+    "@types/node": "^26.4.1",
     "@types/semver": "^7.8.0",
     "@types/yauzl-promise": "^4.0.1",
     "eslint": "^10.9.1",
