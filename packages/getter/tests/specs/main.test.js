@@ -72,10 +72,7 @@ describe("getter test suite", function () {
       shaSum: true,
     });
     const localManifestFile = JSON.parse(
-      await fs.promises.readFile(
-        path.join(cacheDir, "manifest.json"),
-        "utf-8",
-      ),
+      await fs.promises.readFile(path.join(cacheDir, "manifest.json"), "utf-8"),
     );
     assert.strictEqual(localManifestFile.latest, "v0.106.1");
   });
