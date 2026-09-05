@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.2](https://github.com/nwutils/nw-builder/compare/cli-v0.1.1...cli-v0.1.2) (2026-09-05)
+
+
+### Chores
+
+* **deps:** bump the npm group across 1 directory with 5 updates ([#1644](https://github.com/nwutils/nw-builder/issues/1644)) ([e653c0c](https://github.com/nwutils/nw-builder/commit/e653c0c447ccf7ef434651e800bb1cda3666fe9e))
+* migrate to monorepo ([#1638](https://github.com/nwutils/nw-builder/issues/1638)) ([8b15dd5](https://github.com/nwutils/nw-builder/commit/8b15dd586f04b45fbc8e09ee6b50d25d0a5999aa))
+
 ## [0.1.1](https://github.com/nwutils/nw-cli/compare/v0.1.0...v0.1.1) (2026-03-27)
 
 
