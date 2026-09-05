@@ -5,17 +5,19 @@ import { By } from "selenium-webdriver";
 import chrome from "selenium-webdriver/chrome.js";
 import { beforeAll, describe, expect, it } from "vitest";
 
-import build from "../../src/bld.js";
+import build from "../../../packages/nw-builder/src/bld.js";
 import get from "@nwutils/getter";
-import util from "../../src/util.js";
+import util from "../../../packages/nw-builder/src/util.js";
 
 const { Driver, ServiceBuilder, Options } = chrome;
+
+const repoRoot = path.resolve(import.meta.dirname, "..", "..", "..");
 
 describe.skip("bld test suite", async () => {
   let driver = undefined;
 
   const nwOptions = {
-    srcDir: "tests/fixtures/app",
+    srcDir: path.join(repoRoot, "tests/fixtures/nw-builder/app"),
     mode: "build",
     version: "0.114.0",
     flavor: "sdk",
@@ -23,8 +25,8 @@ describe.skip("bld test suite", async () => {
     arch: util.ARCH_KV[process.arch],
     downloadUrl: "https://dl.nwjs.io",
     manifestUrl: "https://nwjs.io/versions.json",
-    outDir: "tests/fixtures/out/app",
-    cacheDir: "./node_modules/nw",
+    outDir: path.join(repoRoot, "tests/fixtures/nw-builder/out/app"),
+    cacheDir: path.join(repoRoot, "node_modules/nw"),
     cache: true,
     ffmpeg: false,
     glob: false,

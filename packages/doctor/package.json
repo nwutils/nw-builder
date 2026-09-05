@@ -1,0 +1,52 @@
+{
+  "name": "@nwutils/doctor",
+  "version": "0.1.0",
+  "description": "Configure NW.js environments for Linux, MacOS and Windows.",
+  "keywords": [
+    "NW.js",
+    "node-webkit",
+    "Desktop",
+    "Application"
+  ],
+  "author": {
+    "name": "Ayushman Chhabra",
+    "url": "https://ayushmanchhabra.com"
+  },
+  "maintainers": [
+    {
+      "name": "Ayushman Chhabra",
+      "url": "https://ayushmanchhabra.com"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "@nwutils/doctor Contributors",
+      "url": "https://github.com/nwutils/doctor/graphs/contributors"
+    }
+  ],
+  "license": "MIT",
+  "main": "./src/main.js",
+  "types": "types/main.d.ts",
+  "type": "module",
+  "files": [
+    "LICENSE",
+    "src",
+    "types"
+  ],
+  "homepage": "https://github.com/nwutils/doctor#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nwutils/doctor.git"
+  },
+  "scripts": {
+    "lint": "eslint . ../../tests/specs/doctor",
+    "lint:fix": "eslint . ../../tests/specs/doctor --fix",
+    "type": "tsc",
+    "test": "node --test --experimental-test-coverage --test-coverage-include=\"src/**\" \"../../tests/specs/doctor/*.test.js\""
+  },
+  "dependencies": {
+    "semver": "^7.8.5",
+    "tar": "^7.5.20",
+    "yauzl-promise": "^4.0.0"
+  }
+}

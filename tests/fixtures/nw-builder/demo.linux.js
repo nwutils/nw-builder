@@ -1,12 +1,12 @@
-import nwbuild from "../../src/index.js";
+import nwbuild from "../../../packages/nw-builder/src/index.js";
 
 await nwbuild({
   mode: "build",
   flavor: "sdk",
   platform: "linux",
-  srcDir: "./tests/fixtures/app",
-  cacheDir: "./node_modules/nw",
-  outDir: "./tests/fixtures/out/linux",
+  srcDir: "../../tests/fixtures/nw-builder/app",
+  cacheDir: "../../node_modules/nw",
+  outDir: "../../tests/fixtures/nw-builder/out/linux",
   glob: false,
   logLevel: "debug",
   app: {
@@ -15,7 +15,7 @@ await nwbuild({
     noDisplay: false,
     comment: "Tooltip information",
     /* File path of icon from where it is copied. */
-    icon: "./tests/fixtures/app/icon.png",
+    icon: "../../tests/fixtures/nw-builder/app/icon.png",
     hidden: false,
     // TODO: test in different Linux desktop environments
     // onlyShowIn: [],
@@ -23,7 +23,7 @@ await nwbuild({
     dBusActivatable: true,
     // TODO: test in Linux environment
     // tryExec: '/path/to/exe?'
-    exec: "./tests/fixtures/out/linux/Demo",
+    exec: "../../tests/fixtures/nw-builder/out/linux/Demo",
   },
 });
 

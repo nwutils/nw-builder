@@ -1,87 +1,50 @@
 {
-  "name": "nw-builder",
-  "version": "4.19.0",
-  "description": "Build NW.js desktop applications for MacOS, Windows and Linux.",
-  "keywords": [
-    "NW.js",
-    "node-webkit",
-    "Desktop",
-    "Application"
-  ],
-  "author": {
-    "name": "Steffen Muller",
-    "url": "https://www.mllrsohn.com/"
-  },
-  "maintainers": [
-    {
-      "name": "Ayushman Chhabra",
-      "url": "https://ayushmanchhabra.com/"
-    }
-  ],
-  "contributors": [
-    {
-      "name": "nw-builder Contributors",
-      "url": "https://github.com/nwutil/nw-builder/graphs/contributors"
-    }
-  ],
+  "name": "nwutils",
+  "private": true,
+  "description": "Monorepo for nw-builder and the NW.js tooling packages it depends on.",
   "license": "MIT",
-  "main": "./src/index.js",
-  "bin": {
-    "nwbuild": "./src/cli.js"
-  },
-  "types": "./src/index.d.ts",
-  "type": "module",
-  "files": [
-    "LICENSE",
-    "src"
-  ],
   "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nwutils/nw-builder.git"
+    "url": "git+https://github.com/nwutils/nw-builder.git"
   },
+  "workspaces": [
+    "packages/*"
+  ],
+  "type": "module",
   "scripts": {
-    "postinstall": "node ./src/postinstall.js",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
-    "lint": "eslint ./src ./tests",
-    "lint:fix": "eslint --fix ./src ./tests",
-    "test": "vitest run --coverage",
-    "test:cov": "vitest --coverage.enabled true",
-    "demo:bld:linux": "node ./tests/fixtures/demo.linux.js",
-    "demo:bld:osx": "node ./tests/fixtures/demo.osx.js",
-    "demo:bld:win": "node ./tests/fixtures/demo.win.js",
-    "demo:exe:linux": "./tests/fixtures/out/linux/Demo",
-    "demo:exe:osx": "./tests/fixtures/out/osx/Demo.app/Contents/MacOS/Demo",
-    "demo:exe:win": "./tests/fixtures/out/win/Demo.exe",
-    "demo:cli": "nwbuild --mode=build --flavor=sdk --glob=false --cacheDir=./node_modules/nw --logLevel=debug --managedManifest=./tests/fixtures/app/package.json --outDir=./tests/fixtures/out/linux --app.name=Demo --app.icon=./tests/fixtures/app/icon.png ./tests/fixtures/app"
+    "lint": "npm run lint --workspaces --if-present",
+    "lint:fix": "npm run lint:fix --workspaces --if-present",
+    "type": "npm run type --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@vitest/coverage-v8": "^4.1.11",
-    "base-volta-off-of-nwjs": "^1.0.5",
+    "@types/node": "^26.4.0",
+    "@types/semver": "^7.8.0",
+    "@types/yauzl-promise": "^4.0.1",
     "eslint": "^10.9.1",
     "eslint-plugin-jsdoc": "^64.2.1",
     "eslint-plugin-simple-import-sort": "^14.0.0",
     "globals": "^17.11.0",
-    "nw": "^0.115.0",
     "prettier": "^3.9.6",
-    "selenium-webdriver": "^4.47.0",
-    "vitest": "^4.1.11"
+    "typescript": "^7.0.2"
   },
-  "dependencies": {
-    "@nwutils/getter": "^0.2.5",
-    "@nwutils/runner": "^0.2.3",
-    "archiver": "^8.0.0",
-    "commander": "^15.0.0",
-    "glob": "^13.0.6",
-    "plist": "^5.0.0",
-    "resedit": "^3.1.0",
-    "semver": "^7.8.5",
-    "tar": "^7.5.22"
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "26.7.0",
+      "onFail": "warn"
+    },
+    "packageManager": {
+      "name": "npm",
+      "version": "11.13.0",
+      "onFail": "warn"
+    }
   },
-  "volta": {
-    "node": "26.7.0",
-    "npm": "11.13.0"
+  "prettier": {
+    "endOfLine": "lf"
   }
 }

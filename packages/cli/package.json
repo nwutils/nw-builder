@@ -1,0 +1,60 @@
+{
+  "name": "@nwutils/cli",
+  "version": "0.1.1",
+  "description": "Command line interface for building NW.js applications",
+  "keywords": [
+    "NW.js",
+    "node-webkit",
+    "Desktop",
+    "Application"
+  ],
+  "author": {
+    "name": "Ayushman Chhabra",
+    "url": "https://ayushmanchhabra.com"
+  },
+  "maintainers": [
+    {
+      "name": "Ayushman Chhabra",
+      "url": "https://ayushmanchhabra.com"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "@nwutils/nw-cli Contributors",
+      "url": "https://github.com/nwutils/nw-cli/graphs/contributors"
+    }
+  ],
+  "license": "MIT",
+  "main": "./src/index.js",
+  "bin": {
+    "nw-cli": "src/cli.js"
+  },
+  "types": "types/index.d.ts",
+  "type": "module",
+  "files": [
+    "LICENSE",
+    "src",
+    "types"
+  ],
+  "homepage": "https://github.com/nwutils/nw-cli",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nwutils/nw-cli.git"
+  },
+  "scripts": {
+    "lint": "eslint ./src ../../tests/specs/cli",
+    "type": "tsc",
+    "test": "node --test --experimental-test-coverage --test-coverage-include=\"src/**\" \"../../tests/specs/cli/*.test.js\""
+  },
+  "dependencies": {
+    "@nwutils/getter": "^0.2.4",
+    "@nwutils/runner": "^0.2.3",
+    "commander": "^14.0.3"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.1.38",
+    "@types/node": "^25.5.0",
+    "@types/nw.js": "^0.92.0",
+    "typescript": "^6.0.2"
+  }
+}

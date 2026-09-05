@@ -14,7 +14,45 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    name: Detect changed packages
+    runs-on: ubuntu-24.04
+    outputs:
+      shared: ${{ steps.filter.outputs.shared }}
+      nw-builder: ${{ steps.filter.outputs.nw-builder }}
+      cli: ${{ steps.filter.outputs.cli }}
+      doctor: ${{ steps.filter.outputs.doctor }}
+      getter: ${{ steps.filter.outputs.getter }}
+      runner: ${{ steps.filter.outputs.runner }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed paths
+        id: filter
+        shell: bash
+        run: |
+          CHANGED="$(git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}")"
+          echo "Changed files:"
+          echo "$CHANGED"
+
+          matches() {
+            echo "$CHANGED" | grep -qE "$1" && echo "true" || echo "false"
+          }
+
+          {
+            echo "shared=$(matches '^(package\.json|package-lock\.json|eslint\.config\.js|tsconfig\.json|\.github/workflows/ci\.yml|packages/test-coverage/)')"
+            echo "nw-builder=$(matches '^(packages/nw-builder/|tests/specs/nw-builder/|tests/fixtures/nw-builder/)')"
+            echo "cli=$(matches '^(packages/cli/|tests/specs/cli/|tests/fixtures/cli/)')"
+            echo "doctor=$(matches '^(packages/doctor/|tests/specs/doctor/|tests/fixtures/doctor/)')"
+            echo "getter=$(matches '^(packages/getter/|tests/specs/getter/|tests/fixtures/getter/)')"
+            echo "runner=$(matches '^(packages/runner/|tests/specs/runner/|tests/fixtures/runner/)')"
+          } >> "$GITHUB_OUTPUT"
+
   tests:
+    needs: changes
     strategy:
       matrix:
         os:
@@ -40,12 +78,33 @@ jobs:
       fail-fast: false
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.display }}
+    env:
+      # nw-builder depends on @nwutils/getter and @nwutils/runner; cli and
+      # runner depend on @nwutils/getter. A change to a dependency re-runs
+      # its consumers' tests too, not just the package that changed.
+      RUN_NW_BUILDER: ${{ needs.changes.outputs.shared == 'true' || needs.changes.outputs.nw-builder == 'true' || needs.changes.outputs.getter == 'true' || needs.changes.outputs.runner == 'true' }}
+      RUN_CLI: ${{ needs.changes.outputs.shared == 'true' || needs.changes.outputs.cli == 'true' || needs.changes.outputs.getter == 'true' || needs.changes.outputs.runner == 'true' }}
+      RUN_DOCTOR: ${{ needs.changes.outputs.shared == 'true' || needs.changes.outputs.doctor == 'true' }}
+      RUN_GETTER: ${{ needs.changes.outputs.shared == 'true' || needs.changes.outputs.getter == 'true' }}
+      RUN_RUNNER: ${{ needs.changes.outputs.shared == 'true' || needs.changes.outputs.runner == 'true' || needs.changes.outputs.getter == 'true' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7.0.1
 
-      - name: Setup Volta
-        uses: volta-cli/action@v5.0.0
+      - name: Read Node.js and npm versions from devEngines
+        id: devengines
+        shell: bash
+        run: |
+          echo "NODE_VERSION=$(jq -r '.devEngines.runtime.version' package.json)" >> "$GITHUB_ENV"
+          echo "NPM_VERSION=$(jq -r '.devEngines.packageManager.version' package.json)" >> "$GITHUB_ENV"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Update npm to the pinned version
+        run: npm install -g npm@${{ env.NPM_VERSION }}
 
       - name: Install third party dependencies
         run: npm ci
@@ -59,21 +118,97 @@ jobs:
       - name: Check for linting errors
         run: npm run lint
 
-      - name: Run test suite
-        run: npm run test:cov
+      - name: Check for type errors
+        run: npm run type
+
+      - name: Run nw-builder test suite
+        if: env.RUN_NW_BUILDER == 'true'
+        run: npm run test:cov --workspace=nw-builder
         env:
           CI: true
 
-      - name: Upload coverage artifact
-        if: always()
+      - name: Upload nw-builder coverage artifact
+        if: always() && env.RUN_NW_BUILDER == 'true'
         uses: actions/upload-artifact@v7.0.1
         with:
-          name: coverage-${{ matrix.os }}
-          path: coverage
+          name: coverage-nw-builder-${{ matrix.os }}
+          path: packages/nw-builder/coverage
 
-      - name: Report Coverage
-        if: always()
+      - name: Report nw-builder coverage
+        if: always() && env.RUN_NW_BUILDER == 'true'
         uses: davelosert/vitest-coverage-report-action@v2.12.2
         with:
           name: Vitest Coverage (${{ matrix.os }})
-          json-summary-path: coverage/coverage-summary.json
+          json-summary-path: packages/nw-builder/coverage/coverage-summary.json
+
+      - name: Run cli test suite with coverage
+        if: env.RUN_CLI == 'true'
+        id: coverage-cli
+        shell: bash
+        run: |
+          MARKDOWN="$({ npm run test --workspace=@nwutils/cli || true; } | packages/test-coverage/bin/coverage-report.sh cli "${{ matrix.os }}")"
+          echo "MARKDOWN<<EOF" >> $GITHUB_OUTPUT
+          echo "$MARKDOWN" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Comment cli coverage on PR
+        if: env.RUN_CLI == 'true'
+        uses: marocchino/sticky-pull-request-comment@v3
+        with:
+          key: coverage-cli-${{ matrix.os }}
+          header: "cli Coverage Report – ${{ matrix.os }}"
+          message: ${{ steps.coverage-cli.outputs.MARKDOWN }}
+
+      - name: Run doctor test suite with coverage
+        if: env.RUN_DOCTOR == 'true'
+        id: coverage-doctor
+        shell: bash
+        run: |
+          MARKDOWN="$({ npm run test --workspace=@nwutils/doctor || true; } | packages/test-coverage/bin/coverage-report.sh doctor "${{ matrix.os }}")"
+          echo "MARKDOWN<<EOF" >> $GITHUB_OUTPUT
+          echo "$MARKDOWN" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Comment doctor coverage on PR
+        if: env.RUN_DOCTOR == 'true'
+        uses: marocchino/sticky-pull-request-comment@v3
+        with:
+          key: coverage-doctor-${{ matrix.os }}
+          header: "doctor Coverage Report – ${{ matrix.os }}"
+          message: ${{ steps.coverage-doctor.outputs.MARKDOWN }}
+
+      - name: Run getter test suite with coverage
+        if: env.RUN_GETTER == 'true'
+        id: coverage-getter
+        shell: bash
+        run: |
+          MARKDOWN="$({ npm run test --workspace=@nwutils/getter || true; } | packages/test-coverage/bin/coverage-report.sh getter "${{ matrix.os }}")"
+          echo "MARKDOWN<<EOF" >> $GITHUB_OUTPUT
+          echo "$MARKDOWN" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Comment getter coverage on PR
+        if: env.RUN_GETTER == 'true'
+        uses: marocchino/sticky-pull-request-comment@v3
+        with:
+          key: coverage-getter-${{ matrix.os }}
+          header: "getter Coverage Report – ${{ matrix.os }}"
+          message: ${{ steps.coverage-getter.outputs.MARKDOWN }}
+
+      - name: Run runner test suite with coverage
+        if: env.RUN_RUNNER == 'true'
+        id: coverage-runner
+        shell: bash
+        run: |
+          MARKDOWN="$({ npm run test --workspace=@nwutils/runner || true; } | packages/test-coverage/bin/coverage-report.sh runner "${{ matrix.os }}")"
+          echo "MARKDOWN<<EOF" >> $GITHUB_OUTPUT
+          echo "$MARKDOWN" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Comment runner coverage on PR
+        if: env.RUN_RUNNER == 'true'
+        uses: marocchino/sticky-pull-request-comment@v3
+        with:
+          key: coverage-runner-${{ matrix.os }}
+          header: "runner Coverage Report – ${{ matrix.os }}"
+          message: ${{ steps.coverage-runner.outputs.MARKDOWN }}

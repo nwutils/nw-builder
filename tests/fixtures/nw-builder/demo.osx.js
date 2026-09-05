@@ -1,18 +1,18 @@
-import nwbuild from "../../src/index.js";
+import nwbuild from "../../../packages/nw-builder/src/index.js";
 
 await nwbuild({
   mode: "build",
   flavor: "sdk",
   platform: "osx",
-  srcDir: "./tests/fixtures/app",
-  cacheDir: "./node_modules/nw",
-  outDir: "./tests/fixtures/out/osx",
+  srcDir: "../../tests/fixtures/nw-builder/app",
+  cacheDir: "../../node_modules/nw",
+  outDir: "../../tests/fixtures/nw-builder/out/osx",
   glob: false,
   logLevel: "debug",
   app: {
     name: "Demo",
     /* File path of icon from where it is copied. */
-    icon: "./tests/fixtures/app/icon.icns",
+    icon: "../../tests/fixtures/nw-builder/app/icon.icns",
     LSApplicationCategoryType: "public.app-category.utilities",
     CFBundleIdentifier: "io.nwutils.demo",
     CFBundleName: "Demo",

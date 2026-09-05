@@ -6,21 +6,23 @@ import * as nw from "nw";
 import { parse } from "plist";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
-import setOsxConfig from "../../src/bld/osx.js";
-import util from "../../src/util.js";
+import setOsxConfig from "../../../packages/nw-builder/src/bld/osx.js";
+import util from "../../../packages/nw-builder/src/util.js";
 
-import nodeManifest from "../../package.json";
+import nodeManifest from "../../../packages/nw-builder/package.json";
+
+const repoRoot = path.resolve(import.meta.dirname, "..", "..", "..");
 
 describe.runIf(process.platform === "darwin")(
   "bld/setOsxConfig",
   async function () {
-    const outDir = "./tests/fixtures/macos";
+    const outDir = path.join(repoRoot, "tests/fixtures/nw-builder/macos");
     const appPath = path.join(outDir, "Demo.app");
     const releaseInfo = await util.getReleaseInfo(
       nodeManifest.devDependencies.nw.split("^")[1],
       util.PLATFORM_KV["darwin"],
       util.ARCH_KV["arm64"],
-      "./node_modules/nw",
+      path.join(repoRoot, "node_modules/nw"),
       "https://nwjs.io/versions.json",
     );
     /* TODO: Version mismatch tracked in https://github.com/nwjs/nw.js/issues/8371 */
@@ -257,7 +259,7 @@ describe.runIf(process.platform === "darwin")(
       expect(HelperAppJson.LSFileQuarantineEnabled).toEqual(false);
 
       afterAll(async function () {
-        await fs.promises.rm("./tests/fixtures/macos", {
+        await fs.promises.rm(outDir, {
           recursive: true,
           force: true,
         });

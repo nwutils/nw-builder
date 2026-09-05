@@ -1,0 +1,10 @@
+# release-please generated - not hand-formatted
+packages/*/CHANGELOG.md
+
+# generated TS declaration output
+packages/*/types
+
+# test fixtures / build output
+packages/nw-builder/tests/fixtures/cache
+packages/nw-builder/tests/fixtures/out
+packages/nw-builder/tests/fixtures/macos

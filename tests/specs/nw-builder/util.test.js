@@ -1,6 +1,10 @@
+import path from "node:path";
+
 import { describe, expect, it } from "vitest";
 
-import util from "../../src/util.js";
+import util from "../../../packages/nw-builder/src/util.js";
+
+const repoRoot = path.resolve(import.meta.dirname, "..", "..", "..");
 
 describe("util/log", function () {
   it("shows only error message if log level is error", async function () {
@@ -158,7 +162,7 @@ describe("util/getManifest", function () {
   it("parses local file correctly", async function () {
     const localManifestFile = JSON.parse(
       await util.getManifest(
-        `file:///${process.cwd()}/tests/fixtures/util/getManifest_manifest.json`,
+        `file:///${path.join(repoRoot, "tests/fixtures/nw-builder/util/getManifest_manifest.json")}`,
       ),
     );
     expect(localManifestFile).toHaveProperty("latest", "v0.106.1");

@@ -1,12 +1,15 @@
 .DS_Store
 
 .idea
-coverage
 node_modules
+coverage
 
-tests/fixtures/cache
-tests/fixtures/out
-tests/fixtures/macos
+cache
+types
 
 node-*
 nwjs-*
+
+tests/fixtures/nw-builder/out
+tests/fixtures/nw-builder/macos
+tests/fixtures/cli/create

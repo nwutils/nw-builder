@@ -1,0 +1,56 @@
+{
+  "name": "@nwutils/getter",
+  "version": "0.2.6",
+  "description": "Get NW.js and related binaries for Linux, MacOS and Windows.",
+  "keywords": [
+    "NW.js",
+    "node-webkit",
+    "Desktop",
+    "Application"
+  ],
+  "author": {
+    "name": "Ayushman Chhabra",
+    "url": "https://ayushmanchhabra.com"
+  },
+  "maintainers": [
+    {
+      "name": "Ayushman Chhabra",
+      "url": "https://ayushmanchhabra.com"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "@nwutils/getter Contributors",
+      "url": "https://github.com/nwutils/getter/graphs/contributors"
+    }
+  ],
+  "license": "MIT",
+  "main": "./src/main.js",
+  "types": "types/main.d.ts",
+  "type": "module",
+  "files": [
+    "LICENSE",
+    "src",
+    "types"
+  ],
+  "homepage": "https://github.com/nwutils/getter",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nwutils/getter.git"
+  },
+  "scripts": {
+    "lint": "eslint . ../../tests/specs/getter ../../tests/fixtures/getter",
+    "lint:fix": "eslint . ../../tests/specs/getter ../../tests/fixtures/getter --fix",
+    "type": "tsc",
+    "test": "node --test --test-concurrency=1 --experimental-test-coverage --test-coverage-include=\"src/**\" \"../../tests/specs/getter/*.test.js\""
+  },
+  "dependencies": {
+    "semver": "^7.8.5",
+    "tar": "^7.5.22",
+    "yauzl-promise": "^4.0.0"
+  },
+  "devDependencies": {
+    "eslint-plugin-node-security": "^5.2.3",
+    "eslint-plugin-secure-coding": "^5.1.4"
+  }
+}
