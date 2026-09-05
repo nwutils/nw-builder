@@ -39,10 +39,10 @@
     "url": "git+https://github.com/nwutils/getter.git"
   },
   "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint . ../../tests/specs/getter ../../tests/fixtures/getter",
+    "lint:fix": "eslint . ../../tests/specs/getter ../../tests/fixtures/getter --fix",
     "type": "tsc",
-    "test": "node --test --experimental-test-coverage --test-coverage-exclude=\"tests/**/*\" \"tests/specs/*.test.js\""
+    "test": "node --test --test-concurrency=1 --experimental-test-coverage --test-coverage-include=\"src/**\" \"../../tests/specs/getter/*.test.js\""
   },
   "dependencies": {
     "semver": "^7.8.5",

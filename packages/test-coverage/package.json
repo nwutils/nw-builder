@@ -10,6 +10,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "test": "node --test \"tests/specs/*.test.js\""
+    "lint": "eslint ../../tests/specs/test-coverage",
+    "test": "node --test \"../../tests/specs/test-coverage/*.test.js\""
   }
 }

@@ -1,19 +1,8 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "allowJs": true,
-    "checkJs": true,
-    "declaration": true,
-    "emitDeclarationOnly": true,
     "rootDir": "src",
-    "outDir": "types",
-    "strict": true,
-    "target": "esnext",
-    "lib": ["ESNext", "DOM"],
-    "module": "NodeNext",
-    "moduleResolution": "nodenext",
-    "types": ["node", "nw.js", "chrome"],
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "outDir": "types"
   },
   "include": ["src/**/*.js"]
 }

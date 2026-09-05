@@ -42,9 +42,9 @@
     "url": "git://github.com/nwutils/nw-cli.git"
   },
   "scripts": {
-    "lint": "eslint ./src ./tests",
+    "lint": "eslint ./src ../../tests/specs/cli",
     "type": "tsc",
-    "test": "node --test --experimental-test-coverage --test-coverage-exclude=\"tests/**/*\" \"tests/specs/*.test.js\""
+    "test": "node --test --experimental-test-coverage --test-coverage-include=\"src/**\" \"../../tests/specs/cli/*.test.js\""
   },
   "dependencies": {
     "@nwutils/getter": "^0.2.4",

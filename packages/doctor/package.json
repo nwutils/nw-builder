@@ -39,10 +39,10 @@
     "url": "git+https://github.com/nwutils/doctor.git"
   },
   "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint . ../../tests/specs/doctor",
+    "lint:fix": "eslint . ../../tests/specs/doctor --fix",
     "type": "tsc",
-    "test": "node --test --experimental-test-coverage --test-coverage-exclude=\"tests/**/*\" \"tests/specs/*.test.js\""
+    "test": "node --test --experimental-test-coverage --test-coverage-include=\"src/**\" \"../../tests/specs/doctor/*.test.js\""
   },
   "dependencies": {
     "semver": "^7.8.5",
