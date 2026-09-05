@@ -41,7 +41,6 @@
     "url": "https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
-    "prepack": "node -e \"require('node:fs').copyFileSync('../../LICENSE', './LICENSE')\"",
     "postinstall": "node ./src/postinstall.js",
     "lint": "eslint ./src ./tests",
     "lint:fix": "eslint --fix ./src ./tests",

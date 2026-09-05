@@ -39,7 +39,6 @@
     "url": "git+https://github.com/nwutils/doctor.git"
   },
   "scripts": {
-    "prepack": "node -e \"require('node:fs').copyFileSync('../../LICENSE', './LICENSE')\"",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "type": "tsc",
