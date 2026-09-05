@@ -39,12 +39,18 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
 
+      - name: Read Node.js and npm versions from devEngines
+        id: devengines
+        run: |
+          echo "NODE_VERSION=$(jq -r '.devEngines.runtime.version' package.json)" >> "$GITHUB_ENV"
+          echo "NPM_VERSION=$(jq -r '.devEngines.packageManager.version' package.json)" >> "$GITHUB_ENV"
+
       - uses: actions/setup-node@v7.0.0
         with:
-          node-version: "24"
+          node-version: ${{ env.NODE_VERSION }}
           registry-url: "https://registry.npmjs.org"
 
-      - run: npm install -g npm@latest
+      - run: npm install -g npm@${{ env.NPM_VERSION }}
 
       - run: npm ci
 
@@ -60,12 +66,18 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
 
+      - name: Read Node.js and npm versions from devEngines
+        id: devengines
+        run: |
+          echo "NODE_VERSION=$(jq -r '.devEngines.runtime.version' package.json)" >> "$GITHUB_ENV"
+          echo "NPM_VERSION=$(jq -r '.devEngines.packageManager.version' package.json)" >> "$GITHUB_ENV"
+
       - uses: actions/setup-node@v7.0.0
         with:
-          node-version: "24"
+          node-version: ${{ env.NODE_VERSION }}
           registry-url: "https://registry.npmjs.org"
 
-      - run: npm install -g npm@latest
+      - run: npm install -g npm@${{ env.NPM_VERSION }}
 
       - run: npm ci
 
@@ -83,12 +95,18 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
 
+      - name: Read Node.js and npm versions from devEngines
+        id: devengines
+        run: |
+          echo "NODE_VERSION=$(jq -r '.devEngines.runtime.version' package.json)" >> "$GITHUB_ENV"
+          echo "NPM_VERSION=$(jq -r '.devEngines.packageManager.version' package.json)" >> "$GITHUB_ENV"
+
       - uses: actions/setup-node@v7.0.0
         with:
-          node-version: "24"
+          node-version: ${{ env.NODE_VERSION }}
           registry-url: "https://registry.npmjs.org"
 
-      - run: npm install -g npm@latest
+      - run: npm install -g npm@${{ env.NPM_VERSION }}
 
       - run: npm ci
 
@@ -106,12 +124,18 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
 
+      - name: Read Node.js and npm versions from devEngines
+        id: devengines
+        run: |
+          echo "NODE_VERSION=$(jq -r '.devEngines.runtime.version' package.json)" >> "$GITHUB_ENV"
+          echo "NPM_VERSION=$(jq -r '.devEngines.packageManager.version' package.json)" >> "$GITHUB_ENV"
+
       - uses: actions/setup-node@v7.0.0
         with:
-          node-version: "24"
+          node-version: ${{ env.NODE_VERSION }}
           registry-url: "https://registry.npmjs.org"
 
-      - run: npm install -g npm@latest
+      - run: npm install -g npm@${{ env.NPM_VERSION }}
 
       - run: npm ci
 
@@ -129,12 +153,18 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
 
+      - name: Read Node.js and npm versions from devEngines
+        id: devengines
+        run: |
+          echo "NODE_VERSION=$(jq -r '.devEngines.runtime.version' package.json)" >> "$GITHUB_ENV"
+          echo "NPM_VERSION=$(jq -r '.devEngines.packageManager.version' package.json)" >> "$GITHUB_ENV"
+
       - uses: actions/setup-node@v7.0.0
         with:
-          node-version: "24"
+          node-version: ${{ env.NODE_VERSION }}
           registry-url: "https://registry.npmjs.org"
 
-      - run: npm install -g npm@latest
+      - run: npm install -g npm@${{ env.NPM_VERSION }}
 
       - run: npm ci
 
