@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.7](https://github.com/nwutils/nw-builder/compare/getter-v0.2.6...getter-v0.2.7) (2026-09-05)
+
+
+### Chores
+
+* migrate to monorepo ([#1638](https://github.com/nwutils/nw-builder/issues/1638)) ([8b15dd5](https://github.com/nwutils/nw-builder/commit/8b15dd586f04b45fbc8e09ee6b50d25d0a5999aa))
+
 ## [0.2.6](https://github.com/nwutils/getter/compare/v0.2.5...v0.2.6) (2026-08-29)
 
 
