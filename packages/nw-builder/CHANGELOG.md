@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.19.1](https://github.com/nwutils/nw-builder/compare/nw-builder-v4.19.0...nw-builder-v4.19.1) (2026-09-05)
+
+
+### Chores
+
+* migrate to monorepo ([#1638](https://github.com/nwutils/nw-builder/issues/1638)) ([8b15dd5](https://github.com/nwutils/nw-builder/commit/8b15dd586f04b45fbc8e09ee6b50d25d0a5999aa))
+
 ## [4.19.0](https://github.com/nwutils/nw-builder/compare/v4.18.1...v4.19.0) (2026-08-26)
 
 

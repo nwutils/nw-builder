@@ -1,5 +1,5 @@
 {
-  "packages/nw-builder": "4.19.0",
+  "packages/nw-builder": "4.19.1",
   "packages/cli": "0.1.1",
   "packages/doctor": "0.1.0",
   "packages/getter": "0.2.6",
