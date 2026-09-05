@@ -10,6 +10,8 @@ Monorepo for [nw-builder](https://github.com/nwutils/nw-builder) and the NW.js t
 | [@nwutils/getter](packages/getter) | Get NW.js and related binaries for Linux, MacOS and Windows.   |
 | [@nwutils/runner](packages/runner) | Run NW.js and related binaries for Linux, MacOS and Windows.   |
 
+[@nwutils/test-coverage](packages/test-coverage) is a private, unpublished package holding a CI helper script - not part of the public package set above.
+
 ## Development
 
 ```sh
