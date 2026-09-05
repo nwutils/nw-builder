@@ -42,6 +42,7 @@
     "url": "git://github.com/nwutils/nw-cli.git"
   },
   "scripts": {
+    "prepack": "node -e \"require('node:fs').copyFileSync('../../LICENSE', './LICENSE')\"",
     "lint": "eslint ./src ./tests",
     "type": "tsc",
     "test": "node --test --experimental-test-coverage --test-coverage-exclude=\"tests/**/*\" \"tests/specs/*.test.js\""

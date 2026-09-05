@@ -39,6 +39,7 @@
     "url": "git+https://github.com/nwutils/doctor.git"
   },
   "scripts": {
+    "prepack": "node -e \"require('node:fs').copyFileSync('../../LICENSE', './LICENSE')\"",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "type": "tsc",
@@ -48,10 +49,5 @@
     "semver": "^7.8.5",
     "tar": "^7.5.20",
     "yauzl-promise": "^4.0.0"
-  },
-  "devDependencies": {
-    "@types/node": "^26.1.1",
-    "@types/semver": "^7.7.1",
-    "@types/yauzl-promise": "^4.0.1"
   }
 }

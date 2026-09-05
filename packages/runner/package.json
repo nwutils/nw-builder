@@ -39,13 +39,13 @@
     "url": "git+https://github.com/nwutils/runner.git"
   },
   "scripts": {
+    "prepack": "node -e \"require('node:fs').copyFileSync('../../LICENSE', './LICENSE')\"",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "type": "tsc",
     "test": "node --test --experimental-test-coverage --test-coverage-exclude=\"tests/**/*\" \"tests/specs/*.test.js\""
   },
   "devDependencies": {
-    "@nwutils/getter": "^0.2.6",
-    "@types/node": "^26.4.0"
+    "@nwutils/getter": "^0.2.6"
   }
 }

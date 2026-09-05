@@ -39,6 +39,7 @@
     "url": "git+https://github.com/nwutils/getter.git"
   },
   "scripts": {
+    "prepack": "node -e \"require('node:fs').copyFileSync('../../LICENSE', './LICENSE')\"",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "type": "tsc",
@@ -50,9 +51,6 @@
     "yauzl-promise": "^4.0.0"
   },
   "devDependencies": {
-    "@types/node": "^26.4.0",
-    "@types/semver": "^7.8.0",
-    "@types/yauzl-promise": "^4.0.1",
     "eslint-plugin-node-security": "^5.2.3",
     "eslint-plugin-secure-coding": "^5.1.4"
   }
