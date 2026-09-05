@@ -1,7 +1,2 @@
-# runtime
-node_modules
-
-# package
 cache
-coverage
 types

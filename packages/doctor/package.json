@@ -39,12 +39,11 @@
     "url": "git+https://github.com/nwutils/doctor.git"
   },
   "scripts": {
-    "format": "prettier --check .",
-    "format:fix": "prettier --write .",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "type": "tsc",
-    "test": "node --test --experimental-test-coverage --test-coverage-exclude=\"tests/**/*\" \"tests/specs/*.test.js\""
+    "test": "vitest run",
+    "test:cov": "vitest run --coverage"
   },
   "dependencies": {
     "semver": "^7.8.5",
@@ -52,30 +51,8 @@
     "yauzl-promise": "^4.0.0"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
     "@types/node": "^26.1.1",
     "@types/semver": "^7.7.1",
-    "@types/yauzl-promise": "^4.0.1",
-    "eslint": "^10.7.0",
-    "eslint-plugin-jsdoc": "^63.1.0",
-    "eslint-plugin-simple-import-sort": "^14.0.0",
-    "globals": "^17.7.0",
-    "prettier": "^3.9.5",
-    "typescript": "^7.0.2"
-  },
-  "devEngines": {
-    "runtime": {
-      "name": "node",
-      "onFail": "warn",
-      "version": "26.1.0"
-    },
-    "packageManager": {
-      "name": "npm",
-      "version": "12.0.0",
-      "onFail": "warn"
-    }
-  },
-  "prettier": {
-    "endOfLine": "lf"
+    "@types/yauzl-promise": "^4.0.1"
   }
 }

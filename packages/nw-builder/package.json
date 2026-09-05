@@ -42,12 +42,10 @@
   },
   "scripts": {
     "postinstall": "node ./src/postinstall.js",
-    "format": "prettier --check .",
-    "format:fix": "prettier --write .",
     "lint": "eslint ./src ./tests",
     "lint:fix": "eslint --fix ./src ./tests",
-    "test": "vitest run --coverage",
-    "test:cov": "vitest --coverage.enabled true",
+    "test": "vitest run",
+    "test:cov": "vitest run --coverage",
     "demo:bld:linux": "node ./tests/fixtures/demo.linux.js",
     "demo:bld:osx": "node ./tests/fixtures/demo.osx.js",
     "demo:bld:win": "node ./tests/fixtures/demo.win.js",
@@ -57,17 +55,9 @@
     "demo:cli": "nwbuild --mode=build --flavor=sdk --glob=false --cacheDir=./node_modules/nw --logLevel=debug --managedManifest=./tests/fixtures/app/package.json --outDir=./tests/fixtures/out/linux --app.name=Demo --app.icon=./tests/fixtures/app/icon.png ./tests/fixtures/app"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "@vitest/coverage-v8": "^4.1.11",
     "base-volta-off-of-nwjs": "^1.0.5",
-    "eslint": "^10.9.1",
-    "eslint-plugin-jsdoc": "^64.2.1",
-    "eslint-plugin-simple-import-sort": "^14.0.0",
-    "globals": "^17.11.0",
     "nw": "^0.115.0",
-    "prettier": "^3.9.6",
-    "selenium-webdriver": "^4.47.0",
-    "vitest": "^4.1.11"
+    "selenium-webdriver": "^4.47.0"
   },
   "dependencies": {
     "@nwutils/getter": "^0.2.5",
@@ -79,9 +69,5 @@
     "resedit": "^3.1.0",
     "semver": "^7.8.5",
     "tar": "^7.5.22"
-  },
-  "volta": {
-    "node": "26.7.0",
-    "npm": "11.13.0"
   }
 }

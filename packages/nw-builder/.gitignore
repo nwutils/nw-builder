@@ -1,9 +1,3 @@
-.DS_Store
-
-.idea
-coverage
-node_modules
-
 tests/fixtures/cache
 tests/fixtures/out
 tests/fixtures/macos
