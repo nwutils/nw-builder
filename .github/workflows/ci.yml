@@ -59,21 +59,159 @@ jobs:
       - name: Check for linting errors
         run: npm run lint
 
-      - name: Run test suite
-        run: npm run test:cov
+      - name: Check for type errors
+        run: npm run type
+
+      - name: Run nw-builder test suite
+        run: npm run test:cov --workspace=nw-builder
         env:
           CI: true
 
-      - name: Upload coverage artifact
+      - name: Upload nw-builder coverage artifact
         if: always()
         uses: actions/upload-artifact@v7.0.1
         with:
-          name: coverage-${{ matrix.os }}
-          path: coverage
+          name: coverage-nw-builder-${{ matrix.os }}
+          path: packages/nw-builder/coverage
 
-      - name: Report Coverage
+      - name: Report nw-builder coverage
         if: always()
         uses: davelosert/vitest-coverage-report-action@v2.12.2
         with:
           name: Vitest Coverage (${{ matrix.os }})
-          json-summary-path: coverage/coverage-summary.json
+          json-summary-path: packages/nw-builder/coverage/coverage-summary.json
+
+      - name: Run doctor test suite with coverage
+        id: coverage-doctor
+        shell: bash
+        run: |
+          { npm run test --workspace=@nwutils/doctor || true; } \
+            | sed 's/\x1b\[[0-9;]*m//g' \
+            | awk '
+                /start of coverage report/ {printing=1; next}
+                /end of coverage report/   {printing=0}
+                printing
+              ' > coverage-doctor.txt
+
+          echo "COVERAGE<<EOF" >> $GITHUB_OUTPUT
+          cat coverage-doctor.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Convert doctor coverage to markdown
+        id: markdown-doctor
+        shell: bash
+        run: |
+          {
+            echo "### 📊 doctor Coverage Report — ${{ matrix.os }}"
+            echo
+            echo "| File | Line % | Branch % | Funcs % | Uncovered Lines |"
+            echo "|------|--------|----------|---------|------------------|"
+            grep '|' coverage-doctor.txt | \
+            grep -vE "file\s*\|\s*line|----" | \
+            while read -r line; do
+              clean=$(echo "$line" | sed 's/^ℹ\s*//' | tr -s ' ')
+              echo "| ${clean// | / | } |"
+            done
+            echo
+          } > coverage-doctor.md
+
+          echo "MARKDOWN<<EOF" >> $GITHUB_OUTPUT
+          cat coverage-doctor.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Comment doctor coverage on PR
+        uses: marocchino/sticky-pull-request-comment@v3
+        with:
+          key: coverage-doctor-${{ matrix.os }}
+          header: "doctor Coverage Report – ${{ matrix.os }}"
+          message: ${{ steps.markdown-doctor.outputs.MARKDOWN }}
+
+      - name: Run getter test suite with coverage
+        id: coverage-getter
+        shell: bash
+        run: |
+          { npm run test --workspace=@nwutils/getter || true; } \
+            | sed 's/\x1b\[[0-9;]*m//g' \
+            | awk '
+                /start of coverage report/ {printing=1; next}
+                /end of coverage report/   {printing=0}
+                printing
+              ' > coverage-getter.txt
+
+          echo "COVERAGE<<EOF" >> $GITHUB_OUTPUT
+          cat coverage-getter.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Convert getter coverage to markdown
+        id: markdown-getter
+        shell: bash
+        run: |
+          {
+            echo "### 📊 getter Coverage Report — ${{ matrix.os }}"
+            echo
+            echo "| File | Line % | Branch % | Funcs % | Uncovered Lines |"
+            echo "|------|--------|----------|---------|------------------|"
+            grep '|' coverage-getter.txt | \
+            grep -vE "file\s*\|\s*line|----" | \
+            while read -r line; do
+              clean=$(echo "$line" | sed 's/^ℹ\s*//' | tr -s ' ')
+              echo "| ${clean// | / | } |"
+            done
+            echo
+          } > coverage-getter.md
+
+          echo "MARKDOWN<<EOF" >> $GITHUB_OUTPUT
+          cat coverage-getter.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Comment getter coverage on PR
+        uses: marocchino/sticky-pull-request-comment@v3
+        with:
+          key: coverage-getter-${{ matrix.os }}
+          header: "getter Coverage Report – ${{ matrix.os }}"
+          message: ${{ steps.markdown-getter.outputs.MARKDOWN }}
+
+      - name: Run runner test suite with coverage
+        id: coverage-runner
+        shell: bash
+        run: |
+          { npm run test --workspace=@nwutils/runner || true; } \
+            | sed 's/\x1b\[[0-9;]*m//g' \
+            | awk '
+                /start of coverage report/ {printing=1; next}
+                /end of coverage report/   {printing=0}
+                printing
+              ' > coverage-runner.txt
+
+          echo "COVERAGE<<EOF" >> $GITHUB_OUTPUT
+          cat coverage-runner.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Convert runner coverage to markdown
+        id: markdown-runner
+        shell: bash
+        run: |
+          {
+            echo "### 📊 runner Coverage Report — ${{ matrix.os }}"
+            echo
+            echo "| File | Line % | Branch % | Funcs % | Uncovered Lines |"
+            echo "|------|--------|----------|---------|------------------|"
+            grep '|' coverage-runner.txt | \
+            grep -vE "file\s*\|\s*line|----" | \
+            while read -r line; do
+              clean=$(echo "$line" | sed 's/^ℹ\s*//' | tr -s ' ')
+              echo "| ${clean// | / | } |"
+            done
+            echo
+          } > coverage-runner.md
+
+          echo "MARKDOWN<<EOF" >> $GITHUB_OUTPUT
+          cat coverage-runner.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Comment runner coverage on PR
+        uses: marocchino/sticky-pull-request-comment@v3
+        with:
+          key: coverage-runner-${{ matrix.os }}
+          header: "runner Coverage Report – ${{ matrix.os }}"
+          message: ${{ steps.markdown-runner.outputs.MARKDOWN }}

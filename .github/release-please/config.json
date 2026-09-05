@@ -1,7 +1,42 @@
 {
   "packages": {
-    ".": {
-      "include-component-in-tag": false,
+    "packages/nw-builder": {
+      "package-name": "nw-builder",
+      "component": "nw-builder",
+      "include-component-in-tag": true,
+      "release-type": "node",
+      "changelog-sections": [
+        { "type": "feat", "section": "Features", "hidden": false },
+        { "type": "fix", "section": "Bug Fixes", "hidden": false },
+        { "type": "chore", "section": "Chores", "hidden": false }
+      ]
+    },
+    "packages/doctor": {
+      "package-name": "@nwutils/doctor",
+      "component": "doctor",
+      "include-component-in-tag": true,
+      "release-type": "node",
+      "changelog-sections": [
+        { "type": "feat", "section": "Features", "hidden": false },
+        { "type": "fix", "section": "Bug Fixes", "hidden": false },
+        { "type": "chore", "section": "Chores", "hidden": false }
+      ]
+    },
+    "packages/getter": {
+      "package-name": "@nwutils/getter",
+      "component": "getter",
+      "include-component-in-tag": true,
+      "release-type": "node",
+      "changelog-sections": [
+        { "type": "feat", "section": "Features", "hidden": false },
+        { "type": "fix", "section": "Bug Fixes", "hidden": false },
+        { "type": "chore", "section": "Chores", "hidden": false }
+      ]
+    },
+    "packages/runner": {
+      "package-name": "@nwutils/runner",
+      "component": "runner",
+      "include-component-in-tag": true,
       "release-type": "node",
       "changelog-sections": [
         { "type": "feat", "section": "Features", "hidden": false },
@@ -9,5 +44,6 @@
         { "type": "chore", "section": "Chores", "hidden": false }
       ]
     }
-  }
+  },
+  "separate-pull-requests": true
 }

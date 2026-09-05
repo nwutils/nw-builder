@@ -5,14 +5,17 @@ on:
     branches:
       - main
 
-permissions:
-  contents: write
-  pull-requests: write
-  id-token: write
-
 jobs:
-  publish:
+  release-please:
     runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      nw-builder--release_created: ${{ steps.release.outputs['packages/nw-builder--release_created'] }}
+      doctor--release_created: ${{ steps.release.outputs['packages/doctor--release_created'] }}
+      getter--release_created: ${{ steps.release.outputs['packages/getter--release_created'] }}
+      runner--release_created: ${{ steps.release.outputs['packages/runner--release_created'] }}
     steps:
       - uses: actions/checkout@v7.0.1
         with:
@@ -25,17 +28,92 @@ jobs:
           config-file: .github/release-please/config.json
           manifest-file: .github/release-please/manifest.json
 
+  publish-nw-builder:
+    name: Publish nw-builder to npm
+    needs: release-please
+    if: ${{ needs.release-please.outputs.nw-builder--release_created }}
+    runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7.0.1
+
       - uses: actions/setup-node@v7.0.0
-        if: ${{ steps.release.outputs.release_created }}
         with:
           node-version: "24"
           registry-url: "https://registry.npmjs.org"
 
       - run: npm install -g npm@latest
-        if: ${{ steps.release.outputs.release_created }}
 
       - run: npm ci
-        if: ${{ steps.release.outputs.release_created }}
 
-      - run: npm publish --tag latest --provenance --access public
-        if: ${{ steps.release.outputs.release_created }}
+      - run: npm publish --tag latest --provenance --access public --workspace=nw-builder
+
+  publish-doctor:
+    name: Publish @nwutils/doctor to npm
+    needs: release-please
+    if: ${{ needs.release-please.outputs.doctor--release_created }}
+    runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7.0.1
+
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+
+      - run: npm install -g npm@latest
+
+      - run: npm ci
+
+      - run: npm run type --workspace=@nwutils/doctor
+
+      - run: npm publish --tag latest --provenance --access public --workspace=@nwutils/doctor
+
+  publish-getter:
+    name: Publish @nwutils/getter to npm
+    needs: release-please
+    if: ${{ needs.release-please.outputs.getter--release_created }}
+    runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7.0.1
+
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+
+      - run: npm install -g npm@latest
+
+      - run: npm ci
+
+      - run: npm run type --workspace=@nwutils/getter
+
+      - run: npm publish --tag latest --provenance --access public --workspace=@nwutils/getter
+
+  publish-runner:
+    name: Publish @nwutils/runner to npm
+    needs: release-please
+    if: ${{ needs.release-please.outputs.runner--release_created }}
+    runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7.0.1
+
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+
+      - run: npm install -g npm@latest
+
+      - run: npm ci
+
+      - run: npm run type --workspace=@nwutils/runner
+
+      - run: npm publish --tag latest --provenance --access public --workspace=@nwutils/runner
