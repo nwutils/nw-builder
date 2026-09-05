@@ -14,7 +14,55 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    name: Detect changed packages
+    runs-on: ubuntu-24.04
+    outputs:
+      shared: ${{ steps.filter.outputs.shared }}
+      nw-builder: ${{ steps.filter.outputs.nw-builder }}
+      cli: ${{ steps.filter.outputs.cli }}
+      doctor: ${{ steps.filter.outputs.doctor }}
+      getter: ${{ steps.filter.outputs.getter }}
+      runner: ${{ steps.filter.outputs.runner }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.1
+
+      - name: Filter changed paths
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            shared:
+              - 'package.json'
+              - 'package-lock.json'
+              - 'eslint.config.js'
+              - 'tsconfig.json'
+              - '.github/workflows/ci.yml'
+              - 'packages/test-coverage/**'
+            nw-builder:
+              - 'packages/nw-builder/**'
+              - 'tests/specs/nw-builder/**'
+              - 'tests/fixtures/nw-builder/**'
+            cli:
+              - 'packages/cli/**'
+              - 'tests/specs/cli/**'
+              - 'tests/fixtures/cli/**'
+            doctor:
+              - 'packages/doctor/**'
+              - 'tests/specs/doctor/**'
+              - 'tests/fixtures/doctor/**'
+            getter:
+              - 'packages/getter/**'
+              - 'tests/specs/getter/**'
+              - 'tests/fixtures/getter/**'
+            runner:
+              - 'packages/runner/**'
+              - 'tests/specs/runner/**'
+              - 'tests/fixtures/runner/**'
+
   tests:
+    needs: changes
     strategy:
       matrix:
         os:
@@ -40,6 +88,15 @@ jobs:
       fail-fast: false
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.display }}
+    env:
+      # nw-builder depends on @nwutils/getter and @nwutils/runner; cli and
+      # runner depend on @nwutils/getter. A change to a dependency re-runs
+      # its consumers' tests too, not just the package that changed.
+      RUN_NW_BUILDER: ${{ needs.changes.outputs.shared == 'true' || needs.changes.outputs.nw-builder == 'true' || needs.changes.outputs.getter == 'true' || needs.changes.outputs.runner == 'true' }}
+      RUN_CLI: ${{ needs.changes.outputs.shared == 'true' || needs.changes.outputs.cli == 'true' || needs.changes.outputs.getter == 'true' || needs.changes.outputs.runner == 'true' }}
+      RUN_DOCTOR: ${{ needs.changes.outputs.shared == 'true' || needs.changes.outputs.doctor == 'true' }}
+      RUN_GETTER: ${{ needs.changes.outputs.shared == 'true' || needs.changes.outputs.getter == 'true' }}
+      RUN_RUNNER: ${{ needs.changes.outputs.shared == 'true' || needs.changes.outputs.runner == 'true' || needs.changes.outputs.getter == 'true' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7.0.1
@@ -75,25 +132,27 @@ jobs:
         run: npm run type
 
       - name: Run nw-builder test suite
+        if: env.RUN_NW_BUILDER == 'true'
         run: npm run test:cov --workspace=nw-builder
         env:
           CI: true
 
       - name: Upload nw-builder coverage artifact
-        if: always()
+        if: always() && env.RUN_NW_BUILDER == 'true'
         uses: actions/upload-artifact@v7.0.1
         with:
           name: coverage-nw-builder-${{ matrix.os }}
           path: packages/nw-builder/coverage
 
       - name: Report nw-builder coverage
-        if: always()
+        if: always() && env.RUN_NW_BUILDER == 'true'
         uses: davelosert/vitest-coverage-report-action@v2.12.2
         with:
           name: Vitest Coverage (${{ matrix.os }})
           json-summary-path: packages/nw-builder/coverage/coverage-summary.json
 
       - name: Run cli test suite with coverage
+        if: env.RUN_CLI == 'true'
         id: coverage-cli
         shell: bash
         run: |
@@ -103,6 +162,7 @@ jobs:
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Comment cli coverage on PR
+        if: env.RUN_CLI == 'true'
         uses: marocchino/sticky-pull-request-comment@v3
         with:
           key: coverage-cli-${{ matrix.os }}
@@ -110,6 +170,7 @@ jobs:
           message: ${{ steps.coverage-cli.outputs.MARKDOWN }}
 
       - name: Run doctor test suite with coverage
+        if: env.RUN_DOCTOR == 'true'
         id: coverage-doctor
         shell: bash
         run: |
@@ -119,6 +180,7 @@ jobs:
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Comment doctor coverage on PR
+        if: env.RUN_DOCTOR == 'true'
         uses: marocchino/sticky-pull-request-comment@v3
         with:
           key: coverage-doctor-${{ matrix.os }}
@@ -126,6 +188,7 @@ jobs:
           message: ${{ steps.coverage-doctor.outputs.MARKDOWN }}
 
       - name: Run getter test suite with coverage
+        if: env.RUN_GETTER == 'true'
         id: coverage-getter
         shell: bash
         run: |
@@ -135,6 +198,7 @@ jobs:
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Comment getter coverage on PR
+        if: env.RUN_GETTER == 'true'
         uses: marocchino/sticky-pull-request-comment@v3
         with:
           key: coverage-getter-${{ matrix.os }}
@@ -142,6 +206,7 @@ jobs:
           message: ${{ steps.coverage-getter.outputs.MARKDOWN }}
 
       - name: Run runner test suite with coverage
+        if: env.RUN_RUNNER == 'true'
         id: coverage-runner
         shell: bash
         run: |
@@ -151,6 +216,7 @@ jobs:
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Comment runner coverage on PR
+        if: env.RUN_RUNNER == 'true'
         uses: marocchino/sticky-pull-request-comment@v3
         with:
           key: coverage-runner-${{ matrix.os }}
