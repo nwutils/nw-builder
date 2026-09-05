@@ -1,0 +1,75 @@
+{
+  "name": "@nwutils/runner",
+  "version": "0.2.4",
+  "description": "Run NW.js and related binaries for Linux, MacOS and Windows.",
+  "keywords": [
+    "NW.js",
+    "node-webkit",
+    "Desktop",
+    "Application"
+  ],
+  "author": {
+    "name": "Ayushman Chhabra",
+    "url": "https://ayushmanchhabra.com"
+  },
+  "maintainers": [
+    {
+      "name": "Ayushman Chhabra",
+      "url": "https://ayushmanchhabra.com"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "@nwutils/runner Contributors",
+      "url": "https://github.com/nwutils/runner/graphs/contributors"
+    }
+  ],
+  "license": "MIT",
+  "main": "./src/main.js",
+  "types": "types/main.d.ts",
+  "type": "module",
+  "files": [
+    "LICENSE",
+    "src",
+    "types"
+  ],
+  "homepage": "https://github.com/nwutils/runner",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nwutils/runner.git"
+  },
+  "scripts": {
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type": "tsc",
+    "test": "node --test --experimental-test-coverage --test-coverage-exclude=\"tests/**/*\" \"tests/specs/*.test.js\""
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@nwutils/getter": "^0.2.6",
+    "@types/node": "^26.4.0",
+    "eslint": "^10.9.1",
+    "eslint-plugin-jsdoc": "^64.2.1",
+    "eslint-plugin-simple-import-sort": "^14.0.0",
+    "globals": "^17.11.0",
+    "prettier": "^3.9.6",
+    "typescript": "^7.0.2"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "26.1.0",
+      "onFail": "warn"
+    },
+    "packageManager": {
+      "name": "npm",
+      "version": "12.0.1",
+      "onFail": "warn"
+    }
+  },
+  "prettier": {
+    "endOfLine": "lf"
+  }
+}
