@@ -44,8 +44,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7.0.1
 
-      - name: Setup Volta
-        uses: volta-cli/action@v5.0.0
+      - name: Read Node.js and npm versions from devEngines
+        id: devengines
+        shell: bash
+        run: |
+          echo "NODE_VERSION=$(jq -r '.devEngines.runtime.version' package.json)" >> "$GITHUB_ENV"
+          echo "NPM_VERSION=$(jq -r '.devEngines.packageManager.version' package.json)" >> "$GITHUB_ENV"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Update npm to the pinned version
+        run: npm install -g npm@${{ env.NPM_VERSION }}
 
       - name: Install third party dependencies
         run: npm ci
@@ -85,38 +97,9 @@ jobs:
         id: coverage-cli
         shell: bash
         run: |
-          { npm run test --workspace=@nwutils/cli || true; } \
-            | sed 's/\x1b\[[0-9;]*m//g' \
-            | awk '
-                /start of coverage report/ {printing=1; next}
-                /end of coverage report/   {printing=0}
-                printing
-              ' > coverage-cli.txt
-
-          echo "COVERAGE<<EOF" >> $GITHUB_OUTPUT
-          cat coverage-cli.txt >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
-      - name: Convert cli coverage to markdown
-        id: markdown-cli
-        shell: bash
-        run: |
-          {
-            echo "### 📊 cli Coverage Report — ${{ matrix.os }}"
-            echo
-            echo "| File | Line % | Branch % | Funcs % | Uncovered Lines |"
-            echo "|------|--------|----------|---------|------------------|"
-            grep '|' coverage-cli.txt | \
-            grep -vE "file\s*\|\s*line|----" | \
-            while read -r line; do
-              clean=$(echo "$line" | sed 's/^ℹ\s*//' | tr -s ' ')
-              echo "| ${clean// | / | } |"
-            done
-            echo
-          } > coverage-cli.md
-
+          MARKDOWN="$({ npm run test --workspace=@nwutils/cli || true; } | packages/test-coverage/bin/coverage-report.sh cli "${{ matrix.os }}")"
           echo "MARKDOWN<<EOF" >> $GITHUB_OUTPUT
-          cat coverage-cli.md >> $GITHUB_OUTPUT
+          echo "$MARKDOWN" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Comment cli coverage on PR
@@ -124,44 +107,15 @@ jobs:
         with:
           key: coverage-cli-${{ matrix.os }}
           header: "cli Coverage Report – ${{ matrix.os }}"
-          message: ${{ steps.markdown-cli.outputs.MARKDOWN }}
+          message: ${{ steps.coverage-cli.outputs.MARKDOWN }}
 
       - name: Run doctor test suite with coverage
         id: coverage-doctor
         shell: bash
         run: |
-          { npm run test --workspace=@nwutils/doctor || true; } \
-            | sed 's/\x1b\[[0-9;]*m//g' \
-            | awk '
-                /start of coverage report/ {printing=1; next}
-                /end of coverage report/   {printing=0}
-                printing
-              ' > coverage-doctor.txt
-
-          echo "COVERAGE<<EOF" >> $GITHUB_OUTPUT
-          cat coverage-doctor.txt >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
-      - name: Convert doctor coverage to markdown
-        id: markdown-doctor
-        shell: bash
-        run: |
-          {
-            echo "### 📊 doctor Coverage Report — ${{ matrix.os }}"
-            echo
-            echo "| File | Line % | Branch % | Funcs % | Uncovered Lines |"
-            echo "|------|--------|----------|---------|------------------|"
-            grep '|' coverage-doctor.txt | \
-            grep -vE "file\s*\|\s*line|----" | \
-            while read -r line; do
-              clean=$(echo "$line" | sed 's/^ℹ\s*//' | tr -s ' ')
-              echo "| ${clean// | / | } |"
-            done
-            echo
-          } > coverage-doctor.md
-
+          MARKDOWN="$({ npm run test --workspace=@nwutils/doctor || true; } | packages/test-coverage/bin/coverage-report.sh doctor "${{ matrix.os }}")"
           echo "MARKDOWN<<EOF" >> $GITHUB_OUTPUT
-          cat coverage-doctor.md >> $GITHUB_OUTPUT
+          echo "$MARKDOWN" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Comment doctor coverage on PR
@@ -169,44 +123,15 @@ jobs:
         with:
           key: coverage-doctor-${{ matrix.os }}
           header: "doctor Coverage Report – ${{ matrix.os }}"
-          message: ${{ steps.markdown-doctor.outputs.MARKDOWN }}
+          message: ${{ steps.coverage-doctor.outputs.MARKDOWN }}
 
       - name: Run getter test suite with coverage
         id: coverage-getter
         shell: bash
         run: |
-          { npm run test --workspace=@nwutils/getter || true; } \
-            | sed 's/\x1b\[[0-9;]*m//g' \
-            | awk '
-                /start of coverage report/ {printing=1; next}
-                /end of coverage report/   {printing=0}
-                printing
-              ' > coverage-getter.txt
-
-          echo "COVERAGE<<EOF" >> $GITHUB_OUTPUT
-          cat coverage-getter.txt >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
-      - name: Convert getter coverage to markdown
-        id: markdown-getter
-        shell: bash
-        run: |
-          {
-            echo "### 📊 getter Coverage Report — ${{ matrix.os }}"
-            echo
-            echo "| File | Line % | Branch % | Funcs % | Uncovered Lines |"
-            echo "|------|--------|----------|---------|------------------|"
-            grep '|' coverage-getter.txt | \
-            grep -vE "file\s*\|\s*line|----" | \
-            while read -r line; do
-              clean=$(echo "$line" | sed 's/^ℹ\s*//' | tr -s ' ')
-              echo "| ${clean// | / | } |"
-            done
-            echo
-          } > coverage-getter.md
-
+          MARKDOWN="$({ npm run test --workspace=@nwutils/getter || true; } | packages/test-coverage/bin/coverage-report.sh getter "${{ matrix.os }}")"
           echo "MARKDOWN<<EOF" >> $GITHUB_OUTPUT
-          cat coverage-getter.md >> $GITHUB_OUTPUT
+          echo "$MARKDOWN" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Comment getter coverage on PR
@@ -214,44 +139,15 @@ jobs:
         with:
           key: coverage-getter-${{ matrix.os }}
           header: "getter Coverage Report – ${{ matrix.os }}"
-          message: ${{ steps.markdown-getter.outputs.MARKDOWN }}
+          message: ${{ steps.coverage-getter.outputs.MARKDOWN }}
 
       - name: Run runner test suite with coverage
         id: coverage-runner
         shell: bash
         run: |
-          { npm run test --workspace=@nwutils/runner || true; } \
-            | sed 's/\x1b\[[0-9;]*m//g' \
-            | awk '
-                /start of coverage report/ {printing=1; next}
-                /end of coverage report/   {printing=0}
-                printing
-              ' > coverage-runner.txt
-
-          echo "COVERAGE<<EOF" >> $GITHUB_OUTPUT
-          cat coverage-runner.txt >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
-      - name: Convert runner coverage to markdown
-        id: markdown-runner
-        shell: bash
-        run: |
-          {
-            echo "### 📊 runner Coverage Report — ${{ matrix.os }}"
-            echo
-            echo "| File | Line % | Branch % | Funcs % | Uncovered Lines |"
-            echo "|------|--------|----------|---------|------------------|"
-            grep '|' coverage-runner.txt | \
-            grep -vE "file\s*\|\s*line|----" | \
-            while read -r line; do
-              clean=$(echo "$line" | sed 's/^ℹ\s*//' | tr -s ' ')
-              echo "| ${clean// | / | } |"
-            done
-            echo
-          } > coverage-runner.md
-
+          MARKDOWN="$({ npm run test --workspace=@nwutils/runner || true; } | packages/test-coverage/bin/coverage-report.sh runner "${{ matrix.os }}")"
           echo "MARKDOWN<<EOF" >> $GITHUB_OUTPUT
-          cat coverage-runner.md >> $GITHUB_OUTPUT
+          echo "$MARKDOWN" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Comment runner coverage on PR
@@ -259,4 +155,4 @@ jobs:
         with:
           key: coverage-runner-${{ matrix.os }}
           header: "runner Coverage Report – ${{ matrix.os }}"
-          message: ${{ steps.markdown-runner.outputs.MARKDOWN }}
+          message: ${{ steps.coverage-runner.outputs.MARKDOWN }}

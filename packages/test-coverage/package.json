@@ -1,0 +1,15 @@
+{
+  "name": "@nwutils/test-coverage",
+  "version": "0.1.0",
+  "private": true,
+  "description": "CI helper: renders a node:test coverage report as a markdown table for PR comments.",
+  "author": {
+    "name": "Ayushman Chhabra",
+    "url": "https://ayushmanchhabra.com"
+  },
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "test": "node --test \"tests/specs/*.test.js\""
+  }
+}
