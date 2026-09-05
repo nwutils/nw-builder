@@ -1,0 +1,83 @@
+{
+  "name": "@nwutils/getter",
+  "version": "0.2.6",
+  "description": "Get NW.js and related binaries for Linux, MacOS and Windows.",
+  "keywords": [
+    "NW.js",
+    "node-webkit",
+    "Desktop",
+    "Application"
+  ],
+  "author": {
+    "name": "Ayushman Chhabra",
+    "url": "https://ayushmanchhabra.com"
+  },
+  "maintainers": [
+    {
+      "name": "Ayushman Chhabra",
+      "url": "https://ayushmanchhabra.com"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "@nwutils/getter Contributors",
+      "url": "https://github.com/nwutils/getter/graphs/contributors"
+    }
+  ],
+  "license": "MIT",
+  "main": "./src/main.js",
+  "types": "types/main.d.ts",
+  "type": "module",
+  "files": [
+    "LICENSE",
+    "src",
+    "types"
+  ],
+  "homepage": "https://github.com/nwutils/getter",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nwutils/getter.git"
+  },
+  "scripts": {
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type": "tsc",
+    "test": "node --test --experimental-test-coverage --test-coverage-exclude=\"tests/**/*\" \"tests/specs/*.test.js\""
+  },
+  "dependencies": {
+    "semver": "^7.8.5",
+    "tar": "^7.5.22",
+    "yauzl-promise": "^4.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^26.4.0",
+    "@types/semver": "^7.8.0",
+    "@types/yauzl-promise": "^4.0.1",
+    "eslint": "^10.9.1",
+    "eslint-plugin-jsdoc": "^64.2.1",
+    "eslint-plugin-node-security": "^5.2.3",
+    "eslint-plugin-secure-coding": "^5.1.4",
+    "eslint-plugin-simple-import-sort": "^14.0.0",
+    "globals": "^17.11.0",
+    "prettier": "^3.9.6",
+    "typescript": "^7.0.2"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "26.1.0",
+      "onFail": "warn"
+    },
+    "packageManager": {
+      "name": "npm",
+      "version": "12.0.1",
+      "onFail": "warn"
+    }
+  },
+  "prettier": {
+    "endOfLine": "lf"
+  }
+}
