@@ -20,7 +20,7 @@ describe.skip("bld test suite", async () => {
   const nwOptions = {
     srcDir: path.join(repoRoot, "tests/fixtures/nw-builder/app"),
     mode: "build",
-    version: "0.114.0",
+    version: "latest",
     flavor: "sdk",
     platform: util.PLATFORM_KV[process.platform],
     arch: util.ARCH_KV[process.arch],
