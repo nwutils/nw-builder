@@ -42,7 +42,7 @@
     "lint": "eslint . ../../tests/specs/getter ../../tests/fixtures/getter",
     "lint:fix": "eslint . ../../tests/specs/getter ../../tests/fixtures/getter --fix",
     "type": "tsc",
-    "test": "node --test --test-concurrency=1 --experimental-test-coverage --test-coverage-include=\"src/**\" \"../../tests/specs/getter/*.test.js\""
+    "test": "node --test --test-concurrency=1 \"../../tests/specs/getter/*.test.js\""
   },
   "dependencies": {
     "semver": "^7.8.5",

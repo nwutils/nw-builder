@@ -10,7 +10,6 @@ on:
 
 permissions:
   contents: read
-  pull-requests: write
 
 concurrency:
   group: ci-getter-${{ github.ref }}
@@ -76,21 +75,8 @@ jobs:
       - name: Install third party dependencies
         run: npm ci
 
-      - name: Run getter test suite with coverage
-        id: coverage-getter
-        shell: bash
-        run: |
-          MARKDOWN="$({ npm run test --workspace=@nwutils/getter || true; } | packages/test-coverage/bin/coverage-report.sh getter "${{ matrix.os }}")"
-          echo "MARKDOWN<<EOF" >> $GITHUB_OUTPUT
-          echo "$MARKDOWN" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
-      - name: Comment getter coverage on PR
-        uses: marocchino/sticky-pull-request-comment@v3
-        with:
-          key: coverage-getter-${{ matrix.os }}
-          header: "getter Coverage Report – ${{ matrix.os }}"
-          message: ${{ steps.coverage-getter.outputs.MARKDOWN }}
+      - name: Run getter test suite
+        run: npm run test --workspace=@nwutils/getter
 
       - name: Check git status is clean
         shell: bash

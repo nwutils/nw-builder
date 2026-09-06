@@ -10,7 +10,6 @@ on:
 
 permissions:
   contents: read
-  pull-requests: write
 
 concurrency:
   group: ci-nw-builder-${{ github.ref }}
@@ -76,23 +75,8 @@ jobs:
       - name: Install third party dependencies
         run: npm ci
 
-      - name: Run nw-builder test suite with coverage
-        id: coverage-nw-builder
-        shell: bash
-        run: |
-          MARKDOWN="$({ npm run test --workspace=nw-builder || true; } | packages/test-coverage/bin/coverage-report.sh nw-builder "${{ matrix.os }}")"
-          echo "MARKDOWN<<EOF" >> $GITHUB_OUTPUT
-          echo "$MARKDOWN" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-        env:
-          CI: true
-
-      - name: Comment nw-builder coverage on PR
-        uses: marocchino/sticky-pull-request-comment@v3
-        with:
-          key: coverage-nw-builder-${{ matrix.os }}
-          header: "nw-builder Coverage Report – ${{ matrix.os }}"
-          message: ${{ steps.coverage-nw-builder.outputs.MARKDOWN }}
+      - name: Run nw-builder test suite
+        run: npm run test --workspace=nw-builder
 
       - name: Check git status is clean
         shell: bash

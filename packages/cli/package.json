@@ -44,7 +44,7 @@
   "scripts": {
     "lint": "eslint ./src ../../tests/specs/cli",
     "type": "tsc",
-    "test": "node --test --experimental-test-coverage --test-coverage-include=\"src/**\" \"../../tests/specs/cli/*.test.js\""
+    "test": "node --test \"../../tests/specs/cli/*.test.js\""
   },
   "dependencies": {
     "@nwutils/getter": "^0.2.4",

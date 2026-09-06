@@ -10,7 +10,6 @@ on:
 
 permissions:
   contents: read
-  pull-requests: write
 
 concurrency:
   group: ci-cli-${{ github.ref }}
@@ -76,21 +75,8 @@ jobs:
       - name: Install third party dependencies
         run: npm ci
 
-      - name: Run cli test suite with coverage
-        id: coverage-cli
-        shell: bash
-        run: |
-          MARKDOWN="$({ npm run test --workspace=@nwutils/cli || true; } | packages/test-coverage/bin/coverage-report.sh cli "${{ matrix.os }}")"
-          echo "MARKDOWN<<EOF" >> $GITHUB_OUTPUT
-          echo "$MARKDOWN" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
-      - name: Comment cli coverage on PR
-        uses: marocchino/sticky-pull-request-comment@v3
-        with:
-          key: coverage-cli-${{ matrix.os }}
-          header: "cli Coverage Report – ${{ matrix.os }}"
-          message: ${{ steps.coverage-cli.outputs.MARKDOWN }}
+      - name: Run cli test suite
+        run: npm run test --workspace=@nwutils/cli
 
       - name: Check git status is clean
         shell: bash
