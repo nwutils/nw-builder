@@ -1,6 +1,6 @@
-# nwutils
+# nw-builder
 
-Monorepo for [nw-builder](https://github.com/nwutils/nw-builder) and the NW.js tooling packages it depends on. Managed as npm workspaces; each package is released and published independently via [release-please](https://github.com/googleapis/release-please).
+Develop, build, package and update NW.js applications for Linux, MacOS and Windows.
 
 | Package                              | Description                                                    |
 | ------------------------------------ | -------------------------------------------------------------- |

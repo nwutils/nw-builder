@@ -59,8 +59,6 @@ Options
 
 ## Contributing
 
-Extracted from [nw-builder](../nw-builder)'s own build implementation so it can be developed, tested and versioned independently, the same way `@nwutils/getter` and `@nwutils/runner` already are. `nw-builder` depends on this package for its `build` mode; most users should keep using `nw-builder` (or `@nwutils/cli`) directly rather than this package on its own.
-
 ### External contributor
 
 - Use Node.js standard libraries whenever possible.
@@ -68,5 +66,5 @@ Extracted from [nw-builder](../nw-builder)'s own build implementation so it can 
 
 ### Maintainer
 
-- npm trusted publishing is used for releases
-- a package is released when a maintainer creates a release note for a specific version
+- npm Trusted Publishing with OIDC is used for releases
+- A package is released when a maintainer creates a release note for a specific version

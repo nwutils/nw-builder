@@ -3,17 +3,20 @@ updates:
   - package-ecosystem: "npm"
     directory: "."
     schedule:
-      interval: "monthly"
+      interval: "weekly"
     versioning-strategy: increase
     groups:
       npm:
         patterns:
           - "*"
+        update-types:
+          - "minor"
+          - "patch"
 
   - package-ecosystem: "github-actions"
     directory: ".github/workflows"
     schedule:
-      interval: "monthly"
+      interval: "weekly"
     groups:
       gha:
         patterns:

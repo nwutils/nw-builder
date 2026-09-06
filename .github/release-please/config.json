@@ -13,7 +13,7 @@
     },
     "packages/builder": {
       "package-name": "@nwutils/builder",
-      "component": "builder",
+      "component": "@nwutils/builder",
       "include-component-in-tag": true,
       "release-type": "node",
       "changelog-sections": [
@@ -24,7 +24,7 @@
     },
     "packages/cli": {
       "package-name": "@nwutils/cli",
-      "component": "cli",
+      "component": "@nwutils/cli",
       "include-component-in-tag": true,
       "release-type": "node",
       "changelog-sections": [
@@ -35,7 +35,7 @@
     },
     "packages/doctor": {
       "package-name": "@nwutils/doctor",
-      "component": "doctor",
+      "component": "@nwutils/doctor",
       "include-component-in-tag": true,
       "release-type": "node",
       "changelog-sections": [
@@ -46,7 +46,7 @@
     },
     "packages/getter": {
       "package-name": "@nwutils/getter",
-      "component": "getter",
+      "component": "@nwutils/getter",
       "include-component-in-tag": true,
       "release-type": "node",
       "changelog-sections": [
@@ -57,7 +57,7 @@
     },
     "packages/runner": {
       "package-name": "@nwutils/runner",
-      "component": "runner",
+      "component": "@nwutils/runner",
       "include-component-in-tag": true,
       "release-type": "node",
       "changelog-sections": [
@@ -67,5 +67,5 @@
       ]
     }
   },
-  "separate-pull-requests": true
+  "separate-pull-requests": false
 }

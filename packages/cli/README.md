@@ -68,11 +68,6 @@ import { pollyfill } from "@nwutils/cli";
 pollyfill();
 ```
 
-## Roadmap
-
-- [ ] Add react-js template
-- [ ] Package custom node test coverage action.
-
 ## Contributing
 
 ### External contributor
@@ -82,5 +77,5 @@ pollyfill();
 
 ### Maintainer
 
-- npm trusted publishing is used for releases
-- a package is released when a maintainer creates a release note for a specific version
+- npm Trusted Publishing with OIDC is used for releases
+- A package is released when a maintainer creates a release note for a specific version

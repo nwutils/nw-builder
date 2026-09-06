@@ -329,55 +329,10 @@ nwbuild({
 
 ### External contributor
 
-- We use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) style of commit messages.
-- On opening a new PR, the comments will guide you on how to construct the new PR.
-- Pull requests are squashed and merged onto the `main` branch.
-- PR title is used as commit's first line, PR description is used as commit body.
-- Only commit messages starting with `fix`, `feat` and `chore` are recognised by the Release Please bot.
-- Lint your code before commiting your change.
-- Add tests whenever possible.
+- Use Node.js standard libraries whenever possible.
+- Prefer to use syncronous APIs over modern APIs which have been introduced in later versions.
 
-### Maintainer guidelines
+### Maintainer
 
-- Approve pull requests before merging.
-- Enforce conventional commits before merging pull requests.
-- A commit's first line should be formatted as `<type>[optional scope]: <description>`.
-- A commit's body should have a description of changes in bullet points followed by any links it references or issues it fixes or closes.
-- Google's Release Please Action is used to update the changelog, bump the package version and generate GitHub releases.
-- NPM Publish Action publishes to `npm` if there is a version bump.
-- Every time `nw` is upgraded, the `volta` package should also be updated and `nw-builder` should create a minor release (since the underlying Node version is changed).
-
-## Roadmap
-
-### Bugs
-
-- Managed Manifest is broken. If glob is disabled and srcDir has no package.json, build fails.
-- Add back error, info, warn and debug logs
-
-### Features
-
-- feat(get): support canary releases
-- feat(pkg): add `AppImage` installer
-- feat(pkg): add `NSIS` installer
-- feat(pkg): add `DMG` installer
-- feat(get): add Linux ARM unofficial support
-- feat(bld): add source code protection
-- feat(pkg): add code signing
-
-### Chores
-
-- chore(docs): don't store JSDoc definitions in `typedef`s - get's hard to understand during development.
-- chore: annotate file paths as `fs.PathLike` instead of `string`.
-- chore(bld): factor out core build step
-- chore(bld): factor out linux config
-- chore(bld): factor out windows config
-- chore(bld): factor out native addon
-- chore(bld): factor out compressing
-- chore(bld): factor out managed manifest
-- chore(bld): move `.desktop` entry file logic to `create-desktop-shortcuts` package
-
-## FAQ
-
-## License
-
-MIT License.
+- npm Trusted Publishing with OIDC is used for releases
+- A package is released when a maintainer creates a release note for a specific version
