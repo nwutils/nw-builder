@@ -1,4 +1,4 @@
-name: CI - getter
+name: CI - @nwutils/getter
 
 on:
   workflow_dispatch:

@@ -14,12 +14,14 @@ program
   .option(
     "--platform <string>",
     "NW.js supported platform",
-    util.PLATFORM_KV[process.platform],
+    util.PLATFORM_KV[
+      /** @type {"darwin" | "linux" | "win32"} */ (process.platform)
+    ],
   )
   .option(
     "--arch <string>",
     "NW.js supported architecture",
-    util.ARCH_KV[process.arch],
+    util.ARCH_KV[/** @type {"x64" | "ia32" | "arm64"} */ (process.arch)],
   )
   .option(
     "--downloadUrl <string>",
@@ -36,7 +38,7 @@ program
   .option(
     "--app <object>",
     "Platform specific app metadata. Refer to docs for more info",
-    {},
+    /** @type {any} */ ({}),
   )
   .option("--cache <boolean>", "Enable/disable caching", true)
   .option("--ffmpeg <boolean>", "Enable/disable community ffmpeg", false)
@@ -51,6 +53,7 @@ program
 
 // Handle unknown --app.* arguments
 const unknownArgs = program.parse(process.argv).args;
+/** @type {Record<string, string>} */
 const appConfig = {};
 for (const arg of unknownArgs) {
   const match = arg.match(/^--app\.([^.=]+)=(.*)$/);

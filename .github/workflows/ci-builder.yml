@@ -1,4 +1,4 @@
-name: CI - nw-builder
+name: CI - @nwutils/builder
 
 on:
   workflow_dispatch:
@@ -6,14 +6,13 @@ on:
     branches:
       - main
     paths:
-      - "packages/nw-builder/**"
       - "packages/builder/**"
 
 permissions:
   contents: read
 
 concurrency:
-  group: ci-nw-builder-${{ github.ref }}
+  group: ci-builder-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -76,8 +75,8 @@ jobs:
       - name: Install third party dependencies
         run: npm ci
 
-      - name: Run nw-builder test suite
-        run: npm run test --workspace=nw-builder
+      - name: Run builder test suite
+        run: npm run test --workspace=@nwutils/builder
 
       - name: Check git status is clean
         shell: bash
