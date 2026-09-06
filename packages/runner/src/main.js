@@ -76,11 +76,16 @@ async function run({
     throw new Error("Resolved executable path escapes cacheDir");
   }
 
+  if (!Array.isArray(argv) || !argv.every((arg) => typeof arg === "string")) {
+    throw new Error("Invalid argv: expected an array of strings");
+  }
+
   /**
    * @type {child_process.ChildProcess | null}
    */
   let nwProcess = child_process.spawn(nwExe, [...[srcDir], ...argv], {
     stdio: "inherit",
+    shell: false,
   });
 
   nwProcess.on("close", () => {
