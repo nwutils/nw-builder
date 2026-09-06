@@ -39,6 +39,7 @@
   "scripts": {
     "lint": "eslint . ../../tests/specs/builder",
     "lint:fix": "eslint . ../../tests/specs/builder --fix",
+    "type": "tsc",
     "test": "node --test \"../../tests/specs/builder/*.test.js\""
   },
   "dependencies": {
@@ -51,6 +52,7 @@
     "tar": "^7.5.22"
   },
   "devDependencies": {
+    "@types/archiver": "^8.0.0",
     "base-volta-off-of-nwjs": "^1.0.5",
     "nw": "^0.115.0",
     "selenium-webdriver": "^4.47.0"

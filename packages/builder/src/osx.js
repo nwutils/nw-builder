@@ -12,7 +12,7 @@ import semver from "semver";
  * @param {string} helperName            - Helper App Name
  * @param {string} helperId              - Helper App ID
  * @param {string} appCFBundleIdentifier - options.app.CFBundleIdentifier
- * @param {string} LSFileQuarantineEnabled - options.app.LSFileQuarantineEnabled
+ * @param {boolean} LSFileQuarantineEnabled - options.app.LSFileQuarantineEnabled
  */
 async function updateHelperPlist(
   plistPath,
@@ -22,6 +22,7 @@ async function updateHelperPlist(
   LSFileQuarantineEnabled,
 ) {
   const plistFullPath = path.resolve(plistPath, "Contents/Info.plist");
+  /** @type {any} */
   const plistJson = parse(await fs.promises.readFile(plistFullPath, "utf-8"));
   plistJson.CFBundleDisplayName = helperName;
   plistJson.CFBundleName = helperName;
@@ -35,9 +36,9 @@ async function updateHelperPlist(
  *
  * @param {object} options              - Options.
  * @param {string} options.version      - NW.js version.
- * @param {object} options.app          - Application configuration.
+ * @param {import("./main.js").OsxRc} options.app - Application configuration.
  * @param {string} options.outDir       - Output directory.
- * @param {string} options.releaseInfo  - Release information.
+ * @param {any} options.releaseInfo     - Release information, shaped by https://nwjs.io/versions.json.
  * @returns {Promise<void>}             - Promise.
  */
 export default async function setOsxConfig({
@@ -165,7 +166,7 @@ export default async function setOsxConfig({
 
     /**
      * JSON from `nwjs.app/Contents/Info.plist`
-     * @type {object}
+     * @type {any}
      */
     const contentsInfoPlistJson = parse(
       await fs.promises.readFile(contentsInfoPlistPath, "utf-8"),

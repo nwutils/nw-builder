@@ -14,14 +14,14 @@ import util from "./util.js";
  * @property {"get" | "run" | "build"}             [mode="build"]                            Choose between get, run or build mode
  * @property {"latest" | "stable" | string}        [version="latest"]                        Runtime version
  * @property {"normal" | "sdk"}                    [flavor="normal"]                         Runtime flavor
- * @property {"linux" | "osx" | "win"}             platform                                  Host platform
- * @property {"ia32" | "x64" | "arm64"}            arch                                      Host architecture
+ * @property {"linux" | "osx" | "win"}             [platform]                                Host platform
+ * @property {"ia32" | "x64" | "arm64"}            [arch]                                    Host architecture
  * @property {"https://dl.nwjs.io" | string}       [downloadUrl="https://dl.nwjs.io"]        Download server
  * @property {"https://nwjs.io/versions.json" | string} [manifestUrl="https://nwjs.io/versions.json"] Versions manifest URI, https or file path
  * @property {"./cache" | string}                  [cacheDir="./cache"]                      Directory to cache NW binaries
- * @property {"./" | string}                       [srcDir="./"]                             File paths to application code
+ * @property {string | string[]}                   [srcDir="./"]                             File paths to application code
  * @property {"./out" | string}                    [outDir="./out"]                          Directory to store build artifacts
- * @property {object}                              app                                       Refer to Linux/Windows Specific Options under Getting Started in the docs
+ * @property {object}                              [app]                                     Refer to Linux/Windows Specific Options under Getting Started in the docs
  * @property {boolean}                             [cache=true]                              If true the existing cache is used. Otherwise it removes and redownloads it.
  * @property {boolean}                             [ffmpeg=false]                            If true the chromium ffmpeg is replaced by community version
  * @property {boolean}                             [glob=true]                               If true file globbing is enabled when parsing srcDir.
@@ -29,8 +29,9 @@ import util from "./util.js";
  * @property {boolean}                             [shaSum = true]                           If true, shasum is enabled. Otherwise, disabled.
  * @property {boolean | "zip" | "tar" | "tgz"}     [zip=false]                               If true, "zip", "tar" or "tgz" the outDir directory is compressed.
  * @property {boolean | string | object}           [managedManifest = false]                 Managed manifest mode
- * @property {boolean}                             [nodeAddon = false]                       Get Node native addons
+ * @property {boolean}                             [nativeAddon = false]                     Get Node native addons
  * @property {boolean}                             [cli=false]                               If true the CLI is used to parse options. This option is used internally.
+ * @property {string[]}                            [argv = []]                               CLI arguments passed to the NW.js process in run mode
  */
 
 /**
@@ -43,6 +44,7 @@ import util from "./util.js";
 async function nwbuild(options) {
   let built;
   let releaseInfo;
+  /** @type {{path: string, json: any}} */
   let manifest = {
     path: "",
     json: undefined,
@@ -55,8 +57,8 @@ async function nwbuild(options) {
 
     util.log("debug", "info", "Get node manifest...");
     manifest = await util.getNodeManifest({
-      srcDir: options.srcDir,
-      glob: options.glob,
+      srcDir: /** @type {string | string[]} */ (options.srcDir),
+      glob: /** @type {boolean} */ (options.glob),
     });
     if (typeof manifest.json?.nwbuild === "object") {
       options = { ...options, ...manifest.json.nwbuild };
@@ -64,118 +66,123 @@ async function nwbuild(options) {
 
     util.log(
       "info",
-      options.logLevel,
+      /** @type {"debug" | "error" | "info" | "warn"} */ (options.logLevel),
       "Parse final options using node manifest",
     );
-    options = await util.parse(options, manifest.json);
+    /** @type {Required<Options>} */
+    const resolved = await util.parse(options, manifest.json);
     util.log(
       "debug",
-      options.logLevel,
-      "Manifest: ",
-      `${manifest.path}\n${manifest.json}\n`,
+      resolved.logLevel,
+      `Manifest: ${manifest.path}\n${manifest.json}\n`,
     );
 
-    built = fs.existsSync(options.cacheDir);
+    built = fs.existsSync(resolved.cacheDir);
     if (built === false) {
-      await fs.promises.mkdir(options.cacheDir, { recursive: true });
+      await fs.promises.mkdir(resolved.cacheDir, { recursive: true });
     }
 
-    if (options.mode === "build") {
-      built = fs.existsSync(options.outDir);
+    if (resolved.mode === "build") {
+      built = fs.existsSync(resolved.outDir);
       if (built === false) {
-        await fs.promises.mkdir(options.outDir, { recursive: true });
+        await fs.promises.mkdir(resolved.outDir, { recursive: true });
       }
     }
 
     /* Validate options.version to get the version specific release info */
-    util.log("info", options.logLevel, "Get version specific release info...");
+    util.log("info", resolved.logLevel, "Get version specific release info...");
     releaseInfo = await util.getReleaseInfo(
-      options.version,
-      options.platform,
-      options.arch,
-      options.cacheDir,
-      options.manifestUrl,
+      resolved.version,
+      resolved.platform,
+      resolved.arch,
+      resolved.cacheDir,
+      resolved.manifestUrl,
     );
     util.log(
       "debug",
-      options.logLevel,
+      resolved.logLevel,
       `Release info:\n${JSON.stringify(releaseInfo, null, 2)}\n`,
     );
 
-    util.log("info", options.logLevel, "Validate options.* ...");
-    await util.validate(options, releaseInfo);
+    util.log("info", resolved.logLevel, "Validate options.* ...");
+    await util.validate(resolved, releaseInfo);
     util.log(
       "debug",
-      options.logLevel,
-      `Options:\n${JSON.stringify(options, null, 2)}`,
+      resolved.logLevel,
+      `Options:\n${JSON.stringify(resolved, null, 2)}`,
     );
 
     /* Remove leading "v" from version string */
-    options.version = releaseInfo.version.slice(1);
+    resolved.version = releaseInfo.version.slice(1);
 
-    util.log("info", options.logLevel, "Getting NW.js and related binaries...");
+    util.log(
+      "info",
+      resolved.logLevel,
+      "Getting NW.js and related binaries...",
+    );
     await get({
-      version: options.version,
-      flavor: options.flavor,
-      platform: options.platform,
-      arch: options.arch,
-      downloadUrl: options.downloadUrl,
-      manifestUrl: options.manifestUrl,
-      cacheDir: options.cacheDir,
-      cache: options.cache,
-      ffmpeg: options.ffmpeg,
-      nativeAddon: options.nativeAddon,
-      shaSum: options.shaSum,
-      logLevel: options.logLevel,
+      version: resolved.version,
+      flavor: resolved.flavor,
+      platform: resolved.platform,
+      arch: resolved.arch,
+      downloadUrl: /** @type {"https://dl.nwjs.io"} */ (resolved.downloadUrl),
+      manifestUrl: /** @type {"https://nwjs.io/versions.json"} */ (
+        resolved.manifestUrl
+      ),
+      cacheDir: resolved.cacheDir,
+      cache: resolved.cache,
+      ffmpeg: resolved.ffmpeg,
+      nativeAddon: resolved.nativeAddon,
+      shaSum: resolved.shaSum,
     });
 
-    if (options.mode === "get") {
+    if (resolved.mode === "get") {
       // Do nothing else since we have already downloaded the binaries.
       return undefined;
     }
 
-    if (options.mode === "run") {
-      util.log("info", options.logLevel, "Running NW.js in run mode...");
-      if (options.glob) {
+    if (resolved.mode === "run") {
+      util.log("info", resolved.logLevel, "Running NW.js in run mode...");
+      if (resolved.glob) {
         throw new Error(
           "Glob option is not supported when mode is set to run.",
         );
       }
       const nwProcess = await run({
-        version: options.version,
-        flavor: options.flavor,
-        platform: options.platform,
-        arch: options.arch,
-        srcDir: options.srcDir,
-        cacheDir: options.cacheDir,
-        argv: options.argv,
+        version: resolved.version,
+        flavor: resolved.flavor,
+        platform: resolved.platform,
+        arch: resolved.arch,
+        srcDir: /** @type {string} */ (resolved.srcDir),
+        cacheDir: resolved.cacheDir,
+        argv: resolved.argv,
       });
       return nwProcess;
-    } else if (options.mode === "build") {
+    } else if (resolved.mode === "build") {
       util.log(
         "info",
-        options.logLevel,
-        `Build a NW.js application for ${options.platform} ${options.arch}...`,
+        resolved.logLevel,
+        `Build a NW.js application for ${resolved.platform} ${resolved.arch}...`,
       );
       await bld({
-        version: options.version,
-        flavor: options.flavor,
-        platform: options.platform,
-        arch: options.arch,
-        manifestUrl: options.manifestUrl,
-        srcDir: options.srcDir,
-        cacheDir: options.cacheDir,
-        outDir: options.outDir,
-        app: options.app,
-        glob: options.glob,
-        managedManifest: options.managedManifest,
-        zip: options.zip,
+        version: resolved.version,
+        flavor: resolved.flavor,
+        platform: resolved.platform,
+        arch: resolved.arch,
+        manifestUrl: resolved.manifestUrl,
+        srcDir: /** @type {string} */ (resolved.srcDir),
+        cacheDir: resolved.cacheDir,
+        outDir: resolved.outDir,
+        app: /** @type {any} */ (resolved.app),
+        glob: resolved.glob,
+        managedManifest: resolved.managedManifest,
+        zip: resolved.zip,
         releaseInfo: releaseInfo,
       });
       util.log(
         "info",
-        options.logLevel,
-        `Appliction is available at ${path.resolve(options.outDir)}`,
+        resolved.logLevel,
+        `Appliction is available at ${path.resolve(resolved.outDir)}`,
       );
     }
   } catch (error) {

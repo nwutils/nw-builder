@@ -1,3 +1,5 @@
+import type { ChildProcess } from "node:child_process";
+
 /** NW supported platform */
 export type SupportedPlatform = "linux" | "osx" | "win";
 
@@ -181,6 +183,6 @@ export interface OsxAppOptions {
  */
 declare function nwbuild<P extends SupportedPlatform>(
   options: Options<P>,
-): Promise<child_process.ChildProcess | null | undefined>;
+): Promise<ChildProcess | null | undefined>;
 
 export default nwbuild;

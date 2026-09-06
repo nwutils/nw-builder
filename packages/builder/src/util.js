@@ -19,7 +19,7 @@ const ARCH_KV = {
  * @param  {object}            options         - glob file options
  * @param  {string | string[]} options.srcDir  - app src dir
  * @param  {boolean}           options.glob    - glob flag
- * @returns {Promise<string[]>}                 - Returns array of file paths
+ * @returns {Promise<string[] | string>}        - Returns array of file paths, or `srcDir` as-is when `glob` is false
  */
 async function globFiles({ srcDir, glob }) {
   let files;

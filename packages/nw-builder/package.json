@@ -44,6 +44,7 @@
     "postinstall": "node ./src/postinstall.js",
     "lint": "eslint ./src ../../tests/specs/nw-builder",
     "lint:fix": "eslint --fix ./src ../../tests/specs/nw-builder",
+    "type": "tsc",
     "test": "node --test \"../../tests/specs/nw-builder/*.test.js\"",
     "demo:bld:linux": "node ../../tests/fixtures/nw-builder/demo.linux.js",
     "demo:bld:osx": "node ../../tests/fixtures/nw-builder/demo.osx.js",

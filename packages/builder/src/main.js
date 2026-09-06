@@ -56,6 +56,7 @@ import setOsxConfig from "./osx.js";
  * @property {string} CFBundleShortVersionString      The release or version number of the bundle.
  * @property {string} NSHumanReadableCopyright        A human-readable copyright notice for the bundle.
  * @property {string} NSLocalNetworkUsageDescription  A human-readable description of why the application needs access to the local network.
+ * @property {boolean} LSFileQuarantineEnabled        Whether the app is subject to Gatekeeper file quarantine. See https://github.com/nwjs/nw.js/issues/7646
  */
 
 /**
@@ -80,7 +81,7 @@ import setOsxConfig from "./osx.js";
  * @property {string} productName       Name of the product with which the file is distributed. This string is required.
  * @property {string} productVersion    Version of the product with which the file is distributed—for example, 3.10 or 5.00.RC2. This string is required.
  * @property {string} specialBuild      Text that specifies how this version of the file differs from the standard version—for example, Private build for TESTER1 solving mouse problems on M250 and M250E computers. This string should be present only if VS_FF_SPECIALBUILD is specified in the fileflags parameter of the root block.
- * @property {string} languageCode      Language of the file, defined by Microsoft, see: https://learn.microsoft.com/en-us/openspecs/office_standards/ms-oe376/6c085406-a698-4e12-9d4d-c3b0ee3dbc4a
+ * @property {number} languageCode      Language identifier (LCID) of the file, defined by Microsoft, see: https://learn.microsoft.com/en-us/openspecs/office_standards/ms-oe376/6c085406-a698-4e12-9d4d-c3b0ee3dbc4a
  */
 
 /**
@@ -96,7 +97,7 @@ import setOsxConfig from "./osx.js";
  * @property {LinuxRc | WinRc | OsxRc}              [app]                                       Platform specific rc
  * @property {boolean}                              [glob = true]                               File globbing
  * @property {boolean | string | object}            [managedManifest = false]                   Manage manifest
- * @property {false | "zip" | "tar" | "tgz"}        [zip = false]                               Compress built artifacts
+ * @property {boolean | "zip" | "tar" | "tgz"}      [zip = false]                               Compress built artifacts
  * @property {object}                               [releaseInfo = {}]                          Version specific release metadata.
  */
 
@@ -110,8 +111,14 @@ import setOsxConfig from "./osx.js";
 async function build({
   version = "latest",
   flavor = "normal",
-  platform = util.PLATFORM_KV[process.platform],
-  arch = util.ARCH_KV[process.arch],
+  platform = /** @type {"linux" | "osx" | "win"} */ (
+    util.PLATFORM_KV[
+      /** @type {"darwin" | "linux" | "win32"} */ (process.platform)
+    ]
+  ),
+  arch = /** @type {"ia32" | "x64" | "arm64"} */ (
+    util.ARCH_KV[/** @type {"x64" | "ia32" | "arm64"} */ (process.arch)]
+  ),
   srcDir = "./src",
   cacheDir = "./cache",
   outDir = "./out",
@@ -142,7 +149,7 @@ async function build({
   await fs.promises.mkdir(nwProjectDir, { recursive: true });
 
   if (glob) {
-    for (let file of files) {
+    for (let file of /** @type {string[]} */ (files)) {
       const stats = await fs.promises.stat(file);
       if (stats.isDirectory()) {
         continue;
@@ -153,10 +160,14 @@ async function build({
       });
     }
   } else {
-    await fs.promises.cp(files, path.resolve(nwProjectDir), {
-      recursive: true,
-      verbatimSymlinks: true,
-    });
+    await fs.promises.cp(
+      /** @type {string} */ (files),
+      path.resolve(nwProjectDir),
+      {
+        recursive: true,
+        verbatimSymlinks: true,
+      },
+    );
   }
 
   const builtManifest = JSON.parse(
@@ -168,7 +179,7 @@ async function build({
 
   /* Set `product_string` in manifest for MacOS. This is used in renaming the Helper apps. */
   if (platform === "osx") {
-    builtManifest.product_string = app.name;
+    builtManifest.product_string = /** @type {OsxRc} */ (app).name;
     await fs.promises.writeFile(
       path.resolve(nwProjectDir, "package.json"),
       JSON.stringify(builtManifest, null, 2),
@@ -189,11 +200,16 @@ async function build({
   }
 
   if (platform === "linux") {
-    await setLinuxConfig({ app, outDir });
+    await setLinuxConfig({ app: /** @type {LinuxRc} */ (app), outDir });
   } else if (platform === "win") {
-    await setWinConfig({ app, outDir });
+    await setWinConfig({ app: /** @type {WinRc} */ (app), outDir });
   } else if (platform === "osx") {
-    await setOsxConfig({ version, app, outDir, releaseInfo });
+    await setOsxConfig({
+      version,
+      app: /** @type {OsxRc} */ (app),
+      outDir,
+      releaseInfo,
+    });
   }
 
   if (zip !== false) {
@@ -201,6 +217,14 @@ async function build({
   }
 }
 
+/**
+ * @param  {object}                        options
+ * @param  {object}                        options.nwPkg            Manifest built into the output NW.js app
+ * @param  {boolean | string | object}     options.managedManifest  Managed manifest mode
+ * @param  {string}                        options.outDir            Output directory
+ * @param  {"linux" | "osx" | "win"}       options.platform          Target platform
+ * @returns {Promise<void>}
+ */
 const manageManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
   let manifest = undefined;
 
@@ -213,7 +237,7 @@ const manageManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
   }
 
   if (typeof managedManifest === "string") {
-    manifest = JSON.parse(await fs.promises.readFile(managedManifest));
+    manifest = JSON.parse(await fs.promises.readFile(managedManifest, "utf8"));
   }
 
   if (manifest.devDependencies) {
@@ -245,12 +269,19 @@ const manageManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
   }
 };
 
+/**
+ * @param  {object}  options
+ * @param  {LinuxRc} options.app     Linux app configuration
+ * @param  {string}  options.outDir  Output directory
+ * @returns {Promise<void>}
+ */
 const setLinuxConfig = async ({ app, outDir }) => {
   if (process.platform === "win32") {
     console.warn(
       "Linux apps built on Windows platform do not preserve all file permissions. See #716",
     );
   }
+  /** @type {Record<string, unknown>} */
   let desktopEntryFile = {
     Type: "Application",
     Version: "1.5",
@@ -290,7 +321,14 @@ const setLinuxConfig = async ({ app, outDir }) => {
   await fs.promises.writeFile(filePath, fileContent);
 };
 
+/**
+ * @param  {object} options
+ * @param  {WinRc}  options.app     Windows app configuration
+ * @param  {string} options.outDir  Output directory
+ * @returns {Promise<void>}
+ */
 const setWinConfig = async ({ app, outDir }) => {
+  /** @type {Record<string, string>} */
   let versionString = {
     Comments: app.comments,
     CompanyName: app.company,
@@ -358,6 +396,12 @@ const setWinConfig = async ({ app, outDir }) => {
   await fs.promises.writeFile(outDirAppExe, outBuffer);
 };
 
+/**
+ * @param  {object}                          options
+ * @param  {boolean | "zip" | "tar" | "tgz"} options.zip     Compression format
+ * @param  {string}                          options.outDir  Directory to compress
+ * @returns {Promise<void>}
+ */
 const compress = async ({ zip, outDir }) => {
   if (zip === true || zip === "zip") {
     const archive = new ZipArchive();

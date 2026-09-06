@@ -10,7 +10,7 @@ import * as GlobModule from "glob";
 /**
  * Get manifest (array of NW release metadata) from URL.
  * @param  {string}                      manifestUrl  Versions manifest URI, https or file path
- * @returns {string} - Manifest object
+ * @returns {string | Promise<string>} - Manifest object
  */
 function getManifest(manifestUrl) {
   let chunks = "";
@@ -49,7 +49,7 @@ function getManifest(manifestUrl) {
  * @param  {string} arch         NW architecture
  * @param  {string} cacheDir     Directory to store NW binaries
  * @param  {string} manifestUrl  Versions manifest URI, https or file path
- * @returns {Promise<object>}    Version specific release info
+ * @returns {Promise<any>}       Version specific release info
  */
 async function getReleaseInfo(version, platform, arch, cacheDir, manifestUrl) {
   let releaseData = undefined;
@@ -66,14 +66,17 @@ async function getReleaseInfo(version, platform, arch, cacheDir, manifestUrl) {
       await fs.promises.writeFile(manifestPath, data);
     }
 
-    const manifest = JSON.parse(await fs.promises.readFile(manifestPath));
+    /** @type {any} */
+    const manifest = JSON.parse(
+      await fs.promises.readFile(manifestPath, "utf8"),
+    );
     if (version === "latest" || version === "stable" || version === "lts") {
       // Remove leading "v" from version string
       version = manifest[version].slice(1);
     }
 
     releaseData = manifest.versions.find(
-      (release) => release.version === `v${version}`,
+      (/** @type {any} */ release) => release.version === `v${version}`,
     );
   } catch {
     console.error(
@@ -108,7 +111,7 @@ const EXE_NAME = {
  * @param  {object}            options         - glob file options
  * @param  {string | string[]} options.srcDir  - app src dir
  * @param  {boolean}           options.glob    - glob flag
- * @returns {Promise<string[]>}                 - Returns array of file paths
+ * @returns {Promise<string[] | string>}        - Returns array of file paths, or `srcDir` as-is when `glob` is false
  */
 async function globFiles({ srcDir, glob }) {
   let files;
@@ -143,26 +146,31 @@ async function globFiles({ srcDir, glob }) {
  * @returns {Promise.<{path: string, json: object}>}      - Node manifest
  */
 async function getNodeManifest({ srcDir, glob }) {
+  /** @type {{path: string, json: any}} */
   let manifest = {
     path: "",
     json: undefined,
   };
   let files;
   if (glob === true) {
-    files = await globFiles({ srcDir, glob });
+    files = /** @type {string[]} */ (await globFiles({ srcDir, glob }));
     for (const file of files) {
       if (
         path.basename(file) === "package.json" &&
         manifest.json === undefined
       ) {
         manifest.path = file;
-        manifest.json = JSON.parse(await fs.promises.readFile(file));
+        manifest.json = JSON.parse(await fs.promises.readFile(file, "utf8"));
       }
     }
   } else {
-    manifest.path = path.resolve(srcDir, "package.json");
+    const srcDirPath = /** @type {string} */ (srcDir);
+    manifest.path = path.resolve(srcDirPath, "package.json");
     manifest.json = JSON.parse(
-      await fs.promises.readFile(path.resolve(srcDir, "package.json")),
+      await fs.promises.readFile(
+        path.resolve(srcDirPath, "package.json"),
+        "utf8",
+      ),
     );
   }
 
@@ -191,9 +199,9 @@ function str2Bool(option) {
 
 /**
  * Parse options.
- * @param  {import("../../index.js").Options} options  Options
- * @param  {object}                           pkg      Package.json as JSON
- * @returns {Promise<object>}                           Options
+ * @param  {any} options  Options
+ * @param  {any} pkg      Package.json as JSON
+ * @returns {Promise<any>} Options
  */
 export const parse = async (options, pkg) => {
   options = options ?? {};
@@ -201,8 +209,12 @@ export const parse = async (options, pkg) => {
 
   options.version = options.version ?? "latest";
   options.flavor = options.flavor ?? "normal";
-  options.platform = options.platform ?? PLATFORM_KV[process.platform];
-  options.arch = options.arch ?? ARCH_KV[process.arch];
+  options.platform =
+    options.platform ??
+    PLATFORM_KV[/** @type {"darwin" | "linux" | "win32"} */ (process.platform)];
+  options.arch =
+    options.arch ??
+    ARCH_KV[/** @type {"x64" | "ia32" | "arm64"} */ (process.arch)];
   options.downloadUrl = options.downloadUrl ?? "https://dl.nwjs.io";
   options.manifestUrl = options.manifestUrl ?? "https://nwjs.io/versions.json";
   options.cacheDir = options.cacheDir ?? "./cache";
@@ -315,8 +327,8 @@ export const parse = async (options, pkg) => {
 
 /**
  * Validate options.
- * @param  {import("../index.js").Options} options      Options
- * @param  {object}                        releaseInfo  Version specific NW release info
+ * @param  {any} options      Options
+ * @param  {any} releaseInfo  Version specific NW release info
  * @returns {Promise<undefined>}                         Return undefined if options are valid
  * @throws {Error}                                         Throw error if options are invalid
  */
@@ -461,7 +473,8 @@ export const validate = async (options, releaseInfo) => {
   }
 
   if (
-    (typeof options.zip !== "boolean") & (options.zip !== "zip") &&
+    typeof options.zip !== "boolean" &&
+    options.zip !== "zip" &&
     options.zip !== "tar" &&
     options.zip !== "tgz"
   ) {
@@ -839,8 +852,8 @@ export const validate = async (options, releaseInfo) => {
  * @async
  * @function
  * @param  {"chromedriver"} type     - NW specific file or directory
- * @param  {object}         options  - nwbuild options
- * @returns {string}                  - Path to chromedriver
+ * @param  {any}            options  - nwbuild options
+ * @returns {Promise<string>}         - Path to chromedriver
  * @throws {Error}
  */
 async function getPath(type, options) {

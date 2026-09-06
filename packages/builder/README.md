@@ -27,9 +27,12 @@ await build({
   glob: true,
   managedManifest: false,
   zip: false,
+  // The release info is from https://nwjs.io/versions.json
   releaseInfo: {
+    ...,
     components: {
-      chromium: "132.0.6834.83",
+      "node": "26.7.0",
+      "chromium": "152.0.7977.42"
     },
   },
 });

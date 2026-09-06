@@ -55,6 +55,8 @@ jobs:
 
       - run: npm ci
 
+      - run: npm run type --workspace=nw-builder
+
       - run: npm publish --tag latest --provenance --access public --workspace=nw-builder
 
   publish-builder:
@@ -81,6 +83,8 @@ jobs:
       - run: npm install -g npm@${{ env.NPM_VERSION }}
 
       - run: npm ci
+
+      - run: npm run type --workspace=@nwutils/builder
 
       - run: npm publish --tag latest --provenance --access public --workspace=@nwutils/builder
 
