@@ -1,0 +1,47 @@
+{
+  "name": "@nwutils/packager",
+  "version": "0.1.0",
+  "description": "",
+  "keywords": [
+    "NW.js",
+    "node-webkit",
+    "Desktop",
+    "Application"
+  ],
+  "author": {
+    "name": "Ayushman Chhabra",
+    "url": "https://ayushmanchhabra.com"
+  },
+  "maintainers": [
+    {
+      "name": "Ayushman Chhabra",
+      "url": "https://ayushmanchhabra.com"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "@nwutils/packager Contributors",
+      "url": "https://github.com/nwutils/nw-builder/graphs/contributors"
+    }
+  ],
+  "license": "MIT",
+  "main": "./src/index.js",
+  "type": "module",
+  "files": [
+    "LICENSE",
+    "src"
+  ],
+  "homepage": "https://github.com/nwutils/nw-builder",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nwutils/nw-builder.git"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type": "tsc",
+    "test": "node --test \"../../tests/specs/packager/*.test.js\""
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

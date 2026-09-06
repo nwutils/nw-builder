@@ -65,6 +65,17 @@
         { "type": "fix", "section": "Bug Fixes", "hidden": false },
         { "type": "chore", "section": "Chores", "hidden": false }
       ]
+    },
+    "packages/packager": {
+      "package-name": "@nwutils/packager",
+      "component": "@nwutils/packager",
+      "include-component-in-tag": true,
+      "release-type": "node",
+      "changelog-sections": [
+        { "type": "feat", "section": "Features", "hidden": false },
+        { "type": "fix", "section": "Bug Fixes", "hidden": false },
+        { "type": "chore", "section": "Chores", "hidden": false }
+      ]
     }
   },
   "separate-pull-requests": false

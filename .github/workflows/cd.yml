@@ -18,6 +18,7 @@ jobs:
       doctor--release_created: ${{ steps.release.outputs['packages/doctor--release_created'] }}
       getter--release_created: ${{ steps.release.outputs['packages/getter--release_created'] }}
       runner--release_created: ${{ steps.release.outputs['packages/runner--release_created'] }}
+      packager--release_created: ${{ steps.release.outputs['packages/packager--release_created'] }}
     steps:
       - uses: actions/checkout@v7.0.1
         with:
@@ -203,3 +204,32 @@ jobs:
       - run: npm run type --workspace=@nwutils/runner
 
       - run: npm publish --tag latest --provenance --access public --workspace=@nwutils/runner
+
+  publish-packager:
+    name: Publish @nwutils/packager to npm
+    needs: release-please
+    if: ${{ needs.release-please.outputs.packager--release_created }}
+    runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7.0.1
+
+      - name: Read Node.js and npm versions from devEngines
+        id: devengines
+        run: |
+          echo "NODE_VERSION=$(jq -r '.devEngines.runtime.version' package.json)" >> "$GITHUB_ENV"
+          echo "NPM_VERSION=$(jq -r '.devEngines.packageManager.version' package.json)" >> "$GITHUB_ENV"
+
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: "https://registry.npmjs.org"
+
+      - run: npm install -g npm@${{ env.NPM_VERSION }}
+
+      - run: npm ci
+
+      - run: npm run type --workspace=@nwutils/packager
+
+      - run: npm publish --tag latest --provenance --access public --workspace=@nwutils/packager
