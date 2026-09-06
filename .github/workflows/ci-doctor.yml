@@ -1,4 +1,4 @@
-name: CI - doctor
+name: CI - @nwutils/doctor
 
 on:
   workflow_dispatch:
@@ -7,14 +7,6 @@ on:
       - main
     paths:
       - "packages/doctor/**"
-      - "packages/test-coverage/**"
-      - "tests/specs/doctor/**"
-      - "tests/fixtures/doctor/**"
-      - "package.json"
-      - "package-lock.json"
-      - "eslint.config.js"
-      - "tsconfig.json"
-      - ".github/workflows/ci-doctor.yml"
 
 permissions:
   contents: read

@@ -7,16 +7,6 @@ on:
       - main
     paths:
       - "packages/nw-builder/**"
-      - "packages/getter/**"
-      - "packages/runner/**"
-      - "packages/test-coverage/**"
-      - "tests/specs/nw-builder/**"
-      - "tests/fixtures/nw-builder/**"
-      - "package.json"
-      - "package-lock.json"
-      - "eslint.config.js"
-      - "tsconfig.json"
-      - ".github/workflows/ci-nw-builder.yml"
 
 permissions:
   contents: read

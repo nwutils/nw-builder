@@ -1,4 +1,4 @@
-name: CI - runner
+name: CI - @nwutils/runner
 
 on:
   workflow_dispatch:
@@ -7,15 +7,6 @@ on:
       - main
     paths:
       - "packages/runner/**"
-      - "packages/getter/**"
-      - "packages/test-coverage/**"
-      - "tests/specs/runner/**"
-      - "tests/fixtures/runner/**"
-      - "package.json"
-      - "package-lock.json"
-      - "eslint.config.js"
-      - "tsconfig.json"
-      - ".github/workflows/ci-runner.yml"
 
 permissions:
   contents: read

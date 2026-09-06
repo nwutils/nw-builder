@@ -1,4 +1,4 @@
-name: CI - cli
+name: CI - @nwutils/cli
 
 on:
   workflow_dispatch:
@@ -7,16 +7,6 @@ on:
       - main
     paths:
       - "packages/cli/**"
-      - "packages/getter/**"
-      - "packages/runner/**"
-      - "packages/test-coverage/**"
-      - "tests/specs/cli/**"
-      - "tests/fixtures/cli/**"
-      - "package.json"
-      - "package-lock.json"
-      - "eslint.config.js"
-      - "tsconfig.json"
-      - ".github/workflows/ci-cli.yml"
 
 permissions:
   contents: read
