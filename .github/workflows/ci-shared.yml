@@ -1,0 +1,61 @@
+name: CI - Shared
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-shared-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: Format, Lint, Type
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.1
+
+      - name: Read Node.js and npm versions from devEngines
+        id: devengines
+        shell: bash
+        run: |
+          echo "NODE_VERSION=$(jq -r '.devEngines.runtime.version' package.json)" >> "$GITHUB_ENV"
+          echo "NPM_VERSION=$(jq -r '.devEngines.packageManager.version' package.json)" >> "$GITHUB_ENV"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Update npm to the pinned version
+        run: npm install -g npm@${{ env.NPM_VERSION }}
+
+      - name: Install third party dependencies
+        run: npm ci
+
+      - name: Check third party vulnerabilities
+        run: npm audit
+
+      - name: Check for formatting errors
+        run: npm run format
+
+      - name: Check for linting errors
+        run: npm run lint
+
+      - name: Check for type errors
+        run: npm run type
+
+      - name: Check git status is clean
+        shell: bash
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "::error::Working tree is dirty after install/format/lint/type. A generated file was likely committed that should be gitignored, or a script mutated tracked files. Run 'git status' locally after these steps to see what changed."
+            git status
+            git diff
+            exit 1
+          fi

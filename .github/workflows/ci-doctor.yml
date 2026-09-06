@@ -1,0 +1,99 @@
+name: CI - doctor
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "packages/doctor/**"
+      - "packages/test-coverage/**"
+      - "tests/specs/doctor/**"
+      - "tests/fixtures/doctor/**"
+      - "package.json"
+      - "package-lock.json"
+      - "eslint.config.js"
+      - "tsconfig.json"
+      - ".github/workflows/ci-doctor.yml"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: ci-doctor-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os:
+          - macos-26
+          - macos-26-intel
+          - ubuntu-24.04
+          - ubuntu-24.04-arm
+          - windows-2025
+          - windows-11-arm
+        include:
+          - os: macos-26
+            display: MacOS 26 ARM
+          - os: macos-26-intel
+            display: MacOS 26 Intel
+          - os: ubuntu-24.04
+            display: Ubuntu 24.04 Intel
+          - os: ubuntu-24.04-arm
+            display: Ubuntu 24.04 ARM
+          - os: windows-2025
+            display: Windows 11 Intel
+          - os: windows-11-arm
+            display: Windows 11 (ARM)
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.display }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.1
+
+      - name: Read Node.js and npm versions from devEngines
+        id: devengines
+        shell: bash
+        run: |
+          echo "NODE_VERSION=$(jq -r '.devEngines.runtime.version' package.json)" >> "$GITHUB_ENV"
+          echo "NPM_VERSION=$(jq -r '.devEngines.packageManager.version' package.json)" >> "$GITHUB_ENV"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Update npm to the pinned version
+        run: npm install -g npm@${{ env.NPM_VERSION }}
+
+      - name: Install third party dependencies
+        run: npm ci
+
+      - name: Run doctor test suite with coverage
+        id: coverage-doctor
+        shell: bash
+        run: |
+          MARKDOWN="$({ npm run test --workspace=@nwutils/doctor || true; } | packages/test-coverage/bin/coverage-report.sh doctor "${{ matrix.os }}")"
+          echo "MARKDOWN<<EOF" >> $GITHUB_OUTPUT
+          echo "$MARKDOWN" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Comment doctor coverage on PR
+        uses: marocchino/sticky-pull-request-comment@v3
+        with:
+          key: coverage-doctor-${{ matrix.os }}
+          header: "doctor Coverage Report – ${{ matrix.os }}"
+          message: ${{ steps.coverage-doctor.outputs.MARKDOWN }}
+
+      - name: Check git status is clean
+        shell: bash
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "::error::Working tree is dirty after install/test. A generated file was likely committed that should be gitignored, or a script mutated tracked files. Run 'git status' locally after these steps to see what changed."
+            git status
+            git diff
+            exit 1
+          fi
