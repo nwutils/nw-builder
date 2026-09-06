@@ -51,9 +51,20 @@ jobs:
       fail-fast: false
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.display }}
+    if: github.repository_owner == 'nwutils'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7.0.1
+
+      - name: Check git status is clean after checkout
+        shell: bash
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "::error::Working tree is dirty immediately after checkout. This usually means a line-ending or .gitattributes normalization mismatch on this runner."
+            git status
+            git diff
+            exit 1
+          fi
 
       - name: Read Node.js and npm versions from devEngines
         id: devengines
