@@ -55,18 +55,13 @@
   },
   "devDependencies": {
     "base-volta-off-of-nwjs": "^1.0.5",
-    "nw": "^0.115.0",
-    "selenium-webdriver": "^4.47.0"
+    "nw": "^0.115.0"
   },
   "dependencies": {
+    "@nwutils/builder": "^0.1.0",
     "@nwutils/getter": "^0.2.5",
     "@nwutils/runner": "^0.2.3",
-    "archiver": "^8.0.0",
     "commander": "^15.0.0",
-    "glob": "^13.0.6",
-    "plist": "^5.0.0",
-    "resedit": "^3.1.0",
-    "semver": "^7.8.5",
-    "tar": "^7.5.22"
+    "glob": "^13.0.6"
   }
 }

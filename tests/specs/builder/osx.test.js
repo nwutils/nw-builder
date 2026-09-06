@@ -7,10 +7,10 @@ import { after, before, describe, it } from "node:test";
 import * as nw from "nw";
 import { parse } from "plist";
 
-import setOsxConfig from "../../../packages/nw-builder/src/bld/osx.js";
+import setOsxConfig from "../../../packages/builder/src/osx.js";
 import util from "../../../packages/nw-builder/src/util.js";
 
-import nodeManifest from "../../../packages/nw-builder/package.json" with { type: "json" };
+import nodeManifest from "../../../packages/builder/package.json" with { type: "json" };
 
 const repoRoot = path.resolve(import.meta.dirname, "..", "..", "..");
 
@@ -18,7 +18,7 @@ describe(
   "bld/setOsxConfig",
   { skip: process.platform !== "darwin" },
   async function () {
-    const outDir = path.join(repoRoot, "tests/fixtures/nw-builder/macos");
+    const outDir = path.join(repoRoot, "tests/fixtures/builder/macos");
     const appPath = path.join(outDir, "Demo.app");
     const releaseInfo = await util.getReleaseInfo(
       nodeManifest.devDependencies.nw.split("^")[1],

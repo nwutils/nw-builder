@@ -3,10 +3,10 @@ import console from "node:console";
 import fs from "node:fs";
 import path from "node:path";
 
+import bld from "@nwutils/builder";
 import get from "@nwutils/getter";
 import run from "@nwutils/runner";
 
-import bld from "./bld.js";
 import util from "./util.js";
 
 /**

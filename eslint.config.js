@@ -11,13 +11,16 @@ const nodeSources = [
   "packages/getter/**/*.{js,mjs,cjs}",
   "packages/runner/**/*.{js,mjs,cjs}",
   "packages/nw-builder/**/*.{js,mjs,cjs}",
+  "packages/builder/**/*.{js,mjs,cjs}",
   "tests/specs/doctor/**/*.{js,mjs,cjs}",
   "tests/specs/getter/**/*.{js,mjs,cjs}",
   "tests/specs/runner/**/*.{js,mjs,cjs}",
   "tests/specs/nw-builder/**/*.{js,mjs,cjs}",
+  "tests/specs/builder/**/*.{js,mjs,cjs}",
   "tests/fixtures/getter/**/*.{js,mjs,cjs}",
   "tests/fixtures/nw-builder/**/*.{js,mjs,cjs}",
   "tests/fixtures/runner/**/*.{js,mjs,cjs}",
+  "tests/fixtures/builder/**/*.{js,mjs,cjs}",
 ];
 
 export default defineConfig([

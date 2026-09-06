@@ -11,7 +11,7 @@ import * as peLibrary from "pe-library";
 import * as tar from "tar";
 
 import util from "./util.js";
-import setOsxConfig from "./bld/osx.js";
+import setOsxConfig from "./osx.js";
 
 /**
  * References:
@@ -107,7 +107,7 @@ import setOsxConfig from "./bld/osx.js";
  * @param  {BuildOptions}  options  - Build options
  * @returns {Promise<void>}
  */
-async function bld({
+async function build({
   version = "latest",
   flavor = "normal",
   platform = util.PLATFORM_KV[process.platform],
@@ -386,4 +386,4 @@ const compress = async ({ zip, outDir }) => {
   await fs.promises.rm(outDir, { recursive: true, force: true });
 };
 
-export default bld;
+export default build;

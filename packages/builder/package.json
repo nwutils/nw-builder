@@ -1,0 +1,58 @@
+{
+  "name": "@nwutils/builder",
+  "version": "0.1.0",
+  "description": "Build NW.js applications for Linux, MacOS and Windows.",
+  "keywords": [
+    "NW.js",
+    "node-webkit",
+    "Desktop",
+    "Application"
+  ],
+  "author": {
+    "name": "Ayushman Chhabra",
+    "url": "https://ayushmanchhabra.com"
+  },
+  "maintainers": [
+    {
+      "name": "Ayushman Chhabra",
+      "url": "https://ayushmanchhabra.com"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "@nwutils/builder Contributors",
+      "url": "https://github.com/nwutils/nw-builder/graphs/contributors"
+    }
+  ],
+  "license": "MIT",
+  "main": "./src/main.js",
+  "type": "module",
+  "files": [
+    "LICENSE",
+    "src"
+  ],
+  "homepage": "https://github.com/nwutils/nw-builder",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nwutils/nw-builder.git"
+  },
+  "scripts": {
+    "lint": "eslint . ../../tests/specs/builder",
+    "lint:fix": "eslint . ../../tests/specs/builder --fix",
+    "test": "node --test \"../../tests/specs/builder/*.test.js\""
+  },
+  "dependencies": {
+    "archiver": "^8.0.0",
+    "glob": "^13.0.6",
+    "pe-library": "^2.0.1",
+    "plist": "^5.0.0",
+    "resedit": "^3.1.0",
+    "semver": "^7.8.5",
+    "tar": "^7.5.22"
+  },
+  "devDependencies": {
+    "base-volta-off-of-nwjs": "^1.0.5",
+    "nw": "^0.115.0",
+    "selenium-webdriver": "^4.47.0"
+  }
+}
