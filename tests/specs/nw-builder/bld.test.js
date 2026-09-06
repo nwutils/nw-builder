@@ -1,9 +1,10 @@
+import assert from "node:assert/strict";
 import path from "node:path";
 import process from "node:process";
+import { before, describe, it } from "node:test";
 
 import { By } from "selenium-webdriver";
 import chrome from "selenium-webdriver/chrome.js";
-import { beforeAll, describe, expect, it } from "vitest";
 
 import build from "../../../packages/nw-builder/src/bld.js";
 import get from "@nwutils/getter";
@@ -35,15 +36,15 @@ describe.skip("bld test suite", async () => {
     zip: false,
   };
 
-  beforeAll(async () => {
+  before(async () => {
     await get(nwOptions);
-  }, Infinity);
+  });
 
   it("builds without errors", async () => {
     await build(nwOptions);
   });
 
-  it("runs after build", { timeout: Infinity }, async () => {
+  it("runs after build", async () => {
     const options = new Options();
     const args = [
       `--nwapp=${path.resolve("test", "fixture", "app")}`,
@@ -57,6 +58,6 @@ describe.skip("bld test suite", async () => {
 
     driver = Driver.createSession(options, service);
     const text = await driver.findElement(By.id("test")).getText();
-    expect(text).toBe("Hello, World!");
+    assert.strictEqual(text, "Hello, World!");
   });
 });

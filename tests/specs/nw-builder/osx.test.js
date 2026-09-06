@@ -1,20 +1,22 @@
+import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
+import { after, before, describe, it } from "node:test";
 
 import * as nw from "nw";
 import { parse } from "plist";
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import setOsxConfig from "../../../packages/nw-builder/src/bld/osx.js";
 import util from "../../../packages/nw-builder/src/util.js";
 
-import nodeManifest from "../../../packages/nw-builder/package.json";
+import nodeManifest from "../../../packages/nw-builder/package.json" with { type: "json" };
 
 const repoRoot = path.resolve(import.meta.dirname, "..", "..", "..");
 
-describe.runIf(process.platform === "darwin")(
+describe(
   "bld/setOsxConfig",
+  { skip: process.platform !== "darwin" },
   async function () {
     const outDir = path.join(repoRoot, "tests/fixtures/nw-builder/macos");
     const appPath = path.join(outDir, "Demo.app");
@@ -68,7 +70,7 @@ describe.runIf(process.platform === "darwin")(
       "Demo Helper.app",
     );
 
-    beforeAll(async function () {
+    before(async function () {
       /* Copy the cached NW.js into a specific `outDir`. */
       const nwDir = await nw.findpath("all", { flavor: "sdk" });
       await fs.promises.cp(nwDir, outDir, { recursive: true, force: true });
@@ -99,28 +101,35 @@ describe.runIf(process.platform === "darwin")(
       });
     });
 
+    after(async function () {
+      await fs.promises.rm(outDir, {
+        recursive: true,
+        force: true,
+      });
+    });
+
     it("renames the .app files correctly", async function () {
       const appPathExists = await util.fileExists(appPath);
-      expect(appPathExists).toEqual(true);
+      assert.strictEqual(appPathExists, true);
 
       const helperAlertsPathExists = await util.fileExists(helperAlertsPath);
-      expect(helperAlertsPathExists).toEqual(true);
+      assert.strictEqual(helperAlertsPathExists, true);
 
       const helperGPUPathExists = await util.fileExists(helperGPUPath);
-      expect(helperGPUPathExists).toEqual(true);
+      assert.strictEqual(helperGPUPathExists, true);
 
       const helperRendererPathExists =
         await util.fileExists(helperRendererPath);
-      expect(helperRendererPathExists).toEqual(true);
+      assert.strictEqual(helperRendererPathExists, true);
 
       const helperPathExists = await util.fileExists(helperPath);
-      expect(helperPathExists).toEqual(true);
+      assert.strictEqual(helperPathExists, true);
     });
 
     it("renames the executables correctly", async function () {
       const appExePath = path.join(appPath, "Contents", "MacOS", "Demo");
       const appExePathExists = await util.fileExists(appExePath);
-      expect(appExePathExists).toEqual(true);
+      assert.strictEqual(appExePathExists, true);
 
       const helperAlertsExePath = path.join(
         helperAlertsPath,
@@ -130,7 +139,7 @@ describe.runIf(process.platform === "darwin")(
       );
       const helperAlertsExePathExists =
         await util.fileExists(helperAlertsExePath);
-      expect(helperAlertsExePathExists).toEqual(true);
+      assert.strictEqual(helperAlertsExePathExists, true);
 
       const helperGPUExePath = path.join(
         helperGPUPath,
@@ -139,7 +148,7 @@ describe.runIf(process.platform === "darwin")(
         "Demo Helper (GPU)",
       );
       const helperGPUExePathExists = await util.fileExists(helperGPUExePath);
-      expect(helperGPUExePathExists).toEqual(true);
+      assert.strictEqual(helperGPUExePathExists, true);
 
       const helperRendererExePath = path.join(
         helperRendererPath,
@@ -150,7 +159,7 @@ describe.runIf(process.platform === "darwin")(
       const helperRendererExePathExists = await util.fileExists(
         helperRendererExePath,
       );
-      expect(helperRendererExePathExists).toEqual(true);
+      assert.strictEqual(helperRendererExePathExists, true);
 
       const helperExePath = path.join(
         helperPath,
@@ -159,7 +168,7 @@ describe.runIf(process.platform === "darwin")(
         "Demo Helper",
       );
       const helperExePathExists = await util.fileExists(helperExePath);
-      expect(helperExePathExists).toEqual(true);
+      assert.strictEqual(helperExePathExists, true);
     });
 
     it("", async function () {
@@ -171,22 +180,28 @@ describe.runIf(process.platform === "darwin")(
       const ContentsInfoPlistJson = parse(
         await fs.promises.readFile(ContentsInfoPlistPath, "utf-8"),
       );
-      expect(ContentsInfoPlistJson.LSApplicationCategoryType).toEqual(
+      assert.strictEqual(
+        ContentsInfoPlistJson.LSApplicationCategoryType,
         "public.app-category.utilities",
       );
-      expect(ContentsInfoPlistJson.CFBundleIdentifier).toEqual(
+      assert.strictEqual(
+        ContentsInfoPlistJson.CFBundleIdentifier,
         "io.nwutils.demo",
       );
-      expect(ContentsInfoPlistJson.CFBundleName).toEqual("Demo");
-      expect(ContentsInfoPlistJson.CFBundleDisplayName).toEqual("Demo");
-      expect(ContentsInfoPlistJson.CFBundleSpokenName).toEqual("Demo");
-      expect(ContentsInfoPlistJson.CFBundleVersion).toEqual("0.0.0");
-      expect(ContentsInfoPlistJson.CFBundleShortVersionString).toEqual("0.0.0");
-      expect(ContentsInfoPlistJson.CFBundleExecutable).toEqual("Demo");
-      expect(ContentsInfoPlistJson.NSLocalNetworkUsageDescription).toEqual(
+      assert.strictEqual(ContentsInfoPlistJson.CFBundleName, "Demo");
+      assert.strictEqual(ContentsInfoPlistJson.CFBundleDisplayName, "Demo");
+      assert.strictEqual(ContentsInfoPlistJson.CFBundleSpokenName, "Demo");
+      assert.strictEqual(ContentsInfoPlistJson.CFBundleVersion, "0.0.0");
+      assert.strictEqual(
+        ContentsInfoPlistJson.CFBundleShortVersionString,
+        "0.0.0",
+      );
+      assert.strictEqual(ContentsInfoPlistJson.CFBundleExecutable, "Demo");
+      assert.strictEqual(
+        ContentsInfoPlistJson.NSLocalNetworkUsageDescription,
         "This test application needs to access the local network for testing purposes.",
       );
-      expect(ContentsInfoPlistJson.LSFileQuarantineEnabled).toEqual(false);
+      assert.strictEqual(ContentsInfoPlistJson.LSFileQuarantineEnabled, false);
 
       const HelperAlertsAppJson = parse(
         await fs.promises.readFile(
@@ -195,17 +210,23 @@ describe.runIf(process.platform === "darwin")(
         ),
       );
 
-      expect(HelperAlertsAppJson.CFBundleDisplayName).toEqual(
+      assert.strictEqual(
+        HelperAlertsAppJson.CFBundleDisplayName,
         "Demo Helper (Alerts)",
       );
-      expect(HelperAlertsAppJson.CFBundleName).toEqual("Demo Helper (Alerts)");
-      expect(HelperAlertsAppJson.CFBundleIdentifier).toEqual(
+      assert.strictEqual(
+        HelperAlertsAppJson.CFBundleName,
+        "Demo Helper (Alerts)",
+      );
+      assert.strictEqual(
+        HelperAlertsAppJson.CFBundleIdentifier,
         "io.nwutils.demo.helper.alert",
       );
-      expect(HelperAlertsAppJson.CFBundleExecutable).toEqual(
+      assert.strictEqual(
+        HelperAlertsAppJson.CFBundleExecutable,
         "Demo Helper (Alerts)",
       );
-      expect(HelperAlertsAppJson.LSFileQuarantineEnabled).toEqual(false);
+      assert.strictEqual(HelperAlertsAppJson.LSFileQuarantineEnabled, false);
 
       const HelperGpuAppJson = parse(
         await fs.promises.readFile(
@@ -214,13 +235,20 @@ describe.runIf(process.platform === "darwin")(
         ),
       );
 
-      expect(HelperGpuAppJson.CFBundleDisplayName).toEqual("Demo Helper (GPU)");
-      expect(HelperGpuAppJson.CFBundleName).toEqual("Demo Helper (GPU)");
-      expect(HelperGpuAppJson.CFBundleIdentifier).toEqual(
+      assert.strictEqual(
+        HelperGpuAppJson.CFBundleDisplayName,
+        "Demo Helper (GPU)",
+      );
+      assert.strictEqual(HelperGpuAppJson.CFBundleName, "Demo Helper (GPU)");
+      assert.strictEqual(
+        HelperGpuAppJson.CFBundleIdentifier,
         "io.nwutils.demo.helper.gpu",
       );
-      expect(HelperGpuAppJson.CFBundleExecutable).toEqual("Demo Helper (GPU)");
-      expect(HelperGpuAppJson.LSFileQuarantineEnabled).toEqual(false);
+      assert.strictEqual(
+        HelperGpuAppJson.CFBundleExecutable,
+        "Demo Helper (GPU)",
+      );
+      assert.strictEqual(HelperGpuAppJson.LSFileQuarantineEnabled, false);
 
       const HelperRendererAppJson = parse(
         await fs.promises.readFile(
@@ -229,19 +257,23 @@ describe.runIf(process.platform === "darwin")(
         ),
       );
 
-      expect(HelperRendererAppJson.CFBundleDisplayName).toEqual(
+      assert.strictEqual(
+        HelperRendererAppJson.CFBundleDisplayName,
         "Demo Helper (Renderer)",
       );
-      expect(HelperRendererAppJson.CFBundleName).toEqual(
+      assert.strictEqual(
+        HelperRendererAppJson.CFBundleName,
         "Demo Helper (Renderer)",
       );
-      expect(HelperRendererAppJson.CFBundleIdentifier).toEqual(
+      assert.strictEqual(
+        HelperRendererAppJson.CFBundleIdentifier,
         "io.nwutils.demo.helper.renderer",
       );
-      expect(HelperRendererAppJson.CFBundleExecutable).toEqual(
+      assert.strictEqual(
+        HelperRendererAppJson.CFBundleExecutable,
         "Demo Helper (Renderer)",
       );
-      expect(HelperRendererAppJson.LSFileQuarantineEnabled).toEqual(false);
+      assert.strictEqual(HelperRendererAppJson.LSFileQuarantineEnabled, false);
 
       const HelperAppJson = parse(
         await fs.promises.readFile(
@@ -250,20 +282,14 @@ describe.runIf(process.platform === "darwin")(
         ),
       );
 
-      expect(HelperAppJson.CFBundleDisplayName).toEqual("Demo Helper");
-      expect(HelperAppJson.CFBundleName).toEqual("Demo Helper");
-      expect(HelperAppJson.CFBundleIdentifier).toEqual(
+      assert.strictEqual(HelperAppJson.CFBundleDisplayName, "Demo Helper");
+      assert.strictEqual(HelperAppJson.CFBundleName, "Demo Helper");
+      assert.strictEqual(
+        HelperAppJson.CFBundleIdentifier,
         "io.nwutils.demo.helper",
       );
-      expect(HelperAppJson.CFBundleExecutable).toEqual("Demo Helper");
-      expect(HelperAppJson.LSFileQuarantineEnabled).toEqual(false);
-
-      afterAll(async function () {
-        await fs.promises.rm(outDir, {
-          recursive: true,
-          force: true,
-        });
-      });
+      assert.strictEqual(HelperAppJson.CFBundleExecutable, "Demo Helper");
+      assert.strictEqual(HelperAppJson.LSFileQuarantineEnabled, false);
     });
   },
 );

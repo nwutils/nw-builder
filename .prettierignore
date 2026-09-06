@@ -5,6 +5,5 @@ packages/*/CHANGELOG.md
 packages/*/types
 
 # test fixtures / build output
-packages/nw-builder/tests/fixtures/cache
-packages/nw-builder/tests/fixtures/out
-packages/nw-builder/tests/fixtures/macos
+tests/fixtures/nw-builder/out
+tests/fixtures/nw-builder/macos

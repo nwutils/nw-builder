@@ -121,25 +121,25 @@ jobs:
       - name: Check for type errors
         run: npm run type
 
-      - name: Run nw-builder test suite
+      - name: Run nw-builder test suite with coverage
         if: env.RUN_NW_BUILDER == 'true'
-        run: npm run test:cov --workspace=nw-builder
+        id: coverage-nw-builder
+        shell: bash
+        run: |
+          MARKDOWN="$({ npm run test --workspace=nw-builder || true; } | packages/test-coverage/bin/coverage-report.sh nw-builder "${{ matrix.os }}")"
+          echo "MARKDOWN<<EOF" >> $GITHUB_OUTPUT
+          echo "$MARKDOWN" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
         env:
           CI: true
 
-      - name: Upload nw-builder coverage artifact
-        if: always() && env.RUN_NW_BUILDER == 'true'
-        uses: actions/upload-artifact@v7.0.1
+      - name: Comment nw-builder coverage on PR
+        if: env.RUN_NW_BUILDER == 'true'
+        uses: marocchino/sticky-pull-request-comment@v3
         with:
-          name: coverage-nw-builder-${{ matrix.os }}
-          path: packages/nw-builder/coverage
-
-      - name: Report nw-builder coverage
-        if: always() && env.RUN_NW_BUILDER == 'true'
-        uses: davelosert/vitest-coverage-report-action@v2.12.2
-        with:
-          name: Vitest Coverage (${{ matrix.os }})
-          json-summary-path: packages/nw-builder/coverage/coverage-summary.json
+          key: coverage-nw-builder-${{ matrix.os }}
+          header: "nw-builder Coverage Report – ${{ matrix.os }}"
+          message: ${{ steps.coverage-nw-builder.outputs.MARKDOWN }}
 
       - name: Run cli test suite with coverage
         if: env.RUN_CLI == 'true'
