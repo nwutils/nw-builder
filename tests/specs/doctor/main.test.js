@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { after, before, describe, it } from "node:test";
 
@@ -7,10 +8,17 @@ import doctor from "../../../packages/doctor/src/main.js";
 
 const repoRoot = path.resolve(import.meta.dirname, "..", "..", "..");
 const cacheDir = path.join(repoRoot, "packages/doctor/cache");
-const srcDir = path.join(repoRoot, "tests/fixtures/doctor/app");
+const fixtureApp = path.join(repoRoot, "tests/fixtures/doctor/app");
+
+// doctor() writes devEngines into srcDir's package.json - copy the fixture
+// into a scratch directory first so the test doesn't mutate the tracked
+// fixture in tests/fixtures/doctor/app.
+const srcDir = fs.mkdtempSync(path.join(os.tmpdir(), "doctor-test-"));
 
 describe("doctor test suite", function () {
   before(async function () {
+    fs.cpSync(fixtureApp, srcDir, { recursive: true });
+
     let options = {
       manifestUrl: "https://nwjs.io/versions.json",
       cacheDir,
@@ -43,5 +51,6 @@ describe("doctor test suite", function () {
 
   after(function () {
     fs.rmSync(cacheDir, { recursive: true });
+    fs.rmSync(srcDir, { recursive: true });
   });
 });

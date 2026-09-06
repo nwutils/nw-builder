@@ -1,6 +1,6 @@
+import assert from "node:assert/strict";
 import path from "node:path";
-
-import { describe, expect, it } from "vitest";
+import { describe, it } from "node:test";
 
 import util from "../../../packages/nw-builder/src/util.js";
 
@@ -8,64 +8,66 @@ const repoRoot = path.resolve(import.meta.dirname, "..", "..", "..");
 
 describe("util/log", function () {
   it("shows only error message if log level is error", async function () {
-    expect(util.log("error", "error", "Lorem ipsum")).toBe(
+    assert.strictEqual(
+      util.log("error", "error", "Lorem ipsum"),
       "[ ERROR ] Lorem ipsum",
     );
   });
 
   it("shows only error message if log level is debug", async function () {
-    expect(util.log("debug", "error", "Lorem ipsum")).toBe("");
+    assert.strictEqual(util.log("debug", "error", "Lorem ipsum"), "");
   });
 
   it("throws error if message severity is invalid", async function () {
-    expect(() => util.log("debuggy", "error", "Lorem ipsum")).toThrow();
+    assert.throws(() => util.log("debuggy", "error", "Lorem ipsum"));
   });
 
   it("throws error if user defined log level is invalid", async function () {
-    expect(() => util.log("debug", "errory", "Lorem ipsum")).toThrow();
+    assert.throws(() => util.log("debug", "errory", "Lorem ipsum"));
   });
 });
 
 describe("util/validate", function () {
   it("throws error on invalid mode", async function () {
-    await expect(util.validate({ mode: "gety" }, {})).rejects.toThrow(Error);
+    await assert.rejects(util.validate({ mode: "gety" }, {}), Error);
   });
 
   it("throws error if releases info is undefined", async function () {
-    await expect(util.validate({ mode: "get" }, undefined)).rejects.toThrow(
-      Error,
-    );
+    await assert.rejects(util.validate({ mode: "get" }, undefined), Error);
   });
 
   it("throws error on invalid flavor", async function () {
-    await expect(
+    await assert.rejects(
       util.validate(
         { mode: "get", flavor: "notsdk" },
         { flavours: ["normal"] },
       ),
-    ).rejects.toThrow(Error);
+      Error,
+    );
   });
 
   it("throws error on invalid platform", async function () {
-    await expect(
+    await assert.rejects(
       util.validate(
         { mode: "get", flavor: "normal", platform: "linox" },
         { flavours: ["normal"], files: ["linux-x64"] },
       ),
-    ).rejects.toThrow(Error);
+      Error,
+    );
   });
 
   it("throws error on invalid architecture", async function () {
-    await expect(
+    await assert.rejects(
       util.validate(
         { mode: "get", flavor: "normal", platform: "linux", arch: "x64000" },
         { flavors: ["normal"], files: ["linux-x64"] },
       ),
-    ).rejects.toThrow(Error);
+      Error,
+    );
   });
 
   it("throws error on invalid download url", async function () {
-    await expect(
+    await assert.rejects(
       util.validate(
         {
           mode: "get",
@@ -76,11 +78,12 @@ describe("util/validate", function () {
         },
         { flavors: ["normal"], files: ["linux-x64"] },
       ),
-    ).rejects.toThrow(Error);
+      Error,
+    );
   });
 
   it("throws error on invalid manifest url", async function () {
-    await expect(
+    await assert.rejects(
       util.validate(
         {
           mode: "get",
@@ -92,11 +95,12 @@ describe("util/validate", function () {
         },
         { flavors: ["normal"], files: ["linux-x64"] },
       ),
-    ).rejects.toThrow(Error);
+      Error,
+    );
   });
 
   it("throws error on invalid cache directory", async function () {
-    await expect(
+    await assert.rejects(
       util.validate(
         {
           mode: "get",
@@ -109,11 +113,12 @@ describe("util/validate", function () {
         },
         { flavors: ["normal"], files: ["linux-x64"] },
       ),
-    ).rejects.toThrow(Error);
+      Error,
+    );
   });
 
   it("throws error on invalid cache flag", async function () {
-    await expect(
+    await assert.rejects(
       util.validate(
         {
           mode: "get",
@@ -127,11 +132,12 @@ describe("util/validate", function () {
         },
         { flavors: ["normal"], files: ["linux-x64"] },
       ),
-    ).rejects.toThrow(Error);
+      Error,
+    );
   });
 
   it("throws error on invalid ffmpeg flag", async function () {
-    await expect(
+    await assert.rejects(
       util.validate(
         {
           mode: "get",
@@ -146,7 +152,8 @@ describe("util/validate", function () {
         },
         { flavors: ["normal"], files: ["linux-x64"] },
       ),
-    ).rejects.toThrow(Error);
+      Error,
+    );
   });
 });
 
@@ -154,7 +161,7 @@ describe("util/parse", function () {
   // It is the job of the respective `set<platformName>Config` to resolve the app.icon path
   it("doesnt resolve app.icon", async function () {
     const newOptions = await util.parse({ app: { icon: "." } }, {});
-    expect(newOptions.app.icon).toBe(".");
+    assert.strictEqual(newOptions.app.icon, ".");
   });
 });
 
@@ -165,6 +172,6 @@ describe("util/getManifest", function () {
         `file:///${path.join(repoRoot, "tests/fixtures/nw-builder/util/getManifest_manifest.json")}`,
       ),
     );
-    expect(localManifestFile).toHaveProperty("latest", "v0.106.1");
+    assert.strictEqual(localManifestFile.latest, "v0.106.1");
   });
 });

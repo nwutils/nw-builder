@@ -1,0 +1,89 @@
+name: CI - @nwutils/doctor
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "packages/doctor/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-doctor-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os:
+          - macos-26
+          - macos-26-intel
+          - ubuntu-24.04
+          - ubuntu-24.04-arm
+          - windows-2025
+          - windows-11-arm
+        include:
+          - os: macos-26
+            display: MacOS 26 ARM
+          - os: macos-26-intel
+            display: MacOS 26 Intel
+          - os: ubuntu-24.04
+            display: Ubuntu 24.04 Intel
+          - os: ubuntu-24.04-arm
+            display: Ubuntu 24.04 ARM
+          - os: windows-2025
+            display: Windows 11 Intel
+          - os: windows-11-arm
+            display: Windows 11 (ARM)
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.display }}
+    if: github.repository_owner == 'nwutils'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.1
+
+      - name: Check git status is clean after checkout
+        shell: bash
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "::error::Working tree is dirty immediately after checkout. This usually means a line-ending or .gitattributes normalization mismatch on this runner."
+            git status
+            git diff
+            exit 1
+          fi
+
+      - name: Read Node.js and npm versions from devEngines
+        id: devengines
+        shell: bash
+        run: |
+          echo "NODE_VERSION=$(jq -r '.devEngines.runtime.version' package.json)" >> "$GITHUB_ENV"
+          echo "NPM_VERSION=$(jq -r '.devEngines.packageManager.version' package.json)" >> "$GITHUB_ENV"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Update npm to the pinned version
+        run: npm install -g npm@${{ env.NPM_VERSION }}
+
+      - name: Install third party dependencies
+        run: npm ci
+
+      - name: Run doctor test suite
+        run: npm run test --workspace=@nwutils/doctor
+
+      - name: Check git status is clean
+        shell: bash
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "::error::Working tree is dirty after install/test. A generated file was likely committed that should be gitignored, or a script mutated tracked files. Run 'git status' locally after these steps to see what changed."
+            git status
+            git diff
+            exit 1
+          fi

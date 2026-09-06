@@ -44,8 +44,7 @@
     "postinstall": "node ./src/postinstall.js",
     "lint": "eslint ./src ../../tests/specs/nw-builder",
     "lint:fix": "eslint --fix ./src ../../tests/specs/nw-builder",
-    "test": "vitest run --coverage",
-    "test:cov": "vitest --coverage.enabled true",
+    "test": "node --test \"../../tests/specs/nw-builder/*.test.js\"",
     "demo:bld:linux": "node ../../tests/fixtures/nw-builder/demo.linux.js",
     "demo:bld:osx": "node ../../tests/fixtures/nw-builder/demo.osx.js",
     "demo:bld:win": "node ../../tests/fixtures/nw-builder/demo.win.js",
@@ -55,11 +54,9 @@
     "demo:cli": "nwbuild --mode=build --flavor=sdk --glob=false --cacheDir=./node_modules/nw --logLevel=debug --managedManifest=../../tests/fixtures/nw-builder/app/package.json --outDir=../../tests/fixtures/nw-builder/out/linux --app.name=Demo --app.icon=../../tests/fixtures/nw-builder/app/icon.png ../../tests/fixtures/nw-builder/app"
   },
   "devDependencies": {
-    "@vitest/coverage-v8": "^4.1.11",
     "base-volta-off-of-nwjs": "^1.0.5",
     "nw": "^0.115.0",
-    "selenium-webdriver": "^4.47.0",
-    "vitest": "^4.1.11"
+    "selenium-webdriver": "^4.47.0"
   },
   "dependencies": {
     "@nwutils/getter": "^0.2.5",

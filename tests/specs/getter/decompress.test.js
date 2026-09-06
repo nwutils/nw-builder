@@ -16,7 +16,7 @@ const cacheDir = path.resolve(
   "cache",
 );
 
-describe("decompress test suite", function () {
+describe("decompress test suite", async function () {
   const platform =
     process.platform === "win32"
       ? "win"
@@ -24,13 +24,18 @@ describe("decompress test suite", function () {
         ? "osx"
         : "linux";
 
+  const manifest = await fetch("https://nwjs.io/versions.json").then((res) =>
+    res.json(),
+  );
+  const version = manifest.latest.slice(1);
+
   const nwFilePath = path.join(
     cacheDir,
-    `nwjs-v0.107.0-${platform}-${process.arch}.${platform === "linux" ? "tar.gz" : "zip"}`,
+    `nwjs-v${version}-${platform}-${process.arch}.${platform === "linux" ? "tar.gz" : "zip"}`,
   );
   const outFilePath = path.join(
     cacheDir,
-    `nwjs-v0.107.0-${platform}-${process.arch}`,
+    `nwjs-v${version}-${platform}-${process.arch}`,
   );
 
   before(async function () {
@@ -38,7 +43,7 @@ describe("decompress test suite", function () {
 
     if (!fs.existsSync(nwFilePath)) {
       await get({
-        version: "0.107.0",
+        version,
         flavor: "normal",
         platform,
         arch: process.arch,
@@ -51,6 +56,16 @@ describe("decompress test suite", function () {
         shaSum: true,
       });
     }
+
+    /*
+     * get() already extracts nwFilePath as part of its own pipeline (it
+     * calls decompress() internally), which the tests below don't need -
+     * they call decompress() themselves. Some archive entries (e.g. a
+     * read-only gpu_shader_cache.bin in NW.js's macOS build) get chmod'd
+     * non-writable on that first extraction, so re-extracting on top of it
+     * without clearing it first fails with EACCES on the second write.
+     */
+    fs.rmSync(outFilePath, { recursive: true, force: true });
   });
 
   it("decompresses a .zip file", async function () {

@@ -25,7 +25,7 @@ describe("runner test suite", async () => {
   const nwOptions = {
     srcDir: path.join(fixturesDir, "app"),
     mode: "build",
-    version: "0.108.0",
+    version: "latest",
     flavor: "sdk",
     platform: PLATFORM_KV[process.platform],
     arch: ARCH_KV[process.arch],
