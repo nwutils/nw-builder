@@ -1,6 +1,7 @@
 name: CI - cli
 
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - main

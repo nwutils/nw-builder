@@ -1,6 +1,7 @@
 name: CI - nw-builder
 
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - main
