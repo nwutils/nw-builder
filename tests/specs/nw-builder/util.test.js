@@ -155,6 +155,53 @@ describe("util/validate", function () {
       Error,
     );
   });
+
+  /** Minimal fully-resolved options that pass every check up to the `mode === "package"` block. */
+  const basePackageOptions = {
+    mode: "package",
+    flavor: "normal",
+    platform: "linux",
+    arch: "x64",
+    downloadUrl: "file://path/to/fs",
+    manifestUrl: "https://path/to/manifest",
+    cacheDir: "./path/to/cache",
+    cache: true,
+    ffmpeg: false,
+    logLevel: "info",
+    shaSum: true,
+    srcDir: "./src",
+    argv: [],
+    glob: true,
+    outDir: "./out",
+    managedManifest: false,
+    nativeAddon: false,
+    zip: false,
+    app: {},
+  };
+  const packageReleaseInfo = { flavors: ["normal"], files: ["linux-x64"] };
+
+  it("throws error when package mode targets a non-linux platform", async function () {
+    await assert.rejects(
+      util.validate(
+        { ...basePackageOptions, platform: "win" },
+        { flavors: ["normal"], files: ["win-x64"] },
+      ),
+      /options\.platform "linux"/,
+    );
+  });
+
+  it("throws error when package mode is combined with zip", async function () {
+    await assert.rejects(
+      util.validate({ ...basePackageOptions, zip: "zip" }, packageReleaseInfo),
+      /options\.zip is not supported/,
+    );
+  });
+
+  it("resolves for a valid package mode configuration", async function () {
+    await assert.doesNotReject(
+      util.validate(basePackageOptions, packageReleaseInfo),
+    );
+  });
 });
 
 describe("util/parse", function () {

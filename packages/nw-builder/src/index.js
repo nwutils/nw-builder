@@ -5,13 +5,14 @@ import path from "node:path";
 
 import bld from "@nwutils/builder";
 import get from "@nwutils/getter";
+import { appImage } from "@nwutils/packager";
 import run from "@nwutils/runner";
 
 import util from "./util.js";
 
 /**
  * @typedef {object} Options Configuration options
- * @property {"get" | "run" | "build"}             [mode="build"]                            Choose between get, run or build mode
+ * @property {"get" | "run" | "build" | "package"} [mode="build"]                            Choose between get, run, build or package mode
  * @property {"latest" | "stable" | string}        [version="latest"]                        Runtime version
  * @property {"normal" | "sdk"}                    [flavor="normal"]                         Runtime flavor
  * @property {"linux" | "osx" | "win"}             [platform]                                Host platform
@@ -39,7 +40,7 @@ import util from "./util.js";
  * @async
  * @function
  * @param  {Options}       options  Options
- * @returns {Promise<child_process.ChildProcess | null | undefined>} - Returns NW.js process if run mode, otherwise returns `undefined`.
+ * @returns {Promise<child_process.ChildProcess | string | null | undefined>} - Returns the NW.js process in run mode, the path to the packaged artifact in package mode, otherwise `undefined`.
  */
 async function nwbuild(options) {
   let built;
@@ -82,7 +83,7 @@ async function nwbuild(options) {
       await fs.promises.mkdir(resolved.cacheDir, { recursive: true });
     }
 
-    if (resolved.mode === "build") {
+    if (resolved.mode === "build" || resolved.mode === "package") {
       built = fs.existsSync(resolved.outDir);
       if (built === false) {
         await fs.promises.mkdir(resolved.outDir, { recursive: true });
@@ -158,7 +159,7 @@ async function nwbuild(options) {
         argv: resolved.argv,
       });
       return nwProcess;
-    } else if (resolved.mode === "build") {
+    } else if (resolved.mode === "build" || resolved.mode === "package") {
       util.log(
         "info",
         resolved.logLevel,
@@ -176,7 +177,8 @@ async function nwbuild(options) {
         app: /** @type {any} */ (resolved.app),
         glob: resolved.glob,
         managedManifest: resolved.managedManifest,
-        zip: resolved.zip,
+        /* `zip` would delete `outDir` before package mode can read it back; `validate` already rejects the two together. */
+        zip: resolved.mode === "package" ? false : resolved.zip,
         releaseInfo: releaseInfo,
       });
       util.log(
@@ -184,6 +186,28 @@ async function nwbuild(options) {
         resolved.logLevel,
         `Appliction is available at ${path.resolve(resolved.outDir)}`,
       );
+
+      if (resolved.mode === "package") {
+        util.log(
+          "info",
+          resolved.logLevel,
+          "Packaging NW.js application as an AppImage...",
+        );
+        const appImagePath = await appImage({
+          appDir: resolved.outDir,
+          appName: /** @type {{ name: string }} */ (resolved.app).name,
+          arch: resolved.arch,
+          cacheDir: resolved.cacheDir,
+          cache: resolved.cache,
+          outDir: resolved.outDir,
+        });
+        util.log(
+          "info",
+          resolved.logLevel,
+          `AppImage is available at ${appImagePath}`,
+        );
+        return appImagePath;
+      }
     }
   } catch (error) {
     console.error(error);

@@ -9,7 +9,7 @@ Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and L
 
 ## Major Features
 
-- Get, run or build applications.
+- Get, run, build or package applications.
 - Integrate [FFmpeg community builds](https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt)
 - Configure executable fields, icons and rename Helper apps
 - Downloading from mirrors
@@ -98,7 +98,7 @@ See `nw-builder` in action by building the demo application.
 
 ## Concepts
 
-`nw-builder` can get, run and build NW.js applications. We refer to them as get, run and build modes.
+`nw-builder` can get, run, build and package NW.js applications. We refer to them as get, run, build and package modes.
 
 ### Get Mode
 
@@ -184,13 +184,33 @@ nwbuild({
 });
 ```
 
+### Package Mode
+
+Builds the application (same as build mode) and then packages it. Currently this packages a Linux build as an [AppImage](https://appimage.org/) via [`@nwutils/packager`](https://github.com/nwutils/nw-builder/tree/main/packages/packager) - `options.platform` must be `"linux"`. Resolves with the path to the packaged artifact instead of `undefined`.
+
+```javascript
+const appImagePath = await nwbuild({
+  mode: "package",
+  platform: "linux",
+  app: {
+    name: "nwdemo",
+    icon: "icon.png",
+    categories: ["Utility"],
+  },
+});
+```
+
+The packaged artifact is written into `outDir`, alongside the built application.
+
+`zip` cannot be used together with package mode, since it would remove `outDir` before packaging can read it back.
+
 ## API Reference
 
 Options
 
 | Name            | Type                                                                                                                                                          | Default                                            | Description                                                                                                                  |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| mode            | `"get" \| "run" \| "build"`                                                                                                                                   | `"build"`                                          | Choose between get, run or build mode                                                                                        |
+| mode            | `"get" \| "run" \| "build" \| "package"`                                                                                                                      | `"build"`                                          | Choose between get, run, build or package mode                                                                               |
 | version         | `string \| "latest" \| "stable"`                                                                                                                              | `"latest"`                                         | Runtime version                                                                                                              |
 | flavor          | `"normal" \| "sdk"`                                                                                                                                           | `"normal"`                                         | Runtime flavor                                                                                                               |
 | platform        | `"linux" \| "osx" \| "win"`                                                                                                                                   |                                                    | Host platform                                                                                                                |
@@ -208,7 +228,7 @@ Options
 | outDir          | `string`                                                                                                                                                      | `"./out"`                                          | Directory to store build artifacts                                                                                           |
 | managedManifest | `boolean \| string \| object`                                                                                                                                 | `false`                                            | Managed manifest                                                                                                             |
 | nodeAddon       | `boolean`                                                                                                                                                     | `false`                                            | Rebuild Node native addons                                                                                                   |
-| zip             | `boolean \| "zip" \| "tar" \| "tgz"`                                                                                                                          | `false`                                            | If true, "zip", "tar" or "tgz" the `outDir` directory is compressed.                                                         |
+| zip             | `boolean \| "zip" \| "tar" \| "tgz"`                                                                                                                          | `false`                                            | If true, "zip", "tar" or "tgz" the `outDir` directory is compressed. Not supported when `mode` is `"package"`.               |
 | app             | `LinuxRc \| WinRc \| OsxRc`                                                                                                                                   | Additional options for each platform. (See below.) |
 
 ### `app` configuration object
