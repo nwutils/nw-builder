@@ -238,6 +238,8 @@ export const parse = async (options, pkg) => {
 
   options.outDir = path.resolve(options.outDir ?? "./out");
   options.zip = str2Bool(options.zip) ?? false;
+  options.format =
+    options.format ?? (options.platform === "linux" ? "AppImage" : undefined);
 
   options.managedManifest = str2Bool(options.managedManifest) ?? false;
 
@@ -486,9 +488,37 @@ export const validate = async (options, releaseInfo) => {
   }
 
   if (options.mode === "package") {
-    if (options.platform !== "linux") {
+    /*
+     * Each format packages a build for exactly one platform. `deb`/`rpm`
+     * (Linux) and `MSIX`/`NSIS` (Windows) are reserved for later - keeping
+     * this map is what lets `validate` and the "not implemented yet" error
+     * below stay in sync as formats are added, instead of a single
+     * hardcoded platform check.
+     */
+    /** @type {Record<string, string>} */
+    const FORMAT_PLATFORM = {
+      AppImage: "linux",
+      deb: "linux",
+      rpm: "linux",
+      MSIX: "win",
+      NSIS: "win",
+    };
+    if (
+      typeof options.format !== "string" ||
+      FORMAT_PLATFORM[options.format] === undefined
+    ) {
       throw new Error(
-        `options.mode "package" currently only supports options.platform "linux" (AppImage packaging). Got "${options.platform}".`,
+        `Expected options.format to be one of "AppImage", "deb", "rpm", "MSIX" or "NSIS". Got ${JSON.stringify(options.format)}.`,
+      );
+    }
+    if (options.platform !== FORMAT_PLATFORM[options.format]) {
+      throw new Error(
+        `options.format "${options.format}" requires options.platform "${FORMAT_PLATFORM[options.format]}". Got "${options.platform}".`,
+      );
+    }
+    if (options.format !== "AppImage") {
+      throw new Error(
+        `options.format "${options.format}" is not implemented yet. Currently only "AppImage" is supported.`,
       );
     }
     if (options.zip !== false) {

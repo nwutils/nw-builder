@@ -186,12 +186,25 @@ nwbuild({
 
 ### Package Mode
 
-Builds the application (same as build mode) and then packages it. Currently this packages a Linux build as an [AppImage](https://appimage.org/) via [`@nwutils/packager`](https://github.com/nwutils/nw-builder/tree/main/packages/packager) - `options.platform` must be `"linux"`. Resolves with the path to the packaged artifact instead of `undefined`.
+Builds the application (same as build mode) and then packages it via [`@nwutils/packager`](https://github.com/nwutils/nw-builder/tree/main/packages/packager). Resolves with the path to the packaged artifact instead of `undefined`.
+
+`format` selects the packaged output format and must match `platform`:
+
+| format     | platform | Status      |
+| ---------- | -------- | ----------- |
+| `AppImage` | `linux`  | Implemented |
+| `deb`      | `linux`  | Planned     |
+| `rpm`      | `linux`  | Planned     |
+| `MSIX`     | `win`    | Planned     |
+| `NSIS`     | `win`    | Planned     |
+
+Only `"AppImage"` is implemented today - the rest are reserved so this option doesn't need to change shape once they land. `format` defaults to `"AppImage"` when `platform` is `"linux"`; other platforms currently have no default and require `format` to fail with a clear "not implemented yet" error rather than silently doing nothing.
 
 ```javascript
 const appImagePath = await nwbuild({
   mode: "package",
   platform: "linux",
+  format: "AppImage",
   app: {
     name: "nwdemo",
     icon: "icon.png",
@@ -229,6 +242,7 @@ Options
 | managedManifest | `boolean \| string \| object`                                                                                                                                 | `false`                                            | Managed manifest                                                                                                             |
 | nodeAddon       | `boolean`                                                                                                                                                     | `false`                                            | Rebuild Node native addons                                                                                                   |
 | zip             | `boolean \| "zip" \| "tar" \| "tgz"`                                                                                                                          | `false`                                            | If true, "zip", "tar" or "tgz" the `outDir` directory is compressed. Not supported when `mode` is `"package"`.               |
+| format          | `"AppImage" \| "deb" \| "rpm" \| "MSIX" \| "NSIS"`                                                                                                            | `"AppImage"` on `linux`                            | Packaged output format, used in package mode. Only `"AppImage"` is implemented today.                                        |
 | app             | `LinuxRc \| WinRc \| OsxRc`                                                                                                                                   | Additional options for each platform. (See below.) |
 
 ### `app` configuration object

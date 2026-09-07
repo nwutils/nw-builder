@@ -176,17 +176,38 @@ describe("util/validate", function () {
     managedManifest: false,
     nativeAddon: false,
     zip: false,
+    format: "AppImage",
     app: {},
   };
   const packageReleaseInfo = { flavors: ["normal"], files: ["linux-x64"] };
 
-  it("throws error when package mode targets a non-linux platform", async function () {
+  it("throws error on an unknown format", async function () {
     await assert.rejects(
       util.validate(
-        { ...basePackageOptions, platform: "win" },
+        { ...basePackageOptions, format: "snap" },
+        packageReleaseInfo,
+      ),
+      /Expected options\.format to be one of/,
+    );
+  });
+
+  it("throws error when format doesn't match platform", async function () {
+    await assert.rejects(
+      util.validate(
+        { ...basePackageOptions, format: "MSIX" },
+        packageReleaseInfo,
+      ),
+      /options\.format "MSIX" requires options\.platform "win"/,
+    );
+  });
+
+  it("throws error on a recognised but unimplemented format", async function () {
+    await assert.rejects(
+      util.validate(
+        { ...basePackageOptions, platform: "win", arch: "x64", format: "NSIS" },
         { flavors: ["normal"], files: ["win-x64"] },
       ),
-      /options\.platform "linux"/,
+      /options\.format "NSIS" is not implemented yet/,
     );
   });
 
@@ -209,6 +230,24 @@ describe("util/parse", function () {
   it("doesnt resolve app.icon", async function () {
     const newOptions = await util.parse({ app: { icon: "." } }, {});
     assert.strictEqual(newOptions.app.icon, ".");
+  });
+
+  it("defaults format to AppImage on linux", async function () {
+    const newOptions = await util.parse({ platform: "linux" }, {});
+    assert.strictEqual(newOptions.format, "AppImage");
+  });
+
+  it("leaves format undefined on other platforms", async function () {
+    const newOptions = await util.parse({ platform: "win" }, {});
+    assert.strictEqual(newOptions.format, undefined);
+  });
+
+  it("respects an explicit format", async function () {
+    const newOptions = await util.parse(
+      { platform: "linux", format: "deb" },
+      {},
+    );
+    assert.strictEqual(newOptions.format, "deb");
   });
 });
 

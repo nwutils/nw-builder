@@ -5,7 +5,7 @@ import path from "node:path";
 
 import bld from "@nwutils/builder";
 import get from "@nwutils/getter";
-import { appImage } from "@nwutils/packager";
+import { packageApp } from "@nwutils/packager";
 import run from "@nwutils/runner";
 
 import util from "./util.js";
@@ -33,6 +33,7 @@ import util from "./util.js";
  * @property {boolean}                             [nativeAddon = false]                     Get Node native addons
  * @property {boolean}                             [cli=false]                               If true the CLI is used to parse options. This option is used internally.
  * @property {string[]}                            [argv = []]                               CLI arguments passed to the NW.js process in run mode
+ * @property {"AppImage" | "deb" | "rpm" | "MSIX" | "NSIS"} [format]                          Packaged output format, used in package mode. Defaults to `"AppImage"` on Linux. Only `"AppImage"` is implemented today - `deb`, `rpm`, `MSIX` and `NSIS` are reserved for later.
  */
 
 /**
@@ -191,9 +192,10 @@ async function nwbuild(options) {
         util.log(
           "info",
           resolved.logLevel,
-          "Packaging NW.js application as an AppImage...",
+          `Packaging NW.js application as ${resolved.format}...`,
         );
-        const appImagePath = await appImage({
+        const packagePath = await packageApp({
+          format: resolved.format,
           appDir: resolved.outDir,
           appName: /** @type {{ name: string }} */ (resolved.app).name,
           arch: resolved.arch,
@@ -204,9 +206,9 @@ async function nwbuild(options) {
         util.log(
           "info",
           resolved.logLevel,
-          `AppImage is available at ${appImagePath}`,
+          `${resolved.format} is available at ${packagePath}`,
         );
-        return appImagePath;
+        return packagePath;
       }
     }
   } catch (error) {

@@ -36,6 +36,10 @@ program
   .option("--cacheDir <string>", "Cache NW.js binaries", "./cache")
   .option("--outDir <string>", "NW.js build artifacts", "./out")
   .option(
+    "--format <string>",
+    "Packaged output format, used in package mode. One of AppImage, deb, rpm, MSIX or NSIS - only AppImage is implemented today",
+  )
+  .option(
     "--app <object>",
     "Platform specific app metadata. Refer to docs for more info",
     /** @type {any} */ ({}),
