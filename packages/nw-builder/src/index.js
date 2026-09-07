@@ -46,7 +46,7 @@ import util from "./util.js";
 async function nwbuild(options) {
   let built;
   let releaseInfo;
-  /** @type {{path: string, json: any}} */
+  /** @type {{path: string, json: import("./util.js").NodeManifest | undefined}} */
   let manifest = {
     path: "",
     json: undefined,
@@ -114,8 +114,10 @@ async function nwbuild(options) {
       `Options:\n${JSON.stringify(resolved, null, 2)}`,
     );
 
-    /* Remove leading "v" from version string */
-    resolved.version = releaseInfo.version.slice(1);
+    /* Remove leading "v" from version string. `validate` already threw if `releaseInfo` was undefined. */
+    resolved.version = /** @type {import("./util.js").ReleaseInfo} */ (
+      releaseInfo
+    ).version.slice(1);
 
     util.log(
       "info",
@@ -175,7 +177,9 @@ async function nwbuild(options) {
         srcDir: /** @type {string} */ (resolved.srcDir),
         cacheDir: resolved.cacheDir,
         outDir: resolved.outDir,
-        app: /** @type {any} */ (resolved.app),
+        app: /** @type {import("@nwutils/builder").LinuxRc | import("@nwutils/builder").WinRc | import("@nwutils/builder").OsxRc} */ (
+          resolved.app
+        ),
         glob: resolved.glob,
         managedManifest: resolved.managedManifest,
         /* `zip` would delete `outDir` before package mode can read it back; `validate` already rejects the two together. */

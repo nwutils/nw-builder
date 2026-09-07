@@ -8,6 +8,44 @@ import url from "node:url";
 import * as GlobModule from "glob";
 
 /**
+ * Platform specific app metadata. Every field from every platform is
+ * optional here since `parse()` fills them in incrementally and only one
+ * platform's fields actually end up used at runtime.
+ * @typedef {Partial<import("@nwutils/builder").LinuxRc> & Partial<import("@nwutils/builder").WinRc> & Partial<import("@nwutils/builder").OsxRc>} AppConfig
+ */
+
+/**
+ * A Node manifest (`package.json`), as far as `nwbuild` cares about it. It
+ * may have arbitrary other user-defined fields too.
+ * @typedef {object} NodeManifest
+ * @property {string} [name]         Package name
+ * @property {string} [version]      Package version
+ * @property {string} [author]       Package author
+ * @property {string} [description]  Package description
+ * @property {{icon?: string}} [window]  NW.js window configuration
+ * @property {object} [nwbuild]      nwbuild options embedded in the manifest
+ */
+
+/**
+ * Version specific NW.js release metadata, as found in the `versions` array
+ * of the manifest at https://nwjs.io/versions.json.
+ * @typedef {object} ReleaseInfo
+ * @property {string} version              NW.js version, prefixed with "v"
+ * @property {string[]} flavors            Supported build flavors
+ * @property {string[]} files              Supported `<platform>-<arch>` combinations
+ * @property {object} [components]         Component versions bundled with this release
+ */
+
+/**
+ * The https://nwjs.io/versions.json manifest shape.
+ * @typedef {object} VersionsManifest
+ * @property {string} latest         Latest version, prefixed with "v"
+ * @property {string} stable         Latest stable version, prefixed with "v"
+ * @property {string} lts            Latest LTS version, prefixed with "v"
+ * @property {ReleaseInfo[]} versions  Every published release
+ */
+
+/**
  * Get manifest (array of NW release metadata) from URL.
  * @param  {string}                      manifestUrl  Versions manifest URI, https or file path
  * @returns {string | Promise<string>} - Manifest object
@@ -49,9 +87,10 @@ function getManifest(manifestUrl) {
  * @param  {string} arch         NW architecture
  * @param  {string} cacheDir     Directory to store NW binaries
  * @param  {string} manifestUrl  Versions manifest URI, https or file path
- * @returns {Promise<any>}       Version specific release info
+ * @returns {Promise<ReleaseInfo | undefined>}       Version specific release info
  */
 async function getReleaseInfo(version, platform, arch, cacheDir, manifestUrl) {
+  /** @type {ReleaseInfo | undefined} */
   let releaseData = undefined;
   let manifestPath;
   if (platform === "osx" && arch === "arm64") {
@@ -66,7 +105,7 @@ async function getReleaseInfo(version, platform, arch, cacheDir, manifestUrl) {
       await fs.promises.writeFile(manifestPath, data);
     }
 
-    /** @type {any} */
+    /** @type {VersionsManifest} */
     const manifest = JSON.parse(
       await fs.promises.readFile(manifestPath, "utf8"),
     );
@@ -76,7 +115,7 @@ async function getReleaseInfo(version, platform, arch, cacheDir, manifestUrl) {
     }
 
     releaseData = manifest.versions.find(
-      (/** @type {any} */ release) => release.version === `v${version}`,
+      (release) => release.version === `v${version}`,
     );
   } catch {
     console.error(
@@ -143,10 +182,10 @@ async function globFiles({ srcDir, glob }) {
  * @param  {object}             options         - node manifest options
  * @param  {string | string []} options.srcDir  - src dir
  * @param  {boolean}            options.glob    - glob flag
- * @returns {Promise.<{path: string, json: object}>}      - Node manifest
+ * @returns {Promise.<{path: string, json: NodeManifest | undefined}>}      - Node manifest
  */
 async function getNodeManifest({ srcDir, glob }) {
-  /** @type {{path: string, json: any}} */
+  /** @type {{path: string, json: NodeManifest | undefined}} */
   let manifest = {
     path: "",
     json: undefined,
@@ -197,6 +236,12 @@ function str2Bool(option) {
   }
 }
 
+/* eslint-disable jsdoc/reject-any-type -- `options` is progressively mutated
+ * field-by-field into the `Options` shape (see index.js) through
+ * intermediate states that don't conform to it - eg. `options.cache` may
+ * briefly hold the raw CLI string "true"/"false" before `str2Bool()` coerces
+ * it - so there's no sound, non-`any` type to give it without a much larger
+ * rewrite of this function. */
 /**
  * Parse options.
  * @param  {any} options  Options
@@ -326,11 +371,14 @@ export const parse = async (options, pkg) => {
 
   return { ...options };
 };
+/* eslint-enable jsdoc/reject-any-type */
 
+/* eslint-disable jsdoc/reject-any-type -- `options` here is whatever `parse()`
+ * returned above, which is genuinely `any` for the same reason. */
 /**
  * Validate options.
  * @param  {any} options      Options
- * @param  {any} releaseInfo  Version specific NW release info
+ * @param  {ReleaseInfo | undefined} releaseInfo  Version specific NW release info
  * @returns {Promise<undefined>}                         Return undefined if options are valid
  * @throws {Error}                                         Throw error if options are invalid
  */
@@ -890,13 +938,14 @@ export const validate = async (options, releaseInfo) => {
   }
   return undefined;
 };
+/* eslint-enable jsdoc/reject-any-type */
 
 /**
  * Get path to various NW specific file paths.
  * @async
  * @function
  * @param  {"chromedriver"} type     - NW specific file or directory
- * @param  {any}            options  - nwbuild options
+ * @param  {{cacheDir: string, flavor: string, version: string, platform: string, arch: string}} options  - nwbuild options
  * @returns {Promise<string>}         - Path to chromedriver
  * @throws {Error}
  */

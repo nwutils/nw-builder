@@ -42,6 +42,9 @@ program
   .option(
     "--app <object>",
     "Platform specific app metadata. Refer to docs for more info",
+    // commander's `.option()` typings only accept string | boolean | string[] | RegExp
+    // as a default value - there's no valid non-`any` type for an object default here.
+    // eslint-disable-next-line jsdoc/reject-any-type
     /** @type {any} */ ({}),
   )
   .option("--cache <boolean>", "Enable/disable caching", true)
