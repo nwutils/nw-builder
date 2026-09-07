@@ -27,9 +27,11 @@
   "license": "MIT",
   "main": "./src/main.js",
   "type": "module",
+  "types": "types/main.d.ts",
   "files": [
     "LICENSE",
-    "src"
+    "src",
+    "types"
   ],
   "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
