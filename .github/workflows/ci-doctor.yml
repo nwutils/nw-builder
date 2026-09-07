@@ -7,6 +7,8 @@ on:
       - main
     paths:
       - "packages/doctor/**"
+      - "tests/fixtures/doctor/**"
+      - "tests/specs/doctor/**"
 
 permissions:
   contents: read

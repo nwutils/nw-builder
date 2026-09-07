@@ -1,7 +1,7 @@
 {
   "name": "@nwutils/packager",
   "version": "0.1.0",
-  "description": "",
+  "description": "Package NW.js applications for Linux, MacOS and Windows.",
   "keywords": [
     "NW.js",
     "node-webkit",
@@ -26,10 +26,12 @@
   ],
   "license": "MIT",
   "main": "./src/index.js",
+  "types": "types/index.d.ts",
   "type": "module",
   "files": [
     "LICENSE",
-    "src"
+    "src",
+    "types"
   ],
   "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
@@ -37,10 +39,10 @@
     "url": "git+https://github.com/nwutils/nw-builder.git"
   },
   "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint . ../../tests/specs/packager ../../tests/fixtures/packager",
+    "lint:fix": "eslint . ../../tests/specs/packager ../../tests/fixtures/packager --fix",
     "type": "tsc",
-    "test": "node --test \"../../tests/specs/packager/*.test.js\""
+    "test": "node --test --test-concurrency=1 \"../../tests/specs/packager/*.test.js\""
   },
   "dependencies": {},
   "devDependencies": {}

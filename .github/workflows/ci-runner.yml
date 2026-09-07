@@ -7,6 +7,8 @@ on:
       - main
     paths:
       - "packages/runner/**"
+      - "tests/fixtures/runner/**"
+      - "tests/specs/runner/**"
 
 permissions:
   contents: read

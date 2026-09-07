@@ -1,4 +1,4 @@
-name: CI - Shared
+name: CI - nw-builder shared
 
 on:
   workflow_dispatch:

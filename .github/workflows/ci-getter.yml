@@ -7,6 +7,8 @@ on:
       - main
     paths:
       - "packages/getter/**"
+      - "tests/fixtures/getter/**"
+      - "tests/specs/getter/**"
 
 permissions:
   contents: read
