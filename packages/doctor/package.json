@@ -1,6 +1,6 @@
 {
   "name": "@nwutils/doctor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Configure NW.js environments for Linux, MacOS and Windows.",
   "keywords": [
     "NW.js",
