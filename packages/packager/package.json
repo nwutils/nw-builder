@@ -1,6 +1,6 @@
 {
   "name": "@nwutils/packager",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Package NW.js applications for Linux, MacOS and Windows.",
   "keywords": [
     "NW.js",

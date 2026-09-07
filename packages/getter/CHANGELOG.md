@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.2.7](https://github.com/nwutils/nw-builder/compare/@nwutils/getter-v0.2.6...@nwutils/getter-v0.2.7) (2026-09-07)
+
+
+### Chores
+
+* **ci:** create one Release Please pull request instead of one per package ([05c45ad](https://github.com/nwutils/nw-builder/commit/05c45ad83ccfec47b4f1551fe6103b19c7143581))
+* **ci:** simplify monorepo configuration ([#1646](https://github.com/nwutils/nw-builder/issues/1646)) ([1117509](https://github.com/nwutils/nw-builder/commit/11175097906ae40a9562e0652f59207a3c782c4a))
+* migrate to monorepo ([#1638](https://github.com/nwutils/nw-builder/issues/1638)) ([8b15dd5](https://github.com/nwutils/nw-builder/commit/8b15dd586f04b45fbc8e09ee6b50d25d0a5999aa))
+* refactor build logic into @nwutils/builder ([#1647](https://github.com/nwutils/nw-builder/issues/1647)) ([a952f84](https://github.com/nwutils/nw-builder/commit/a952f84a810b60359d61e5edcdd09f290bc57b12))
+
 ## [0.2.6](https://github.com/nwutils/getter/compare/v0.2.5...v0.2.6) (2026-08-29)
 
 
