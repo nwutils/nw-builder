@@ -21,7 +21,7 @@
   "contributors": [
     {
       "name": "@nwutils/doctor Contributors",
-      "url": "https://github.com/nwutils/doctor/graphs/contributors"
+      "url": "https://github.com/nwutils/nw-builder/graphs/contributors"
     }
   ],
   "license": "MIT",
@@ -33,10 +33,11 @@
     "src",
     "types"
   ],
-  "homepage": "https://github.com/nwutils/doctor#readme",
+  "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nwutils/doctor.git"
+    "url": "git+https://github.com/nwutils/nw-builder.git",
+    "directory": "./packages/doctor"
   },
   "scripts": {
     "lint": "eslint . ../../tests/specs/doctor",

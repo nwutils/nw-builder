@@ -36,7 +36,8 @@
   "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nwutils/nw-builder.git"
+    "url": "git+https://github.com/nwutils/nw-builder.git",
+    "directory": "./packages/builder"
   },
   "scripts": {
     "lint": "eslint . ../../tests/specs/builder",

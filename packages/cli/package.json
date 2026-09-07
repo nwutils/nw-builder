@@ -21,7 +21,7 @@
   "contributors": [
     {
       "name": "@nwutils/nw-cli Contributors",
-      "url": "https://github.com/nwutils/nw-cli/graphs/contributors"
+      "url": "https://github.com/nwutils/nw-builder/graphs/contributors"
     }
   ],
   "license": "MIT",
@@ -36,10 +36,11 @@
     "src",
     "types"
   ],
-  "homepage": "https://github.com/nwutils/nw-cli",
+  "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
     "type": "git",
-    "url": "git://github.com/nwutils/nw-cli.git"
+    "url": "git+https://github.com/nwutils/nw-builder.git",
+    "directory": "./packages/cli"
   },
   "scripts": {
     "lint": "eslint ./src ../../tests/specs/cli",

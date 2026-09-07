@@ -21,7 +21,7 @@
   "contributors": [
     {
       "name": "nw-builder Contributors",
-      "url": "https://github.com/nwutil/nw-builder/graphs/contributors"
+      "url": "https://github.com/nwutils/nw-builder/graphs/contributors"
     }
   ],
   "license": "MIT",
@@ -38,7 +38,8 @@
   "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nwutils/nw-builder.git"
+    "url": "git+https://github.com/nwutils/nw-builder.git",
+    "directory": "./packages/nw-builder"
   },
   "scripts": {
     "postinstall": "node ./src/postinstall.js",

@@ -21,7 +21,7 @@
   "contributors": [
     {
       "name": "@nwutils/runner Contributors",
-      "url": "https://github.com/nwutils/runner/graphs/contributors"
+      "url": "https://github.com/nwutils/nw-builder/graphs/contributors"
     }
   ],
   "license": "MIT",
@@ -33,10 +33,11 @@
     "src",
     "types"
   ],
-  "homepage": "https://github.com/nwutils/runner",
+  "homepage": "https://github.com/nwutils/nw-builder",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nwutils/runner.git"
+    "url": "git+https://github.com/nwutils/nw-builder.git",
+    "directory": "./packages/runner"
   },
   "scripts": {
     "lint": "eslint . ../../tests/specs/runner",
