@@ -7,6 +7,8 @@ on:
       - main
     paths:
       - "packages/cli/**"
+      - "tests/fixtures/cli/**"
+      - "tests/specs/cli/**"
 
 permissions:
   contents: read

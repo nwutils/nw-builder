@@ -18,10 +18,12 @@ const nodeSources = [
   "tests/specs/runner/**/*.{js,mjs,cjs}",
   "tests/specs/nw-builder/**/*.{js,mjs,cjs}",
   "tests/specs/builder/**/*.{js,mjs,cjs}",
+  "tests/specs/packager/**/*.{js,mjs,cjs}",
   "tests/fixtures/getter/**/*.{js,mjs,cjs}",
   "tests/fixtures/nw-builder/**/*.{js,mjs,cjs}",
   "tests/fixtures/runner/**/*.{js,mjs,cjs}",
   "tests/fixtures/builder/**/*.{js,mjs,cjs}",
+  "tests/fixtures/packager/**/*.{js,mjs,cjs}",
 ];
 
 export default defineConfig([

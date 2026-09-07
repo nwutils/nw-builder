@@ -46,5 +46,8 @@
   },
   "prettier": {
     "endOfLine": "lf"
+  },
+  "dependencies": {
+    "@types/selenium-webdriver": "^4.35.6"
   }
 }

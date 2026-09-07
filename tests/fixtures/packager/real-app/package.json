@@ -1,0 +1,8 @@
+{
+  "name": "demo",
+  "main": "index.html",
+  "window": {
+    "width": 400,
+    "height": 300
+  }
+}

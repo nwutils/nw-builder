@@ -7,6 +7,8 @@ on:
       - main
     paths:
       - "packages/packager/**"
+      - "tests/fixtures/packager/**"
+      - "tests/specs/packager/**"
 
 permissions:
   contents: read
@@ -77,6 +79,10 @@ jobs:
 
       - name: Run packager test suite
         run: npm run test --workspace=@nwutils/packager
+
+      - name: Run packager real AppImage test suite
+        if: runner.os == 'Linux'
+        run: npm run test:real --workspace=@nwutils/packager
 
       - name: Check git status is clean
         shell: bash
