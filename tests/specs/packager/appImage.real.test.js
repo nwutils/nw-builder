@@ -29,7 +29,7 @@ const repoRoot = path.resolve(import.meta.dirname, "..", "..", "..");
  * skipped by default - remove `.skip` to run this locally or in a dedicated
  * e2e job.
  */
-describe("packager/appImage real app test suite", async () => {
+describe.skip("packager/appImage real app test suite", async () => {
   const cacheDir = path.join(repoRoot, "tests/fixtures/packager/cache");
   const outDir = path.join(repoRoot, "tests/fixtures/packager/out/Demo");
   const distDir = path.join(repoRoot, "tests/fixtures/packager/dist");
