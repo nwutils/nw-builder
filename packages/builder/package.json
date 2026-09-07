@@ -1,6 +1,6 @@
 {
   "name": "@nwutils/builder",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Build NW.js applications for Linux, MacOS and Windows.",
   "keywords": [
     "NW.js",

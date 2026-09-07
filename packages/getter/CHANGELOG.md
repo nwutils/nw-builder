@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.8](https://github.com/nwutils/nw-builder/compare/@nwutils/getter-v0.2.7...@nwutils/getter-v0.2.8) (2026-09-07)
+
+
+### Bug Fixes
+
+* update package.json URLs ([2038ded](https://github.com/nwutils/nw-builder/commit/2038ded45f9b400ead698e91031ae8985a35d8ea))
+
 ## [0.2.7](https://github.com/nwutils/nw-builder/compare/@nwutils/getter-v0.2.6...@nwutils/getter-v0.2.7) (2026-09-07)
 
 

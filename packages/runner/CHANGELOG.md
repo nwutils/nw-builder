@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.6](https://github.com/nwutils/nw-builder/compare/@nwutils/runner-v0.2.5...@nwutils/runner-v0.2.6) (2026-09-07)
+
+
+### Bug Fixes
+
+* update package.json URLs ([2038ded](https://github.com/nwutils/nw-builder/commit/2038ded45f9b400ead698e91031ae8985a35d8ea))
+
 ## [0.2.5](https://github.com/nwutils/nw-builder/compare/@nwutils/runner-v0.2.4...@nwutils/runner-v0.2.5) (2026-09-07)
 
 

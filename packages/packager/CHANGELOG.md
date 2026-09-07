@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/nwutils/nw-builder/compare/@nwutils/packager-v0.2.0...@nwutils/packager-v0.2.1) (2026-09-07)
+
+
+### Bug Fixes
+
+* update package.json URLs ([2038ded](https://github.com/nwutils/nw-builder/commit/2038ded45f9b400ead698e91031ae8985a35d8ea))
+
 ## [0.2.0](https://github.com/nwutils/nw-builder/compare/@nwutils/packager-v0.1.0...@nwutils/packager-v0.2.0) (2026-09-07)
 
 
