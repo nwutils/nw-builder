@@ -9,7 +9,7 @@ Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and L
 
 ## Major Features
 
-- Get, run or build applications.
+- Get, run, build or package applications.
 - Integrate [FFmpeg community builds](https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt)
 - Configure executable fields, icons and rename Helper apps
 - Downloading from mirrors
@@ -98,7 +98,7 @@ See `nw-builder` in action by building the demo application.
 
 ## Concepts
 
-`nw-builder` can get, run and build NW.js applications. We refer to them as get, run and build modes.
+`nw-builder` can get, run, build and package NW.js applications. We refer to them as get, run, build and package modes.
 
 ### Get Mode
 
@@ -184,13 +184,46 @@ nwbuild({
 });
 ```
 
+### Package Mode
+
+Builds the application (same as build mode) and then packages it via [`@nwutils/packager`](https://github.com/nwutils/nw-builder/tree/main/packages/packager). Resolves with the path to the packaged artifact instead of `undefined`.
+
+`format` selects the packaged output format and must match `platform`:
+
+| format     | platform | Status      |
+| ---------- | -------- | ----------- |
+| `AppImage` | `linux`  | Implemented |
+| `deb`      | `linux`  | Planned     |
+| `rpm`      | `linux`  | Planned     |
+| `MSIX`     | `win`    | Planned     |
+| `NSIS`     | `win`    | Planned     |
+
+Only `"AppImage"` is implemented today - the rest are reserved so this option doesn't need to change shape once they land. `format` defaults to `"AppImage"` when `platform` is `"linux"`; other platforms currently have no default and require `format` to fail with a clear "not implemented yet" error rather than silently doing nothing.
+
+```javascript
+const appImagePath = await nwbuild({
+  mode: "package",
+  platform: "linux",
+  format: "AppImage",
+  app: {
+    name: "nwdemo",
+    icon: "icon.png",
+    categories: ["Utility"],
+  },
+});
+```
+
+The packaged artifact is written into `outDir`, alongside the built application.
+
+`zip` cannot be used together with package mode, since it would remove `outDir` before packaging can read it back.
+
 ## API Reference
 
 Options
 
 | Name            | Type                                                                                                                                                          | Default                                            | Description                                                                                                                  |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| mode            | `"get" \| "run" \| "build"`                                                                                                                                   | `"build"`                                          | Choose between get, run or build mode                                                                                        |
+| mode            | `"get" \| "run" \| "build" \| "package"`                                                                                                                      | `"build"`                                          | Choose between get, run, build or package mode                                                                               |
 | version         | `string \| "latest" \| "stable"`                                                                                                                              | `"latest"`                                         | Runtime version                                                                                                              |
 | flavor          | `"normal" \| "sdk"`                                                                                                                                           | `"normal"`                                         | Runtime flavor                                                                                                               |
 | platform        | `"linux" \| "osx" \| "win"`                                                                                                                                   |                                                    | Host platform                                                                                                                |
@@ -208,7 +241,8 @@ Options
 | outDir          | `string`                                                                                                                                                      | `"./out"`                                          | Directory to store build artifacts                                                                                           |
 | managedManifest | `boolean \| string \| object`                                                                                                                                 | `false`                                            | Managed manifest                                                                                                             |
 | nodeAddon       | `boolean`                                                                                                                                                     | `false`                                            | Rebuild Node native addons                                                                                                   |
-| zip             | `boolean \| "zip" \| "tar" \| "tgz"`                                                                                                                          | `false`                                            | If true, "zip", "tar" or "tgz" the `outDir` directory is compressed.                                                         |
+| zip             | `boolean \| "zip" \| "tar" \| "tgz"`                                                                                                                          | `false`                                            | If true, "zip", "tar" or "tgz" the `outDir` directory is compressed. Not supported when `mode` is `"package"`.               |
+| format          | `"AppImage" \| "deb" \| "rpm" \| "MSIX" \| "NSIS"`                                                                                                            | `"AppImage"` on `linux`                            | Packaged output format, used in package mode. Only `"AppImage"` is implemented today.                                        |
 | app             | `LinuxRc \| WinRc \| OsxRc`                                                                                                                                   | Additional options for each platform. (See below.) |
 
 ### `app` configuration object

@@ -8,7 +8,7 @@ import util from "./util.js";
 
 program
   .argument("<string>", "File path(s) to project")
-  .option("--mode <string>", "get, run or build mode", "build")
+  .option("--mode <string>", "get, run, build or package mode", "build")
   .option("--version <string>", "NW.js version", "latest")
   .option("--flavor <string>", "NW.js build flavor", "normal")
   .option(
@@ -36,8 +36,15 @@ program
   .option("--cacheDir <string>", "Cache NW.js binaries", "./cache")
   .option("--outDir <string>", "NW.js build artifacts", "./out")
   .option(
+    "--format <string>",
+    "Packaged output format, used in package mode. One of AppImage, deb, rpm, MSIX or NSIS - only AppImage is implemented today",
+  )
+  .option(
     "--app <object>",
     "Platform specific app metadata. Refer to docs for more info",
+    // commander's `.option()` typings only accept string | boolean | string[] | RegExp
+    // as a default value - there's no valid non-`any` type for an object default here.
+    // eslint-disable-next-line jsdoc/reject-any-type
     /** @type {any} */ ({}),
   )
   .option("--cache <boolean>", "Enable/disable caching", true)

@@ -155,6 +155,74 @@ describe("util/validate", function () {
       Error,
     );
   });
+
+  /** Minimal fully-resolved options that pass every check up to the `mode === "package"` block. */
+  const basePackageOptions = {
+    mode: "package",
+    flavor: "normal",
+    platform: "linux",
+    arch: "x64",
+    downloadUrl: "file://path/to/fs",
+    manifestUrl: "https://path/to/manifest",
+    cacheDir: "./path/to/cache",
+    cache: true,
+    ffmpeg: false,
+    logLevel: "info",
+    shaSum: true,
+    srcDir: "./src",
+    argv: [],
+    glob: true,
+    outDir: "./out",
+    managedManifest: false,
+    nativeAddon: false,
+    zip: false,
+    format: "AppImage",
+    app: {},
+  };
+  const packageReleaseInfo = { flavors: ["normal"], files: ["linux-x64"] };
+
+  it("throws error on an unknown format", async function () {
+    await assert.rejects(
+      util.validate(
+        { ...basePackageOptions, format: "snap" },
+        packageReleaseInfo,
+      ),
+      /Expected options\.format to be one of/,
+    );
+  });
+
+  it("throws error when format doesn't match platform", async function () {
+    await assert.rejects(
+      util.validate(
+        { ...basePackageOptions, format: "MSIX" },
+        packageReleaseInfo,
+      ),
+      /options\.format "MSIX" requires options\.platform "win"/,
+    );
+  });
+
+  it("throws error on a recognised but unimplemented format", async function () {
+    await assert.rejects(
+      util.validate(
+        { ...basePackageOptions, platform: "win", arch: "x64", format: "NSIS" },
+        { flavors: ["normal"], files: ["win-x64"] },
+      ),
+      /options\.format "NSIS" is not implemented yet/,
+    );
+  });
+
+  it("throws error when package mode is combined with zip", async function () {
+    await assert.rejects(
+      util.validate({ ...basePackageOptions, zip: "zip" }, packageReleaseInfo),
+      /options\.zip is not supported/,
+    );
+  });
+
+  it("resolves for a valid package mode configuration", async function () {
+    await assert.doesNotReject(
+      util.validate(basePackageOptions, packageReleaseInfo),
+    );
+  });
 });
 
 describe("util/parse", function () {
@@ -162,6 +230,24 @@ describe("util/parse", function () {
   it("doesnt resolve app.icon", async function () {
     const newOptions = await util.parse({ app: { icon: "." } }, {});
     assert.strictEqual(newOptions.app.icon, ".");
+  });
+
+  it("defaults format to AppImage on linux", async function () {
+    const newOptions = await util.parse({ platform: "linux" }, {});
+    assert.strictEqual(newOptions.format, "AppImage");
+  });
+
+  it("leaves format undefined on other platforms", async function () {
+    const newOptions = await util.parse({ platform: "win" }, {});
+    assert.strictEqual(newOptions.format, undefined);
+  });
+
+  it("respects an explicit format", async function () {
+    const newOptions = await util.parse(
+      { platform: "linux", format: "deb" },
+      {},
+    );
+    assert.strictEqual(newOptions.format, "deb");
   });
 });
 
