@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.20.0](https://github.com/nwutils/nw-builder/compare/nw-builder-v4.19.2...nw-builder-v4.20.0) (2026-09-08)
+
+
+### Features
+
+* **nw-builder:** add package mode using @nwutils/packager ([#1657](https://github.com/nwutils/nw-builder/issues/1657)) ([cf4e529](https://github.com/nwutils/nw-builder/commit/cf4e5297b79c5b8f6cb664805580d2f93ad8d584))
+
 ## [4.19.2](https://github.com/nwutils/nw-builder/compare/nw-builder-v4.19.1...nw-builder-v4.19.2) (2026-09-07)
 
 
