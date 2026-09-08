@@ -38,7 +38,6 @@ program
   .option(
     "--app <object>",
     "Platform specific app metadata. Refer to docs for more info",
-    /** @type {any} */ ({}),
   )
   .option("--cache <boolean>", "Enable/disable caching", true)
   .option("--ffmpeg <boolean>", "Enable/disable community ffmpeg", false)

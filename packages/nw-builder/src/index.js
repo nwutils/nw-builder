@@ -22,14 +22,14 @@ import util from "./util.js";
  * @property {"./cache" | string}                  [cacheDir="./cache"]                      Directory to cache NW binaries
  * @property {string | string[]}                   [srcDir="./"]                             File paths to application code
  * @property {"./out" | string}                    [outDir="./out"]                          Directory to store build artifacts
- * @property {object}                              [app]                                     Refer to Linux/Windows Specific Options under Getting Started in the docs
+ * @property {import("./util.js").AppOptions}      [app]                                     Refer to Linux/Windows Specific Options under Getting Started in the docs
  * @property {boolean}                             [cache=true]                              If true the existing cache is used. Otherwise it removes and redownloads it.
  * @property {boolean}                             [ffmpeg=false]                            If true the chromium ffmpeg is replaced by community version
  * @property {boolean}                             [glob=true]                               If true file globbing is enabled when parsing srcDir.
  * @property {"error" | "warn" | "info" | "debug"} [logLevel="info"]                         Specify level of logging.
  * @property {boolean}                             [shaSum = true]                           If true, shasum is enabled. Otherwise, disabled.
  * @property {boolean | "zip" | "tar" | "tgz"}     [zip=false]                               If true, "zip", "tar" or "tgz" the outDir directory is compressed.
- * @property {boolean | string | object}           [managedManifest = false]                 Managed manifest mode
+ * @property {boolean | string | Record<string, unknown>} [managedManifest = false]           Managed manifest mode
  * @property {boolean}                             [nativeAddon = false]                     Get Node native addons
  * @property {boolean}                             [cli=false]                               If true the CLI is used to parse options. This option is used internally.
  * @property {string[]}                            [argv = []]                               CLI arguments passed to the NW.js process in run mode
@@ -46,7 +46,7 @@ import util from "./util.js";
 async function nwbuild(options) {
   let built;
   let releaseInfo;
-  /** @type {{path: string, json: any}} */
+  /** @type {{path: string, json: import("./util.js").PackageManifest | undefined}} */
   let manifest = {
     path: "",
     json: undefined,
@@ -54,7 +54,9 @@ async function nwbuild(options) {
 
   try {
     /* Parse options */
-    options = await util.parse(options, manifest);
+    options = /** @type {Options} */ (
+      await util.parse(options, manifest.json ?? {})
+    );
     util.log("debug", "info", "Parse initial options");
 
     util.log("debug", "info", "Get node manifest...");
@@ -71,8 +73,9 @@ async function nwbuild(options) {
       /** @type {"debug" | "error" | "info" | "warn"} */ (options.logLevel),
       "Parse final options using node manifest",
     );
-    /** @type {Required<Options>} */
-    const resolved = await util.parse(options, manifest.json);
+    const resolved = /** @type {Required<Options>} */ (
+      await util.parse(options, manifest.json ?? {})
+    );
     util.log(
       "debug",
       resolved.logLevel,
@@ -115,7 +118,9 @@ async function nwbuild(options) {
     );
 
     /* Remove leading "v" from version string */
-    resolved.version = releaseInfo.version.slice(1);
+    resolved.version = /** @type {import("./util.js").ReleaseInfo} */ (
+      releaseInfo
+    ).version.slice(1);
 
     util.log(
       "info",
@@ -175,7 +180,9 @@ async function nwbuild(options) {
         srcDir: /** @type {string} */ (resolved.srcDir),
         cacheDir: resolved.cacheDir,
         outDir: resolved.outDir,
-        app: /** @type {any} */ (resolved.app),
+        app: /** @type {import("@nwutils/builder").LinuxRc | import("@nwutils/builder").WinRc | import("@nwutils/builder").OsxRc} */ (
+          resolved.app
+        ),
         glob: resolved.glob,
         managedManifest: resolved.managedManifest,
         zip: resolved.zip,
@@ -194,10 +201,10 @@ async function nwbuild(options) {
           `Packaging NW.js application as ${resolved.format}...`,
         );
         const packagePath = await pkg({
-          format: /** @type {any} */ (resolved.format),
+          format: resolved.format,
           appDir: resolved.outDir,
-          appName: /** @type {any} */ (resolved.app).name,
-          icon: /** @type {any} */ (resolved.app).icon,
+          appName: resolved.app.name,
+          icon: resolved.app.icon,
           arch: resolved.arch,
           cacheDir: resolved.cacheDir,
           cache: resolved.cache,
