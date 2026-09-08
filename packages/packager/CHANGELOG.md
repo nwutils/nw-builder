@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/nwutils/nw-builder/compare/@nwutils/packager-v0.2.1...@nwutils/packager-v0.3.0) (2026-09-08)
+
+
+### Features
+
+* **nw-builder:** add package mode using @nwutils/packager ([#1652](https://github.com/nwutils/nw-builder/issues/1652)) ([ad05b21](https://github.com/nwutils/nw-builder/commit/ad05b2102ed647ec15bf832637d2f0a5430eeac7))
+
 ## [0.2.1](https://github.com/nwutils/nw-builder/compare/@nwutils/packager-v0.2.0...@nwutils/packager-v0.2.1) (2026-09-07)
 
 
