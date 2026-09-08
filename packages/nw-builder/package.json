@@ -42,7 +42,6 @@
     "directory": "./packages/nw-builder"
   },
   "scripts": {
-    "postinstall": "node ./src/postinstall.js",
     "lint": "eslint ./src ../../tests/specs/nw-builder",
     "lint:fix": "eslint --fix ./src ../../tests/specs/nw-builder",
     "type": "tsc",
