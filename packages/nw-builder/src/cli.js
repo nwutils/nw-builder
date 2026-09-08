@@ -48,10 +48,7 @@ program
   .option("--zip <string>", "Enable/disable compression", false)
   .option("--managedManifest <string>", "Managed manifest mode", false)
   .option("--nodeAddon <boolean>", "Download NW.js Node headers", false)
-  .option(
-    "--format <string>",
-    "Packaged output format, used in package mode",
-  )
+  .option("--format <string>", "Packaged output format, used in package mode")
   .allowUnknownOption(true)
   .allowExcessArguments(true);
 
