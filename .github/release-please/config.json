@@ -77,6 +77,5 @@
         { "type": "chore", "section": "Chores", "hidden": false }
       ]
     }
-  },
-  "separate-pull-requests": false
+  }
 }
