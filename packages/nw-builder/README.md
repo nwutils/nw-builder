@@ -98,7 +98,7 @@ See `nw-builder` in action by building the demo application.
 
 ## Concepts
 
-`nw-builder` can get, run and build NW.js applications. We refer to them as get, run and build modes.
+`nw-builder` can get, run, build and package NW.js applications. We refer to them as get, run, build and package modes.
 
 ### Get Mode
 
@@ -184,13 +184,33 @@ nwbuild({
 });
 ```
 
+### Package Mode
+
+Builds the application, then packages the `outDir` produced by the build via
+[`@nwutils/packager`](https://www.npmjs.com/package/@nwutils/packager). `mode: "package"` resolves with the path to the resulting packaged artifact instead of `undefined`.
+
+```javascript
+const packagePath = await nwbuild({
+  mode: "package",
+});
+```
+
+`format` selects the packager to run and defaults to `"AppImage"` on Linux. Only `"AppImage"` is implemented today - `deb`, `rpm`, `msix`, `nsis` and `dmg` are reserved for later.
+
+```javascript
+const appImagePath = await nwbuild({
+  mode: "package",
+  format: "AppImage",
+});
+```
+
 ## API Reference
 
 Options
 
 | Name            | Type                                                                                                                                                          | Default                                            | Description                                                                                                                  |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| mode            | `"get" \| "run" \| "build"`                                                                                                                                   | `"build"`                                          | Choose between get, run or build mode                                                                                        |
+| mode            | `"get" \| "run" \| "build" \| "package"`                                                                                                                      | `"build"`                                          | Choose between get, run, build or package mode                                                                               |
 | version         | `string \| "latest" \| "stable"`                                                                                                                              | `"latest"`                                         | Runtime version                                                                                                              |
 | flavor          | `"normal" \| "sdk"`                                                                                                                                           | `"normal"`                                         | Runtime flavor                                                                                                               |
 | platform        | `"linux" \| "osx" \| "win"`                                                                                                                                   |                                                    | Host platform                                                                                                                |
@@ -209,6 +229,7 @@ Options
 | managedManifest | `boolean \| string \| object`                                                                                                                                 | `false`                                            | Managed manifest                                                                                                             |
 | nodeAddon       | `boolean`                                                                                                                                                     | `false`                                            | Rebuild Node native addons                                                                                                   |
 | zip             | `boolean \| "zip" \| "tar" \| "tgz"`                                                                                                                          | `false`                                            | If true, "zip", "tar" or "tgz" the `outDir` directory is compressed.                                                         |
+| format          | `"AppImage" \| "deb" \| "rpm" \| "msix" \| "nsis" \| "dmg"`                                                                                                   | `"AppImage"` on Linux                              | Packaged output format, used in package mode. Only `"AppImage"` is implemented today.                                        |
 | app             | `LinuxRc \| WinRc \| OsxRc`                                                                                                                                   | Additional options for each platform. (See below.) |
 
 ### `app` configuration object
