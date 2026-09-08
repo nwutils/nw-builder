@@ -5,5 +5,5 @@
   "packages/doctor": "0.1.2",
   "packages/getter": "0.2.8",
   "packages/runner": "0.2.6",
-  "packages/packager": "0.2.1"
+  "packages/packager": "0.3.0"
 }
