@@ -8,8 +8,8 @@ export type SupportedPlatform = "linux" | "osx" | "win";
 export interface Options<P extends SupportedPlatform = SupportedPlatform> {
   /** String of space separated glob patterns which correspond to NW app code */
   srcDir?: "./" | string;
-  /** Run or build application */
-  mode?: "build" | "get" | "run";
+  /** Run, build or package application */
+  mode?: "build" | "get" | "run" | "package";
   /** NW runtime version */
   version?: "latest" | "stable" | string;
   /** NW runtime flavor */
@@ -42,6 +42,8 @@ export interface Options<P extends SupportedPlatform = SupportedPlatform> {
   logLevel?: "error" | "warn" | "info" | "debug";
   /** Managed manifest */
   managedManifest?: boolean | string | object;
+  /** Packaged output format, used in package mode. Defaults to `"AppImage"` on Linux. Only `"AppImage"` is implemented today - the others are reserved. */
+  format?: "AppImage" | "deb" | "rpm" | "msix" | "nsis" | "dmg";
 }
 
 /** Platform-specific application options */
@@ -183,6 +185,6 @@ export interface OsxAppOptions {
  */
 declare function nwbuild<P extends SupportedPlatform>(
   options: Options<P>,
-): Promise<ChildProcess | null | undefined>;
+): Promise<ChildProcess | string | null | undefined>;
 
 export default nwbuild;

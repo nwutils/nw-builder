@@ -155,6 +155,66 @@ describe("util/validate", function () {
       Error,
     );
   });
+
+  it("throws error on invalid format in package mode", async function () {
+    await assert.rejects(
+      util.validate(
+        {
+          mode: "package",
+          flavor: "normal",
+          platform: "linux",
+          arch: "x64",
+          downloadUrl: "file://path/to/fs",
+          manifestUrl: "http://path/to/manifest",
+          cacheDir: "./path/to/cache",
+          cache: true,
+          ffmpeg: false,
+          logLevel: "info",
+          shaSum: true,
+          srcDir: "./",
+          argv: [],
+          glob: true,
+          outDir: "./out",
+          managedManifest: false,
+          nativeAddon: false,
+          zip: false,
+          format: "exe",
+        },
+        { flavors: ["normal"], files: ["linux-x64"] },
+      ),
+      Error,
+    );
+  });
+
+  it("throws error when format AppImage is used on a non-linux platform", async function () {
+    await assert.rejects(
+      util.validate(
+        {
+          mode: "package",
+          flavor: "normal",
+          platform: "win",
+          arch: "x64",
+          downloadUrl: "file://path/to/fs",
+          manifestUrl: "http://path/to/manifest",
+          cacheDir: "./path/to/cache",
+          cache: true,
+          ffmpeg: false,
+          logLevel: "info",
+          shaSum: true,
+          srcDir: "./",
+          argv: [],
+          glob: true,
+          outDir: "./out",
+          managedManifest: false,
+          nativeAddon: false,
+          zip: false,
+          format: "AppImage",
+        },
+        { flavors: ["normal"], files: ["win-x64"] },
+      ),
+      Error,
+    );
+  });
 });
 
 describe("util/parse", function () {
@@ -162,6 +222,30 @@ describe("util/parse", function () {
   it("doesnt resolve app.icon", async function () {
     const newOptions = await util.parse({ app: { icon: "." } }, {});
     assert.strictEqual(newOptions.app.icon, ".");
+  });
+
+  it("defaults format to AppImage in package mode on linux", async function () {
+    const newOptions = await util.parse(
+      { mode: "package", platform: "linux" },
+      {},
+    );
+    assert.strictEqual(newOptions.format, "AppImage");
+  });
+
+  it("leaves format undefined in package mode on non-linux platforms", async function () {
+    const newOptions = await util.parse(
+      { mode: "package", platform: "win" },
+      {},
+    );
+    assert.strictEqual(newOptions.format, undefined);
+  });
+
+  it("does not set format outside of package mode", async function () {
+    const newOptions = await util.parse(
+      { mode: "build", platform: "linux" },
+      {},
+    );
+    assert.strictEqual(newOptions.format, undefined);
   });
 });
 

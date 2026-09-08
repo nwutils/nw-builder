@@ -8,6 +8,118 @@ import url from "node:url";
 import * as GlobModule from "glob";
 
 /**
+ * Linux/Windows/OSX specific application configuration. Every property maps
+ * to a `LinuxRc`/`WinRc`/`OsxRc` field from `@nwutils/builder`, kept optional
+ * here since which ones are required depends on `options.platform` - that is
+ * checked at runtime by `validate()`.
+ * @typedef  {object}   AppOptions
+ * @property {string}   [name]                            Name of the application
+ * @property {string}   [icon]                             Path to icon file
+ * @property {string}   [genericName]                      Generic name of the application
+ * @property {boolean}  [noDisplay]                        If true the application is not displayed
+ * @property {string}   [comment]                          Tooltip for the entry
+ * @property {string | boolean} [hidden]                   Whether the entry is hidden
+ * @property {string[]} [onlyShowIn]                       Desktop environments that should display this entry
+ * @property {string[]} [notShowIn]                        Desktop environments that should not display this entry
+ * @property {boolean}  [dBusActivatable]                  If true D-Bus activation is supported
+ * @property {string}   [tryExec]                          Executable used to determine if the program is installed
+ * @property {string}   [exec]                             Program to execute, possibly with arguments
+ * @property {string}   [path]                             Working directory to run the program in
+ * @property {boolean}  [terminal]                         Whether the program runs in a terminal window
+ * @property {string[]} [actions]                          Identifiers for application actions
+ * @property {string[]} [mimeType]                         MIME type(s) supported by this application
+ * @property {string[]} [categories]                       Menu categories the entry should be shown in
+ * @property {string[]} [implements]                       Interfaces this application implements
+ * @property {string[]} [keywords]                         Additional strings used to describe this entry
+ * @property {boolean}  [startupNotify]                    Whether the application supports startup notification
+ * @property {string}   [startupWMClass]                   WM class or WM name hint the application maps
+ * @property {boolean}  [prefersNonDefaultGPU]             If true prefers running on a discrete GPU
+ * @property {string}   [singleMainWindow]                 If true the application has a single main window
+ * @property {string}   [version]                          Version of the application
+ * @property {string}   [comments]                         Additional diagnostic information
+ * @property {string}   [company]                          Company that produced the file
+ * @property {string}   [fileDescription]                  File description presented to users
+ * @property {string}   [fileVersion]                      Version number of the file
+ * @property {string}   [internalName]                     Internal name of the file
+ * @property {string}   [legalCopyright]                   Copyright notices that apply to the file
+ * @property {string}   [legalTrademark]                   Trademarks that apply to the file
+ * @property {string}   [originalFilename]                 Original name of the file
+ * @property {string}   [privateBuild]                     Information about a private build
+ * @property {string}   [productName]                      Name of the product the file is distributed with
+ * @property {string}   [productVersion]                   Version of the product the file is distributed with
+ * @property {string}   [specialBuild]                     How this build differs from the standard version
+ * @property {number}   [languageCode]                     Language identifier (LCID) of the file
+ * @property {string}   [LSApplicationCategoryType]        App Store category
+ * @property {string}   [CFBundleIdentifier]               Unique bundle identifier, usually reverse DNS
+ * @property {string}   [CFBundleName]                     User-visible short name for the bundle
+ * @property {string}   [CFBundleDisplayName]              User-visible name for the bundle
+ * @property {string}   [CFBundleSpokenName]                Replacement app name for text-to-speech
+ * @property {string}   [CFBundleShortVersionString]       Release or version number of the bundle
+ * @property {string}   [CFBundleVersion]                  Build version that identifies a bundle iteration
+ * @property {string}   [NSHumanReadableCopyright]         Human-readable copyright notice
+ * @property {string}   [NSLocalNetworkUsageDescription]   Why the app needs local network access
+ * @property {boolean}  [LSFileQuarantineEnabled]          Whether files this app creates are quarantined
+ */
+
+/**
+ * Minimal shape of the `package.json` fields read while resolving options.
+ * @typedef  {object}          PackageManifest
+ * @property {string}          [name]         Package name
+ * @property {string}          [version]      Package version
+ * @property {string}          [author]       Package author
+ * @property {string}          [description]  Package description
+ * @property {{icon?: string}} [window]       NW.js manifest `window` configuration
+ * @property {object}          [nwbuild]      `nwbuild` options embedded in the manifest
+ */
+
+/**
+ * Version specific NW.js release metadata, as found in the `versions` array
+ * of the manifest at `manifestUrl`.
+ * @typedef  {object}   ReleaseInfo
+ * @property {string}   version  NW.js version, eg. `"v0.115.0"`
+ * @property {string[]} flavors  Flavors this release is published for
+ * @property {string[]} files    Supported `<platform>-<arch>` combinations
+ */
+
+/**
+ * The versions manifest NW.js releases are published to.
+ * @typedef  {object}        VersionsManifest
+ * @property {string}        latest    Latest published version
+ * @property {string}        stable    Latest stable version
+ * @property {string}        lts       Latest LTS version
+ * @property {ReleaseInfo[]} versions  Every published release
+ */
+
+/**
+ * `nwbuild` options, partially or fully resolved. Every field is optional
+ * and loosely typed as supplied by the caller or CLI (eg. `cache` may arrive
+ * as the string `"true"`) - `parse()` normalizes them in place.
+ * @typedef  {object}                                                Options
+ * @property {"get" | "run" | "build" | "package"}                  [mode]             Choose between get, run, build or package mode
+ * @property {string}                                                [version]          Runtime version
+ * @property {"normal" | "sdk"}                                      [flavor]           Runtime flavor
+ * @property {"linux" | "osx" | "win"}                               [platform]         Host platform
+ * @property {"ia32" | "x64" | "arm64"}                              [arch]             Host architecture
+ * @property {string}                                                [downloadUrl]      Download server
+ * @property {string}                                                [manifestUrl]      Versions manifest URI
+ * @property {string}                                                [cacheDir]         Directory to cache NW binaries
+ * @property {boolean | string}                                      [cache]            If true the existing cache is used
+ * @property {boolean | string}                                      [ffmpeg]           If true the community ffmpeg is used
+ * @property {"error" | "warn" | "info" | "debug"}                  [logLevel]          Specify level of logging
+ * @property {boolean | string}                                      [shaSum]           If true, shasum is enabled
+ * @property {boolean | string}                                      [nativeAddon]      Get Node native addons
+ * @property {"AppImage" | "deb" | "rpm" | "msix" | "nsis" | "dmg"} [format]            Packaged output format, used in package mode
+ * @property {string[]}                                              [argv]             CLI arguments passed to the NW.js process in run mode
+ * @property {boolean | string}                                      [glob]             If true file globbing is enabled when parsing srcDir
+ * @property {string | string[]}                                     [srcDir]           File paths to application code
+ * @property {string}                                                [outDir]           Directory to store build artifacts
+ * @property {boolean | string}                                      [zip]              If truthy, the outDir directory is compressed
+ * @property {boolean | string | Record<string, unknown>}           [managedManifest]   Managed manifest mode
+ * @property {AppOptions}                                            [app]              Platform specific app metadata
+ * @property {boolean}                                                [cli]              If true the CLI is used to parse options
+ */
+
+/**
  * Get manifest (array of NW release metadata) from URL.
  * @param  {string}                      manifestUrl  Versions manifest URI, https or file path
  * @returns {string | Promise<string>} - Manifest object
@@ -49,7 +161,7 @@ function getManifest(manifestUrl) {
  * @param  {string} arch         NW architecture
  * @param  {string} cacheDir     Directory to store NW binaries
  * @param  {string} manifestUrl  Versions manifest URI, https or file path
- * @returns {Promise<any>}       Version specific release info
+ * @returns {Promise<ReleaseInfo | undefined>}       Version specific release info
  */
 async function getReleaseInfo(version, platform, arch, cacheDir, manifestUrl) {
   let releaseData = undefined;
@@ -66,7 +178,7 @@ async function getReleaseInfo(version, platform, arch, cacheDir, manifestUrl) {
       await fs.promises.writeFile(manifestPath, data);
     }
 
-    /** @type {any} */
+    /** @type {VersionsManifest} */
     const manifest = JSON.parse(
       await fs.promises.readFile(manifestPath, "utf8"),
     );
@@ -76,7 +188,7 @@ async function getReleaseInfo(version, platform, arch, cacheDir, manifestUrl) {
     }
 
     releaseData = manifest.versions.find(
-      (/** @type {any} */ release) => release.version === `v${version}`,
+      (release) => release.version === `v${version}`,
     );
   } catch {
     console.error(
@@ -86,12 +198,14 @@ async function getReleaseInfo(version, platform, arch, cacheDir, manifestUrl) {
   return releaseData;
 }
 
+/** @type {Record<"darwin" | "linux" | "win32", "linux" | "osx" | "win">} */
 const PLATFORM_KV = {
   darwin: "osx",
   linux: "linux",
   win32: "win",
 };
 
+/** @type {Record<"x64" | "ia32" | "arm64", "x64" | "ia32" | "arm64">} */
 const ARCH_KV = {
   x64: "x64",
   ia32: "ia32",
@@ -143,10 +257,10 @@ async function globFiles({ srcDir, glob }) {
  * @param  {object}             options         - node manifest options
  * @param  {string | string []} options.srcDir  - src dir
  * @param  {boolean}            options.glob    - glob flag
- * @returns {Promise.<{path: string, json: object}>}      - Node manifest
+ * @returns {Promise<{path: string, json: PackageManifest | undefined}>}      - Node manifest
  */
 async function getNodeManifest({ srcDir, glob }) {
-  /** @type {{path: string, json: any}} */
+  /** @type {{path: string, json: PackageManifest | undefined}} */
   let manifest = {
     path: "",
     json: undefined,
@@ -184,24 +298,31 @@ async function getNodeManifest({ srcDir, glob }) {
 /**
  * Function to convert `'true'` and `'false'` into `true` and `false`.
  * `commander` does not do the conversion automatically.
- * @param {string} option - a boolean type option
- * @returns {true | false | string} `true`, `false` or file path
+ * @template {string | boolean | Record<string, unknown> | undefined} T
+ * @param {T} option - a boolean type option
+ * @returns {T extends "true" ? true : T extends "false" ? false : T} `true`, `false` or file path
  */
 function str2Bool(option) {
   if (option === "true") {
-    return true;
+    return /** @type {T extends "true" ? true : T extends "false" ? false : T} */ (
+      true
+    );
   } else if (option === "false") {
-    return false;
+    return /** @type {T extends "true" ? true : T extends "false" ? false : T} */ (
+      false
+    );
   } else {
-    return option;
+    return /** @type {T extends "true" ? true : T extends "false" ? false : T} */ (
+      option
+    );
   }
 }
 
 /**
  * Parse options.
- * @param  {any} options  Options
- * @param  {any} pkg      Package.json as JSON
- * @returns {Promise<any>} Options
+ * @param  {Options | undefined} options  Options
+ * @param  {PackageManifest}     pkg      Package.json as JSON
+ * @returns {Promise<Options>} Options
  */
 export const parse = async (options, pkg) => {
   options = options ?? {};
@@ -226,6 +347,11 @@ export const parse = async (options, pkg) => {
 
   if (options.mode === "get") {
     return { ...options };
+  }
+
+  if (options.mode === "package") {
+    options.format =
+      options.format ?? (options.platform === "linux" ? "AppImage" : undefined);
   }
 
   options.argv = options.argv ?? [];
@@ -327,8 +453,8 @@ export const parse = async (options, pkg) => {
 
 /**
  * Validate options.
- * @param  {any} options      Options
- * @param  {any} releaseInfo  Version specific NW release info
+ * @param  {Options}                 options      Options
+ * @param  {ReleaseInfo | undefined} releaseInfo  Version specific NW release info
  * @returns {Promise<undefined>}                         Return undefined if options are valid
  * @throws {Error}                                         Throw error if options are invalid
  */
@@ -336,10 +462,11 @@ export const validate = async (options, releaseInfo) => {
   if (
     options.mode !== "get" &&
     options.mode !== "run" &&
-    options.mode !== "build"
+    options.mode !== "build" &&
+    options.mode !== "package"
   ) {
     throw new Error(
-      `Unknown mode ${options.mode}. Expected "get", "run" or "build".`,
+      `Unknown mode ${options.mode}. Expected "get", "run", "build" or "package".`,
     );
   }
   if (typeof releaseInfo === "undefined") {
@@ -347,6 +474,8 @@ export const validate = async (options, releaseInfo) => {
       "Either the specific version info does not exist or the version manifest itself does not exist. In case of the latter, please check your internet connection and try again later.",
     );
   }
+  /* By the time validate() runs, parse() has already defaulted options.flavor. */
+  options.flavor = options.flavor ?? "normal";
   if (!releaseInfo.flavors.includes(options.flavor)) {
     throw new Error(
       `${options.flavor} flavor is not supported by this download server.`,
@@ -483,6 +612,30 @@ export const validate = async (options, releaseInfo) => {
         typeof options.zip,
     );
   }
+
+  if (options.mode === "package") {
+    if (
+      options.format !== "AppImage" &&
+      options.format !== "deb" &&
+      options.format !== "rpm" &&
+      options.format !== "msix" &&
+      options.format !== "nsis" &&
+      options.format !== "dmg"
+    ) {
+      throw new Error(
+        'Expected options.format to be one of "AppImage", "deb", "rpm", "msix", "nsis" or "dmg". Got ' +
+          JSON.stringify(options.format),
+      );
+    }
+    if (options.format === "AppImage" && options.platform !== "linux") {
+      throw new Error(
+        `options.format "AppImage" requires options.platform to be "linux". Got ${JSON.stringify(options.platform)}.`,
+      );
+    }
+  }
+
+  /* By the time validate() runs, parse() has already defaulted options.app to {}. */
+  options.app = options.app ?? {};
 
   if (options.platform === "linux") {
     if (options.app.name && typeof options.app.name !== "string") {
@@ -852,7 +1005,7 @@ export const validate = async (options, releaseInfo) => {
  * @async
  * @function
  * @param  {"chromedriver"} type     - NW specific file or directory
- * @param  {any}            options  - nwbuild options
+ * @param  {{cacheDir: string, flavor: string, version: string, platform: string, arch: string}} options  - nwbuild options
  * @returns {Promise<string>}         - Path to chromedriver
  * @throws {Error}
  */

@@ -8,7 +8,7 @@ import util from "./util.js";
 
 program
   .argument("<string>", "File path(s) to project")
-  .option("--mode <string>", "get, run or build mode", "build")
+  .option("--mode <string>", "get, run, build or package mode", "build")
   .option("--version <string>", "NW.js version", "latest")
   .option("--flavor <string>", "NW.js build flavor", "normal")
   .option(
@@ -38,7 +38,6 @@ program
   .option(
     "--app <object>",
     "Platform specific app metadata. Refer to docs for more info",
-    /** @type {any} */ ({}),
   )
   .option("--cache <boolean>", "Enable/disable caching", true)
   .option("--ffmpeg <boolean>", "Enable/disable community ffmpeg", false)
@@ -48,6 +47,7 @@ program
   .option("--zip <string>", "Enable/disable compression", false)
   .option("--managedManifest <string>", "Managed manifest mode", false)
   .option("--nodeAddon <boolean>", "Download NW.js Node headers", false)
+  .option("--format <string>", "Packaged output format, used in package mode")
   .allowUnknownOption(true)
   .allowExcessArguments(true);
 
