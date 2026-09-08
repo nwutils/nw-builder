@@ -4,7 +4,16 @@
 
 Package NW.js applications for Linux, MacOS and Windows.
 
-Currently supported: packaging a Linux application as an [AppImage](https://appimage.org/).
+Supported output formats, selected via `format`:
+
+| Format     | Platform | Status      |
+| ---------- | -------- | ----------- |
+| `AppImage` | Linux    | Implemented |
+| `deb`      | Linux    | Planned     |
+| `rpm`      | Linux    | Planned     |
+| `msix`     | Windows  | Planned     |
+| `nsis`     | Windows  | Planned     |
+| `dmg`      | MacOS    | Planned     |
 
 ## Getting Started
 
@@ -13,11 +22,11 @@ Currently supported: packaging a Linux application as an [AppImage](https://appi
 ## Usage
 
 This composes with `@nwutils/builder`: run it against the `outDir` (and `app.name`)
-that `@nwutils/builder` produced for `platform: "linux"`.
+that `@nwutils/builder` produced.
 
 ```js
 import build from "@nwutils/builder";
-import { appImage } from "@nwutils/packager";
+import packager from "@nwutils/packager";
 
 await build({
   version: "0.115.0",
@@ -33,7 +42,8 @@ await build({
   },
 });
 
-const appImagePath = await appImage({
+const appImagePath = await packager({
+  format: "AppImage",
   appDir: "./out",
   appName: "Demo",
   cacheDir: "./cache",
@@ -42,6 +52,12 @@ const appImagePath = await appImage({
 
 console.log(`AppImage written to ${appImagePath}`);
 ```
+
+`packager({ format, ...options })` dispatches to the packager for `format` -
+`options` is whatever that packager expects (see `appImage(options)` below).
+Passing a `format` that isn't `"AppImage"` yet throws a clear "not implemented
+yet" error rather than doing nothing. `appImage` is also exported directly, if
+you'd rather skip the dispatch and know you only ever target AppImage.
 
 The first time it runs for a given architecture, `appImage()` downloads
 [`appimagetool`](https://github.com/AppImage/appimagetool) into `cacheDir` and
@@ -54,6 +70,15 @@ never required - useful in containers, CI runners and other sandboxes where
 FUSE is typically unavailable.
 
 ## API Reference
+
+### `packager({ format, ...options })`
+
+| Name   | Type                                               | Description                                                                  |
+| ------ | -------------------------------------------------- | ---------------------------------------------------------------------------- |
+| format | `"AppImage" \| "deb" \| "rpm" \| "MSIX" \| "NSIS"` | Which packager to run. Only `"AppImage"` is implemented today.               |
+| ...    | -                                                  | The remaining options are passed through to the packager for `format` as-is. |
+
+Resolves with the path to the resulting packaged artifact.
 
 ### `appImage(options)`
 
