@@ -257,6 +257,9 @@ async function get(options) {
     options.cacheDir,
     options.ffmpeg,
     options.shaSum,
+    options.version,
+    options.platform,
+    options.arch,
     path.basename(nwFilePath),
   );
 
@@ -293,6 +296,19 @@ async function get(options) {
         options.cacheDir,
       );
     }
+
+    const ffmpegChecksumHost = `https://api.github.com/repos/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/tags/${options.version}`;
+    await verify(
+      `${ffmpegChecksumHost}/SHASUMS256.txt`,
+      `${options.cacheDir}/shasum/${options.version}.txt`,
+      options.cacheDir,
+      options.ffmpeg,
+      options.shaSum,
+      options.version,
+      options.platform,
+      options.arch,
+      path.basename(ffmpegFilePath),
+    );
 
     await decompress(ffmpegFilePath, options.cacheDir);
 

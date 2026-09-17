@@ -8,12 +8,15 @@ import request from "./request.js";
  * Verify the SHA256 checksum of downloaded artifacts.
  * @async
  * @function
+ * @param {string} version - Version of NW.js.
+ * @param {string} platform - Platform of NW.js.
+ * @param {string} arch - Architecture of NW.js.
  * @param {string} shaUrl - URL to get the shasum text file from.
  * @param {string} shaOut - File path to shasum text file.
  * @param {string} cacheDir - File path to cache directory.
  * @param {boolean} ffmpeg - Toggle between community (true) and official (false) ffmpeg binary
  * @param {boolean} shaSum - Throws error if true, otherwise logs a warning. Applies to both a checksum mismatch and `expectedFile` never being checked at all.
- * @param {string} [expectedFile] - Relative path, as listed in the SHASUMS file, that this call is actually relying on being verified. Other listed files that don't exist locally (eg. other platforms) are still skipped silently - only `expectedFile` going unchecked is treated as a failure, since that means the caller's "integrity verified" belief was never actually true.
+ * @param {string} expectedFile - Relative path, as listed in the SHASUMS file, that this call is actually relying on being verified. Other listed files that don't exist locally (eg. other platforms) are still skipped silently - only `expectedFile` going unchecked is treated as a failure, since that means the caller's "integrity verified" belief was never actually true.
  * @throws {Error}
  * @returns {Promise<boolean>} - Returns true if the checksums match.
  */
@@ -23,6 +26,9 @@ export default async function verify(
   cacheDir,
   ffmpeg,
   shaSum,
+  version,
+  platform,
+  arch,
   expectedFile,
 ) {
   const shaOutExists = fs.existsSync(shaOut);
@@ -31,39 +37,72 @@ export default async function verify(
     /* Create directory if does not exist. */
     await fs.promises.mkdir(path.dirname(shaOut), { recursive: true });
 
-    /* Download SHASUM text file. */
-    await request(shaUrl, shaOut);
+    if (ffmpeg) {
+      /* Download SHASUM text file for community ffmpeg binary. */
+      await request(shaUrl, shaOut);
+    } else {
+      /* Download SHASUM text file. */
+      await request(shaUrl, shaOut);
+    }
   }
 
-  /* Read SHASUM text file */
-  const shasum = await fs.promises.readFile(shaOut, { encoding: "utf-8" });
-  const shasums = shasum.trim().split("\n");
+  /* TODO: refactor and make it cleaner */
   let expectedFileWasChecked = false;
-
-  for await (const line of shasums) {
-    const [storedSha, filePath] = line.split(/\s+/);
-    const relativeFilePath = path.resolve(cacheDir, filePath);
-    const relativefilePathExists = fs.existsSync(relativeFilePath);
-    if (relativefilePathExists) {
-      if (filePath === expectedFile) {
-        expectedFileWasChecked = true;
+  if (ffmpeg) {
+    const shasum = JSON.parse(
+      await fs.promises.readFile(shaOut, { encoding: "utf-8" }),
+    );
+    const assetName = `${version}-${platform}-${arch}.zip`;
+    for await (const asset of shasum.assets) {
+      if (asset.name === assetName) {
+        const storedSha = asset.digest.slice(7).toLowerCase();
+        const relativeFilePath = path.resolve(cacheDir, expectedFile);
+        const relativefilePathExists = fs.existsSync(relativeFilePath);
+        if (relativefilePathExists) {
+          const fileBuffer = await fs.promises.readFile(relativeFilePath);
+          const hash = crypto.createHash("sha256");
+          hash.update(fileBuffer);
+          const generatedSha = hash.digest("hex");
+          if (
+            !crypto.timingSafeEqual(
+              Buffer.from(generatedSha, "hex"),
+              Buffer.from(storedSha, "hex"),
+            )
+          ) {
+            const message = `SHA256 checksums do not match. The file ${expectedFile} expected shasum is ${storedSha} but the actual shasum is ${generatedSha}.`;
+            if (shaSum) {
+              throw new Error(message);
+            } else {
+              console.log(message);
+            }
+          }
+        }
       }
+    }
+  } else {
+    /* Read SHASUM text file */
+    const shasum = await fs.promises.readFile(shaOut, { encoding: "utf-8" });
+    const shasums = shasum.trim().split("\n");
 
-      const fileBuffer = await fs.promises.readFile(relativeFilePath);
-      const hash = crypto.createHash("sha256");
-      hash.update(fileBuffer);
-      const generatedSha = hash.digest("hex");
-      if (
-        !crypto.timingSafeEqual(
-          Buffer.from(generatedSha, "hex"),
-          Buffer.from(storedSha, "hex"),
-        )
-      ) {
-        if (filePath.includes("ffmpeg") && ffmpeg) {
-          console.warn(
-            `The generated shasum for the community ffmpeg at ${filePath} is ${generatedSha}. The integrity of this file should be manually verified.`,
-          );
-        } else {
+    for await (const line of shasums) {
+      const [storedSha, filePath] = line.split(/\s+/);
+      const relativeFilePath = path.resolve(cacheDir, filePath);
+      const relativefilePathExists = fs.existsSync(relativeFilePath);
+      if (relativefilePathExists) {
+        if (filePath === expectedFile) {
+          expectedFileWasChecked = true;
+        }
+
+        const fileBuffer = await fs.promises.readFile(relativeFilePath);
+        const hash = crypto.createHash("sha256");
+        hash.update(fileBuffer);
+        const generatedSha = hash.digest("hex");
+        if (
+          !crypto.timingSafeEqual(
+            Buffer.from(generatedSha, "hex"),
+            Buffer.from(storedSha, "hex"),
+          )
+        ) {
           const message = `SHA256 checksums do not match. The file ${filePath} expected shasum is ${storedSha} but the actual shasum is ${generatedSha}.`;
           if (shaSum) {
             throw new Error(message);
