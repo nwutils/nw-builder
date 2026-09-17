@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.3.0](https://github.com/nwutils/nw-builder/compare/@nwutils/getter-v0.2.8...@nwutils/getter-v0.3.0) (2026-09-17)
+
+
+### Features
+
+* **getter:** verify community ffmpeg shasum ([#1661](https://github.com/nwutils/nw-builder/issues/1661)) ([3614cdf](https://github.com/nwutils/nw-builder/commit/3614cdfe16071ca5fced858a005ba8aba165ee9a))
+
+
+### Chores
+
+* **ci:** remove eslint packages ([#1663](https://github.com/nwutils/nw-builder/issues/1663)) ([56cef09](https://github.com/nwutils/nw-builder/commit/56cef099dbaa715627d79daf202e17bf5145839d))
+
 ## [0.2.8](https://github.com/nwutils/nw-builder/compare/@nwutils/getter-v0.2.7...@nwutils/getter-v0.2.8) (2026-09-07)
 
 
