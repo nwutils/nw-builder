@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/nwutils/nw-builder/compare/@nwutils/getter-v0.3.0...@nwutils/getter-v0.3.1) (2026-09-17)
+
+
+### Chores
+
+* **docs:** update package info ([f1d154c](https://github.com/nwutils/nw-builder/commit/f1d154c70df2cdb6e21153699f8b50f32d91912c))
+
 ## [0.3.0](https://github.com/nwutils/nw-builder/compare/@nwutils/getter-v0.2.8...@nwutils/getter-v0.3.0) (2026-09-17)
 
 
