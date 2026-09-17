@@ -6,7 +6,6 @@ Run NW.js on Linux, MacOS and Windows hosts.
 
 ## Getting Started
 
-1. Install [Volta](https://volta.sh)
 1. `npm i` to install third party dependencies
 
 ## Usage

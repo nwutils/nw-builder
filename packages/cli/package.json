@@ -52,10 +52,16 @@
     "@nwutils/runner": "^0.2.3",
     "commander": "^15.0.0"
   },
-  "devDependencies": {
-    "@types/chrome": "^0.2.8",
-    "@types/node": "^26.4.1",
-    "@types/nw.js": "^0.115.0",
-    "typescript": "^7.0.2"
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "26.7.0",
+      "onFail": "warn"
+    },
+    "packageManager": {
+      "name": "npm",
+      "version": "12.0.2",
+      "onFail": "warn"
+    }
   }
 }

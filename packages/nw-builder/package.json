@@ -54,10 +54,6 @@
     "demo:exe:win": "../../tests/fixtures/nw-builder/out/win/Demo.exe",
     "demo:cli": "nwbuild --mode=build --flavor=sdk --glob=false --cacheDir=./node_modules/nw --logLevel=debug --managedManifest=../../tests/fixtures/nw-builder/app/package.json --outDir=../../tests/fixtures/nw-builder/out/linux --app.name=Demo --app.icon=../../tests/fixtures/nw-builder/app/icon.png ../../tests/fixtures/nw-builder/app"
   },
-  "devDependencies": {
-    "base-volta-off-of-nwjs": "^1.0.5",
-    "nw": "^0.115.0"
-  },
   "dependencies": {
     "@nwutils/builder": "^0.1.0",
     "@nwutils/getter": "^0.2.5",
@@ -65,5 +61,17 @@
     "@nwutils/runner": "^0.2.3",
     "commander": "^15.0.0",
     "glob": "^13.0.6"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "26.7.0",
+      "onFail": "warn"
+    },
+    "packageManager": {
+      "name": "npm",
+      "version": "12.0.2",
+      "onFail": "warn"
+    }
   }
 }

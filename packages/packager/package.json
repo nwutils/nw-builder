@@ -47,5 +47,16 @@
     "test:real": "node --test \"../../tests/specs/packager/appImage.real.test.js\""
   },
   "dependencies": {},
-  "devDependencies": {}
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "26.7.0",
+      "onFail": "warn"
+    },
+    "packageManager": {
+      "name": "npm",
+      "version": "12.0.2",
+      "onFail": "warn"
+    }
+  }
 }

@@ -45,7 +45,16 @@
     "type": "tsc",
     "test": "node --test \"../../tests/specs/runner/*.test.js\""
   },
-  "devDependencies": {
-    "@nwutils/getter": "^0.2.6"
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "26.7.0",
+      "onFail": "warn"
+    },
+    "packageManager": {
+      "name": "npm",
+      "version": "12.0.2",
+      "onFail": "warn"
+    }
   }
 }
