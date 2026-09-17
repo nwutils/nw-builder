@@ -59,6 +59,8 @@ export default async function verify(
         const relativeFilePath = path.resolve(cacheDir, expectedFile);
         const relativefilePathExists = fs.existsSync(relativeFilePath);
         if (relativefilePathExists) {
+          expectedFileWasChecked = true;
+
           const fileBuffer = await fs.promises.readFile(relativeFilePath);
           const hash = crypto.createHash("sha256");
           hash.update(fileBuffer);
