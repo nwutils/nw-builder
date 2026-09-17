@@ -250,13 +250,20 @@ async function get(options) {
   const checksumHost =
     uri.protocol === "file:" ? options.downloadUrl : "https://dl.nwjs.io";
 
-  /* Verify the archive's checksum before extracting its contents. */
+  /*
+   * The main NW.js binary's SHASUMS256.txt from `dl.nwjs.io` is always
+   * plain-text, regardless of `options.ffmpeg` - that flag only switches
+   * the JSON format used for the community ffmpeg release below.
+   */
   await verify(
     `${checksumHost}/v${options.version}/SHASUMS256.txt`,
     `${options.cacheDir}/shasum/${options.version}.txt`,
     options.cacheDir,
-    options.ffmpeg,
+    false,
     options.shaSum,
+    options.version,
+    options.platform,
+    options.arch,
     path.basename(nwFilePath),
   );
 
@@ -293,6 +300,19 @@ async function get(options) {
         options.cacheDir,
       );
     }
+
+    const ffmpegChecksumHost = `https://api.github.com/repos/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/releases/tags/${options.version}`;
+    await verify(
+      `${ffmpegChecksumHost}/SHASUMS256.txt`,
+      `${options.cacheDir}/shasum/${options.version}.txt`,
+      options.cacheDir,
+      options.ffmpeg,
+      options.shaSum,
+      options.version,
+      options.platform,
+      options.arch,
+      path.basename(ffmpegFilePath),
+    );
 
     await decompress(ffmpegFilePath, options.cacheDir);
 
@@ -378,8 +398,11 @@ async function get(options) {
       `${checksumHost}/v${options.version}/SHASUMS256.txt`,
       `${options.cacheDir}/shasum/${options.version}.txt`,
       options.cacheDir,
-      options.ffmpeg,
+      false,
       options.shaSum,
+      options.version,
+      options.platform,
+      options.arch,
       headersFileName(options.version),
     );
 

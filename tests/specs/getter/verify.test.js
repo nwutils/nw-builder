@@ -44,6 +44,9 @@ describe("verify", function () {
       cacheDir,
       false,
       true,
+      undefined,
+      undefined,
+      undefined,
       "archive.zip",
     );
     assert.strictEqual(result, true);
@@ -57,7 +60,17 @@ describe("verify", function () {
     fs.writeFileSync(shaOut, `${sha256("data")}  other.zip\n`);
 
     await assert.rejects(
-      verify("unused://shaUrl", shaOut, cacheDir, false, true, "archive.zip"),
+      verify(
+        "unused://shaUrl",
+        shaOut,
+        cacheDir,
+        false,
+        true,
+        undefined,
+        undefined,
+        undefined,
+        "archive.zip",
+      ),
       /was not found or does not exist locally/,
     );
     fs.rmSync(root, { recursive: true, force: true });
@@ -70,7 +83,17 @@ describe("verify", function () {
     fs.writeFileSync(shaOut, `${sha256("data")}  archive.zip\n`);
 
     await assert.rejects(
-      verify("unused://shaUrl", shaOut, cacheDir, false, true, "archive.zip"),
+      verify(
+        "unused://shaUrl",
+        shaOut,
+        cacheDir,
+        false,
+        true,
+        undefined,
+        undefined,
+        undefined,
+        "archive.zip",
+      ),
       /was not found or does not exist locally/,
     );
     fs.rmSync(root, { recursive: true, force: true });
@@ -87,6 +110,9 @@ describe("verify", function () {
       cacheDir,
       false,
       false,
+      undefined,
+      undefined,
+      undefined,
       "archive.zip",
     );
     assert.strictEqual(result, true);
@@ -106,6 +132,166 @@ describe("verify", function () {
       true,
     );
     assert.strictEqual(result, true);
+    fs.rmSync(root, { recursive: true, force: true });
+  });
+});
+
+describe("verify - community ffmpeg", function () {
+  /*
+   * When `ffmpeg` is true, `shaOut` is a JSON release manifest (as served by
+   * the GitHub Releases API) rather than a plain-text SHASUMS256.txt, and
+   * assets are matched by `${version}-${platform}-${arch}.zip` instead of by
+   * a path relative to `cacheDir`.
+   */
+
+  /**
+   * @param {string} storedSha - hex digest to embed in the manifest
+   * @param {string} assetName - asset `name` field to embed in the manifest
+   * @returns {string} - JSON text matching the GitHub release asset shape
+   */
+  function ffmpegManifest(storedSha, assetName) {
+    return JSON.stringify({
+      assets: [{ name: assetName, digest: `sha256:${storedSha}` }],
+    });
+  }
+
+  it("resolves when the community ffmpeg archive is present and matches", async function () {
+    const { root, cacheDir } = sandbox();
+    const fileContent = "ffmpeg binary contents";
+    fs.writeFileSync(
+      path.join(cacheDir, "ffmpeg-0.1.0-linux-x64.zip"),
+      fileContent,
+    );
+    const shaOut = path.join(root, "SHASUMS256.json");
+    fs.writeFileSync(
+      shaOut,
+      ffmpegManifest(sha256(fileContent), "0.1.0-linux-x64.zip"),
+    );
+
+    const result = await verify(
+      "unused://shaUrl",
+      shaOut,
+      cacheDir,
+      true,
+      true,
+      "0.1.0",
+      "linux",
+      "x64",
+      "ffmpeg-0.1.0-linux-x64.zip",
+    );
+    assert.strictEqual(result, true);
+    fs.rmSync(root, { recursive: true, force: true });
+  });
+
+  it("throws when the community ffmpeg checksum does not match and shaSum is true", async function () {
+    const { root, cacheDir } = sandbox();
+    fs.writeFileSync(
+      path.join(cacheDir, "ffmpeg-0.1.0-linux-x64.zip"),
+      "actual contents",
+    );
+    const shaOut = path.join(root, "SHASUMS256.json");
+    fs.writeFileSync(
+      shaOut,
+      ffmpegManifest(sha256("different contents"), "0.1.0-linux-x64.zip"),
+    );
+
+    await assert.rejects(
+      verify(
+        "unused://shaUrl",
+        shaOut,
+        cacheDir,
+        true,
+        true,
+        "0.1.0",
+        "linux",
+        "x64",
+        "ffmpeg-0.1.0-linux-x64.zip",
+      ),
+      /SHA256 checksums do not match/,
+    );
+    fs.rmSync(root, { recursive: true, force: true });
+  });
+
+  it("warns instead of throwing when the community ffmpeg checksum does not match and shaSum is false", async function () {
+    const { root, cacheDir } = sandbox();
+    fs.writeFileSync(
+      path.join(cacheDir, "ffmpeg-0.1.0-linux-x64.zip"),
+      "actual contents",
+    );
+    const shaOut = path.join(root, "SHASUMS256.json");
+    fs.writeFileSync(
+      shaOut,
+      ffmpegManifest(sha256("different contents"), "0.1.0-linux-x64.zip"),
+    );
+
+    const result = await verify(
+      "unused://shaUrl",
+      shaOut,
+      cacheDir,
+      true,
+      false,
+      "0.1.0",
+      "linux",
+      "x64",
+      "ffmpeg-0.1.0-linux-x64.zip",
+    );
+    assert.strictEqual(result, true);
+    fs.rmSync(root, { recursive: true, force: true });
+  });
+
+  it("throws when no manifest asset matches version/platform/arch and shaSum is true", async function () {
+    const { root, cacheDir } = sandbox();
+    fs.writeFileSync(
+      path.join(cacheDir, "ffmpeg-0.1.0-linux-x64.zip"),
+      "actual contents",
+    );
+    const shaOut = path.join(root, "SHASUMS256.json");
+    /* Manifest only lists a different platform's asset. */
+    fs.writeFileSync(
+      shaOut,
+      ffmpegManifest(sha256("actual contents"), "0.1.0-osx-x64.zip"),
+    );
+
+    await assert.rejects(
+      verify(
+        "unused://shaUrl",
+        shaOut,
+        cacheDir,
+        true,
+        true,
+        "0.1.0",
+        "linux",
+        "x64",
+        "ffmpeg-0.1.0-linux-x64.zip",
+      ),
+      /was not found or does not exist locally/,
+    );
+    fs.rmSync(root, { recursive: true, force: true });
+  });
+
+  it("throws when the matching asset is listed but the archive does not exist locally", async function () {
+    const { root, cacheDir } = sandbox();
+    const shaOut = path.join(root, "SHASUMS256.json");
+    /* Asset matches version/platform/arch, but the archive was never written. */
+    fs.writeFileSync(
+      shaOut,
+      ffmpegManifest(sha256("actual contents"), "0.1.0-linux-x64.zip"),
+    );
+
+    await assert.rejects(
+      verify(
+        "unused://shaUrl",
+        shaOut,
+        cacheDir,
+        true,
+        true,
+        "0.1.0",
+        "linux",
+        "x64",
+        "ffmpeg-0.1.0-linux-x64.zip",
+      ),
+      /was not found or does not exist locally/,
+    );
     fs.rmSync(root, { recursive: true, force: true });
   });
 });
