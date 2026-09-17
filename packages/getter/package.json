@@ -51,8 +51,8 @@
     "yauzl-promise": "^4.0.0"
   },
   "devDependencies": {
-    "eslint-plugin-node-security": "^5.2.3",
-    "eslint-plugin-secure-coding": "^5.1.4"
+    "eslint-plugin-node-security": "^5.6.0",
+    "eslint-plugin-secure-coding": "^5.4.4"
   },
   "devEngines": {
     "runtime": {

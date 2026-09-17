@@ -54,7 +54,7 @@
   },
   "devDependencies": {
     "@types/chrome": "^0.2.8",
-    "@types/node": "^26.4.1",
+    "@types/node": "^26.5.1",
     "@types/nw.js": "^0.115.0",
     "typescript": "^7.0.2"
   }
