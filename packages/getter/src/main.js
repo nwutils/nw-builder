@@ -398,8 +398,11 @@ async function get(options) {
       `${checksumHost}/v${options.version}/SHASUMS256.txt`,
       `${options.cacheDir}/shasum/${options.version}.txt`,
       options.cacheDir,
-      options.ffmpeg,
+      false,
       options.shaSum,
+      options.version,
+      options.platform,
+      options.arch,
       headersFileName(options.version),
     );
 
