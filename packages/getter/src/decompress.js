@@ -46,13 +46,6 @@ export default async function decompress(filePath, cacheDir, limits = {}) {
     limits.maxTotalExtractedSize ?? MAX_TOTAL_EXTRACTED_SIZE;
 
   if (filePath.endsWith(".zip")) {
-    /*
-     * Every entry unzip() writes is resolved through resolveWithin() first -
-     * file entries, symlink names and symlink targets alike. The rule reports
-     * the call site rather than the write site, so it cannot see that guard
-     * from here.
-     */
-    // eslint-disable-next-line node-security/no-zip-slip
     await unzip(filePath, cacheDir, maxEntries, maxTotalExtractedSize);
   } else {
     /*
@@ -67,7 +60,6 @@ export default async function decompress(filePath, cacheDir, limits = {}) {
      * `maxTotalExtractedSize` and skips any entry that would exceed it, so
      * this is bounded even though the linter can't see through the closure.
      */
-    // eslint-disable-next-line node-security/no-zip-slip, secure-coding/no-unlimited-resource-allocation
     await tar.extract({
       file: filePath,
       C: cacheDir,

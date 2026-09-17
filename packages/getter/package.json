@@ -50,10 +50,6 @@
     "tar": "^7.5.22",
     "yauzl-promise": "^4.0.0"
   },
-  "devDependencies": {
-    "eslint-plugin-node-security": "^5.2.3",
-    "eslint-plugin-secure-coding": "^5.1.4"
-  },
   "devEngines": {
     "runtime": {
       "name": "node",
