@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.1.4](https://github.com/nwutils/nw-builder/compare/@nwutils/cli-v0.1.3...@nwutils/cli-v0.1.4) (2026-09-18)
+
+
+### Chores
+
+* **deps:** extract devDeps into root package.json ([27250a4](https://github.com/nwutils/nw-builder/commit/27250a487f8a8f4406ca55cefdc5faeb2ade1600))
+* **docs:** update package info ([f1d154c](https://github.com/nwutils/nw-builder/commit/f1d154c70df2cdb6e21153699f8b50f32d91912c))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @nwutils/runner bumped from ^0.2.3 to ^0.2.7
+
 ## [0.1.3](https://github.com/nwutils/nw-builder/compare/@nwutils/cli-v0.1.2...@nwutils/cli-v0.1.3) (2026-09-07)
 
 
