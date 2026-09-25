@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.3](https://github.com/nwutils/nw-builder/compare/@nwutils/builder-v0.1.2...@nwutils/builder-v0.1.3) (2026-09-25)
+
+
+### Chores
+
+* **deps:** extract devDeps into root package.json ([27250a4](https://github.com/nwutils/nw-builder/commit/27250a487f8a8f4406ca55cefdc5faeb2ade1600))
+
 ## [0.1.2](https://github.com/nwutils/nw-builder/compare/@nwutils/builder-v0.1.1...@nwutils/builder-v0.1.2) (2026-09-07)
 
 
