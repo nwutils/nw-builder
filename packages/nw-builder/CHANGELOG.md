@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.20.1](https://github.com/nwutils/nw-builder/compare/nw-builder-v4.20.0...nw-builder-v4.20.1) (2026-09-25)
+
+
+### Chores
+
+* **deps:** extract devDeps into root package.json ([27250a4](https://github.com/nwutils/nw-builder/commit/27250a487f8a8f4406ca55cefdc5faeb2ade1600))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @nwutils/builder bumped from ^0.1.0 to ^0.1.3
+    * @nwutils/packager bumped from ^0.3.0 to ^0.4.1
+    * @nwutils/runner bumped from ^0.2.3 to ^0.2.7
+
 ## [4.20.0](https://github.com/nwutils/nw-builder/compare/nw-builder-v4.19.2...nw-builder-v4.20.0) (2026-09-08)
 
 
