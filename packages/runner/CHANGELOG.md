@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.7](https://github.com/nwutils/nw-builder/compare/@nwutils/runner-v0.2.6...@nwutils/runner-v0.2.7) (2026-09-25)
+
+
+### Chores
+
+* **deps:** extract devDeps into root package.json ([27250a4](https://github.com/nwutils/nw-builder/commit/27250a487f8a8f4406ca55cefdc5faeb2ade1600))
+
 ## [0.2.6](https://github.com/nwutils/nw-builder/compare/@nwutils/runner-v0.2.5...@nwutils/runner-v0.2.6) (2026-09-07)
 
 
