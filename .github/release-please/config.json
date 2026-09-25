@@ -1,5 +1,5 @@
 {
-  "plugins": ["node-workspace"],
+  "plugins": ["node-workspace", "merge": false],
   "packages": {
     "packages/nw-builder": {
       "package-name": "nw-builder",
