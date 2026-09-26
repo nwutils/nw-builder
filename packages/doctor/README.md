@@ -43,15 +43,3 @@ Options
 | manifestUrl | `"https://nwjs.io/versions.json" \| "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json"` | Versions manifest                                                                 |
 | srcDir      | `string`                                                                                                                        | Directory containing the application's `package.json` (used to read `devEngines`) |
 | cacheDir    | `string`                                                                                                                        | Directory to cache NW binaries                                                    |
-
-## Contributing
-
-### External contributor
-
-- Use Node.js standard libraries whenever possible.
-- Prefer to use syncronous APIs over modern APIs which have been introduced in later versions.
-
-### Maintainer
-
-- npm Trusted Publishing with OIDC is used for releases
-- A package is released when a maintainer creates a release note for a specific version

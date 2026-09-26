@@ -1,11 +1,35 @@
 # nw-builder
 
 [![npm](https://img.shields.io/npm/v/nw-builder/latest)](https://www.npmjs.com/package/nw-builder/v/latest)
-[![Join the chat at https://gitter.im/nwjs/nw-builder](https://badges.gitter.im/repo.svg)](https://app.gitter.im/#/room/#nwjs_nw-builder:gitter.im)
 
 Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and Linux.
 
-> The `stable` tag is deprecated and will be removed. Please use the default `latest` tag.
+## Getting Started
+
+1. `npm i` to install third party dependencies
+
+## Usage
+
+> [!Note]
+> Every NW.js release includes a modified Node.js binary at a specific version. It is recommended to [install](https://nodejs.org/en/download/package-manager) exactly that version on the host system. Not doing so may download ABI incompatible Node modules. Consult the NW.js [versions manifest](https://nwjs.io/versions.json) for what Node.js version to install. It is recommended to use a Node version manager (such as [volta](https://volta.sh), n, nvm, or nvm-windows) to be able to easily install and switch between Node versions.
+
+CLI
+
+```shell
+
+```
+
+JavaScript
+
+```js
+
+```
+
+package.json
+
+```json
+
+```
 
 ## Major Features
 
@@ -13,30 +37,6 @@ Build [NW.js](https://github.com/nwjs/nw.js) applications for Mac, Windows and L
 - Integrate [FFmpeg community builds](https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt)
 - Configure executable fields, icons and rename Helper apps
 - Downloading from mirrors
-
-## Table of Contents
-
-- [Installation](https://github.com/nwutils/nw-builder#install)
-- [Usage](https://github.com/nwutils/nw-builder#usage)
-- [Concepts](https://github.com/nwutils/nw-builder#concepts)
-- [API Reference](https://github.com/nwutils/nw-builder#api-reference)
-- [Guides](https://github.com/nwutils/nw-builder#guides)
-- [Contributing](https://github.com/nwutils/nw-builder#contributing)
-- [Roadmap](https://github.com/nwutils/nw-builder#roadmap)
-- [FAQ](https://github.com/nwutils/nw-builder#faq)
-- [License](https://github.com/nwutils/nw-builder#license)
-
-## Install
-
-```shell
-npm i -D nw-builder
-```
-
-Every NW.js release includes a modified Node.js binary at a specific version. It is recommended to [install](https://nodejs.org/en/download/package-manager) exactly that version on the host system. Not doing so may download ABI incompatible Node modules. Consult the NW.js [versions manifest](https://nwjs.io/versions.json) for what Node.js version to install. It is recommended to use a Node version manager (such as [volta](https://volta.sh), n, nvm, or nvm-windows) to be able to easily install and switch between Node versions.
-
-## Usage
-
-This package can be used via a command line interface, be imported as a JavaScript module, or configured via the Node manifest as a JSON object. If options are defined in Node manifest, then they will be used over options defined in CLI or JavaScript API.
 
 CLI interface:
 

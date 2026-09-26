@@ -56,15 +56,3 @@ Options
 | managedManifest | `boolean \| string \| object`             | Managed manifest mode                                                                                     |
 | zip             | `false \| "zip" \| "tar" \| "tgz"`        | Compress the built application                                                                            |
 | releaseInfo     | `object`                                  | Version specific release metadata for the target runtime, e.g. `releaseInfo.components.chromium` on MacOS |
-
-## Contributing
-
-### External contributor
-
-- Use Node.js standard libraries whenever possible.
-- Prefer to use syncronous APIs over modern APIs which have been introduced in later versions.
-
-### Maintainer
-
-- npm Trusted Publishing with OIDC is used for releases
-- A package is released when a maintainer creates a release note for a specific version

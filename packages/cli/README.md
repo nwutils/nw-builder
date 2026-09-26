@@ -67,15 +67,3 @@ import { pollyfill } from "@nwutils/cli";
 // Run this as early in your application lifecycle as possible.
 pollyfill();
 ```
-
-## Contributing
-
-### External contributor
-
-- Use Node.js standard libraries whenever possible.
-- Prefer to use syncronous APIs over modern APIs which have been introduced in later versions.
-
-### Maintainer
-
-- npm Trusted Publishing with OIDC is used for releases
-- A package is released when a maintainer creates a release note for a specific version
