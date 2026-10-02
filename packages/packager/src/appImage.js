@@ -26,6 +26,8 @@ const APPIMAGETOOL_URL =
  * @property {string}                       [cacheDir="./cache"] Directory used to cache the downloaded `appimagetool` binary.
  * @property {boolean}                      [cache=true]       If true, reuse a cached `appimagetool` binary. Otherwise redownload it.
  * @property {string}                       [appImageToolUrl]  Base URL `appimagetool-<arch>.AppImage` is downloaded from. Defaults to the `AppImage/appimagetool` "continuous" GitHub release.
+ * @property {boolean}                      [sign=false]       If true, embed a GPG signature in the AppImage. Requires `gpg` and a usable secret key on the host. A passphrase-protected key reads its passphrase from the `APPIMAGETOOL_SIGN_PASSPHRASE` environment variable.
+ * @property {string}                       [signKey]          ID of the GPG key to sign with. Defaults to `gpg`'s default secret key. Requires `sign` to be true.
  */
 
 /**
@@ -47,6 +49,8 @@ async function appImage({
   cacheDir = "./cache",
   cache = true,
   appImageToolUrl = APPIMAGETOOL_URL,
+  sign = false,
+  signKey,
 }) {
   if (process.platform !== "linux") {
     throw new Error(
@@ -68,6 +72,25 @@ async function appImage({
     throw new Error(
       `Expected "options.appName" to be a non-empty string. Received: ${JSON.stringify(appName)}`,
     );
+  }
+
+  if (typeof sign !== "boolean") {
+    throw new Error(
+      `Expected "options.sign" to be a boolean. Received: ${JSON.stringify(sign)}`,
+    );
+  }
+
+  if (signKey !== undefined) {
+    if (typeof signKey !== "string" || signKey === "") {
+      throw new Error(
+        `Expected "options.signKey" to be a non-empty string. Received: ${JSON.stringify(signKey)}`,
+      );
+    }
+    if (sign === false) {
+      throw new Error(
+        '"options.signKey" was passed but "options.sign" is false. Set "options.sign" to true to sign the AppImage.',
+      );
+    }
   }
 
   const resolvedArch =
@@ -179,9 +202,17 @@ async function appImage({
       `${appName}-${appImageToolArch}.AppImage`,
     );
 
+    /*
+     * Signing happens inside the same `appimagetool` run that builds the
+     * file: an embedded signature can't be added to an existing AppImage.
+     */
+    const signArgs = sign
+      ? ["--sign", ...(signKey === undefined ? [] : ["--sign-key", signKey])]
+      : [];
+
     child_process.execFileSync(
       appImageToolPath,
-      ["--no-appstream", appImageDir, appImageFilePath],
+      ["--no-appstream", ...signArgs, appImageDir, appImageFilePath],
       {
         env: {
           ...process.env,

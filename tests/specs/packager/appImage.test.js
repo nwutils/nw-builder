@@ -134,6 +134,78 @@ describe(
       );
     });
 
+    it("throws when signKey is passed without sign", async function () {
+      await assert.rejects(
+        appImage({ appDir, appName: "Demo", signKey: "ABCDEF12" }),
+        /"options.signKey" was passed but "options.sign" is false/,
+      );
+    });
+
+    it("throws when sign is not a boolean", async function () {
+      await assert.rejects(
+        appImage({
+          appDir,
+          appName: "Demo",
+          sign: /** @type {boolean} */ (/** @type {unknown} */ ("yes")),
+        }),
+        /Expected "options.sign" to be a boolean/,
+      );
+    });
+
+    it("throws when signKey is an empty string", async function () {
+      await assert.rejects(
+        appImage({ appDir, appName: "Demo", sign: true, signKey: "" }),
+        /Expected "options.signKey" to be a non-empty string/,
+      );
+    });
+
+    it("passes --sign to appimagetool when sign is true", async function () {
+      const cacheDir = path.join(tmpDir, "cache-sign");
+      const outDir = path.join(tmpDir, "out-sign");
+      await fs.promises.mkdir(cacheDir, { recursive: true });
+      await fs.promises.copyFile(
+        fakeAppImageTool,
+        path.join(cacheDir, `appimagetool-${appImageToolArch}.AppImage`),
+      );
+
+      const outputPath = await appImage({
+        appDir,
+        appName: "Demo",
+        cacheDir,
+        outDir,
+        sign: true,
+      });
+
+      assert.strictEqual(
+        await fs.promises.readFile(outputPath, "utf-8"),
+        `fake AppImage for ARCH=${appImageToolArch}\nsigned with key=default\n`,
+      );
+    });
+
+    it("passes --sign-key to appimagetool when signKey is set", async function () {
+      const cacheDir = path.join(tmpDir, "cache-sign-key");
+      const outDir = path.join(tmpDir, "out-sign-key");
+      await fs.promises.mkdir(cacheDir, { recursive: true });
+      await fs.promises.copyFile(
+        fakeAppImageTool,
+        path.join(cacheDir, `appimagetool-${appImageToolArch}.AppImage`),
+      );
+
+      const outputPath = await appImage({
+        appDir,
+        appName: "Demo",
+        cacheDir,
+        outDir,
+        sign: true,
+        signKey: "ABCDEF12",
+      });
+
+      assert.strictEqual(
+        await fs.promises.readFile(outputPath, "utf-8"),
+        `fake AppImage for ARCH=${appImageToolArch}\nsigned with key=ABCDEF12\n`,
+      );
+    });
+
     describe("getAppImageTool", function () {
       before(async function () {
         await new Promise((resolve, reject) => {

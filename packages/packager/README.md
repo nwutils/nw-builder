@@ -94,6 +94,8 @@ Options
 | cacheDir        | `string`                     | Directory used to cache the downloaded `appimagetool` binary. Defaults to `"./cache"`                                    |
 | cache           | `boolean`                    | If true, reuse a cached `appimagetool` binary. Otherwise redownload it. Defaults to `true`                               |
 | appImageToolUrl | `string`                     | Base URL `appimagetool-<arch>.AppImage` is downloaded from. Defaults to the `AppImage/appimagetool` "continuous" release |
+| sign            | `boolean`                    | If true, embed a GPG signature in the AppImage. Defaults to `false`                                                      |
+| signKey         | `string`                     | ID of the GPG key to sign with. Defaults to `gpg`'s default secret key. Requires `sign: true`                            |
 
 Resolves with the path to the resulting `.AppImage` file.
 
@@ -102,6 +104,32 @@ by `@nwutils/builder`) is copied into the AppImage with its `Exec` and `Icon`
 keys rewritten to match the AppImage's own layout, and a `Categories` key
 added (defaulting to `Utility;`) if one isn't already present, since
 `appimagetool` refuses to build an AppImage without one.
+
+#### Signing
+
+With `sign: true`, `appimagetool` signs the AppImage as the last step of
+building it, embedding the GPG signature and public key in the file's
+`.sha256_sig` and `.sig_key` sections. An embedded signature can't be added to
+an existing AppImage, which is why this is an option rather than a separate
+step.
+
+Signing needs `gpg` installed on the host and the secret key imported into its
+keyring. If the key is protected by a passphrase, set it in the
+`APPIMAGETOOL_SIGN_PASSPHRASE` environment variable - `appImage()` passes the
+current environment through to `appimagetool`, so the passphrase never appears
+on a command line.
+
+```js
+const appImagePath = await packager({
+  format: "AppImage",
+  appDir: "./out",
+  appName: "Demo",
+  sign: true,
+  signKey: "ABCDEF1234567890",
+});
+```
+
+Verify the result with `./Demo-x86_64.AppImage --appimage-signature`.
 
 ## Contributing
 
