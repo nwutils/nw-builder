@@ -21,8 +21,7 @@ Supported output formats, selected via `format`:
 
 ## Usage
 
-This composes with `@nwutils/builder`: run it against the `outDir` (and `app.name`)
-that `@nwutils/builder` produced.
+Build the application.
 
 ```js
 import build from "@nwutils/builder";
@@ -41,33 +40,27 @@ await build({
     categories: "Utility;",
   },
 });
+```
 
+### AppImage
+
+```js
 const appImagePath = await packager({
   format: "AppImage",
   appDir: "./out",
   appName: "Demo",
   cacheDir: "./cache",
   outDir: "./dist",
+  sign: true,
+  signKey: "ABCDEF1234567890",
 });
 
 console.log(`AppImage written to ${appImagePath}`);
 ```
 
-`packager({ format, ...options })` dispatches to the packager for `format` -
-`options` is whatever that packager expects (see `appImage(options)` below).
-Passing a `format` that isn't `"AppImage"` yet throws a clear "not implemented
-yet" error rather than doing nothing. `appImage` is also exported directly, if
-you'd rather skip the dispatch and know you only ever target AppImage.
-
-The first time it runs for a given architecture, `appImage()` downloads
-[`appimagetool`](https://github.com/AppImage/appimagetool) into `cacheDir` and
-reuses it on subsequent calls. `appimagetool` is a native Linux binary, so
-`appImage()` only runs on a Linux host, targeting the host's own architecture
-by default.
-
-`appimagetool` is invoked with `APPIMAGE_EXTRACT_AND_RUN=1`, so a FUSE mount is
-never required - useful in containers, CI runners and other sandboxes where
-FUSE is typically unavailable.
+Signing needs `gpg` installed on the host and the secret key imported into its
+keyring. If the key is protected by a passphrase, set it in the
+`APPIMAGETOOL_SIGN_PASSPHRASE` environment variable
 
 ## API Reference
 
@@ -94,14 +87,10 @@ Options
 | cacheDir        | `string`                     | Directory used to cache the downloaded `appimagetool` binary. Defaults to `"./cache"`                                    |
 | cache           | `boolean`                    | If true, reuse a cached `appimagetool` binary. Otherwise redownload it. Defaults to `true`                               |
 | appImageToolUrl | `string`                     | Base URL `appimagetool-<arch>.AppImage` is downloaded from. Defaults to the `AppImage/appimagetool` "continuous" release |
+| sign            | `boolean`                    | If true, embed a GPG signature in the AppImage. Defaults to `false`                                                      |
+| signKey         | `string`                     | ID of the GPG key to sign with. Defaults to `gpg`'s default secret key. Requires `sign: true`                            |
 
 Resolves with the path to the resulting `.AppImage` file.
-
-The application's desktop entry file (`<appDir>/<appName>.desktop`, as written
-by `@nwutils/builder`) is copied into the AppImage with its `Exec` and `Icon`
-keys rewritten to match the AppImage's own layout, and a `Categories` key
-added (defaulting to `Utility;`) if one isn't already present, since
-`appimagetool` refuses to build an AppImage without one.
 
 ## Contributing
 

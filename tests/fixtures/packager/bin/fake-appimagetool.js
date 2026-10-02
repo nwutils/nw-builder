@@ -14,10 +14,25 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
-const [flag, appDir, outFile] = process.argv.slice(2);
+const args = process.argv.slice(2);
+const flags = [];
+let signKey;
+while (args.length > 0 && args[0].startsWith("--")) {
+  const flag = args.shift();
+  if (flag === "--sign-key") {
+    signKey = args.shift();
+  }
+  flags.push(flag);
+}
+const [appDir, outFile] = args;
 
-if (flag !== "--no-appstream") {
-  console.error(`Expected "--no-appstream" flag. Received: ${flag}`);
+if (flags.includes("--no-appstream") === false) {
+  console.error(`Expected "--no-appstream" flag. Received: ${flags}`);
+  process.exit(1);
+}
+
+if (signKey !== undefined && flags.includes("--sign") === false) {
+  console.error('Expected "--sign-key" to be accompanied by "--sign".');
   process.exit(1);
 }
 
@@ -41,4 +56,8 @@ if (process.env.ARCH === undefined) {
   process.exit(1);
 }
 
-fs.writeFileSync(outFile, `fake AppImage for ARCH=${process.env.ARCH}\n`);
+let contents = `fake AppImage for ARCH=${process.env.ARCH}\n`;
+if (flags.includes("--sign")) {
+  contents += `signed with key=${signKey ?? "default"}\n`;
+}
+fs.writeFileSync(outFile, contents);
