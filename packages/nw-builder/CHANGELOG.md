@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.21.4](https://github.com/nwutils/nw-builder/compare/nw-builder-v4.21.3...nw-builder-v4.21.4) (2026-10-03)
+
+
+### Bug Fixes
+
+* **nw-builder:** depend on released builder and runner versions ([ed1e91e](https://github.com/nwutils/nw-builder/commit/ed1e91e58650a7b6957f31e79b43e517d4d394f4))
+
 ## [4.21.3](https://github.com/nwutils/nw-builder/compare/nw-builder-v4.21.2...nw-builder-v4.21.3) (2026-10-03)
 
 
