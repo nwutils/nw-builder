@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import fs from "node:fs";
 
 /**
@@ -71,16 +72,122 @@ function parseDesktopEntry(contents) {
 function stringifyDesktopEntry(entries) {
   let fileContent = "[Desktop Entry]\n";
   for (const key of Object.keys(entries)) {
-    if (entries[key] !== undefined) {
-      fileContent += `${key}=${entries[key]}\n`;
+    const value = entries[key];
+    if (value !== undefined) {
+      /* A line break would let the key or value inject further entries, eg. a second `Exec`. */
+      if (/[\r\n]/.test(key) || /[\r\n]/.test(value)) {
+        throw new Error(
+          `Desktop entry keys and values must not contain line breaks. Received: ${JSON.stringify(`${key}=${value}`)}`,
+        );
+      }
+      fileContent += `${key}=${value}\n`;
     }
   }
   return fileContent;
 }
 
+/**
+ * Quote `value` as a single POSIX shell word. Inside single quotes nothing is
+ * expanded, so only single quotes themselves need escaping.
+ * @param {string} value
+ * @returns {string}
+ */
+function shellQuote(value) {
+  return `'${value.replaceAll("'", "'\\''")}'`;
+}
+
+/**
+ * Quote `value` as a single argument of a desktop entry's `Exec` key, per the
+ * Desktop Entry Specification: `%` is doubled so it isn't read as a field
+ * code, an argument with reserved characters is double quoted with `"`, `` ` ``,
+ * `$` and `\` backslash-escaped, and finally backslashes are escaped again as
+ * required for every string value.
+ * @param {string} value
+ * @returns {string}
+ */
+function desktopExecArg(value) {
+  let arg = value.replaceAll("%", "%%");
+  if (/[\s"'\\><~|&;$*?#()`]/.test(arg)) {
+    arg = `"${arg.replace(/["`$\\]/g, "\\$&")}"`;
+  }
+  return arg.replaceAll("\\", "\\\\");
+}
+
+/**
+ * Name of the update info file `@nwutils/updater` downloads to find the
+ * latest release, following electron-builder's naming: `x64` gets the bare
+ * `latest-linux.yml`, every other architecture gets an `-<arch>` suffix.
+ * @param {"ia32" | "x64" | "arm64"} arch
+ * @returns {string}
+ */
+function updateInfoFileName(arch) {
+  return arch === "x64" ? "latest-linux.yml" : `latest-linux-${arch}.yml`;
+}
+
+/**
+ * Serialise `value` as a YAML scalar. Strings are written double-quoted via
+ * `JSON.stringify` - a JSON string literal is also a valid YAML double-quoted
+ * scalar, so this never needs YAML-specific escaping rules.
+ * @param {string | number | boolean} value
+ * @returns {string}
+ */
+function stringifyYamlScalar(value) {
+  return typeof value === "string" ? JSON.stringify(value) : String(value);
+}
+
+/**
+ * Serialise a map of scalars, and lists of maps of scalars, as YAML. This is
+ * the only shape the update info and `app-update.yml` files use, so it avoids
+ * pulling in a YAML library for a handful of lines.
+ * @param {Record<string, string | number | boolean | Record<string, string | number | boolean>[] | undefined>} entries
+ * @returns {string}
+ */
+function stringifyYaml(entries) {
+  let fileContent = "";
+  for (const [key, value] of Object.entries(entries)) {
+    if (value === undefined) {
+      continue;
+    }
+    if (Array.isArray(value)) {
+      fileContent += `${key}:\n`;
+      for (const item of value) {
+        let prefix = "  - ";
+        for (const [itemKey, itemValue] of Object.entries(item)) {
+          fileContent += `${prefix}${itemKey}: ${stringifyYamlScalar(itemValue)}\n`;
+          prefix = "    ";
+        }
+      }
+    } else {
+      fileContent += `${key}: ${stringifyYamlScalar(value)}\n`;
+    }
+  }
+  return fileContent;
+}
+
+/**
+ * Compute the base64 encoded SHA-512 digest of the file at `filePath`, the
+ * same encoding electron-builder writes into its update info files.
+ * @async
+ * @function
+ * @param {string} filePath
+ * @returns {Promise<string>}
+ */
+async function sha512(filePath) {
+  const hash = crypto.createHash("sha512");
+  for await (const chunk of fs.createReadStream(filePath)) {
+    hash.update(chunk);
+  }
+  return hash.digest("base64");
+}
+
 export default {
   APPIMAGE_ARCH_KV,
+  desktopExecArg,
   fileExists,
   parseDesktopEntry,
+  sha512,
+  shellQuote,
   stringifyDesktopEntry,
+  stringifyYaml,
+  updateInfoFileName,
 };

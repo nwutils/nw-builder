@@ -17,10 +17,14 @@ const path = require("node:path");
 const args = process.argv.slice(2);
 const flags = [];
 let signKey;
+let updateInformation;
 while (args.length > 0 && args[0].startsWith("--")) {
   const flag = args.shift();
   if (flag === "--sign-key") {
     signKey = args.shift();
+  }
+  if (flag === "--updateinformation") {
+    updateInformation = args.shift();
   }
   flags.push(flag);
 }
@@ -60,4 +64,33 @@ let contents = `fake AppImage for ARCH=${process.env.ARCH}\n`;
 if (flags.includes("--sign")) {
   contents += `signed with key=${signKey ?? "default"}\n`;
 }
+if (updateInformation !== undefined) {
+  contents += `updateinformation=${updateInformation}\n`;
+}
+const appUpdateConfigPath = path.join(appDir, "app-update.yml");
+if (fs.existsSync(appUpdateConfigPath)) {
+  contents += `app-update.yml:\n${fs.readFileSync(appUpdateConfigPath, "utf-8")}`;
+}
 fs.writeFileSync(outFile, contents);
+
+/* Let a test inspect, and run, the AppDir it was given. */
+if (process.env.FAKE_APPIMAGETOOL_KEEP_APPDIR !== undefined) {
+  fs.cpSync(appDir, process.env.FAKE_APPIMAGETOOL_KEEP_APPDIR, {
+    recursive: true,
+    verbatimSymlinks: true,
+  });
+}
+
+/*
+ * Like the real tool, run `zsyncmake` (unless the test simulates it being
+ * missing), which writes `<AppImage basename>.zsync` to the working directory.
+ */
+if (
+  updateInformation !== undefined &&
+  process.env.FAKE_APPIMAGETOOL_NO_ZSYNCMAKE === undefined
+) {
+  fs.writeFileSync(
+    path.join(process.cwd(), `${path.basename(outFile)}.zsync`),
+    "fake zsync\n",
+  );
+}

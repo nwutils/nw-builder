@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import child_process from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -204,6 +205,379 @@ describe(
         await fs.promises.readFile(outputPath, "utf-8"),
         `fake AppImage for ARCH=${appImageToolArch}\nsigned with key=ABCDEF12\n`,
       );
+    });
+
+    describe("self updating", function () {
+      const updateInfoFileName = util.updateInfoFileName(
+        /** @type {"ia32" | "x64" | "arm64"} */ (process.arch),
+      );
+      const appImageFileName = `Demo-${appImageToolArch}.AppImage`;
+      const githubPublish = {
+        provider: /** @type {const} */ ("github"),
+        owner: "nwutils",
+        repo: "demo",
+      };
+
+      /**
+       * Create a cache directory holding the fake `appimagetool`.
+       * @param {string} name
+       * @returns {Promise<string>}
+       */
+      async function fakeToolCacheDir(name) {
+        const cacheDir = path.join(tmpDir, name);
+        await fs.promises.mkdir(cacheDir, { recursive: true });
+        await fs.promises.copyFile(
+          fakeAppImageTool,
+          path.join(cacheDir, `appimagetool-${appImageToolArch}.AppImage`),
+        );
+        return cacheDir;
+      }
+
+      it("throws on an unknown publish provider", async function () {
+        await assert.rejects(
+          appImage({
+            appDir,
+            appName: "Demo",
+            version: "1.0.0",
+            publish: /** @type {any} */ ({ provider: "s3" }),
+          }),
+          /Expected "options.publish.provider" to be "github" or "generic"/,
+        );
+      });
+
+      it("throws when a github publish is missing repo", async function () {
+        await assert.rejects(
+          appImage({
+            appDir,
+            appName: "Demo",
+            version: "1.0.0",
+            publish: /** @type {any} */ ({ provider: "github", owner: "a" }),
+          }),
+          /Expected "options.publish.repo" to be a non-empty string/,
+        );
+      });
+
+      it("throws when a generic publish url isn't http(s)", async function () {
+        await assert.rejects(
+          appImage({
+            appDir,
+            appName: "Demo",
+            version: "1.0.0",
+            publish: { provider: "generic", url: "file:///srv/releases" },
+          }),
+          /Expected "options.publish.url" to be an http\(s\) URL/,
+        );
+      });
+
+      it("throws when publish is set without version", async function () {
+        await assert.rejects(
+          appImage({ appDir, appName: "Demo", publish: githubPublish }),
+          /Expected "options.version" to be a non-empty string/,
+        );
+      });
+
+      it("throws when updateInformation is true without publish", async function () {
+        await assert.rejects(
+          appImage({ appDir, appName: "Demo", updateInformation: true }),
+          /"options.updateInformation" is true but "options.publish" is not set/,
+        );
+      });
+
+      it("throws when updateInformation is an empty string", async function () {
+        await assert.rejects(
+          appImage({ appDir, appName: "Demo", updateInformation: "" }),
+          /Expected "options.updateInformation" to be a boolean or a non-empty string/,
+        );
+      });
+
+      it("embeds app-update.yml and writes the update info file", async function () {
+        const cacheDir = await fakeToolCacheDir("cache-publish");
+        const outDir = path.join(tmpDir, "out-publish");
+
+        const outputPath = await appImage({
+          appDir,
+          appName: "Demo",
+          cacheDir,
+          outDir,
+          version: "1.2.0",
+          publish: githubPublish,
+        });
+
+        const contents = await fs.promises.readFile(outputPath, "utf-8");
+        assert.strictEqual(
+          contents,
+          [
+            `fake AppImage for ARCH=${appImageToolArch}`,
+            "app-update.yml:",
+            'provider: "github"',
+            'owner: "nwutils"',
+            'repo: "demo"',
+            "",
+          ].join("\n"),
+        );
+
+        const updateInfo = await fs.promises.readFile(
+          path.join(outDir, updateInfoFileName),
+          "utf-8",
+        );
+        const sha512 = await util.sha512(outputPath);
+        const size = Buffer.byteLength(contents);
+        const releaseDate = /^releaseDate: "([^"\n]*)"$/m.exec(updateInfo)?.[1];
+        assert.ok(
+          releaseDate !== undefined &&
+            new Date(releaseDate).toISOString() === releaseDate,
+          `expected an ISO 8601 releaseDate, got ${releaseDate}`,
+        );
+        assert.strictEqual(
+          updateInfo,
+          [
+            'version: "1.2.0"',
+            "files:",
+            `  - url: "${appImageFileName}"`,
+            `    sha512: "${sha512}"`,
+            `    size: ${size}`,
+            `path: "${appImageFileName}"`,
+            `sha512: "${sha512}"`,
+            `releaseDate: "${releaseDate}"`,
+            "",
+          ].join("\n"),
+        );
+        assert.strictEqual(
+          fs.existsSync(`${outputPath}.zsync`),
+          false,
+          "no .zsync file without updateInformation",
+        );
+      });
+
+      it("derives gh-releases-zsync update information from a github publish", async function () {
+        const cacheDir = await fakeToolCacheDir("cache-zsync-github");
+        const outDir = path.join(tmpDir, "out-zsync-github");
+
+        const outputPath = await appImage({
+          appDir,
+          appName: "Demo",
+          cacheDir,
+          outDir,
+          version: "1.2.0",
+          publish: githubPublish,
+          updateInformation: true,
+        });
+
+        const contents = await fs.promises.readFile(outputPath, "utf-8");
+        assert.ok(
+          contents.includes(
+            `updateinformation=gh-releases-zsync|nwutils|demo|latest|${appImageFileName}.zsync\n`,
+          ),
+          contents,
+        );
+        assert.ok(fs.existsSync(`${outputPath}.zsync`));
+      });
+
+      it("derives zsync update information from a generic publish", async function () {
+        const cacheDir = await fakeToolCacheDir("cache-zsync-generic");
+        const outDir = path.join(tmpDir, "out-zsync-generic");
+
+        const outputPath = await appImage({
+          appDir,
+          appName: "Demo",
+          cacheDir,
+          outDir,
+          version: "1.2.0",
+          publish: { provider: "generic", url: "https://example.com/demo/" },
+          updateInformation: true,
+        });
+
+        const contents = await fs.promises.readFile(outputPath, "utf-8");
+        assert.ok(
+          contents.includes(
+            `updateinformation=zsync|https://example.com/demo/${appImageFileName}.zsync\n`,
+          ),
+          contents,
+        );
+        assert.ok(
+          contents.includes(
+            'provider: "generic"\nurl: "https://example.com/demo/"\n',
+          ),
+          contents,
+        );
+      });
+
+      it("passes an explicit updateInformation string as-is without publish", async function () {
+        const cacheDir = await fakeToolCacheDir("cache-zsync-explicit");
+        const outDir = path.join(tmpDir, "out-zsync-explicit");
+        const explicit =
+          "gh-releases-zsync|me|other|latest|Demo-*.AppImage.zsync";
+
+        const outputPath = await appImage({
+          appDir,
+          appName: "Demo",
+          cacheDir,
+          outDir,
+          updateInformation: explicit,
+        });
+
+        assert.strictEqual(
+          await fs.promises.readFile(outputPath, "utf-8"),
+          `fake AppImage for ARCH=${appImageToolArch}\nupdateinformation=${explicit}\n`,
+        );
+        assert.strictEqual(
+          fs.existsSync(path.join(outDir, updateInfoFileName)),
+          false,
+          "no update info file without publish",
+        );
+      });
+
+      it("throws when appimagetool doesn't produce the .zsync file", async function () {
+        const cacheDir = await fakeToolCacheDir("cache-no-zsyncmake");
+        const outDir = path.join(tmpDir, "out-no-zsyncmake");
+
+        process.env.FAKE_APPIMAGETOOL_NO_ZSYNCMAKE = "1";
+        try {
+          await assert.rejects(
+            appImage({
+              appDir,
+              appName: "Demo",
+              cacheDir,
+              outDir,
+              version: "1.2.0",
+              publish: githubPublish,
+              updateInformation: true,
+            }),
+            /did not produce .*\.zsync\. Install "zsyncmake"/,
+          );
+        } finally {
+          delete process.env.FAKE_APPIMAGETOOL_NO_ZSYNCMAKE;
+        }
+      });
+    });
+
+    describe("hardening", function () {
+      /**
+       * Create a cache directory holding the fake `appimagetool`.
+       * @param {string} name
+       * @returns {Promise<string>}
+       */
+      async function fakeToolCacheDir(name) {
+        const cacheDir = path.join(tmpDir, name);
+        await fs.promises.mkdir(cacheDir, { recursive: true });
+        await fs.promises.copyFile(
+          fakeAppImageTool,
+          path.join(cacheDir, `appimagetool-${appImageToolArch}.AppImage`),
+        );
+        return cacheDir;
+      }
+
+      for (const appName of [
+        "../Demo",
+        "nested/Demo",
+        "..",
+        "Demo\nExec=evil",
+      ]) {
+        it(`rejects the app name ${JSON.stringify(appName)}`, async function () {
+          await assert.rejects(
+            appImage({ appDir, appName }),
+            /Expected "options.appName" to be a file name without "\/" or control characters/,
+          );
+        });
+      }
+
+      it("rejects inherited object keys as an architecture", async function () {
+        await assert.rejects(
+          appImage({
+            appDir,
+            appName: "Demo",
+            arch: /** @type {"x64"} */ (/** @type {unknown} */ ("constructor")),
+          }),
+          /Expected "options.arch" to be "ia32", "x64" or "arm64"/,
+        );
+      });
+
+      it("rejects GitHub owner and repo names with other characters", async function () {
+        await assert.rejects(
+          appImage({
+            appDir,
+            appName: "Demo",
+            version: "1.0.0",
+            publish: {
+              provider: "github",
+              owner: "nwutils|evil",
+              repo: "demo",
+            },
+          }),
+          /Expected "options.publish.owner" to be a GitHub owner name/,
+        );
+      });
+
+      it("refuses to download appimagetool over plain http", async function () {
+        await assert.rejects(
+          getAppImageTool({
+            appImageToolArch,
+            appImageToolUrl: "http://example.com/appimagetool",
+            cacheDir: path.join(tmpDir, "cache-http"),
+            cache: true,
+          }),
+          /Expected "options.appImageToolUrl" to be an https URL/,
+        );
+        assert.strictEqual(
+          fs.existsSync(path.join(tmpDir, "cache-http")),
+          false,
+        );
+      });
+
+      it("never lets the shell expand the app name in AppRun or the desktop entry", async function () {
+        const appName = "Demo $(touch PWNED) `touch PWNED` 'q' \"dq\" $HOME %f";
+        const hostileAppDir = path.join(tmpDir, "hostile-app");
+        const workDir = path.join(tmpDir, "hostile-cwd");
+        const keptAppDir = path.join(tmpDir, "hostile-appdir");
+        const markerPath = path.join(tmpDir, "hostile-ran");
+        await fs.promises.mkdir(workDir, { recursive: true });
+        await fs.promises.mkdir(hostileAppDir, { recursive: true });
+        await fs.promises.writeFile(
+          path.join(hostileAppDir, appName),
+          `#!/bin/sh\nprintf '%s' "ran $*" > "${markerPath}"\n`,
+          { mode: 0o755 },
+        );
+        await fs.promises.writeFile(
+          path.join(hostileAppDir, `${appName}.desktop`),
+          `[Desktop Entry]\nType=Application\nName=Demo\nIcon=${iconPath}\n`,
+        );
+
+        process.env.FAKE_APPIMAGETOOL_KEEP_APPDIR = keptAppDir;
+        try {
+          await appImage({
+            appDir: hostileAppDir,
+            appName,
+            cacheDir: await fakeToolCacheDir("cache-hostile"),
+            outDir: path.join(tmpDir, "out-hostile"),
+          });
+        } finally {
+          delete process.env.FAKE_APPIMAGETOOL_KEEP_APPDIR;
+        }
+
+        child_process.execFileSync(
+          "sh",
+          [path.join(keptAppDir, "AppRun"), "first arg"],
+          { cwd: workDir },
+        );
+        assert.strictEqual(
+          await fs.promises.readFile(markerPath, "utf-8"),
+          "ran first arg",
+        );
+        assert.deepStrictEqual(
+          await fs.promises.readdir(workDir),
+          [],
+          "nothing in the app name was executed",
+        );
+
+        const desktopEntry = util.parseDesktopEntry(
+          await fs.promises.readFile(
+            path.join(keptAppDir, `${appName}.desktop`),
+            "utf-8",
+          ),
+        );
+        assert.strictEqual(desktopEntry.Exec, util.desktopExecArg(appName));
+        assert.ok(desktopEntry.Exec.startsWith('"'), desktopEntry.Exec);
+      });
     });
 
     describe("getAppImageTool", function () {
