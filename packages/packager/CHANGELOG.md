@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.5.0](https://github.com/nwutils/nw-builder/compare/@nwutils/packager-v0.4.0...@nwutils/packager-v0.5.0) (2026-10-03)
+
+
+### Features
+
+* **packager:** sign AppImage ([#1677](https://github.com/nwutils/nw-builder/issues/1677)) ([f7c5c71](https://github.com/nwutils/nw-builder/commit/f7c5c71485ecdbd3bb2464920ae9a50f1de014fd))
+* **packager:** update AppImage ([#1678](https://github.com/nwutils/nw-builder/issues/1678)) ([0c02ed4](https://github.com/nwutils/nw-builder/commit/0c02ed496fdca904c4ff20c6b8b0cb6b653aca02))
+
+
+### Chores
+
+* **deps:** extract devDeps into root package.json ([27250a4](https://github.com/nwutils/nw-builder/commit/27250a487f8a8f4406ca55cefdc5faeb2ade1600))
+
 ## [0.4.0](https://github.com/nwutils/nw-builder/compare/@nwutils/packager-v0.3.0...@nwutils/packager-v0.4.0) (2026-09-08)
 
 
