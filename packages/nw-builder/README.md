@@ -204,33 +204,83 @@ const appImagePath = await nwbuild({
 });
 ```
 
+#### Signing
+
+Set `sign` to embed a GPG signature in the AppImage. It needs `gpg` on the host
+with the secret key imported. `signKey` picks the key, defaulting to `gpg`'s
+default secret key. A passphrase protected key reads its passphrase from the
+`APPIMAGETOOL_SIGN_PASSPHRASE` environment variable.
+
+```javascript
+await nwbuild({
+  mode: "package",
+  sign: true,
+  signKey: "ABCDEF1234567890",
+});
+```
+
+#### Self updating
+
+Set `publish` to where releases are uploaded to make the AppImage self updatable
+with [`@nwutils/updater`](https://www.npmjs.com/package/@nwutils/updater). An
+`app-update.yml` pointing at `publish` is embedded in the AppImage, and a
+`latest-linux.yml` update info file holding the app's `package.json` `version`
+is written next to it. Upload both to every release.
+
+Set `updateInformation: true` to also support zsync based updaters such as
+AppImageUpdate - this needs `zsyncmake` on the host, and the `.zsync` file
+written next to the AppImage must be uploaded too.
+
+```json
+{
+  "name": "demo",
+  "version": "1.2.0",
+  "nwbuild": {
+    "mode": "package",
+    "platform": "linux",
+    "app": { "name": "Demo" },
+    "publish": { "provider": "github", "owner": "nwutils", "repo": "demo" },
+    "updateInformation": true
+  }
+}
+```
+
+With the CLI, pass `--publish.provider=github --publish.owner=nwutils
+--publish.repo=demo`. See the
+[`@nwutils/packager` docs](https://www.npmjs.com/package/@nwutils/packager) for
+the `generic` provider and more details.
+
 ## API Reference
 
 Options
 
-| Name            | Type                                                                                                                                                          | Default                                            | Description                                                                                                                  |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| mode            | `"get" \| "run" \| "build" \| "package"`                                                                                                                      | `"build"`                                          | Choose between get, run, build or package mode                                                                               |
-| version         | `string \| "latest" \| "stable"`                                                                                                                              | `"latest"`                                         | Runtime version                                                                                                              |
-| flavor          | `"normal" \| "sdk"`                                                                                                                                           | `"normal"`                                         | Runtime flavor                                                                                                               |
-| platform        | `"linux" \| "osx" \| "win"`                                                                                                                                   |                                                    | Host platform                                                                                                                |
-| arch            | `"ia32" \| "x64" \| "arm64"`                                                                                                                                  |                                                    | Host architecture                                                                                                            |
-| downloadUrl     | `"https://dl.nwjs.io" \| "https://npm.taobao.org/mirrors/nwjs" \| https://npmmirror.com/mirrors/nwjs \| "https://github.com/corwin-of-amber/nw.js/releases/"` | `"https://dl.nwjs.io"`                             | Download server. Supports file systems too (for example `file:///home/localghost/nwjs_mirror`)                               |
-| manifestUrl     | `"https://nwjs.io/versions.json" \| "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json"`                               | `"https://nwjs.io/versions.json"`                  | Versions manifest URI, gotten via https or local file                                                                        |
-| cacheDir        | `string`                                                                                                                                                      | `"./cache"`                                        | Directory to cache NW binaries                                                                                               |
-| cache           | `boolean`                                                                                                                                                     | `true`                                             | If true the existing cache is used. Otherwise it removes and redownloads it.                                                 |
-| ffmpeg          | `boolean`                                                                                                                                                     | `false`                                            | If true the chromium ffmpeg is replaced by community version with proprietary codecs.                                        |
-| logLevel        | `"error" \| "warn" \| "info" \| "debug"`                                                                                                                      | `"info"`                                           | Specify level of logging.                                                                                                    |
-| shaSum          | `boolean`                                                                                                                                                     | `true`                                             | Flag to enable/disable shasum checks.                                                                                        |
-| srcDir          | `string`                                                                                                                                                      | `"./"`                                             | File paths to application code                                                                                               |
-| argv            | `string[]`                                                                                                                                                    | `[]`                                               | Command line arguments to pass to NW executable in run mode. You can also define these in `chromium-args` in NW.js manifest. |
-| glob            | `boolean`                                                                                                                                                     | `true`                                             | If true file globbing is enabled when parsing `srcDir`.                                                                      |
-| outDir          | `string`                                                                                                                                                      | `"./out"`                                          | Directory to store build artifacts                                                                                           |
-| managedManifest | `boolean \| string \| object`                                                                                                                                 | `false`                                            | Managed manifest                                                                                                             |
-| nodeAddon       | `boolean`                                                                                                                                                     | `false`                                            | Rebuild Node native addons                                                                                                   |
-| zip             | `boolean \| "zip" \| "tar" \| "tgz"`                                                                                                                          | `false`                                            | If true, "zip", "tar" or "tgz" the `outDir` directory is compressed.                                                         |
-| format          | `"AppImage" \| "deb" \| "rpm" \| "msix" \| "nsis" \| "dmg"`                                                                                                   | `"AppImage"` on Linux                              | Packaged output format, used in package mode. Only `"AppImage"` is implemented today.                                        |
-| app             | `LinuxRc \| WinRc \| OsxRc`                                                                                                                                   | Additional options for each platform. (See below.) |
+| Name              | Type                                                                                                                                                          | Default                                            | Description                                                                                                                  |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| mode              | `"get" \| "run" \| "build" \| "package"`                                                                                                                      | `"build"`                                          | Choose between get, run, build or package mode                                                                               |
+| version           | `string \| "latest" \| "stable"`                                                                                                                              | `"latest"`                                         | Runtime version                                                                                                              |
+| flavor            | `"normal" \| "sdk"`                                                                                                                                           | `"normal"`                                         | Runtime flavor                                                                                                               |
+| platform          | `"linux" \| "osx" \| "win"`                                                                                                                                   |                                                    | Host platform                                                                                                                |
+| arch              | `"ia32" \| "x64" \| "arm64"`                                                                                                                                  |                                                    | Host architecture                                                                                                            |
+| downloadUrl       | `"https://dl.nwjs.io" \| "https://npm.taobao.org/mirrors/nwjs" \| https://npmmirror.com/mirrors/nwjs \| "https://github.com/corwin-of-amber/nw.js/releases/"` | `"https://dl.nwjs.io"`                             | Download server. Supports file systems too (for example `file:///home/localghost/nwjs_mirror`)                               |
+| manifestUrl       | `"https://nwjs.io/versions.json" \| "https://raw.githubusercontent.com/nwutils/nw-builder/main/src/util/osx.arm.versions.json"`                               | `"https://nwjs.io/versions.json"`                  | Versions manifest URI, gotten via https or local file                                                                        |
+| cacheDir          | `string`                                                                                                                                                      | `"./cache"`                                        | Directory to cache NW binaries                                                                                               |
+| cache             | `boolean`                                                                                                                                                     | `true`                                             | If true the existing cache is used. Otherwise it removes and redownloads it.                                                 |
+| ffmpeg            | `boolean`                                                                                                                                                     | `false`                                            | If true the chromium ffmpeg is replaced by community version with proprietary codecs.                                        |
+| logLevel          | `"error" \| "warn" \| "info" \| "debug"`                                                                                                                      | `"info"`                                           | Specify level of logging.                                                                                                    |
+| shaSum            | `boolean`                                                                                                                                                     | `true`                                             | Flag to enable/disable shasum checks.                                                                                        |
+| srcDir            | `string`                                                                                                                                                      | `"./"`                                             | File paths to application code                                                                                               |
+| argv              | `string[]`                                                                                                                                                    | `[]`                                               | Command line arguments to pass to NW executable in run mode. You can also define these in `chromium-args` in NW.js manifest. |
+| glob              | `boolean`                                                                                                                                                     | `true`                                             | If true file globbing is enabled when parsing `srcDir`.                                                                      |
+| outDir            | `string`                                                                                                                                                      | `"./out"`                                          | Directory to store build artifacts                                                                                           |
+| managedManifest   | `boolean \| string \| object`                                                                                                                                 | `false`                                            | Managed manifest                                                                                                             |
+| nodeAddon         | `boolean`                                                                                                                                                     | `false`                                            | Rebuild Node native addons                                                                                                   |
+| zip               | `boolean \| "zip" \| "tar" \| "tgz"`                                                                                                                          | `false`                                            | If true, "zip", "tar" or "tgz" the `outDir` directory is compressed.                                                         |
+| format            | `"AppImage" \| "deb" \| "rpm" \| "msix" \| "nsis" \| "dmg"`                                                                                                   | `"AppImage"` on Linux                              | Packaged output format, used in package mode. Only `"AppImage"` is implemented today.                                        |
+| sign              | `boolean`                                                                                                                                                     | `false`                                            | If true, embed a GPG signature in the AppImage. Used in package mode.                                                        |
+| signKey           | `string`                                                                                                                                                      |                                                    | ID of the GPG key to sign with. Requires `sign`. Used in package mode.                                                       |
+| publish           | `{provider: "github", owner, repo} \| {provider: "generic", url}`                                                                                             |                                                    | Where releases are published. Makes the AppImage self updatable with `@nwutils/updater`. Used in package mode.               |
+| updateInformation | `boolean \| string`                                                                                                                                           |                                                    | AppImage zsync update information. `true` derives it from `publish`. Used in package mode.                                   |
+| app               | `LinuxRc \| WinRc \| OsxRc`                                                                                                                                   | Additional options for each platform. (See below.) |
 
 ### `app` configuration object
 

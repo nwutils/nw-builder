@@ -247,6 +247,47 @@ describe("util/parse", function () {
     );
     assert.strictEqual(newOptions.format, undefined);
   });
+
+  it("defaults sign to false in package mode", async function () {
+    const newOptions = await util.parse(
+      { mode: "package", platform: "linux" },
+      {},
+    );
+    assert.strictEqual(newOptions.sign, false);
+  });
+
+  it("converts CLI sign and updateInformation strings to booleans in package mode", async function () {
+    const newOptions = await util.parse(
+      {
+        mode: "package",
+        platform: "linux",
+        sign: "true",
+        updateInformation: "true",
+      },
+      {},
+    );
+    assert.strictEqual(newOptions.sign, true);
+    assert.strictEqual(newOptions.updateInformation, true);
+  });
+
+  it("keeps signKey, publish and an updateInformation string as-is in package mode", async function () {
+    const publish = { provider: "github", owner: "nwutils", repo: "demo" };
+    const updateInformation = "zsync|https://example.com/Demo.AppImage.zsync";
+    const newOptions = await util.parse(
+      {
+        mode: "package",
+        platform: "linux",
+        sign: true,
+        signKey: "ABCDEF12",
+        publish,
+        updateInformation,
+      },
+      {},
+    );
+    assert.strictEqual(newOptions.signKey, "ABCDEF12");
+    assert.deepStrictEqual(newOptions.publish, publish);
+    assert.strictEqual(newOptions.updateInformation, updateInformation);
+  });
 });
 
 describe("util/getManifest", function () {

@@ -34,6 +34,10 @@ import util from "./util.js";
  * @property {boolean}                             [cli=false]                               If true the CLI is used to parse options. This option is used internally.
  * @property {string[]}                            [argv = []]                               CLI arguments passed to the NW.js process in run mode
  * @property {"AppImage" | "deb" | "rpm" | "msix" | "nsis" | "dmg"} [format]                  Packaged output format, used in package mode. Defaults to `"AppImage"` on Linux. Only `"AppImage"` is implemented today - the others are reserved.
+ * @property {boolean}                             [sign=false]                              If true, embed a GPG signature in the AppImage, used in package mode.
+ * @property {string}                              [signKey]                                 ID of the GPG key to sign the AppImage with, used in package mode. Requires `sign`.
+ * @property {import("@nwutils/packager").PublishOptions} [publish]                         Where releases are published, used in package mode. Makes the AppImage self updatable with `@nwutils/updater`.
+ * @property {boolean | string}                    [updateInformation]                       AppImage zsync update information, used in package mode. `true` derives it from `publish`.
  */
 
 /**
@@ -208,6 +212,11 @@ async function nwbuild(options) {
           arch: resolved.arch,
           cacheDir: resolved.cacheDir,
           cache: resolved.cache,
+          sign: resolved.sign,
+          signKey: resolved.signKey,
+          version: manifest.json?.version,
+          publish: resolved.publish,
+          updateInformation: resolved.updateInformation,
         });
         util.log(
           "info",
