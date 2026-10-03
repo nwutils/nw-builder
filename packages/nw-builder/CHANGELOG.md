@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.21.2](https://github.com/nwutils/nw-builder/compare/nw-builder-v4.21.1...nw-builder-v4.21.2) (2026-10-03)
+
+
+### Bug Fixes
+
+* **nw-builder:** depend on released builder and runner versions ([d462c7c](https://github.com/nwutils/nw-builder/commit/d462c7c2dc1bda78955d5c37861c32030de11307))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @nwutils/builder bumped from ^0.1.2 to ^0.1.3
+    * @nwutils/runner bumped from ^0.2.6 to ^0.2.7
+
 ## [4.21.1](https://github.com/nwutils/nw-builder/compare/nw-builder-v4.21.0...nw-builder-v4.21.1) (2026-10-03)
 
 
