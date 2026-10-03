@@ -11,6 +11,11 @@ import appImage from "./appImage.js";
  */
 
 /**
+ * Where releases are published, for packagers that support self updating.
+ * @typedef {import("./appImage.js").PublishOptions} PublishOptions
+ */
+
+/**
  * Package a built NW.js application.
  * @async
  * @function

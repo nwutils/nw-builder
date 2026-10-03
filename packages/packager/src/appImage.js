@@ -28,6 +28,31 @@ const APPIMAGETOOL_URL =
  * @property {string}                       [appImageToolUrl]  Base URL `appimagetool-<arch>.AppImage` is downloaded from. Defaults to the `AppImage/appimagetool` "continuous" GitHub release.
  * @property {boolean}                      [sign=false]       If true, embed a GPG signature in the AppImage. Requires `gpg` and a usable secret key on the host. A passphrase-protected key reads its passphrase from the `APPIMAGETOOL_SIGN_PASSPHRASE` environment variable.
  * @property {string}                       [signKey]          ID of the GPG key to sign with. Defaults to `gpg`'s default secret key. Requires `sign` to be true.
+ * @property {string}                       [version]          Version of the application, eg. `"1.2.0"`. Required when `publish` is set: it is written to the update info file `@nwutils/updater` compares against.
+ * @property {PublishOptions}               [publish]          Where releases are published. When set, an `app-update.yml` pointing at it is embedded in the AppImage and a `latest-linux[-<arch>].yml` update info file is written next to it, for `@nwutils/updater` to self update from.
+ * @property {string | boolean}             [updateInformation] AppImage update information for zsync based updaters (eg. AppImageUpdate, `appimageupdatetool`, AppImage managers). `true` derives it from `publish`. A string is embedded as-is, eg. `"gh-releases-zsync|owner|repo|latest|Demo-x86_64.AppImage.zsync"`. Requires `zsyncmake` on the host to produce the `.zsync` file.
+ */
+
+/**
+ * Publish to a GitHub repository's releases. The AppImage and update info
+ * file must be uploaded as assets of the latest (non draft, non prerelease)
+ * release.
+ * @typedef  {object}   GitHubPublishOptions
+ * @property {"github"} provider
+ * @property {string}   owner     Owner of the GitHub repository.
+ * @property {string}   repo      Name of the GitHub repository.
+ */
+
+/**
+ * Publish to any static file server. The AppImage and update info file must
+ * be served from `url`.
+ * @typedef  {object}    GenericPublishOptions
+ * @property {"generic"} provider
+ * @property {string}    url       Base URL the latest release's files are served from.
+ */
+
+/**
+ * @typedef {GitHubPublishOptions | GenericPublishOptions} PublishOptions
  */
 
 /**
@@ -51,6 +76,9 @@ async function appImage({
   appImageToolUrl = APPIMAGETOOL_URL,
   sign = false,
   signKey,
+  version,
+  publish,
+  updateInformation,
 }) {
   if (process.platform !== "linux") {
     throw new Error(
@@ -91,6 +119,30 @@ async function appImage({
         '"options.signKey" was passed but "options.sign" is false. Set "options.sign" to true to sign the AppImage.',
       );
     }
+  }
+
+  if (publish !== undefined) {
+    validatePublish(publish);
+    if (typeof version !== "string" || version === "") {
+      throw new Error(
+        `Expected "options.version" to be a non-empty string when "options.publish" is set. Received: ${JSON.stringify(version)}`,
+      );
+    }
+  }
+
+  if (
+    updateInformation !== undefined &&
+    typeof updateInformation !== "boolean" &&
+    (typeof updateInformation !== "string" || updateInformation === "")
+  ) {
+    throw new Error(
+      `Expected "options.updateInformation" to be a boolean or a non-empty string. Received: ${JSON.stringify(updateInformation)}`,
+    );
+  }
+  if (updateInformation === true && publish === undefined) {
+    throw new Error(
+      '"options.updateInformation" is true but "options.publish" is not set. Set "options.publish" to derive it, or pass the update information string directly.',
+    );
   }
 
   const resolvedArch =
@@ -197,10 +249,37 @@ async function appImage({
     );
     await fs.promises.chmod(appRunPath, 0o755);
 
-    const appImageFilePath = path.resolve(
-      resolvedOutDir,
-      `${appName}-${appImageToolArch}.AppImage`,
-    );
+    /*
+     * Sits next to the NW.js executable, ie. at
+     * `path.dirname(process.execPath)` at runtime, which is where
+     * `@nwutils/updater` looks for it.
+     */
+    if (publish !== undefined) {
+      await fs.promises.writeFile(
+        path.resolve(appImageDir, "app-update.yml"),
+        util.stringifyYaml(
+          publish.provider === "github"
+            ? {
+                provider: publish.provider,
+                owner: publish.owner,
+                repo: publish.repo,
+              }
+            : { provider: publish.provider, url: publish.url },
+        ),
+      );
+    }
+
+    const appImageFileName = `${appName}-${appImageToolArch}.AppImage`;
+    const appImageFilePath = path.resolve(resolvedOutDir, appImageFileName);
+    const zsyncFilePath = `${appImageFilePath}.zsync`;
+
+    const resolvedUpdateInformation =
+      updateInformation === true
+        ? deriveUpdateInformation(
+            /** @type {PublishOptions} */ (publish),
+            path.basename(zsyncFilePath),
+          )
+        : updateInformation || undefined;
 
     /*
      * Signing happens inside the same `appimagetool` run that builds the
@@ -210,10 +289,32 @@ async function appImage({
       ? ["--sign", ...(signKey === undefined ? [] : ["--sign-key", signKey])]
       : [];
 
+    const updateInformationArgs =
+      resolvedUpdateInformation === undefined
+        ? []
+        : ["--updateinformation", resolvedUpdateInformation];
+
+    if (resolvedUpdateInformation !== undefined) {
+      /* Don't let a `.zsync` file left over from a previous build pass the check below. */
+      await fs.promises.rm(zsyncFilePath, { force: true });
+    }
+
     child_process.execFileSync(
       appImageToolPath,
-      ["--no-appstream", ...signArgs, appImageDir, appImageFilePath],
+      [
+        "--no-appstream",
+        ...signArgs,
+        ...updateInformationArgs,
+        appImageDir,
+        appImageFilePath,
+      ],
       {
+        /*
+         * `appimagetool` runs `zsyncmake` without an output path, which
+         * writes the `.zsync` file to the working directory - run from
+         * `outDir` so it lands next to the AppImage.
+         */
+        cwd: resolvedOutDir,
         env: {
           ...process.env,
           ARCH: appImageToolArch,
@@ -228,10 +329,103 @@ async function appImage({
       },
     );
 
+    /*
+     * `appimagetool` only warns, and still exits successfully, when it
+     * can't find `zsyncmake` - leaving an AppImage that advertises a
+     * `.zsync` file which was never produced.
+     */
+    if (
+      resolvedUpdateInformation !== undefined &&
+      (await util.fileExists(zsyncFilePath)) === false
+    ) {
+      throw new Error(
+        `"appimagetool" did not produce ${zsyncFilePath}. Install "zsyncmake" (usually packaged as "zsync") on the host to build AppImages with "options.updateInformation".`,
+      );
+    }
+
+    if (publish !== undefined) {
+      const appImageSha512 = await util.sha512(appImageFilePath);
+      const { size } = await fs.promises.stat(appImageFilePath);
+      await fs.promises.writeFile(
+        path.resolve(resolvedOutDir, util.updateInfoFileName(resolvedArch)),
+        util.stringifyYaml({
+          version: /** @type {string} */ (version),
+          files: [{ url: appImageFileName, sha512: appImageSha512, size }],
+          path: appImageFileName,
+          sha512: appImageSha512,
+          releaseDate: new Date().toISOString(),
+        }),
+      );
+    }
+
     return appImageFilePath;
   } finally {
     await fs.promises.rm(appImageDir, { recursive: true, force: true });
   }
+}
+
+/**
+ * Throw if `publish` isn't a valid `PublishOptions` object.
+ * @param {unknown} publish
+ * @returns {asserts publish is PublishOptions}
+ */
+function validatePublish(publish) {
+  if (typeof publish !== "object" || publish === null) {
+    throw new Error(
+      `Expected "options.publish" to be an object. Received: ${JSON.stringify(publish)}`,
+    );
+  }
+
+  const { provider } = /** @type {{provider?: unknown}} */ (publish);
+  /** @type {string[]} */
+  let requiredKeys;
+  if (provider === "github") {
+    requiredKeys = ["owner", "repo"];
+  } else if (provider === "generic") {
+    requiredKeys = ["url"];
+  } else {
+    throw new Error(
+      `Expected "options.publish.provider" to be "github" or "generic". Received: ${JSON.stringify(provider)}`,
+    );
+  }
+
+  for (const key of requiredKeys) {
+    const value = /** @type {Record<string, unknown>} */ (publish)[key];
+    if (typeof value !== "string" || value === "") {
+      throw new Error(
+        `Expected "options.publish.${key}" to be a non-empty string for provider "${provider}". Received: ${JSON.stringify(value)}`,
+      );
+    }
+  }
+
+  if (provider === "generic") {
+    const { url } = /** @type {GenericPublishOptions} */ (publish);
+    let protocol;
+    try {
+      protocol = new URL(url).protocol;
+    } catch {
+      protocol = undefined;
+    }
+    if (protocol !== "https:" && protocol !== "http:") {
+      throw new Error(
+        `Expected "options.publish.url" to be an http(s) URL. Received: ${JSON.stringify(url)}`,
+      );
+    }
+  }
+}
+
+/**
+ * Build the AppImage update information string for `publish`, in the format
+ * zsync based AppImage updaters understand.
+ * @param {PublishOptions} publish
+ * @param {string} zsyncFileName  Name the `.zsync` file is published under.
+ * @returns {string}
+ */
+function deriveUpdateInformation(publish, zsyncFileName) {
+  if (publish.provider === "github") {
+    return `gh-releases-zsync|${publish.owner}|${publish.repo}|latest|${zsyncFileName}`;
+  }
+  return `zsync|${publish.url.replace(/\/+$/, "")}/${zsyncFileName}`;
 }
 
 /**

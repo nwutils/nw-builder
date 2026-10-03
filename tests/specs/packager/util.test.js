@@ -100,4 +100,59 @@ describe("packager/util", function () {
       assert.strictEqual(fileContent, "[Desktop Entry]\nType=Application\n");
     });
   });
+  describe("updateInfoFileName", function () {
+    it("uses the bare name for x64 and suffixes other architectures", function () {
+      assert.strictEqual(util.updateInfoFileName("x64"), "latest-linux.yml");
+      assert.strictEqual(
+        util.updateInfoFileName("arm64"),
+        "latest-linux-arm64.yml",
+      );
+      assert.strictEqual(
+        util.updateInfoFileName("ia32"),
+        "latest-linux-ia32.yml",
+      );
+    });
+  });
+
+  describe("stringifyYaml", function () {
+    it("writes scalars and lists of maps, quoting strings", function () {
+      const fileContent = util.stringifyYaml({
+        version: "1.2.0",
+        files: [{ url: "Demo.AppImage", size: 10 }],
+        note: 'say "hi"',
+        skipped: undefined,
+      });
+
+      assert.strictEqual(
+        fileContent,
+        [
+          'version: "1.2.0"',
+          "files:",
+          '  - url: "Demo.AppImage"',
+          "    size: 10",
+          'note: "say \\"hi\\""',
+          "",
+        ].join("\n"),
+      );
+    });
+  });
+
+  describe("sha512", function () {
+    it("returns the base64 encoded SHA-512 digest of a file", async function () {
+      const tmpDir = await fs.promises.mkdtemp(
+        path.join(os.tmpdir(), "nwutils-packager-util-test-"),
+      );
+      try {
+        const filePath = path.join(tmpDir, "file.txt");
+        await fs.promises.writeFile(filePath, "abc");
+
+        assert.strictEqual(
+          await util.sha512(filePath),
+          "3a81oZNherrMQXNJriBBMRLm+k6JqX6iCp7u5ktV05ohkpkqJ0/BqDa6PCOj/uu9RU1EI2Q86A4qmslPpUyknw==",
+        );
+      } finally {
+        await fs.promises.rm(tmpDir, { recursive: true, force: true });
+      }
+    });
+  });
 });
