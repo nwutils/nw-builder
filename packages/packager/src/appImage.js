@@ -425,7 +425,12 @@ function deriveUpdateInformation(publish, zsyncFileName) {
   if (publish.provider === "github") {
     return `gh-releases-zsync|${publish.owner}|${publish.repo}|latest|${zsyncFileName}`;
   }
-  return `zsync|${publish.url.replace(/\/+$/, "")}/${zsyncFileName}`;
+  /* Trim trailing slashes with a linear scan rather than a backtracking regular expression. */
+  let end = publish.url.length;
+  while (end > 0 && publish.url[end - 1] === "/") {
+    end--;
+  }
+  return `zsync|${publish.url.slice(0, end)}/${zsyncFileName}`;
 }
 
 /**

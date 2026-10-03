@@ -321,21 +321,25 @@ describe(
         );
         const sha512 = await util.sha512(outputPath);
         const size = Buffer.byteLength(contents);
-        assert.match(
+        const releaseDate = /^releaseDate: "([^"\n]*)"$/m.exec(updateInfo)?.[1];
+        assert.ok(
+          releaseDate !== undefined &&
+            new Date(releaseDate).toISOString() === releaseDate,
+          `expected an ISO 8601 releaseDate, got ${releaseDate}`,
+        );
+        assert.strictEqual(
           updateInfo,
-          new RegExp(
-            [
-              'version: "1.2.0"',
-              "files:",
-              `  - url: "${appImageFileName}"`,
-              `    sha512: "${sha512.replace(/[+/]/g, "\\$&")}"`,
-              `    size: ${size}`,
-              `path: "${appImageFileName}"`,
-              `sha512: "${sha512.replace(/[+/]/g, "\\$&")}"`,
-              'releaseDate: "[^"]+"',
-              "",
-            ].join("\n"),
-          ),
+          [
+            'version: "1.2.0"',
+            "files:",
+            `  - url: "${appImageFileName}"`,
+            `    sha512: "${sha512}"`,
+            `    size: ${size}`,
+            `path: "${appImageFileName}"`,
+            `sha512: "${sha512}"`,
+            `releaseDate: "${releaseDate}"`,
+            "",
+          ].join("\n"),
         );
         assert.strictEqual(
           fs.existsSync(`${outputPath}.zsync`),
@@ -358,11 +362,12 @@ describe(
           updateInformation: true,
         });
 
-        assert.match(
-          await fs.promises.readFile(outputPath, "utf-8"),
-          new RegExp(
-            `updateinformation=gh-releases-zsync\\|nwutils\\|demo\\|latest\\|${appImageFileName}\\.zsync\n`,
+        const contents = await fs.promises.readFile(outputPath, "utf-8");
+        assert.ok(
+          contents.includes(
+            `updateinformation=gh-releases-zsync|nwutils|demo|latest|${appImageFileName}.zsync\n`,
           ),
+          contents,
         );
         assert.ok(fs.existsSync(`${outputPath}.zsync`));
       });
