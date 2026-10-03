@@ -109,6 +109,10 @@ import * as GlobModule from "glob";
  * @property {boolean | string}                                      [shaSum]           If true, shasum is enabled
  * @property {boolean | string}                                      [nativeAddon]      Get Node native addons
  * @property {"AppImage" | "deb" | "rpm" | "msix" | "nsis" | "dmg"} [format]            Packaged output format, used in package mode
+ * @property {boolean | string}                                      [sign]              If true, sign the AppImage, used in package mode
+ * @property {string}                                                [signKey]           GPG key to sign the AppImage with, used in package mode
+ * @property {import("@nwutils/packager").PublishOptions}            [publish]           Where releases are published, used in package mode
+ * @property {boolean | string}                                      [updateInformation] AppImage zsync update information, used in package mode
  * @property {string[]}                                              [argv]             CLI arguments passed to the NW.js process in run mode
  * @property {boolean | string}                                      [glob]             If true file globbing is enabled when parsing srcDir
  * @property {string | string[]}                                     [srcDir]           File paths to application code
@@ -352,6 +356,8 @@ export const parse = async (options, pkg) => {
   if (options.mode === "package") {
     options.format =
       options.format ?? (options.platform === "linux" ? "AppImage" : undefined);
+    options.sign = str2Bool(options.sign ?? false);
+    options.updateInformation = str2Bool(options.updateInformation);
   }
 
   options.argv = options.argv ?? [];

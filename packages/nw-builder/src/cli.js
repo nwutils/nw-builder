@@ -48,18 +48,32 @@ program
   .option("--managedManifest <string>", "Managed manifest mode", false)
   .option("--nodeAddon <boolean>", "Download NW.js Node headers", false)
   .option("--format <string>", "Packaged output format, used in package mode")
+  .option(
+    "--sign <boolean>",
+    "Sign the AppImage with GPG, used in package mode",
+  )
+  .option(
+    "--signKey <string>",
+    "GPG key to sign the AppImage with, used in package mode",
+  )
+  .option(
+    "--updateInformation <string>",
+    "AppImage zsync update information, or true to derive it from --publish.*",
+  )
   .allowUnknownOption(true)
   .allowExcessArguments(true);
 
-// Handle unknown --app.* arguments
+// Handle unknown --app.* and --publish.* arguments
 const unknownArgs = program.parse(process.argv).args;
 /** @type {Record<string, string>} */
 const appConfig = {};
+/** @type {Record<string, string>} */
+const publishConfig = {};
 for (const arg of unknownArgs) {
-  const match = arg.match(/^--app\.([^.=]+)=(.*)$/);
+  const match = arg.match(/^--(app|publish)\.([^.=]+)=(.*)$/);
   if (match) {
-    const [, key, value] = match;
-    appConfig[key] = value;
+    const [, group, key, value] = match;
+    (group === "app" ? appConfig : publishConfig)[key] = value;
   }
 }
 
@@ -67,7 +81,10 @@ for (const arg of unknownArgs) {
 const opts = {
   ...program.opts(),
   app: appConfig,
-  srcDir: program.args.find((arg) => !arg.startsWith("--app")),
+  publish: Object.keys(publishConfig).length > 0 ? publishConfig : undefined,
+  srcDir: program.args.find(
+    (arg) => !arg.startsWith("--app") && !arg.startsWith("--publish"),
+  ),
   cli: true,
 };
 
