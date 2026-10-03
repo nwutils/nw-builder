@@ -154,10 +154,16 @@ async function build({
       if (stats.isDirectory()) {
         continue;
       }
-      await fs.promises.cp(file, path.resolve(nwProjectDir, file), {
-        recursive: true,
-        force: true,
-      });
+      await fs.promises.cp(
+        file,
+        path.resolve(
+          nwProjectDir,
+          file.substring(0, 3) == ".." + path.sep
+            ? "." + path.sep + file.substring(file.indexOf(path.sep, 3))
+            : file,
+        ),
+        { recursive: true, force: true },
+      );
     }
   } else {
     await fs.promises.cp(
