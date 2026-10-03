@@ -19,13 +19,13 @@ const APPIMAGETOOL_URL =
 /**
  * @typedef  {object}                       AppImageOptions
  * @property {string}                       appDir             Path to a built NW.js Linux application, ie. the `outDir` produced by `@nwutils/builder` for `platform: "linux"`.
- * @property {string}                       appName            Name of the application. Must match the `app.name` value used to build `appDir` - the executable and desktop entry are expected at `<appDir>/<appName>` and `<appDir>/<appName>.desktop`.
+ * @property {string}                       appName            Name of the application. Must match the `app.name` value used to build `appDir` - the executable and desktop entry are expected at `<appDir>/<appName>` and `<appDir>/<appName>.desktop`. Must not contain `/` or control characters.
  * @property {string}                       [icon]             Path to a `.png` or `.svg` icon. Defaults to the `Icon` value read from `<appDir>/<appName>.desktop`.
  * @property {"ia32" | "x64" | "arm64"}     [arch]             Target architecture. Defaults to the host architecture. `appimagetool` runs as a native binary, so this must match the host unless the host has emulation (eg. QEMU/binfmt) configured for the target architecture.
  * @property {string}                       [outDir]           Directory the resulting `.AppImage` file is written to. Defaults to the parent directory of `appDir`.
  * @property {string}                       [cacheDir="./cache"] Directory used to cache the downloaded `appimagetool` binary.
  * @property {boolean}                      [cache=true]       If true, reuse a cached `appimagetool` binary. Otherwise redownload it.
- * @property {string}                       [appImageToolUrl]  Base URL `appimagetool-<arch>.AppImage` is downloaded from. Defaults to the `AppImage/appimagetool` "continuous" GitHub release.
+ * @property {string}                       [appImageToolUrl]  Base URL `appimagetool-<arch>.AppImage` is downloaded from. Defaults to the `AppImage/appimagetool` "continuous" GitHub release. Must be https, except for localhost.
  * @property {boolean}                      [sign=false]       If true, embed a GPG signature in the AppImage. Requires `gpg` and a usable secret key on the host. A passphrase-protected key reads its passphrase from the `APPIMAGETOOL_SIGN_PASSPHRASE` environment variable.
  * @property {string}                       [signKey]          ID of the GPG key to sign with. Defaults to `gpg`'s default secret key. Requires `sign` to be true.
  * @property {string}                       [version]          Version of the application, eg. `"1.2.0"`. Required when `publish` is set: it is written to the update info file `@nwutils/updater` compares against.
@@ -101,6 +101,25 @@ async function appImage({
       `Expected "options.appName" to be a non-empty string. Received: ${JSON.stringify(appName)}`,
     );
   }
+  /*
+   * `appName` names files inside `appDir` and `outDir`, and is written into
+   * the desktop entry and `AppRun`: a path separator or `..` would reach
+   * outside those directories, and a line break would inject desktop entries.
+   */
+  const hasControlCharacter = [...appName].some((character) => {
+    const code = character.charCodeAt(0);
+    return code < 0x20 || code === 0x7f;
+  });
+  if (
+    appName.includes("/") ||
+    hasControlCharacter ||
+    appName === "." ||
+    appName === ".."
+  ) {
+    throw new Error(
+      `Expected "options.appName" to be a file name without "/" or control characters. Received: ${JSON.stringify(appName)}`,
+    );
+  }
 
   if (typeof sign !== "boolean") {
     throw new Error(
@@ -151,7 +170,10 @@ async function appImage({
       /** @type {unknown} */ (process.arch)
     );
 
-  const appImageToolArch = util.APPIMAGE_ARCH_KV[resolvedArch];
+  /* `Object.hasOwn` so inherited keys such as "constructor" aren't mistaken for architectures. */
+  const appImageToolArch = Object.hasOwn(util.APPIMAGE_ARCH_KV, resolvedArch)
+    ? util.APPIMAGE_ARCH_KV[resolvedArch]
+    : undefined;
   if (appImageToolArch === undefined) {
     throw new Error(
       `Expected "options.arch" to be "ia32", "x64" or "arm64". Received: ${JSON.stringify(arch)}`,
@@ -228,7 +250,7 @@ async function appImage({
     const appImageDesktopEntry = {
       ...desktopEntry,
       Name: desktopEntry.Name ?? appName,
-      Exec: appName,
+      Exec: util.desktopExecArg(appName),
       Icon: path.basename(iconFileName, path.extname(iconFileName)),
       Categories: desktopEntry.Categories || "Utility;",
     };
@@ -243,7 +265,8 @@ async function appImage({
       [
         "#!/bin/sh",
         'HERE="$(dirname "$(readlink -f "${0}")")"',
-        `exec "\${HERE}/${appName}" "$@"`,
+        /* Single quoted, so the app name is never expanded or run by the shell. */
+        `exec "\${HERE}"/${util.shellQuote(appName)} "$@"`,
         "",
       ].join("\n"),
     );
@@ -398,6 +421,21 @@ function validatePublish(publish) {
     }
   }
 
+  if (provider === "github") {
+    /*
+     * The characters GitHub allows in owner and repository names. Anything
+     * else - eg. "|", the update information's field separator - is rejected.
+     */
+    for (const key of requiredKeys) {
+      const value = /** @type {Record<string, string>} */ (publish)[key];
+      if (/^[A-Za-z0-9._-]+$/.test(value) === false) {
+        throw new Error(
+          `Expected "options.publish.${key}" to be a GitHub ${key} name (letters, digits, ".", "-" and "_"). Received: ${JSON.stringify(value)}`,
+        );
+      }
+    }
+  }
+
   if (provider === "generic") {
     const { url } = /** @type {GenericPublishOptions} */ (publish);
     let protocol;
@@ -434,6 +472,33 @@ function deriveUpdateInformation(publish, zsyncFileName) {
 }
 
 /**
+ * Throw unless `appImageToolUrl` is an https URL. The downloaded binary is
+ * executed, so a plain http download would let anyone on the network path
+ * replace it. http is only accepted for loopback hosts, eg. a local mirror.
+ * @param {string} appImageToolUrl
+ * @returns {void}
+ */
+function validateAppImageToolUrl(appImageToolUrl) {
+  let url;
+  try {
+    url = new URL(appImageToolUrl);
+  } catch {
+    url = undefined;
+  }
+  const isLoopback =
+    url !== undefined &&
+    ["localhost", "127.0.0.1", "[::1]"].includes(url.hostname);
+  if (
+    url === undefined ||
+    (url.protocol !== "https:" && (url.protocol !== "http:" || !isLoopback))
+  ) {
+    throw new Error(
+      `Expected "options.appImageToolUrl" to be an https URL (http is only allowed for localhost). Received: ${JSON.stringify(appImageToolUrl)}`,
+    );
+  }
+}
+
+/**
  * Download (or reuse a cached) `appimagetool` binary for `appImageToolArch`.
  * @async
  * @function
@@ -450,6 +515,8 @@ async function getAppImageTool({
   cacheDir,
   cache,
 }) {
+  validateAppImageToolUrl(appImageToolUrl);
+
   const appImageToolPath = path.resolve(
     cacheDir,
     `appimagetool-${appImageToolArch}.AppImage`,

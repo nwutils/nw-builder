@@ -73,6 +73,14 @@ if (fs.existsSync(appUpdateConfigPath)) {
 }
 fs.writeFileSync(outFile, contents);
 
+/* Let a test inspect, and run, the AppDir it was given. */
+if (process.env.FAKE_APPIMAGETOOL_KEEP_APPDIR !== undefined) {
+  fs.cpSync(appDir, process.env.FAKE_APPIMAGETOOL_KEEP_APPDIR, {
+    recursive: true,
+    verbatimSymlinks: true,
+  });
+}
+
 /*
  * Like the real tool, run `zsyncmake` (unless the test simulates it being
  * missing), which writes `<AppImage basename>.zsync` to the working directory.

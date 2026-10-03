@@ -72,11 +72,45 @@ function parseDesktopEntry(contents) {
 function stringifyDesktopEntry(entries) {
   let fileContent = "[Desktop Entry]\n";
   for (const key of Object.keys(entries)) {
-    if (entries[key] !== undefined) {
-      fileContent += `${key}=${entries[key]}\n`;
+    const value = entries[key];
+    if (value !== undefined) {
+      /* A line break would let the key or value inject further entries, eg. a second `Exec`. */
+      if (/[\r\n]/.test(key) || /[\r\n]/.test(value)) {
+        throw new Error(
+          `Desktop entry keys and values must not contain line breaks. Received: ${JSON.stringify(`${key}=${value}`)}`,
+        );
+      }
+      fileContent += `${key}=${value}\n`;
     }
   }
   return fileContent;
+}
+
+/**
+ * Quote `value` as a single POSIX shell word. Inside single quotes nothing is
+ * expanded, so only single quotes themselves need escaping.
+ * @param {string} value
+ * @returns {string}
+ */
+function shellQuote(value) {
+  return `'${value.replaceAll("'", "'\\''")}'`;
+}
+
+/**
+ * Quote `value` as a single argument of a desktop entry's `Exec` key, per the
+ * Desktop Entry Specification: `%` is doubled so it isn't read as a field
+ * code, an argument with reserved characters is double quoted with `"`, `` ` ``,
+ * `$` and `\` backslash-escaped, and finally backslashes are escaped again as
+ * required for every string value.
+ * @param {string} value
+ * @returns {string}
+ */
+function desktopExecArg(value) {
+  let arg = value.replaceAll("%", "%%");
+  if (/[\s"'\\><~|&;$*?#()`]/.test(arg)) {
+    arg = `"${arg.replace(/["`$\\]/g, "\\$&")}"`;
+  }
+  return arg.replaceAll("\\", "\\\\");
 }
 
 /**
@@ -148,9 +182,11 @@ async function sha512(filePath) {
 
 export default {
   APPIMAGE_ARCH_KV,
+  desktopExecArg,
   fileExists,
   parseDesktopEntry,
   sha512,
+  shellQuote,
   stringifyDesktopEntry,
   stringifyYaml,
   updateInfoFileName,

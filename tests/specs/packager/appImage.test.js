@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import child_process from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -447,6 +448,135 @@ describe(
         } finally {
           delete process.env.FAKE_APPIMAGETOOL_NO_ZSYNCMAKE;
         }
+      });
+    });
+
+    describe("hardening", function () {
+      /**
+       * Create a cache directory holding the fake `appimagetool`.
+       * @param {string} name
+       * @returns {Promise<string>}
+       */
+      async function fakeToolCacheDir(name) {
+        const cacheDir = path.join(tmpDir, name);
+        await fs.promises.mkdir(cacheDir, { recursive: true });
+        await fs.promises.copyFile(
+          fakeAppImageTool,
+          path.join(cacheDir, `appimagetool-${appImageToolArch}.AppImage`),
+        );
+        return cacheDir;
+      }
+
+      for (const appName of [
+        "../Demo",
+        "nested/Demo",
+        "..",
+        "Demo\nExec=evil",
+      ]) {
+        it(`rejects the app name ${JSON.stringify(appName)}`, async function () {
+          await assert.rejects(
+            appImage({ appDir, appName }),
+            /Expected "options.appName" to be a file name without "\/" or control characters/,
+          );
+        });
+      }
+
+      it("rejects inherited object keys as an architecture", async function () {
+        await assert.rejects(
+          appImage({
+            appDir,
+            appName: "Demo",
+            arch: /** @type {"x64"} */ (/** @type {unknown} */ ("constructor")),
+          }),
+          /Expected "options.arch" to be "ia32", "x64" or "arm64"/,
+        );
+      });
+
+      it("rejects GitHub owner and repo names with other characters", async function () {
+        await assert.rejects(
+          appImage({
+            appDir,
+            appName: "Demo",
+            version: "1.0.0",
+            publish: {
+              provider: "github",
+              owner: "nwutils|evil",
+              repo: "demo",
+            },
+          }),
+          /Expected "options.publish.owner" to be a GitHub owner name/,
+        );
+      });
+
+      it("refuses to download appimagetool over plain http", async function () {
+        await assert.rejects(
+          getAppImageTool({
+            appImageToolArch,
+            appImageToolUrl: "http://example.com/appimagetool",
+            cacheDir: path.join(tmpDir, "cache-http"),
+            cache: true,
+          }),
+          /Expected "options.appImageToolUrl" to be an https URL/,
+        );
+        assert.strictEqual(
+          fs.existsSync(path.join(tmpDir, "cache-http")),
+          false,
+        );
+      });
+
+      it("never lets the shell expand the app name in AppRun or the desktop entry", async function () {
+        const appName = "Demo $(touch PWNED) `touch PWNED` 'q' \"dq\" $HOME %f";
+        const hostileAppDir = path.join(tmpDir, "hostile-app");
+        const workDir = path.join(tmpDir, "hostile-cwd");
+        const keptAppDir = path.join(tmpDir, "hostile-appdir");
+        const markerPath = path.join(tmpDir, "hostile-ran");
+        await fs.promises.mkdir(workDir, { recursive: true });
+        await fs.promises.mkdir(hostileAppDir, { recursive: true });
+        await fs.promises.writeFile(
+          path.join(hostileAppDir, appName),
+          `#!/bin/sh\nprintf '%s' "ran $*" > "${markerPath}"\n`,
+          { mode: 0o755 },
+        );
+        await fs.promises.writeFile(
+          path.join(hostileAppDir, `${appName}.desktop`),
+          `[Desktop Entry]\nType=Application\nName=Demo\nIcon=${iconPath}\n`,
+        );
+
+        process.env.FAKE_APPIMAGETOOL_KEEP_APPDIR = keptAppDir;
+        try {
+          await appImage({
+            appDir: hostileAppDir,
+            appName,
+            cacheDir: await fakeToolCacheDir("cache-hostile"),
+            outDir: path.join(tmpDir, "out-hostile"),
+          });
+        } finally {
+          delete process.env.FAKE_APPIMAGETOOL_KEEP_APPDIR;
+        }
+
+        child_process.execFileSync(
+          "sh",
+          [path.join(keptAppDir, "AppRun"), "first arg"],
+          { cwd: workDir },
+        );
+        assert.strictEqual(
+          await fs.promises.readFile(markerPath, "utf-8"),
+          "ran first arg",
+        );
+        assert.deepStrictEqual(
+          await fs.promises.readdir(workDir),
+          [],
+          "nothing in the app name was executed",
+        );
+
+        const desktopEntry = util.parseDesktopEntry(
+          await fs.promises.readFile(
+            path.join(keptAppDir, `${appName}.desktop`),
+            "utf-8",
+          ),
+        );
+        assert.strictEqual(desktopEntry.Exec, util.desktopExecArg(appName));
+        assert.ok(desktopEntry.Exec.startsWith('"'), desktopEntry.Exec);
       });
     });
 

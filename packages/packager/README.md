@@ -121,21 +121,21 @@ Resolves with the path to the resulting packaged artifact.
 
 Options
 
-| Name              | Type                         | Description                                                                                                              |
-| ----------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| appDir            | `string`                     | Path to a built NW.js Linux application, ie. the `outDir` produced by `@nwutils/builder` for `platform: "linux"`         |
-| appName           | `string`                     | Name of the application. Must match the `app.name` value used to build `appDir`                                          |
-| icon              | `string`                     | Path to a `.png` or `.svg` icon. Defaults to the `Icon` value read from `<appDir>/<appName>.desktop`                     |
-| arch              | `"ia32" \| "x64" \| "arm64"` | Target architecture. Defaults to the host architecture                                                                   |
-| outDir            | `string`                     | Directory the resulting `.AppImage` file is written to. Defaults to the parent directory of `appDir`                     |
-| cacheDir          | `string`                     | Directory used to cache the downloaded `appimagetool` binary. Defaults to `"./cache"`                                    |
-| cache             | `boolean`                    | If true, reuse a cached `appimagetool` binary. Otherwise redownload it. Defaults to `true`                               |
-| appImageToolUrl   | `string`                     | Base URL `appimagetool-<arch>.AppImage` is downloaded from. Defaults to the `AppImage/appimagetool` "continuous" release |
-| sign              | `boolean`                    | If true, embed a GPG signature in the AppImage. Defaults to `false`                                                      |
-| signKey           | `string`                     | ID of the GPG key to sign with. Defaults to `gpg`'s default secret key. Requires `sign: true`                            |
-| version           | `string`                     | Version of the application. Required with `publish`                                                                      |
-| publish           | `PublishOptions`             | Where releases are published. Embeds `app-update.yml` and writes `latest-linux[-<arch>].yml` to `outDir`                 |
-| updateInformation | `boolean \| string`          | AppImage zsync update information. `true` derives it from `publish`. Requires `zsyncmake` on the host                    |
+| Name              | Type                         | Description                                                                                                                                                   |
+| ----------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| appDir            | `string`                     | Path to a built NW.js Linux application, ie. the `outDir` produced by `@nwutils/builder` for `platform: "linux"`                                              |
+| appName           | `string`                     | Name of the application. Must match the `app.name` value used to build `appDir`. Must not contain `/` or control characters                                   |
+| icon              | `string`                     | Path to a `.png` or `.svg` icon. Defaults to the `Icon` value read from `<appDir>/<appName>.desktop`                                                          |
+| arch              | `"ia32" \| "x64" \| "arm64"` | Target architecture. Defaults to the host architecture                                                                                                        |
+| outDir            | `string`                     | Directory the resulting `.AppImage` file is written to. Defaults to the parent directory of `appDir`                                                          |
+| cacheDir          | `string`                     | Directory used to cache the downloaded `appimagetool` binary. Defaults to `"./cache"`                                                                         |
+| cache             | `boolean`                    | If true, reuse a cached `appimagetool` binary. Otherwise redownload it. Defaults to `true`                                                                    |
+| appImageToolUrl   | `string`                     | Base URL `appimagetool-<arch>.AppImage` is downloaded from. Defaults to the `AppImage/appimagetool` "continuous" release. Must be https, except for localhost |
+| sign              | `boolean`                    | If true, embed a GPG signature in the AppImage. Defaults to `false`                                                                                           |
+| signKey           | `string`                     | ID of the GPG key to sign with. Defaults to `gpg`'s default secret key. Requires `sign: true`                                                                 |
+| version           | `string`                     | Version of the application. Required with `publish`                                                                                                           |
+| publish           | `PublishOptions`             | Where releases are published. Embeds `app-update.yml` and writes `latest-linux[-<arch>].yml` to `outDir`                                                      |
+| updateInformation | `boolean \| string`          | AppImage zsync update information. `true` derives it from `publish`. Requires `zsyncmake` on the host                                                         |
 
 Resolves with the path to the resulting `.AppImage` file.
 
