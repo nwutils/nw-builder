@@ -143,6 +143,37 @@ It needs the NSIS compiler, `makensis`, installed on the host. It runs on
 Linux (`apt install nsis`) and MacOS (`brew install makensis`) too, so a Windows
 installer can be built from any platform. On Windows, `choco install nsis`.
 
+### Self updating NSIS installs
+
+Set `publish`, the same way as for [AppImages](#self-updating-appimages):
+
+- an `app-update.yml` describing `publish` is installed next to
+  `<appName>.exe`, and removed by the uninstaller
+- a `latest.yml` update info file (`latest-<arch>.yml` for architectures other
+  than `x64`) with the version, file name, size and SHA-512 of the installer is
+  written next to it in `outDir`
+
+```js
+await packager({
+  format: "nsis",
+  appDir: "./out",
+  appName: "Demo",
+  version: "1.2.0",
+  outDir: "./dist",
+  publish: { provider: "github", owner: "nwutils", repo: "demo" },
+});
+// ./dist/Demo-x64-Setup.exe
+// ./dist/latest.yml
+```
+
+Upload both the installer and `latest.yml` to every release.
+[`@nwutils/updater`](https://www.npmjs.com/package/@nwutils/updater)'s
+`NsisUpdater` downloads the new installer, checks it, and runs it with
+`/S /UPDATE`. With `/UPDATE`, the installer waits up to 60 seconds for the
+running application to exit instead of asking the user to close it, updates it
+silently, and starts the new version. Because it installs for the current user,
+updating never asks for administrator rights.
+
 ## API Reference
 
 ### `packager({ format, ...options })`
@@ -195,6 +226,7 @@ Options
 | desktopShortcut   | `boolean`                    | If true, create a desktop shortcut. Defaults to `true`                                                                |
 | startMenuShortcut | `boolean`                    | If true, create a Start Menu shortcut. Defaults to `true`                                                             |
 | makensisPath      | `string`                     | Path to the NSIS compiler. Defaults to `makensis` on the `PATH`                                                       |
+| publish           | `PublishOptions`             | Where releases are published. Installs `app-update.yml` and writes `latest[-<arch>].yml` to `outDir`                  |
 
 Resolves with the path to the resulting installer `.exe` file.
 

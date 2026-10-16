@@ -141,7 +141,7 @@ async function appImage({
   }
 
   if (publish !== undefined) {
-    validatePublish(publish);
+    util.validatePublish(publish);
     if (typeof version !== "string" || version === "") {
       throw new Error(
         `Expected "options.version" to be a non-empty string when "options.publish" is set. Received: ${JSON.stringify(version)}`,
@@ -280,15 +280,7 @@ async function appImage({
     if (publish !== undefined) {
       await fs.promises.writeFile(
         path.resolve(appImageDir, "app-update.yml"),
-        util.stringifyYaml(
-          publish.provider === "github"
-            ? {
-                provider: publish.provider,
-                owner: publish.owner,
-                repo: publish.repo,
-              }
-            : { provider: publish.provider, url: publish.url },
-        ),
+        util.appUpdateYaml(publish),
       );
     }
 
@@ -367,88 +359,19 @@ async function appImage({
     }
 
     if (publish !== undefined) {
-      const appImageSha512 = await util.sha512(appImageFilePath);
-      const { size } = await fs.promises.stat(appImageFilePath);
-      await fs.promises.writeFile(
-        path.resolve(resolvedOutDir, util.updateInfoFileName(resolvedArch)),
-        util.stringifyYaml({
-          version: /** @type {string} */ (version),
-          files: [{ url: appImageFileName, sha512: appImageSha512, size }],
-          path: appImageFileName,
-          sha512: appImageSha512,
-          releaseDate: new Date().toISOString(),
-        }),
-      );
+      await util.writeUpdateInfo({
+        filePath: appImageFilePath,
+        updateInfoPath: path.resolve(
+          resolvedOutDir,
+          util.updateInfoFileName(resolvedArch, "linux"),
+        ),
+        version: /** @type {string} */ (version),
+      });
     }
 
     return appImageFilePath;
   } finally {
     await fs.promises.rm(appImageDir, { recursive: true, force: true });
-  }
-}
-
-/**
- * Throw if `publish` isn't a valid `PublishOptions` object.
- * @param {unknown} publish
- * @returns {asserts publish is PublishOptions}
- */
-function validatePublish(publish) {
-  if (typeof publish !== "object" || publish === null) {
-    throw new Error(
-      `Expected "options.publish" to be an object. Received: ${JSON.stringify(publish)}`,
-    );
-  }
-
-  const { provider } = /** @type {{provider?: unknown}} */ (publish);
-  /** @type {string[]} */
-  let requiredKeys;
-  if (provider === "github") {
-    requiredKeys = ["owner", "repo"];
-  } else if (provider === "generic") {
-    requiredKeys = ["url"];
-  } else {
-    throw new Error(
-      `Expected "options.publish.provider" to be "github" or "generic". Received: ${JSON.stringify(provider)}`,
-    );
-  }
-
-  for (const key of requiredKeys) {
-    const value = /** @type {Record<string, unknown>} */ (publish)[key];
-    if (typeof value !== "string" || value === "") {
-      throw new Error(
-        `Expected "options.publish.${key}" to be a non-empty string for provider "${provider}". Received: ${JSON.stringify(value)}`,
-      );
-    }
-  }
-
-  if (provider === "github") {
-    /*
-     * The characters GitHub allows in owner and repository names. Anything
-     * else - eg. "|", the update information's field separator - is rejected.
-     */
-    for (const key of requiredKeys) {
-      const value = /** @type {Record<string, string>} */ (publish)[key];
-      if (/^[A-Za-z0-9._-]+$/.test(value) === false) {
-        throw new Error(
-          `Expected "options.publish.${key}" to be a GitHub ${key} name (letters, digits, ".", "-" and "_"). Received: ${JSON.stringify(value)}`,
-        );
-      }
-    }
-  }
-
-  if (provider === "generic") {
-    const { url } = /** @type {GenericPublishOptions} */ (publish);
-    let protocol;
-    try {
-      protocol = new URL(url).protocol;
-    } catch {
-      protocol = undefined;
-    }
-    if (protocol !== "https:" && protocol !== "http:") {
-      throw new Error(
-        `Expected "options.publish.url" to be an http(s) URL. Received: ${JSON.stringify(url)}`,
-      );
-    }
   }
 }
 

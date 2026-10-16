@@ -21,6 +21,7 @@ import util from "./util.js";
  * @property {boolean}                      [desktopShortcut=true]   If true, create a desktop shortcut.
  * @property {boolean}                      [startMenuShortcut=true] If true, create a Start Menu shortcut.
  * @property {string}                       [makensisPath="makensis"] Path to the NSIS compiler. Defaults to `makensis` on the `PATH`.
+ * @property {import("./appImage.js").PublishOptions} [publish] Where releases are published. When set, an `app-update.yml` pointing at it is installed next to the executable and a `latest[-<arch>].yml` update info file is written next to the installer, for `@nwutils/updater` to self update from.
  */
 
 /**
@@ -47,6 +48,12 @@ const ARCH_CHECK_KV = {
 };
 
 /**
+ * How long an update waits for the running application to exit.
+ * @type {number}
+ */
+const UPDATE_WAIT_SECONDS = 60;
+
+/**
  * Package a built NW.js Windows application as an NSIS installer.
  *
  * The installer installs for the current user only, into
@@ -54,6 +61,10 @@ const ARCH_CHECK_KV = {
  * rights. It registers an uninstaller in Windows' installed apps list, and
  * installing a new version first uninstalls the previous one. Both wait for
  * the application to be closed before touching its files.
+ *
+ * Run with `/S /UPDATE`, as `@nwutils/updater` does, the installer instead
+ * waits for the running application to exit, updates it silently and starts
+ * the new version.
  *
  * This composes with `@nwutils/builder`: run it against the `outDir` (and
  * `app.name`) that `@nwutils/builder` produced for `platform: "win"`.
@@ -78,6 +89,7 @@ async function nsis({
   desktopShortcut = true,
   startMenuShortcut = true,
   makensisPath = "makensis",
+  publish,
 }) {
   if (typeof appDir !== "string" || appDir === "") {
     throw new Error(
@@ -169,6 +181,10 @@ async function nsis({
     );
   }
 
+  if (publish !== undefined) {
+    util.validatePublish(publish);
+  }
+
   const resolvedIconPath =
     icon === undefined
       ? undefined
@@ -193,28 +209,45 @@ async function nsis({
     `${appName}-${resolvedArch}-Setup.exe`,
   );
 
-  const script = nsisScript({
-    appDir: resolvedAppDir,
-    appFiles: await listAppFiles(resolvedAppDir),
-    appName,
-    appId: resolvedAppId,
-    version,
-    fileVersion,
-    arch: resolvedArch,
-    installerPath,
-    iconPath: resolvedIconPath,
-    licensePath: resolvedLicensePath,
-    publisher,
-    copyright,
-    desktopShortcut,
-    startMenuShortcut,
-  });
+  const appFiles = await listAppFiles(resolvedAppDir);
 
   const scriptDir = await fs.promises.mkdtemp(
     path.join(os.tmpdir(), "nwutils-packager-nsis-"),
   );
 
   try {
+    /*
+     * Installed next to the NW.js executable, ie. at
+     * `path.dirname(process.execPath)` at runtime, which is where
+     * `@nwutils/updater` looks for it.
+     */
+    let appUpdateYamlPath;
+    if (publish !== undefined) {
+      appUpdateYamlPath = path.resolve(scriptDir, "app-update.yml");
+      await fs.promises.writeFile(
+        appUpdateYamlPath,
+        util.appUpdateYaml(publish),
+      );
+    }
+
+    const script = nsisScript({
+      appDir: resolvedAppDir,
+      appFiles,
+      appName,
+      appId: resolvedAppId,
+      version,
+      fileVersion,
+      arch: resolvedArch,
+      installerPath,
+      iconPath: resolvedIconPath,
+      licensePath: resolvedLicensePath,
+      publisher,
+      copyright,
+      desktopShortcut,
+      startMenuShortcut,
+      appUpdateYamlPath,
+    });
+
     const scriptPath = path.resolve(scriptDir, "installer.nsi");
     await fs.promises.writeFile(scriptPath, script, "utf-8");
 
@@ -232,6 +265,17 @@ async function nsis({
         );
       }
       throw error;
+    }
+
+    if (publish !== undefined) {
+      await util.writeUpdateInfo({
+        filePath: installerPath,
+        updateInfoPath: path.resolve(
+          resolvedOutDir,
+          util.updateInfoFileName(resolvedArch, "win"),
+        ),
+        version,
+      });
     }
 
     return installerPath;
@@ -325,6 +369,7 @@ async function listAppFiles(appDir) {
  * @param  {string}                    options.copyright
  * @param  {boolean}                   options.desktopShortcut
  * @param  {boolean}                   options.startMenuShortcut
+ * @param  {string}                    [options.appUpdateYamlPath] Absolute path to an `app-update.yml` file to install next to the executable.
  * @returns {string}
  */
 function nsisScript({
@@ -342,6 +387,7 @@ function nsisScript({
   copyright,
   desktopShortcut,
   startMenuShortcut,
+  appUpdateYamlPath,
 }) {
   const e = util.nsisEscape;
   const p = util.nsisPath;
@@ -363,6 +409,10 @@ function nsisScript({
     '!include "LogicLib.nsh"',
     '!include "x64.nsh"',
     '!include "WinVer.nsh"',
+    '!include "FileFunc.nsh"',
+    "",
+    /* "1" when run with `/UPDATE`, ie. by `@nwutils/updater`. */
+    "Var IsUpdate",
     "",
     `Name "${e(appName)}"`,
     `OutFile "${p(installerPath)}"`,
@@ -405,7 +455,17 @@ function nsisScript({
   if (publisher !== undefined) {
     lines.push(`VIAddVersionKey "CompanyName" "${e(publisher)}"`);
   }
-  lines.push("", "Function .onInit", "  SetShellVarContext current");
+  lines.push(
+    "",
+    "Function .onInit",
+    "  SetShellVarContext current",
+    "  ${GetParameters} $R0",
+    "  ClearErrors",
+    '  ${GetOptions} $R0 "/UPDATE" $R1',
+    "  ${IfNot} ${Errors}",
+    '    StrCpy $IsUpdate "1"',
+    "  ${EndIf}",
+  );
   if (archChecks.length > 0) {
     /* Passing branches are left empty: only the final `${Else}` does anything. */
     lines.push(
@@ -471,11 +531,11 @@ function nsisScript({
     }
   }
 
-  lines.push(
-    '  SetOutPath "$INSTDIR"',
-    '  WriteUninstaller "$INSTDIR\\Uninstall.exe"',
-    "",
-  );
+  lines.push('  SetOutPath "$INSTDIR"');
+  if (appUpdateYamlPath !== undefined) {
+    lines.push(`  File "/oname=app-update.yml" "${p(appUpdateYamlPath)}"`);
+  }
+  lines.push('  WriteUninstaller "$INSTDIR\\Uninstall.exe"', "");
   if (startMenuShortcut) {
     lines.push(`  CreateShortcut "$SMPROGRAMS\\${e(appName)}.lnk" ${exe}`);
   }
@@ -500,6 +560,11 @@ function nsisScript({
     );
   }
   lines.push(
+    "",
+    /* An update runs silently, so the finish page's "Run" checkbox never shows. */
+    '  ${If} $IsUpdate == "1"',
+    `    Exec '${exe}'`,
+    "  ${EndIf}",
     "SectionEnd",
     "",
     "Function un.onInit",
@@ -515,6 +580,9 @@ function nsisScript({
   /* Children before parents, and `RMDir` without `/r` only removes empty directories. */
   for (const dir of [...appFiles.dirs].reverse()) {
     lines.push(`  RMDir ${installed(dir)}`);
+  }
+  if (appUpdateYamlPath !== undefined) {
+    lines.push('  Delete "$INSTDIR\\app-update.yml"');
   }
   lines.push(
     '  Delete "$INSTDIR\\Uninstall.exe"',
@@ -534,7 +602,12 @@ function nsisScript({
  * the user to close it, so its files can be replaced or deleted. Windows
  * refuses to open a running executable for writing, which is how a running
  * copy is detected. Cancelling - which silent mode does straight away -
- * aborts the installer or uninstaller. Uses `$2`.
+ * aborts the installer or uninstaller.
+ *
+ * During an update (`$IsUpdate` is "1") nobody is there to answer the prompt:
+ * `@nwutils/updater` starts the installer and then quits the application, so
+ * it waits for up to `UPDATE_WAIT_SECONDS` instead, then aborts. Uses `$2`
+ * and `$3`.
  * @param  {string}  exePath  Quoted NSIS string with the executable's path, eg. `"$INSTDIR\Demo.exe"`.
  * @param  {string}  appName  Application name, shown in the prompt.
  * @param  {string}  indent   Indentation of the generated lines.
@@ -542,6 +615,7 @@ function nsisScript({
  */
 function waitForAppToClose(exePath, appName, indent) {
   return [
+    "StrCpy $3 0",
     "${Do}",
     `  \${IfNot} \${FileExists} ${exePath}`,
     "    ${Break}",
@@ -551,6 +625,14 @@ function waitForAppToClose(exePath, appName, indent) {
     "  ${IfNot} ${Errors}",
     "    FileClose $2",
     "    ${Break}",
+    "  ${EndIf}",
+    '  ${If} $IsUpdate == "1"',
+    "    IntOp $3 $3 + 1",
+    `    \${If} $3 > ${UPDATE_WAIT_SECONDS * 2}`,
+    "      Abort",
+    "    ${EndIf}",
+    "    Sleep 500",
+    "    ${Continue}",
     "  ${EndIf}",
     `  \${If} \${Cmd} \`MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION "Close ${util.nsisEscape(appName)}, then select Retry." /SD IDCANCEL IDCANCEL\``,
     "    Abort",

@@ -1,5 +1,6 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
+import path from "node:path";
 
 /**
  * Map nw-builder's architecture identifiers to the identifiers used in
@@ -114,14 +115,17 @@ function desktopExecArg(value) {
 }
 
 /**
- * Name of the update info file `@nwutils/updater` downloads to find the
- * latest release, following electron-builder's naming: `x64` gets the bare
- * `latest-linux.yml`, every other architecture gets an `-<arch>` suffix.
- * @param {"ia32" | "x64" | "arm64"} arch
+ * Name of the update info file `@nwutils/updater` downloads for `arch` on
+ * `platform`, matching electron-builder: `x64` gets the bare
+ * `latest-linux.yml` (Linux) or `latest.yml` (Windows), every other
+ * architecture gets an `-<arch>` suffix.
+ * @param {string}           arch
+ * @param {"linux" | "win"}  [platform="linux"]
  * @returns {string}
  */
-function updateInfoFileName(arch) {
-  return arch === "x64" ? "latest-linux.yml" : `latest-linux-${arch}.yml`;
+function updateInfoFileName(arch, platform = "linux") {
+  const base = platform === "win" ? "latest" : "latest-linux";
+  return arch === "x64" ? `${base}.yml` : `${base}-${arch}.yml`;
 }
 
 /**
@@ -269,8 +273,117 @@ function windowsVersion(version) {
   return parts.join(".");
 }
 
+/**
+ * Throw if `publish` isn't a valid `PublishOptions` object.
+ * @param {unknown} publish
+ * @returns {void}
+ */
+function validatePublish(publish) {
+  if (typeof publish !== "object" || publish === null) {
+    throw new Error(
+      `Expected "options.publish" to be an object. Received: ${JSON.stringify(publish)}`,
+    );
+  }
+
+  const { provider } = /** @type {{provider?: unknown}} */ (publish);
+  /** @type {string[]} */
+  let requiredKeys;
+  if (provider === "github") {
+    requiredKeys = ["owner", "repo"];
+  } else if (provider === "generic") {
+    requiredKeys = ["url"];
+  } else {
+    throw new Error(
+      `Expected "options.publish.provider" to be "github" or "generic". Received: ${JSON.stringify(provider)}`,
+    );
+  }
+
+  for (const key of requiredKeys) {
+    const value = /** @type {Record<string, unknown>} */ (publish)[key];
+    if (typeof value !== "string" || value === "") {
+      throw new Error(
+        `Expected "options.publish.${key}" to be a non-empty string for provider "${provider}". Received: ${JSON.stringify(value)}`,
+      );
+    }
+  }
+
+  if (provider === "github") {
+    /*
+     * The characters GitHub allows in owner and repository names. Anything
+     * else - eg. "|", the update information's field separator - is rejected.
+     */
+    for (const key of requiredKeys) {
+      const value = /** @type {Record<string, string>} */ (publish)[key];
+      if (/^[A-Za-z0-9._-]+$/.test(value) === false) {
+        throw new Error(
+          `Expected "options.publish.${key}" to be a GitHub ${key} name (letters, digits, ".", "-" and "_"). Received: ${JSON.stringify(value)}`,
+        );
+      }
+    }
+  }
+
+  if (provider === "generic") {
+    const { url } =
+      /** @type {import("./appImage.js").GenericPublishOptions} */ (publish);
+    let protocol;
+    try {
+      protocol = new URL(url).protocol;
+    } catch {
+      protocol = undefined;
+    }
+    if (protocol !== "https:" && protocol !== "http:") {
+      throw new Error(
+        `Expected "options.publish.url" to be an http(s) URL. Received: ${JSON.stringify(url)}`,
+      );
+    }
+  }
+}
+
+/**
+ * Contents of the `app-update.yml` file `@nwutils/updater` reads to find out
+ * where releases are published. It is shipped next to the NW.js executable.
+ * @param {import("./appImage.js").PublishOptions} publish
+ * @returns {string}
+ */
+function appUpdateYaml(publish) {
+  return stringifyYaml(
+    publish.provider === "github"
+      ? { provider: publish.provider, owner: publish.owner, repo: publish.repo }
+      : { provider: publish.provider, url: publish.url },
+  );
+}
+
+/**
+ * Write the update info file `@nwutils/updater` compares the running version
+ * against, describing the packaged artifact at `filePath`. It must be uploaded
+ * to every release next to the artifact.
+ * @async
+ * @function
+ * @param  {object}  options
+ * @param  {string}  options.filePath        Path to the packaged artifact, eg. the AppImage or installer.
+ * @param  {string}  options.updateInfoPath  Path the update info file is written to.
+ * @param  {string}  options.version         Version of the application.
+ * @returns {Promise<void>}
+ */
+async function writeUpdateInfo({ filePath, updateInfoPath, version }) {
+  const fileName = path.basename(filePath);
+  const sha512Digest = await sha512(filePath);
+  const { size } = await fs.promises.stat(filePath);
+  await fs.promises.writeFile(
+    updateInfoPath,
+    stringifyYaml({
+      version,
+      files: [{ url: fileName, sha512: sha512Digest, size }],
+      path: fileName,
+      sha512: sha512Digest,
+      releaseDate: new Date().toISOString(),
+    }),
+  );
+}
+
 export default {
   APPIMAGE_ARCH_KV,
+  appUpdateYaml,
   desktopExecArg,
   fileExists,
   isWindowsFileName,
@@ -282,5 +395,7 @@ export default {
   stringifyDesktopEntry,
   stringifyYaml,
   updateInfoFileName,
+  validatePublish,
   windowsVersion,
+  writeUpdateInfo,
 };
