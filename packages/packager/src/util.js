@@ -116,15 +116,20 @@ function desktopExecArg(value) {
 
 /**
  * Name of the update info file `@nwutils/updater` downloads for `arch` on
- * `platform`, matching electron-builder: `x64` gets the bare
- * `latest-linux.yml` (Linux) or `latest.yml` (Windows), every other
- * architecture gets an `-<arch>` suffix.
- * @param {string}           arch
- * @param {"linux" | "win"}  [platform="linux"]
+ * `platform`, gets the bare
+ * `latest-linux.yml` (Linux), `latest.yml` (Windows) or `latest-mac.yml`
+ * (MacOS), every other architecture gets an `-<arch>` suffix.
+ * @param {string}                  arch
+ * @param {"linux" | "win" | "osx"} [platform="linux"]
  * @returns {string}
  */
 function updateInfoFileName(arch, platform = "linux") {
-  const base = platform === "win" ? "latest" : "latest-linux";
+  const base =
+    platform === "win"
+      ? "latest"
+      : platform === "osx"
+        ? "latest-mac"
+        : "latest-linux";
   return arch === "x64" ? `${base}.yml` : `${base}-${arch}.yml`;
 }
 
@@ -169,8 +174,7 @@ function stringifyYaml(entries) {
 }
 
 /**
- * Compute the base64 encoded SHA-512 digest of the file at `filePath`, the
- * same encoding electron-builder writes into its update info files.
+ * Compute the base64 encoded SHA-512 digest of the file at `filePath`.
  * @async
  * @function
  * @param {string} filePath

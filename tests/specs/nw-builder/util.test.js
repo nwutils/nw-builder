@@ -293,6 +293,83 @@ describe("util/validate", function () {
       );
     });
   });
+
+  describe("format dmg", function () {
+    /**
+     * Parse options the way `nwbuild()` does, then validate them.
+     * @param {Record<string, unknown>} [overrides]
+     * @param {Record<string, unknown>} [pkg]  The application's package.json.
+     * @returns {Promise<void>}
+     */
+    async function validateDmg(
+      overrides = {},
+      pkg = { name: "Demo", version: "1.0.0" },
+    ) {
+      const options = await util.parse(
+        {
+          mode: "package",
+          platform: "osx",
+          arch: "arm64",
+          srcDir: "./",
+          app: {
+            icon: "./icon.icns",
+            LSApplicationCategoryType: "public.app-category.utilities",
+            NSHumanReadableCopyright: "(c) ACME",
+          },
+          ...overrides,
+        },
+        pkg,
+      );
+      return util.validate(options, {
+        flavors: ["normal"],
+        files: ["osx-arm64", "win-x64"],
+      });
+    }
+
+    it("accepts valid options, including publish", async function () {
+      await validateDmg({
+        dmg: { signIdentity: "-" },
+        publish: { provider: "github", owner: "nwutils", repo: "demo" },
+      });
+    });
+
+    it("throws on a non-osx platform", async function () {
+      await assert.rejects(
+        validateDmg({ platform: "win", arch: "x64", format: "dmg" }),
+        /options.format "dmg" requires options.platform to be "osx"/,
+      );
+    });
+
+    it("throws on an empty dmg string option", async function () {
+      await assert.rejects(
+        validateDmg({ dmg: { signIdentity: "" } }),
+        /Expected options.dmg.signIdentity to be a non-empty string/,
+      );
+    });
+
+    it("throws before building when publish is set without a version", async function () {
+      await assert.rejects(
+        validateDmg(
+          {
+            publish: { provider: "github", owner: "nwutils", repo: "demo" },
+          },
+          { name: "Demo" },
+        ),
+        /options.format "dmg" with options.publish needs the application's version/,
+      );
+    });
+
+    it("throws on AppImage-only options", async function () {
+      await assert.rejects(
+        validateDmg({ sign: true }),
+        /Use options.dmg.signIdentity to sign a MacOS app/,
+      );
+      await assert.rejects(
+        validateDmg({ updateInformation: true }),
+        /options.updateInformation is only supported with options.format "AppImage"/,
+      );
+    });
+  });
 });
 
 describe("util/parse", function () {
@@ -318,12 +395,12 @@ describe("util/parse", function () {
     assert.strictEqual(newOptions.format, "nsis");
   });
 
-  it("leaves format undefined in package mode on osx", async function () {
+  it("defaults format to dmg in package mode on osx", async function () {
     const newOptions = await util.parse(
       { mode: "package", platform: "osx" },
       {},
     );
-    assert.strictEqual(newOptions.format, undefined);
+    assert.strictEqual(newOptions.format, "dmg");
   });
 
   it("defaults the nsis shortcut options to true", async function () {
@@ -460,6 +537,44 @@ describe("util/nsisOptions", function () {
   it("throws when there is no version", function () {
     assert.throws(
       () => util.nsisOptions({ app: {} }),
+      /needs the application's version/,
+    );
+  });
+});
+
+describe("util/dmgOptions", function () {
+  it("maps the MacOS app options and dmg options", function () {
+    assert.deepStrictEqual(
+      util.dmgOptions({
+        app: { CFBundleShortVersionString: "1.2.0", CFBundleVersion: "42" },
+        dmg: {
+          signIdentity: "Developer ID Application: ACME (TEAMID)",
+          volumeName: "Demo Installer",
+          hdiutilPath: "/usr/bin/hdiutil",
+          dittoPath: "/usr/bin/ditto",
+          codesignPath: "/usr/bin/codesign",
+        },
+        publish: { provider: "github", owner: "nwutils", repo: "demo" },
+      }),
+      {
+        version: "1.2.0",
+        volumeName: "Demo Installer",
+        signIdentity: "Developer ID Application: ACME (TEAMID)",
+        hdiutilPath: "/usr/bin/hdiutil",
+        dittoPath: "/usr/bin/ditto",
+        codesignPath: "/usr/bin/codesign",
+        publish: { provider: "github", owner: "nwutils", repo: "demo" },
+      },
+    );
+  });
+
+  it("throws when publish is set without a version", function () {
+    assert.throws(
+      () =>
+        util.dmgOptions({
+          app: {},
+          publish: { provider: "github", owner: "nwutils", repo: "demo" },
+        }),
       /needs the application's version/,
     );
   });

@@ -13,7 +13,7 @@ Supported output formats, selected via `format`:
 | `rpm`      | Linux    | Planned     |
 | `msix`     | Windows  | Planned     |
 | `nsis`     | Windows  | Implemented |
-| `dmg`      | MacOS    | Planned     |
+| `dmg`      | MacOS    | Implemented |
 
 ## Getting Started
 
@@ -65,7 +65,7 @@ keyring. If the key is protected by a passphrase, set it in the
 ### Self updating AppImages
 
 Set `publish` to where releases are uploaded, and `version` to the app's
-version. This follows electron-builder's approach:
+version.
 
 - an `app-update.yml` describing `publish` is embedded next to the NW.js
   executable inside the AppImage, so the running app knows where to look
@@ -174,14 +174,71 @@ running application to exit instead of asking the user to close it, updates it
 silently, and starts the new version. Because it installs for the current user,
 updating never asks for administrator rights.
 
+### DMG
+
+Build the application with `platform: "osx"` first, then, on a MacOS host:
+
+```js
+const dmgPath = await packager({
+  format: "dmg",
+  appDir: "./out",
+  appName: "Demo",
+  arch: "arm64",
+  outDir: "./dist",
+  signIdentity: "Developer ID Application: ACME (TEAMID)",
+});
+// ./dist/Demo-arm64.dmg
+```
+
+The DMG holds the app next to a link to `/Applications`, so users install it by
+dragging the app onto the link. It is made with `hdiutil`, and the app is signed
+with `codesign` when `signIdentity` is set (`"-"` signs ad-hoc). Both are part
+of MacOS, so DMGs are built on a MacOS host. Notarize the DMG afterwards, eg.
+with `xcrun notarytool submit --wait` and `xcrun stapler staple`, so Gatekeeper
+lets users open it.
+
+### Self updating DMGs
+
+Set `publish` and `version`. Updates don't use the DMG:
+
+- an `app-update.yml` describing `publish` is added to the app's
+  `Contents/Resources`
+- a `<appName>-<arch>-mac.zip` of the app, made with `ditto` so permissions,
+  symbolic links and the signature survive, is written next to the DMG
+- a `latest-mac.yml` update info file (`latest-mac-<arch>.yml` for
+  architectures other than `x64`) describing the zip is written next to it
+
+```js
+await packager({
+  format: "dmg",
+  appDir: "./out",
+  appName: "Demo",
+  arch: "arm64",
+  outDir: "./dist",
+  version: "1.2.0",
+  signIdentity: "Developer ID Application: ACME (TEAMID)",
+  publish: { provider: "github", owner: "nwutils", repo: "demo" },
+});
+// ./dist/Demo-arm64.dmg
+// ./dist/Demo-arm64-mac.zip
+// ./dist/latest-mac-arm64.yml
+```
+
+Upload all three to every release.
+[`@nwutils/updater`](https://www.npmjs.com/package/@nwutils/updater)'s
+`MacUpdater` downloads the zip, checks it, swaps it in for the running app and
+restarts it. Adding `app-update.yml` changes the app, so sign it here with
+`signIdentity` rather than before packaging. A signed app only accepts updates
+signed by the same team.
+
 ## API Reference
 
 ### `packager({ format, ...options })`
 
-| Name   | Type                                                        | Description                                                                  |
-| ------ | ----------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| format | `"AppImage" \| "deb" \| "rpm" \| "msix" \| "nsis" \| "dmg"` | Which packager to run. `"AppImage"` and `"nsis"` are implemented today.      |
-| ...    | -                                                           | The remaining options are passed through to the packager for `format` as-is. |
+| Name   | Type                                                        | Description                                                                      |
+| ------ | ----------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| format | `"AppImage" \| "deb" \| "rpm" \| "msix" \| "nsis" \| "dmg"` | Which packager to run. `"AppImage"`, `"nsis"` and `"dmg"` are implemented today. |
+| ...    | -                                                           | The remaining options are passed through to the packager for `format` as-is.     |
 
 Resolves with the path to the resulting packaged artifact.
 
@@ -229,6 +286,26 @@ Options
 | publish           | `PublishOptions`             | Where releases are published. Installs `app-update.yml` and writes `latest[-<arch>].yml` to `outDir`                  |
 
 Resolves with the path to the resulting installer `.exe` file.
+
+### `dmg(options)`
+
+Options
+
+| Name         | Type               | Description                                                                                                                         |
+| ------------ | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| appDir       | `string`           | Path to a built NW.js MacOS application, ie. the `outDir` produced by `@nwutils/builder` for `platform: "osx"`                      |
+| appName      | `string`           | Name of the application. Must match the `app.name` value used to build `appDir`: the bundle is expected at `<appDir>/<appName>.app` |
+| arch         | `"x64" \| "arm64"` | Architecture `appDir` was built for. Defaults to the host architecture                                                              |
+| outDir       | `string`           | Directory the resulting `<appName>-<arch>.dmg` file is written to. Defaults to the parent directory of `appDir`                     |
+| volumeName   | `string`           | Name of the volume the DMG mounts as. Defaults to `appName`                                                                         |
+| signIdentity | `string`           | Code signing identity to sign the app with, or `"-"` to sign ad-hoc. Not signed by default                                          |
+| version      | `string`           | Version of the application. Required with `publish`                                                                                 |
+| publish      | `PublishOptions`   | Where releases are published. Adds `app-update.yml` and writes `<appName>-<arch>-mac.zip` and `latest-mac[-<arch>].yml` to `outDir` |
+| hdiutilPath  | `string`           | Path to `hdiutil`. Defaults to `hdiutil` on the `PATH`                                                                              |
+| dittoPath    | `string`           | Path to `ditto`. Defaults to `ditto` on the `PATH`                                                                                  |
+| codesignPath | `string`           | Path to `codesign`. Defaults to `codesign` on the `PATH`                                                                            |
+
+Resolves with the path to the resulting `.dmg` file.
 
 ## Contributing
 

@@ -42,11 +42,13 @@ export interface Options<P extends SupportedPlatform = SupportedPlatform> {
   logLevel?: "error" | "warn" | "info" | "debug";
   /** Managed manifest */
   managedManifest?: boolean | string | object;
-  /** Packaged output format, used in package mode. Defaults to `"AppImage"` on Linux and `"nsis"` on Windows. Only `"AppImage"` and `"nsis"` are implemented today - the others are reserved. */
+  /** Packaged output format, used in package mode. Defaults to `"AppImage"` on Linux, `"nsis"` on Windows and `"dmg"` on MacOS. Only `"AppImage"`, `"nsis"` and `"dmg"` are implemented today - the others are reserved. */
   format?: "AppImage" | "deb" | "rpm" | "msix" | "nsis" | "dmg";
   /** NSIS installer options, used in package mode. The installer's version, publisher, copyright and `.ico` icon come from `app`. */
   nsis?: NsisOptions;
-  /** Where releases are published, used in package mode. Makes the AppImage or NSIS installation self updatable with `@nwutils/updater`. */
+  /** DMG options, used in package mode. Build on a MacOS host. With `publish`, the version comes from `app.CFBundleShortVersionString`. */
+  dmg?: DmgOptions;
+  /** Where releases are published, used in package mode. Makes the AppImage, NSIS installation or DMG app self updatable with `@nwutils/updater`. */
   publish?: PublishOptions;
 }
 
@@ -66,6 +68,20 @@ export type PublishOptions =
       /** Base URL the latest release's files are served from */
       url: string;
     };
+
+/** DMG options that have no equivalent in `app` */
+export interface DmgOptions {
+  /** Code signing identity the app is signed with, eg. `"Developer ID Application: ACME (TEAMID)"`, or `"-"` to sign ad-hoc. Not signed by default. Sign here rather than before packaging when `publish` is set. */
+  signIdentity?: string;
+  /** Name of the volume the DMG mounts as. Defaults to `app.name`. */
+  volumeName?: string;
+  /** Path to `hdiutil`. Defaults to `hdiutil` on the `PATH`. */
+  hdiutilPath?: string;
+  /** Path to `ditto`. Defaults to `ditto` on the `PATH`. */
+  dittoPath?: string;
+  /** Path to `codesign`. Defaults to `codesign` on the `PATH`. */
+  codesignPath?: string;
+}
 
 /** NSIS installer options that have no equivalent in `app` */
 export interface NsisOptions {

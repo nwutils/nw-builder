@@ -114,7 +114,7 @@ describe("packager/util", function () {
       );
     });
 
-    it("uses latest.yml on Windows, like electron-builder", function () {
+    it("uses latest.yml on Windows", function () {
       assert.strictEqual(util.updateInfoFileName("x64", "win"), "latest.yml");
       assert.strictEqual(
         util.updateInfoFileName("arm64", "win"),

@@ -93,8 +93,7 @@ jobs:
       - name: Run packager test suite
         run: npm run test --workspace=@nwutils/packager
 
-      - name: Run packager real AppImage and NSIS test suites
-        if: runner.os == 'Linux' || runner.os == 'Windows'
+      - name: Run packager real AppImage, NSIS and DMG test suites
         run: npm run test:real --workspace=@nwutils/packager
 
       - name: Check git status is clean

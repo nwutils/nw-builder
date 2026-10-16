@@ -114,6 +114,7 @@ import * as GlobModule from "glob";
  * @property {import("@nwutils/packager").PublishOptions}            [publish]           Where releases are published, used in package mode
  * @property {boolean | string}                                      [updateInformation] AppImage zsync update information, used in package mode
  * @property {NsisOptions}                                           [nsis]              NSIS installer options, used in package mode
+ * @property {DmgOptions}                                            [dmg]               DMG options, used in package mode
  * @property {string[]}                                              [argv]             CLI arguments passed to the NW.js process in run mode
  * @property {boolean | string}                                      [glob]             If true file globbing is enabled when parsing srcDir
  * @property {string | string[]}                                     [srcDir]           File paths to application code
@@ -169,6 +170,49 @@ function nsisOptions(options) {
     desktopShortcut: /** @type {boolean} */ (nsis.desktopShortcut ?? true),
     startMenuShortcut: /** @type {boolean} */ (nsis.startMenuShortcut ?? true),
     makensisPath: nsis.makensisPath,
+    publish: options.publish,
+  };
+}
+
+/**
+ * DMG options that have no equivalent in `options.app`.
+ * @typedef  {object}  DmgOptions
+ * @property {string}  [signIdentity]  Code signing identity the app is signed with, or `"-"` to sign ad-hoc. Not signed by default.
+ * @property {string}  [volumeName]    Name of the volume the DMG mounts as. Defaults to `app.name`.
+ * @property {string}  [hdiutilPath]   Path to `hdiutil`. Defaults to `hdiutil` on the `PATH`.
+ * @property {string}  [dittoPath]     Path to `ditto`. Defaults to `ditto` on the `PATH`.
+ * @property {string}  [codesignPath]  Path to `codesign`. Defaults to `codesign` on the `PATH`.
+ */
+
+/**
+ * Map resolved options to the options `@nwutils/packager`'s `dmg()` takes,
+ * besides `appDir`, `appName` and `arch`. The version comes from the MacOS
+ * `options.app` value `@nwutils/builder` also writes into `Info.plist`, so both
+ * agree.
+ * @param  {Options}  options  Options after `parse()`.
+ * @returns {{version: string | undefined, volumeName: string | undefined, signIdentity: string | undefined, hdiutilPath: string | undefined, dittoPath: string | undefined, codesignPath: string | undefined, publish: import("@nwutils/packager").PublishOptions | undefined}} Options for `dmg()`.
+ */
+function dmgOptions(options) {
+  const app = options.app ?? {};
+  const dmg = options.dmg ?? {};
+
+  const version = app.CFBundleShortVersionString ?? app.CFBundleVersion;
+  if (
+    options.publish !== undefined &&
+    (typeof version !== "string" || version === "")
+  ) {
+    throw new Error(
+      'options.format "dmg" with options.publish needs the application\'s version. Set "version" in package.json, or options.app.CFBundleShortVersionString.',
+    );
+  }
+
+  return {
+    version,
+    volumeName: dmg.volumeName,
+    signIdentity: dmg.signIdentity,
+    hdiutilPath: dmg.hdiutilPath,
+    dittoPath: dmg.dittoPath,
+    codesignPath: dmg.codesignPath,
     publish: options.publish,
   };
 }
@@ -410,7 +454,9 @@ export const parse = async (options, pkg) => {
         ? "AppImage"
         : options.platform === "win"
           ? "nsis"
-          : undefined);
+          : options.platform === "osx"
+            ? "dmg"
+            : undefined);
     options.sign = str2Bool(options.sign ?? false);
     options.updateInformation = str2Bool(options.updateInformation);
     if (options.format === "nsis") {
@@ -733,10 +779,40 @@ export const validate = async (options, releaseInfo) => {
           );
         }
       }
-      /* GPG signatures and zsync update information only exist for AppImages. */
+      /* Throws now, before building, if the installer would have no version. */
+      nsisOptions(options);
+    }
+    if (options.format === "dmg") {
+      if (options.platform !== "osx") {
+        throw new Error(
+          `options.format "dmg" requires options.platform to be "osx". Got ${JSON.stringify(options.platform)}.`,
+        );
+      }
+      const dmg = options.dmg ?? {};
+      for (const key of /** @type {const} */ ([
+        "signIdentity",
+        "volumeName",
+        "hdiutilPath",
+        "dittoPath",
+        "codesignPath",
+      ])) {
+        if (
+          dmg[key] !== undefined &&
+          (typeof dmg[key] !== "string" || dmg[key] === "")
+        ) {
+          throw new Error(
+            `Expected options.dmg.${key} to be a non-empty string. Got ${JSON.stringify(dmg[key])}`,
+          );
+        }
+      }
+      /* Throws now, before building, if a self updating DMG would have no version. */
+      dmgOptions(options);
+    }
+    /* GPG signatures and zsync update information only exist for AppImages. */
+    if (options.format !== "AppImage") {
       if (options.sign === true) {
         throw new Error(
-          'options.sign is only supported with options.format "AppImage".',
+          'options.sign is only supported with options.format "AppImage". Use options.dmg.signIdentity to sign a MacOS app.',
         );
       }
       if (
@@ -744,11 +820,9 @@ export const validate = async (options, releaseInfo) => {
         options.updateInformation !== false
       ) {
         throw new Error(
-          'options.updateInformation is only supported with options.format "AppImage". NSIS installs self update with options.publish alone.',
+          'options.updateInformation is only supported with options.format "AppImage". Other formats self update with options.publish alone.',
         );
       }
-      /* Throws now, before building, if the installer would have no version. */
-      nsisOptions(options);
     }
   }
 
@@ -1209,4 +1283,5 @@ export default {
   validate,
   log,
   nsisOptions,
+  dmgOptions,
 };

@@ -1,13 +1,14 @@
 import appImage from "./appImage.js";
+import dmg from "./dmg.js";
 import nsis from "./nsis.js";
 
 /**
  * Supported packaged output formats.
  *
  * `AppImage`, `deb` and `rpm` package a Linux build. `MSIX` and `NSIS`
- * package a Windows build. `"AppImage"` and `"nsis"` are implemented today -
- * the others are reserved so this option doesn't need to change shape once
- * they land.
+ * package a Windows build. `dmg` packages a MacOS build. `"AppImage"`,
+ * `"nsis"` and `"dmg"` are implemented today - the others are reserved so
+ * this option doesn't need to change shape once they land.
  * @typedef {"AppImage" | "deb" | "rpm" | "msix" | "nsis" | "dmg"} PackageFormat
  */
 
@@ -20,7 +21,7 @@ import nsis from "./nsis.js";
  * Package a built NW.js application.
  * @async
  * @function
- * @param  {{format: PackageFormat} & Record<string, any>}  options  `format`, plus the options the matching packager (eg. `appImage` or `nsis`) expects.
+ * @param  {{format: PackageFormat} & Record<string, any>}  options  `format`, plus the options the matching packager (eg. `appImage`, `nsis` or `dmg`) expects.
  * @returns {Promise<string>}  Path to the resulting packaged artifact.
  */
 async function packager({ format, ...options }) {
@@ -29,12 +30,13 @@ async function packager({ format, ...options }) {
       return appImage(/** @type {any} */ (options));
     case "nsis":
       return nsis(/** @type {any} */ (options));
+    case "dmg":
+      return dmg(/** @type {any} */ (options));
     case "deb":
     case "rpm":
     case "msix":
-    case "dmg":
       throw new Error(
-        `options.format ${JSON.stringify(format)} is not implemented yet. Currently only "AppImage" and "nsis" are supported.`,
+        `options.format ${JSON.stringify(format)} is not implemented yet. Currently only "AppImage", "nsis" and "dmg" are supported.`,
       );
     default:
       throw new Error(
