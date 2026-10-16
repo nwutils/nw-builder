@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.24.0](https://github.com/nwutils/nw-builder/compare/nw-builder-v4.23.0...nw-builder-v4.24.0) (2026-10-16)
+
+
+### Features
+
+* support DMG installer and self updatable ([#1699](https://github.com/nwutils/nw-builder/issues/1699)) ([3ca09a2](https://github.com/nwutils/nw-builder/commit/3ca09a276d04c17139c272408b8ad9e76e2d1676))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @nwutils/packager bumped from ^0.7.0 to ^0.8.0
+
 ## [4.23.0](https://github.com/nwutils/nw-builder/compare/nw-builder-v4.22.0...nw-builder-v4.23.0) (2026-10-16)
 
 
