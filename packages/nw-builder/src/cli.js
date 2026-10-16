@@ -63,17 +63,21 @@ program
   .allowUnknownOption(true)
   .allowExcessArguments(true);
 
-// Handle unknown --app.* and --publish.* arguments
+// Handle unknown --app.*, --publish.* and --nsis.* arguments
 const unknownArgs = program.parse(process.argv).args;
 /** @type {Record<string, string>} */
 const appConfig = {};
 /** @type {Record<string, string>} */
 const publishConfig = {};
+/** @type {Record<string, string>} */
+const nsisConfig = {};
+/** @type {Record<string, Record<string, string>>} */
+const configs = { app: appConfig, publish: publishConfig, nsis: nsisConfig };
 for (const arg of unknownArgs) {
-  const match = arg.match(/^--(app|publish)\.([^.=]+)=(.*)$/);
+  const match = arg.match(/^--(app|publish|nsis)\.([^.=]+)=(.*)$/);
   if (match) {
     const [, group, key, value] = match;
-    (group === "app" ? appConfig : publishConfig)[key] = value;
+    configs[group][key] = value;
   }
 }
 
@@ -82,8 +86,12 @@ const opts = {
   ...program.opts(),
   app: appConfig,
   publish: Object.keys(publishConfig).length > 0 ? publishConfig : undefined,
+  nsis: Object.keys(nsisConfig).length > 0 ? nsisConfig : undefined,
   srcDir: program.args.find(
-    (arg) => !arg.startsWith("--app") && !arg.startsWith("--publish"),
+    (arg) =>
+      !arg.startsWith("--app") &&
+      !arg.startsWith("--publish") &&
+      !arg.startsWith("--nsis"),
   ),
   cli: true,
 };
