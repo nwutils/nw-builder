@@ -12,7 +12,7 @@ Supported output formats, selected via `format`:
 | `deb`      | Linux    | Planned     |
 | `rpm`      | Linux    | Planned     |
 | `msix`     | Windows  | Planned     |
-| `nsis`     | Windows  | Planned     |
+| `nsis`     | Windows  | Implemented |
 | `dmg`      | MacOS    | Planned     |
 
 ## Getting Started
@@ -106,14 +106,46 @@ managers. `true` derives it from `publish`
 `zsyncmake` (usually packaged as `zsync`) installed on the host, and the
 `.zsync` file must be uploaded alongside the AppImage.
 
+### NSIS installer
+
+Build the application with `platform: "win"` first, then:
+
+```js
+const installerPath = await packager({
+  format: "nsis",
+  appDir: "./out",
+  appName: "Demo",
+  version: "1.2.0",
+  outDir: "./dist",
+  icon: "./icon.ico",
+  publisher: "ACME",
+  license: "./LICENSE.txt",
+});
+// ./dist/Demo-x64-Setup.exe
+```
+
+The installer walks the user through a wizard and installs for the current
+user only, into `%LOCALAPPDATA%\Programs\<appName>`, so it never asks for
+administrator rights. It adds Start Menu and desktop shortcuts, and registers
+an uninstaller in Windows' installed apps list. The uninstaller removes exactly
+the files that were installed. Installing a new version first uninstalls the
+previous one, matched by `appId`.
+
+Run the installer with `/S` to install silently, and `/D=<dir>` (last, unquoted)
+to choose the install directory.
+
+It needs the NSIS compiler, `makensis`, installed on the host. It runs on
+Linux (`apt install nsis`) and MacOS (`brew install makensis`) too, so a Windows
+installer can be built from any platform. On Windows, `choco install nsis`.
+
 ## API Reference
 
 ### `packager({ format, ...options })`
 
-| Name   | Type                                               | Description                                                                  |
-| ------ | -------------------------------------------------- | ---------------------------------------------------------------------------- |
-| format | `"AppImage" \| "deb" \| "rpm" \| "MSIX" \| "NSIS"` | Which packager to run. Only `"AppImage"` is implemented today.               |
-| ...    | -                                                  | The remaining options are passed through to the packager for `format` as-is. |
+| Name   | Type                                                        | Description                                                                  |
+| ------ | ----------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| format | `"AppImage" \| "deb" \| "rpm" \| "msix" \| "nsis" \| "dmg"` | Which packager to run. `"AppImage"` and `"nsis"` are implemented today.      |
+| ...    | -                                                           | The remaining options are passed through to the packager for `format` as-is. |
 
 Resolves with the path to the resulting packaged artifact.
 
@@ -138,6 +170,28 @@ Options
 | updateInformation | `boolean \| string`          | AppImage zsync update information. `true` derives it from `publish`. Requires `zsyncmake` on the host                                                         |
 
 Resolves with the path to the resulting `.AppImage` file.
+
+### `nsis(options)`
+
+Options
+
+| Name              | Type                         | Description                                                                                                           |
+| ----------------- | ---------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| appDir            | `string`                     | Path to a built NW.js Windows application, ie. the `outDir` produced by `@nwutils/builder` for `platform: "win"`      |
+| appName           | `string`                     | Name of the application. Must match the `app.name` value used to build `appDir`. Must be a valid Windows file name    |
+| version           | `string`                     | Version of the application, eg. `"1.2.0"`. Required                                                                   |
+| arch              | `"ia32" \| "x64" \| "arm64"` | Architecture `appDir` was built for. Defaults to the host architecture                                                |
+| outDir            | `string`                     | Directory the resulting `<appName>-<arch>-Setup.exe` file is written to. Defaults to the parent directory of `appDir` |
+| icon              | `string`                     | Path to a `.ico` icon for the installer and uninstaller. Defaults to NSIS' own icon                                   |
+| appId             | `string`                     | Name of the registry key the installation is recorded under. Defaults to `appName`. Keep it the same across releases  |
+| publisher         | `string`                     | Publisher shown in Windows' installed apps list                                                                       |
+| copyright         | `string`                     | Copyright notice written into the installer's version information                                                     |
+| license           | `string`                     | Path to a `.txt` or `.rtf` license file the user has to accept                                                        |
+| desktopShortcut   | `boolean`                    | If true, create a desktop shortcut. Defaults to `true`                                                                |
+| startMenuShortcut | `boolean`                    | If true, create a Start Menu shortcut. Defaults to `true`                                                             |
+| makensisPath      | `string`                     | Path to the NSIS compiler. Defaults to `makensis` on the `PATH`                                                       |
+
+Resolves with the path to the resulting installer `.exe` file.
 
 ## Contributing
 

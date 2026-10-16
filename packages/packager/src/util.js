@@ -180,14 +180,107 @@ async function sha512(filePath) {
   return hash.digest("base64");
 }
 
+/**
+ * Escape `value` for use inside a double quoted NSIS string. NSIS expands `$`
+ * variables and `$\` escapes there, so `$` is doubled and `"` is escaped.
+ * Line breaks are rejected rather than escaped: a raw one would end the
+ * command and let the value inject further script lines. The result is not
+ * quoted, so it can be joined with NSIS variables, eg. `"$INSTDIR\<value>"`.
+ * @param {string} value
+ * @returns {string}
+ */
+function nsisEscape(value) {
+  if (/[\r\n]/.test(value)) {
+    throw new Error(
+      `NSIS strings must not contain line breaks. Received: ${JSON.stringify(value)}`,
+    );
+  }
+  /* In a replacement string `$$` is a literal `$`, so "$$$$" writes "$$". */
+  return value.replaceAll("$", "$$$$").replaceAll('"', '$\\"');
+}
+
+/**
+ * Check a path on the host for use inside a double quoted NSIS string that
+ * `makensis` reads at compile time, eg. a `File` source or `OutFile`. Unlike
+ * runtime strings, those keep `$` literally, so nothing is escaped. Instead,
+ * the sequences `makensis` would still interpret are rejected: `${define}`
+ * expansions and `$\` escapes, and `"` - an escaped `$\"` doesn't survive
+ * being passed through a `!define`, as the icon and license paths are.
+ * @param {string} value
+ * @returns {string}  `value`, unchanged.
+ */
+function nsisPath(value) {
+  if (/[\r\n"]/.test(value) || value.includes("${") || value.includes("$\\")) {
+    throw new Error(
+      `Paths passed to NSIS must not contain line breaks, '"', "\${" or "$\\". Received: ${JSON.stringify(value)}`,
+    );
+  }
+  return value;
+}
+
+/**
+ * Names Windows reserves for devices, with or without an extension.
+ * @type {RegExp}
+ */
+const WINDOWS_RESERVED_NAME = /^(con|prn|aux|nul|com[1-9]|lpt[1-9])(\..*)?$/i;
+
+/**
+ * Check that `value` can be used as a single Windows file name: no path
+ * separators, characters Windows forbids in file names, control characters,
+ * trailing dots or spaces, or reserved device names.
+ * @param {string} value
+ * @returns {boolean}
+ */
+function isWindowsFileName(value) {
+  const hasControlCharacter = [...value].some((character) => {
+    const code = character.charCodeAt(0);
+    return code < 0x20 || code === 0x7f;
+  });
+  return (
+    value !== "" &&
+    /[<>:"/\\|?*]/.test(value) === false &&
+    hasControlCharacter === false &&
+    /[. ]$/.test(value) === false &&
+    WINDOWS_RESERVED_NAME.test(value) === false
+  );
+}
+
+/**
+ * Convert a version such as `"1.2.3"` or `"1.2.3-beta.1"` into the
+ * `X.X.X.X` form Windows version resources (and NSIS' `VIProductVersion`)
+ * require. Up to four leading numeric parts are kept, missing ones are
+ * filled with `0`, and any prerelease or build suffix is dropped.
+ * @param {string} version
+ * @returns {string}
+ */
+function windowsVersion(version) {
+  const match = version.match(/^(\d+)(?:\.(\d+))?(?:\.(\d+))?(?:\.(\d+))?/);
+  if (match === null) {
+    throw new Error(
+      `Expected a version starting with a number, eg. "1.2.3". Received: ${JSON.stringify(version)}`,
+    );
+  }
+  const parts = match.slice(1).map((part) => Number(part ?? 0));
+  if (parts.some((part) => part > 65535)) {
+    throw new Error(
+      `Expected each part of the version to be at most 65535. Received: ${JSON.stringify(version)}`,
+    );
+  }
+  return parts.join(".");
+}
+
 export default {
   APPIMAGE_ARCH_KV,
   desktopExecArg,
   fileExists,
+  isWindowsFileName,
+  nsisEscape,
+  nsisPath,
   parseDesktopEntry,
   sha512,
   shellQuote,
   stringifyDesktopEntry,
   stringifyYaml,
   updateInfoFileName,
+  windowsVersion,
 };

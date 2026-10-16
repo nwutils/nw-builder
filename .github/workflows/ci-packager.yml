@@ -77,11 +77,24 @@ jobs:
       - name: Install third party dependencies
         run: npm ci
 
+      - name: Install NSIS on Linux
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y nsis
+
+      - name: Install NSIS on Windows
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          if ! command -v makensis; then
+            choco install nsis --no-progress -y
+            echo "C:\\Program Files (x86)\\NSIS" >> "$GITHUB_PATH"
+          fi
+
       - name: Run packager test suite
         run: npm run test --workspace=@nwutils/packager
 
-      - name: Run packager real AppImage test suite
-        if: runner.os == 'Linux'
+      - name: Run packager real AppImage and NSIS test suites
+        if: runner.os == 'Linux' || runner.os == 'Windows'
         run: npm run test:real --workspace=@nwutils/packager
 
       - name: Check git status is clean

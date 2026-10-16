@@ -1,12 +1,13 @@
 import appImage from "./appImage.js";
+import nsis from "./nsis.js";
 
 /**
  * Supported packaged output formats.
  *
  * `AppImage`, `deb` and `rpm` package a Linux build. `MSIX` and `NSIS`
- * package a Windows build. Only `"AppImage"` is implemented today - the
- * others are reserved so this option doesn't need to change shape once they
- * land.
+ * package a Windows build. `"AppImage"` and `"nsis"` are implemented today -
+ * the others are reserved so this option doesn't need to change shape once
+ * they land.
  * @typedef {"AppImage" | "deb" | "rpm" | "msix" | "nsis" | "dmg"} PackageFormat
  */
 
@@ -19,20 +20,21 @@ import appImage from "./appImage.js";
  * Package a built NW.js application.
  * @async
  * @function
- * @param  {{format: PackageFormat} & Record<string, any>}  options  `format`, plus the options the matching packager (eg. `appImage`) expects.
+ * @param  {{format: PackageFormat} & Record<string, any>}  options  `format`, plus the options the matching packager (eg. `appImage` or `nsis`) expects.
  * @returns {Promise<string>}  Path to the resulting packaged artifact.
  */
 async function packager({ format, ...options }) {
   switch (format) {
     case "AppImage":
       return appImage(/** @type {any} */ (options));
+    case "nsis":
+      return nsis(/** @type {any} */ (options));
     case "deb":
     case "rpm":
     case "msix":
-    case "nsis":
     case "dmg":
       throw new Error(
-        `options.format ${JSON.stringify(format)} is not implemented yet. Currently only "AppImage" is supported.`,
+        `options.format ${JSON.stringify(format)} is not implemented yet. Currently only "AppImage" and "nsis" are supported.`,
       );
     default:
       throw new Error(
