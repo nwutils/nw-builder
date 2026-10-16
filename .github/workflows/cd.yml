@@ -33,8 +33,18 @@ jobs:
 
   publish-nw-builder:
     name: Publish nw-builder to npm
-    needs: release-please
-    if: ${{ needs.release-please.outputs.nw-builder--release_created }}
+    # Publish after the packages nw-builder depends on, so they're on npm
+    # first. !cancelled() lets it run when they were skipped (not released);
+    # it doesn't run if any of them failed to publish.
+    needs:
+      [
+        release-please,
+        publish-builder,
+        publish-getter,
+        publish-packager,
+        publish-runner,
+      ]
+    if: ${{ !cancelled() && !contains(needs.*.result, 'failure') && needs.release-please.outputs.nw-builder--release_created }}
     runs-on: ubuntu-24.04
     permissions:
       id-token: write
@@ -91,8 +101,9 @@ jobs:
 
   publish-cli:
     name: Publish @nwutils/cli to npm
-    needs: release-please
-    if: ${{ needs.release-please.outputs.cli--release_created }}
+    # Publish after the packages @nwutils/cli depends on, see publish-nw-builder.
+    needs: [release-please, publish-getter, publish-runner]
+    if: ${{ !cancelled() && !contains(needs.*.result, 'failure') && needs.release-please.outputs.cli--release_created }}
     runs-on: ubuntu-24.04
     permissions:
       id-token: write
