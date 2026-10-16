@@ -218,37 +218,30 @@ describe("util/validate", function () {
 
   describe("format nsis", function () {
     /**
-     * @param {Record<string, unknown>} overrides
+     * Parse options the way `nwbuild()` does, then validate them.
+     * @param {Record<string, unknown>} [overrides]
+     * @param {Record<string, unknown>} [pkg]  The application's package.json.
      * @returns {Promise<void>}
      */
-    function validateNsis(overrides) {
-      return util.validate(
+    async function validateNsis(
+      overrides = {},
+      pkg = { name: "Demo", version: "1.0.0" },
+    ) {
+      const options = await util.parse(
         {
           mode: "package",
-          flavor: "normal",
           platform: "win",
           arch: "x64",
-          downloadUrl: "https://dl.nwjs.io",
-          manifestUrl: "https://nwjs.io/versions.json",
-          cacheDir: "./path/to/cache",
-          cache: true,
-          ffmpeg: false,
-          logLevel: "info",
-          shaSum: true,
           srcDir: "./",
-          argv: [],
-          glob: true,
-          outDir: "./out",
-          managedManifest: false,
-          nativeAddon: false,
-          zip: false,
-          format: "nsis",
-          app: { name: "Demo", icon: "./icon.ico", version: "1.0.0" },
-          nsis: { desktopShortcut: true, startMenuShortcut: true },
+          app: { icon: "./icon.ico" },
           ...overrides,
         },
-        { flavors: ["normal"], files: ["win-x64", "linux-x64"] },
+        pkg,
       );
+      return util.validate(options, {
+        flavors: ["normal"],
+        files: ["win-x64", "linux-x64"],
+      });
     }
 
     it("accepts valid options", async function () {
@@ -257,14 +250,14 @@ describe("util/validate", function () {
 
     it("throws on a non-win platform", async function () {
       await assert.rejects(
-        validateNsis({ platform: "linux" }),
+        validateNsis({ platform: "linux", format: "nsis" }),
         /options.format "nsis" requires options.platform to be "win"/,
       );
     });
 
     it("throws before building when there is no version", async function () {
       await assert.rejects(
-        validateNsis({ app: { name: "Demo", icon: "./icon.ico" } }),
+        validateNsis({}, { name: "Demo" }),
         /options.format "nsis" needs the application's version/,
       );
     });
