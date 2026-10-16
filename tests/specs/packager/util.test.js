@@ -209,4 +209,88 @@ describe("packager/util", function () {
       );
     });
   });
+
+  describe("nsisEscape", function () {
+    it("leaves plain strings as-is", function () {
+      assert.strictEqual(util.nsisEscape("Demo App"), "Demo App");
+    });
+
+    it("doubles $ and escapes double quotes", function () {
+      assert.strictEqual(util.nsisEscape('a$INSTDIR"b'), 'a$$INSTDIR$\\"b');
+    });
+
+    it("throws on line breaks", function () {
+      assert.throws(
+        () => util.nsisEscape("a\nb"),
+        /must not contain line breaks/,
+      );
+      assert.throws(
+        () => util.nsisEscape("a\rb"),
+        /must not contain line breaks/,
+      );
+    });
+  });
+
+  describe("nsisPath", function () {
+    it("returns paths unchanged, including a plain $", function () {
+      assert.strictEqual(util.nsisPath("/tmp/a$b/c.exe"), "/tmp/a$b/c.exe");
+    });
+
+    it("throws on sequences makensis would interpret", function () {
+      for (const value of ["/a/${X}", "/a/$\\n", '/a/"b"', "/a/\nb"]) {
+        assert.throws(() => util.nsisPath(value), /Paths passed to NSIS/);
+      }
+    });
+  });
+
+  describe("isWindowsFileName", function () {
+    it("accepts ordinary file names", function () {
+      for (const value of ["Demo", "My App", "demo.v2", "con-app", "Ünïcode"]) {
+        assert.strictEqual(util.isWindowsFileName(value), true, value);
+      }
+    });
+
+    it("rejects names Windows can't use", function () {
+      for (const value of [
+        "",
+        "a/b",
+        "a\\b",
+        "a:b",
+        "a*b",
+        'a"b',
+        "a\tb",
+        "trailing.",
+        "trailing ",
+        "CON",
+        "nul.txt",
+        "Com1",
+      ]) {
+        assert.strictEqual(util.isWindowsFileName(value), false, value);
+      }
+    });
+  });
+
+  describe("windowsVersion", function () {
+    it("pads versions to four parts", function () {
+      assert.strictEqual(util.windowsVersion("1"), "1.0.0.0");
+      assert.strictEqual(util.windowsVersion("1.2.3"), "1.2.3.0");
+      assert.strictEqual(util.windowsVersion("1.2.3.4"), "1.2.3.4");
+    });
+
+    it("drops prerelease and build suffixes", function () {
+      assert.strictEqual(util.windowsVersion("1.2.3-beta.1"), "1.2.3.0");
+      assert.strictEqual(util.windowsVersion("1.2.3+sha.abc"), "1.2.3.0");
+    });
+
+    it("throws on versions that don't start with a number", function () {
+      assert.throws(
+        () => util.windowsVersion("v1.2.3"),
+        /starting with a number/,
+      );
+    });
+
+    it("throws on parts above 65535", function () {
+      assert.throws(() => util.windowsVersion("1.65536.0"), /at most 65535/);
+    });
+  });
 });
