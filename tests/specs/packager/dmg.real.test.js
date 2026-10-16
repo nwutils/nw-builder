@@ -14,6 +14,9 @@ import dmg from "../../../packages/packager/src/dmg.js";
  * .github/workflows/ci-packager.yml. A minimal app bundle stands in for a
  * NW.js build: what matters here is that the DMG mounts, and that the app in
  * it and in the update zip keeps its symbolic links and a valid signature.
+ * The symbolic link lives in a plain directory under `Contents/Resources`:
+ * `codesign --deep` signs anything named `.framework` as a nested bundle, and
+ * rejects one without a real framework's binary and `Info.plist`.
  */
 describe(
   "packager/dmg real tools test suite",
@@ -28,16 +31,15 @@ describe(
         path.join(os.tmpdir(), "nwutils-packager-dmg-real-"),
       );
       const contents = path.join(tmpDir, "app", "Demo.app", "Contents");
-      const framework = path.join(contents, "Frameworks", "Demo.framework");
+      const lib = path.join(contents, "Resources", "lib");
       await fs.promises.mkdir(path.join(contents, "MacOS"), {
         recursive: true,
       });
       await fs.promises.mkdir(path.join(contents, "Resources"), {
         recursive: true,
       });
-      await fs.promises.mkdir(path.join(framework, "Versions", "A"), {
-        recursive: true,
-      });
+      await fs.promises.mkdir(path.join(lib, "1.0"), { recursive: true });
+      await fs.promises.writeFile(path.join(lib, "1.0", "data.txt"), "data\n");
       await fs.promises.writeFile(
         path.join(contents, "Info.plist"),
         [
@@ -58,10 +60,7 @@ describe(
         "#!/bin/sh\nexit 0\n",
         { mode: 0o755 },
       );
-      await fs.promises.symlink(
-        "A",
-        path.join(framework, "Versions", "Current"),
-      );
+      await fs.promises.symlink("1.0", path.join(lib, "current"));
 
       outDir = path.join(tmpDir, "dist");
       dmgPath = await dmg({
@@ -95,15 +94,15 @@ describe(
       const current = path.join(
         appPath,
         "Contents",
-        "Frameworks",
-        "Demo.framework",
-        "Versions",
-        "Current",
+        "Resources",
+        "lib",
+        "current",
       );
       assert.ok(
         (await fs.promises.lstat(current)).isSymbolicLink(),
-        "framework symlinks must stay symlinks",
+        "symbolic links must stay symbolic links",
       );
+      assert.strictEqual(await fs.promises.readlink(current), "1.0");
       child_process.execFileSync("codesign", [
         "--verify",
         "--deep",
