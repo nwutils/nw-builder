@@ -63,7 +63,7 @@ program
   .allowUnknownOption(true)
   .allowExcessArguments(true);
 
-// Handle unknown --app.*, --publish.* and --nsis.* arguments
+// Handle unknown --app.*, --publish.*, --nsis.* and --dmg.* arguments
 const unknownArgs = program.parse(process.argv).args;
 /** @type {Record<string, string>} */
 const appConfig = {};
@@ -71,10 +71,17 @@ const appConfig = {};
 const publishConfig = {};
 /** @type {Record<string, string>} */
 const nsisConfig = {};
+/** @type {Record<string, string>} */
+const dmgConfig = {};
 /** @type {Record<string, Record<string, string>>} */
-const configs = { app: appConfig, publish: publishConfig, nsis: nsisConfig };
+const configs = {
+  app: appConfig,
+  publish: publishConfig,
+  nsis: nsisConfig,
+  dmg: dmgConfig,
+};
 for (const arg of unknownArgs) {
-  const match = arg.match(/^--(app|publish|nsis)\.([^.=]+)=(.*)$/);
+  const match = arg.match(/^--(app|publish|nsis|dmg)\.([^.=]+)=(.*)$/);
   if (match) {
     const [, group, key, value] = match;
     configs[group][key] = value;
@@ -93,11 +100,13 @@ const opts = {
         )
       : undefined,
   nsis: Object.keys(nsisConfig).length > 0 ? nsisConfig : undefined,
+  dmg: Object.keys(dmgConfig).length > 0 ? dmgConfig : undefined,
   srcDir: program.args.find(
     (arg) =>
       !arg.startsWith("--app") &&
       !arg.startsWith("--publish") &&
-      !arg.startsWith("--nsis"),
+      !arg.startsWith("--nsis") &&
+      !arg.startsWith("--dmg"),
   ),
   cli: true,
 };

@@ -43,8 +43,8 @@
     "lint": "eslint . ../../tests/specs/packager ../../tests/fixtures/packager",
     "lint:fix": "eslint . ../../tests/specs/packager ../../tests/fixtures/packager --fix",
     "type": "tsc",
-    "test": "node --test --test-concurrency=1 \"../../tests/specs/packager/appImage.test.js\" \"../../tests/specs/packager/nsis.test.js\" \"../../tests/specs/packager/request.test.js\" \"../../tests/specs/packager/util.test.js\"",
-    "test:real": "node --test --test-concurrency=1 \"../../tests/specs/packager/appImage.real.test.js\" \"../../tests/specs/packager/nsis.real.test.js\""
+    "test": "node --test --test-concurrency=1 \"../../tests/specs/packager/appImage.test.js\" \"../../tests/specs/packager/dmg.test.js\" \"../../tests/specs/packager/nsis.test.js\" \"../../tests/specs/packager/request.test.js\" \"../../tests/specs/packager/util.test.js\"",
+    "test:real": "node --test --test-concurrency=1 \"../../tests/specs/packager/appImage.real.test.js\" \"../../tests/specs/packager/dmg.real.test.js\" \"../../tests/specs/packager/nsis.real.test.js\""
   },
   "dependencies": {},
   "devEngines": {

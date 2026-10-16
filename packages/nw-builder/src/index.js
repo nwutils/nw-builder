@@ -33,11 +33,12 @@ import util from "./util.js";
  * @property {boolean}                             [nativeAddon = false]                     Get Node native addons
  * @property {boolean}                             [cli=false]                               If true the CLI is used to parse options. This option is used internally.
  * @property {string[]}                            [argv = []]                               CLI arguments passed to the NW.js process in run mode
- * @property {"AppImage" | "deb" | "rpm" | "msix" | "nsis" | "dmg"} [format]                  Packaged output format, used in package mode. Defaults to `"AppImage"` on Linux and `"nsis"` on Windows. Only `"AppImage"` and `"nsis"` are implemented today - the others are reserved.
+ * @property {"AppImage" | "deb" | "rpm" | "msix" | "nsis" | "dmg"} [format]                  Packaged output format, used in package mode. Defaults to `"AppImage"` on Linux, `"nsis"` on Windows and `"dmg"` on MacOS. Only `"AppImage"`, `"nsis"` and `"dmg"` are implemented today - the others are reserved.
  * @property {boolean}                             [sign=false]                              If true, embed a GPG signature in the AppImage, used in package mode.
  * @property {string}                              [signKey]                                 ID of the GPG key to sign the AppImage with, used in package mode. Requires `sign`.
- * @property {import("@nwutils/packager").PublishOptions} [publish]                         Where releases are published, used in package mode. Makes the AppImage or NSIS installation self updatable with `@nwutils/updater`.
+ * @property {import("@nwutils/packager").PublishOptions} [publish]                         Where releases are published, used in package mode. Makes the AppImage, NSIS installation or DMG app self updatable with `@nwutils/updater`.
  * @property {boolean | string}                    [updateInformation]                       AppImage zsync update information, used in package mode. `true` derives it from `publish`.
+ * @property {import("./util.js").DmgOptions}      [dmg]                                     DMG options, used in package mode. Build on a MacOS host. With `publish`, the version comes from `app.CFBundleShortVersionString`.
  * @property {import("./util.js").NsisOptions}     [nsis]                                    NSIS installer options, used in package mode. The installer's version, publisher, copyright and `.ico` icon come from `app`.
  */
 
@@ -221,6 +222,14 @@ async function nwbuild(options) {
             appName: resolved.app.name,
             arch: resolved.arch,
             ...nsisOptions,
+          });
+        } else if (resolved.format === "dmg") {
+          packagePath = await pkg({
+            format: resolved.format,
+            appDir: resolved.outDir,
+            appName: resolved.app.name,
+            arch: resolved.arch,
+            ...util.dmgOptions(resolved),
           });
         } else {
           packagePath = await pkg({
