@@ -5,6 +5,11 @@ updates:
     schedule:
       interval: "weekly"
     versioning-strategy: increase
+    ignore:
+      # typescript-eslint (via eslint-plugin-jsdoc) supports typescript <6.1.0.
+      # Remove once it supports newer versions.
+      - dependency-name: "typescript"
+        versions: [">=6.1.0"]
     groups:
       npm:
         patterns:

@@ -37,7 +37,7 @@
     "nw": "^0.117.0",
     "prettier": "^3.9.9",
     "selenium-webdriver": "^4.49.0",
-    "typescript": "^7.0.2"
+    "typescript": "6.0.3"
   },
   "devEngines": {
     "runtime": {
