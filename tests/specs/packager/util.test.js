@@ -113,6 +113,34 @@ describe("packager/util", function () {
         "latest-linux-ia32.yml",
       );
     });
+
+    it("uses latest.yml on Windows, like electron-builder", function () {
+      assert.strictEqual(util.updateInfoFileName("x64", "win"), "latest.yml");
+      assert.strictEqual(
+        util.updateInfoFileName("arm64", "win"),
+        "latest-arm64.yml",
+      );
+    });
+  });
+
+  describe("appUpdateYaml", function () {
+    it("writes only the keys of the provider", function () {
+      assert.strictEqual(
+        util.appUpdateYaml({
+          provider: "github",
+          owner: "nwutils",
+          repo: "demo",
+        }),
+        'provider: "github"\nowner: "nwutils"\nrepo: "demo"\n',
+      );
+      assert.strictEqual(
+        util.appUpdateYaml({
+          provider: "generic",
+          url: "https://example.com/releases",
+        }),
+        'provider: "generic"\nurl: "https://example.com/releases"\n',
+      );
+    });
   });
 
   describe("stringifyYaml", function () {

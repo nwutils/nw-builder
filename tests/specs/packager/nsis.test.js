@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import child_process from "node:child_process";
+import crypto from "node:crypto";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -404,6 +405,64 @@ describe("packager/nsis", function () {
         ),
       );
     });
+
+    it("waits for the app to exit and relaunches it when run with /UPDATE", async function () {
+      const contents = await script();
+      assert.ok(
+        contents.includes(
+          [
+            "  ${GetParameters} $R0",
+            "  ClearErrors",
+            '  ${GetOptions} $R0 "/UPDATE" $R1',
+            "  ${IfNot} ${Errors}",
+            '    StrCpy $IsUpdate "1"',
+          ].join("\n"),
+        ),
+      );
+      /* During an update the running-app check polls instead of prompting, then gives up after 60 seconds. */
+      assert.ok(
+        contents.includes(
+          [
+            '    ${If} $IsUpdate == "1"',
+            "      IntOp $3 $3 + 1",
+            "      ${If} $3 > 120",
+            "        Abort",
+            "      ${EndIf}",
+            "      Sleep 500",
+            "      ${Continue}",
+            "    ${EndIf}",
+          ].join("\n"),
+        ),
+      );
+      const install = contents.slice(
+        contents.indexOf('Section "Install"'),
+        contents.indexOf("SectionEnd"),
+      );
+      assert.ok(
+        install.endsWith(
+          [
+            '  ${If} $IsUpdate == "1"',
+            `    Exec '"$INSTDIR\\Demo.exe"'`,
+            "  ${EndIf}",
+            "",
+          ].join("\n"),
+        ),
+      );
+    });
+
+    it("installs and uninstalls app-update.yml only when given", async function () {
+      assert.doesNotMatch(await script(), /app-update\.yml/);
+
+      const appUpdateYamlPath = path.join(tmpDir, "app-update.yml");
+      const contents = await script({ appUpdateYamlPath });
+      assert.ok(
+        contents.includes(
+          `  File "/oname=app-update.yml" "${appUpdateYamlPath}"`,
+        ),
+      );
+      const uninstall = contents.slice(contents.indexOf('Section "Uninstall"'));
+      assert.ok(uninstall.includes('  Delete "$INSTDIR\\app-update.yml"'));
+    });
   });
 
   it(
@@ -437,8 +496,80 @@ describe("packager/nsis", function () {
       );
       assert.ok(contents.includes('VIProductVersion "1.0.0.0"'));
       assert.ok(contents.includes(`!define MUI_ICON "${iconPath}"`));
+      assert.doesNotMatch(contents, /app-update\.yml/);
+      assert.strictEqual(
+        fs.existsSync(path.join(outDir, "latest-arm64.yml")),
+        false,
+      );
     },
   );
+
+  describe("self updating", function () {
+    it("throws on an unknown publish provider", async function () {
+      await assert.rejects(
+        nsis({
+          appDir,
+          appName: "Demo",
+          version: "1.0.0",
+          publish: /** @type {any} */ ({ provider: "s3" }),
+        }),
+        /Expected "options.publish.provider" to be "github" or "generic"/,
+      );
+    });
+
+    it(
+      "installs app-update.yml and writes the update info file",
+      { skip: process.platform === "win32" },
+      async function () {
+        const outDir = path.join(tmpDir, "out-publish");
+
+        const installerPath = await nsis({
+          appDir,
+          appName: "Demo",
+          version: "1.2.0",
+          arch: "x64",
+          outDir,
+          makensisPath: fakeMakensis,
+          publish: { provider: "github", owner: "nwutils", repo: "demo" },
+        });
+
+        const contents = await fs.promises.readFile(
+          `${installerPath}.nsi`,
+          "utf-8",
+        );
+        const appUpdateYaml = contents.match(
+          /^ {2}File "\/oname=app-update\.yml" "(.*)"$/m,
+        );
+        assert.ok(appUpdateYaml, "the script should install app-update.yml");
+
+        const installer = await fs.promises.readFile(installerPath);
+        const sha512 = crypto
+          .createHash("sha512")
+          .update(installer)
+          .digest("base64");
+        const updateInfo = await fs.promises.readFile(
+          path.join(outDir, "latest.yml"),
+          "utf-8",
+        );
+        assert.match(
+          updateInfo,
+          new RegExp(
+            [
+              '^version: "1\\.2\\.0"',
+              "files:",
+              '  - url: "Demo-x64-Setup\\.exe"',
+              `    sha512: "${escapeRegExp(sha512)}"`,
+              `    size: ${installer.length}`,
+              'path: "Demo-x64-Setup\\.exe"',
+              `sha512: "${escapeRegExp(sha512)}"`,
+              'releaseDate: "[^"]+"$',
+            ].join("\n"),
+            "m",
+          ),
+        );
+      },
+    );
+  });
 
   it(
     "builds a real installer with makensis",
