@@ -129,7 +129,12 @@ user only, into `%LOCALAPPDATA%\Programs\<appName>`, so it never asks for
 administrator rights. It adds Start Menu and desktop shortcuts, and registers
 an uninstaller in Windows' installed apps list. The uninstaller removes exactly
 the files that were installed. Installing a new version first uninstalls the
-previous one, matched by `appId`.
+previous one, matched by `appId`, and stops if that fails. If the application
+is running, the installer and uninstaller ask the user to close it first;
+in silent mode (`/S`) they exit with an error instead.
+
+The installer refuses to run on Windows machines that can't run `arch`: x64
+builds need x64 Windows, or ARM64 Windows 11, which emulates x64.
 
 Run the installer with `/S` to install silently, and `/D=<dir>` (last, unquoted)
 to choose the install directory.

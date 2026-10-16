@@ -346,13 +346,63 @@ describe("packager/nsis", function () {
     it("refuses to run on machines that can't run the build", async function () {
       assert.ok(
         (await script({ arch: "arm64" })).includes(
-          "  ${IfNot} ${IsNativeARM64}",
+          ["  ${If} ${IsNativeARM64}", "  ${Else}"].join("\n"),
         ),
       );
-      const x64 = await script({ arch: "x64" });
-      assert.ok(x64.includes("  ${IfNot} ${IsNativeAMD64}"));
-      assert.ok(x64.includes("  ${AndIfNot} ${IsNativeARM64}"));
+      /* x64 builds only run emulated on ARM64 from Windows 11. */
+      assert.ok(
+        (await script({ arch: "x64" })).includes(
+          [
+            "  ${If} ${IsNativeAMD64}",
+            "  ${ElseIf} ${IsNativeARM64}",
+            "  ${AndIf} ${AtLeastWin11}",
+            "  ${Else}",
+          ].join("\n"),
+        ),
+      );
       assert.doesNotMatch(await script({ arch: "ia32" }), /IsNative/);
+    });
+
+    it("waits for the app to close before replacing or deleting it", async function () {
+      const contents = await script();
+      const install = contents.slice(
+        contents.indexOf('Section "Install"'),
+        contents.indexOf("SectionEnd"),
+      );
+      const uninstall = contents.slice(contents.indexOf('Section "Uninstall"'));
+      const check = (/** @type {string} */ exe) => `FileOpen $2 "${exe}" a`;
+
+      /* Both the previous install location and the new one are checked, before the old uninstaller runs. */
+      assert.ok(
+        install.indexOf(check("$0\\Demo.exe")) <
+          install.indexOf(check("$INSTDIR\\Demo.exe")),
+      );
+      assert.ok(
+        install.indexOf(check("$INSTDIR\\Demo.exe")) <
+          install.indexOf("ExecWait"),
+      );
+      assert.ok(
+        uninstall.indexOf(check("$INSTDIR\\Demo.exe")) <
+          uninstall.indexOf("Delete"),
+      );
+      assert.match(
+        contents,
+        /MessageBox MB_RETRYCANCEL\|MB_ICONEXCLAMATION "Close Demo, then select Retry\." \/SD IDCANCEL IDCANCEL/,
+      );
+    });
+
+    it("aborts when the previous version fails to uninstall", async function () {
+      const contents = await script();
+      assert.ok(
+        contents.includes(
+          [
+            "    ClearErrors",
+            `    ExecWait '"$0\\Uninstall.exe" /S _?=$0' $1`,
+            "    ${If} ${Errors}",
+            "    ${OrIf} $1 != 0",
+          ].join("\n"),
+        ),
+      );
     });
   });
 

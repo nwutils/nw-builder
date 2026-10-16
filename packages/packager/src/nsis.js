@@ -32,16 +32,18 @@ import util from "./util.js";
  */
 
 /**
- * Map nw-builder's architecture identifiers to the `x64.nsh` checks for
- * whether the Windows machine running the installer can run that
- * architecture - any one of them passing is enough. x64 builds run natively
- * on x64 and, emulated, on ARM64. Every Windows machine runs ia32 builds.
- * @type {Record<"ia32" | "x64" | "arm64", string[]>}
+ * Map nw-builder's architecture identifiers to the `x64.nsh` and `WinVer.nsh`
+ * checks for whether the Windows machine running the installer can run that
+ * architecture. Each inner list is one way to pass, and all of its checks
+ * must pass. x64 builds run natively on x64 and, emulated, on ARM64 - but
+ * only from Windows 11, as ARM64 Windows 10 only emulates ia32. Every Windows
+ * machine runs ia32 builds.
+ * @type {Record<"ia32" | "x64" | "arm64", string[][]>}
  */
 const ARCH_CHECK_KV = {
   ia32: [],
-  x64: ["${IsNativeAMD64}", "${IsNativeARM64}"],
-  arm64: ["${IsNativeARM64}"],
+  x64: [["${IsNativeAMD64}"], ["${IsNativeARM64}", "${AtLeastWin11}"]],
+  arm64: [["${IsNativeARM64}"]],
 };
 
 /**
@@ -50,7 +52,8 @@ const ARCH_CHECK_KV = {
  * The installer installs for the current user only, into
  * `%LOCALAPPDATA%\Programs\<appName>`, so it never asks for administrator
  * rights. It registers an uninstaller in Windows' installed apps list, and
- * installing a new version first uninstalls the previous one.
+ * installing a new version first uninstalls the previous one. Both wait for
+ * the application to be closed before touching its files.
  *
  * This composes with `@nwutils/builder`: run it against the `outDir` (and
  * `app.name`) that `@nwutils/builder` produced for `platform: "win"`.
@@ -359,6 +362,7 @@ function nsisScript({
     '!include "MUI2.nsh"',
     '!include "LogicLib.nsh"',
     '!include "x64.nsh"',
+    '!include "WinVer.nsh"',
     "",
     `Name "${e(appName)}"`,
     `OutFile "${p(installerPath)}"`,
@@ -403,11 +407,15 @@ function nsisScript({
   }
   lines.push("", "Function .onInit", "  SetShellVarContext current");
   if (archChecks.length > 0) {
+    /* Passing branches are left empty: only the final `${Else}` does anything. */
     lines.push(
-      ...archChecks.map(
-        (check, index) =>
-          `  \${${index === 0 ? "IfNot" : "AndIfNot"}} ${check}`,
+      ...archChecks.flatMap((checks, index) =>
+        checks.map(
+          (check, checkIndex) =>
+            `  \${${checkIndex > 0 ? "AndIf" : index === 0 ? "If" : "ElseIf"}} ${check}`,
+        ),
       ),
+      "  ${Else}",
       `    MessageBox MB_ICONSTOP "This installer is for ${arch} Windows, which this computer can't run." /SD IDOK`,
       "    Abort",
       "  ${EndIf}",
@@ -417,15 +425,25 @@ function nsisScript({
     "FunctionEnd",
     "",
     'Section "Install"',
+    `  ReadRegStr $0 HKCU ${uninstallKey} "InstallLocation"`,
+    '  ${If} $0 != ""',
+    ...waitForAppToClose(`"$0\\${e(appName)}.exe"`, appName, "    "),
+    "  ${EndIf}",
+    ...waitForAppToClose(exe, appName, "  "),
     /*
      * Uninstall the previous version first, so files it had that this
      * version doesn't are removed. `_?=` runs its uninstaller in place and
      * waits for it, which leaves the uninstaller itself behind.
      */
-    `  ReadRegStr $0 HKCU ${uninstallKey} "InstallLocation"`,
     '  ${If} $0 != ""',
     '  ${AndIf} ${FileExists} "$0\\Uninstall.exe"',
-    `    ExecWait '"$0\\Uninstall.exe" /S _?=$0'`,
+    "    ClearErrors",
+    `    ExecWait '"$0\\Uninstall.exe" /S _?=$0' $1`,
+    "    ${If} ${Errors}",
+    "    ${OrIf} $1 != 0",
+    `      MessageBox MB_ICONSTOP "The previous version of ${e(appName)} couldn't be uninstalled." /SD IDOK`,
+    "      Abort",
+    "    ${EndIf}",
     '    Delete "$0\\Uninstall.exe"',
     '    RMDir "$0"',
     "  ${EndIf}",
@@ -489,6 +507,7 @@ function nsisScript({
     "FunctionEnd",
     "",
     'Section "Uninstall"',
+    ...waitForAppToClose(exe, appName, "  "),
   );
   for (const file of appFiles.files) {
     lines.push(`  Delete ${installed(file)}`);
@@ -508,6 +527,36 @@ function nsisScript({
   );
 
   return lines.join("\n");
+}
+
+/**
+ * Generate NSIS lines that wait until the application isn't running, asking
+ * the user to close it, so its files can be replaced or deleted. Windows
+ * refuses to open a running executable for writing, which is how a running
+ * copy is detected. Cancelling - which silent mode does straight away -
+ * aborts the installer or uninstaller. Uses `$2`.
+ * @param  {string}  exePath  Quoted NSIS string with the executable's path, eg. `"$INSTDIR\Demo.exe"`.
+ * @param  {string}  appName  Application name, shown in the prompt.
+ * @param  {string}  indent   Indentation of the generated lines.
+ * @returns {string[]}
+ */
+function waitForAppToClose(exePath, appName, indent) {
+  return [
+    "${Do}",
+    `  \${IfNot} \${FileExists} ${exePath}`,
+    "    ${Break}",
+    "  ${EndIf}",
+    "  ClearErrors",
+    `  FileOpen $2 ${exePath} a`,
+    "  ${IfNot} ${Errors}",
+    "    FileClose $2",
+    "    ${Break}",
+    "  ${EndIf}",
+    `  \${If} \${Cmd} \`MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION "Close ${util.nsisEscape(appName)}, then select Retry." /SD IDCANCEL IDCANCEL\``,
+    "    Abort",
+    "  ${EndIf}",
+    "${Loop}",
+  ].map((line) => `${indent}${line}`);
 }
 
 export default nsis;
