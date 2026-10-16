@@ -113,6 +113,7 @@ import * as GlobModule from "glob";
  * @property {string}                                                [signKey]           GPG key to sign the AppImage with, used in package mode
  * @property {import("@nwutils/packager").PublishOptions}            [publish]           Where releases are published, used in package mode
  * @property {boolean | string}                                      [updateInformation] AppImage zsync update information, used in package mode
+ * @property {NsisOptions}                                           [nsis]              NSIS installer options, used in package mode
  * @property {string[]}                                              [argv]             CLI arguments passed to the NW.js process in run mode
  * @property {boolean | string}                                      [glob]             If true file globbing is enabled when parsing srcDir
  * @property {string | string[]}                                     [srcDir]           File paths to application code
@@ -122,6 +123,54 @@ import * as GlobModule from "glob";
  * @property {AppOptions}                                            [app]              Platform specific app metadata
  * @property {boolean}                                                [cli]              If true the CLI is used to parse options
  */
+
+/**
+ * NSIS installer options that have no equivalent in `options.app`. Values
+ * may arrive as strings from the CLI - `parse()` normalizes the booleans.
+ * @typedef  {object}            NsisOptions
+ * @property {string}            [appId]              Name of the registry key the installation is recorded under. Defaults to `app.name`. Keep it the same across releases.
+ * @property {string}            [license]            Path to a `.txt` or `.rtf` license file the user has to accept.
+ * @property {boolean | string}  [desktopShortcut]    If true, create a desktop shortcut. Defaults to true.
+ * @property {boolean | string}  [startMenuShortcut]  If true, create a Start Menu shortcut. Defaults to true.
+ * @property {string}            [makensisPath]       Path to the NSIS compiler. Defaults to `makensis` on the `PATH`.
+ */
+
+/**
+ * Map resolved options to the options `@nwutils/packager`'s `nsis()` takes,
+ * besides `appDir`, `appName` and `arch`. Installer metadata comes from the
+ * Windows `options.app` values `@nwutils/builder` also writes into the
+ * executable, so both agree.
+ * @param  {Options}  options  Options after `parse()`.
+ * @returns {{version: string, icon: string | undefined, publisher: string | undefined, copyright: string | undefined, appId: string | undefined, license: string | undefined, desktopShortcut: boolean, startMenuShortcut: boolean, makensisPath: string | undefined}} Options for `nsis()`.
+ */
+function nsisOptions(options) {
+  const app = options.app ?? {};
+  const nsis = options.nsis ?? {};
+
+  const version = app.productVersion ?? app.version;
+  if (typeof version !== "string" || version === "") {
+    throw new Error(
+      'options.format "nsis" needs the application\'s version. Set "version" in package.json, or options.app.productVersion.',
+    );
+  }
+
+  return {
+    version,
+    /* The installer icon has to be a `.ico` file, but `app.icon` is often the window's `.png` icon. */
+    icon:
+      typeof app.icon === "string" &&
+      path.extname(app.icon).toLowerCase() === ".ico"
+        ? app.icon
+        : undefined,
+    publisher: app.company === "" ? undefined : app.company,
+    copyright: app.legalCopyright,
+    appId: nsis.appId,
+    license: nsis.license,
+    desktopShortcut: /** @type {boolean} */ (nsis.desktopShortcut ?? true),
+    startMenuShortcut: /** @type {boolean} */ (nsis.startMenuShortcut ?? true),
+    makensisPath: nsis.makensisPath,
+  };
+}
 
 /**
  * Get manifest (array of NW release metadata) from URL.
@@ -355,9 +404,23 @@ export const parse = async (options, pkg) => {
 
   if (options.mode === "package") {
     options.format =
-      options.format ?? (options.platform === "linux" ? "AppImage" : undefined);
+      options.format ??
+      (options.platform === "linux"
+        ? "AppImage"
+        : options.platform === "win"
+          ? "nsis"
+          : undefined);
     options.sign = str2Bool(options.sign ?? false);
     options.updateInformation = str2Bool(options.updateInformation);
+    if (options.format === "nsis") {
+      options.nsis = options.nsis ?? {};
+      options.nsis.desktopShortcut = str2Bool(
+        options.nsis.desktopShortcut ?? true,
+      );
+      options.nsis.startMenuShortcut = str2Bool(
+        options.nsis.startMenuShortcut ?? true,
+      );
+    }
   }
 
   options.argv = options.argv ?? [];
@@ -637,6 +700,40 @@ export const validate = async (options, releaseInfo) => {
       throw new Error(
         `options.format "AppImage" requires options.platform to be "linux". Got ${JSON.stringify(options.platform)}.`,
       );
+    }
+    if (options.format === "nsis") {
+      if (options.platform !== "win") {
+        throw new Error(
+          `options.format "nsis" requires options.platform to be "win". Got ${JSON.stringify(options.platform)}.`,
+        );
+      }
+      const nsis = options.nsis ?? {};
+      for (const key of /** @type {const} */ ([
+        "appId",
+        "license",
+        "makensisPath",
+      ])) {
+        if (
+          nsis[key] !== undefined &&
+          (typeof nsis[key] !== "string" || nsis[key] === "")
+        ) {
+          throw new Error(
+            `Expected options.nsis.${key} to be a non-empty string. Got ${JSON.stringify(nsis[key])}`,
+          );
+        }
+      }
+      for (const key of /** @type {const} */ ([
+        "desktopShortcut",
+        "startMenuShortcut",
+      ])) {
+        if (nsis[key] !== undefined && typeof nsis[key] !== "boolean") {
+          throw new Error(
+            `Expected options.nsis.${key} to be a boolean. Got ${JSON.stringify(nsis[key])}`,
+          );
+        }
+      }
+      /* Throws now, before building, if the installer would have no version. */
+      nsisOptions(options);
     }
   }
 
@@ -1096,4 +1193,5 @@ export default {
   parse,
   validate,
   log,
+  nsisOptions,
 };

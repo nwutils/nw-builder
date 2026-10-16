@@ -33,11 +33,12 @@ import util from "./util.js";
  * @property {boolean}                             [nativeAddon = false]                     Get Node native addons
  * @property {boolean}                             [cli=false]                               If true the CLI is used to parse options. This option is used internally.
  * @property {string[]}                            [argv = []]                               CLI arguments passed to the NW.js process in run mode
- * @property {"AppImage" | "deb" | "rpm" | "msix" | "nsis" | "dmg"} [format]                  Packaged output format, used in package mode. Defaults to `"AppImage"` on Linux. Only `"AppImage"` is implemented today - the others are reserved.
+ * @property {"AppImage" | "deb" | "rpm" | "msix" | "nsis" | "dmg"} [format]                  Packaged output format, used in package mode. Defaults to `"AppImage"` on Linux and `"nsis"` on Windows. Only `"AppImage"` and `"nsis"` are implemented today - the others are reserved.
  * @property {boolean}                             [sign=false]                              If true, embed a GPG signature in the AppImage, used in package mode.
  * @property {string}                              [signKey]                                 ID of the GPG key to sign the AppImage with, used in package mode. Requires `sign`.
  * @property {import("@nwutils/packager").PublishOptions} [publish]                         Where releases are published, used in package mode. Makes the AppImage self updatable with `@nwutils/updater`.
  * @property {boolean | string}                    [updateInformation]                       AppImage zsync update information, used in package mode. `true` derives it from `publish`.
+ * @property {import("./util.js").NsisOptions}     [nsis]                                    NSIS installer options, used in package mode. The installer's version, publisher, copyright and `.ico` icon come from `app`.
  */
 
 /**
@@ -204,20 +205,39 @@ async function nwbuild(options) {
           resolved.logLevel,
           `Packaging NW.js application as ${resolved.format}...`,
         );
-        const packagePath = await pkg({
-          format: resolved.format,
-          appDir: resolved.outDir,
-          appName: resolved.app.name,
-          icon: resolved.app.icon,
-          arch: resolved.arch,
-          cacheDir: resolved.cacheDir,
-          cache: resolved.cache,
-          sign: resolved.sign,
-          signKey: resolved.signKey,
-          version: manifest.json?.version,
-          publish: resolved.publish,
-          updateInformation: resolved.updateInformation,
-        });
+        let packagePath;
+        if (resolved.format === "nsis") {
+          const nsisOptions = util.nsisOptions(resolved);
+          if (resolved.app.icon && nsisOptions.icon === undefined) {
+            util.log(
+              "warn",
+              resolved.logLevel,
+              `The installer uses NSIS' default icon, since options.app.icon isn't a .ico file: ${resolved.app.icon}`,
+            );
+          }
+          packagePath = await pkg({
+            format: resolved.format,
+            appDir: resolved.outDir,
+            appName: resolved.app.name,
+            arch: resolved.arch,
+            ...nsisOptions,
+          });
+        } else {
+          packagePath = await pkg({
+            format: resolved.format,
+            appDir: resolved.outDir,
+            appName: resolved.app.name,
+            icon: resolved.app.icon,
+            arch: resolved.arch,
+            cacheDir: resolved.cacheDir,
+            cache: resolved.cache,
+            sign: resolved.sign,
+            signKey: resolved.signKey,
+            version: manifest.json?.version,
+            publish: resolved.publish,
+            updateInformation: resolved.updateInformation,
+          });
+        }
         util.log(
           "info",
           resolved.logLevel,

@@ -195,7 +195,7 @@ const packagePath = await nwbuild({
 });
 ```
 
-`format` selects the packager to run and defaults to `"AppImage"` on Linux. Only `"AppImage"` is implemented today - `deb`, `rpm`, `msix`, `nsis` and `dmg` are reserved for later.
+`format` selects the packager to run. It defaults to `"AppImage"` on Linux and `"nsis"` on Windows. Only `"AppImage"` and `"nsis"` are implemented today - `deb`, `rpm`, `msix` and `dmg` are reserved for later.
 
 ```javascript
 const appImagePath = await nwbuild({
@@ -250,6 +250,51 @@ With the CLI, pass `--publish.provider=github --publish.owner=nwutils
 [`@nwutils/packager` docs](https://www.npmjs.com/package/@nwutils/packager) for
 the `generic` provider and more details.
 
+#### Windows installer (NSIS)
+
+With `platform: "win"`, package mode builds an NSIS installer,
+`<app.name>-<arch>-Setup.exe`, next to `outDir`. It installs for the current
+user without asking for administrator rights, adds an uninstaller to Windows'
+installed apps list, and replaces the previous version on upgrade. It needs the
+NSIS compiler, `makensis`, on the host: `apt install nsis` on Linux,
+`brew install makensis` on MacOS or `choco install nsis` on Windows. Wine isn't
+needed, so the installer can be built on any platform.
+
+The installer takes its details from the Windows `app` options:
+
+- Version: `app.productVersion`, falling back to `app.version`. Both default to the `package.json` `version`, and packaging stops before building if there is none.
+- Publisher: `app.company`.
+- Copyright: `app.legalCopyright`.
+- Icon: `app.icon`, if it's a `.ico` file. Otherwise the installer uses NSIS' default icon and a warning is logged.
+
+Options with no `app` equivalent go in `nsis`:
+
+| Name              | Type      | Default             | Description                                                                                                                         |
+| ----------------- | --------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| appId             | `string`  | Value of `app.name` | Name of the registry key the installation is recorded under. Keep it the same across releases, so upgrades replace the old version. |
+| license           | `string`  |                     | Path to a `.txt` or `.rtf` license file the user has to accept.                                                                     |
+| desktopShortcut   | `boolean` | `true`              | If true, create a desktop shortcut.                                                                                                 |
+| startMenuShortcut | `boolean` | `true`              | If true, create a Start Menu shortcut.                                                                                              |
+| makensisPath      | `string`  | `"makensis"`        | Path to the NSIS compiler.                                                                                                          |
+
+```javascript
+const installerPath = await nwbuild({
+  mode: "package",
+  platform: "win",
+  app: {
+    name: "Demo",
+    icon: "./icon.ico",
+    company: "ACME",
+  },
+  nsis: {
+    appId: "com.example.demo",
+    license: "./LICENSE.txt",
+  },
+});
+```
+
+With the CLI, pass `--nsis.appId=com.example.demo --nsis.desktopShortcut=false`.
+
 ## API Reference
 
 Options
@@ -275,11 +320,12 @@ Options
 | managedManifest   | `boolean \| string \| object`                                                                                                                                 | `false`                                            | Managed manifest                                                                                                             |
 | nodeAddon         | `boolean`                                                                                                                                                     | `false`                                            | Rebuild Node native addons                                                                                                   |
 | zip               | `boolean \| "zip" \| "tar" \| "tgz"`                                                                                                                          | `false`                                            | If true, "zip", "tar" or "tgz" the `outDir` directory is compressed.                                                         |
-| format            | `"AppImage" \| "deb" \| "rpm" \| "msix" \| "nsis" \| "dmg"`                                                                                                   | `"AppImage"` on Linux                              | Packaged output format, used in package mode. Only `"AppImage"` is implemented today.                                        |
+| format            | `"AppImage" \| "deb" \| "rpm" \| "msix" \| "nsis" \| "dmg"`                                                                                                   | `"AppImage"` on Linux, `"nsis"` on Windows         | Packaged output format, used in package mode. Only `"AppImage"` and `"nsis"` are implemented today.                          |
 | sign              | `boolean`                                                                                                                                                     | `false`                                            | If true, embed a GPG signature in the AppImage. Used in package mode.                                                        |
 | signKey           | `string`                                                                                                                                                      |                                                    | ID of the GPG key to sign with. Requires `sign`. Used in package mode.                                                       |
 | publish           | `{provider: "github", owner, repo} \| {provider: "generic", url}`                                                                                             |                                                    | Where releases are published. Makes the AppImage self updatable with `@nwutils/updater`. Used in package mode.               |
 | updateInformation | `boolean \| string`                                                                                                                                           |                                                    | AppImage zsync update information. `true` derives it from `publish`. Used in package mode.                                   |
+| nsis              | `object`                                                                                                                                                      |                                                    | NSIS installer options, used in package mode. See [Windows installer (NSIS)](#windows-installer-nsis).                       |
 | app               | `LinuxRc \| WinRc \| OsxRc`                                                                                                                                   | Additional options for each platform. (See below.) |
 
 ### `app` configuration object

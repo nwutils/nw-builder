@@ -42,8 +42,24 @@ export interface Options<P extends SupportedPlatform = SupportedPlatform> {
   logLevel?: "error" | "warn" | "info" | "debug";
   /** Managed manifest */
   managedManifest?: boolean | string | object;
-  /** Packaged output format, used in package mode. Defaults to `"AppImage"` on Linux. Only `"AppImage"` is implemented today - the others are reserved. */
+  /** Packaged output format, used in package mode. Defaults to `"AppImage"` on Linux and `"nsis"` on Windows. Only `"AppImage"` and `"nsis"` are implemented today - the others are reserved. */
   format?: "AppImage" | "deb" | "rpm" | "msix" | "nsis" | "dmg";
+  /** NSIS installer options, used in package mode. The installer's version, publisher, copyright and `.ico` icon come from `app`. */
+  nsis?: NsisOptions;
+}
+
+/** NSIS installer options that have no equivalent in `app` */
+export interface NsisOptions {
+  /** Name of the registry key the installation is recorded under. Defaults to `app.name`. Keep it the same across releases, so installing a new version replaces the previous one. */
+  appId?: string;
+  /** Path to a `.txt` or `.rtf` license file the user has to accept. */
+  license?: string;
+  /** If true, create a desktop shortcut. Defaults to true. */
+  desktopShortcut?: boolean;
+  /** If true, create a Start Menu shortcut. Defaults to true. */
+  startMenuShortcut?: boolean;
+  /** Path to the NSIS compiler. Defaults to `makensis` on the `PATH`. */
+  makensisPath?: string;
 }
 
 /** Platform-specific application options */
