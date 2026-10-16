@@ -215,6 +215,74 @@ describe("util/validate", function () {
       Error,
     );
   });
+
+  describe("format nsis", function () {
+    /**
+     * @param {Record<string, unknown>} overrides
+     * @returns {Promise<void>}
+     */
+    function validateNsis(overrides) {
+      return util.validate(
+        {
+          mode: "package",
+          flavor: "normal",
+          platform: "win",
+          arch: "x64",
+          downloadUrl: "https://dl.nwjs.io",
+          manifestUrl: "https://nwjs.io/versions.json",
+          cacheDir: "./path/to/cache",
+          cache: true,
+          ffmpeg: false,
+          logLevel: "info",
+          shaSum: true,
+          srcDir: "./",
+          argv: [],
+          glob: true,
+          outDir: "./out",
+          managedManifest: false,
+          nativeAddon: false,
+          zip: false,
+          format: "nsis",
+          app: { name: "Demo", icon: "./icon.ico", version: "1.0.0" },
+          nsis: { desktopShortcut: true, startMenuShortcut: true },
+          ...overrides,
+        },
+        { flavors: ["normal"], files: ["win-x64", "linux-x64"] },
+      );
+    }
+
+    it("accepts valid options", async function () {
+      await validateNsis({});
+    });
+
+    it("throws on a non-win platform", async function () {
+      await assert.rejects(
+        validateNsis({ platform: "linux" }),
+        /options.format "nsis" requires options.platform to be "win"/,
+      );
+    });
+
+    it("throws before building when there is no version", async function () {
+      await assert.rejects(
+        validateNsis({ app: { name: "Demo", icon: "./icon.ico" } }),
+        /options.format "nsis" needs the application's version/,
+      );
+    });
+
+    it("throws on an empty nsis string option", async function () {
+      await assert.rejects(
+        validateNsis({ nsis: { appId: "" } }),
+        /Expected options.nsis.appId to be a non-empty string/,
+      );
+    });
+
+    it("throws on a non-boolean nsis shortcut option", async function () {
+      await assert.rejects(
+        validateNsis({ nsis: { desktopShortcut: "yes" } }),
+        /Expected options.nsis.desktopShortcut to be a boolean/,
+      );
+    });
+  });
 });
 
 describe("util/parse", function () {
@@ -232,12 +300,51 @@ describe("util/parse", function () {
     assert.strictEqual(newOptions.format, "AppImage");
   });
 
-  it("leaves format undefined in package mode on non-linux platforms", async function () {
+  it("defaults format to nsis in package mode on win", async function () {
     const newOptions = await util.parse(
       { mode: "package", platform: "win" },
       {},
     );
+    assert.strictEqual(newOptions.format, "nsis");
+  });
+
+  it("leaves format undefined in package mode on osx", async function () {
+    const newOptions = await util.parse(
+      { mode: "package", platform: "osx" },
+      {},
+    );
     assert.strictEqual(newOptions.format, undefined);
+  });
+
+  it("defaults the nsis shortcut options to true", async function () {
+    const newOptions = await util.parse(
+      { mode: "package", platform: "win" },
+      {},
+    );
+    assert.deepStrictEqual(newOptions.nsis, {
+      desktopShortcut: true,
+      startMenuShortcut: true,
+    });
+  });
+
+  it("converts CLI nsis shortcut strings to booleans and keeps other nsis options", async function () {
+    const newOptions = await util.parse(
+      {
+        mode: "package",
+        platform: "win",
+        nsis: {
+          appId: "com.example.demo",
+          desktopShortcut: "false",
+          startMenuShortcut: "true",
+        },
+      },
+      {},
+    );
+    assert.deepStrictEqual(newOptions.nsis, {
+      appId: "com.example.demo",
+      desktopShortcut: false,
+      startMenuShortcut: true,
+    });
   });
 
   it("does not set format outside of package mode", async function () {
@@ -287,6 +394,62 @@ describe("util/parse", function () {
     assert.strictEqual(newOptions.signKey, "ABCDEF12");
     assert.deepStrictEqual(newOptions.publish, publish);
     assert.strictEqual(newOptions.updateInformation, updateInformation);
+  });
+});
+
+describe("util/nsisOptions", function () {
+  it("maps the Windows app options to installer options", function () {
+    assert.deepStrictEqual(
+      util.nsisOptions({
+        app: {
+          version: "1.0.0",
+          productVersion: "1.0.0-beta.1",
+          company: "ACME",
+          legalCopyright: "(c) ACME",
+          icon: "./icon.ICO",
+        },
+        nsis: {
+          appId: "com.example.demo",
+          license: "./LICENSE.txt",
+          desktopShortcut: false,
+          startMenuShortcut: true,
+          makensisPath: "/opt/nsis/makensis",
+        },
+      }),
+      {
+        version: "1.0.0-beta.1",
+        icon: "./icon.ICO",
+        publisher: "ACME",
+        copyright: "(c) ACME",
+        appId: "com.example.demo",
+        license: "./LICENSE.txt",
+        desktopShortcut: false,
+        startMenuShortcut: true,
+        makensisPath: "/opt/nsis/makensis",
+      },
+    );
+  });
+
+  it("falls back to app.version and the default shortcuts", function () {
+    const options = util.nsisOptions({ app: { version: "2.0.0" } });
+    assert.strictEqual(options.version, "2.0.0");
+    assert.strictEqual(options.desktopShortcut, true);
+    assert.strictEqual(options.startMenuShortcut, true);
+    assert.strictEqual(options.publisher, undefined);
+  });
+
+  it("drops an icon that isn't a .ico file", function () {
+    assert.strictEqual(
+      util.nsisOptions({ app: { version: "1.0.0", icon: "./icon.png" } }).icon,
+      undefined,
+    );
+  });
+
+  it("throws when there is no version", function () {
+    assert.throws(
+      () => util.nsisOptions({ app: {} }),
+      /needs the application's version/,
+    );
   });
 });
 

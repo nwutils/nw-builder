@@ -141,7 +141,7 @@ import * as GlobModule from "glob";
  * Windows `options.app` values `@nwutils/builder` also writes into the
  * executable, so both agree.
  * @param  {Options}  options  Options after `parse()`.
- * @returns {{version: string, icon: string | undefined, publisher: string | undefined, copyright: string | undefined, appId: string | undefined, license: string | undefined, desktopShortcut: boolean, startMenuShortcut: boolean, makensisPath: string | undefined}}
+ * @returns {{version: string, icon: string | undefined, publisher: string | undefined, copyright: string | undefined, appId: string | undefined, license: string | undefined, desktopShortcut: boolean, startMenuShortcut: boolean, makensisPath: string | undefined}} Options for `nsis()`.
  */
 function nsisOptions(options) {
   const app = options.app ?? {};
@@ -154,13 +154,6 @@ function nsisOptions(options) {
     );
   }
 
-  /* `company` defaults to package.json's `author`, which may be an object such as `{ "name": "..." }`. */
-  const company = /** @type {unknown} */ (app.company);
-  const publisher =
-    typeof company === "object" && company !== null
-      ? /** @type {{name?: unknown}} */ (company).name
-      : company;
-
   return {
     version,
     /* The installer icon has to be a `.ico` file, but `app.icon` is often the window's `.png` icon. */
@@ -169,8 +162,7 @@ function nsisOptions(options) {
       path.extname(app.icon).toLowerCase() === ".ico"
         ? app.icon
         : undefined,
-    publisher:
-      typeof publisher === "string" && publisher !== "" ? publisher : undefined,
+    publisher: app.company === "" ? undefined : app.company,
     copyright: app.legalCopyright,
     appId: nsis.appId,
     license: nsis.license,
