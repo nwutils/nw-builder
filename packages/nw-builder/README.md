@@ -295,6 +295,31 @@ const installerPath = await nwbuild({
 
 With the CLI, pass `--nsis.appId=com.example.demo --nsis.desktopShortcut=false`.
 
+Set `publish` to make the installation self updatable with
+[`@nwutils/updater`](https://www.npmjs.com/package/@nwutils/updater)'s
+`NsisUpdater`, the same way as [for AppImages](#self-updating). The installer
+puts an `app-update.yml` pointing at `publish` next to the app's executable,
+and a `latest.yml` update info file (`latest-<arch>.yml` for architectures
+other than `x64`) is written next to the installer. Upload both the installer
+and `latest.yml` to every release. `NsisUpdater` downloads the new installer and
+runs it silently: it waits for the app to exit, updates it, and starts the new
+version, without asking for administrator rights. `sign` and
+`updateInformation` are AppImage only.
+
+```json
+{
+  "name": "demo",
+  "version": "1.2.0",
+  "nwbuild": {
+    "mode": "package",
+    "platform": "win",
+    "app": { "name": "Demo", "icon": "./icon.ico" },
+    "nsis": { "appId": "com.example.demo" },
+    "publish": { "provider": "github", "owner": "nwutils", "repo": "demo" }
+  }
+}
+```
+
 ## API Reference
 
 Options
@@ -323,7 +348,7 @@ Options
 | format            | `"AppImage" \| "deb" \| "rpm" \| "msix" \| "nsis" \| "dmg"`                                                                                                   | `"AppImage"` on Linux, `"nsis"` on Windows         | Packaged output format, used in package mode. Only `"AppImage"` and `"nsis"` are implemented today.                          |
 | sign              | `boolean`                                                                                                                                                     | `false`                                            | If true, embed a GPG signature in the AppImage. Used in package mode.                                                        |
 | signKey           | `string`                                                                                                                                                      |                                                    | ID of the GPG key to sign with. Requires `sign`. Used in package mode.                                                       |
-| publish           | `{provider: "github", owner, repo} \| {provider: "generic", url}`                                                                                             |                                                    | Where releases are published. Makes the AppImage self updatable with `@nwutils/updater`. Used in package mode.               |
+| publish           | `{provider: "github", owner, repo} \| {provider: "generic", url}`                                                                                             |                                                    | Where releases are published. Makes the AppImage or NSIS installation self updatable with `@nwutils/updater`. Package mode.  |
 | updateInformation | `boolean \| string`                                                                                                                                           |                                                    | AppImage zsync update information. `true` derives it from `publish`. Used in package mode.                                   |
 | nsis              | `object`                                                                                                                                                      |                                                    | NSIS installer options, used in package mode. See [Windows installer (NSIS)](#windows-installer-nsis).                       |
 | app               | `LinuxRc \| WinRc \| OsxRc`                                                                                                                                   | Additional options for each platform. (See below.) |

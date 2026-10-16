@@ -141,7 +141,7 @@ import * as GlobModule from "glob";
  * Windows `options.app` values `@nwutils/builder` also writes into the
  * executable, so both agree.
  * @param  {Options}  options  Options after `parse()`.
- * @returns {{version: string, icon: string | undefined, publisher: string | undefined, copyright: string | undefined, appId: string | undefined, license: string | undefined, desktopShortcut: boolean, startMenuShortcut: boolean, makensisPath: string | undefined}} Options for `nsis()`.
+ * @returns {{version: string, icon: string | undefined, publisher: string | undefined, copyright: string | undefined, appId: string | undefined, license: string | undefined, desktopShortcut: boolean, startMenuShortcut: boolean, makensisPath: string | undefined, publish: import("@nwutils/packager").PublishOptions | undefined}} Options for `nsis()`.
  */
 function nsisOptions(options) {
   const app = options.app ?? {};
@@ -169,6 +169,7 @@ function nsisOptions(options) {
     desktopShortcut: /** @type {boolean} */ (nsis.desktopShortcut ?? true),
     startMenuShortcut: /** @type {boolean} */ (nsis.startMenuShortcut ?? true),
     makensisPath: nsis.makensisPath,
+    publish: options.publish,
   };
 }
 
@@ -731,6 +732,20 @@ export const validate = async (options, releaseInfo) => {
             `Expected options.nsis.${key} to be a boolean. Got ${JSON.stringify(nsis[key])}`,
           );
         }
+      }
+      /* GPG signatures and zsync update information only exist for AppImages. */
+      if (options.sign === true) {
+        throw new Error(
+          'options.sign is only supported with options.format "AppImage".',
+        );
+      }
+      if (
+        options.updateInformation !== undefined &&
+        options.updateInformation !== false
+      ) {
+        throw new Error(
+          'options.updateInformation is only supported with options.format "AppImage". NSIS installs self update with options.publish alone.',
+        );
       }
       /* Throws now, before building, if the installer would have no version. */
       nsisOptions(options);

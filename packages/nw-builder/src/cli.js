@@ -85,7 +85,13 @@ for (const arg of unknownArgs) {
 const opts = {
   ...program.opts(),
   app: appConfig,
-  publish: Object.keys(publishConfig).length > 0 ? publishConfig : undefined,
+  /* The packager validates `publish`, so the raw --publish.* strings are passed as-is. */
+  publish:
+    Object.keys(publishConfig).length > 0
+      ? /** @type {import("./index.d.ts").PublishOptions} */ (
+          /** @type {unknown} */ (publishConfig)
+        )
+      : undefined,
   nsis: Object.keys(nsisConfig).length > 0 ? nsisConfig : undefined,
   srcDir: program.args.find(
     (arg) =>
