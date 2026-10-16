@@ -57,7 +57,7 @@
   "dependencies": {
     "@nwutils/builder": "^0.1.2",
     "@nwutils/getter": "^0.3.1",
-    "@nwutils/packager": "^0.6.0",
+    "@nwutils/packager": "^0.7.0",
     "@nwutils/runner": "^0.2.6",
     "commander": "^15.0.0",
     "glob": "^13.0.6"

@@ -48,8 +48,8 @@
     "test": "node --test \"../../tests/specs/cli/*.test.js\""
   },
   "dependencies": {
-    "@nwutils/getter": "^0.2.4",
-    "@nwutils/runner": "^0.2.3",
+    "@nwutils/getter": "^0.3.1",
+    "@nwutils/runner": "^0.2.6",
     "commander": "^15.0.0"
   },
   "devEngines": {
