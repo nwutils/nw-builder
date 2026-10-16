@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/nwutils/nw-builder/compare/@nwutils/packager-v0.7.0...@nwutils/packager-v0.8.0) (2026-10-16)
+
+
+### Features
+
+* support DMG installer and self updatable ([#1699](https://github.com/nwutils/nw-builder/issues/1699)) ([3ca09a2](https://github.com/nwutils/nw-builder/commit/3ca09a276d04c17139c272408b8ad9e76e2d1676))
+
 ## [0.7.0](https://github.com/nwutils/nw-builder/compare/@nwutils/packager-v0.6.0...@nwutils/packager-v0.7.0) (2026-10-16)
 
 
