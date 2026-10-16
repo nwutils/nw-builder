@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/nwutils/nw-builder/compare/@nwutils/packager-v0.5.0...@nwutils/packager-v0.6.0) (2026-10-16)
+
+
+### Features
+
+* **packager:** implement NSIS installer ([#1688](https://github.com/nwutils/nw-builder/issues/1688)) ([20f6292](https://github.com/nwutils/nw-builder/commit/20f6292f1c8b605d3898db44a6fb91c10d970b5e))
+
 ## [0.5.0](https://github.com/nwutils/nw-builder/compare/@nwutils/packager-v0.4.0...@nwutils/packager-v0.5.0) (2026-10-03)
 
 
