@@ -46,7 +46,26 @@ export interface Options<P extends SupportedPlatform = SupportedPlatform> {
   format?: "AppImage" | "deb" | "rpm" | "msix" | "nsis" | "dmg";
   /** NSIS installer options, used in package mode. The installer's version, publisher, copyright and `.ico` icon come from `app`. */
   nsis?: NsisOptions;
+  /** Where releases are published, used in package mode. Makes the AppImage or NSIS installation self updatable with `@nwutils/updater`. */
+  publish?: PublishOptions;
 }
+
+/** Where releases are published */
+export type PublishOptions =
+  | {
+      /** The latest (non draft, non prerelease) release of a GitHub repository */
+      provider: "github";
+      /** Owner of the GitHub repository */
+      owner: string;
+      /** Name of the GitHub repository */
+      repo: string;
+    }
+  | {
+      /** Any static file server */
+      provider: "generic";
+      /** Base URL the latest release's files are served from */
+      url: string;
+    };
 
 /** NSIS installer options that have no equivalent in `app` */
 export interface NsisOptions {

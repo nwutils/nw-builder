@@ -36,7 +36,7 @@ import util from "./util.js";
  * @property {"AppImage" | "deb" | "rpm" | "msix" | "nsis" | "dmg"} [format]                  Packaged output format, used in package mode. Defaults to `"AppImage"` on Linux and `"nsis"` on Windows. Only `"AppImage"` and `"nsis"` are implemented today - the others are reserved.
  * @property {boolean}                             [sign=false]                              If true, embed a GPG signature in the AppImage, used in package mode.
  * @property {string}                              [signKey]                                 ID of the GPG key to sign the AppImage with, used in package mode. Requires `sign`.
- * @property {import("@nwutils/packager").PublishOptions} [publish]                         Where releases are published, used in package mode. Makes the AppImage self updatable with `@nwutils/updater`.
+ * @property {import("@nwutils/packager").PublishOptions} [publish]                         Where releases are published, used in package mode. Makes the AppImage or NSIS installation self updatable with `@nwutils/updater`.
  * @property {boolean | string}                    [updateInformation]                       AppImage zsync update information, used in package mode. `true` derives it from `publish`.
  * @property {import("./util.js").NsisOptions}     [nsis]                                    NSIS installer options, used in package mode. The installer's version, publisher, copyright and `.ico` icon come from `app`.
  */

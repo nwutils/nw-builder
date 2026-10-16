@@ -269,6 +269,23 @@ describe("util/validate", function () {
       );
     });
 
+    it("throws on AppImage-only options", async function () {
+      await assert.rejects(
+        validateNsis({ sign: true }),
+        /options.sign is only supported with options.format "AppImage"/,
+      );
+      await assert.rejects(
+        validateNsis({ updateInformation: true }),
+        /options.updateInformation is only supported with options.format "AppImage"/,
+      );
+    });
+
+    it("accepts publish, which the packager validates", async function () {
+      await validateNsis({
+        publish: { provider: "github", owner: "nwutils", repo: "demo" },
+      });
+    });
+
     it("throws on a non-boolean nsis shortcut option", async function () {
       await assert.rejects(
         validateNsis({ nsis: { desktopShortcut: "yes" } }),
@@ -408,6 +425,7 @@ describe("util/nsisOptions", function () {
           startMenuShortcut: true,
           makensisPath: "/opt/nsis/makensis",
         },
+        publish: { provider: "github", owner: "nwutils", repo: "demo" },
       }),
       {
         version: "1.0.0-beta.1",
@@ -419,6 +437,7 @@ describe("util/nsisOptions", function () {
         desktopShortcut: false,
         startMenuShortcut: true,
         makensisPath: "/opt/nsis/makensis",
+        publish: { provider: "github", owner: "nwutils", repo: "demo" },
       },
     );
   });
