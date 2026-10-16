@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.23.0](https://github.com/nwutils/nw-builder/compare/nw-builder-v4.22.0...nw-builder-v4.23.0) (2026-10-16)
+
+
+### Features
+
+* **nw-builder:** expose NSIS self updatable ([#1697](https://github.com/nwutils/nw-builder/issues/1697)) ([fb724a3](https://github.com/nwutils/nw-builder/commit/fb724a38fafe7a3e29f44e2a9986150bda1ad745))
+
 ## [4.22.0](https://github.com/nwutils/nw-builder/compare/nw-builder-v4.21.4...nw-builder-v4.22.0) (2026-10-16)
 
 
