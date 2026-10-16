@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/nwutils/nw-builder/compare/@nwutils/packager-v0.6.0...@nwutils/packager-v0.7.0) (2026-10-16)
+
+
+### Features
+
+* **packager:** make NSIS self updateble ([#1693](https://github.com/nwutils/nw-builder/issues/1693)) ([1fcfe56](https://github.com/nwutils/nw-builder/commit/1fcfe562eb3075a102f03557ba389003a173728d))
+
 ## [0.6.0](https://github.com/nwutils/nw-builder/compare/@nwutils/packager-v0.5.0...@nwutils/packager-v0.6.0) (2026-10-16)
 
 
