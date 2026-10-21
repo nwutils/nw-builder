@@ -31,7 +31,7 @@
     "@types/semver": "^7.8.0",
     "@types/yauzl-promise": "^4.0.1",
     "eslint": "^10.12.0",
-    "eslint-plugin-jsdoc": "^64.5.4",
+    "eslint-plugin-jsdoc": "^65.3.12",
     "eslint-plugin-simple-import-sort": "^14.0.0",
     "globals": "^17.13.0",
     "nw": "^0.118.0",
