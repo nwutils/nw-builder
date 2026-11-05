@@ -53,5 +53,8 @@
   },
   "prettier": {
     "endOfLine": "lf"
+  },
+  "allowScripts": {
+    "nw": true
   }
 }
