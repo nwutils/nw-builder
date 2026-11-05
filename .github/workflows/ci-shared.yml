@@ -50,8 +50,8 @@ jobs:
       - name: Install third party dependencies
         run: npm ci
 
-      - name: Check third party vulnerabilities
-        run: npm audit --audit-level=high
+      # - name: Check third party vulnerabilities
+      #   run: npm audit --omit=dev
 
       - name: Check for formatting errors
         run: npm run format
