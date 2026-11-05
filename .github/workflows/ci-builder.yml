@@ -77,6 +77,14 @@ jobs:
       - name: Install third party dependencies
         run: npm ci
 
+      # npm blocks nw's postinstall script, and the macOS tests need the SDK it downloads.
+      - name: Download NW.js SDK
+        if: runner.os == 'macOS'
+        working-directory: node_modules/nw
+        env:
+          NWJS_BUILD_TYPE: sdk
+        run: node src/postinstall.js
+
       - name: Run builder test suite
         run: npm run test --workspace=@nwutils/builder
 
