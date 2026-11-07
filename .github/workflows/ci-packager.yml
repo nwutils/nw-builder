@@ -31,16 +31,22 @@ jobs:
         include:
           - os: macos-26
             display: MacOS 26 ARM
+            format: dmg
           - os: macos-26-intel
             display: MacOS 26 Intel
+            format: dmg
           - os: ubuntu-24.04
             display: Ubuntu 24.04 Intel
+            format: appimage
           - os: ubuntu-24.04-arm
             display: Ubuntu 24.04 ARM
+            format: appimage
           - os: windows-2025
             display: Windows 11 Intel
+            format: nsis
           - os: windows-11-arm
             display: Windows 11 (ARM)
+            format: nsis
       fail-fast: false
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.display }}
@@ -77,10 +83,6 @@ jobs:
       - name: Install third party dependencies
         run: npm ci
 
-      - name: Install NSIS on Linux
-        if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y nsis
-
       - name: Install NSIS on Windows
         if: runner.os == 'Windows'
         shell: bash
@@ -90,11 +92,13 @@ jobs:
             echo "C:\\Program Files (x86)\\NSIS" >> "$GITHUB_PATH"
           fi
 
-      - name: Run packager test suite
-        run: npm run test --workspace=@nwutils/packager
+      # Each OS only tests the format it packages: AppImage on Linux, DMG on MacOS, NSIS on Windows.
+      - name: Run packager ${{ matrix.format }} test suites
+        run: npm run test:${{ matrix.format }} --workspace=@nwutils/packager
 
-      - name: Run packager real AppImage, NSIS and DMG test suites
-        run: npm run test:real --workspace=@nwutils/packager
+      - name: Run packager platform independent test suites
+        if: runner.os == 'Linux'
+        run: npm run test:common --workspace=@nwutils/packager
 
       - name: Check git status is clean
         shell: bash

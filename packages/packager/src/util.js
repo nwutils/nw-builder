@@ -189,8 +189,9 @@ async function sha512(filePath) {
 }
 
 /**
- * Escape `value` for use inside a double quoted NSIS string. NSIS expands `$`
- * variables and `$\` escapes there, so `$` is doubled and `"` is escaped.
+ * Escape `value` for use inside a quoted NSIS string (`"`, `'` or `` ` ``).
+ * NSIS expands `$` variables and `$\` escapes there, so `$` is doubled and
+ * all three quote characters are escaped.
  * Line breaks are rejected rather than escaped: a raw one would end the
  * command and let the value inject further script lines. The result is not
  * quoted, so it can be joined with NSIS variables, eg. `"$INSTDIR\<value>"`.
@@ -204,7 +205,11 @@ function nsisEscape(value) {
     );
   }
   /* In a replacement string `$$` is a literal `$`, so "$$$$" writes "$$". */
-  return value.replaceAll("$", "$$$$").replaceAll('"', '$\\"');
+  return value
+    .replaceAll("$", "$$$$")
+    .replaceAll('"', '$\\"')
+    .replaceAll("'", "$\\'")
+    .replaceAll("`", "$\\`");
 }
 
 /**
