@@ -39,6 +39,9 @@
     "selenium-webdriver": "^4.52.0",
     "typescript": "6.0.3"
   },
+  "overrides": {
+    "minimatch": "^11.0.5"
+  },
   "devEngines": {
     "runtime": {
       "name": "node",
