@@ -47,15 +47,11 @@ describe("runner test suite", async () => {
     await get(nwOptions);
   }, Infinity);
 
-  it(
-    "runs and is killed via code",
-    { skip: process.platform === "win32" },
-    async () => {
-      const nwProcess = await run(nwOptions);
-      if (nwProcess) {
-        nwProcess.kill();
-        assert.strictEqual(nwProcess.killed, true);
-      }
-    },
-  );
+  it("runs and is killed via code", async () => {
+    const nwProcess = await run(nwOptions);
+    if (nwProcess) {
+      nwProcess.kill();
+      assert.strictEqual(nwProcess.killed, true);
+    }
+  });
 });

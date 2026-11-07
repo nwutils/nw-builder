@@ -8,7 +8,7 @@
  * write its output. `hdiutil` also records what the folder it was given
  * contains, since `dmg()` deletes it straight after.
  *
- * Written as CommonJS to match fake-makensis.cjs.
+ * Written as CommonJS to match fake-appimagetool.js.
  */
 
 const fs = require("node:fs");

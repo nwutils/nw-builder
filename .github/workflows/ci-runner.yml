@@ -43,6 +43,7 @@ jobs:
             display: Windows 11 (ARM)
       fail-fast: false
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
     name: ${{ matrix.display }}
     if: github.repository_owner == 'nwutils'
     steps:

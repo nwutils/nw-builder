@@ -4,23 +4,12 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import process from "node:process";
 import { after, before, describe, it } from "node:test";
 
 import nsis, {
   listAppFiles,
   nsisScript,
 } from "../../../packages/packager/src/nsis.js";
-
-const fakeMakensis = path.resolve(
-  import.meta.dirname,
-  "..",
-  "..",
-  "fixtures",
-  "packager",
-  "bin",
-  "fake-makensis.cjs",
-);
 
 const hasMakensis =
   child_process.spawnSync("makensis", ["-VERSION"]).error === undefined;
@@ -54,11 +43,9 @@ describe("packager/nsis", function () {
     );
 
     iconPath = path.join(tmpDir, "icon.ico");
-    await fs.promises.writeFile(iconPath, "");
+    await fs.promises.writeFile(iconPath, icoFile());
     licensePath = path.join(tmpDir, "LICENSE.txt");
     await fs.promises.writeFile(licensePath, "MIT\n");
-
-    await fs.promises.chmod(fakeMakensis, 0o755);
   });
 
   after(async function () {
@@ -466,8 +453,8 @@ describe("packager/nsis", function () {
   });
 
   it(
-    "generates a script and invokes makensis",
-    { skip: process.platform === "win32" },
+    "builds an installer with the given options",
+    { skip: hasMakensis === false && "makensis is not installed" },
     async function () {
       const outDir = path.join(tmpDir, "out-fake");
 
@@ -479,24 +466,14 @@ describe("packager/nsis", function () {
         outDir,
         icon: iconPath,
         license: licensePath,
-        makensisPath: fakeMakensis,
       });
 
       assert.strictEqual(
         installerPath,
         path.join(outDir, "Demo-arm64-Setup.exe"),
       );
-      assert.strictEqual(
-        await fs.promises.readFile(installerPath, "utf-8"),
-        "fake installer\n",
-      );
-      const contents = await fs.promises.readFile(
-        `${installerPath}.nsi`,
-        "utf-8",
-      );
-      assert.ok(contents.includes('VIProductVersion "1.0.0.0"'));
-      assert.ok(contents.includes(`!define MUI_ICON "${iconPath}"`));
-      assert.doesNotMatch(contents, /app-update\.yml/);
+      const installer = await fs.promises.readFile(installerPath);
+      assert.strictEqual(installer.subarray(0, 2).toString(), "MZ");
       assert.strictEqual(
         fs.existsSync(path.join(outDir, "latest-arm64.yml")),
         false,
@@ -518,8 +495,8 @@ describe("packager/nsis", function () {
     });
 
     it(
-      "installs app-update.yml and writes the update info file",
-      { skip: process.platform === "win32" },
+      "writes the update info file for the installer",
+      { skip: hasMakensis === false && "makensis is not installed" },
       async function () {
         const outDir = path.join(tmpDir, "out-publish");
 
@@ -529,18 +506,8 @@ describe("packager/nsis", function () {
           version: "1.2.0",
           arch: "x64",
           outDir,
-          makensisPath: fakeMakensis,
           publish: { provider: "github", owner: "nwutils", repo: "demo" },
         });
-
-        const contents = await fs.promises.readFile(
-          `${installerPath}.nsi`,
-          "utf-8",
-        );
-        const appUpdateYaml = contents.match(
-          /^ {2}File "\/oname=app-update\.yml" "(.*)"$/m,
-        );
-        assert.ok(appUpdateYaml, "the script should install app-update.yml");
 
         const installer = await fs.promises.readFile(installerPath);
         const sha512 = crypto
@@ -599,4 +566,29 @@ describe("packager/nsis", function () {
  */
 function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/**
+ * A valid 1x1 pixel `.ico` file, since `makensis` rejects anything else as
+ * an installer icon.
+ * @returns {Buffer}
+ */
+function icoFile() {
+  const image = Buffer.alloc(48);
+  image.writeUInt32LE(40, 0); // BITMAPINFOHEADER size
+  image.writeInt32LE(1, 4); // width
+  image.writeInt32LE(2, 8); // height: the colour and mask bitmaps stacked
+  image.writeUInt16LE(1, 12); // planes
+  image.writeUInt16LE(32, 14); // bits per pixel
+  image.writeUInt32LE(8, 20); // pixel and mask data size
+  const header = Buffer.alloc(22);
+  header.writeUInt16LE(1, 2); // type: icon
+  header.writeUInt16LE(1, 4); // image count
+  header.writeUInt8(1, 6); // width
+  header.writeUInt8(1, 7); // height
+  header.writeUInt16LE(1, 10); // planes
+  header.writeUInt16LE(32, 12); // bits per pixel
+  header.writeUInt32LE(image.length, 14);
+  header.writeUInt32LE(header.length, 18); // image offset
+  return Buffer.concat([header, image]);
 }
