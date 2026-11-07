@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.4](https://github.com/nwutils/nw-builder/compare/@nwutils/builder-v0.1.3...@nwutils/builder-v0.1.4) (2026-11-05)
+
+
+### Chores
+
+* **deps:** bump glob from 13.0.6 to 14.0.3 ([#1706](https://github.com/nwutils/nw-builder/issues/1706)) ([87bb9fd](https://github.com/nwutils/nw-builder/commit/87bb9fdf3f875b986739ff40dd83417845e3f580))
+
 ## [0.1.3](https://github.com/nwutils/nw-builder/compare/@nwutils/builder-v0.1.2...@nwutils/builder-v0.1.3) (2026-10-16)
 
 
