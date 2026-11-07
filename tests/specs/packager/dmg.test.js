@@ -21,7 +21,7 @@ const fakeMacTool = path.resolve(
 describe(
   "packager/dmg",
   /* The stand-in tools are Node.js scripts started through their shebang. */
-  { skip: process.platform === "win32" },
+  { skip: process.platform !== "darwin" },
   function () {
     let tmpDir = "";
     let appDir = "";
