@@ -44,7 +44,11 @@
     "lint:fix": "eslint . ../../tests/specs/packager ../../tests/fixtures/packager --fix",
     "type": "tsc",
     "test": "node --test --test-concurrency=1 \"../../tests/specs/packager/appImage.test.js\" \"../../tests/specs/packager/dmg.test.js\" \"../../tests/specs/packager/nsis.test.js\" \"../../tests/specs/packager/request.test.js\" \"../../tests/specs/packager/util.test.js\"",
-    "test:real": "node --test --test-concurrency=1 \"../../tests/specs/packager/appImage.real.test.js\" \"../../tests/specs/packager/dmg.real.test.js\" \"../../tests/specs/packager/nsis.real.test.js\""
+    "test:real": "node --test --test-concurrency=1 \"../../tests/specs/packager/appImage.real.test.js\" \"../../tests/specs/packager/dmg.real.test.js\" \"../../tests/specs/packager/nsis.real.test.js\"",
+    "test:appimage": "node --test --test-concurrency=1 \"../../tests/specs/packager/appImage.test.js\" \"../../tests/specs/packager/appImage.real.test.js\"",
+    "test:dmg": "node --test --test-concurrency=1 \"../../tests/specs/packager/dmg.test.js\" \"../../tests/specs/packager/dmg.real.test.js\"",
+    "test:nsis": "node --test --test-concurrency=1 \"../../tests/specs/packager/nsis.test.js\" \"../../tests/specs/packager/nsis.real.test.js\"",
+    "test:common": "node --test --test-concurrency=1 \"../../tests/specs/packager/request.test.js\" \"../../tests/specs/packager/util.test.js\""
   },
   "dependencies": {},
   "devEngines": {
