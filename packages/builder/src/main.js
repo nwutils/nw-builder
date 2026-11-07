@@ -148,16 +148,7 @@ async function build({
   await fs.promises.mkdir(nwProjectDir, { recursive: true });
 
   if (glob) {
-    for (let file of /** @type {string[]} */ (files)) {
-      const stats = await fs.promises.stat(file);
-      if (stats.isDirectory()) {
-        continue;
-      }
-      await fs.promises.cp(file, path.resolve(nwProjectDir, file), {
-        recursive: true,
-        force: true,
-      });
-    }
+    await util.copyGlobFiles(/** @type {string[]} */ (files), nwProjectDir);
   } else {
     await fs.promises.cp(
       /** @type {string} */ (files),

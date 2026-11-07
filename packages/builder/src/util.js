@@ -145,9 +145,71 @@ async function zipDirectory(srcDir, destFile) {
   await written;
 }
 
+/**
+ * Copy globbed files into the NW.js project directory.
+ *
+ * In glob mode the current working directory is the app root: each file keeps
+ * its path relative to `cwd`, so `package.json src/**` produces
+ * `package.json` and `src/...` at the top of `destDir`. Absolute matches
+ * inside `cwd` are placed the same way.
+ *
+ * A match outside `cwd` (for example from `../app/**`) has no place in that
+ * layout, so this rejects before copying anything instead of writing files
+ * next to, or outside, `destDir`.
+ * @async
+ * @function
+ * @param  {string[]} files    - paths returned by `globFiles`
+ * @param  {string}   destDir  - NW.js project directory (`package.nw` / `app.nw`)
+ * @param  {string}   [cwd]    - app root the files are relative to
+ * @returns {Promise<void>}
+ */
+async function copyGlobFiles(files, destDir, cwd = process.cwd()) {
+  /** @type {{ src: string, dest: string }[]} */
+  const copies = [];
+  /** @type {string[]} */
+  const outside = [];
+  for (const file of files) {
+    const src = path.resolve(cwd, file);
+    const relative = path.relative(cwd, src);
+    // ".." or "../x" escapes cwd; an absolute result means another drive on Windows.
+    if (
+      relative === ".." ||
+      relative.startsWith(`..${path.sep}`) ||
+      path.isAbsolute(relative)
+    ) {
+      outside.push(file);
+      continue;
+    }
+    copies.push({ src, dest: path.join(destDir, relative) });
+  }
+
+  if (outside.length > 0) {
+    const shown = outside.slice(0, 5).join(", ");
+    const more = outside.length > 5 ? ` and ${outside.length - 5} more` : "";
+    throw new Error(
+      `srcDir glob matched files outside the current working directory (${cwd}): ${shown}${more}. ` +
+        "With glob enabled, paths are kept relative to the current working directory, which becomes the app root, " +
+        "so these files have no place in the build. Run nwbuild from the app directory, " +
+        'or set glob to false and srcDir to the app directory (for example srcDir: "../app").',
+    );
+  }
+
+  for (const { src, dest } of copies) {
+    const stats = await fs.promises.stat(src);
+    if (stats.isDirectory()) {
+      continue;
+    }
+    await fs.promises.cp(src, dest, {
+      recursive: true,
+      force: true,
+    });
+  }
+}
+
 export default {
   PLATFORM_KV,
   ARCH_KV,
   globFiles,
   zipDirectory,
+  copyGlobFiles,
 };
