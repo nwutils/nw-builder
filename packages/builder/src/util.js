@@ -1,4 +1,10 @@
+import fs from "node:fs";
+import path from "node:path";
+import process from "node:process";
+import { pipeline } from "node:stream/promises";
+
 import * as GlobModule from "glob";
+import ZipStream from "zip-stream";
 
 const PLATFORM_KV = {
   darwin: "osx",
@@ -44,8 +50,104 @@ async function globFiles({ srcDir, glob }) {
   return files;
 }
 
+/**
+ * Recursively list a directory without following symlinks. A directory is
+ * yielded before its contents, and entries are sorted so output is stable.
+ * @param  {string} absDir  - directory to walk
+ * @param  {string} relDir  - path of `absDir` relative to the walk root, using `/`
+ * @returns {AsyncGenerator<{ absolute: string, relative: string, stats: fs.Stats }>}
+ */
+async function* walkDirectory(absDir, relDir) {
+  const names = (await fs.promises.readdir(absDir)).sort();
+  for (const name of names) {
+    const absolute = path.join(absDir, name);
+    const relative = relDir === "" ? name : `${relDir}/${name}`;
+    const stats = await fs.promises.lstat(absolute);
+    yield { absolute, relative, stats };
+    if (stats.isDirectory()) {
+      yield* walkDirectory(absolute, relative);
+    }
+  }
+}
+
+/**
+ * Zip the contents of a directory, so its children sit at the archive root.
+ *
+ * Matches what `archiver`'s `directory(srcDir, false)` produced: directories
+ * get their own entries, symlinks are stored as symlinks (relative to the
+ * link's directory) instead of being followed, and each entry keeps its
+ * permission bits and mtime. Other file types (sockets, FIFOs) are skipped.
+ * @async
+ * @function
+ * @param  {string} srcDir    - directory to compress
+ * @param  {string} destFile  - path of the zip file to write
+ * @returns {Promise<void>}   - resolves once the zip file is fully written
+ */
+async function zipDirectory(srcDir, destFile) {
+  const isWin = process.platform === "win32";
+  const archive = new ZipStream();
+  const written = pipeline(archive, fs.createWriteStream(destFile));
+
+  /**
+   * @param {Buffer | fs.ReadStream} source
+   * @param {import("zip-stream").FileDataInput} data
+   * @returns {Promise<void>}
+   */
+  const addEntry = (source, data) =>
+    new Promise((resolve, reject) => {
+      archive.entry(source, data, (error) =>
+        error ? reject(error) : resolve(),
+      );
+    });
+
+  try {
+    for await (const { absolute, relative, stats } of walkDirectory(
+      srcDir,
+      "",
+    )) {
+      const date = stats.mtime;
+      let mode = stats.mode & (isWin ? 0o777 : 0o7777);
+      if (stats.isFile()) {
+        await addEntry(fs.createReadStream(absolute), {
+          name: relative,
+          type: "file",
+          date,
+          mode,
+        });
+      } else if (stats.isDirectory()) {
+        // stat is unreliable for directories on Windows
+        if (isWin) mode = 0o755;
+        await addEntry(Buffer.alloc(0), {
+          name: `${relative}/`,
+          type: "directory",
+          date,
+          mode,
+        });
+      } else if (stats.isSymbolicLink()) {
+        const linkDir = path.dirname(absolute);
+        const target = await fs.promises.readlink(absolute);
+        const linkname = path
+          .relative(linkDir, path.resolve(linkDir, target))
+          .replace(/\\/g, "/");
+        await addEntry(Buffer.alloc(0), {
+          name: relative,
+          type: "symlink",
+          linkname,
+          date,
+          mode,
+        });
+      }
+    }
+    archive.finalize();
+  } catch (error) {
+    archive.destroy(/** @type {Error} */ (error));
+  }
+  await written;
+}
+
 export default {
   PLATFORM_KV,
   ARCH_KV,
   globFiles,
+  zipDirectory,
 };

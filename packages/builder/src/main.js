@@ -4,7 +4,6 @@ import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
 
-import { ZipArchive } from "archiver";
 import * as resedit from "resedit";
 // pe-library is a direct dependency of resedit
 import * as peLibrary from "pe-library";
@@ -404,11 +403,7 @@ const setWinConfig = async ({ app, outDir }) => {
  */
 const compress = async ({ zip, outDir }) => {
   if (zip === true || zip === "zip") {
-    const archive = new ZipArchive();
-    const writeStream = fs.createWriteStream(`${outDir}.zip`);
-    archive.pipe(writeStream);
-    archive.directory(outDir, false);
-    await archive.finalize();
+    await util.zipDirectory(outDir, `${outDir}.zip`);
   } else if (zip === "tar") {
     await tar.create(
       {
