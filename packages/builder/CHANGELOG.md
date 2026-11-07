@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.5](https://github.com/nwutils/nw-builder/compare/@nwutils/builder-v0.1.4...@nwutils/builder-v0.1.5) (2026-11-07)
+
+
+### Bug Fixes
+
+* **builder:** reject glob matches outside the app root ([#1711](https://github.com/nwutils/nw-builder/issues/1711)) ([3b1a60c](https://github.com/nwutils/nw-builder/commit/3b1a60c44bd6f266bf89d2a247084a1db36b1b4f))
+* **deps:** replace archiver with zip-stream to drop vulnerable minimatch ([#1709](https://github.com/nwutils/nw-builder/issues/1709)) ([3fee774](https://github.com/nwutils/nw-builder/commit/3fee77452704a5688a35c31d95b35ab7345058fa))
+
 ## [0.1.4](https://github.com/nwutils/nw-builder/compare/@nwutils/builder-v0.1.3...@nwutils/builder-v0.1.4) (2026-11-05)
 
 
