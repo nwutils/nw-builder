@@ -225,6 +225,8 @@ async function appImage({
   );
 
   try {
+    /* `mkdtemp` creates 0700 directories, which `appimagetool` rejects since the AppImage's root must be readable by every user. */
+    await fs.promises.chmod(appImageDir, 0o755);
     await fs.promises.cp(resolvedAppDir, appImageDir, {
       recursive: true,
       force: true,
