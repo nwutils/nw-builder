@@ -46,13 +46,13 @@
     "test": "node --test \"../../tests/specs/builder/*.test.js\""
   },
   "dependencies": {
-    "archiver": "^8.0.0",
     "glob": "^14.0.3",
     "pe-library": "^2.0.1",
     "plist": "^5.0.0",
     "resedit": "^3.1.0",
     "semver": "^7.8.5",
-    "tar": "^7.5.22"
+    "tar": "^7.5.22",
+    "zip-stream": "^7.0.5"
   },
   "devEngines": {
     "runtime": {
