@@ -247,6 +247,13 @@ describe("packager/util", function () {
       assert.strictEqual(util.nsisEscape('a$INSTDIR"b'), 'a$$INSTDIR$\\"b');
     });
 
+    it("escapes single quotes and backticks", function () {
+      assert.strictEqual(
+        util.nsisEscape("Bob's `App`"),
+        "Bob$\\'s $\\`App$\\`",
+      );
+    });
+
     it("throws on line breaks", function () {
       assert.throws(
         () => util.nsisEscape("a\nb"),
