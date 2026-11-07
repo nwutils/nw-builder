@@ -225,6 +225,7 @@ async function appImage({
   );
 
   try {
+    await fs.promises.chmod(appImageDir, 0o755);
     await fs.promises.cp(resolvedAppDir, appImageDir, {
       recursive: true,
       force: true,
