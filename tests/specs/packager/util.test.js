@@ -266,6 +266,27 @@ describe("packager/util", function () {
     });
   });
 
+  describe("validateProtocols", function () {
+    it("accepts custom schemes", function () {
+      util.validateProtocols(undefined);
+      util.validateProtocols([]);
+      util.validateProtocols(["myapp", "my-app.v2", "a+b"]);
+    });
+
+    it("rejects anything else", function () {
+      for (const [value, message] of [
+        ["myapp", /array of URL schemes/],
+        [["MyApp"], /lowercase URL scheme/],
+        [["myapp://"], /lowercase URL scheme/],
+        [["1app"], /lowercase URL scheme/],
+        [["https"], /belongs to the browser or the OS/],
+        [["myapp", "myapp"], /no duplicates/],
+      ]) {
+        assert.throws(() => util.validateProtocols(value), message);
+      }
+    });
+  });
+
   describe("nsisPath", function () {
     it("returns paths unchanged, including a plain $", function () {
       assert.strictEqual(util.nsisPath("/tmp/a$b/c.exe"), "/tmp/a$b/c.exe");

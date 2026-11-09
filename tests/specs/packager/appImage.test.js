@@ -580,6 +580,56 @@ describe(
       });
     });
 
+    describe("deep links", function () {
+      it("adds scheme handlers to MimeType and %U to Exec", async function () {
+        const linkAppDir = path.join(tmpDir, "deep-link-app");
+        const keptAppDir = path.join(tmpDir, "deep-link-appdir");
+        await fs.promises.cp(appDir, linkAppDir, { recursive: true });
+        await fs.promises.writeFile(
+          path.join(linkAppDir, "Demo.desktop"),
+          `[Desktop Entry]\nType=Application\nName=Demo\nIcon=${iconPath}\nMimeType=text/plain;x-scheme-handler/myapp;\n`,
+        );
+        const cacheDir = path.join(tmpDir, "cache-deep-link");
+        await fs.promises.mkdir(cacheDir, { recursive: true });
+        await fs.promises.copyFile(
+          fakeAppImageTool,
+          path.join(cacheDir, `appimagetool-${appImageToolArch}.AppImage`),
+        );
+
+        process.env.FAKE_APPIMAGETOOL_KEEP_APPDIR = keptAppDir;
+        try {
+          await appImage({
+            appDir: linkAppDir,
+            appName: "Demo",
+            cacheDir,
+            outDir: path.join(tmpDir, "out-deep-link"),
+            protocols: ["myapp", "my-app.v2"],
+          });
+        } finally {
+          delete process.env.FAKE_APPIMAGETOOL_KEEP_APPDIR;
+        }
+
+        const desktopEntry = util.parseDesktopEntry(
+          await fs.promises.readFile(
+            path.join(keptAppDir, "Demo.desktop"),
+            "utf-8",
+          ),
+        );
+        assert.strictEqual(desktopEntry.Exec, "Demo %U");
+        assert.strictEqual(
+          desktopEntry.MimeType,
+          "text/plain;x-scheme-handler/myapp;x-scheme-handler/my-app.v2;",
+        );
+      });
+
+      it("rejects invalid protocols", async function () {
+        await assert.rejects(
+          appImage({ appDir, appName: "Demo", protocols: ["https"] }),
+          /must not include "https"/,
+        );
+      });
+    });
+
     describe("getAppImageTool", function () {
       before(async function () {
         await new Promise((resolve, reject) => {

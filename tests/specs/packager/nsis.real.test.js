@@ -32,6 +32,9 @@ describe(
     /* Unique, so a leftover registry entry from an earlier run can't affect this one. */
     const appId = `nwutils-packager-test-${process.pid}`;
     const uninstallKey = `HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${appId}`;
+    /* Unique for the same reason, and it must be a valid lowercase URL scheme. */
+    const protocol = `nwutils-test-${process.pid}`;
+    const protocolKey = `HKCU\\Software\\Classes\\${protocol}`;
 
     const nwOptions = {
       version: "0.115.0",
@@ -82,6 +85,7 @@ describe(
         outDir: distDir,
         appId,
         publisher: "nwutils",
+        protocols: [protocol],
       });
 
       installDir = await fs.promises.mkdtemp(
@@ -91,6 +95,7 @@ describe(
 
     after(async () => {
       child_process.spawnSync("reg", ["delete", uninstallKey, "/f"]);
+      child_process.spawnSync("reg", ["delete", protocolKey, "/f"]);
       await fs.promises.rm(path.join(repoRoot, "tests/fixtures/packager/out"), {
         recursive: true,
         force: true,
@@ -125,6 +130,25 @@ describe(
       assert.strictEqual(query.status, 0, "uninstall key is missing");
       assert.match(query.stdout, /1\.0\.0/);
 
+      const protocolQuery = child_process.spawnSync(
+        "reg",
+        ["query", protocolKey, "/v", "URL Protocol"],
+        { encoding: "utf-8" },
+      );
+      assert.strictEqual(protocolQuery.status, 0, "protocol key is missing");
+      const commandQuery = child_process.spawnSync(
+        "reg",
+        ["query", `${protocolKey}\\shell\\open\\command`, "/ve"],
+        { encoding: "utf-8" },
+      );
+      assert.strictEqual(commandQuery.status, 0, "protocol command is missing");
+      assert.ok(
+        commandQuery.stdout.includes(
+          `"${path.join(installDir, "Demo.exe")}" "%1"`,
+        ),
+        commandQuery.stdout,
+      );
+
       /*
        * Without `_?=` the uninstaller copies itself to a temporary directory
        * and returns immediately. With it, it runs in place and is waited for -
@@ -143,6 +167,11 @@ describe(
         child_process.spawnSync("reg", ["query", uninstallKey]).status,
         0,
         "uninstall key was not removed",
+      );
+      assert.notStrictEqual(
+        child_process.spawnSync("reg", ["query", protocolKey]).status,
+        0,
+        "protocol key was not removed",
       );
     });
   },

@@ -250,6 +250,36 @@ With the CLI, pass `--publish.provider=github --publish.owner=nwutils
 [`@nwutils/packager` docs](https://www.npmjs.com/package/@nwutils/packager) for
 the `generic` provider and more details.
 
+#### Deep links
+
+Set `app.protocols` to the custom URL schemes the app handles, eg. `["myapp"]`
+for `myapp://` links. Schemes are lowercase, and ones the browser or the OS
+relies on, such as `http`, `https` and `file`, are refused. With the CLI, pass
+`--app.protocols=myapp,other`.
+
+```javascript
+await nwbuild({
+  mode: "package",
+  app: { name: "Demo", protocols: ["myapp"] },
+});
+```
+
+- **Windows:** the NSIS installer registers each scheme for the current user,
+  and the uninstaller removes the ones still pointing at the app. A build
+  without the installer registers nothing.
+- **MacOS:** the schemes are written to the app's `Info.plist`, in both build
+  and package mode. MacOS registers them once the app has been opened or moved
+  to `/Applications`.
+- **Linux:** the desktop entry gets `x-scheme-handler/<scheme>` in `MimeType`
+  and `%U` in `Exec`. An AppImage isn't installed, so the desktop only learns
+  about the schemes once the AppImage is integrated, eg. by AppImageLauncher, or
+  once the app copies its desktop entry to `~/.local/share/applications` and
+  runs `xdg-mime default <app>.desktop x-scheme-handler/<scheme>`.
+
+Opening a link starts the app with the URL as an argument, available in
+`nw.App.argv`. Links opened while the app runs reach the running instance
+through `nw.App.on("open", ...)`.
+
 #### Windows installer (NSIS)
 
 With `platform: "win"`, package mode builds an NSIS installer,

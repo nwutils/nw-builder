@@ -245,6 +245,9 @@ async function nwbuild(options) {
             version: manifest.json?.version,
             publish: resolved.publish,
             updateInformation: resolved.updateInformation,
+            protocols: /** @type {string[] | undefined} */ (
+              resolved.app.protocols
+            ),
           });
         }
         util.log(

@@ -38,6 +38,7 @@ import setOsxConfig from "./osx.js";
  * @property {string}   startupWMClass        If specified, it is known that the application will map at least one window with the given string as its WM class or WM name hin
  * @property {boolean}  prefersNonDefaultGPU  If true, the application prefers to be run on a more powerful discrete GPU if available.
  * @property {string}   singleMainWindow      If true, the application has a single main window, and does not support having an additional one opened.
+ * @property {string[]} [protocols]           Custom URL schemes the app handles, eg. `["myapp"]` for `myapp://` links. Adds `x-scheme-handler/<scheme>` to `MimeType`, and `%U` to `Exec` so the URL reaches the app.
  */
 
 /**
@@ -55,6 +56,7 @@ import setOsxConfig from "./osx.js";
  * @property {string} CFBundleShortVersionString      The release or version number of the bundle.
  * @property {string} NSHumanReadableCopyright        A human-readable copyright notice for the bundle.
  * @property {string} NSLocalNetworkUsageDescription  A human-readable description of why the application needs access to the local network.
+ * @property {string[]} [protocols]                   Custom URL schemes the app handles, eg. `["myapp"]` for `myapp://` links. Written to `Info.plist` as `CFBundleURLTypes`; MacOS registers them once the app has been opened.
  * @property {boolean} LSFileQuarantineEnabled        Whether the app is subject to Gatekeeper file quarantine. See https://github.com/nwjs/nw.js/issues/7646
  */
 
@@ -81,6 +83,7 @@ import setOsxConfig from "./osx.js";
  * @property {string} productVersion    Version of the product with which the file is distributed—for example, 3.10 or 5.00.RC2. This string is required.
  * @property {string} specialBuild      Text that specifies how this version of the file differs from the standard version—for example, Private build for TESTER1 solving mouse problems on M250 and M250E computers. This string should be present only if VS_FF_SPECIALBUILD is specified in the fileflags parameter of the root block.
  * @property {number} languageCode      Language identifier (LCID) of the file, defined by Microsoft, see: https://learn.microsoft.com/en-us/openspecs/office_standards/ms-oe376/6c085406-a698-4e12-9d4d-c3b0ee3dbc4a
+ * @property {string[]} [protocols]     Custom URL schemes the app handles, eg. `["myapp"]`. Windows only registers them on install, so they take effect through `@nwutils/packager`'s NSIS installer.
  */
 
 /**
@@ -127,6 +130,8 @@ async function build({
   zip = false,
   releaseInfo = {},
 }) {
+  util.validateProtocols(app?.protocols);
+
   const nwDir = path.resolve(
     cacheDir,
     `nwjs${flavor === "sdk" ? "-sdk" : ""}-v${version}-${platform}-${arch}`,
@@ -309,6 +314,28 @@ const setLinuxConfig = async ({ app, outDir }) => {
     SingleMainWindow: app.singleMainWindow,
   };
 
+  const protocols = app.protocols ?? [];
+  if (protocols.length > 0) {
+    /* `app.mimeType` may be a list, or a string already in desktop entry form. */
+    const mimeTypes =
+      typeof app.mimeType === "string"
+        ? /** @type {string} */ (app.mimeType)
+            .split(";")
+            .filter((mimeType) => mimeType !== "")
+        : [...(app.mimeType ?? [])];
+    for (const protocol of protocols) {
+      const mimeType = `x-scheme-handler/${protocol}`;
+      if (mimeTypes.includes(mimeType) === false) {
+        mimeTypes.push(mimeType);
+      }
+    }
+    desktopEntryFile.MimeType = mimeTypes;
+    /* `%U` passes the opened `<scheme>://` URL to the app, unless `Exec` already takes files or URLs. */
+    if (typeof app.exec === "string" && /%[fFuU]/.test(app.exec) === false) {
+      desktopEntryFile.Exec = `${app.exec} %U`;
+    }
+  }
+
   await fs.promises.rename(`${outDir}/nw`, `${outDir}/${app.name}`);
 
   let fileContent = "[Desktop Entry]\n";
@@ -428,3 +455,6 @@ const compress = async ({ zip, outDir }) => {
 };
 
 export default build;
+
+const { validateProtocols } = util;
+export { validateProtocols };

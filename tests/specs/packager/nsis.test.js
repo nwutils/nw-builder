@@ -53,6 +53,18 @@ describe("packager/nsis", function () {
   });
 
   describe("validation", function () {
+    it("throws on invalid protocols", async function () {
+      await assert.rejects(
+        nsis({
+          appDir,
+          appName: "Demo",
+          version: "1.0.0",
+          protocols: ["https"],
+        }),
+        /must not include "https"/,
+      );
+    });
+
     it("throws when appDir does not exist", async function () {
       await assert.rejects(
         nsis({
@@ -437,6 +449,31 @@ describe("packager/nsis", function () {
       );
     });
 
+    it("registers protocols and only removes those still pointing at the app", async function () {
+      assert.doesNotMatch(await script(), /Software\\Classes/);
+
+      const contents = await script({ protocols: ["myapp"] });
+      for (const line of [
+        '  WriteRegStr HKCU "Software\\Classes\\myapp" "" "URL:Demo"',
+        '  WriteRegStr HKCU "Software\\Classes\\myapp" "URL Protocol" ""',
+        `  WriteRegStr HKCU "Software\\Classes\\myapp\\DefaultIcon" "" '"$INSTDIR\\Demo.exe",0'`,
+        `  WriteRegStr HKCU "Software\\Classes\\myapp\\shell\\open\\command" "" '"$INSTDIR\\Demo.exe" "%1"'`,
+      ]) {
+        assert.ok(contents.includes(line), line);
+      }
+      const uninstall = contents.slice(contents.indexOf('Section "Uninstall"'));
+      assert.ok(
+        uninstall.includes(
+          [
+            '  ReadRegStr $0 HKCU "Software\\Classes\\myapp\\shell\\open\\command" ""',
+            `  \${If} $0 == '"$INSTDIR\\Demo.exe" "%1"'`,
+            '    DeleteRegKey HKCU "Software\\Classes\\myapp"',
+            "  ${EndIf}",
+          ].join("\n"),
+        ),
+      );
+    });
+
     it("installs and uninstalls app-update.yml only when given", async function () {
       assert.doesNotMatch(await script(), /app-update\.yml/);
 
@@ -466,6 +503,7 @@ describe("packager/nsis", function () {
         outDir,
         icon: iconPath,
         license: licensePath,
+        protocols: ["myapp", "my-app.v2"],
       });
 
       assert.strictEqual(

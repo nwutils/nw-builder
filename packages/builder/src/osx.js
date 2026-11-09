@@ -187,6 +187,15 @@ export default async function setOsxConfig({
       app.NSLocalNetworkUsageDescription;
     /* See https://github.com/nwjs/nw.js/issues/7646 */
     contentsInfoPlistJson.LSFileQuarantineEnabled = app.LSFileQuarantineEnabled;
+    /* MacOS registers these schemes once the app has been opened or moved to /Applications. */
+    if (app.protocols !== undefined && app.protocols.length > 0) {
+      contentsInfoPlistJson.CFBundleURLTypes = [
+        {
+          CFBundleURLName: app.CFBundleIdentifier ?? app.name,
+          CFBundleURLSchemes: app.protocols,
+        },
+      ];
+    }
 
     /* Remove properties that were not updated by the user. */
     Object.keys(contentsInfoPlistJson).forEach((option) => {
