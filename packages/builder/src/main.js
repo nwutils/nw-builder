@@ -260,6 +260,16 @@ const manageManifest = async ({ nwPkg, managedManifest, outDir, platform }) => {
 };
 
 /**
+ * Format a list for a desktop entry: each item followed by `;`, with a `;`
+ * inside an item escaped as `\;`.
+ * See https://specifications.freedesktop.org/desktop-entry-spec/latest/value-types.html
+ * @param  {unknown[]} items
+ * @returns {string}
+ */
+const desktopEntryList = (items) =>
+  items.map((item) => `${String(item).replaceAll(";", "\\;")};`).join("");
+
+/**
  * @param  {object}  options
  * @param  {LinuxRc} options.app     Linux app configuration
  * @param  {string}  options.outDir  Output directory
@@ -303,8 +313,9 @@ const setLinuxConfig = async ({ app, outDir }) => {
 
   let fileContent = "[Desktop Entry]\n";
   Object.keys(desktopEntryFile).forEach((key) => {
-    if (desktopEntryFile[key] !== undefined) {
-      fileContent += `${key}=${desktopEntryFile[key]}\n`;
+    const value = desktopEntryFile[key];
+    if (value !== undefined) {
+      fileContent += `${key}=${Array.isArray(value) ? desktopEntryList(value) : value}\n`;
     }
   });
   let filePath = `${outDir}/${app.name}.desktop`;
