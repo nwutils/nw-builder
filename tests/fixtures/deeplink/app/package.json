@@ -1,0 +1,7 @@
+{
+  "name": "deeplink",
+  "main": "index.html",
+  "window": {
+    "show": false
+  }
+}

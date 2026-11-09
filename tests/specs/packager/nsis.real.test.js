@@ -11,6 +11,10 @@ import get from "@nwutils/getter";
 
 import nsis from "../../../packages/packager/src/nsis.js";
 import util from "../../../packages/nw-builder/src/util.js";
+import {
+  prepareDeepLinkApp,
+  waitForDeepLink,
+} from "../../fixtures/deeplink/record.js";
 
 const repoRoot = path.resolve(import.meta.dirname, "..", "..", "..");
 
@@ -52,13 +56,26 @@ describe(
 
     let installerPath;
     let installDir;
+    /* The app records the deep links it receives here. */
+    let appSrcDir;
+    let recordFile;
 
     before(async () => {
+      appSrcDir = await fs.promises.mkdtemp(
+        path.join(os.tmpdir(), "nwutils-packager-real-nsis-src-"),
+      );
+      recordFile = path.join(
+        appSrcDir,
+        "..",
+        `${path.basename(appSrcDir)}.jsonl`,
+      );
+      await prepareDeepLinkApp(path.join(appSrcDir, "app"), recordFile);
+
       await get(nwOptions);
 
       await build({
         ...nwOptions,
-        srcDir: path.join(repoRoot, "tests/fixtures/packager/real-app"),
+        srcDir: path.join(appSrcDir, "app"),
         outDir,
         app: {
           name: "Demo",
@@ -104,6 +121,10 @@ describe(
       if (installDir !== undefined) {
         await fs.promises.rm(installDir, { recursive: true, force: true });
       }
+      if (appSrcDir !== undefined) {
+        await fs.promises.rm(appSrcDir, { recursive: true, force: true });
+        await fs.promises.rm(recordFile, { force: true });
+      }
     });
 
     it("produces a real installer", async () => {
@@ -111,7 +132,7 @@ describe(
       assert.strictEqual(magic.subarray(0, 2).toString(), "MZ");
     });
 
-    it("installs and uninstalls silently", async () => {
+    it("installs, opens deep links and uninstalls silently", async () => {
       /* `/D=` must be last and unquoted, even if the path has spaces. */
       const install = child_process.spawnSync(installerPath, [
         "/S",
@@ -148,6 +169,31 @@ describe(
         ),
         commandQuery.stdout,
       );
+
+      /* Open links the way a browser would: through the registered scheme. */
+      const coldUrl = `${protocol}://cold`;
+      child_process.spawnSync("cmd", ["/c", "start", "", coldUrl]);
+      const cold = await waitForDeepLink(recordFile, coldUrl);
+      assert.strictEqual(cold.event, "argv", JSON.stringify(cold));
+
+      const warmUrl = `${protocol}://warm`;
+      child_process.spawnSync("cmd", ["/c", "start", "", warmUrl]);
+      const warm = await waitForDeepLink(recordFile, warmUrl);
+      assert.strictEqual(warm.event, "open", JSON.stringify(warm));
+
+      /* A silent uninstall aborts while the app is running, so wait until it's gone. */
+      child_process.spawnSync("taskkill", ["/IM", "Demo.exe", "/T", "/F"]);
+      for (let attempt = 0; attempt < 20; attempt++) {
+        const tasks = child_process.spawnSync(
+          "tasklist",
+          ["/FI", "IMAGENAME eq Demo.exe", "/NH"],
+          { encoding: "utf-8" },
+        );
+        if (tasks.stdout.includes("Demo.exe") === false) {
+          break;
+        }
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      }
 
       /*
        * Without `_?=` the uninstaller copies itself to a temporary directory

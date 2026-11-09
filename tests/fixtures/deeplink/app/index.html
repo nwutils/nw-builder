@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+  <body>
+    <script>
+      /*
+       * Records how deep links reach the app, for deeplink.real.test.js and
+       * nsis.real.test.js. The test sets `deeplinkRecordFile` in package.json:
+       * an app launched by the OS doesn't inherit the test's environment.
+       */
+      const fs = require("node:fs");
+      const recordFile = nw.App.manifest.deeplinkRecordFile;
+      const record = (event, value) =>
+        fs.appendFileSync(recordFile, `${JSON.stringify({ event, value })}\n`);
+
+      /* A link that starts the app arrives as an argument. */
+      record("argv", nw.App.argv);
+      /* A link opened while the app runs reaches this, the running, instance. */
+      nw.App.on("open", (args) => record("open", args));
+    </script>
+  </body>
+</html>
