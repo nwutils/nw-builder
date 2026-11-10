@@ -1,6 +1,6 @@
 {
   "name": "nw-builder",
-  "version": "4.25.0",
+  "version": "4.25.1",
   "description": "Build NW.js desktop applications for MacOS, Windows and Linux.",
   "keywords": [
     "NW.js",
@@ -55,7 +55,7 @@
     "demo:cli": "nwbuild --mode=build --flavor=sdk --glob=false --cacheDir=./node_modules/nw --logLevel=debug --managedManifest=../../tests/fixtures/nw-builder/app/package.json --outDir=../../tests/fixtures/nw-builder/out/linux --app.name=Demo --app.icon=../../tests/fixtures/nw-builder/app/icon.png ../../tests/fixtures/nw-builder/app"
   },
   "dependencies": {
-    "@nwutils/builder": "^0.2.0",
+    "@nwutils/builder": "^0.2.1",
     "@nwutils/getter": "^0.3.1",
     "@nwutils/packager": "^0.9.0",
     "@nwutils/runner": "^0.2.7",
