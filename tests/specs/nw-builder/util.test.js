@@ -499,6 +499,31 @@ describe("util/parse", function () {
   });
 });
 
+describe("util/builderApp", function () {
+  it("quotes a Linux exec path for the desktop entry", function () {
+    assert.deepStrictEqual(
+      util.builderApp({
+        platform: "linux",
+        app: { name: "Demo", exec: "/opt/My App/Demo" },
+      }),
+      { name: "Demo", exec: '"/opt/My App/Demo"' },
+    );
+  });
+
+  it("leaves a plain Linux exec path as-is", function () {
+    assert.strictEqual(
+      util.builderApp({ platform: "linux", app: { exec: "/opt/demo/Demo" } })
+        .exec,
+      "/opt/demo/Demo",
+    );
+  });
+
+  it("leaves other platforms alone", function () {
+    const app = { name: "Demo", exec: "/opt/My App/Demo" };
+    assert.strictEqual(util.builderApp({ platform: "win", app }), app);
+  });
+});
+
 describe("util/nsisOptions", function () {
   it("maps the Windows app options to installer options", function () {
     assert.deepStrictEqual(

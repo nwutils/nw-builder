@@ -6,6 +6,7 @@ import process from "node:process";
 import url from "node:url";
 
 import { validateProtocols } from "@nwutils/builder";
+import { desktopExecArg } from "@nwutils/packager";
 import * as GlobModule from "glob";
 
 /**
@@ -137,6 +138,22 @@ import * as GlobModule from "glob";
  * @property {boolean | string}  [startMenuShortcut]  If true, create a Start Menu shortcut. Defaults to true.
  * @property {string}            [makensisPath]       Path to the NSIS compiler. Defaults to `makensis` on the `PATH`.
  */
+
+/**
+ * The `app` options to pass to `@nwutils/builder`. On Linux, `app.exec` is a
+ * path (see `parse()`), but the builder writes it into the desktop entry's
+ * `Exec` as-is, where a space or other reserved character would split it into
+ * several arguments: quote it the way the desktop entry spec requires.
+ * @param  {Options}    options  Options after `parse()`.
+ * @returns {AppOptions}          `app` options for `@nwutils/builder`.
+ */
+function builderApp(options) {
+  const app = options.app ?? {};
+  if (options.platform !== "linux" || typeof app.exec !== "string") {
+    return app;
+  }
+  return { ...app, exec: desktopExecArg(app.exec) };
+}
 
 /**
  * Map resolved options to the options `@nwutils/packager`'s `nsis()` takes,
@@ -1295,6 +1312,7 @@ export default {
   parse,
   validate,
   log,
+  builderApp,
   nsisOptions,
   dmgOptions,
 };

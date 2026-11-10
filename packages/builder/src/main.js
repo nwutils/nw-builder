@@ -26,7 +26,7 @@ import setOsxConfig from "./osx.js";
  * @property {string[]} notShowIn             A list of strings identifying the desktop environments that should (/not) display a given desktop entry
  * @property {boolean}  dBusActivatable       A boolean value specifying if D-Bus activation is supported for this application
  * @property {string}   tryExec               Path to an executable file on disk used to determine if the program is actually installed
- * @property {string}   exec                  Program to execute, possibly with arguments.
+ * @property {string}   exec                  Program to execute, possibly with arguments. Written to `Exec` as-is, so quote a path containing spaces or other reserved characters.
  * @property {string}   path                  If entry is of type Application, the working directory to run the program in.
  * @property {boolean}  terminal              Whether the program runs in a terminal window.
  * @property {string[]} actions               Identifiers for application actions.
