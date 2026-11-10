@@ -91,6 +91,7 @@ describe(
           NSLocalNetworkUsageDescription:
             "This test application needs to access the local network for testing purposes.",
           LSFileQuarantineEnabled: false,
+          protocols: ["nwbuilder-demo", "nwbuilder-demo2"],
         },
         outDir: outDir,
         releaseInfo: {
@@ -124,6 +125,21 @@ describe(
 
       const helperPathExists = await util.fileExists(helperPath);
       assert.strictEqual(helperPathExists, true);
+    });
+
+    it("registers custom URL schemes in Info.plist", async function () {
+      const infoPlist = parse(
+        await fs.promises.readFile(
+          path.join(appPath, "Contents", "Info.plist"),
+          "utf-8",
+        ),
+      );
+      assert.deepStrictEqual(/** @type {any} */ (infoPlist).CFBundleURLTypes, [
+        {
+          CFBundleURLName: "io.nwutils.demo",
+          CFBundleURLSchemes: ["nwbuilder-demo", "nwbuilder-demo2"],
+        },
+      ]);
     });
 
     it("renames the executables correctly", async function () {

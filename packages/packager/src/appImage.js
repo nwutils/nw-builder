@@ -30,6 +30,7 @@ const APPIMAGETOOL_URL =
  * @property {string}                       [signKey]          ID of the GPG key to sign with. Defaults to `gpg`'s default secret key. Requires `sign` to be true.
  * @property {string}                       [version]          Version of the application, eg. `"1.2.0"`. Required when `publish` is set: it is written to the update info file `@nwutils/updater` compares against.
  * @property {PublishOptions}               [publish]          Where releases are published. When set, an `app-update.yml` pointing at it is embedded in the AppImage and a `latest-linux[-<arch>].yml` update info file is written next to it, for `@nwutils/updater` to self update from.
+ * @property {string[]}                     [protocols]        Custom URL schemes the app handles, eg. `["myapp"]` for `myapp://` links. Adds `x-scheme-handler/<scheme>` to the desktop entry's `MimeType`, and `%U` to its `Exec` so the URL reaches the app. AppImages aren't installed, so the desktop only picks this up once the AppImage is integrated, eg. by AppImageLauncher.
  * @property {string | boolean}             [updateInformation] AppImage update information for zsync based updaters (eg. AppImageUpdate, `appimageupdatetool`, AppImage managers). `true` derives it from `publish`. A string is embedded as-is, eg. `"gh-releases-zsync|owner|repo|latest|Demo-x86_64.AppImage.zsync"`. Requires `zsyncmake` on the host to produce the `.zsync` file.
  */
 
@@ -79,6 +80,7 @@ async function appImage({
   version,
   publish,
   updateInformation,
+  protocols,
 }) {
   if (process.platform !== "linux") {
     throw new Error(
@@ -148,6 +150,8 @@ async function appImage({
       );
     }
   }
+
+  util.validateProtocols(protocols);
 
   if (
     updateInformation !== undefined &&
@@ -248,6 +252,7 @@ async function appImage({
      * AppImage without one, but `@nwutils/builder`'s `app.categories` is
      * optional, so most callers won't have set it.
      */
+    /** @type {Record<string, string>} */
     const appImageDesktopEntry = {
       ...desktopEntry,
       Name: desktopEntry.Name ?? appName,
@@ -255,6 +260,20 @@ async function appImage({
       Icon: path.basename(iconFileName, path.extname(iconFileName)),
       Categories: desktopEntry.Categories || "Utility;",
     };
+    if (protocols !== undefined && protocols.length > 0) {
+      /* `%U` passes the opened `<scheme>://` URL to the app as an argument. */
+      appImageDesktopEntry.Exec += " %U";
+      const mimeTypes = (desktopEntry.MimeType ?? "")
+        .split(";")
+        .filter((mimeType) => mimeType !== "");
+      for (const protocol of protocols) {
+        const mimeType = `x-scheme-handler/${protocol}`;
+        if (mimeTypes.includes(mimeType) === false) {
+          mimeTypes.push(mimeType);
+        }
+      }
+      appImageDesktopEntry.MimeType = `${mimeTypes.join(";")};`;
+    }
     await fs.promises.writeFile(
       path.resolve(appImageDir, `${appName}.desktop`),
       util.stringifyDesktopEntry(appImageDesktopEntry),

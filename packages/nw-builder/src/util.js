@@ -5,6 +5,8 @@ import path from "node:path";
 import process from "node:process";
 import url from "node:url";
 
+import { validateProtocols } from "@nwutils/builder";
+import { desktopExecArg } from "@nwutils/packager";
 import * as GlobModule from "glob";
 
 /**
@@ -15,6 +17,7 @@ import * as GlobModule from "glob";
  * @typedef  {object}   AppOptions
  * @property {string}   [name]                            Name of the application
  * @property {string}   [icon]                             Path to icon file
+ * @property {string[] | string} [protocols]               Custom URL schemes the app handles, eg. `["myapp"]`. A comma separated string from the CLI is split into a list.
  * @property {string}   [genericName]                      Generic name of the application
  * @property {boolean}  [noDisplay]                        If true the application is not displayed
  * @property {string}   [comment]                          Tooltip for the entry
@@ -137,12 +140,28 @@ import * as GlobModule from "glob";
  */
 
 /**
+ * The `app` options to pass to `@nwutils/builder`. On Linux, `app.exec` is a
+ * path (see `parse()`), but the builder writes it into the desktop entry's
+ * `Exec` as-is, where a space or other reserved character would split it into
+ * several arguments: quote it the way the desktop entry spec requires.
+ * @param  {Options}    options  Options after `parse()`.
+ * @returns {AppOptions}          `app` options for `@nwutils/builder`.
+ */
+function builderApp(options) {
+  const app = options.app ?? {};
+  if (options.platform !== "linux" || typeof app.exec !== "string") {
+    return app;
+  }
+  return { ...app, exec: desktopExecArg(app.exec) };
+}
+
+/**
  * Map resolved options to the options `@nwutils/packager`'s `nsis()` takes,
  * besides `appDir`, `appName` and `arch`. Installer metadata comes from the
  * Windows `options.app` values `@nwutils/builder` also writes into the
  * executable, so both agree.
  * @param  {Options}  options  Options after `parse()`.
- * @returns {{version: string, icon: string | undefined, publisher: string | undefined, copyright: string | undefined, appId: string | undefined, license: string | undefined, desktopShortcut: boolean, startMenuShortcut: boolean, makensisPath: string | undefined, publish: import("@nwutils/packager").PublishOptions | undefined}} Options for `nsis()`.
+ * @returns {{version: string, icon: string | undefined, publisher: string | undefined, copyright: string | undefined, appId: string | undefined, license: string | undefined, desktopShortcut: boolean, startMenuShortcut: boolean, makensisPath: string | undefined, publish: import("@nwutils/packager").PublishOptions | undefined, protocols: string[] | undefined}} Options for `nsis()`.
  */
 function nsisOptions(options) {
   const app = options.app ?? {};
@@ -171,6 +190,8 @@ function nsisOptions(options) {
     startMenuShortcut: /** @type {boolean} */ (nsis.startMenuShortcut ?? true),
     makensisPath: nsis.makensisPath,
     publish: options.publish,
+    /* parse() has already split a CLI string into a list. */
+    protocols: /** @type {string[] | undefined} */ (app.protocols),
   };
 }
 
@@ -495,6 +516,13 @@ export const parse = async (options, pkg) => {
   }
   /* Path to where the icon currently is in the filesystem */
   options.app.icon = options.app.icon ?? pkg.window?.icon ?? undefined;
+  /* `--app.protocols=a,b` arrives from the CLI as a string. */
+  if (typeof options.app.protocols === "string") {
+    options.app.protocols = options.app.protocols
+      .split(",")
+      .map((/** @type {string} */ protocol) => protocol.trim())
+      .filter((/** @type {string} */ protocol) => protocol !== "");
+  }
 
   // TODO(#737): move this out
   if (options.platform === "linux") {
@@ -828,6 +856,8 @@ export const validate = async (options, releaseInfo) => {
 
   /* By the time validate() runs, parse() has already defaulted options.app to {}. */
   options.app = options.app ?? {};
+  /* Every platform, and before NW.js is downloaded or anything is built. */
+  validateProtocols(options.app.protocols);
 
   if (options.platform === "linux") {
     if (options.app.name && typeof options.app.name !== "string") {
@@ -1282,6 +1312,7 @@ export default {
   parse,
   validate,
   log,
+  builderApp,
   nsisOptions,
   dmgOptions,
 };

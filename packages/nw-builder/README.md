@@ -250,6 +250,66 @@ With the CLI, pass `--publish.provider=github --publish.owner=nwutils
 [`@nwutils/packager` docs](https://www.npmjs.com/package/@nwutils/packager) for
 the `generic` provider and more details.
 
+#### Deep links
+
+Set `app.protocols` to the custom URL schemes the app handles, eg. `["myapp"]`
+for `myapp://` links. Schemes are lowercase, and ones the browser or the OS
+relies on, such as `http`, `https` and `file`, are refused. With the CLI, pass
+`--app.protocols=myapp,other`. Prefer a scheme based on a domain you own, eg.
+`com.example.myapp`: short names like `myapp` can clash with another app.
+
+```javascript
+await nwbuild({
+  mode: "package",
+  app: { name: "Demo", protocols: ["myapp"] },
+});
+```
+
+- **Windows:** the NSIS installer registers each scheme for the current user,
+  and the uninstaller removes the ones still pointing at the app. A build
+  without the installer registers nothing. The registered command passes the
+  URL after `--`, so a crafted link can't add Chromium switches.
+- **MacOS:** the schemes are written to the app's `Info.plist`, in both build
+  and package mode. MacOS registers them once the app has been opened or moved
+  to `/Applications`.
+- **Linux:** the desktop entry gets `x-scheme-handler/<scheme>` in `MimeType`
+  and `%U` in `Exec`. An AppImage isn't installed, so the desktop only learns
+  about the schemes once the AppImage is integrated, eg. by AppImageLauncher, or
+  once the app copies its desktop entry to `~/.local/share/applications` and
+  runs `xdg-mime default <app>.desktop x-scheme-handler/<scheme>`.
+
+Opening a link starts the app with the URL as an argument, available in
+`nw.App.argv`. Links opened while the app runs reach the running instance
+through `nw.App.on("open", ...)`. That relies on NW.js' default of running a
+single instance, so don't set `"single-instance": false` in the manifest. Look
+for the URL by its scheme rather than its position:
+
+```javascript
+const handleLink = (args) => {
+  const link = [args]
+    .flat()
+    .join(" ")
+    .match(/myapp:\/\/[^\s"]+/)?.[0];
+  if (link === undefined) return;
+  const url = new URL(link);
+  // ...
+};
+handleLink(nw.App.argv);
+nw.App.on("open", handleLink);
+```
+
+Treat links as untrusted input: any web page or message can contain one.
+Check the URL's parts against what the app expects, and never pass them to
+`eval`, a shell, or a file path without validating them.
+
+Don't put secrets in links either. Nothing proves which app owns a scheme, so
+any program the user runs can register the same one and receive the links
+instead. For sign in, use [PKCE](https://www.rfc-editor.org/rfc/rfc7636), so an
+intercepted code is useless on its own, or a loopback redirect such as
+`http://127.0.0.1:<port>/callback` instead of a custom scheme, as
+[RFC 8252](https://www.rfc-editor.org/rfc/rfc8252) recommends for desktop
+apps. Make one-time links short lived and single use.
+
 #### Windows installer (NSIS)
 
 With `platform: "win"`, package mode builds an NSIS installer,

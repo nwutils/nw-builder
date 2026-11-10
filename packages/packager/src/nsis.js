@@ -21,6 +21,7 @@ import util from "./util.js";
  * @property {boolean}                      [desktopShortcut=true]   If true, create a desktop shortcut.
  * @property {boolean}                      [startMenuShortcut=true] If true, create a Start Menu shortcut.
  * @property {string}                       [makensisPath="makensis"] Path to the NSIS compiler. Defaults to `makensis` on the `PATH`.
+ * @property {string[]}                     [protocols]        Custom URL schemes the app handles, eg. `["myapp"]` for `myapp://` links. The installer registers each one for the current user, so opening such a link starts `<appName>.exe` with the URL as its argument. The uninstaller removes those still pointing at this installation.
  * @property {import("./appImage.js").PublishOptions} [publish] Where releases are published. When set, an `app-update.yml` pointing at it is installed next to the executable and a `latest[-<arch>].yml` update info file is written next to the installer, for `@nwutils/updater` to self update from.
  */
 
@@ -90,6 +91,7 @@ async function nsis({
   startMenuShortcut = true,
   makensisPath = "makensis",
   publish,
+  protocols,
 }) {
   if (typeof appDir !== "string" || appDir === "") {
     throw new Error(
@@ -185,6 +187,8 @@ async function nsis({
     util.validatePublish(publish);
   }
 
+  util.validateProtocols(protocols);
+
   const resolvedIconPath =
     icon === undefined
       ? undefined
@@ -246,6 +250,7 @@ async function nsis({
       desktopShortcut,
       startMenuShortcut,
       appUpdateYamlPath,
+      protocols,
     });
 
     const scriptPath = path.resolve(scriptDir, "installer.nsi");
@@ -370,6 +375,7 @@ async function listAppFiles(appDir) {
  * @param  {boolean}                   options.desktopShortcut
  * @param  {boolean}                   options.startMenuShortcut
  * @param  {string}                    [options.appUpdateYamlPath] Absolute path to an `app-update.yml` file to install next to the executable.
+ * @param  {string[]}                  [options.protocols]        Custom URL schemes to register, already validated.
  * @returns {string}
  */
 function nsisScript({
@@ -388,6 +394,7 @@ function nsisScript({
   desktopShortcut,
   startMenuShortcut,
   appUpdateYamlPath,
+  protocols = [],
 }) {
   const e = util.nsisEscape;
   const p = util.nsisPath;
@@ -554,6 +561,22 @@ function nsisScript({
     `  WriteRegDWORD HKCU ${uninstallKey} "NoModify" 1`,
     `  WriteRegDWORD HKCU ${uninstallKey} "NoRepair" 1`,
   );
+  /*
+   * Opening `<scheme>://...` starts the app with the URL as its argument.
+   * Windows pastes the URL into the command unescaped, so a `"` in it could
+   * end the quoted argument and add Chromium switches, eg. `--gpu-launcher`.
+   * `--` makes Chromium read everything after it as plain arguments.
+   */
+  const protocolCommand = `'${exe} -- "%1"'`;
+  for (const protocol of protocols) {
+    const classKey = `Software\\Classes\\${protocol}`;
+    lines.push(
+      `  WriteRegStr HKCU "${classKey}" "" "URL:${e(appName)}"`,
+      `  WriteRegStr HKCU "${classKey}" "URL Protocol" ""`,
+      `  WriteRegStr HKCU "${classKey}\\DefaultIcon" "" '${exe},0'`,
+      `  WriteRegStr HKCU "${classKey}\\shell\\open\\command" "" ${protocolCommand}`,
+    );
+  }
   if (publisher !== undefined) {
     lines.push(
       `  WriteRegStr HKCU ${uninstallKey} "Publisher" "${e(publisher)}"`,
@@ -589,6 +612,16 @@ function nsisScript({
     '  RMDir "$INSTDIR"',
     `  Delete "$SMPROGRAMS\\${e(appName)}.lnk"`,
     `  Delete "$DESKTOP\\${e(appName)}.lnk"`,
+    /* Leave a scheme alone if another app has registered it since. */
+    ...protocols.flatMap((protocol) => {
+      const classKey = `Software\\Classes\\${protocol}`;
+      return [
+        `  ReadRegStr $0 HKCU "${classKey}\\shell\\open\\command" ""`,
+        `  \${If} $0 == ${protocolCommand}`,
+        `    DeleteRegKey HKCU "${classKey}"`,
+        "  ${EndIf}",
+      ];
+    }),
     `  DeleteRegKey HKCU ${uninstallKey}`,
     "SectionEnd",
     "",

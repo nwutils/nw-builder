@@ -206,10 +206,65 @@ async function copyGlobFiles(files, destDir, cwd = process.cwd()) {
   }
 }
 
+/**
+ * URL schemes an app must not claim: the browser and the OS rely on them.
+ * @type {string[]}
+ */
+const RESERVED_PROTOCOLS = [
+  "about",
+  "blob",
+  "data",
+  "file",
+  "http",
+  "https",
+  "javascript",
+];
+
+/**
+ * Throw unless `protocols` is undefined or an array of distinct custom URL
+ * schemes, eg. `["myapp"]` for `myapp://` links. Schemes are lowercase, start
+ * with a letter and contain only letters, digits, `+`, `-` and `.`
+ * (RFC 3986), which also keeps them safe to write into desktop entries,
+ * `Info.plist` and installer scripts.
+ * @param {unknown} protocols
+ * @returns {void}
+ */
+function validateProtocols(protocols) {
+  if (protocols === undefined) {
+    return;
+  }
+  if (Array.isArray(protocols) === false) {
+    throw new Error(
+      `Expected "options.app.protocols" to be an array of URL schemes, eg. ["myapp"]. Received: ${JSON.stringify(protocols)}`,
+    );
+  }
+  for (const protocol of protocols) {
+    if (
+      typeof protocol !== "string" ||
+      /^[a-z][a-z0-9+.-]*$/.test(protocol) === false
+    ) {
+      throw new Error(
+        `Expected each of "options.app.protocols" to be a lowercase URL scheme without "://", eg. "myapp". Received: ${JSON.stringify(protocol)}`,
+      );
+    }
+    if (RESERVED_PROTOCOLS.includes(protocol)) {
+      throw new Error(
+        `"options.app.protocols" must not include ${JSON.stringify(protocol)}, which belongs to the browser or the OS.`,
+      );
+    }
+  }
+  if (new Set(protocols).size !== protocols.length) {
+    throw new Error(
+      `Expected "options.app.protocols" to have no duplicates. Received: ${JSON.stringify(protocols)}`,
+    );
+  }
+}
+
 export default {
   PLATFORM_KV,
   ARCH_KV,
   globFiles,
   zipDirectory,
   copyGlobFiles,
+  validateProtocols,
 };

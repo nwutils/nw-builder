@@ -1,6 +1,7 @@
 import appImage from "./appImage.js";
 import dmg from "./dmg.js";
 import nsis from "./nsis.js";
+import util from "./util.js";
 
 /**
  * Supported packaged output formats.
@@ -46,3 +47,7 @@ async function packager({ format, ...options }) {
 }
 
 export default packager;
+
+/* Lets nw-builder quote a path for a desktop entry's `Exec` with the same rules. */
+const { desktopExecArg } = util;
+export { desktopExecArg };

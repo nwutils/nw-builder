@@ -9,6 +9,7 @@ on:
       - "packages/packager/**"
       - "tests/fixtures/packager/**"
       - "tests/specs/packager/**"
+      - "tests/fixtures/deeplink/**"
 
 permissions:
   contents: read

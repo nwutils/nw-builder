@@ -9,6 +9,7 @@ on:
       - "packages/builder/**"
       - "tests/fixtures/builder/**"
       - "tests/specs/builder/**"
+      - "tests/fixtures/deeplink/**"
 
 permissions:
   contents: read

@@ -187,7 +187,7 @@ async function nwbuild(options) {
         cacheDir: resolved.cacheDir,
         outDir: resolved.outDir,
         app: /** @type {import("@nwutils/builder").LinuxRc | import("@nwutils/builder").WinRc | import("@nwutils/builder").OsxRc} */ (
-          resolved.app
+          util.builderApp(resolved)
         ),
         glob: resolved.glob,
         managedManifest: resolved.managedManifest,
@@ -245,6 +245,9 @@ async function nwbuild(options) {
             version: manifest.json?.version,
             publish: resolved.publish,
             updateInformation: resolved.updateInformation,
+            protocols: /** @type {string[] | undefined} */ (
+              resolved.app.protocols
+            ),
           });
         }
         util.log(

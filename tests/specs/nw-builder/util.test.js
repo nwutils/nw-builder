@@ -248,6 +248,13 @@ describe("util/validate", function () {
       await validateNsis({});
     });
 
+    it("throws before building on an invalid protocol", async function () {
+      await assert.rejects(
+        validateNsis({ app: { icon: "./icon.ico", protocols: ["https"] } }),
+        /belongs to the browser or the OS/,
+      );
+    });
+
     it("throws on a non-win platform", async function () {
       await assert.rejects(
         validateNsis({ platform: "linux", format: "nsis" }),
@@ -373,6 +380,14 @@ describe("util/validate", function () {
 });
 
 describe("util/parse", function () {
+  it("splits a comma separated app.protocols from the CLI", async function () {
+    const newOptions = await util.parse(
+      { app: { protocols: "myapp, other ,," } },
+      {},
+    );
+    assert.deepStrictEqual(newOptions.app.protocols, ["myapp", "other"]);
+  });
+
   // It is the job of the respective `set<platformName>Config` to resolve the app.icon path
   it("doesnt resolve app.icon", async function () {
     const newOptions = await util.parse({ app: { icon: "." } }, {});
@@ -484,6 +499,31 @@ describe("util/parse", function () {
   });
 });
 
+describe("util/builderApp", function () {
+  it("quotes a Linux exec path for the desktop entry", function () {
+    assert.deepStrictEqual(
+      util.builderApp({
+        platform: "linux",
+        app: { name: "Demo", exec: "/opt/My App/Demo" },
+      }),
+      { name: "Demo", exec: '"/opt/My App/Demo"' },
+    );
+  });
+
+  it("leaves a plain Linux exec path as-is", function () {
+    assert.strictEqual(
+      util.builderApp({ platform: "linux", app: { exec: "/opt/demo/Demo" } })
+        .exec,
+      "/opt/demo/Demo",
+    );
+  });
+
+  it("leaves other platforms alone", function () {
+    const app = { name: "Demo", exec: "/opt/My App/Demo" };
+    assert.strictEqual(util.builderApp({ platform: "win", app }), app);
+  });
+});
+
 describe("util/nsisOptions", function () {
   it("maps the Windows app options to installer options", function () {
     assert.deepStrictEqual(
@@ -494,6 +534,7 @@ describe("util/nsisOptions", function () {
           company: "ACME",
           legalCopyright: "(c) ACME",
           icon: "./icon.ICO",
+          protocols: ["myapp"],
         },
         nsis: {
           appId: "com.example.demo",
@@ -515,6 +556,7 @@ describe("util/nsisOptions", function () {
         startMenuShortcut: true,
         makensisPath: "/opt/nsis/makensis",
         publish: { provider: "github", owner: "nwutils", repo: "demo" },
+        protocols: ["myapp"],
       },
     );
   });

@@ -147,6 +147,8 @@ export interface WindowsAppOptions {
   specialBuild?: string;
   /** Language of the file, defined by Microsoft, see: https://learn.microsoft.com/en-us/openspecs/office_standards/ms-oe376/6c085406-a698-4e12-9d4d-c3b0ee3dbc4a */
   languageCode?: number;
+  /** Custom URL schemes the app handles, eg. `["myapp"]` for `myapp://` links. See "Deep links" in the README. */
+  protocols?: string[];
 }
 
 /** Linux configuration options
@@ -197,6 +199,8 @@ export interface LinuxAppOptions {
   prefersNonDefaultGPU?: boolean;
   /** If true, the application has a single main window, and does not support having an additional one opened. */
   singleMainWindow?: string;
+  /** Custom URL schemes the app handles, eg. `["myapp"]` for `myapp://` links. See "Deep links" in the README. */
+  protocols?: string[];
 }
 
 /** OSX resource configuration options
@@ -227,6 +231,8 @@ export interface OsxAppOptions {
   NSHumanReadableCopyright?: string;
   /** A human-readable description of why the application needs access to the local network. */
   NSLocalNetworkUsageDescription?: string;
+  /** Custom URL schemes the app handles, eg. `["myapp"]` for `myapp://` links. See "Deep links" in the README. */
+  protocols?: string[];
   /** A Boolean value indicating whether the files this app creates are quarantined by default. */
   LSFileQuarantineEnabled?: boolean;
 }
