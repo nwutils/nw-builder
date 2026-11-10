@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.9.0](https://github.com/nwutils/nw-builder/compare/@nwutils/packager-v0.8.0...@nwutils/packager-v0.9.0) (2026-11-10)
+
+
+### Features
+
+* register custom URL protocols (deep links) ([#1718](https://github.com/nwutils/nw-builder/issues/1718)) ([8592578](https://github.com/nwutils/nw-builder/commit/8592578fdc694c6abbd1300807c94a1d5fa0aa48))
+
+
+### Bug Fixes
+
+* **packager:** escape quotes and backticks in NSIS strings ([#1714](https://github.com/nwutils/nw-builder/issues/1714)) ([6aa7309](https://github.com/nwutils/nw-builder/commit/6aa730989491d8d845fa81b15272c0d5e722d588))
+* **packager:** make the AppImage staging directory world-readable ([#1712](https://github.com/nwutils/nw-builder/issues/1712)) ([6b05733](https://github.com/nwutils/nw-builder/commit/6b05733045dc1969f5a24c3bca7a98dc24a53943))
+
 ## [0.8.0](https://github.com/nwutils/nw-builder/compare/@nwutils/packager-v0.7.0...@nwutils/packager-v0.8.0) (2026-10-16)
 
 
