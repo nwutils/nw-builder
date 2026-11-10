@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/nwutils/nw-builder/compare/@nwutils/builder-v0.2.0...@nwutils/builder-v0.2.1) (2026-11-10)
+
+
+### Chores
+
+* **builder:** remove workaround for nwjs/nw.js[#8371](https://github.com/nwutils/nw-builder/issues/8371) ([#1719](https://github.com/nwutils/nw-builder/issues/1719)) ([0d25e4a](https://github.com/nwutils/nw-builder/commit/0d25e4aa04b599ece554042c4c556210354fb149))
+
 ## [0.2.0](https://github.com/nwutils/nw-builder/compare/@nwutils/builder-v0.1.5...@nwutils/builder-v0.2.0) (2026-11-10)
 
 
