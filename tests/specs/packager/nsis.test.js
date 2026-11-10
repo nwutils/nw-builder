@@ -457,7 +457,7 @@ describe("packager/nsis", function () {
         '  WriteRegStr HKCU "Software\\Classes\\myapp" "" "URL:Demo"',
         '  WriteRegStr HKCU "Software\\Classes\\myapp" "URL Protocol" ""',
         `  WriteRegStr HKCU "Software\\Classes\\myapp\\DefaultIcon" "" '"$INSTDIR\\Demo.exe",0'`,
-        `  WriteRegStr HKCU "Software\\Classes\\myapp\\shell\\open\\command" "" '"$INSTDIR\\Demo.exe" "%1"'`,
+        `  WriteRegStr HKCU "Software\\Classes\\myapp\\shell\\open\\command" "" '"$INSTDIR\\Demo.exe" -- "%1"'`,
       ]) {
         assert.ok(contents.includes(line), line);
       }
@@ -466,7 +466,7 @@ describe("packager/nsis", function () {
         uninstall.includes(
           [
             '  ReadRegStr $0 HKCU "Software\\Classes\\myapp\\shell\\open\\command" ""',
-            `  \${If} $0 == '"$INSTDIR\\Demo.exe" "%1"'`,
+            `  \${If} $0 == '"$INSTDIR\\Demo.exe" -- "%1"'`,
             '    DeleteRegKey HKCU "Software\\Classes\\myapp"',
             "  ${EndIf}",
           ].join("\n"),

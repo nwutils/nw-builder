@@ -14,6 +14,8 @@
 
       /* A link that starts the app arrives as an argument. */
       record("argv", nw.App.argv);
+      /* Every argument, switches included: shows what Chromium read as a switch. */
+      record("fullArgv", nw.App.fullArgv);
       /* A link opened while the app runs reaches this, the running, instance. */
       nw.App.on("open", (args) => record("open", args));
     </script>

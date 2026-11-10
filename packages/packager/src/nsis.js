@@ -561,14 +561,20 @@ function nsisScript({
     `  WriteRegDWORD HKCU ${uninstallKey} "NoModify" 1`,
     `  WriteRegDWORD HKCU ${uninstallKey} "NoRepair" 1`,
   );
-  /* Opening `<scheme>://...` starts the app with the URL as its argument. */
+  /*
+   * Opening `<scheme>://...` starts the app with the URL as its argument.
+   * Windows pastes the URL into the command unescaped, so a `"` in it could
+   * end the quoted argument and add Chromium switches, eg. `--gpu-launcher`.
+   * `--` makes Chromium read everything after it as plain arguments.
+   */
+  const protocolCommand = `'${exe} -- "%1"'`;
   for (const protocol of protocols) {
     const classKey = `Software\\Classes\\${protocol}`;
     lines.push(
       `  WriteRegStr HKCU "${classKey}" "" "URL:${e(appName)}"`,
       `  WriteRegStr HKCU "${classKey}" "URL Protocol" ""`,
       `  WriteRegStr HKCU "${classKey}\\DefaultIcon" "" '${exe},0'`,
-      `  WriteRegStr HKCU "${classKey}\\shell\\open\\command" "" '${exe} "%1"'`,
+      `  WriteRegStr HKCU "${classKey}\\shell\\open\\command" "" ${protocolCommand}`,
     );
   }
   if (publisher !== undefined) {
@@ -611,7 +617,7 @@ function nsisScript({
       const classKey = `Software\\Classes\\${protocol}`;
       return [
         `  ReadRegStr $0 HKCU "${classKey}\\shell\\open\\command" ""`,
-        `  \${If} $0 == '${exe} "%1"'`,
+        `  \${If} $0 == ${protocolCommand}`,
         `    DeleteRegKey HKCU "${classKey}"`,
         "  ${EndIf}",
       ];

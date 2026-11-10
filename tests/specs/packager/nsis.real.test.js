@@ -56,6 +56,25 @@ describe(
 
     let installerPath;
     let installDir;
+
+    /**
+     * Close every instance of the app, and wait until Windows has let go of it.
+     * @returns {Promise<void>}
+     */
+    async function closeApp() {
+      child_process.spawnSync("taskkill", ["/IM", "Demo.exe", "/T", "/F"]);
+      for (let attempt = 0; attempt < 20; attempt++) {
+        const tasks = child_process.spawnSync(
+          "tasklist",
+          ["/FI", "IMAGENAME eq Demo.exe", "/NH"],
+          { encoding: "utf-8" },
+        );
+        if (tasks.stdout.includes("Demo.exe") === false) {
+          return;
+        }
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      }
+    }
     /* The app records the deep links it receives here. */
     let appSrcDir;
     let recordFile;
@@ -163,12 +182,14 @@ describe(
         { encoding: "utf-8" },
       );
       assert.strictEqual(commandQuery.status, 0, "protocol command is missing");
+      const exePath = path.join(installDir, "Demo.exe");
       assert.ok(
-        commandQuery.stdout.includes(
-          `"${path.join(installDir, "Demo.exe")}" "%1"`,
-        ),
+        commandQuery.stdout.includes(`"${exePath}" -- "%1"`),
         commandQuery.stdout,
       );
+      const command = commandQuery.stdout
+        .slice(commandQuery.stdout.indexOf("REG_SZ") + "REG_SZ".length)
+        .trim();
 
       /* Open links the way a browser would: through the registered scheme. */
       const coldUrl = `${protocol}://cold`;
@@ -181,19 +202,36 @@ describe(
       const warm = await waitForDeepLink(recordFile, warmUrl);
       assert.strictEqual(warm.event, "open", JSON.stringify(warm));
 
-      /* A silent uninstall aborts while the app is running, so wait until it's gone. */
-      child_process.spawnSync("taskkill", ["/IM", "Demo.exe", "/T", "/F"]);
-      for (let attempt = 0; attempt < 20; attempt++) {
-        const tasks = child_process.spawnSync(
-          "tasklist",
-          ["/FI", "IMAGENAME eq Demo.exe", "/NH"],
-          { encoding: "utf-8" },
-        );
-        if (tasks.stdout.includes("Demo.exe") === false) {
-          break;
-        }
-        await new Promise((resolve) => setTimeout(resolve, 500));
-      }
+      await closeApp();
+
+      /*
+       * A launcher that doesn't escape `"` lets a link end the quoted `%1`
+       * and add arguments. Start the app the way Windows would for such a
+       * link: the registered command with the URL pasted in verbatim. The
+       * injected `--` argument must reach the app as a plain argument, not
+       * be read by Chromium as a switch.
+       */
+      const injectedUrl = `${protocol}://inject" --nwbuilder-injected="1`;
+      const commandLine = command.replace("%1", injectedUrl);
+      child_process
+        .spawn(exePath, [commandLine.slice(commandLine.indexOf(" --") + 1)], {
+          windowsVerbatimArguments: true,
+          detached: true,
+          stdio: "ignore",
+        })
+        .unref();
+      const injected = await waitForDeepLink(
+        recordFile,
+        "--nwbuilder-injected",
+      );
+      assert.strictEqual(
+        injected.event,
+        "argv",
+        `The injected switch didn't arrive as a plain argument: ${JSON.stringify(injected)}`,
+      );
+
+      /* A silent uninstall aborts while the app is running. */
+      await closeApp();
 
       /*
        * Without `_?=` the uninstaller copies itself to a temporary directory

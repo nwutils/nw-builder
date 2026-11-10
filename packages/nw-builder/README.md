@@ -266,7 +266,8 @@ await nwbuild({
 
 - **Windows:** the NSIS installer registers each scheme for the current user,
   and the uninstaller removes the ones still pointing at the app. A build
-  without the installer registers nothing.
+  without the installer registers nothing. The registered command passes the
+  URL after `--`, so a crafted link can't add Chromium switches.
 - **MacOS:** the schemes are written to the app's `Info.plist`, in both build
   and package mode. MacOS registers them once the app has been opened or moved
   to `/Applications`.
@@ -278,7 +279,27 @@ await nwbuild({
 
 Opening a link starts the app with the URL as an argument, available in
 `nw.App.argv`. Links opened while the app runs reach the running instance
-through `nw.App.on("open", ...)`.
+through `nw.App.on("open", ...)`. That relies on NW.js' default of running a
+single instance, so don't set `"single-instance": false` in the manifest. Look
+for the URL by its scheme rather than its position:
+
+```javascript
+const handleLink = (args) => {
+  const link = [args]
+    .flat()
+    .join(" ")
+    .match(/myapp:\/\/[^\s"]+/)?.[0];
+  if (link === undefined) return;
+  const url = new URL(link);
+  // ...
+};
+handleLink(nw.App.argv);
+nw.App.on("open", handleLink);
+```
+
+Treat links as untrusted input: any web page or message can contain one.
+Check the URL's parts against what the app expects, and never pass them to
+`eval`, a shell, or a file path without validating them.
 
 #### Windows installer (NSIS)
 
