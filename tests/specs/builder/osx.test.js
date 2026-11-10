@@ -27,7 +27,6 @@ describe(
       path.join(repoRoot, "node_modules/nw"),
       "https://nwjs.io/versions.json",
     );
-    /* TODO: Version mismatch tracked in https://github.com/nwjs/nw.js/issues/8371 */
     const chromiumVersion = releaseInfo.components.chromium;
     const helperAlertsPath = path.join(
       appPath,
