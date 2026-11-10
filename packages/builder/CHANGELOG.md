@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.0](https://github.com/nwutils/nw-builder/compare/@nwutils/builder-v0.1.5...@nwutils/builder-v0.2.0) (2026-11-10)
+
+
+### Features
+
+* register custom URL protocols (deep links) ([#1718](https://github.com/nwutils/nw-builder/issues/1718)) ([8592578](https://github.com/nwutils/nw-builder/commit/8592578fdc694c6abbd1300807c94a1d5fa0aa48))
+
+
+### Bug Fixes
+
+* **builder:** seperate desktop entry items by semicolons ([#1717](https://github.com/nwutils/nw-builder/issues/1717)) ([fe86c0f](https://github.com/nwutils/nw-builder/commit/fe86c0f96d0b6dfa750ae10988026b596add75e2))
+
 ## [0.1.5](https://github.com/nwutils/nw-builder/compare/@nwutils/builder-v0.1.4...@nwutils/builder-v0.1.5) (2026-11-07)
 
 
