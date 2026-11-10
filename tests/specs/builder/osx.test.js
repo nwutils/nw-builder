@@ -27,7 +27,6 @@ describe(
       path.join(repoRoot, "node_modules/nw"),
       "https://nwjs.io/versions.json",
     );
-    /* TODO: Version mismatch tracked in https://github.com/nwjs/nw.js/issues/8371 */
     const chromiumVersion = releaseInfo.components.chromium;
     const helperAlertsPath = path.join(
       appPath,
@@ -35,7 +34,7 @@ describe(
       "Frameworks",
       "nwjs Framework.framework",
       "Versions",
-      "Current",
+      chromiumVersion,
       "Helpers",
       "Demo Helper (Alerts).app",
     );
@@ -45,7 +44,7 @@ describe(
       "Frameworks",
       "nwjs Framework.framework",
       "Versions",
-      "Current",
+      chromiumVersion,
       "Helpers",
       "Demo Helper (GPU).app",
     );
@@ -55,7 +54,7 @@ describe(
       "Frameworks",
       "nwjs Framework.framework",
       "Versions",
-      "Current",
+      chromiumVersion,
       "Helpers",
       "Demo Helper (Renderer).app",
     );
@@ -65,7 +64,7 @@ describe(
       "Frameworks",
       "nwjs Framework.framework",
       "Versions",
-      "Current",
+      chromiumVersion,
       "Helpers",
       "Demo Helper.app",
     );
