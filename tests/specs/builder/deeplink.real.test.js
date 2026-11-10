@@ -5,6 +5,7 @@ import os from "node:os";
 import path from "node:path";
 import process from "node:process";
 import { after, before, describe, it } from "node:test";
+import { setTimeout as sleep } from "node:timers/promises";
 
 import get from "@nwutils/getter";
 
@@ -22,6 +23,26 @@ const repoRoot = path.resolve(import.meta.dirname, "..", "..", "..");
 const LSREGISTER =
   "/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister";
 
+/** `kLSApplicationNotFoundErr`: LaunchServices knows no app for the URL. */
+const APPLICATION_NOT_FOUND = "-10814";
+
+/**
+ * Lines of the LaunchServices database that mention `needle`.
+ * @param {string} needle
+ * @returns {string[]}
+ */
+function launchServicesLines(needle) {
+  /* The dump is the whole database, often several megabytes. */
+  const dump = child_process.spawnSync(LSREGISTER, ["-dump"], {
+    encoding: "utf-8",
+    maxBuffer: 512 * 1024 * 1024,
+  });
+  return (dump.stdout ?? "")
+    .split("\n")
+    .filter((line) => line.includes(needle))
+    .map((line) => line.trim());
+}
+
 /*
  * End to end: builds a real NW.js MacOS app with `app.protocols`, registers it
  * with LaunchServices and opens links with `open`, the way a browser would.
@@ -37,9 +58,43 @@ describe(
     const cacheDir = path.join(repoRoot, "tests/fixtures/builder/cache");
     /* Unique, so a registration left over from an earlier run can't answer. */
     const protocol = `nwbuilder-test-${process.pid}`;
+    /* LaunchServices indexes ~/Applications like a user's real install location, unlike temporary directories. */
+    const appPath = path.join(os.homedir(), "Applications", `${protocol}.app`);
     let tmpDir = "";
-    let appPath = "";
     let recordFile = "";
+
+    /**
+     * Open `url` with `open`, retrying while LaunchServices doesn't know the
+     * scheme yet: registering is asynchronous.
+     * @param {string} url
+     * @returns {Promise<void>}
+     */
+    async function openUrl(url) {
+      const deadline = Date.now() + 30_000;
+      for (;;) {
+        const result = child_process.spawnSync("open", [url], {
+          encoding: "utf-8",
+        });
+        if (result.status === 0) {
+          return;
+        }
+        if (
+          result.stderr.includes(APPLICATION_NOT_FOUND) === false ||
+          Date.now() > deadline
+        ) {
+          throw new Error(
+            [
+              `open ${url} failed: ${result.stderr.trim()}`,
+              `LaunchServices entries for ${protocol}:`,
+              ...launchServicesLines(protocol),
+              `LaunchServices entries for ${appPath}:`,
+              ...launchServicesLines(appPath),
+            ].join("\n"),
+          );
+        }
+        await sleep(1000);
+      }
+    }
 
     before(async function () {
       tmpDir = await fs.promises.mkdtemp(
@@ -48,7 +103,6 @@ describe(
       const srcDir = path.join(tmpDir, "src");
       const outDir = path.join(tmpDir, "out");
       recordFile = path.join(tmpDir, "record.jsonl");
-      appPath = path.join(outDir, "Demo.app");
       await prepareDeepLinkApp(srcDir, recordFile);
 
       const nwOptions = {
@@ -92,6 +146,12 @@ describe(
         releaseInfo,
       });
 
+      /* `ditto` keeps the bundle's symbolic links. */
+      await fs.promises.mkdir(path.dirname(appPath), { recursive: true });
+      child_process.execFileSync("ditto", [
+        path.join(outDir, "Demo.app"),
+        appPath,
+      ]);
       /* Building edits the bundle, which breaks NW.js' signature: re-sign ad-hoc so MacOS runs it. */
       child_process.execFileSync("codesign", [
         "--force",
@@ -102,20 +162,30 @@ describe(
       ]);
       /* Register now, rather than relying on the app having been launched once. */
       child_process.execFileSync(LSREGISTER, ["-f", appPath]);
+
+      /* Registering finishes in the background: wait until the scheme shows up. */
+      const deadline = Date.now() + 30_000;
+      while (
+        launchServicesLines(`${protocol}:`).length === 0 &&
+        Date.now() < deadline
+      ) {
+        await sleep(1000);
+      }
     });
 
     after(async function () {
       child_process.spawnSync("pkill", ["-f", appPath]);
       child_process.spawnSync(LSREGISTER, ["-u", appPath]);
+      await fs.promises.rm(appPath, { recursive: true, force: true });
       await fs.promises.rm(tmpDir, { recursive: true, force: true });
     });
 
     it(
       "starts the app with the link in nw.App.argv",
-      { timeout: 120_000 },
+      { timeout: 180_000 },
       async function () {
         const url = `${protocol}://cold`;
-        child_process.execFileSync("open", [url]);
+        await openUrl(url);
         const record = await waitForDeepLink(recordFile, url);
         assert.strictEqual(record.event, "argv", JSON.stringify(record));
       },
@@ -123,10 +193,10 @@ describe(
 
     it(
       "passes a link to the running app through nw.App.on('open')",
-      { timeout: 120_000 },
+      { timeout: 180_000 },
       async function () {
         const url = `${protocol}://warm`;
-        child_process.execFileSync("open", [url]);
+        await openUrl(url);
         const record = await waitForDeepLink(recordFile, url);
         assert.strictEqual(record.event, "open", JSON.stringify(record));
       },
