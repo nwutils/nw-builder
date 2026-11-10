@@ -187,6 +187,34 @@ describe(
       assert.strictEqual(helperExePathExists, true);
     });
 
+    /*
+     * Repro for https://github.com/nwjs/nw.js/issues/8371: since NW.js
+     * v0.113.0 the framework's version folder hasn't matched the Chromium
+     * version in versions.json, which is why the builder renames the helpers
+     * through `Versions/Current`. A todo test reports the result without
+     * failing CI while the issue is open.
+     */
+    it(
+      "names the framework version folder after versions.json's Chromium",
+      { todo: "https://github.com/nwjs/nw.js/issues/8371" },
+      async function () {
+        const versionsDir = path.join(
+          appPath,
+          "Contents",
+          "Frameworks",
+          "nwjs Framework.framework",
+          "Versions",
+        );
+        const folders = (await fs.promises.readdir(versionsDir)).filter(
+          (folder) => folder !== "Current",
+        );
+        console.log(
+          `nw.js#8371: NW.js ${releaseInfo.version} versions.json Chromium ${chromiumVersion}, framework version folder(s) ${folders.join(", ")}`,
+        );
+        assert.deepStrictEqual(folders, [chromiumVersion]);
+      },
+    );
+
     it("", async function () {
       const ContentsInfoPlistPath = path.resolve(
         appPath,
