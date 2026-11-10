@@ -6,8 +6,6 @@ import process from "node:process";
 import { build, parse } from "plist";
 import semver from "semver";
 
-import util from "./util.js";
-
 /**
  * Function to update Helper App Plist Files
  * @param {string} plistPath             - Path to Helper App Plist File
@@ -84,15 +82,12 @@ export default async function setOsxConfig({
       path.resolve(outApp, "Contents", "MacOS", app.name),
     );
 
-    /* Rename all Helper apps, in the framework's real version directory. */
+    /* Rename all Helper apps */
     const helperBaseDir = path.resolve(
-      await util.frameworkVersionDir(
-        path.resolve(
-          outApp,
-          "Contents/Frameworks/nwjs Framework.framework/Versions",
-        ),
-        chromiumVersion,
-      ),
+      outApp,
+      "Contents/Frameworks/nwjs Framework.framework/Versions",
+      /* TODO: Version mismatch tracked in https://github.com/nwjs/nw.js/issues/8371 */
+      chromiumVersion,
       "Helpers",
     );
 

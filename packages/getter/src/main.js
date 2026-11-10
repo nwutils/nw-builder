@@ -348,16 +348,13 @@ async function get(options) {
       ffmpegBinaryDest = path.resolve(nwDirPath, ffmpegFileName);
     } else if (options.platform === "osx") {
       ffmpegBinaryDest = path.resolve(
-        await frameworkVersionDir(
-          path.resolve(
-            nwDirPath,
-            "nwjs.app",
-            "Contents",
-            "Frameworks",
-            "nwjs Framework.framework",
-            "Versions",
-          ),
-        ),
+        nwDirPath,
+        "nwjs.app",
+        "Contents",
+        "Frameworks",
+        "nwjs Framework.framework",
+        "Versions",
+        "Current",
         ffmpegFileName,
       );
     }
@@ -413,29 +410,4 @@ async function get(options) {
   }
 }
 
-/**
- * Find the real version directory inside a MacOS framework's `Versions`
- * directory, without going through the `Current` symbolic link. Its name
- * doesn't always match versions.json's Chromium version
- * (https://github.com/nwjs/nw.js/issues/8371), so use the only one there is.
- * @param  {string} versionsDir  Path to `<framework>/Versions`.
- * @returns {Promise<string>}     Path to the version directory.
- */
-async function frameworkVersionDir(versionsDir) {
-  const entries = await fs.promises.readdir(versionsDir, {
-    withFileTypes: true,
-  });
-  /* A Dirent of a symbolic link, like `Current`, is never a directory. */
-  const versions = entries
-    .filter((entry) => entry.isDirectory())
-    .map((entry) => entry.name);
-  if (versions.length !== 1) {
-    throw new Error(
-      `Expected one version directory in ${versionsDir}. Found: ${versions.length === 0 ? "none" : versions.join(", ")}`,
-    );
-  }
-  return path.join(versionsDir, versions[0]);
-}
-
 export default get;
-export { frameworkVersionDir };

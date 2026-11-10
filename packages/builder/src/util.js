@@ -260,37 +260,6 @@ function validateProtocols(protocols) {
   }
 }
 
-/**
- * Find the real version directory inside a MacOS framework's `Versions`
- * directory, without going through the `Current` symbolic link.
- *
- * Prefers the directory named after `preferredVersion` (the Chromium version
- * in versions.json). NW.js v0.113.0 to at least v0.115.0 name it differently
- * (https://github.com/nwjs/nw.js/issues/8371), so otherwise use the only real
- * directory there is.
- * @param  {string}           versionsDir       Path to `<framework>/Versions`.
- * @param  {string | undefined} [preferredVersion] Expected version directory name.
- * @returns {Promise<string>}                     Path to the version directory.
- */
-async function frameworkVersionDir(versionsDir, preferredVersion) {
-  const entries = await fs.promises.readdir(versionsDir, {
-    withFileTypes: true,
-  });
-  /* A Dirent of a symbolic link, like `Current`, is never a directory. */
-  const versions = entries
-    .filter((entry) => entry.isDirectory())
-    .map((entry) => entry.name);
-  if (preferredVersion !== undefined && versions.includes(preferredVersion)) {
-    return path.join(versionsDir, preferredVersion);
-  }
-  if (versions.length === 1) {
-    return path.join(versionsDir, versions[0]);
-  }
-  throw new Error(
-    `Expected one version directory in ${versionsDir}${preferredVersion === undefined ? "" : ` or one named ${preferredVersion}`}. Found: ${versions.length === 0 ? "none" : versions.join(", ")}`,
-  );
-}
-
 export default {
   PLATFORM_KV,
   ARCH_KV,
@@ -298,5 +267,4 @@ export default {
   zipDirectory,
   copyGlobFiles,
   validateProtocols,
-  frameworkVersionDir,
 };
