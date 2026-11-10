@@ -27,48 +27,12 @@ describe(
       path.join(repoRoot, "node_modules/nw"),
       "https://nwjs.io/versions.json",
     );
-    /* TODO: Version mismatch tracked in https://github.com/nwjs/nw.js/issues/8371 */
     const chromiumVersion = releaseInfo.components.chromium;
-    const helperAlertsPath = path.join(
-      appPath,
-      "Contents",
-      "Frameworks",
-      "nwjs Framework.framework",
-      "Versions",
-      "Current",
-      "Helpers",
-      "Demo Helper (Alerts).app",
-    );
-    const helperGPUPath = path.join(
-      appPath,
-      "Contents",
-      "Frameworks",
-      "nwjs Framework.framework",
-      "Versions",
-      "Current",
-      "Helpers",
-      "Demo Helper (GPU).app",
-    );
-    const helperRendererPath = path.join(
-      appPath,
-      "Contents",
-      "Frameworks",
-      "nwjs Framework.framework",
-      "Versions",
-      "Current",
-      "Helpers",
-      "Demo Helper (Renderer).app",
-    );
-    const helperPath = path.join(
-      appPath,
-      "Contents",
-      "Frameworks",
-      "nwjs Framework.framework",
-      "Versions",
-      "Current",
-      "Helpers",
-      "Demo Helper.app",
-    );
+    /* Set once the app is built: the helpers live in the framework's real version directory. */
+    let helperAlertsPath = "";
+    let helperGPUPath = "";
+    let helperRendererPath = "";
+    let helperPath = "";
 
     before(async function () {
       /* Copy the cached NW.js into a specific `outDir`. */
@@ -100,6 +64,23 @@ describe(
           },
         },
       });
+
+      const versionsDir = path.join(
+        appPath,
+        "Contents",
+        "Frameworks",
+        "nwjs Framework.framework",
+        "Versions",
+      );
+      const versionDirs = (
+        await fs.promises.readdir(versionsDir, { withFileTypes: true })
+      ).filter((entry) => entry.isDirectory());
+      assert.strictEqual(versionDirs.length, 1, "one real version directory");
+      const helpersDir = path.join(versionsDir, versionDirs[0].name, "Helpers");
+      helperAlertsPath = path.join(helpersDir, "Demo Helper (Alerts).app");
+      helperGPUPath = path.join(helpersDir, "Demo Helper (GPU).app");
+      helperRendererPath = path.join(helpersDir, "Demo Helper (Renderer).app");
+      helperPath = path.join(helpersDir, "Demo Helper.app");
     });
 
     after(async function () {
@@ -191,7 +172,7 @@ describe(
      * Repro for https://github.com/nwjs/nw.js/issues/8371: since NW.js
      * v0.113.0 the framework's version folder hasn't matched the Chromium
      * version in versions.json, which is why the builder renames the helpers
-     * through `Versions/Current`. A todo test reports the result without
+     * through the real version directory. A todo test reports the result without
      * failing CI while the issue is open.
      */
     it(
