@@ -255,7 +255,8 @@ the `generic` provider and more details.
 Set `app.protocols` to the custom URL schemes the app handles, eg. `["myapp"]`
 for `myapp://` links. Schemes are lowercase, and ones the browser or the OS
 relies on, such as `http`, `https` and `file`, are refused. With the CLI, pass
-`--app.protocols=myapp,other`.
+`--app.protocols=myapp,other`. Prefer a scheme based on a domain you own, eg.
+`com.example.myapp`: short names like `myapp` can clash with another app.
 
 ```javascript
 await nwbuild({
@@ -300,6 +301,14 @@ nw.App.on("open", handleLink);
 Treat links as untrusted input: any web page or message can contain one.
 Check the URL's parts against what the app expects, and never pass them to
 `eval`, a shell, or a file path without validating them.
+
+Don't put secrets in links either. Nothing proves which app owns a scheme, so
+any program the user runs can register the same one and receive the links
+instead. For sign in, use [PKCE](https://www.rfc-editor.org/rfc/rfc7636), so an
+intercepted code is useless on its own, or a loopback redirect such as
+`http://127.0.0.1:<port>/callback` instead of a custom scheme, as
+[RFC 8252](https://www.rfc-editor.org/rfc/rfc8252) recommends for desktop
+apps. Make one-time links short lived and single use.
 
 #### Windows installer (NSIS)
 
