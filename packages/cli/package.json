@@ -50,7 +50,7 @@
   "dependencies": {
     "@nwutils/getter": "^0.2.4",
     "@nwutils/runner": "^0.2.7",
-    "commander": "^15.0.0"
+    "commander": "^15.1.0"
   },
   "devEngines": {
     "runtime": {
