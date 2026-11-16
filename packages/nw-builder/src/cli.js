@@ -36,6 +36,10 @@ program
   .option("--cacheDir <string>", "Cache NW.js binaries", "./cache")
   .option("--outDir <string>", "NW.js build artifacts", "./out")
   .option(
+    "--pkgDir <string>",
+    "Packages, used in package mode. Defaults to the parent of --outDir",
+  )
+  .option(
     "--app <object>",
     "Platform specific app metadata. Refer to docs for more info",
   )

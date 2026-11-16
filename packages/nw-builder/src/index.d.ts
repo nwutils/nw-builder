@@ -20,6 +20,8 @@ export interface Options<P extends SupportedPlatform = SupportedPlatform> {
   arch?: "ia32" | "x64" | "arm64";
   /** Directory to store build artifacts */
   outDir?: "./out" | string;
+  /** Directory to store packages, used in package mode. Defaults to the parent of `outDir`. Must not be `outDir` or inside it. */
+  pkgDir?: string;
   /** Directry to store NW binaries */
   cacheDir?: "./cache" | string;
   /** URI to download NW binaries from */
