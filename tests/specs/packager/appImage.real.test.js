@@ -37,7 +37,7 @@ describe(
     const distDir = path.join(repoRoot, "tests/fixtures/packager/dist");
 
     const nwOptions = {
-      version: "0.115.0",
+      version: "0.120.0",
       flavor: "sdk",
       platform: util.PLATFORM_KV[process.platform],
       arch: util.ARCH_KV[process.arch],

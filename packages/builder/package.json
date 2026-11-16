@@ -46,12 +46,12 @@
     "test": "node --test \"../../tests/specs/builder/*.test.js\""
   },
   "dependencies": {
-    "glob": "^14.0.3",
+    "glob": "^14.0.6",
     "pe-library": "^2.0.1",
-    "plist": "^5.0.0",
+    "plist": "^5.1.1",
     "resedit": "^3.1.0",
     "semver": "^7.8.5",
-    "tar": "^7.5.22",
+    "tar": "^7.5.23",
     "zip-stream": "^7.0.5"
   },
   "devEngines": {

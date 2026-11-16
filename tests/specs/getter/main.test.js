@@ -11,10 +11,10 @@ const cacheDir = path.join(repoRoot, "packages/getter/cache");
 
 describe("getter test suite", function () {
   it("downloads a file from a test server", async function () {
-    const nwArchivePath = path.join(cacheDir, "nwjs-v0.107.0-linux-x64");
+    const nwArchivePath = path.join(cacheDir, "nwjs-v0.120.0-linux-x64");
     if (!fs.existsSync(nwArchivePath)) {
       await get({
-        version: "0.107.0",
+        version: "0.120.0",
         flavor: "normal",
         platform: "linux",
         arch: "x64",
@@ -32,10 +32,10 @@ describe("getter test suite", function () {
   });
 
   it("downloads and verifies node headers when nativeAddon is enabled", async function () {
-    const headersPath = path.join(cacheDir, "nw-headers-v0.107.0.tar.gz");
+    const headersPath = path.join(cacheDir, "node-v0.120.0.tar.gz");
     if (!fs.existsSync(headersPath)) {
       await get({
-        version: "0.107.0",
+        version: "0.120.0",
         flavor: "normal",
         platform: "linux",
         arch: "x64",
@@ -51,7 +51,7 @@ describe("getter test suite", function () {
 
     /*
      * The file is saved under the same name SHASUMS256.txt lists it under
-     * ("nw-headers-..." for this pre-0.111.3 version, not "node-..."), so
+     * ("node-..." for this 0.111.3+ version, not "nw-headers-..."), so
      * that verify() can actually find and check it - if verification had
      * silently found nothing, shaSum: true above would have thrown.
      */
@@ -60,7 +60,7 @@ describe("getter test suite", function () {
 
   it("parses manifestUrl file:/// path correctly", async function () {
     await get({
-      version: "0.107.0",
+      version: "0.120.0",
       flavor: "normal",
       platform: "linux",
       arch: "x64",
@@ -81,7 +81,7 @@ describe("getter test suite", function () {
   it("throws when downloadUrl file:/// path is a filesystem root", async function () {
     await assert.rejects(
       get({
-        version: "0.107.0",
+        version: "0.120.0",
         flavor: "normal",
         platform: "linux",
         arch: "x64",
@@ -100,7 +100,7 @@ describe("getter test suite", function () {
   it("throws when manifestUrl file:/// path is not valid JSON", async function () {
     await assert.rejects(
       get({
-        version: "0.107.0",
+        version: "0.120.0",
         flavor: "normal",
         platform: "linux",
         arch: "x64",
