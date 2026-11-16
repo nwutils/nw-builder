@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/) using [Con
 
 Since `v4.6.0`, we have switched to automated releases and this file does not need to be manually updated.
 
+## [4.26.0](https://github.com/nwutils/nw-builder/compare/nw-builder-v4.25.0...nw-builder-v4.26.0) (2026-11-16)
+
+
+### Features
+
+* **builder:** add app.requestedExecutionLevel for Windows ([#1723](https://github.com/nwutils/nw-builder/issues/1723)) ([fa3a921](https://github.com/nwutils/nw-builder/commit/fa3a92102b00a9cbb1efcd3cf1093fac94b3c0b6))
+* **nw-builder:** add options.pkgDir for package mode ([#1722](https://github.com/nwutils/nw-builder/issues/1722)) ([f5aab15](https://github.com/nwutils/nw-builder/commit/f5aab15e6da68c80e963095d3e954245abe1b42a))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @nwutils/builder bumped from ^0.2.0 to ^0.3.0
+
 ## [4.25.0](https://github.com/nwutils/nw-builder/compare/nw-builder-v4.24.2...nw-builder-v4.25.0) (2026-11-10)
 
 
