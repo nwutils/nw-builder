@@ -449,6 +449,48 @@ describe("util/validate", function () {
   });
 });
 
+describe("util/validate requestedExecutionLevel", function () {
+  /**
+   * Parse and validate Windows build options, like a real call does.
+   * @param {unknown} requestedExecutionLevel  Value to validate.
+   * @returns {Promise<void>}
+   */
+  async function validateLevel(requestedExecutionLevel) {
+    const options = await util.parse(
+      {
+        mode: "build",
+        platform: "win",
+        arch: "x64",
+        srcDir: "./",
+        app: { icon: "./icon.ico", requestedExecutionLevel },
+      },
+      { name: "Demo", version: "1.0.0" },
+    );
+    return util.validate(options, {
+      flavors: ["normal"],
+      files: ["win-x64"],
+    });
+  }
+
+  for (const level of [
+    undefined,
+    "asInvoker",
+    "highestAvailable",
+    "requireAdministrator",
+  ]) {
+    it(`accepts ${JSON.stringify(level)}`, async function () {
+      await validateLevel(level);
+    });
+  }
+
+  it("throws on an invalid level", async function () {
+    await assert.rejects(
+      validateLevel("admin"),
+      /Expected options\.app\.requestedExecutionLevel to be/,
+    );
+  });
+});
+
 describe("util/parse", function () {
   it("splits a comma separated app.protocols from the CLI", async function () {
     const newOptions = await util.parse(

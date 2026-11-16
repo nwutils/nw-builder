@@ -149,6 +149,9 @@ export interface WindowsAppOptions {
   specialBuild?: string;
   /** Language of the file, defined by Microsoft, see: https://learn.microsoft.com/en-us/openspecs/office_standards/ms-oe376/6c085406-a698-4e12-9d4d-c3b0ee3dbc4a */
   languageCode?: number;
+  /** Privileges the app asks Windows for when it starts, written to the executable's application manifest. `"requireAdministrator"` shows a UAC prompt on every launch. Defaults to NW.js' `"asInvoker"`. */
+  requestedExecutionLevel?:
+    "asInvoker" | "highestAvailable" | "requireAdministrator";
   /** Custom URL schemes the app handles, eg. `["myapp"]` for `myapp://` links. See "Deep links" in the README. */
   protocols?: string[];
 }

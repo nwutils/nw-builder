@@ -84,6 +84,7 @@ import setOsxConfig from "./osx.js";
  * @property {string} specialBuild      Text that specifies how this version of the file differs from the standard version—for example, Private build for TESTER1 solving mouse problems on M250 and M250E computers. This string should be present only if VS_FF_SPECIALBUILD is specified in the fileflags parameter of the root block.
  * @property {number} languageCode      Language identifier (LCID) of the file, defined by Microsoft, see: https://learn.microsoft.com/en-us/openspecs/office_standards/ms-oe376/6c085406-a698-4e12-9d4d-c3b0ee3dbc4a
  * @property {string[]} [protocols]     Custom URL schemes the app handles, eg. `["myapp"]`. Windows only registers them on install, so they take effect through `@nwutils/packager`'s NSIS installer.
+ * @property {"asInvoker" | "highestAvailable" | "requireAdministrator"} [requestedExecutionLevel] Privileges the app asks Windows for when it starts, written to the executable's application manifest. `"requireAdministrator"` shows a UAC prompt on every launch. Defaults to NW.js' `"asInvoker"`.
  */
 
 /**
@@ -400,6 +401,9 @@ const setWinConfig = async ({ app, outDir }) => {
       iconFile.icons.map((i) => i.data),
     );
   }
+  if (app.requestedExecutionLevel !== undefined) {
+    setRequestedExecutionLevel(res.entries, app.requestedExecutionLevel);
+  }
   const [vi] = resedit.Resource.VersionInfo.fromEntries(res.entries);
   if (app.languageCode !== EN_US) {
     res.removeResourceEntry(16, 1, EN_US);
@@ -422,6 +426,48 @@ const setWinConfig = async ({ app, outDir }) => {
   res.outputResource(exe);
   const outBuffer = Buffer.from(exe.generate());
   await fs.promises.writeFile(outDirAppExe, outBuffer);
+};
+
+/** Values Windows accepts for `requestedExecutionLevel`. */
+const EXECUTION_LEVELS = [
+  "asInvoker",
+  "highestAvailable",
+  "requireAdministrator",
+];
+
+/**
+ * Set `requestedExecutionLevel` in the executable's application manifest
+ * (`RT_MANIFEST`), which NW.js ships as `asInvoker`.
+ * @param  {import("pe-library").Type.ResourceEntry[]} entries  Resource entries of the executable.
+ * @param  {string}                                    level    Execution level.
+ * @returns {void}
+ */
+const setRequestedExecutionLevel = (entries, level) => {
+  if (!EXECUTION_LEVELS.includes(level)) {
+    throw new Error(
+      `Expected app.requestedExecutionLevel to be one of ${EXECUTION_LEVELS.map((l) => JSON.stringify(l)).join(", ")}. Got ${JSON.stringify(level)}.`,
+    );
+  }
+  const RT_MANIFEST = 24;
+  const manifests = entries.filter((entry) => entry.type === RT_MANIFEST);
+  const levelAttribute =
+    /(<requestedExecutionLevel\b[^>]*?\blevel\s*=\s*)(["'])[^"']*\2/;
+  if (
+    manifests.length === 0 ||
+    !manifests.every((entry) =>
+      levelAttribute.test(Buffer.from(entry.bin).toString("utf8")),
+    )
+  ) {
+    throw new Error(
+      "Unable to set app.requestedExecutionLevel: the NW.js executable has no application manifest with a requestedExecutionLevel.",
+    );
+  }
+  for (const entry of manifests) {
+    const manifest = Buffer.from(entry.bin)
+      .toString("utf8")
+      .replace(levelAttribute, `$1$2${level}$2`);
+    entry.bin = Uint8Array.from(Buffer.from(manifest, "utf8")).buffer;
+  }
 };
 
 /**
@@ -457,4 +503,4 @@ const compress = async ({ zip, outDir }) => {
 export default build;
 
 const { validateProtocols } = util;
-export { validateProtocols };
+export { setRequestedExecutionLevel, validateProtocols };

@@ -52,6 +52,7 @@ import * as GlobModule from "glob";
  * @property {string}   [productVersion]                   Version of the product the file is distributed with
  * @property {string}   [specialBuild]                     How this build differs from the standard version
  * @property {number}   [languageCode]                     Language identifier (LCID) of the file
+ * @property {"asInvoker" | "highestAvailable" | "requireAdministrator"} [requestedExecutionLevel] Privileges the app asks Windows for when it starts
  * @property {string}   [LSApplicationCategoryType]        App Store category
  * @property {string}   [CFBundleIdentifier]               Unique bundle identifier, usually reverse DNS
  * @property {string}   [CFBundleName]                     User-visible short name for the bundle
@@ -1249,6 +1250,17 @@ export const validate = async (options, releaseInfo) => {
       throw new Error(
         "Expected options.app.languageCode to be a number. Got " +
           options.app.languageCode,
+      );
+    }
+    if (
+      options.app.requestedExecutionLevel !== undefined &&
+      !["asInvoker", "highestAvailable", "requireAdministrator"].includes(
+        options.app.requestedExecutionLevel,
+      )
+    ) {
+      throw new Error(
+        'Expected options.app.requestedExecutionLevel to be "asInvoker", "highestAvailable" or "requireAdministrator". Got ' +
+          JSON.stringify(options.app.requestedExecutionLevel),
       );
     }
   }
