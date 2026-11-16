@@ -22,6 +22,7 @@ import util from "./util.js";
  * @property {"./cache" | string}                  [cacheDir="./cache"]                      Directory to cache NW binaries
  * @property {string | string[]}                   [srcDir="./"]                             File paths to application code
  * @property {"./out" | string}                    [outDir="./out"]                          Directory to store build artifacts
+ * @property {string}                              [pkgDir]                                  Directory to store packages, used in package mode. Defaults to the parent of `outDir`. Must not be `outDir` or inside it.
  * @property {import("./util.js").AppOptions}      [app]                                     Refer to Linux/Windows Specific Options under Getting Started in the docs
  * @property {boolean}                             [cache=true]                              If true the existing cache is used. Otherwise it removes and redownloads it.
  * @property {boolean}                             [ffmpeg=false]                            If true the chromium ffmpeg is replaced by community version
@@ -219,6 +220,7 @@ async function nwbuild(options) {
           packagePath = await pkg({
             format: resolved.format,
             appDir: resolved.outDir,
+            outDir: resolved.pkgDir,
             appName: resolved.app.name,
             arch: resolved.arch,
             ...nsisOptions,
@@ -227,6 +229,7 @@ async function nwbuild(options) {
           packagePath = await pkg({
             format: resolved.format,
             appDir: resolved.outDir,
+            outDir: resolved.pkgDir,
             appName: resolved.app.name,
             arch: resolved.arch,
             ...util.dmgOptions(resolved),
@@ -235,6 +238,7 @@ async function nwbuild(options) {
           packagePath = await pkg({
             format: resolved.format,
             appDir: resolved.outDir,
+            outDir: resolved.pkgDir,
             appName: resolved.app.name,
             icon: resolved.app.icon,
             arch: resolved.arch,
