@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "semver": "^7.8.5",
-    "tar": "^7.5.20",
+    "tar": "^7.5.23",
     "yauzl-promise": "^4.0.0"
   },
   "devEngines": {
