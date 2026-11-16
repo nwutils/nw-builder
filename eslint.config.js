@@ -26,7 +26,7 @@ const nodeSources = [
 
 export default defineConfig([
   {
-    ignores: ["packages/doctor/.doctor-cache/**"],
+    ignores: ["packages/doctor/.doctor-cache/**", "packages/getter/cache/**"],
   },
 
   /* Shared baseline: every package gets ESLint's recommended rules and Node globals. */

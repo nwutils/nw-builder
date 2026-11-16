@@ -41,7 +41,7 @@ describe(
     const protocolKey = `HKCU\\Software\\Classes\\${protocol}`;
 
     const nwOptions = {
-      version: "0.115.0",
+      version: "0.120.0",
       flavor: "normal",
       platform: util.PLATFORM_KV[process.platform],
       arch: util.ARCH_KV[process.arch],

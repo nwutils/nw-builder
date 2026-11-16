@@ -69,7 +69,11 @@ program
   .option("--template <template>", "template name", "vanilla-js")
   .option("--outDir <dir>", "output directory", ".")
   .action(
-    (name /** @type {string} */, options /** @type {CreateOptions} */) => {
+    /**
+     * @param {string}        name     App name
+     * @param {CreateOptions} options  Command options
+     */
+    (name, options) => {
       create(name, options.template, options.outDir);
     },
   );
