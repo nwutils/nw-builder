@@ -156,6 +156,76 @@ describe("util/validate", function () {
     );
   });
 
+  describe("pkgDir and zip in package mode", function () {
+    /**
+     * Parse and validate package mode options, like a real call does.
+     * @param {Record<string, unknown>} overrides  Options to override before parsing.
+     * @param {Record<string, unknown>} [afterParse]  Options to override after parsing.
+     * @returns {Promise<void>}
+     */
+    async function validatePackage(overrides, afterParse = {}) {
+      const options = await util.parse(
+        {
+          mode: "package",
+          platform: "linux",
+          arch: "x64",
+          srcDir: "./",
+          outDir: path.resolve("out", "linux-x64"),
+          ...overrides,
+        },
+        { name: "Demo", version: "1.0.0" },
+      );
+      return util.validate(
+        { ...options, ...afterParse },
+        { flavors: ["normal"], files: ["linux-x64"] },
+      );
+    }
+
+    it("accepts pkgDir as the parent of outDir", async function () {
+      await validatePackage({ pkgDir: path.resolve("out") });
+    });
+
+    it("accepts pkgDir outside of outDir", async function () {
+      await validatePackage({ pkgDir: path.resolve("dist") });
+    });
+
+    it("accepts a sibling of outDir whose name starts with ..", async function () {
+      await validatePackage({ pkgDir: path.resolve("out", "..linux-x64") });
+    });
+
+    it("accepts the default pkgDir", async function () {
+      await validatePackage({});
+    });
+
+    it("throws error when pkgDir is outDir", async function () {
+      await assert.rejects(
+        validatePackage({ pkgDir: path.resolve("out", "linux-x64") }),
+        /must not be options\.outDir or inside it/,
+      );
+    });
+
+    it("throws error when pkgDir is inside outDir", async function () {
+      await assert.rejects(
+        validatePackage({ pkgDir: path.resolve("out", "linux-x64", "pkg") }),
+        /must not be options\.outDir or inside it/,
+      );
+    });
+
+    it("throws error when pkgDir is not a string", async function () {
+      await assert.rejects(
+        validatePackage({}, { pkgDir: 1 }),
+        /Expected options\.pkgDir to be a string/,
+      );
+    });
+
+    it("throws error when zip is enabled in package mode", async function () {
+      await assert.rejects(
+        validatePackage({ zip: "zip" }),
+        /options\.zip is not supported in package mode/,
+      );
+    });
+  });
+
   it("throws error on invalid format in package mode", async function () {
     await assert.rejects(
       util.validate(
@@ -489,6 +559,30 @@ describe("util/parse", function () {
       desktopShortcut: false,
       startMenuShortcut: true,
     });
+  });
+
+  it("defaults pkgDir to the parent of outDir in package mode", async function () {
+    const newOptions = await util.parse(
+      { mode: "package", platform: "linux", outDir: "./out/linux-x64" },
+      {},
+    );
+    assert.strictEqual(newOptions.pkgDir, path.resolve("out"));
+  });
+
+  it("resolves a custom pkgDir in package mode", async function () {
+    const newOptions = await util.parse(
+      { mode: "package", platform: "linux", pkgDir: "./dist" },
+      {},
+    );
+    assert.strictEqual(newOptions.pkgDir, path.resolve("dist"));
+  });
+
+  it("does not set pkgDir outside of package mode", async function () {
+    const newOptions = await util.parse(
+      { mode: "build", platform: "linux" },
+      {},
+    );
+    assert.strictEqual(newOptions.pkgDir, undefined);
   });
 
   it("does not set format outside of package mode", async function () {

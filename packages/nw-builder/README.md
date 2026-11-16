@@ -195,6 +195,19 @@ const packagePath = await nwbuild({
 });
 ```
 
+The package is written to `pkgDir`, which defaults to the parent of `outDir`.
+`pkgDir` must not be `outDir` or inside it, since `outDir` is deleted before
+every build. To keep all artifacts in one directory, build into a subdirectory
+and package into its parent. `zip` is not supported in package mode.
+
+```javascript
+await nwbuild({
+  mode: "package",
+  outDir: "./out/linux-x64",
+  pkgDir: "./out",
+});
+```
+
 `format` selects the packager to run. It defaults to `"AppImage"` on Linux, `"nsis"` on Windows and `"dmg"` on MacOS. Only `"AppImage"`, `"nsis"` and `"dmg"` are implemented today - `deb`, `rpm` and `msix` are reserved for later.
 
 ```javascript
@@ -313,7 +326,7 @@ apps. Make one-time links short lived and single use.
 #### Windows installer (NSIS)
 
 With `platform: "win"`, package mode builds an NSIS installer,
-`<app.name>-<arch>-Setup.exe`, next to `outDir`. It installs for the current
+`<app.name>-<arch>-Setup.exe`, in `pkgDir`. It installs for the current
 user without asking for administrator rights, adds an uninstaller to Windows'
 installed apps list, and replaces the previous version on upgrade. It needs the
 NSIS compiler, `makensis`, on the host: `apt install nsis` on Linux,
@@ -383,7 +396,7 @@ version, without asking for administrator rights. `sign` and
 #### MacOS disk image (DMG)
 
 With `platform: "osx"`, package mode builds a DMG, `<app.name>-<arch>.dmg`,
-next to `outDir`. It holds the app next to a link to `/Applications`, so users
+in `pkgDir`. It holds the app next to a link to `/Applications`, so users
 install it by dragging the app onto the link. It needs `hdiutil`, `ditto` and
 `codesign`, which are part of MacOS, so DMGs are built on a MacOS host. Notarize
 the DMG afterwards (eg. `xcrun notarytool submit --wait` and
@@ -452,6 +465,7 @@ Options
 | argv              | `string[]`                                                                                                                                                    | `[]`                                                         | Command line arguments to pass to NW executable in run mode. You can also define these in `chromium-args` in NW.js manifest.         |
 | glob              | `boolean`                                                                                                                                                     | `true`                                                       | If true file globbing is enabled when parsing `srcDir`.                                                                              |
 | outDir            | `string`                                                                                                                                                      | `"./out"`                                                    | Directory to store build artifacts                                                                                                   |
+| pkgDir            | `string`                                                                                                                                                      | Parent of `outDir`                                           | Directory to store packages, used in package mode. Must not be `outDir` or inside it.                                                |
 | managedManifest   | `boolean \| string \| object`                                                                                                                                 | `false`                                                      | Managed manifest                                                                                                                     |
 | nodeAddon         | `boolean`                                                                                                                                                     | `false`                                                      | Rebuild Node native addons                                                                                                           |
 | zip               | `boolean \| "zip" \| "tar" \| "tgz"`                                                                                                                          | `false`                                                      | If true, "zip", "tar" or "tgz" the `outDir` directory is compressed.                                                                 |

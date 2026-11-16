@@ -123,6 +123,7 @@ import * as GlobModule from "glob";
  * @property {boolean | string}                                      [glob]             If true file globbing is enabled when parsing srcDir
  * @property {string | string[]}                                     [srcDir]           File paths to application code
  * @property {string}                                                [outDir]           Directory to store build artifacts
+ * @property {string}                                                [pkgDir]           Directory to store packages, used in package mode. Defaults to the parent of outDir
  * @property {boolean | string}                                      [zip]              If truthy, the outDir directory is compressed
  * @property {boolean | string | Record<string, unknown>}           [managedManifest]   Managed manifest mode
  * @property {AppOptions}                                            [app]              Platform specific app metadata
@@ -501,6 +502,12 @@ export const parse = async (options, pkg) => {
   }
 
   options.outDir = path.resolve(options.outDir ?? "./out");
+  if (options.mode === "package") {
+    /* Defaults to the parent of `outDir`, where packages have always been written. */
+    options.pkgDir = path.resolve(
+      options.pkgDir ?? path.dirname(options.outDir),
+    );
+  }
   options.zip = str2Bool(options.zip) ?? false;
 
   options.managedManifest = str2Bool(options.managedManifest) ?? false;
@@ -770,6 +777,32 @@ export const validate = async (options, releaseInfo) => {
       throw new Error(
         'Expected options.format to be one of "AppImage", "deb", "rpm", "msix", "nsis" or "dmg". Got ' +
           JSON.stringify(options.format),
+      );
+    }
+    if (options.pkgDir !== undefined && typeof options.pkgDir !== "string") {
+      throw new Error(
+        "Expected options.pkgDir to be a string. Got " + typeof options.pkgDir,
+      );
+    }
+    /* The builder deletes `outDir` before every build, and the packager reads it. */
+    const pkgDirFromOutDir = path.relative(
+      path.resolve(options.outDir),
+      path.resolve(options.pkgDir ?? path.dirname(options.outDir)),
+    );
+    if (
+      pkgDirFromOutDir === "" ||
+      (!path.isAbsolute(pkgDirFromOutDir) &&
+        pkgDirFromOutDir !== ".." &&
+        !pkgDirFromOutDir.startsWith(".." + path.sep))
+    ) {
+      throw new Error(
+        `options.pkgDir must not be options.outDir or inside it, since outDir is deleted before every build. Got pkgDir ${JSON.stringify(options.pkgDir)} and outDir ${JSON.stringify(options.outDir)}.`,
+      );
+    }
+    /* The builder deletes `outDir` after compressing it, leaving nothing to package. */
+    if (options.zip !== false) {
+      throw new Error(
+        "options.zip is not supported in package mode, since the packager needs the uncompressed outDir.",
       );
     }
     if (options.format === "AppImage" && options.platform !== "linux") {
