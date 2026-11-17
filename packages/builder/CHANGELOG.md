@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.3.0](https://github.com/nwutils/nw-builder/compare/@nwutils/builder-v0.2.0...@nwutils/builder-v0.3.0) (2026-11-16)
+
+
+### Features
+
+* **builder:** add app.requestedExecutionLevel for Windows ([#1723](https://github.com/nwutils/nw-builder/issues/1723)) ([fa3a921](https://github.com/nwutils/nw-builder/commit/fa3a92102b00a9cbb1efcd3cf1093fac94b3c0b6))
+
+
+### Chores
+
+* **builder:** remove workaround for nwjs/nw.js[#8371](https://github.com/nwutils/nw-builder/issues/8371) ([#1719](https://github.com/nwutils/nw-builder/issues/1719)) ([0d25e4a](https://github.com/nwutils/nw-builder/commit/0d25e4aa04b599ece554042c4c556210354fb149))
+
 ## [0.2.0](https://github.com/nwutils/nw-builder/compare/@nwutils/builder-v0.1.5...@nwutils/builder-v0.2.0) (2026-11-10)
 
 
