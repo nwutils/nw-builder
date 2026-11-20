@@ -6,6 +6,7 @@ import { parseArgs } from "node:util";
 
 import {
   build,
+  check,
   DEFAULT_ISSUES,
   dist,
   gen,
@@ -30,9 +31,10 @@ Commands:
            continue
   status   Print how many build steps are left
   dist     Package the binaries into out/nw/dist
-  test     Run an issue's test against an SDK build: by default the latest
-           "${RELEASE_TAG}" release, downloaded into --dir. Exits 1 if it
-           fails
+  test     Run every issue's test (or --issue's) against an SDK build: by
+           default the latest "${RELEASE_TAG}" release, downloaded into
+           --dir. Exits 1 if a test fails
+  check    Check every issue folder has a test and well-formed patches
 
 Options:
   --dir <path>          Work directory, the gclient root (default: ./nwjs)
@@ -45,7 +47,7 @@ Options:
                         can save progress before their time limit
   --issues <dir>        Issue folders with patches and tests
                         (default: this package's issues/)
-  --issue <name>        test: the issue to test (default: every issue)
+  --issue <name>        test: only this issue's test (default: every issue)
   --repo <owner/name>   test: repository with the release
                         (default: $GITHUB_REPOSITORY or nwutils/nw-builder)
   --release <tag>       test: release to download (default: ${RELEASE_TAG})
@@ -148,6 +150,17 @@ try {
         console.log(file);
       }
       break;
+    case "check": {
+      const problems = check(options);
+      for (const problem of problems) {
+        console.error(problem);
+      }
+      if (problems.length > 0) {
+        process.exit(1);
+      }
+      console.log("Every issue has a test and well-formed patches.");
+      break;
+    }
     case "test":
       if (!(await test(options))) {
         process.exit(1);

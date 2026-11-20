@@ -1,29 +1,30 @@
 name: Test NW.js issue
 
-# Runs an issue's test (packages/build-tools/issues/<issue>/*.test.js) against
-# the NW.js SDK in the latest "build-tools" release. Called by build-nwjs.yml
-# after it publishes a build, or run on its own.
+# Runs the issue tests (packages/build-tools/issues/<issue>/*.test.js) against
+# the NW.js SDK in the latest "build-tools" release: every issue's, or one
+# issue's. Called by build-nwjs.yml after it publishes a build, or run on its
+# own.
 
 on:
   workflow_call:
     inputs:
       issue:
-        description: Issue folder whose test to run
+        description: Only this issue's test; empty for every issue
         type: string
-        required: true
+        default: ""
   workflow_dispatch:
     inputs:
       issue:
-        description: Issue folder whose test to run (packages/build-tools/issues/<issue>)
+        description: Only this issue's test (packages/build-tools/issues/<issue>); empty for every issue
         type: string
-        required: true
+        default: ""
 
 permissions:
   contents: read
 
 jobs:
   test:
-    name: Linux x64 (issue ${{ inputs.issue }})
+    name: Linux x64 (${{ inputs.issue && format('issue {0}', inputs.issue) || 'every issue' }})
     runs-on: ubuntu-24.04
     if: github.repository_owner == 'nwutils'
     steps:
@@ -46,10 +47,10 @@ jobs:
       - name: Install third party dependencies
         run: npm ci
 
-      - name: Test the issue against the latest release
+      - name: Test against the latest release
         env:
           GITHUB_TOKEN: ${{ github.token }}
           ISSUE: ${{ inputs.issue }}
-        run: >
-          node packages/build-tools/src/cli.js test
-          --dir "$RUNNER_TEMP/nwjs-test" --issue "$ISSUE"
+        run: |
+          node packages/build-tools/src/cli.js test \
+            --dir "$RUNNER_TEMP/nwjs-test" ${ISSUE:+--issue "$ISSUE"}

@@ -1,9 +1,10 @@
 name: Build NW.js
 
-# Compiles NW.js from source on GitHub-hosted runners, with the patches of
-# every issue in packages/build-tools/issues, then publishes it as the
-# "build-tools" release (replacing the previous one, marked latest) and runs
-# the given issue's test against it.
+# Compiles NW.js from source on GitHub-hosted runners with the patches of
+# every issue merged into packages/build-tools/issues, publishes it as the
+# "build-tools" release (replacing the previous one, marked latest), then runs
+# every issue's test against that release. Run it manually after merging
+# issue fixes.
 #
 # A full build is longer than the 6 hour job limit, so it runs as a chain of
 # stages; each builds until its deadline and the next continues from the
@@ -28,10 +29,6 @@ on:
           - sdk
           - normal
         default: sdk
-      issue:
-        description: Issue folder whose test to run against the release (packages/build-tools/issues/<issue>)
-        type: string
-        default: ""
 
 permissions:
   contents: read
@@ -158,9 +155,7 @@ jobs:
             --latest
 
   test:
-    name: Test issue
+    name: Test issues
     needs: release
-    if: always() && needs.release.result == 'success' && inputs.issue != ''
+    if: always() && needs.release.result == 'success'
     uses: ./.github/workflows/test-nwjs.yml
-    with:
-      issue: ${{ inputs.issue }}

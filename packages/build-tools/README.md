@@ -33,7 +33,18 @@ Needs ~100 GB of disk, Python 3 and git.
 ## Issues
 
 Each fix lives in [`issues/<issue>/`](issues), named after the NW.js issue
-it fixes. Copy [`issues/_template`](issues/_template) to start:
+it fixes, and is contributed by pull request:
+
+1. Copy [`issues/_template`](issues/_template) to `issues/<issue>/` and add
+   the patch and its test (below). CI checks the folder with
+   `build-tools check`.
+1. Once merged to `main`, a maintainer runs
+   [`build-nwjs.yml`](../../.github/workflows/build-nwjs.yml). It builds one
+   NW.js binary with every merged issue's patches (so patches must not
+   conflict with each other), releases it, and runs every issue's test
+   against the release.
+
+An issue folder holds:
 
 - `patches/<repository>/*.patch`: the fix, one folder per nwjs repository
   (`nw.js`, `chromium.src`, `node`, `v8`). Make each patch in a clone of that
@@ -51,11 +62,11 @@ it fixes. Copy [`issues/_template`](issues/_template) to start:
 ## GitHub Actions
 
 [`build-nwjs.yml`](../../.github/workflows/build-nwjs.yml) (manual; inputs:
-version, flavor, issue) builds NW.js with every issue's patches on
-`ubuntu-24.04`, publishes it as the `build-tools` release, then runs the given
-issue's test against that release with
+version, flavor) builds NW.js with every issue's patches on `ubuntu-24.04`,
+publishes it as the `build-tools` release, then runs every issue's test
+against that release with
 [`test-nwjs.yml`](../../.github/workflows/test-nwjs.yml), which can also be run
-on its own.
+on its own, for one issue or all.
 
 - **Release:** each build deletes the previous `build-tools` release and its
   tag and publishes a new one, marked as the repository's latest release.

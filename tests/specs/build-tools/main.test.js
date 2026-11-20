@@ -7,6 +7,7 @@ import { describe, it } from "node:test";
 
 import {
   applyPatches,
+  check,
   DEFAULT_ISSUES,
   test as runIssueTests,
 } from "../../../packages/build-tools/src/main.js";
@@ -177,6 +178,29 @@ describe("build-tools issue tests", () => {
     );
   });
 
+  it("runs every issue's test by default, and passes with no issues", async () => {
+    const dir = tempDir();
+    const issues = tempDir();
+    const record = path.join(dir, "ran.txt");
+    for (const name of ["1234", "8345"]) {
+      write(issues, {
+        [`${name}/issue.test.js`]: [
+          'import fs from "node:fs";',
+          'import { it } from "node:test";',
+          `it("${name}", () => fs.appendFileSync(${JSON.stringify(record)}, "${name}\\n"));`,
+        ].join("\n"),
+      });
+    }
+    const nwdir = path.join(dir, "sdk");
+    assert.equal(await runIssueTests({ dir, issues, nwdir }), true);
+    assert.deepEqual(
+      fs.readFileSync(record, "utf8").trim().split("\n").sort(),
+      ["1234", "8345"],
+    );
+
+    assert.equal(await runIssueTests({ dir, issues: tempDir(), nwdir }), true);
+  });
+
   it("fails clearly for an unknown issue or one without a test", async () => {
     const issues = tempDir();
     write(issues, { "1234/app/index.html": "" });
@@ -192,5 +216,40 @@ describe("build-tools issue tests", () => {
       runIssueTests({ dir: tempDir(), issues, issue: "../etc", nwdir: "/x" }),
       /Invalid issue name/,
     );
+  });
+});
+
+describe("build-tools check", () => {
+  it("accepts complete issues and the shipped template", () => {
+    const issues = tempDir();
+    write(issues, {
+      "1234/issue.test.js": "",
+      "1234/patches/nw.js/0001-fix.patch":
+        "From abc Mon Sep 17 00:00:00 2001\nSubject: [PATCH] fix\n---\ndiff --git a/a b/a\n",
+    });
+    assert.deepEqual(check({ dir: "", issues }), []);
+    assert.deepEqual(check({ dir: "" }), []);
+  });
+
+  it("reports issues without a test, stray folders and non-patches", () => {
+    const issues = tempDir();
+    write(issues, {
+      "1234/patches/nw.js/0001-fix.patch": "just some text",
+      "8345/issue.test.js": "",
+      "8345/patches/chromium/0001-x.patch": "diff --git a/x b/x\n",
+    });
+    assert.deepEqual(check({ dir: "", issues }), [
+      "1234: has no *.test.js testing the fix",
+      'Unknown patch folder "8345/patches/chromium" (expected one of: nw.js, chromium.src, node, v8)',
+    ]);
+
+    const onlyBadPatch = tempDir();
+    write(onlyBadPatch, {
+      "1234/issue.test.js": "",
+      "1234/patches/nw.js/0001-fix.patch": "just some text",
+    });
+    assert.deepEqual(check({ dir: "", issues: onlyBadPatch }), [
+      "1234/patches/nw.js/0001-fix.patch: not a git patch (make it with git format-patch)",
+    ]);
   });
 });

@@ -44,5 +44,9 @@ jobs:
       - name: Install third party dependencies
         run: npm ci
 
+      - name: Check issue folders
+        # Every contributed fix needs a test and git-made patches.
+        run: node packages/build-tools/src/cli.js check
+
       - name: Run build-tools test suite
         run: npm run test --workspace=@nwutils/build-tools

@@ -335,14 +335,16 @@ export async function dist({ dir, arch = "x64", flavor = "normal" }) {
 }
 
 /**
- * Runs an issue's test (`issues/<issue>/*.test.js`, with Node's test runner)
- * against an SDK build: by default the Linux x64 SDK from the latest
- * `build-tools` release, downloaded and extracted into `dir`. The test finds
+ * Runs the issues' tests (`issues/<issue>/*.test.js`, with Node's test
+ * runner) against an SDK build: every issue's, since a build carries every
+ * issue's patches, or just `issue`'s. By default the build is the Linux x64
+ * SDK from the latest `build-tools` release, downloaded and extracted into
+ * `dir`. The test finds
  * the build through NWJS_SDK_DIR (see src/testing.js). Needs a display, e.g.
  * xvfb-run, unless the test runs NW headless.
  *
  * @param {Options} options
- * @returns {Promise<boolean>} True when the tests passed.
+ * @returns {Promise<boolean>} True when the tests passed (or there are none).
  */
 export async function test({
   dir,
@@ -357,7 +359,8 @@ export async function test({
   }
   const selected = issue ? [issue] : listIssues(issues);
   if (selected.length === 0) {
-    throw new Error(`No issues to test in ${issues}`);
+    console.log(`No issues to test in ${issues}`);
+    return true;
   }
   const files = selected.flatMap((name) => {
     const issueDir = path.join(issues, name);
@@ -426,4 +429,43 @@ async function downloadSdk({ dir, repo, release }) {
   fs.writeFileSync(file, Buffer.from(await download.arrayBuffer()));
   await run("tar", ["-xzf", file], { cwd: dir, env: process.env });
   return path.join(dir, sdk.name.replace(/\.tar\.gz$/, ""));
+}
+
+/**
+ * Checks that every issue folder is complete, as a contribution must be: a
+ * valid name, a test (`*.test.js`), and patches only in nwjs repository
+ * folders, each a `git format-patch`/`git diff` patch. Whether the patches
+ * apply is checked by the build, which needs the full checkout.
+ *
+ * @param {Options} options
+ * @returns {string[]} Problems found; empty when every issue is complete.
+ */
+export function check({ issues = DEFAULT_ISSUES }) {
+  /** @type {string[]} */
+  const problems = [];
+  for (const name of listIssues(issues)) {
+    const issueDir = path.join(issues, name);
+    if (!/^[\w-][\w.-]*$/.test(name)) {
+      problems.push(
+        `${name}: issue folder names may only use letters, digits, ".", "-" and "_"`,
+      );
+    }
+    if (!fs.readdirSync(issueDir).some((file) => file.endsWith(".test.js"))) {
+      problems.push(`${name}: has no *.test.js testing the fix`);
+    }
+  }
+  try {
+    const patches = listPatches(issues);
+    for (const patch of patches) {
+      const text = fs.readFileSync(patch.file, "utf8");
+      if (!/^diff --git /m.test(text)) {
+        problems.push(
+          `${path.relative(issues, patch.file)}: not a git patch (make it with git format-patch)`,
+        );
+      }
+    }
+  } catch (error) {
+    problems.push(error instanceof Error ? error.message : String(error));
+  }
+  return problems;
 }
