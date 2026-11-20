@@ -6,6 +6,11 @@ name: Build NW.js
 # one that finishes are skipped.
 
 on:
+  # TEMPORARY: build on pushes to the PR branch until this workflow is on main
+  # (manual runs only work for workflows on the default branch). Remove before merging.
+  push:
+    branches:
+      - claude/build-tools
   workflow_dispatch:
     inputs:
       version:
@@ -24,7 +29,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: build-nwjs-${{ inputs.version }}-${{ inputs.flavor }}
+  group: build-nwjs-${{ inputs.version || 'latest' }}-${{ inputs.flavor || 'normal' }}
   cancel-in-progress: false
 
 jobs:
@@ -38,7 +43,7 @@ jobs:
       - name: Resolve "latest" to a version
         id: resolve
         run: |
-          version="${{ inputs.version }}"
+          version="${{ inputs.version || 'latest' }}"
           if [ "$version" = "latest" ]; then
             version="$(curl -fsSL https://nwjs.io/versions.json | jq -r .latest)"
           fi
@@ -49,7 +54,7 @@ jobs:
     uses: ./.github/workflows/build-nwjs-stage.yml
     with:
       version: ${{ needs.version.outputs.version }}
-      flavor: ${{ inputs.flavor }}
+      flavor: ${{ inputs.flavor || 'normal' }}
       stage: 1
 
   stage-2:
@@ -58,7 +63,7 @@ jobs:
     uses: ./.github/workflows/build-nwjs-stage.yml
     with:
       version: ${{ needs.version.outputs.version }}
-      flavor: ${{ inputs.flavor }}
+      flavor: ${{ inputs.flavor || 'normal' }}
       stage: 2
 
   stage-3:
@@ -67,7 +72,7 @@ jobs:
     uses: ./.github/workflows/build-nwjs-stage.yml
     with:
       version: ${{ needs.version.outputs.version }}
-      flavor: ${{ inputs.flavor }}
+      flavor: ${{ inputs.flavor || 'normal' }}
       stage: 3
 
   stage-4:
@@ -76,7 +81,7 @@ jobs:
     uses: ./.github/workflows/build-nwjs-stage.yml
     with:
       version: ${{ needs.version.outputs.version }}
-      flavor: ${{ inputs.flavor }}
+      flavor: ${{ inputs.flavor || 'normal' }}
       stage: 4
 
   stage-5:
@@ -85,7 +90,7 @@ jobs:
     uses: ./.github/workflows/build-nwjs-stage.yml
     with:
       version: ${{ needs.version.outputs.version }}
-      flavor: ${{ inputs.flavor }}
+      flavor: ${{ inputs.flavor || 'normal' }}
       stage: 5
 
   stage-6:
@@ -94,5 +99,5 @@ jobs:
     uses: ./.github/workflows/build-nwjs-stage.yml
     with:
       version: ${{ needs.version.outputs.version }}
-      flavor: ${{ inputs.flavor }}
+      flavor: ${{ inputs.flavor || 'normal' }}
       stage: 6
