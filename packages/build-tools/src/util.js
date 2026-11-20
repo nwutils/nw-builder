@@ -189,7 +189,13 @@ export function assertSupported(platform, arch) {
 /**
  * Runs a command, streaming its output, and resolves with how it ended. With
  * `stopAt`, the command is interrupted (SIGINT, as Ctrl+C would) once the time
- * comes, so a CI job can save its progress before its time limit.
+ * comes, so a CI job can save its progress before its time limit; whatever
+ * still runs `graceMs` later is killed.
+ *
+ * The command runs in its own process group and is stopped as a group:
+ * depot_tools' `ninja` is a bash script that runs Python, which runs ninja,
+ * and bash doesn't pass a SIGINT on to the command it is waiting for. A
+ * Ctrl+C or SIGTERM sent to this process is passed on to the group too.
  *
  * @param {string} command - Executable.
  * @param {string[]} args - Arguments.
@@ -197,9 +203,11 @@ export function assertSupported(platform, arch) {
  * @param {string} options.cwd - Working directory.
  * @param {NodeJS.ProcessEnv} options.env - Environment.
  * @param {number} [options.stopAt] - Unix time in milliseconds to stop at.
+ * @param {number} [options.graceMs] - How long to wait after the SIGINT
+ *   before killing what's left (default 60s).
  * @returns {Promise<"done" | "stopped">} "stopped" if the deadline interrupted it.
  */
-export function run(command, args, { cwd, env, stopAt }) {
+export function run(command, args, { cwd, env, stopAt, graceMs = 60_000 }) {
   return new Promise((resolve, reject) => {
     const left = remainingMs(stopAt);
     if (left === 0) {
@@ -207,12 +215,32 @@ export function run(command, args, { cwd, env, stopAt }) {
       return;
     }
     console.log(`$ ${command} ${args.join(" ")}`);
+    const group = process.platform !== "win32";
     const child = child_process.spawn(command, args, {
       cwd,
       env,
       stdio: "inherit",
+      detached: group,
     });
+    /** @param {NodeJS.Signals} signal */
+    const signalAll = (signal) => {
+      try {
+        if (group && child.pid !== undefined) {
+          process.kill(-child.pid, signal);
+        } else {
+          child.kill(signal);
+        }
+      } catch {
+        // Already gone.
+      }
+    };
+    // A separate process group doesn't get the terminal's Ctrl+C.
+    process.on("SIGINT", signalAll);
+    process.on("SIGTERM", signalAll);
+
     let stopped = false;
+    /** @type {NodeJS.Timeout | undefined} */
+    let kill;
     const timer =
       left === Infinity
         ? undefined
@@ -221,15 +249,27 @@ export function run(command, args, { cwd, env, stopAt }) {
             console.log(
               `Time is up: stopping ${command} so progress can be saved.`,
             );
-            child.kill("SIGINT");
+            signalAll("SIGINT");
+            kill = setTimeout(() => {
+              console.log(`${command} is still running: killing it.`);
+              signalAll("SIGKILL");
+            }, graceMs);
           }, left);
-    child.on("error", (error) => {
+    const done = () => {
       clearTimeout(timer);
+      clearTimeout(kill);
+      process.off("SIGINT", signalAll);
+      process.off("SIGTERM", signalAll);
+    };
+    child.on("error", (error) => {
+      done();
       reject(error);
     });
     child.on("close", (code, signal) => {
-      clearTimeout(timer);
+      done();
       if (stopped) {
+        // Whatever the group left behind (e.g. ninja's compilers) goes too.
+        signalAll("SIGKILL");
         resolve("stopped");
       } else if (code === 0) {
         resolve("done");

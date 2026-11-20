@@ -146,6 +146,39 @@ describe("build-tools util", () => {
   );
 
   it(
+    "stops what a wrapper script runs, not just the script",
+    { skip: process.platform === "win32" },
+    async () => {
+      // Like depot_tools' ninja: bash stays alive while the real tool runs,
+      // and doesn't pass a SIGINT on to it.
+      const started = Date.now();
+      const result = await run("bash", ["-c", "sleep 30; true"], {
+        cwd: ".",
+        env: process.env,
+        stopAt: Date.now() + 300,
+      });
+      assert.equal(result, "stopped");
+      assert.ok(Date.now() - started < 10_000);
+    },
+  );
+
+  it(
+    "kills a command that ignores the interrupt",
+    { skip: process.platform === "win32" },
+    async () => {
+      const started = Date.now();
+      const result = await run("bash", ["-c", "trap '' INT; sleep 30; true"], {
+        cwd: ".",
+        env: process.env,
+        stopAt: Date.now() + 300,
+        graceMs: 300,
+      });
+      assert.equal(result, "stopped");
+      assert.ok(Date.now() - started < 10_000);
+    },
+  );
+
+  it(
     "finishes a command before the deadline",
     { skip: process.platform === "win32" },
     async () => {
