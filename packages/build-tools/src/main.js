@@ -9,6 +9,7 @@ import {
   exists,
   gclientSpec,
   gypDefines,
+  parseVersion,
   run,
   stepsLeft,
 } from "./util.js";
@@ -40,14 +41,14 @@ const VERSIONS = "https://nwjs.io/versions.json";
  */
 export async function resolveVersion(version) {
   if (version && version !== "latest") {
-    return version.replace(/^v/, "");
+    return parseVersion(version);
   }
   const response = await fetch(VERSIONS);
   if (!response.ok) {
     throw new Error(`Fetching ${VERSIONS} failed: HTTP ${response.status}`);
   }
   const { latest } = /** @type {{ latest: string }} */ (await response.json());
-  return latest.replace(/^v/, "");
+  return parseVersion(latest);
 }
 
 /**
@@ -90,16 +91,33 @@ export async function setup({ dir, version, installDeps = false }) {
   const nwDir = path.join(dir, "src", "content", "nw");
   if (!exists(nwDir)) {
     fs.mkdirSync(path.dirname(nwDir), { recursive: true });
-    await run("git", ["clone", "--depth=1", "--branch", tag, NW_REPO, nwDir], {
-      cwd: dir,
-      env,
-    });
+    await run(
+      "git",
+      ["clone", "--depth=1", "--branch", tag, "--", NW_REPO, nwDir],
+      {
+        cwd: dir,
+        env,
+      },
+    );
   } else {
-    await run("git", ["fetch", "--depth=1", "origin", "tag", tag], {
+    await run(
+      "git",
+      [
+        "fetch",
+        "--depth=1",
+        "--",
+        "origin",
+        `refs/tags/${tag}:refs/tags/${tag}`,
+      ],
+      {
+        cwd: nwDir,
+        env,
+      },
+    );
+    await run("git", ["checkout", "--force", `refs/tags/${tag}`, "--"], {
       cwd: nwDir,
       env,
     });
-    await run("git", ["checkout", "--force", tag], { cwd: nwDir, env });
   }
 
   const deps = fs.readFileSync(path.join(nwDir, "DEPS"), "utf8");

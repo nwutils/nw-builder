@@ -10,6 +10,22 @@ import fs from "node:fs";
 export const SUPPORTED = /** @type {const} */ ({ linux: ["x64"] });
 
 /**
+ * Validates an NW.js version, e.g. "0.120.0" or "v0.120.0-beta1", and returns
+ * it without the leading "v". The version ends up in git arguments (the
+ * release tag), so anything else is rejected rather than passed on.
+ *
+ * @param {string} version - Version to check.
+ * @returns {string} The version without a leading "v".
+ */
+export function parseVersion(version) {
+  const match = /^v?(\d+\.\d+\.\d+(?:-[0-9A-Za-z.]+)?)$/.exec(version);
+  if (!match) {
+    throw new Error(`Invalid NW.js version: ${JSON.stringify(version)}`);
+  }
+  return match[1];
+}
+
+/**
  * Reads a `vars` entry, such as `nw_src_revision`, from a DEPS file.
  *
  * @param {string} deps - Contents of the DEPS file.

@@ -32,19 +32,31 @@ Options:
   -h, --help            Show this help
 `;
 
-const { values, positionals } = parseArgs({
-  allowPositionals: true,
-  options: {
-    dir: { type: "string", default: "nwjs" },
-    version: { type: "string", default: "latest" },
-    arch: { type: "string", default: "x64" },
-    flavor: { type: "string", default: "normal" },
-    "cc-wrapper": { type: "string" },
-    "install-deps": { type: "boolean", default: false },
-    "stop-at": { type: "string" },
-    help: { type: "boolean", short: "h", default: false },
-  },
-});
+/**
+ * Parses the command line, exiting with a message on invalid options.
+ */
+function parseCli() {
+  try {
+    return parseArgs({
+      allowPositionals: true,
+      options: {
+        dir: { type: "string", default: "nwjs" },
+        version: { type: "string", default: "latest" },
+        arch: { type: "string", default: "x64" },
+        flavor: { type: "string", default: "normal" },
+        "cc-wrapper": { type: "string" },
+        "install-deps": { type: "boolean", default: false },
+        "stop-at": { type: "string" },
+        help: { type: "boolean", short: "h", default: false },
+      },
+    });
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : error);
+    return process.exit(1);
+  }
+}
+
+const { values, positionals } = parseCli();
 
 const [command] = positionals;
 if (values.help || !command) {

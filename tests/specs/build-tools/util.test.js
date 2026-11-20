@@ -7,6 +7,7 @@ import {
   depsVar,
   gclientSpec,
   gypDefines,
+  parseVersion,
   remainingMs,
   run,
   stepsLeft,
@@ -27,6 +28,22 @@ describe("build-tools util", () => {
       "49e4fcd01e589d9e51e0b4087b04416a373ee25e",
     );
     assert.equal(depsVar(deps, "nw_v8_revision"), undefined);
+  });
+
+  it("accepts only real NW.js versions", () => {
+    assert.equal(parseVersion("0.120.0"), "0.120.0");
+    assert.equal(parseVersion("v0.120.0"), "0.120.0");
+    assert.equal(parseVersion("0.120.0-beta1"), "0.120.0-beta1");
+    for (const bad of [
+      "--upload-pack=touch /tmp/x",
+      "0.120",
+      "0.120.0 --x",
+      "latest",
+      "",
+      "0.120.0-",
+    ]) {
+      assert.throws(() => parseVersion(bad), /Invalid NW.js version/, bad);
+    }
   });
 
   it("builds the gclient spec NW's sync.py uses", () => {
