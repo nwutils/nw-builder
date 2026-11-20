@@ -53,6 +53,21 @@ export async function resolveVersion(version) {
 }
 
 /**
+ * The gn and ninja binaries NW's DEPS downloads into the checkout. Using them
+ * directly avoids depot_tools' wrappers, which need depot_tools' own Python
+ * set up by a depot_tools self-update (turned off here).
+ *
+ * @param {string} src - The checkout, `<dir>/src`.
+ * @returns {{ gn: string, ninja: string }} Paths to the binaries.
+ */
+function buildTools(src) {
+  return {
+    gn: path.join(src, "buildtools", "linux64", "gn"),
+    ninja: path.join(src, "third_party", "ninja", "ninja"),
+  };
+}
+
+/**
  * Environment with depot_tools first on PATH and its self-update off.
  *
  * @param {string} dir - Work directory.
@@ -173,7 +188,7 @@ export async function gen({ dir, arch = "x64", flavor = "normal", ccWrapper }) {
     path.join(src, "out", "nw", "args.gn"),
     argsGn({ arch, flavor, ccWrapper }),
   );
-  await run("gn", ["gen", "out/nw"], { cwd: src, env });
+  await run(buildTools(src).gn, ["gen", "out/nw"], { cwd: src, env });
 
   await run(
     "python3",
@@ -218,7 +233,8 @@ export async function build({ dir, flavor = "normal", stopAt }) {
     ["-C", "out/nw", "copy_node"],
   ];
   for (const step of steps) {
-    if ((await run("ninja", step, { cwd: src, env, stopAt })) === "stopped") {
+    const ninja = buildTools(src).ninja;
+    if ((await run(ninja, step, { cwd: src, env, stopAt })) === "stopped") {
       return false;
     }
   }
@@ -234,7 +250,7 @@ export async function build({ dir, flavor = "normal", stopAt }) {
 export function status({ dir, flavor = "normal" }) {
   const src = path.join(dir, "src");
   const output = capture(
-    "ninja",
+    buildTools(src).ninja,
     ["-n", "-C", "out/nw", ...packageTargets(flavor)],
     { cwd: src, env: toolsEnv(dir) },
   );
