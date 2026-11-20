@@ -146,6 +146,47 @@ describe("build-tools util", () => {
   );
 
   it(
+    "stops what a wrapper runs, not just the wrapper",
+    { skip: process.platform === "win32" },
+    async () => {
+      // Like depot_tools' ninja, a bash script: the wrapper ignores the
+      // interrupt and waits for the tool it started, which must be stopped.
+      const wrapper = [
+        'process.on("SIGINT", () => {});',
+        'require("node:child_process").spawn(process.execPath, ["-e", "setTimeout(() => {}, 30000)"], { stdio: "inherit" }).on("exit", () => process.exit());',
+      ].join("\n");
+      const started = Date.now();
+      const result = await run(process.execPath, ["-e", wrapper], {
+        cwd: ".",
+        env: process.env,
+        stopAt: Date.now() + 500,
+      });
+      assert.equal(result, "stopped");
+      assert.ok(Date.now() - started < 10_000);
+    },
+  );
+
+  it(
+    "kills a command that ignores the interrupt",
+    { skip: process.platform === "win32" },
+    async () => {
+      const started = Date.now();
+      const result = await run(
+        process.execPath,
+        ["-e", 'process.on("SIGINT", () => {}); setTimeout(() => {}, 30000);'],
+        {
+          cwd: ".",
+          env: process.env,
+          stopAt: Date.now() + 500,
+          graceMs: 300,
+        },
+      );
+      assert.equal(result, "stopped");
+      assert.ok(Date.now() - started < 10_000);
+    },
+  );
+
+  it(
     "finishes a command before the deadline",
     { skip: process.platform === "win32" },
     async () => {
