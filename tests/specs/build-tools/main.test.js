@@ -87,9 +87,11 @@ describe("build-tools issues", () => {
     );
   });
 
-  it("ships only the template, with no patches", () => {
-    assert.deepEqual(listIssues(DEFAULT_ISSUES), []);
-    assert.deepEqual(listPatches(DEFAULT_ISSUES), []);
+  it("ships the template, which isn't an issue", () => {
+    assert.ok(!listIssues(DEFAULT_ISSUES).includes("_template"));
+    assert.ok(
+      listPatches(DEFAULT_ISSUES).every(({ issue }) => issue !== "_template"),
+    );
     assert.ok(
       fs.existsSync(path.join(DEFAULT_ISSUES, "_template", "issue.test.js")),
     );

@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+  <head>
+    <title>nwjs/nw.js#8393</title>
+  </head>
+  <body>
+    <!-- Picking a folder in an nwdirectory input crashed NW.js 0.117+. -->
+    <input type="file" id="folder" nwdirectory />
+    <!-- WebDriver can't click file inputs; a click on their label opens them. -->
+    <label for="folder" id="choose">Choose a folder</label>
+    <p id="picked"></p>
+    <script>
+      const input = document.getElementById("folder");
+      input.addEventListener("change", () => {
+        document.getElementById("picked").textContent = [...input.files]
+          .map((file) => file.name)
+          .join(",");
+      });
+    </script>
+  </body>
+</html>

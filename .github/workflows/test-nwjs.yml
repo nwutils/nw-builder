@@ -47,10 +47,20 @@ jobs:
       - name: Install third party dependencies
         run: npm ci
 
+      - name: Install a display and D-Bus for the tests
+        # Tests of file dialogs run NW.js headed (headless NW.js cancels
+        # dialogs) on Xvfb, answering the dialogs with a stand-in desktop
+        # portal on a private D-Bus bus (dbus-run-session; src/file_chooser_portal.py).
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends xvfb dbus python3-gi
+
       - name: Test against the latest release
         env:
           GITHUB_TOKEN: ${{ github.token }}
           ISSUE: ${{ inputs.issue }}
+          # The system Python, which has PyGObject.
+          PYTHON: /usr/bin/python3
         run: |
-          node packages/build-tools/src/cli.js test \
+          xvfb-run --auto-servernum node packages/build-tools/src/cli.js test \
             --dir "$RUNNER_TEMP/nwjs-test" ${ISSUE:+--issue "$ISSUE"}
