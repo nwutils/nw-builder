@@ -118,7 +118,8 @@ export function argsGn({ arch, flavor, ccWrapper }) {
 }
 
 /**
- * GYP_DEFINES for NW's Node.js build, matching the GN flavor.
+ * GYP_DEFINES for NW's Node.js build, as in NW's "Building NW.js" docs, with
+ * nwjs_sdk matching the GN flavor.
  *
  * @param {object} options
  * @param {Arch} options.arch - Target CPU.
@@ -133,7 +134,7 @@ export function gypDefines({ arch, flavor }) {
     "icu_use_data_file_flag=1",
     `host_arch=${arch}`,
     `nwjs_sdk=${flavor === "sdk" ? 1 : 0}`,
-    "disable_nacl=1",
+    "disable_nacl=0",
     "buildtype=Official",
   ].join(" ");
 }

@@ -53,22 +53,9 @@ export async function resolveVersion(version) {
 }
 
 /**
- * The gn and ninja binaries NW's DEPS downloads into the checkout. Using them
- * directly avoids depot_tools' wrappers, which need depot_tools' own Python
- * set up by a depot_tools self-update (turned off here).
- *
- * @param {string} src - The checkout, `<dir>/src`.
- * @returns {{ gn: string, ninja: string }} Paths to the binaries.
- */
-function buildTools(src) {
-  return {
-    gn: path.join(src, "buildtools", "linux64", "gn"),
-    ninja: path.join(src, "third_party", "ninja", "ninja"),
-  };
-}
-
-/**
- * Environment with depot_tools first on PATH and its self-update off.
+ * Environment with depot_tools first on PATH, as Chromium's build docs set
+ * up. depot_tools updates and bootstraps itself (including the Python its
+ * gn and ninja wrappers use) the first time gclient runs.
  *
  * @param {string} dir - Work directory.
  * @returns {NodeJS.ProcessEnv} Environment for depot_tools commands.
@@ -77,7 +64,6 @@ function toolsEnv(dir) {
   return {
     ...process.env,
     PATH: `${path.join(dir, "depot_tools")}${path.delimiter}${process.env.PATH}`,
-    DEPOT_TOOLS_UPDATE: "0",
     DEPOT_TOOLS_METRICS: "0",
   };
 }
@@ -98,7 +84,8 @@ export async function setup({ dir, version, installDeps = false }) {
   fs.mkdirSync(dir, { recursive: true });
 
   if (!exists(path.join(dir, "depot_tools"))) {
-    await run("git", ["clone", "--depth=1", DEPOT_TOOLS, "depot_tools"], {
+    // As in Chromium's docs: a full clone, which it keeps updated itself.
+    await run("git", ["clone", DEPOT_TOOLS, "depot_tools"], {
       cwd: dir,
       env,
     });
@@ -188,7 +175,7 @@ export async function gen({ dir, arch = "x64", flavor = "normal", ccWrapper }) {
     path.join(src, "out", "nw", "args.gn"),
     argsGn({ arch, flavor, ccWrapper }),
   );
-  await run(buildTools(src).gn, ["gen", "out/nw"], { cwd: src, env });
+  await run("gn", ["gen", "out/nw"], { cwd: src, env });
 
   await run(
     "python3",
@@ -233,8 +220,7 @@ export async function build({ dir, flavor = "normal", stopAt }) {
     ["-C", "out/nw", "copy_node"],
   ];
   for (const step of steps) {
-    const ninja = buildTools(src).ninja;
-    if ((await run(ninja, step, { cwd: src, env, stopAt })) === "stopped") {
+    if ((await run("ninja", step, { cwd: src, env, stopAt })) === "stopped") {
       return false;
     }
   }
@@ -250,7 +236,7 @@ export async function build({ dir, flavor = "normal", stopAt }) {
 export function status({ dir, flavor = "normal" }) {
   const src = path.join(dir, "src");
   const output = capture(
-    buildTools(src).ninja,
+    "ninja",
     ["-n", "-C", "out/nw", ...packageTargets(flavor)],
     { cwd: src, env: toolsEnv(dir) },
   );
