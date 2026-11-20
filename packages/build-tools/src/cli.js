@@ -4,7 +4,16 @@ import path from "node:path";
 import process from "node:process";
 import { parseArgs } from "node:util";
 
-import { build, dist, gen, setup, status } from "./main.js";
+import {
+  build,
+  DEFAULT_ISSUES,
+  dist,
+  gen,
+  RELEASE_TAG,
+  setup,
+  status,
+  test,
+} from "./main.js";
 
 const USAGE = `build-tools — compile NW.js from source
 
@@ -13,12 +22,17 @@ Usage:
 
 Commands:
   setup    Get depot_tools, NW.js at the release tag and Chromium with all
-           dependencies (gclient sync, no git history)
+           dependencies (gclient sync, no git history), then apply every
+           issue's patches
   gen      Write the GN (out/nw) and Node.js GYP (out/Release) build files
-  build    Build Node.js, NW.js and copy libnode in. Exits 3 if --stop-at
-           stopped it before it finished; run it again to continue
+  build    Build Chromium/NW.js, then Node.js, and copy libnode in. Exits 3
+           if --stop-at stopped it before it finished; run it again to
+           continue
   status   Print how many build steps are left
-  dist     Package the binaries (NW's dist target) into out/nw/dist
+  dist     Package the binaries into out/nw/dist
+  test     Run an issue's test against an SDK build: by default the latest
+           "${RELEASE_TAG}" release, downloaded into --dir. Exits 1 if it
+           fails
 
 Options:
   --dir <path>          Work directory, the gclient root (default: ./nwjs)
@@ -29,6 +43,13 @@ Options:
   --install-deps        setup: install Chromium's system packages (sudo)
   --stop-at <time>      build: stop at this Unix time (seconds) so CI jobs
                         can save progress before their time limit
+  --issues <dir>        Issue folders with patches and tests
+                        (default: this package's issues/)
+  --issue <name>        test: the issue to test (default: every issue)
+  --repo <owner/name>   test: repository with the release
+                        (default: $GITHUB_REPOSITORY or nwutils/nw-builder)
+  --release <tag>       test: release to download (default: ${RELEASE_TAG})
+  --nwdir <path>        test: test this extracted SDK build instead
   -h, --help            Show this help
 `;
 
@@ -47,6 +68,11 @@ function parseCli() {
         "cc-wrapper": { type: "string" },
         "install-deps": { type: "boolean", default: false },
         "stop-at": { type: "string" },
+        issues: { type: "string", default: DEFAULT_ISSUES },
+        issue: { type: "string" },
+        repo: { type: "string" },
+        release: { type: "string", default: RELEASE_TAG },
+        nwdir: { type: "string" },
         help: { type: "boolean", short: "h", default: false },
       },
     });
@@ -84,6 +110,11 @@ const options = {
     values["stop-at"] === undefined
       ? undefined
       : Number(values["stop-at"]) * 1000,
+  issues: path.resolve(values.issues),
+  issue: values.issue,
+  repo: values.repo,
+  release: values.release,
+  nwdir: values.nwdir === undefined ? undefined : path.resolve(values.nwdir),
 };
 
 try {
@@ -115,6 +146,11 @@ try {
     case "dist":
       for (const file of await dist(options)) {
         console.log(file);
+      }
+      break;
+    case "test":
+      if (!(await test(options))) {
+        process.exit(1);
       }
       break;
     default:

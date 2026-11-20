@@ -1,5 +1,6 @@
 import child_process from "node:child_process";
 import fs from "node:fs";
+import path from "node:path";
 
 /**
  * @typedef {"normal" | "sdk"} Flavor
@@ -270,4 +271,117 @@ export function capture(command, args, { cwd, env }) {
  */
 export function exists(path) {
   return fs.existsSync(path);
+}
+
+/**
+ * Where each nwjs repository's patches apply, relative to the gclient root.
+ * These are the git checkouts gclient creates, so a patch made with
+ * `git format-patch` in a clone of that repository applies (and can be sent
+ * upstream) unchanged.
+ */
+export const PATCH_TARGETS = /** @type {const} */ ({
+  "nw.js": "src/content/nw",
+  "chromium.src": "src",
+  node: "src/third_party/node-nw",
+  v8: "src/v8",
+});
+
+/**
+ * Lists the issue folders in `issuesDir`, sorted. Folders starting with "_"
+ * or "." (such as the template) are skipped.
+ *
+ * @param {string} issuesDir - Directory with one folder per issue.
+ * @returns {string[]} Issue folder names.
+ */
+export function listIssues(issuesDir) {
+  if (!fs.existsSync(issuesDir)) {
+    return [];
+  }
+  return fs
+    .readdirSync(issuesDir, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && !/^[_.]/.test(entry.name))
+    .map((entry) => entry.name)
+    .sort();
+}
+
+/**
+ * @typedef {object} Patch
+ * @property {string} issue - Issue folder the patch belongs to.
+ * @property {string} project - nwjs repository name, e.g. "nw.js".
+ * @property {string} file - Absolute path of the .patch file.
+ * @property {string} target - Checkout it applies to, relative to the gclient root.
+ */
+
+/**
+ * Lists the patches of every issue (`<issue>/patches/<repository>/*.patch`)
+ * in the order to apply them: by issue, then repository as in PATCH_TARGETS,
+ * then file name (`git format-patch` numbers them 0001-, 0002-...).
+ *
+ * @param {string} issuesDir - Directory with one folder per issue.
+ * @returns {Patch[]} The patches; empty if there are none.
+ */
+export function listPatches(issuesDir) {
+  const targets = /** @type {Record<string, string>} */ (PATCH_TARGETS);
+  /** @type {Patch[]} */
+  const patches = [];
+  for (const issue of listIssues(issuesDir)) {
+    const patchesDir = path.join(issuesDir, issue, "patches");
+    if (!fs.existsSync(patchesDir)) {
+      continue;
+    }
+    const projects = fs
+      .readdirSync(patchesDir, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name);
+    for (const project of projects) {
+      if (!(project in targets)) {
+        throw new Error(
+          `Unknown patch folder "${issue}/patches/${project}" (expected one of: ${Object.keys(targets).join(", ")})`,
+        );
+      }
+    }
+    for (const project of Object.keys(targets)) {
+      if (!projects.includes(project)) {
+        continue;
+      }
+      const dir = path.join(patchesDir, project);
+      for (const name of fs.readdirSync(dir).sort()) {
+        if (name.endsWith(".patch")) {
+          patches.push({
+            issue,
+            project,
+            file: path.join(dir, name),
+            target: targets[project],
+          });
+        }
+      }
+    }
+  }
+  return patches;
+}
+
+/**
+ * @typedef {object} ReleaseAsset
+ * @property {string} name - File name.
+ * @property {string} browser_download_url - Download URL.
+ */
+
+/**
+ * Picks the Linux x64 SDK package from a release's assets. The SDK is needed
+ * because the issue tests drive NW.js through its chromedriver.
+ *
+ * @param {ReleaseAsset[]} assets - The release's assets.
+ * @returns {ReleaseAsset} The SDK package.
+ */
+export function selectSdkAsset(assets) {
+  const sdk = assets.find((asset) =>
+    /^nwjs-sdk-v[^/]+-linux-x64\.tar\.gz$/.test(asset.name),
+  );
+  if (!sdk) {
+    const names = assets.map((asset) => asset.name).join(", ") || "none";
+    throw new Error(
+      `The release needs the Linux x64 SDK package (nwjs-sdk-v*-linux-x64.tar.gz); it has: ${names}`,
+    );
+  }
+  return sdk;
 }

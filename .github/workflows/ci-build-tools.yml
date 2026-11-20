@@ -9,6 +9,7 @@ on:
       - "packages/build-tools/**"
       - "tests/specs/build-tools/**"
       - ".github/workflows/build-nwjs*.yml"
+      - ".github/workflows/test-nwjs.yml"
 
 permissions:
   contents: read

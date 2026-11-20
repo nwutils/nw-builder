@@ -10,6 +10,7 @@ node packages/build-tools/src/cli.js setup --dir /mnt/nwjs --version 0.120.0 --i
 node packages/build-tools/src/cli.js gen   --dir /mnt/nwjs --flavor normal --cc-wrapper sccache
 node packages/build-tools/src/cli.js build --dir /mnt/nwjs
 node packages/build-tools/src/cli.js dist  --dir /mnt/nwjs
+node packages/build-tools/src/cli.js test  --dir /tmp/nwjs-test --issue 1234
 ```
 
 | Command  | Does                                                                                                                                                                                                                                                                                                        |
@@ -19,6 +20,7 @@ node packages/build-tools/src/cli.js dist  --dir /mnt/nwjs
 | `build`  | Chromium and every file NW packages (`out/nw`), then Node.js (`out/Release`, which links against the Chromium build's V8 and libc++), then `copy_node`. With `--stop-at <unix seconds>` it stops at that time and exits 3; run it again to continue.                                                        |
 | `status` | Prints how many Chromium build steps are left.                                                                                                                                                                                                                                                              |
 | `dist`   | Runs NW's packaging script; packages land in `out/nw/dist`. Unlike NW's `dist` target, it skips dumping debug symbols, which would also build chromedriver and the breakpad tools.                                                                                                                          |
+| `test`   | Downloads the SDK from the latest `build-tools` release (or uses `--nwdir`) and runs `--issue`'s test against it.                                                                                                                                                                                           |
 
 `--flavor sdk` builds the SDK flavor (DevTools, `nwjc`, chromedriver). Builds
 are release builds without debug symbols (`symbol_level = 0`) to keep CI time
@@ -28,18 +30,45 @@ them.
 
 Needs ~100 GB of disk, Python 3 and git.
 
+## Issues
+
+Each fix lives in [`issues/<issue>/`](issues), named after the NW.js issue
+it fixes. Copy [`issues/_template`](issues/_template) to start:
+
+- `patches/<repository>/*.patch`: the fix, one folder per nwjs repository
+  (`nw.js`, `chromium.src`, `node`, `v8`). Make each patch in a clone of that
+  repository at the build's version with `git format-patch`, so it applies
+  unchanged upstream. `setup` applies every issue's patches with `git apply`,
+  after NW's own patches.
+- `app/`: an NW.js app that reproduces the issue.
+- `*.test.js`: a test of the fixed behaviour, run with Node's test runner. It
+  starts the app with `launch()` from [`src/testing.js`](src/testing.js),
+  which follows the
+  [Selenium Builder example](https://github.com/nwutils/nw-testing-javascript-selenium-builder-example):
+  `nwapp=<app>`, the SDK's `nw` as the binary and its chromedriver through
+  `ServiceBuilder`. The test needs the SDK flavor.
+
 ## GitHub Actions
 
-[`build-nwjs.yml`](../../.github/workflows/build-nwjs.yml) (manual) builds a
-version on `ubuntu-24.04`. A full build is longer than the 6 hour job limit,
-so it runs as a chain of up to 6 stages:
+[`build-nwjs.yml`](../../.github/workflows/build-nwjs.yml) (manual; inputs:
+version, flavor, issue) builds NW.js with every issue's patches on
+`ubuntu-24.04`, publishes it as the `build-tools` release, then runs the given
+issue's test against that release with
+[`test-nwjs.yml`](../../.github/workflows/test-nwjs.yml), which can also be run
+on its own.
 
-- Each stage syncs the sources, then builds until 30 minutes before its limit.
-- Compiled objects are cached in the GitHub Actions cache through
-  [sccache](https://github.com/mozilla/sccache) (`cc_wrapper`), so the next
-  stage, or the next run, gets them back as cache hits instead of recompiling.
-- The stage that finishes packages the build and uploads it as an artifact;
-  later stages are skipped.
+- **Release:** each build deletes the previous `build-tools` release and its
+  tag and publishes a new one, marked as the repository's latest release.
+- **Stages:** a full build is longer than the 6 hour job limit, so it runs as
+  a chain of up to 6 stages:
+
+  - Each stage syncs the sources, then builds until 30 minutes before its limit.
+  - Compiled objects are cached in the GitHub Actions cache through
+    [sccache](https://github.com/mozilla/sccache) (`cc_wrapper`), so the next
+    stage, or the next run, gets them back as cache hits instead of
+    recompiling.
+  - The stage that finishes packages the build and uploads it; later stages
+    are skipped.
 
 The build directory itself (~60 GB) is too large to cache; the compiler cache
 is what carries progress over. Each stage repeats the source sync, code

@@ -1,0 +1,55 @@
+name: Test NW.js issue
+
+# Runs an issue's test (packages/build-tools/issues/<issue>/*.test.js) against
+# the NW.js SDK in the latest "build-tools" release. Called by build-nwjs.yml
+# after it publishes a build, or run on its own.
+
+on:
+  workflow_call:
+    inputs:
+      issue:
+        description: Issue folder whose test to run
+        type: string
+        required: true
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: Issue folder whose test to run (packages/build-tools/issues/<issue>)
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Linux x64 (issue ${{ inputs.issue }})
+    runs-on: ubuntu-24.04
+    if: github.repository_owner == 'nwutils'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.1
+
+      - name: Read Node.js and npm versions from devEngines
+        run: |
+          echo "NODE_VERSION=$(jq -r '.devEngines.runtime.version' package.json)" >> "$GITHUB_ENV"
+          echo "NPM_VERSION=$(jq -r '.devEngines.packageManager.version' package.json)" >> "$GITHUB_ENV"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7.1.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Update npm to the pinned version
+        run: npm install -g npm@${{ env.NPM_VERSION }}
+
+      - name: Install third party dependencies
+        run: npm ci
+
+      - name: Test the issue against the latest release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          ISSUE: ${{ inputs.issue }}
+        run: >
+          node packages/build-tools/src/cli.js test
+          --dir "$RUNNER_TEMP/nwjs-test" --issue "$ISSUE"

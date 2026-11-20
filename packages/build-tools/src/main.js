@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import {
   argsGn,
@@ -9,9 +10,12 @@ import {
   exists,
   gclientFile,
   gypDefines,
+  listIssues,
+  listPatches,
   packageTargets,
   parseVersion,
   run,
+  selectSdkAsset,
   stepsLeft,
 } from "./util.js";
 
@@ -27,12 +31,25 @@ import {
  * @property {string} [ccWrapper] - Compiler cache wrapper, e.g. "sccache".
  * @property {boolean} [installDeps] - Install Chromium's system build dependencies (uses sudo).
  * @property {number} [stopAt] - Unix time in milliseconds at which to stop building.
+ * @property {string} [issues] - Issue folders (patches and tests); defaults to this package's issues/.
+ * @property {string} [issue] - test: the issue whose test to run; defaults to every issue.
+ * @property {string} [repo] - test: GitHub repository with the release, "owner/name".
+ * @property {string} [release] - test: release tag to download.
+ * @property {string} [nwdir] - test: an extracted SDK build to test instead of downloading one.
  */
 
 const DEPOT_TOOLS =
   "https://chromium.googlesource.com/chromium/tools/depot_tools.git";
 const NW_REPO = "https://github.com/nwjs/nw.js";
 const VERSIONS = "https://nwjs.io/versions.json";
+
+/** This package's issue folders: each holds patches and a test for one fix. */
+export const DEFAULT_ISSUES = fileURLToPath(
+  new URL("../issues", import.meta.url),
+);
+
+/** The release `test` downloads by default; each build replaces it. */
+export const RELEASE_TAG = "build-tools";
 
 /**
  * Resolves "latest" (or an empty version) to the newest NW.js release.
@@ -71,12 +88,19 @@ function toolsEnv(dir) {
 /**
  * Gets the sources: depot_tools, NW.js at the release tag in src/content/nw,
  * and Chromium with every dependency (NW's V8 and Node.js included) via
- * gclient, without git history. Re-running it updates an existing checkout.
+ * gclient, without git history, then applies every issue's patches. Re-running
+ * it resets and updates an existing checkout, so the patches apply cleanly
+ * again.
  *
  * @param {Options} options
  * @returns {Promise<string>} The NW.js version checked out.
  */
-export async function setup({ dir, version, installDeps = false }) {
+export async function setup({
+  dir,
+  version,
+  installDeps = false,
+  issues = DEFAULT_ISSUES,
+}) {
   assertSupported(process.platform, "x64");
   const nwVersion = await resolveVersion(version);
   const tag = `nw-v${nwVersion}`;
@@ -155,7 +179,43 @@ export async function setup({ dir, version, installDeps = false }) {
     );
   }
   await run("gclient", ["runhooks"], { cwd: dir, env });
+  applyPatches(dir, issues);
   return nwVersion;
+}
+
+/**
+ * Applies every issue's patches to the checkouts gclient created, after NW's
+ * own patches (applied by its nw_patch hook). Each patch is applied with
+ * `git apply` in its repository, so it must be made from a clone of that nwjs
+ * repository at the same version, as `git format-patch` writes it.
+ *
+ * @param {string} dir - The gclient root.
+ * @param {string} issuesDir - Directory with one folder per issue.
+ * @returns {void}
+ */
+export function applyPatches(dir, issuesDir) {
+  const patches = listPatches(issuesDir);
+  for (const patch of patches) {
+    const target = path.join(dir, patch.target);
+    const name = `${patch.issue}/patches/${patch.project}/${path.basename(patch.file)}`;
+    console.log(`Applying ${name}`);
+    try {
+      capture("git", ["apply", "--verbose", patch.file], {
+        cwd: target,
+        env: process.env,
+      });
+    } catch (error) {
+      throw new Error(
+        `${name} does not apply to ${patch.target}; update it for this version.\n${error instanceof Error ? error.message : error}`,
+        { cause: error },
+      );
+    }
+  }
+  console.log(
+    patches.length === 0
+      ? `No patches in ${issuesDir}`
+      : `Applied ${patches.length} patch(es) from ${issuesDir}`,
+  );
 }
 
 /**
@@ -272,4 +332,98 @@ export async function dist({ dir, arch = "x64", flavor = "normal" }) {
   );
   const distDir = path.join(src, "out", "nw", "dist");
   return fs.readdirSync(distDir).map((file) => path.join(distDir, file));
+}
+
+/**
+ * Runs an issue's test (`issues/<issue>/*.test.js`, with Node's test runner)
+ * against an SDK build: by default the Linux x64 SDK from the latest
+ * `build-tools` release, downloaded and extracted into `dir`. The test finds
+ * the build through NWJS_SDK_DIR (see src/testing.js). Needs a display, e.g.
+ * xvfb-run, unless the test runs NW headless.
+ *
+ * @param {Options} options
+ * @returns {Promise<boolean>} True when the tests passed.
+ */
+export async function test({
+  dir,
+  issues = DEFAULT_ISSUES,
+  issue,
+  repo = process.env.GITHUB_REPOSITORY ?? "nwutils/nw-builder",
+  release = RELEASE_TAG,
+  nwdir,
+}) {
+  if (issue !== undefined && !/^[\w-][\w.-]*$/.test(issue)) {
+    throw new Error(`Invalid issue name: ${JSON.stringify(issue)}`);
+  }
+  const selected = issue ? [issue] : listIssues(issues);
+  if (selected.length === 0) {
+    throw new Error(`No issues to test in ${issues}`);
+  }
+  const files = selected.flatMap((name) => {
+    const issueDir = path.join(issues, name);
+    if (!exists(issueDir)) {
+      throw new Error(`No issue folder ${issueDir}`);
+    }
+    const tests = fs
+      .readdirSync(issueDir)
+      .filter((file) => file.endsWith(".test.js"))
+      .map((file) => path.join(issueDir, file));
+    if (tests.length === 0) {
+      throw new Error(`Issue ${name} has no *.test.js in ${issueDir}`);
+    }
+    return tests;
+  });
+
+  fs.mkdirSync(dir, { recursive: true });
+  const sdk = nwdir ?? (await downloadSdk({ dir, repo, release }));
+  try {
+    // A fresh test run even when called from inside one, which Node's test
+    // runner would otherwise skip as a nested run.
+    const env = { ...process.env };
+    delete env.NODE_TEST_CONTEXT;
+    await run(process.execPath, ["--test", ...files], {
+      cwd: dir,
+      env: { ...env, NWJS_SDK_DIR: path.resolve(sdk) },
+    });
+    return true;
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : error);
+    return false;
+  }
+}
+
+/**
+ * Downloads a release's Linux x64 SDK package into `dir` and extracts it.
+ *
+ * @param {{ dir: string, repo: string, release: string }} options
+ * @returns {Promise<string>} Directory with the extracted SDK.
+ */
+async function downloadSdk({ dir, repo, release }) {
+  if (!/^[\w.-]+\/[\w.-]+$/.test(repo)) {
+    throw new Error(`Invalid repository: ${JSON.stringify(repo)}`);
+  }
+  /** @type {Record<string, string>} */
+  const headers = { Accept: "application/vnd.github+json" };
+  if (process.env.GITHUB_TOKEN) {
+    headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+  }
+  const url = `https://api.github.com/repos/${repo}/releases/tags/${encodeURIComponent(release)}`;
+  const response = await fetch(url, { headers });
+  if (!response.ok) {
+    throw new Error(`Fetching ${url} failed: HTTP ${response.status}`);
+  }
+  const { assets } =
+    /** @type {{ assets: import("./util.js").ReleaseAsset[] }} */ (
+      await response.json()
+    );
+  const sdk = selectSdkAsset(assets);
+  console.log(`Downloading ${sdk.name}`);
+  const download = await fetch(sdk.browser_download_url);
+  if (!download.ok) {
+    throw new Error(`Downloading ${sdk.name} failed: HTTP ${download.status}`);
+  }
+  const file = path.join(dir, sdk.name);
+  fs.writeFileSync(file, Buffer.from(await download.arrayBuffer()));
+  await run("tar", ["-xzf", file], { cwd: dir, env: process.env });
+  return path.join(dir, sdk.name.replace(/\.tar\.gz$/, ""));
 }

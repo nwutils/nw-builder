@@ -1,9 +1,13 @@
 name: Build NW.js
 
-# Compiles NW.js from source on GitHub-hosted runners. A full build is longer
-# than the 6 hour job limit, so it runs as a chain of stages; each builds until
-# its deadline and the next continues from the compiler cache. Stages after the
-# one that finishes are skipped.
+# Compiles NW.js from source on GitHub-hosted runners, with the patches of
+# every issue in packages/build-tools/issues, then publishes it as the
+# "build-tools" release (replacing the previous one, marked latest) and runs
+# the given issue's test against it.
+#
+# A full build is longer than the 6 hour job limit, so it runs as a chain of
+# stages; each builds until its deadline and the next continues from the
+# compiler cache. Stages after the one that finishes are skipped.
 
 on:
   # TEMPORARY: build on pushes to the PR branch until this workflow is on main
@@ -18,19 +22,25 @@ on:
         type: string
         default: latest
       flavor:
-        description: Build flavor
+        description: Build flavor (issue tests need the SDK's chromedriver)
         type: choice
         options:
-          - normal
           - sdk
-        default: normal
+          - normal
+        default: sdk
+      issue:
+        description: Issue folder whose test to run against the release (packages/build-tools/issues/<issue>)
+        type: string
+        default: ""
 
 permissions:
   contents: read
 
 concurrency:
-  group: build-nwjs-${{ inputs.version || 'latest' }}-${{ inputs.flavor || 'normal' }}
-  cancel-in-progress: false
+  group: build-nwjs-${{ inputs.version || 'latest' }}-${{ inputs.flavor || 'sdk' }}
+  # A push replaces the build of the previous push; a manual run is never
+  # cancelled by another.
+  cancel-in-progress: ${{ github.event_name == 'push' }}
 
 jobs:
   version:
@@ -54,7 +64,7 @@ jobs:
     uses: ./.github/workflows/build-nwjs-stage.yml
     with:
       version: ${{ needs.version.outputs.version }}
-      flavor: ${{ inputs.flavor || 'normal' }}
+      flavor: ${{ inputs.flavor || 'sdk' }}
       stage: 1
 
   stage-2:
@@ -63,7 +73,7 @@ jobs:
     uses: ./.github/workflows/build-nwjs-stage.yml
     with:
       version: ${{ needs.version.outputs.version }}
-      flavor: ${{ inputs.flavor || 'normal' }}
+      flavor: ${{ inputs.flavor || 'sdk' }}
       stage: 2
 
   stage-3:
@@ -72,7 +82,7 @@ jobs:
     uses: ./.github/workflows/build-nwjs-stage.yml
     with:
       version: ${{ needs.version.outputs.version }}
-      flavor: ${{ inputs.flavor || 'normal' }}
+      flavor: ${{ inputs.flavor || 'sdk' }}
       stage: 3
 
   stage-4:
@@ -81,7 +91,7 @@ jobs:
     uses: ./.github/workflows/build-nwjs-stage.yml
     with:
       version: ${{ needs.version.outputs.version }}
-      flavor: ${{ inputs.flavor || 'normal' }}
+      flavor: ${{ inputs.flavor || 'sdk' }}
       stage: 4
 
   stage-5:
@@ -90,7 +100,7 @@ jobs:
     uses: ./.github/workflows/build-nwjs-stage.yml
     with:
       version: ${{ needs.version.outputs.version }}
-      flavor: ${{ inputs.flavor || 'normal' }}
+      flavor: ${{ inputs.flavor || 'sdk' }}
       stage: 5
 
   stage-6:
@@ -99,5 +109,58 @@ jobs:
     uses: ./.github/workflows/build-nwjs-stage.yml
     with:
       version: ${{ needs.version.outputs.version }}
-      flavor: ${{ inputs.flavor || 'normal' }}
+      flavor: ${{ inputs.flavor || 'sdk' }}
       stage: 6
+
+  release:
+    name: Release
+    needs: [version, stage-1, stage-2, stage-3, stage-4, stage-5, stage-6]
+    # Whichever stage finished the build uploaded the packages.
+    if: always() && contains(needs.*.outputs.done, 'true')
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TAG: build-tools
+      VERSION: ${{ needs.version.outputs.version }}
+      FLAVOR: ${{ inputs.flavor || 'sdk' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.1
+
+      - name: Download packages
+        uses: actions/download-artifact@v4
+        with:
+          name: nwjs-v${{ env.VERSION }}-linux-x64-${{ env.FLAVOR }}
+          path: dist
+
+      - name: Write release notes
+        run: |
+          {
+            echo "NW.js v$VERSION ($FLAVOR, Linux x64) built from source by @nwutils/build-tools at $GITHUB_SHA."
+            echo
+            echo "Patches applied:"
+            patches="$(cd packages/build-tools/issues && find . -path './_*' -prune -o -name '*.patch' -print | sort | sed 's|^\./|- |')"
+            echo "${patches:-- none}"
+          } > notes.md
+          cat notes.md
+
+      - name: Replace the release
+        # One release at a time: delete the previous one and its tag, then
+        # publish this build as the latest release.
+        run: |
+          gh release delete "$TAG" --cleanup-tag --yes || true
+          gh release create "$TAG" dist/* \
+            --target "$GITHUB_SHA" \
+            --title "NW.js v$VERSION ($FLAVOR) — build-tools" \
+            --notes-file notes.md \
+            --latest
+
+  test:
+    name: Test issue
+    needs: release
+    if: always() && needs.release.result == 'success' && inputs.issue != ''
+    uses: ./.github/workflows/test-nwjs.yml
+    with:
+      issue: ${{ inputs.issue }}
