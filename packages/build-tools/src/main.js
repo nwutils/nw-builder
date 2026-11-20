@@ -7,8 +7,9 @@ import {
   capture,
   depsVar,
   exists,
-  gclientSpec,
+  gclientFile,
   gypDefines,
+  packageTargets,
   parseVersion,
   run,
   stepsLeft,
@@ -126,20 +127,15 @@ export async function setup({ dir, version, installDeps = false }) {
     throw new Error(`nw_src_revision not found in ${path.join(nwDir, "DEPS")}`);
   }
 
+  // gclient reads its configuration from .gclient in the root; `runhooks`
+  // below needs it, so it's written rather than passed with --spec.
+  fs.writeFileSync(path.join(dir, ".gclient"), gclientFile(revision));
+
   // Sync without hooks first: on a fresh Linux machine the hooks need the
   // system packages that install-build-deps.sh installs from the checkout.
   await run(
     "gclient",
-    [
-      "sync",
-      "--spec",
-      gclientSpec(revision),
-      "--no-history",
-      "--nohooks",
-      "--force",
-      "--reset",
-      "--jobs=8",
-    ],
+    ["sync", "--no-history", "--nohooks", "--force", "--reset", "--jobs=8"],
     { cwd: dir, env },
   );
   if (installDeps) {
@@ -203,20 +199,22 @@ export async function gen({ dir, arch = "x64", flavor = "normal", ccWrapper }) {
 }
 
 /**
- * Builds NW.js: Node.js (out/Release), then the nwjs target (out/nw), then
- * copies libnode into it. Ninja only redoes what is out of date, so a build
- * stopped at `stopAt` continues where it left off when run again (and with a
- * compiler cache, recompiling a fresh checkout is mostly cache hits).
+ * Builds NW.js: Chromium and everything NW packages (out/nw), then Node.js
+ * (out/Release), which links against V8, libc++ and other libraries from the
+ * Chromium build, then copies libnode into out/nw/lib. Ninja only redoes what
+ * is out of date, so a build stopped at `stopAt` continues where it left off
+ * when run again (and with a compiler cache, recompiling a fresh checkout is
+ * mostly cache hits).
  *
  * @param {Options} options
  * @returns {Promise<boolean>} True when the build finished, false if it stopped at `stopAt`.
  */
-export async function build({ dir, stopAt }) {
+export async function build({ dir, flavor = "normal", stopAt }) {
   const src = path.join(dir, "src");
   const env = toolsEnv(dir);
   const steps = [
+    ["-C", "out/nw", ...packageTargets(flavor)],
     ["-C", "out/Release", "node"],
-    ["-C", "out/nw", "nwjs"],
     ["-C", "out/nw", "copy_node"],
   ];
   for (const step of steps) {
@@ -228,32 +226,48 @@ export async function build({ dir, stopAt }) {
 }
 
 /**
- * Counts the build steps left for the nwjs target.
+ * Counts the Chromium build steps left (out/nw) for the files NW.js packages.
  *
  * @param {Options} options
- * @returns {number} Steps left; 0 when NW.js is fully built.
+ * @returns {number} Steps left; 0 when that part of the build is done.
  */
-export function status({ dir }) {
+export function status({ dir, flavor = "normal" }) {
   const src = path.join(dir, "src");
-  const output = capture("ninja", ["-n", "-C", "out/nw", "nwjs"], {
-    cwd: src,
-    env: toolsEnv(dir),
-  });
+  const output = capture(
+    "ninja",
+    ["-n", "-C", "out/nw", ...packageTargets(flavor)],
+    { cwd: src, env: toolsEnv(dir) },
+  );
   return stepsLeft(output);
 }
 
 /**
- * Packages the built binaries with NW's own `dist` target.
+ * Packages the built binaries with NW's own packaging script, as its `dist`
+ * target does but without that target's symbol dumping (which would also
+ * build chromedriver and the breakpad tools for the normal flavor).
  *
  * @param {Options} options
  * @returns {Promise<string[]>} Paths of the packages created, in out/nw/dist.
  */
-export async function dist({ dir }) {
+export async function dist({ dir, arch = "x64", flavor = "normal" }) {
   const src = path.join(dir, "src");
-  await run("ninja", ["-C", "out/nw", "dist"], {
-    cwd: src,
-    env: toolsEnv(dir),
-  });
+  await run(
+    "python3",
+    [
+      "content/nw/tools/package_binaries.py",
+      "--path",
+      "out/nw",
+      "--arch",
+      arch,
+      "--mode",
+      flavor === "sdk" ? "sdk" : "nosdk",
+      "--icudat",
+      "third_party/icu/common/icudtl.dat",
+      "--step",
+      "nw",
+    ],
+    { cwd: src, env: toolsEnv(dir) },
+  );
   const distDir = path.join(src, "out", "nw", "dist");
   return fs.readdirSync(distDir).map((file) => path.join(distDir, file));
 }

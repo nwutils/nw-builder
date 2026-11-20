@@ -40,15 +40,45 @@ export function depsVar(deps, name) {
 }
 
 /**
- * Builds the gclient spec NW.js's own tools/sync.py uses: Chromium from NW's
+ * Builds the .gclient file NW.js's own tools/sync.py uses: Chromium from NW's
  * fork at the pinned revision, with NW's DEPS (src/content/nw/DEPS) in place
  * of Chromium's, which swaps in NW's V8 and adds Node.js and NW's patches.
+ * The "small" checkout configuration skips benchmark suites and GPU test data.
  *
  * @param {string} revision - nw_src_revision from NW's DEPS.
- * @returns {string} The spec, for `gclient sync --spec`.
+ * @returns {string} Contents for the .gclient file in the gclient root.
  */
-export function gclientSpec(revision) {
-  return `solutions = [{"managed": False, "name": "src", "url": "https://github.com/nwjs/chromium.src.git@${revision}", "custom_deps": {}, "deps_file": "content/nw/DEPS", "safesync_url": "", "custom_vars": {"download_reclient": False, "non_git_source": True}}]`;
+export function gclientFile(revision) {
+  return `solutions = [{"managed": False, "name": "src", "url": "https://github.com/nwjs/chromium.src.git@${revision}", "custom_deps": {}, "deps_file": "content/nw/DEPS", "safesync_url": "", "custom_vars": {"download_reclient": False, "non_git_source": True, "checkout_configuration": "small"}}]\n`;
+}
+
+/**
+ * The ninja targets (in out/nw) that produce every file NW.js packages:
+ * the nwjs group, the credits page, ANGLE and Vulkan/SwiftShader, plus nwjc,
+ * chromedriver and minidump_stackwalk for the SDK. NW's own \`dist\` target
+ * also builds and dumps debug symbols for all of these, which a CI build
+ * doesn't need.
+ *
+ * @param {Flavor} flavor - "normal" or "sdk".
+ * @returns {string[]} Ninja target names.
+ */
+export function packageTargets(flavor) {
+  const targets = [
+    "nwjs",
+    "components/resources:about_credits_nw",
+    "third_party/angle:libEGL",
+    "third_party/angle:libGLESv2",
+    "third_party/vulkan-loader/src:libvulkan",
+    "third_party/swiftshader/src/Vulkan:swiftshader_libvulkan",
+  ];
+  if (flavor === "sdk") {
+    targets.push(
+      "v8:nwjc",
+      "chrome/test/chromedriver:chromedriver_server",
+      "third_party/breakpad:minidump_stackwalk",
+    );
+  }
+  return targets;
 }
 
 /**
@@ -73,7 +103,13 @@ export function argsGn({ arch, flavor, ccWrapper }) {
     v8_symbol_level: 0,
     use_remoteexec: false,
     use_siso: false,
-    ...(ccWrapper ? { cc_wrapper: `"${ccWrapper}"` } : {}),
+    // A newer compiler warning shouldn't fail a day-long build.
+    treat_warnings_as_errors: false,
+    // sccache can't cache compiles that use Clang header modules, which
+    // Chromium turns on by default on Linux, so turn them off with a cache.
+    ...(ccWrapper
+      ? { cc_wrapper: `"${ccWrapper}"`, use_clang_modules: false }
+      : {}),
   };
   return Object.entries(args)
     .map(([key, value]) => `${key} = ${value}`)

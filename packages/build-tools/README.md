@@ -12,16 +12,19 @@ node packages/build-tools/src/cli.js build --dir /mnt/nwjs
 node packages/build-tools/src/cli.js dist  --dir /mnt/nwjs
 ```
 
-| Command  | Does                                                                                                                                                                                                                                                                           |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `setup`  | Clones depot_tools, NW.js at `nw-v<version>` into `src/content/nw`, then `gclient sync` (no git history) with NW's DEPS, which pins Chromium (`nwjs/chromium.src`), V8 (`nwjs/v8`) and Node.js (`nwjs/node`). `--install-deps` runs Chromium's `install-build-deps.sh` (sudo). |
-| `gen`    | Writes `out/nw/args.gn` and runs `gn gen`; generates NW's Node.js build (GYP) in `out/Release`.                                                                                                                                                                                |
-| `build`  | `ninja` for `node`, `nwjs` and `copy_node`. With `--stop-at <unix seconds>` it stops at that time and exits 3; run it again to continue.                                                                                                                                       |
-| `status` | Prints how many build steps are left.                                                                                                                                                                                                                                          |
-| `dist`   | Runs NW's `dist` target; packages land in `out/nw/dist`.                                                                                                                                                                                                                       |
+| Command  | Does                                                                                                                                                                                                                                                                                                        |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `setup`  | Clones depot_tools, NW.js at `nw-v<version>` into `src/content/nw`, then `gclient sync` (no git history, Chromium's "small" checkout) with NW's DEPS, which pins Chromium (`nwjs/chromium.src`), V8 (`nwjs/v8`) and Node.js (`nwjs/node`). `--install-deps` runs Chromium's `install-build-deps.sh` (sudo). |
+| `gen`    | Writes `out/nw/args.gn` and runs `gn gen`; generates NW's Node.js build (GYP) in `out/Release`.                                                                                                                                                                                                             |
+| `build`  | Chromium and every file NW packages (`out/nw`), then Node.js (`out/Release`, which links against the Chromium build's V8 and libc++), then `copy_node`. With `--stop-at <unix seconds>` it stops at that time and exits 3; run it again to continue.                                                        |
+| `status` | Prints how many Chromium build steps are left.                                                                                                                                                                                                                                                              |
+| `dist`   | Runs NW's packaging script; packages land in `out/nw/dist`. Unlike NW's `dist` target, it skips dumping debug symbols, which would also build chromedriver and the breakpad tools.                                                                                                                          |
 
-`--flavor sdk` builds the SDK flavor (DevTools). Builds are release builds
-without debug symbols (`symbol_level = 0`) to keep CI time and disk down.
+`--flavor sdk` builds the SDK flavor (DevTools, `nwjc`, chromedriver). Builds
+are release builds without debug symbols (`symbol_level = 0`) to keep CI time
+and disk down, and don't fail on compiler warnings. With `--cc-wrapper`, Clang
+header modules are turned off, since sccache can't cache compiles that use
+them.
 
 Needs ~100 GB of disk, Python 3 and git.
 

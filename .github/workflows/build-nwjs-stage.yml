@@ -86,7 +86,8 @@ jobs:
         id: build
         run: |
           set +e
-          node packages/build-tools/src/cli.js build --dir "$WORK_DIR" --stop-at "$STOP_AT"
+          node packages/build-tools/src/cli.js build \
+            --dir "$WORK_DIR" --flavor "${{ inputs.flavor }}" --stop-at "$STOP_AT"
           code=$?
           set -e
           sccache --show-stats || true
@@ -98,7 +99,9 @@ jobs:
 
       - name: Package
         if: steps.build.outputs.done == 'true'
-        run: node packages/build-tools/src/cli.js dist --dir "$WORK_DIR"
+        run: >
+          node packages/build-tools/src/cli.js dist
+          --dir "$WORK_DIR" --flavor "${{ inputs.flavor }}"
 
       - name: Upload packages
         if: steps.build.outputs.done == 'true'

@@ -5,8 +5,9 @@ import {
   argsGn,
   assertSupported,
   depsVar,
-  gclientSpec,
+  gclientFile,
   gypDefines,
+  packageTargets,
   parseVersion,
   remainingMs,
   run,
@@ -46,14 +47,29 @@ describe("build-tools util", () => {
     }
   });
 
-  it("builds the gclient spec NW's sync.py uses", () => {
-    const spec = gclientSpec("abc123");
+  it("writes the .gclient file NW's sync.py uses, with a small checkout", () => {
+    const file = gclientFile("abc123");
+    assert.match(file, /^solutions = \[/);
     assert.match(
-      spec,
+      file,
       /"url": "https:\/\/github.com\/nwjs\/chromium.src.git@abc123"/,
     );
-    assert.match(spec, /"deps_file": "content\/nw\/DEPS"/);
-    assert.match(spec, /"managed": False/);
+    assert.match(file, /"deps_file": "content\/nw\/DEPS"/);
+    assert.match(file, /"managed": False/);
+    assert.match(file, /"checkout_configuration": "small"/);
+  });
+
+  it("builds every packaged file, and the SDK tools only for the SDK", () => {
+    const normal = packageTargets("normal");
+    assert.equal(normal[0], "nwjs");
+    assert.ok(normal.includes("components/resources:about_credits_nw"));
+    assert.ok(normal.includes("third_party/angle:libEGL"));
+    assert.ok(!normal.includes("v8:nwjc"));
+    assert.ok(!normal.some((t) => t.includes("chromedriver")));
+    const sdk = packageTargets("sdk");
+    assert.ok(sdk.includes("v8:nwjc"));
+    assert.ok(sdk.includes("chrome/test/chromedriver:chromedriver_server"));
+    assert.ok(sdk.includes("third_party/breakpad:minidump_stackwalk"));
   });
 
   it("writes GN args for each flavor", () => {
@@ -63,10 +79,13 @@ describe("build-tools util", () => {
     assert.match(normal, /^target_cpu = "x64"$/m);
     assert.match(normal, /^nwjs_sdk = false$/m);
     assert.match(normal, /^symbol_level = 0$/m);
+    assert.match(normal, /^treat_warnings_as_errors = false$/m);
     assert.doesNotMatch(normal, /cc_wrapper/);
+    assert.doesNotMatch(normal, /use_clang_modules/);
     const sdk = argsGn({ arch: "x64", flavor: "sdk", ccWrapper: "sccache" });
     assert.match(sdk, /^nwjs_sdk = true$/m);
     assert.match(sdk, /^cc_wrapper = "sccache"$/m);
+    assert.match(sdk, /^use_clang_modules = false$/m);
   });
 
   it("matches the Node.js GYP defines to the flavor", () => {
