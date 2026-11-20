@@ -11,11 +11,6 @@ name: Build NW.js
 # compiler cache. Stages after the one that finishes are skipped.
 
 on:
-  # TEMPORARY: build on pushes to the PR branch until this workflow is on main
-  # (manual runs only work for workflows on the default branch). Remove before merging.
-  push:
-    branches:
-      - claude/build-tools
   workflow_dispatch:
     inputs:
       version:
@@ -34,10 +29,9 @@ permissions:
   contents: read
 
 concurrency:
-  group: build-nwjs-${{ inputs.version || 'latest' }}-${{ inputs.flavor || 'sdk' }}
-  # A push replaces the build of the previous push; a manual run is never
-  # cancelled by another.
-  cancel-in-progress: ${{ github.event_name == 'push' }}
+  group: build-nwjs-${{ inputs.version }}-${{ inputs.flavor }}
+  # Never cancel a running build for another one.
+  cancel-in-progress: false
 
 jobs:
   version:
@@ -50,7 +44,7 @@ jobs:
       - name: Resolve "latest" to a version
         id: resolve
         run: |
-          version="${{ inputs.version || 'latest' }}"
+          version="${{ inputs.version }}"
           if [ "$version" = "latest" ]; then
             version="$(curl -fsSL https://nwjs.io/versions.json | jq -r .latest)"
           fi
@@ -61,7 +55,7 @@ jobs:
     uses: ./.github/workflows/build-nwjs-stage.yml
     with:
       version: ${{ needs.version.outputs.version }}
-      flavor: ${{ inputs.flavor || 'sdk' }}
+      flavor: ${{ inputs.flavor }}
       stage: 1
 
   stage-2:
@@ -70,7 +64,7 @@ jobs:
     uses: ./.github/workflows/build-nwjs-stage.yml
     with:
       version: ${{ needs.version.outputs.version }}
-      flavor: ${{ inputs.flavor || 'sdk' }}
+      flavor: ${{ inputs.flavor }}
       stage: 2
 
   stage-3:
@@ -79,7 +73,7 @@ jobs:
     uses: ./.github/workflows/build-nwjs-stage.yml
     with:
       version: ${{ needs.version.outputs.version }}
-      flavor: ${{ inputs.flavor || 'sdk' }}
+      flavor: ${{ inputs.flavor }}
       stage: 3
 
   stage-4:
@@ -88,7 +82,7 @@ jobs:
     uses: ./.github/workflows/build-nwjs-stage.yml
     with:
       version: ${{ needs.version.outputs.version }}
-      flavor: ${{ inputs.flavor || 'sdk' }}
+      flavor: ${{ inputs.flavor }}
       stage: 4
 
   stage-5:
@@ -97,7 +91,7 @@ jobs:
     uses: ./.github/workflows/build-nwjs-stage.yml
     with:
       version: ${{ needs.version.outputs.version }}
-      flavor: ${{ inputs.flavor || 'sdk' }}
+      flavor: ${{ inputs.flavor }}
       stage: 5
 
   stage-6:
@@ -106,7 +100,7 @@ jobs:
     uses: ./.github/workflows/build-nwjs-stage.yml
     with:
       version: ${{ needs.version.outputs.version }}
-      flavor: ${{ inputs.flavor || 'sdk' }}
+      flavor: ${{ inputs.flavor }}
       stage: 6
 
   release:
@@ -121,7 +115,7 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       TAG: build-tools
       VERSION: ${{ needs.version.outputs.version }}
-      FLAVOR: ${{ inputs.flavor || 'sdk' }}
+      FLAVOR: ${{ inputs.flavor }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7.0.1
