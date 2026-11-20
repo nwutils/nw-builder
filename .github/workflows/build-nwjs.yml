@@ -1,0 +1,98 @@
+name: Build NW.js
+
+# Compiles NW.js from source on GitHub-hosted runners. A full build is longer
+# than the 6 hour job limit, so it runs as a chain of stages; each builds until
+# its deadline and the next continues from the compiler cache. Stages after the
+# one that finishes are skipped.
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: NW.js version, e.g. 0.120.0, or latest
+        type: string
+        default: latest
+      flavor:
+        description: Build flavor
+        type: choice
+        options:
+          - normal
+          - sdk
+        default: normal
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-nwjs-${{ inputs.version }}-${{ inputs.flavor }}
+  cancel-in-progress: false
+
+jobs:
+  version:
+    name: Resolve version
+    runs-on: ubuntu-24.04
+    if: github.repository_owner == 'nwutils'
+    outputs:
+      version: ${{ steps.resolve.outputs.version }}
+    steps:
+      - name: Resolve "latest" to a version
+        id: resolve
+        run: |
+          version="${{ inputs.version }}"
+          if [ "$version" = "latest" ]; then
+            version="$(curl -fsSL https://nwjs.io/versions.json | jq -r .latest)"
+          fi
+          echo "version=${version#v}" >> "$GITHUB_OUTPUT"
+
+  stage-1:
+    needs: version
+    uses: ./.github/workflows/build-nwjs-stage.yml
+    with:
+      version: ${{ needs.version.outputs.version }}
+      flavor: ${{ inputs.flavor }}
+      stage: 1
+
+  stage-2:
+    needs: [version, stage-1]
+    if: needs.stage-1.outputs.done == 'false'
+    uses: ./.github/workflows/build-nwjs-stage.yml
+    with:
+      version: ${{ needs.version.outputs.version }}
+      flavor: ${{ inputs.flavor }}
+      stage: 2
+
+  stage-3:
+    needs: [version, stage-2]
+    if: needs.stage-2.outputs.done == 'false'
+    uses: ./.github/workflows/build-nwjs-stage.yml
+    with:
+      version: ${{ needs.version.outputs.version }}
+      flavor: ${{ inputs.flavor }}
+      stage: 3
+
+  stage-4:
+    needs: [version, stage-3]
+    if: needs.stage-3.outputs.done == 'false'
+    uses: ./.github/workflows/build-nwjs-stage.yml
+    with:
+      version: ${{ needs.version.outputs.version }}
+      flavor: ${{ inputs.flavor }}
+      stage: 4
+
+  stage-5:
+    needs: [version, stage-4]
+    if: needs.stage-4.outputs.done == 'false'
+    uses: ./.github/workflows/build-nwjs-stage.yml
+    with:
+      version: ${{ needs.version.outputs.version }}
+      flavor: ${{ inputs.flavor }}
+      stage: 5
+
+  stage-6:
+    needs: [version, stage-5]
+    if: needs.stage-5.outputs.done == 'false'
+    uses: ./.github/workflows/build-nwjs-stage.yml
+    with:
+      version: ${{ needs.version.outputs.version }}
+      flavor: ${{ inputs.flavor }}
+      stage: 6
