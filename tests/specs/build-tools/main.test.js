@@ -145,60 +145,97 @@ describe("build-tools issue tests", () => {
     );
   });
 
+  /*
+   * A stand-in issue test, the same code in every issue folder: it records its
+   * issue (its folder's name) and NWJS_SDK_DIR in the RECORD file, and fails
+   * if its issue is listed in FAIL.
+   */
+  const standInTest = [
+    'import fs from "node:fs";',
+    'import path from "node:path";',
+    'import { it } from "node:test";',
+    "const issue = path.basename(import.meta.dirname);",
+    "it(issue, () => {",
+    "  fs.appendFileSync(process.env.RECORD, `${issue} ${process.env.NWJS_SDK_DIR}\\n`);",
+    '  if ((process.env.FAIL ?? "").split(",").includes(issue)) {',
+    '    throw new Error("still broken");',
+    "  }",
+    "});",
+  ].join("\n");
+
+  /**
+   * Runs `fn` with environment variables set (inherited by the test run).
+   *
+   * @param {Record<string, string>} vars - Variables to set.
+   * @param {() => Promise<void>} fn - Function to run.
+   * @returns {Promise<void>}
+   */
+  async function withEnv(vars, fn) {
+    const saved = { ...process.env };
+    Object.assign(process.env, vars);
+    try {
+      await fn();
+    } finally {
+      for (const key of Object.keys(vars)) {
+        if (key in saved) {
+          process.env[key] = saved[key];
+        } else {
+          delete process.env[key];
+        }
+      }
+    }
+  }
+
   it("runs only the chosen issue's test, with the SDK in NWJS_SDK_DIR", async () => {
     const dir = tempDir();
     const issues = tempDir();
     const record = path.join(dir, "ran.txt");
-    const issueTest = (
-      /** @type {string} */ name,
-      /** @type {boolean} */ pass,
-    ) =>
-      [
-        'import fs from "node:fs";',
-        'import { it } from "node:test";',
-        `it("${name}", () => {`,
-        `  fs.appendFileSync(${JSON.stringify(record)}, "${name} " + process.env.NWJS_SDK_DIR + "\\n");`,
-        pass ? "});" : '  throw new Error("still broken");\n});',
-      ].join("\n");
     write(issues, {
-      "1234/issue.test.js": issueTest("1234", true),
-      "8345/issue.test.js": issueTest("8345", false),
+      "1234/issue.test.js": standInTest,
+      "8345/issue.test.js": standInTest,
     });
     const nwdir = path.join(dir, "sdk");
 
-    assert.equal(
-      await runIssueTests({ dir, issues, issue: "1234", nwdir }),
-      true,
-    );
-    assert.equal(fs.readFileSync(record, "utf8"), `1234 ${nwdir}\n`);
+    await withEnv({ RECORD: record, FAIL: "8345" }, async () => {
+      assert.equal(
+        await runIssueTests({ dir, issues, issue: "1234", nwdir }),
+        true,
+      );
+      assert.equal(fs.readFileSync(record, "utf8"), `1234 ${nwdir}\n`);
 
-    assert.equal(
-      await runIssueTests({ dir, issues, issue: "8345", nwdir }),
-      false,
-    );
+      assert.equal(
+        await runIssueTests({ dir, issues, issue: "8345", nwdir }),
+        false,
+      );
+    });
   });
 
   it("runs every issue's test by default, and passes with no issues", async () => {
     const dir = tempDir();
     const issues = tempDir();
     const record = path.join(dir, "ran.txt");
-    for (const name of ["1234", "8345"]) {
-      write(issues, {
-        [`${name}/issue.test.js`]: [
-          'import fs from "node:fs";',
-          'import { it } from "node:test";',
-          `it("${name}", () => fs.appendFileSync(${JSON.stringify(record)}, "${name}\\n"));`,
-        ].join("\n"),
-      });
-    }
+    write(issues, {
+      "1234/issue.test.js": standInTest,
+      "8345/issue.test.js": standInTest,
+    });
     const nwdir = path.join(dir, "sdk");
-    assert.equal(await runIssueTests({ dir, issues, nwdir }), true);
-    assert.deepEqual(
-      fs.readFileSync(record, "utf8").trim().split("\n").sort(),
-      ["1234", "8345"],
-    );
 
-    assert.equal(await runIssueTests({ dir, issues: tempDir(), nwdir }), true);
+    await withEnv({ RECORD: record }, async () => {
+      assert.equal(await runIssueTests({ dir, issues, nwdir }), true);
+      assert.deepEqual(
+        fs
+          .readFileSync(record, "utf8")
+          .trim()
+          .split("\n")
+          .map((line) => line.split(" ")[0])
+          .sort(),
+        ["1234", "8345"],
+      );
+      assert.equal(
+        await runIssueTests({ dir, issues: tempDir(), nwdir }),
+        true,
+      );
+    });
   });
 
   it("fails clearly for an unknown issue or one without a test", async () => {
