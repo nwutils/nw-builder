@@ -63,7 +63,7 @@ NW.js runs headless in CI, where it cancels file dialogs. To test a file
 dialog, launch NW.js with `headless: false` (CI runs the tests on Xvfb) and
 answer the dialog with `fileChooserPortal(paths)` from `src/testing.js`: a
 stand-in for the desktop portal that Chromium shows Linux file dialogs
-through, which picks `paths` in every dialog. It needs `dbus-daemon` and
+through, which picks `paths` in every dialog. It needs `dbus-run-session` and
 Python with PyGObject (`PYTHON`, default `python3`); see
 [`issues/8393`](issues/8393).
 
