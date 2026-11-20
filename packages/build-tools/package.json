@@ -1,0 +1,62 @@
+{
+  "name": "@nwutils/build-tools",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Set up the environment and compile NW.js from source.",
+  "keywords": [
+    "NW.js",
+    "node-webkit",
+    "Desktop",
+    "Application"
+  ],
+  "author": {
+    "name": "Ayushman Chhabra",
+    "url": "https://ayushmanchhabra.com"
+  },
+  "maintainers": [
+    {
+      "name": "Ayushman Chhabra",
+      "url": "https://ayushmanchhabra.com"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "@nwutils/build-tools Contributors",
+      "url": "https://github.com/nwutils/nw-builder/graphs/contributors"
+    }
+  ],
+  "license": "MIT",
+  "main": "./src/main.js",
+  "bin": {
+    "build-tools": "src/cli.js"
+  },
+  "types": "types/main.d.ts",
+  "type": "module",
+  "homepage": "https://github.com/nwutils/nw-builder",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nwutils/nw-builder.git",
+    "directory": "./packages/build-tools"
+  },
+  "scripts": {
+    "lint": "eslint . ../../tests/specs/build-tools",
+    "lint:fix": "eslint . ../../tests/specs/build-tools --fix",
+    "type": "tsc",
+    "test": "node --test \"../../tests/specs/build-tools/*.test.js\""
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "26.7.0",
+      "onFail": "warn"
+    },
+    "packageManager": {
+      "name": "npm",
+      "version": "12.0.2",
+      "onFail": "warn"
+    }
+  },
+  "dependencies": {
+    "selenium-webdriver": "^4.52.0"
+  }
+}

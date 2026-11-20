@@ -1,0 +1,155 @@
+name: Build NW.js
+
+# Compiles NW.js from source on GitHub-hosted runners with the patches of
+# every issue merged into packages/build-tools/issues, publishes it as the
+# "build-tools" release (replacing the previous one, marked latest), then runs
+# every issue's test against that release. Run it manually after merging
+# issue fixes.
+#
+# A full build is longer than the 6 hour job limit, so it runs as a chain of
+# stages; each builds until its deadline and the next continues from the
+# compiler cache. Stages after the one that finishes are skipped.
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: NW.js version, e.g. 0.120.0, or latest
+        type: string
+        default: latest
+      flavor:
+        description: Build flavor (issue tests need the SDK's chromedriver)
+        type: choice
+        options:
+          - sdk
+          - normal
+        default: sdk
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-nwjs-${{ inputs.version }}-${{ inputs.flavor }}
+  # Never cancel a running build for another one.
+  cancel-in-progress: false
+
+jobs:
+  version:
+    name: Resolve version
+    runs-on: ubuntu-24.04
+    if: github.repository_owner == 'nwutils'
+    outputs:
+      version: ${{ steps.resolve.outputs.version }}
+    steps:
+      - name: Resolve "latest" to a version
+        id: resolve
+        run: |
+          version="${{ inputs.version }}"
+          if [ "$version" = "latest" ]; then
+            version="$(curl -fsSL https://nwjs.io/versions.json | jq -r .latest)"
+          fi
+          echo "version=${version#v}" >> "$GITHUB_OUTPUT"
+
+  stage-1:
+    needs: version
+    uses: ./.github/workflows/build-nwjs-stage.yml
+    with:
+      version: ${{ needs.version.outputs.version }}
+      flavor: ${{ inputs.flavor }}
+      stage: 1
+
+  stage-2:
+    needs: [version, stage-1]
+    if: needs.stage-1.outputs.done == 'false'
+    uses: ./.github/workflows/build-nwjs-stage.yml
+    with:
+      version: ${{ needs.version.outputs.version }}
+      flavor: ${{ inputs.flavor }}
+      stage: 2
+
+  stage-3:
+    needs: [version, stage-2]
+    if: needs.stage-2.outputs.done == 'false'
+    uses: ./.github/workflows/build-nwjs-stage.yml
+    with:
+      version: ${{ needs.version.outputs.version }}
+      flavor: ${{ inputs.flavor }}
+      stage: 3
+
+  stage-4:
+    needs: [version, stage-3]
+    if: needs.stage-3.outputs.done == 'false'
+    uses: ./.github/workflows/build-nwjs-stage.yml
+    with:
+      version: ${{ needs.version.outputs.version }}
+      flavor: ${{ inputs.flavor }}
+      stage: 4
+
+  stage-5:
+    needs: [version, stage-4]
+    if: needs.stage-4.outputs.done == 'false'
+    uses: ./.github/workflows/build-nwjs-stage.yml
+    with:
+      version: ${{ needs.version.outputs.version }}
+      flavor: ${{ inputs.flavor }}
+      stage: 5
+
+  stage-6:
+    needs: [version, stage-5]
+    if: needs.stage-5.outputs.done == 'false'
+    uses: ./.github/workflows/build-nwjs-stage.yml
+    with:
+      version: ${{ needs.version.outputs.version }}
+      flavor: ${{ inputs.flavor }}
+      stage: 6
+
+  release:
+    name: Release
+    needs: [version, stage-1, stage-2, stage-3, stage-4, stage-5, stage-6]
+    # Whichever stage finished the build uploaded the packages.
+    if: always() && contains(needs.*.outputs.done, 'true')
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TAG: build-tools
+      VERSION: ${{ needs.version.outputs.version }}
+      FLAVOR: ${{ inputs.flavor }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.1
+
+      - name: Download packages
+        uses: actions/download-artifact@v4
+        with:
+          name: nwjs-v${{ env.VERSION }}-linux-x64-${{ env.FLAVOR }}
+          path: dist
+
+      - name: Write release notes
+        run: |
+          {
+            echo "NW.js v$VERSION ($FLAVOR, Linux x64) built from source by @nwutils/build-tools at $GITHUB_SHA."
+            echo
+            echo "Patches applied:"
+            patches="$(cd packages/build-tools/issues && find . -path './_*' -prune -o -name '*.patch' -print | sort | sed 's|^\./|- |')"
+            echo "${patches:-- none}"
+          } > notes.md
+          cat notes.md
+
+      - name: Replace the release
+        # One release at a time: delete the previous one and its tag, then
+        # publish this build as the latest release.
+        run: |
+          gh release delete "$TAG" --cleanup-tag --yes || true
+          gh release create "$TAG" dist/* \
+            --target "$GITHUB_SHA" \
+            --title "NW.js v$VERSION ($FLAVOR) — build-tools" \
+            --notes-file notes.md \
+            --latest
+
+  test:
+    name: Test issues
+    needs: release
+    if: always() && needs.release.result == 'success'
+    uses: ./.github/workflows/test-nwjs.yml

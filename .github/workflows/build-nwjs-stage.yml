@@ -1,0 +1,113 @@
+name: Build NW.js (stage)
+
+# One stage of the NW.js build, called repeatedly by build-nwjs.yml. A full
+# build takes longer than GitHub's 6 hour job limit, so each stage builds until
+# shortly before the limit and stops. Compiled objects go to the GitHub Actions
+# cache through sccache, so the next stage (or the next run) gets them back as
+# cache hits and continues where this one stopped.
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: NW.js version, e.g. 0.120.0
+        type: string
+        required: true
+      flavor:
+        description: normal or sdk
+        type: string
+        required: true
+      stage:
+        description: Stage number, for logs and artifact names
+        type: number
+        required: true
+    outputs:
+      done:
+        description: "'true' when this stage finished the build"
+        value: ${{ jobs.build.outputs.done }}
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Linux x64 (stage ${{ inputs.stage }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    outputs:
+      done: ${{ steps.build.outputs.done }}
+    env:
+      WORK_DIR: /mnt/nwjs
+      SCCACHE_GHA_ENABLED: "true"
+      # Shared across versions: most objects don't change between releases.
+      SCCACHE_GHA_VERSION: nwjs-linux-x64
+    steps:
+      - name: Set the build deadline
+        # Stop building 30 minutes before the 6 hour limit, leaving time to
+        # package and upload. Everything before the build counts too.
+        run: echo "STOP_AT=$(( $(date +%s) + 330 * 60 ))" >> "$GITHUB_ENV"
+
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.1
+
+      - name: Free disk space
+        # Chromium's checkout and build need ~100 GB. Remove preinstalled
+        # toolchains we don't use and build on /mnt, the runner's larger disk.
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc \
+            /opt/hostedtoolcache/CodeQL /usr/local/share/boost /usr/local/.ghcup
+          sudo docker image prune --all --force > /dev/null
+          sudo mkdir -p "$WORK_DIR"
+          sudo chown "$(id -u):$(id -g)" "$WORK_DIR"
+          df -h / /mnt
+
+      - name: Read Node.js version from devEngines
+        run: echo "NODE_VERSION=$(jq -r '.devEngines.runtime.version' package.json)" >> "$GITHUB_ENV"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7.1.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@v0.0.9
+
+      - name: Get the sources
+        run: >
+          node packages/build-tools/src/cli.js setup
+          --dir "$WORK_DIR" --version "${{ inputs.version }}" --install-deps
+
+      - name: Generate build files
+        run: >
+          node packages/build-tools/src/cli.js gen
+          --dir "$WORK_DIR" --flavor "${{ inputs.flavor }}" --cc-wrapper sccache
+
+      - name: Build until the deadline
+        id: build
+        run: |
+          set +e
+          node packages/build-tools/src/cli.js build \
+            --dir "$WORK_DIR" --flavor "${{ inputs.flavor }}" --stop-at "$STOP_AT"
+          code=$?
+          set -e
+          sccache --show-stats || true
+          case "$code" in
+            0) echo "done=true" >> "$GITHUB_OUTPUT" ;;
+            3) echo "done=false" >> "$GITHUB_OUTPUT" ;;
+            *) exit "$code" ;;
+          esac
+
+      - name: Package
+        if: steps.build.outputs.done == 'true'
+        run: >
+          node packages/build-tools/src/cli.js dist
+          --dir "$WORK_DIR" --flavor "${{ inputs.flavor }}"
+
+      - name: Upload packages
+        if: steps.build.outputs.done == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: nwjs-v${{ inputs.version }}-linux-x64-${{ inputs.flavor }}
+          path: ${{ env.WORK_DIR }}/src/out/nw/dist/*
+          if-no-files-found: error
+          retention-days: 7
