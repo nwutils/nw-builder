@@ -1,16 +1,13 @@
-From 0355a64e803ffbb1e1131061d3b389aabfb8c709 Mon Sep 17 00:00:00 2001
-From: Claude <noreply@anthropic.com>
-Date: Fri, 20 Nov 2026 10:00:08 +0000
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ayushman Chhabra <14110965+ayushmanchhabra@users.noreply.github.com>
+Date: Sat, 21 Nov 2026 06:57:01 +0000
 Subject: [PATCH] Fix crash when picking a folder with nwdirectory
 
-An <input nwdirectory> picks the folder itself instead of uploading its
-contents, so FileSelectHelper reports it in kUploadFolder mode with an
-empty base_dir. Since Chromium 154, RemoveSymlinks() CHECKs that base_dir
-isn't empty, which crashes NW.js 0.117 and later as soon as a folder is
-picked. With no base_dir there is nothing enumerated to filter, so pass
-the selection on as is.
+<input nwdirectory> picks the folder itself, so base_dir is empty, and
+RemoveSymlinks() CHECKs that it isn't (fatal since Chromium 154). Pass
+such selections on without filtering.
 
-Fixes nwjs/nw.js#8393
+Refs: nwjs/nw.js#8393
 ---
  content/browser/web_contents/file_chooser_impl.cc | 9 ++++++++-
  1 file changed, 8 insertions(+), 1 deletion(-)

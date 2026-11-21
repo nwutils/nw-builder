@@ -1,13 +1,11 @@
-From afdab7b9a84d1c33396191478f95046d4eb51186 Mon Sep 17 00:00:00 2001
-From: Claude <noreply@anthropic.com>
-Date: Sat, 21 Nov 2026 05:46:28 +0000
-Subject: [PATCH] Use the Debian bullseye sysroots NW's DEPS downloads
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ayushman Chhabra <14110965+ayushmanchhabra@users.noreply.github.com>
+Date: Sat, 21 Nov 2026 06:57:04 +0000
+Subject: [PATCH] Use the Debian bullseye sysroots on Linux
 
-On Linux x64, ia32 and arm, common.gypi pointed --sysroot at the
-debian_sid sysroots, which NW's DEPS no longer downloads: it fetches the
-debian_bullseye ones that Chromium uses (arm64 already used bullseye).
-On a fresh checkout the build then has no system headers:
-'sys/types.h' file not found.
+NW's DEPS only downloads the debian_bullseye sysroots. The debian_sid
+ones used on x64, ia32 and arm don't exist, so the build fails with
+"'sys/types.h' file not found".
 ---
  common.gypi | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
