@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.4](https://github.com/nwutils/nw-builder/compare/@nwutils/doctor-v0.1.3...@nwutils/doctor-v0.1.4) (2026-11-21)
+
+
+### Chores
+
+* **docs:** contributor guide, JSDoc lint and docs skills ([#1734](https://github.com/nwutils/nw-builder/issues/1734)) ([eb4b220](https://github.com/nwutils/nw-builder/commit/eb4b220fa3ee17bdb8ff1ddf102ee03d2ca4762d))
+
 ## [0.1.3](https://github.com/nwutils/nw-builder/compare/@nwutils/doctor-v0.1.2...@nwutils/doctor-v0.1.3) (2026-10-16)
 
 
