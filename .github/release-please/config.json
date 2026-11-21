@@ -83,6 +83,8 @@
       "component": "@nwutils/build-tools",
       "include-component-in-tag": true,
       "release-type": "node",
+      "initial-version": "0.1.0",
+      "bump-minor-pre-major": true,
       "changelog-sections": [
         { "type": "feat", "section": "Features", "hidden": false },
         { "type": "fix", "section": "Bug Fixes", "hidden": false },
