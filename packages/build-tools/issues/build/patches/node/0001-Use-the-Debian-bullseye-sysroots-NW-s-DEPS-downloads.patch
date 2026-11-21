@@ -1,0 +1,38 @@
+From afdab7b9a84d1c33396191478f95046d4eb51186 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Sat, 21 Nov 2026 05:46:28 +0000
+Subject: [PATCH] Use the Debian bullseye sysroots NW's DEPS downloads
+
+On Linux x64, ia32 and arm, common.gypi pointed --sysroot at the
+debian_sid sysroots, which NW's DEPS no longer downloads: it fetches the
+debian_bullseye ones that Chromium uses (arm64 already used bullseye).
+On a fresh checkout the build then has no system headers:
+'sys/types.h' file not found.
+---
+ common.gypi | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/common.gypi b/common.gypi
+index b899522..9fed107 100644
+--- a/common.gypi
++++ b/common.gypi
+@@ -156,13 +156,13 @@
+         'v8_enable_31bit_smis_on_64bit_arch': 1,
+       }],
+       ['OS=="linux" and target_arch=="ia32" and <(building_nw)==1', {
+-        'sysroot': '<!(cd <(DEPTH) && pwd -P)/build/linux/debian_sid_i386-sysroot',
++        'sysroot': '<!(cd <(DEPTH) && pwd -P)/build/linux/debian_bullseye_i386-sysroot',
+       }],
+       ['OS=="linux" and target_arch=="x64" and <(building_nw)==1', {
+-        'sysroot': '<!(cd <(DEPTH) && pwd -P)/build/linux/debian_sid_amd64-sysroot',
++        'sysroot': '<!(cd <(DEPTH) && pwd -P)/build/linux/debian_bullseye_amd64-sysroot',
+       }],
+       ['OS=="linux" and target_arch=="arm" and <(building_nw)==1', {
+-        'sysroot': '<!(cd <(DEPTH) && pwd -P)/build/linux/debian_sid_arm-sysroot',
++        'sysroot': '<!(cd <(DEPTH) && pwd -P)/build/linux/debian_bullseye_armhf-sysroot',
+       }],
+       ['OS=="linux" and target_arch=="arm64" and <(building_nw)==1', {
+         'sysroot': '<!(cd <(DEPTH) && pwd -P)/build/linux/debian_bullseye_arm64-sysroot',
+-- 
+2.43.0
+
