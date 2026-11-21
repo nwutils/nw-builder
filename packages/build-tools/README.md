@@ -128,6 +128,15 @@ CI runs `check` too. Title the pull request
 `chore(test): nwjs/nw.js#<issue> <what it fixes>` and put
 `Refs: nwjs/nw.js#<issue>` in the description.
 
+### 5. Send it upstream
+
+Once merged, send the patch to NW.js with the `/upstream-patch` skill in
+Claude Code ([`.claude/skills/upstream-patch`](../../.claude/skills/upstream-patch/SKILL.md)),
+or by hand: apply it to your fork of the repository with `git am`, then open a
+pull request against `main` with `Refs: nwjs/nw.js#<issue>`. nwjs/chromium.src
+closes every pull request, so for chromium.src patches, post the patch on the
+NW.js issue instead.
+
 ### Build fixes
 
 Fixes to NW.js's own build that no NW.js issue covers, such as a missing
