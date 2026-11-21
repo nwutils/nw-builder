@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ayushman Chhabra <14110965+ayushmanchhabra@users.noreply.github.com>
+Date: Sat, 21 Nov 2026 08:11:15 +0000
+Subject: [PATCH] Link node_js2c with Chromium's libc++ on Linux
+
+node_js2c is compiled against Chromium's libc++ headers but only linked
+with -lstdc++, so linking fails with undefined std::__1 symbols.
+---
+ node.gyp | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/node.gyp b/node.gyp
+index 00c1905..cfad350 100644
+--- a/node.gyp
++++ b/node.gyp
+@@ -2124,6 +2124,11 @@
+           'defines': ['NODE_JS2C_USE_STRING_LITERALS'],
+ 	  'ldflags': [ '-lstdc++' ], #'-Wl,--whole-archive <(LIBSIMDUTF)', '-Wl,--no-whole-archive' ],
+         }],
++        # NW.js: on Linux, node_js2c is compiled against Chromium's libc++
++        # headers (see common.gypi), so it links Chromium's libc++ too.
++        [ 'OS=="linux" and building_nw==1', {
++          'libraries': [ '<(LIBCXX)' ],
++        }],
+         [ 'debug_node=="true"', {
+           'cflags!': [ '-O3' ],
+           'cflags': [ '-g', '-O0' ],
+-- 
+2.43.0
+
