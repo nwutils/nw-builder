@@ -23,3 +23,5 @@ npm test
 ```
 
 Each command fans out across every package in `./packages`. To work against a single package, use npm's `--workspace` flag, e.g. `npm test --workspace=@nwutils/getter`.
+
+`npm run lint` also checks that JSDoc matches the code. With Claude Code, run `/sync-docs` before opening a pull request to update JSDoc descriptions and READMEs for your changes ([skills](.claude/skills)).

@@ -34,7 +34,10 @@ async function doctor(options) {
     options.version = manifest[options.version].slice(1);
   }
   let releaseData = manifest.versions.find(
-    /** @param {{ version: string, components: { node: string } }} release */
+    /**
+     * @param {{ version: string, components: { node: string } }} release
+     * @returns {boolean} Whether it's the requested version.
+     */
     (release) => release.version === `v${options.version}`,
   );
 

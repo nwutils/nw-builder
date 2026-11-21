@@ -70,6 +70,29 @@ export default defineConfig([
     },
   },
 
+  /*
+   * Every package: JSDoc must match the code, so renamed or reordered
+   * parameters and missing @param/@returns/@yields fail lint. tsc (checkJs)
+   * checks the types; the sync-docs skill keeps the descriptions current.
+   */
+  {
+    files: ["packages/*/**/*.{js,mjs,cjs}"],
+    plugins: { jsdoc },
+    rules: {
+      "jsdoc/check-param-names": "error",
+      "jsdoc/check-property-names": "error",
+      "jsdoc/check-tag-names": "error",
+      "jsdoc/check-types": "error",
+      "jsdoc/require-param": "error",
+      "jsdoc/require-param-name": "error",
+      "jsdoc/require-param-type": "error",
+      "jsdoc/require-returns": "error",
+      "jsdoc/require-returns-type": "error",
+      "jsdoc/require-yields": "error",
+      "jsdoc/valid-types": "error",
+    },
+  },
+
   /* nw-builder: semi/quotes plus the jsdoc plugin's recommended rule set. */
   {
     files: ["packages/nw-builder/**/*.{js,mjs,cjs}"],
