@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import {
   argsGn,
   assertSupported,
+  buildSteps,
   capture,
   depsVar,
   exists,
@@ -261,9 +262,9 @@ export async function gen({ dir, arch = "x64", flavor = "normal", ccWrapper }) {
 }
 
 /**
- * Builds NW.js: Chromium and everything NW packages (out/nw), then Node.js
- * (out/Release), which links against V8, libc++ and other libraries from the
- * Chromium build, then copies libnode into out/nw/lib. Ninja only redoes what
+ * Builds NW.js with the ninja runs of buildSteps(): NW's commit id header,
+ * Chromium and everything NW packages (out/nw), then Node.js (out/Release),
+ * which links against the Chromium build, then libnode. Ninja only redoes what
  * is out of date, so a build stopped at `stopAt` continues where it left off
  * when run again (and with a compiler cache, recompiling a fresh checkout is
  * mostly cache hits).
@@ -274,12 +275,7 @@ export async function gen({ dir, arch = "x64", flavor = "normal", ccWrapper }) {
 export async function build({ dir, flavor = "normal", stopAt }) {
   const src = path.join(dir, "src");
   const env = toolsEnv(dir);
-  const steps = [
-    ["-C", "out/nw", ...packageTargets(flavor)],
-    ["-C", "out/Release", "node"],
-    ["-C", "out/nw", "copy_node"],
-  ];
-  for (const step of steps) {
+  for (const step of buildSteps(flavor)) {
     if ((await run("ninja", step, { cwd: src, env, stopAt })) === "stopped") {
       return false;
     }

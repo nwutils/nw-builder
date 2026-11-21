@@ -4,6 +4,7 @@ import { describe, it } from "node:test";
 import {
   argsGn,
   assertSupported,
+  buildSteps,
   depsVar,
   gclientFile,
   gypDefines,
@@ -128,6 +129,19 @@ describe("build-tools util", () => {
       /not supported yet/,
     );
     assert.throws(() => assertSupported("linux", "arm64"), /not supported yet/);
+  });
+
+  it("generates NW's commit id header before building what includes it", () => {
+    const steps = buildSteps("sdk");
+    assert.deepEqual(steps[0], ["-C", "out/nw", "content/nw:commit_id"]);
+    assert.deepEqual(
+      steps.slice(1).map((s) => s.slice(0, 3)),
+      [
+        ["-C", "out/nw", "nwjs"],
+        ["-C", "out/Release", "node"],
+        ["-C", "out/nw", "copy_node"],
+      ],
+    );
   });
 
   it(

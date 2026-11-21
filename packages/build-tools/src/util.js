@@ -83,6 +83,30 @@ export function packageTargets(flavor) {
 }
 
 /**
+ * The ninja runs that build NW.js, in order: NW's commit id header, Chromium
+ * and everything NW packages (out/nw), Node.js (out/Release), which links
+ * against V8, libc++ and other libraries from the Chromium build, then
+ * copying libnode into out/nw/lib.
+ *
+ * The header (gen/nw/id/commit.h, from //content/nw:commit_id) comes first
+ * because NW's content/renderer/renderer_blink_platform_impl.cc includes it
+ * while //content/renderer doesn't depend on that target, so ninja may
+ * compile the file before the header exists, as a build with many compiler
+ * cache hits does. Upstream, the fix is that dependency in nwjs/chromium.src.
+ *
+ * @param {Flavor} flavor - "normal" or "sdk".
+ * @returns {string[][]} Arguments for each ninja run, from the src directory.
+ */
+export function buildSteps(flavor) {
+  return [
+    ["-C", "out/nw", "content/nw:commit_id"],
+    ["-C", "out/nw", ...packageTargets(flavor)],
+    ["-C", "out/Release", "node"],
+    ["-C", "out/nw", "copy_node"],
+  ];
+}
+
+/**
  * GN args for the NW.js build, following NW's official flags (release,
  * component ffmpeg) with settings that keep CI builds tractable: no debug
  * symbols, no remote execution, and an optional compiler cache.
