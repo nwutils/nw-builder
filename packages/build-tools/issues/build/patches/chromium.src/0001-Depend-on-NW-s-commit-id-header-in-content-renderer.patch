@@ -1,0 +1,32 @@
+From 4c21cfc1063edefb167b55d4fc715c2d5a4f44fa Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Sat, 21 Nov 2026 01:43:15 +0000
+Subject: [PATCH] Depend on NW's commit id header in content/renderer
+
+renderer_blink_platform_impl.cc includes nw/id/commit.h, which
+//content/nw:commit_id generates, but //content/renderer didn't depend on
+that target. Ninja could then compile the file before the header
+existed: 'nw/id/commit.h' file not found. It shows up when compiles go
+fast, e.g. with a compiler cache.
+---
+ content/renderer/BUILD.gn | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/content/renderer/BUILD.gn b/content/renderer/BUILD.gn
+index 6c2bff46..d189af08 100644
+--- a/content/renderer/BUILD.gn
++++ b/content/renderer/BUILD.gn
+@@ -257,6 +257,10 @@ target(link_target_type, "renderer") {
+     "//content/common:main_frame_counter",
+     "//content/common/memory_coordinator/mojom",
+     "//content/gpu:gpu_sources",
++
++    # NW.js: renderer_blink_platform_impl.cc includes nw/id/commit.h, which
++    # this target generates.
++    "//content/nw:commit_id",
+     "//content/public/child:child_sources",
+     "//content/public/common:buildflags",
+     "//crypto",
+-- 
+2.43.0
+
