@@ -55,6 +55,7 @@ async function globFiles({ srcDir, glob }) {
  * yielded before its contents, and entries are sorted so output is stable.
  * @param  {string} absDir  - directory to walk
  * @param  {string} relDir  - path of `absDir` relative to the walk root, using `/`
+ * @yields {{ absolute: string, relative: string, stats: fs.Stats }} Each entry.
  * @returns {AsyncGenerator<{ absolute: string, relative: string, stats: fs.Stats }>}
  */
 async function* walkDirectory(absDir, relDir) {

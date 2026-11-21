@@ -10,7 +10,7 @@ import { create } from "../src/commands/create.js";
 import util from "../src/utils.js";
 
 /**
- * @typedef {Object} Options
+ * @typedef {object} Options
  * @property {string} version
  * @property {"normal" | "sdk"} flavor
  * @property {"linux" | "osx" | "win"} platform
@@ -27,7 +27,7 @@ import util from "../src/utils.js";
  */
 
 /**
- * @typedef {Object} CreateOptions
+ * @typedef {object} CreateOptions
  * @property {string} template
  * @property {string} outDir
  */

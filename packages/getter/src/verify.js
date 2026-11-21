@@ -8,14 +8,14 @@ import request from "./request.js";
  * Verify the SHA256 checksum of downloaded artifacts.
  * @async
  * @function
- * @param {string} version - Version of NW.js.
- * @param {string} platform - Platform of NW.js.
- * @param {string} arch - Architecture of NW.js.
  * @param {string} shaUrl - URL to get the shasum text file from.
  * @param {string} shaOut - File path to shasum text file.
  * @param {string} cacheDir - File path to cache directory.
  * @param {boolean} ffmpeg - Toggle between community (true) and official (false) ffmpeg binary
  * @param {boolean} shaSum - Throws error if true, otherwise logs a warning. Applies to both a checksum mismatch and `expectedFile` never being checked at all.
+ * @param {string} version - Version of NW.js.
+ * @param {string} platform - Platform of NW.js.
+ * @param {string} arch - Architecture of NW.js.
  * @param {string} expectedFile - Relative path, as listed in the SHASUMS file, that this call is actually relying on being verified. Other listed files that don't exist locally (eg. other platforms) are still skipped silently - only `expectedFile` going unchecked is treated as a failure, since that means the caller's "integrity verified" belief was never actually true.
  * @throws {Error}
  * @returns {Promise<boolean>} - Returns true if the checksums match.

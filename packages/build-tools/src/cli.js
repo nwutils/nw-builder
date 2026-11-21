@@ -55,29 +55,34 @@ Options:
   -h, --help            Show this help
 `;
 
+/** The command line's options, for parseArgs. */
+const CLI_CONFIG = /** @type {const} */ ({
+  allowPositionals: true,
+  options: {
+    dir: { type: "string", default: "nwjs" },
+    version: { type: "string", default: "latest" },
+    arch: { type: "string", default: "x64" },
+    flavor: { type: "string", default: "normal" },
+    "cc-wrapper": { type: "string" },
+    "install-deps": { type: "boolean", default: false },
+    "stop-at": { type: "string" },
+    issues: { type: "string", default: DEFAULT_ISSUES },
+    issue: { type: "string" },
+    repo: { type: "string" },
+    release: { type: "string", default: RELEASE_TAG },
+    nwdir: { type: "string" },
+    help: { type: "boolean", short: "h", default: false },
+  },
+});
+
 /**
  * Parses the command line, exiting with a message on invalid options.
+ *
+ * @returns {ReturnType<typeof parseArgs<typeof CLI_CONFIG>>} The options and positionals.
  */
 function parseCli() {
   try {
-    return parseArgs({
-      allowPositionals: true,
-      options: {
-        dir: { type: "string", default: "nwjs" },
-        version: { type: "string", default: "latest" },
-        arch: { type: "string", default: "x64" },
-        flavor: { type: "string", default: "normal" },
-        "cc-wrapper": { type: "string" },
-        "install-deps": { type: "boolean", default: false },
-        "stop-at": { type: "string" },
-        issues: { type: "string", default: DEFAULT_ISSUES },
-        issue: { type: "string" },
-        repo: { type: "string" },
-        release: { type: "string", default: RELEASE_TAG },
-        nwdir: { type: "string" },
-        help: { type: "boolean", short: "h", default: false },
-      },
-    });
+    return parseArgs(CLI_CONFIG);
   } catch (error) {
     console.error(error instanceof Error ? error.message : error);
     return process.exit(1);
