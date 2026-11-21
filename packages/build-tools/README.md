@@ -44,6 +44,11 @@ it fixes, and is contributed by pull request:
    conflict with each other), releases it, and runs every issue's test
    against the release.
 
+Fixes to NW.js's own build that no NW.js issue covers, such as a missing
+build dependency, go in [`issues/build/patches/<repository>/`](issues/build)
+instead: patches only, no test. `setup` applies them before the issues'
+patches.
+
 An issue folder holds:
 
 - `patches/<repository>/*.patch`: the fix, one folder per nwjs repository

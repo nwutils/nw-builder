@@ -41,20 +41,22 @@ function write(root, files) {
 }
 
 describe("build-tools issues", () => {
-  it("lists issues, skipping the template", () => {
+  it("lists issues, skipping the template and the build fixes", () => {
     const dir = tempDir();
     write(dir, {
       "_template/x": "",
       "8345/x": "",
       "1234/x": "",
       ".hidden/x": "",
+      "build/patches/chromium.src/0001-dep.patch": "",
     });
     assert.deepEqual(listIssues(dir), ["1234", "8345"]);
   });
 
-  it("lists patches by issue, then repository, then file name", () => {
+  it("lists build fixes first, then patches by issue, repository and file name", () => {
     const dir = tempDir();
     write(dir, {
+      "build/patches/chromium.src/0001-build-dep.patch": "",
       "8345/patches/nw.js/0001-later-issue.patch": "",
       "1234/patches/v8/0001-v8.patch": "",
       "1234/patches/nw.js/0002-b.patch": "",
@@ -69,6 +71,7 @@ describe("build-tools issues", () => {
           `${p.issue} ${p.project}/${path.basename(p.file)} -> ${p.target}`,
       ),
       [
+        "build chromium.src/0001-build-dep.patch -> src",
         "1234 nw.js/0001-a.patch -> src/content/nw",
         "1234 nw.js/0002-b.patch -> src/content/nw",
         "1234 chromium.src/0001-c.patch -> src",
@@ -268,6 +271,16 @@ describe("build-tools check", () => {
     });
     assert.deepEqual(check({ dir: "", issues }), []);
     assert.deepEqual(check({ dir: "" }), []);
+
+    // Build fixes need no test, but must be git patches.
+    write(issues, {
+      "build/patches/chromium.src/0001-dep.patch": "diff --git a/b b/b\n",
+    });
+    assert.deepEqual(check({ dir: "", issues }), []);
+    write(issues, { "build/patches/chromium.src/0002-x.patch": "text" });
+    assert.deepEqual(check({ dir: "", issues }), [
+      "build/patches/chromium.src/0002-x.patch: not a git patch (make it with git format-patch)",
+    ]);
   });
 
   it("reports issues without a test, stray folders and non-patches", () => {
