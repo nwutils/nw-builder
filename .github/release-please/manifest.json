@@ -5,5 +5,6 @@
   "packages/doctor": "0.1.3",
   "packages/getter": "0.3.1",
   "packages/runner": "0.2.7",
-  "packages/packager": "0.9.0"
+  "packages/packager": "0.9.0",
+  "packages/build-tools": "0.0.0"
 }

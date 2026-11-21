@@ -24,6 +24,8 @@ jobs:
         with:
           fetch-depth: 0
 
+      # @nwutils/build-tools is private: it gets GitHub releases to track its
+      # changes, and has no publish job.
       - id: release
         uses: googleapis/release-please-action@v5.0.0
         with:
