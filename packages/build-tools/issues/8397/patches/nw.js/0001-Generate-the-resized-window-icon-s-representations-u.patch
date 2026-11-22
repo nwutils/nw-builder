@@ -1,29 +1,24 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Ayushman Chhabra <14110965+ayushmanchhabra@users.noreply.github.com>
-Date: Sat, 21 Nov 2026 20:59:53 +0000
+Date: Sun, 22 Nov 2026 06:15:18 +0000
 Subject: [PATCH] Generate the resized window icon's representations up front
 
-window.icon images larger than 128px are resized lazily, so the icon has
-no representations until one is requested. Wayland's XdgToplevel::SetIcon
-only sends the ones that exist, so the window got an empty icon and showed
-the default one.
+Wayland's SetIcon only sends existing reps, so icons over 128px were empty.
 
 Refs: nwjs/nw.js#8397
 ---
- src/browser/nw_extensions_browser_hooks.cc | 4 ++++
- 1 file changed, 4 insertions(+)
+ src/browser/nw_extensions_browser_hooks.cc | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/src/browser/nw_extensions_browser_hooks.cc b/src/browser/nw_extensions_browser_hooks.cc
-index a330ec3..0dcb25d 100644
+index a330ec3..778f690 100644
 --- a/src/browser/nw_extensions_browser_hooks.cc
 +++ b/src/browser/nw_extensions_browser_hooks.cc
-@@ -285,6 +285,10 @@ void LoadNWAppAsExtensionHook(base::DictValue* manifest,
+@@ -285,6 +285,8 @@ void LoadNWAppAsExtensionHook(base::DictValue* manifest,
            gfx::ImageSkiaOperations::CreateResizedImage(*originImageSkia,
                                                         skia::ImageOperations::RESIZE_GOOD,
                                                         gfx::Size(128, 128));
-+        // The resized image is generated lazily, and some consumers only
-+        // read the representations it already has (e.g. the Wayland window
-+        // icon), so generate them now.
++        // NW.js: Wayland only sends existing reps, so create them now.
 +        resizedImageSkia.EnsureRepsForSupportedScales();
          app_icon = gfx::Image(resizedImageSkia);
        }
