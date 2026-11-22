@@ -3,20 +3,21 @@ From: Ayushman Chhabra <14110965+ayushmanchhabra@users.noreply.github.com>
 Date: Sun, 22 Nov 2026 06:12:49 +0000
 Subject: [PATCH] Add missing commit_id dependency to content/renderer
 
-renderer_blink_platform_impl.cc includes the nw/id/commit.h it generates.
+renderer_blink_platform_impl.cc includes nw/id/commit.h, which
+//content/nw:commit_id generates.
 ---
  content/renderer/BUILD.gn | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/content/renderer/BUILD.gn b/content/renderer/BUILD.gn
-index 6c2bff46..5fff06cf 100644
+index 6c2bff46..4a96bcc8 100644
 --- a/content/renderer/BUILD.gn
 +++ b/content/renderer/BUILD.gn
 @@ -257,6 +257,7 @@ target(link_target_type, "renderer") {
      "//content/common:main_frame_counter",
      "//content/common/memory_coordinator/mojom",
      "//content/gpu:gpu_sources",
-+    "//content/nw:commit_id",  # NW.js: for nw/id/commit.h
++    "//content/nw:commit_id",
      "//content/public/child:child_sources",
      "//content/public/common:buildflags",
      "//crypto",

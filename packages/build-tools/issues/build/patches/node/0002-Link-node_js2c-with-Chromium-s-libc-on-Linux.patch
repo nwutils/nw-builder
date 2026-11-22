@@ -5,18 +5,17 @@ Subject: [PATCH 2/2] Link node_js2c with Chromium's libc++ on Linux
 
 It's built with Chromium's libc++ headers but only linked with -lstdc++.
 ---
- node.gyp | 4 ++++
- 1 file changed, 4 insertions(+)
+ node.gyp | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/node.gyp b/node.gyp
-index 00c1905..eff2b1b 100644
+index 00c1905..0daba6f 100644
 --- a/node.gyp
 +++ b/node.gyp
-@@ -2124,6 +2124,10 @@
+@@ -2124,6 +2124,9 @@
            'defines': ['NODE_JS2C_USE_STRING_LITERALS'],
  	  'ldflags': [ '-lstdc++' ], #'-Wl,--whole-archive <(LIBSIMDUTF)', '-Wl,--no-whole-archive' ],
          }],
-+        # NW.js: it's built with Chromium's libc++ headers.
 +        [ 'OS=="linux" and building_nw==1', {
 +          'libraries': [ '<(LIBCXX)' ],
 +        }],
