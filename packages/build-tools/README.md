@@ -82,7 +82,7 @@ node packages/build-tools/src/cli.js check
 npm test --workspace=@nwutils/build-tools
 ```
 
-Title: `chore(test): nwjs/nw.js#<issue> <what it fixes>`. Description:
+Title: `chore(build-tools): nwjs/nw.js#<issue> <what it fixes>`. Description:
 `Refs: nwjs/nw.js#<issue>`.
 
 ### 5. Send it upstream
