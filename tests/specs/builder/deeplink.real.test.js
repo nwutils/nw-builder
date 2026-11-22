@@ -43,6 +43,24 @@ function launchServicesLines(needle) {
     .map((line) => line.trim());
 }
 
+/**
+ * Output of a command, for diagnostics; never throws.
+ * @param {string} file
+ * @param {string[]} args
+ * @param {number} [timeout]
+ * @returns {string}
+ */
+function capture(file, args, timeout = 60_000) {
+  const result = child_process.spawnSync(file, args, {
+    encoding: "utf-8",
+    timeout,
+    maxBuffer: 64 * 1024 * 1024,
+  });
+  const status = result.signal ?? result.status ?? result.error?.message;
+  const output = `${result.stdout ?? ""}${result.stderr ?? ""}`.trim();
+  return `$ ${[file, ...args].join(" ")} (exit ${status})\n${output.split("\n").slice(-60).join("\n")}`;
+}
+
 /*
  * End to end: builds a real NW.js MacOS app with `app.protocols`, registers it
  * with LaunchServices and opens links with `open`, the way a browser would.
@@ -93,6 +111,84 @@ describe(
           );
         }
         await sleep(1000);
+      }
+    }
+
+    /**
+     * Why the app didn't record a link: whether it runs, its signature, its
+     * output when started directly, crash reports, system log lines, and
+     * whether the stock NW.js app runs the same page.
+     * @returns {Promise<string>}
+     */
+    async function diagnose() {
+      const binary = path.join(appPath, "Contents", "MacOS", "Demo");
+      const reports = path.join(os.homedir(), "Library/Logs/DiagnosticReports");
+      const crashes = fs.existsSync(reports)
+        ? fs
+            .readdirSync(reports)
+            .filter((name) => /demo|nwjs|helper/i.test(name))
+            .map((name) =>
+              fs.readFileSync(path.join(reports, name), "utf-8").slice(0, 4000),
+            )
+        : [];
+      /* Control: the stock NW.js app, not modified by the builder, on the same app. */
+      const controlDir = path.join(tmpDir, "control");
+      const controlRecord = path.join(tmpDir, "control.jsonl");
+      await prepareDeepLinkApp(controlDir, controlRecord);
+      const stock = path.join(
+        cacheDir,
+        `nwjs-v${version}-osx-${arch}`,
+        "nwjs.app",
+        "Contents",
+        "MacOS",
+        "nwjs",
+      );
+      const stockRun = capture(stock, [controlDir], 20_000);
+      const controlRecorded = fs.existsSync(controlRecord)
+        ? fs.readFileSync(controlRecord, "utf-8")
+        : "(nothing)";
+      return [
+        `Stock NW.js recorded: ${controlRecorded}`,
+        stockRun,
+        capture("pgrep", ["-fl", appPath]),
+        capture("codesign", [
+          "--verify",
+          "--deep",
+          "--strict",
+          "--verbose=2",
+          appPath,
+        ]),
+        capture("log", [
+          "show",
+          "--last",
+          "5m",
+          "--style",
+          "compact",
+          "--predicate",
+          `process BEGINSWITH "Demo" OR eventMessage CONTAINS "${protocol}"`,
+        ]),
+        /* Stopped by the timeout if it starts fine. */
+        capture(binary, ["--enable-logging=stderr", "--v=1"], 20_000),
+        `Crash reports: ${crashes.length}`,
+        ...crashes,
+      ].join("\n\n");
+    }
+
+    /**
+     * Wait for the app to record `url`, with diagnostics if it doesn't.
+     * @param {string} url
+     * @returns {Promise<{event: string, value: unknown}>}
+     */
+    async function waitForLink(url) {
+      try {
+        return await waitForDeepLink(recordFile, url);
+      } catch (error) {
+        throw new Error(
+          `${/** @type {Error} */ (error).message}\n\n${await diagnose()}`,
+          {
+            cause: error,
+          },
+        );
       }
     }
 
@@ -186,7 +282,7 @@ describe(
       async function () {
         const url = `${protocol}://cold`;
         await openUrl(url);
-        const record = await waitForDeepLink(recordFile, url);
+        const record = await waitForLink(url);
         assert.strictEqual(record.event, "argv", JSON.stringify(record));
       },
     );
@@ -197,7 +293,7 @@ describe(
       async function () {
         const url = `${protocol}://warm`;
         await openUrl(url);
-        const record = await waitForDeepLink(recordFile, url);
+        const record = await waitForLink(url);
         assert.strictEqual(record.event, "open", JSON.stringify(record));
       },
     );
