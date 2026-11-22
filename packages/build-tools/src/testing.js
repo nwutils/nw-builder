@@ -76,6 +76,14 @@ export async function launch(
 }
 
 /**
+ * A file dialog NW.js asked the stand-in portal for.
+ *
+ * @typedef {object} FileDialog
+ * @property {"OpenFile" | "SaveFile"} method - The kind of dialog.
+ * @property {string} title - Its window title.
+ */
+
+/**
  * Starts a stand-in for the desktop portal's file chooser, which NW.js on
  * Linux shows file dialogs through: src/file_chooser_portal.py on a private
  * D-Bus session bus, answering every file dialog at once with `paths`, as if
@@ -83,8 +91,9 @@ export async function launch(
  * Python with PyGObject (`PYTHON`, default python3).
  *
  * @param {string[]} paths - Files or folders every dialog picks.
- * @returns {Promise<{ env: Record<string, string>, close: () => void }>}
- *   Environment for `launch()`, and a function that stops the portal.
+ * @returns {Promise<{ env: Record<string, string>, dialogs: FileDialog[], close: () => void }>}
+ *   Environment for `launch()`, the dialogs shown so far, and a function that
+ *   stops the portal.
  */
 export async function fileChooserPortal(paths) {
   const portal = child_process.spawn(
@@ -105,9 +114,10 @@ export async function fileChooserPortal(paths) {
       // Already gone.
     }
   };
-  /* It prints the bus's address once it's up. */
+  const lines = readline.createInterface({ input: portal.stdout });
+  /* It prints the bus's address once it's up, then a line per dialog. */
   const [address] = await Promise.race([
-    once(readline.createInterface({ input: portal.stdout }), "line"),
+    once(lines, "line"),
     once(portal, "exit").then(([code]) => {
       throw new Error(
         `file_chooser_portal.py exited (${code}) before starting`,
@@ -117,7 +127,10 @@ export async function fileChooserPortal(paths) {
     close();
     throw error;
   });
-  return { env: { DBUS_SESSION_BUS_ADDRESS: address }, close };
+  /** @type {FileDialog[]} */
+  const dialogs = [];
+  lines.on("line", (line) => dialogs.push(JSON.parse(line)));
+  return { env: { DBUS_SESSION_BUS_ADDRESS: address }, dialogs, close };
 }
 
 /**

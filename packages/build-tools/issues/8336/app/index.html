@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+  <body>
+    <button id="save">Save</button>
+    <p id="saved"></p>
+    <script>
+      document.getElementById("save").addEventListener("click", async () => {
+        const handle = await window.showSaveFilePicker();
+        document.getElementById("saved").textContent = handle.name;
+      });
+    </script>
+  </body>
+</html>

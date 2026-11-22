@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ayushman Chhabra <14110965+ayushmanchhabra@users.noreply.github.com>
+Date: Sun, 22 Nov 2026 19:47:19 +0000
+Subject: [PATCH] Use the platform's title for the save file picker
+
+Chrome's "Warning: this site can see edits you make" is meant for
+websites, not an app's own save dialog.
+
+Refs: nwjs/nw.js#8336
+---
+ .../chrome_file_system_access_permission_context.cc             | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/chrome/browser/file_system_access/chrome_file_system_access_permission_context.cc b/chrome/browser/file_system_access/chrome_file_system_access_permission_context.cc
+index 449d83a1..1f4e19a4 100644
+--- a/chrome/browser/file_system_access/chrome_file_system_access_permission_context.cc
++++ b/chrome/browser/file_system_access/chrome_file_system_access_permission_context.cc
+@@ -2913,8 +2913,6 @@ std::u16string ChromeFileSystemAccessPermissionContext::GetPickerTitle(
+       break;
+     case blink::mojom::TypeSpecificFilePickerOptionsUnion::Tag::
+         kSaveFilePickerOptions:
+-      title = l10n_util::GetStringUTF16(
+-          IDS_FILE_SYSTEM_ACCESS_CHOOSER_OPEN_SAVE_FILE_TITLE);
+       break;
+     case blink::mojom::TypeSpecificFilePickerOptionsUnion::Tag::
+         kOpenFilePickerOptions:
+-- 
+2.43.0
+
