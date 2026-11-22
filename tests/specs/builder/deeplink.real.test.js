@@ -58,7 +58,39 @@ function capture(file, args, timeout = 60_000) {
   });
   const status = result.signal ?? result.status ?? result.error?.message;
   const output = `${result.stdout ?? ""}${result.stderr ?? ""}`.trim();
-  return `$ ${[file, ...args].join(" ")} (exit ${status})\n${output.split("\n").slice(-60).join("\n")}`;
+  const lines = output.split("\n");
+  const kept =
+    lines.length > 120
+      ? [...lines.slice(0, 80), "...", ...lines.slice(-40)]
+      : lines;
+  return `$ ${[file, ...args].join(" ")} (exit ${status})\n${kept.join("\n")}`;
+}
+
+/**
+ * The crashing thread's stack from a MacOS `.ips` crash report: a JSON header
+ * line, then the report as JSON.
+ * @param {string} text
+ * @returns {string}
+ */
+function crashSummary(text) {
+  try {
+    const report = JSON.parse(text.slice(text.indexOf("\n") + 1));
+    const images = report.usedImages ?? [];
+    const thread = report.threads?.[report.faultingThread ?? 0] ?? {};
+    const frames = (thread.frames ?? [])
+      .slice(0, 40)
+      .map(
+        (/** @type {any} */ frame) =>
+          `  ${path.basename(images[frame.imageIndex]?.path ?? "?")} ${frame.symbol ?? ""}+${frame.symbolLocation ?? frame.imageOffset}`,
+      );
+    return [
+      `${report.procName} (${report.procRole}) ${report.exception?.type} ${report.exception?.signal}`,
+      JSON.stringify(report.asi ?? {}),
+      ...frames,
+    ].join("\n");
+  } catch {
+    return text.slice(0, 4000);
+  }
 }
 
 /*
@@ -128,7 +160,7 @@ describe(
             .readdirSync(reports)
             .filter((name) => /demo|nwjs|helper/i.test(name))
             .map((name) =>
-              fs.readFileSync(path.join(reports, name), "utf-8").slice(0, 4000),
+              crashSummary(fs.readFileSync(path.join(reports, name), "utf-8")),
             )
         : [];
       /* Control: the stock NW.js app, not modified by the builder, on the same app. */
