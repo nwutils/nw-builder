@@ -1,6 +1,7 @@
 import child_process from "node:child_process";
 import { once } from "node:events";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import process from "node:process";
 import readline from "node:readline";
@@ -117,4 +118,97 @@ export async function fileChooserPortal(paths) {
     throw error;
   });
   return { env: { DBUS_SESSION_BUS_ADDRESS: address }, close };
+}
+
+/**
+ * @typedef {object} WaylandIconRequest
+ * @property {"create_icon" | "add_buffer" | "set_icon"} request - The request.
+ * @property {number} icon - The icon object (0 when set_icon clears it).
+ * @property {number} [width] - add_buffer: the buffer's width in pixels.
+ * @property {number} [height] - add_buffer: the buffer's height in pixels.
+ * @property {number} [scale] - add_buffer: the scale it's for.
+ */
+
+/**
+ * Starts a headless Wayland session that records window icons: weston, behind
+ * src/wayland_icon_proxy.py, which adds the window icon protocol
+ * (xdg_toplevel_icon_manager_v1) weston lacks and records the icon requests
+ * NW.js sends. Pass `env` and `args` to `launch()` with `headless: false`.
+ * Needs weston and Python.
+ *
+ * @returns {Promise<{ env: Record<string, string>, args: string[], requests: WaylandIconRequest[], close: () => void }>}
+ *   Environment and switches for `launch()`, the icon requests so far, and a
+ *   function that stops the session.
+ */
+export async function waylandIconSession() {
+  const runtimeDir = fs.mkdtempSync(path.join(os.tmpdir(), "nwjs-wayland-"));
+  fs.chmodSync(runtimeDir, 0o700);
+  const env = { ...process.env, XDG_RUNTIME_DIR: runtimeDir };
+  /** @type {child_process.ChildProcess[]} */
+  const children = [];
+  const close = () => {
+    for (const child of children) {
+      child.kill();
+    }
+    fs.rmSync(runtimeDir, { recursive: true, force: true });
+  };
+
+  try {
+    const weston = child_process.spawn(
+      "weston",
+      ["--backend=headless", "--socket=wl-compositor", "--idle-time=0"],
+      { env, stdio: "ignore" },
+    );
+    children.push(weston);
+    const compositor = path.join(runtimeDir, "wl-compositor");
+    for (let i = 0; !fs.existsSync(compositor); i++) {
+      if (i === 100 || weston.exitCode !== null) {
+        throw new Error("weston didn't start");
+      }
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+
+    const proxy = child_process.spawn(
+      process.env.PYTHON ?? "python3",
+      [
+        path.join(import.meta.dirname, "wayland_icon_proxy.py"),
+        path.join(runtimeDir, "wl-proxy"),
+        compositor,
+      ],
+      { env, stdio: ["ignore", "pipe", "inherit"] },
+    );
+    children.push(proxy);
+    /** @type {WaylandIconRequest[]} */
+    const requests = [];
+    const lines = readline.createInterface({
+      input: /** @type {import("node:stream").Readable} */ (proxy.stdout),
+    });
+    /* It prints "ready" once it listens, then a JSON line per icon request. */
+    await Promise.race([
+      new Promise((resolve) =>
+        lines.on("line", (line) => {
+          if (line === "ready") {
+            resolve(undefined);
+          } else {
+            requests.push(JSON.parse(line));
+          }
+        }),
+      ),
+      once(proxy, "exit").then(([code]) => {
+        throw new Error(
+          `wayland_icon_proxy.py exited (${code}) before starting`,
+        );
+      }),
+    ]);
+
+    return {
+      env: { XDG_RUNTIME_DIR: runtimeDir, WAYLAND_DISPLAY: "wl-proxy" },
+      args: ["ozone-platform=wayland"],
+      requests,
+      close,
+    };
+  } catch (error) {
+    close();
+    throw error;
+  }
 }
