@@ -126,6 +126,26 @@ describe(
       assert.strictEqual(helperPathExists, true);
     });
 
+    it("renames every helper the way Chromium looks them up", async function () {
+      const helpersDir = path.dirname(helperPath);
+      const helpers = await fs.promises.readdir(helpersDir);
+      assert.deepStrictEqual(
+        helpers.filter((name) => name.startsWith("nwjs Helper")),
+        [],
+      );
+      /* Chromium starts `<main executable> Helper<suffix>.app/Contents/MacOS/<same>`. */
+      for (const helper of helpers.filter((name) => name.endsWith(".app"))) {
+        const executable = path.join(
+          helpersDir,
+          helper,
+          "Contents",
+          "MacOS",
+          helper.replace(/\.app$/, ""),
+        );
+        assert.strictEqual(await util.fileExists(executable), true, executable);
+      }
+    });
+
     it("registers custom URL schemes in Info.plist", async function () {
       const infoPlist = parse(
         await fs.promises.readFile(
