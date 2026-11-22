@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ayushman Chhabra <14110965+ayushmanchhabra@users.noreply.github.com>
+Date: Sun, 22 Nov 2026 10:51:02 +0000
+Subject: [PATCH 1/2] Generate the credits page in every build
+
+It defaults to is_official_build, which NW.js doesn't set, so
+credits.html was Chromium's sample page.
+
+Refs: nwjs/nw.js#8384
+---
+ .gn | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/.gn b/.gn
+index e3e7149c..4749f33e 100644
+--- a/.gn
++++ b/.gn
+@@ -78,6 +78,8 @@ default_args = {
+   clang_warning_suppression_file = "//build/config/warning_suppression.txt"
+   clang_raw_ptr_plugin_config_file = "//build/config/raw_ptr_plugin_config.yaml"
+   rust_clippy_conf_file = "//build/config/clippy.toml"
++
++  generate_about_credits = true
+ }
+ 
+ # These are the targets to skip header checking by default. The files in targets
+-- 
+2.43.0
+

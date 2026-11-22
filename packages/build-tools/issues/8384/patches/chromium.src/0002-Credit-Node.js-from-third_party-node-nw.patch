@@ -1,0 +1,32 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ayushman Chhabra <14110965+ayushmanchhabra@users.noreply.github.com>
+Date: Sun, 22 Nov 2026 10:41:33 +0000
+Subject: [PATCH 2/2] Credit Node.js from third_party/node-nw
+
+licenses.py only knew NW's old third_party/node path, so the credits
+page skipped Node.js.
+
+Refs: nwjs/nw.js#8384
+---
+ tools/licenses/licenses.py | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/tools/licenses/licenses.py b/tools/licenses/licenses.py
+index cef4caa9..ee3ca3e3 100755
+--- a/tools/licenses/licenses.py
++++ b/tools/licenses/licenses.py
+@@ -207,6 +207,11 @@ SPECIAL_CASES = {
+     "URL": "https://iojs.org",
+     "License": "MIT",
+   },
++  os.path.join('third_party', 'node-nw'): {
++    "Name": "Node.js",
++    "URL": "https://nodejs.org",
++    "License": "MIT",
++  },
+   os.path.join('third_party', 'cros_system_api'): {
+     "Name": "Chromium OS system API",
+     "URL": "https://www.chromium.org/chromium-os",
+-- 
+2.43.0
+
