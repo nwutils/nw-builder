@@ -1,32 +1,25 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Ayushman Chhabra <14110965+ayushmanchhabra@users.noreply.github.com>
-Date: Sat, 21 Nov 2026 06:57:01 +0000
+Date: Sun, 22 Nov 2026 06:12:47 +0000
 Subject: [PATCH] Fix crash when picking a folder with nwdirectory
 
-<input nwdirectory> picks the folder itself, so base_dir is empty, and
-RemoveSymlinks() CHECKs that it isn't (fatal since Chromium 154). Pass
-such selections on without filtering.
+RemoveSymlinks() CHECKs base_dir, which nwdirectory leaves empty.
 
 Refs: nwjs/nw.js#8393
 ---
- content/browser/web_contents/file_chooser_impl.cc | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ content/browser/web_contents/file_chooser_impl.cc | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/content/browser/web_contents/file_chooser_impl.cc b/content/browser/web_contents/file_chooser_impl.cc
-index d0e46983..8361972d 100644
+index d0e46983..0b514cee 100644
 --- a/content/browser/web_contents/file_chooser_impl.cc
 +++ b/content/browser/web_contents/file_chooser_impl.cc
-@@ -102,7 +102,14 @@ void FileChooserImpl::FileSelectListenerImpl::FileSelected(
+@@ -102,7 +102,9 @@ void FileChooserImpl::FileSelectListenerImpl::FileSelected(
    if (!owner_)
      return;
  
 -  if (mode != blink::mojom::FileChooserParams::Mode::kUploadFolder) {
-+  // NW.js: an <input nwdirectory> picks the folder itself instead of
-+  // uploading its contents (FileSelectHelper's !extract_directory_), so there
-+  // is no `base_dir` and nothing enumerated in it for RemoveSymlinks() to
-+  // filter; RemoveSymlinks() CHECKs `base_dir` isn't empty
-+  // (nwjs/nw.js#8393). The renderer gets the empty `base_dir` as before, so
-+  // the folder has no relative path.
++  // NW.js: nwdirectory picks the folder itself, so base_dir is empty.
 +  if (mode != blink::mojom::FileChooserParams::Mode::kUploadFolder ||
 +      base_dir.empty()) {
      owner_->FileSelected(base_dir, mode, std::move(files));
