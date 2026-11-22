@@ -65,6 +65,8 @@ app with `launch()` from [`src/testing.js`](src/testing.js).
 - WebDriver can't click a file `<input>`: click a `<label>` for it.
 - File dialogs need `launch(app, { headless: false, env })` and
   `fileChooserPortal()`. See [`issues/8393`](issues/8393).
+- Wayland window icons: `waylandIconSession()` runs NW.js on a headless
+  weston and records the icons it sets. See [`issues/8397`](issues/8397).
 
 Check that it fails on official NW.js (add `xvfb-run -a` without a display):
 

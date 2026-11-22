@@ -1,0 +1,7 @@
+{
+  "name": "issue-8397",
+  "main": "index.html",
+  "window": {
+    "icon": "./icon-256.png"
+  }
+}
