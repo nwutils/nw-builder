@@ -57,6 +57,6 @@
     }
   },
   "dependencies": {
-    "selenium-webdriver": "^4.52.0"
+    "selenium-webdriver": "^4.53.0"
   }
 }

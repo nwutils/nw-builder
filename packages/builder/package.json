@@ -47,9 +47,9 @@
   },
   "dependencies": {
     "glob": "^14.0.6",
-    "pe-library": "^2.0.1",
+    "pe-library": "^2.0.3",
     "plist": "^5.1.1",
-    "resedit": "^3.1.0",
+    "resedit": "^3.1.1",
     "semver": "^7.8.5",
     "tar": "^7.5.23",
     "zip-stream": "^7.0.5"
