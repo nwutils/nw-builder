@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+  <body>
+    <p id="status">Press Ctrl+Shift+A after kiosk mode starts.</p>
+    <script>
+      const shortcut = new nw.Shortcut({
+        key: "Ctrl+Shift+A",
+        active: () => {
+          document.getElementById("status").textContent = "hotkey fired";
+        },
+      });
+      nw.App.registerGlobalHotKey(shortcut);
+      nw.Window.get().enterKioskMode();
+    </script>
+  </body>
+</html>
