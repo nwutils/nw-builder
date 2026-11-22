@@ -40,11 +40,15 @@ clone_nw() {
     rm -rf "$WORK_DIR/nw/$name/.git"
 }
 
-# Downloads tag $3 of $1 into up/$2.
+# Downloads tag $3 of $1 into up/$2. Retries, as GitHub rate limits large
+# archive downloads (HTTP 429).
 fetch_up() {
     local uri="$1" name="$2" tag="$3"
     mkdir "$WORK_DIR/up/$name"
-    curl -fsSL "$uri/archive/refs/tags/$tag.tar.gz" | tar -xz --strip-components=1 -C "$WORK_DIR/up/$name"
+    curl -fsSL --retry 5 --retry-delay 60 --retry-all-errors \
+        -o "$WORK_DIR/$name.tar.gz" "$uri/archive/refs/tags/$tag.tar.gz"
+    tar -xzf "$WORK_DIR/$name.tar.gz" --strip-components=1 -C "$WORK_DIR/up/$name"
+    rm "$WORK_DIR/$name.tar.gz"
 }
 
 chromium_version() {
