@@ -105,10 +105,7 @@ export default async function setOsxConfig({
       });
     }
 
-    /*
-     * Since NW.js v0.120.0 (Chromium M157), child processes start from the
-     * Aperitif helpers, found by the main executable's name: rename them too.
-     */
+    /* MacOS Aperitif Helpers start child processes since NW.js v0.120.0 (Chromium M157) */
     for (const helperApp of [
       { name: "nwjs Helper (Aperitif).app", id: "helper.aperitif" },
       {
