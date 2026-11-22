@@ -1,6 +1,6 @@
 {
   "name": "@nwutils/cli",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Command line interface for building NW.js applications",
   "keywords": [
     "NW.js",
@@ -48,7 +48,7 @@
     "test": "node --test \"../../tests/specs/cli/*.test.js\""
   },
   "dependencies": {
-    "@nwutils/getter": "^0.2.4",
+    "@nwutils/getter": "^0.3.2",
     "@nwutils/runner": "^0.2.7",
     "commander": "^15.0.0"
   },

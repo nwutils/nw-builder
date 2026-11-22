@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.3.1](https://github.com/nwutils/nw-builder/compare/@nwutils/builder-v0.3.0...@nwutils/builder-v0.3.1) (2026-11-22)
+
+
+### Bug Fixes
+
+* **builder:** rename the Aperitif helpers on MacOS ([#1740](https://github.com/nwutils/nw-builder/issues/1740)) ([b00d647](https://github.com/nwutils/nw-builder/commit/b00d647d5762cb87a5857f4f4aef716e0be3e368))
+* **builder:** rename the Aperitif helpers only from v0.120.0 ([#1742](https://github.com/nwutils/nw-builder/issues/1742)) ([4298544](https://github.com/nwutils/nw-builder/commit/42985446a70c139c2336b4310b7822ef7f7f885d))
+
+
+### Chores
+
+* **docs:** contributor guide, JSDoc lint and docs skills ([#1734](https://github.com/nwutils/nw-builder/issues/1734)) ([eb4b220](https://github.com/nwutils/nw-builder/commit/eb4b220fa3ee17bdb8ff1ddf102ee03d2ca4762d))
+
 ## [0.3.0](https://github.com/nwutils/nw-builder/compare/@nwutils/builder-v0.2.0...@nwutils/builder-v0.3.0) (2026-11-16)
 
 
