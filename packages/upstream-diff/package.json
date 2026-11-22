@@ -1,0 +1,17 @@
+{
+  "name": "@nwutils/upstream-diff",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Understand how NW.js changes upstream behaviour.",
+  "author": {
+    "name": "Ayushman Chhabra",
+    "url": "https://ayushmanchhabra.com"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/nwutils/nw-builder",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nwutils/nw-builder.git",
+    "directory": "./packages/upstream-diff"
+  }
+}

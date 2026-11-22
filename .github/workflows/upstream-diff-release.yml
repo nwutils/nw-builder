@@ -1,0 +1,91 @@
+name: Release - @nwutils/upstream-diff
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "packages/upstream-diff/**"
+      - ".github/workflows/upstream-diff-release.yml"
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: upstream-diff-release
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+defaults:
+  run:
+    working-directory: packages/upstream-diff
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    if: github.repository_owner == 'nwutils'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.1
+
+      - name: Check for new NW.js release
+        id: bump
+        run: bash scripts/bump
+
+      - name: Check for open pull request
+        id: branch
+        if: steps.bump.outputs.updated == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          branch="upstream-diff/nw-${{ steps.bump.outputs.nw }}"
+          echo "name=$branch" >> "$GITHUB_OUTPUT"
+          if gh pr list --head "$branch" --state open --json number --jq ".[0].number" | grep -q .; then
+            echo "PR already open for $branch, skipping."
+            echo "open=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "open=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check upstream tags exist
+        if: steps.branch.outputs.open == 'false'
+        run: |
+          git ls-remote --exit-code --tags https://github.com/chromium/chromium "refs/tags/${{ steps.bump.outputs.chromium }}"
+          git ls-remote --exit-code --tags https://github.com/nodejs/node "refs/tags/v${{ steps.bump.outputs.node }}"
+          git ls-remote --exit-code --tags https://github.com/v8/v8 "refs/tags/${{ steps.bump.outputs.v8 }}"
+
+      - name: Make patches
+        if: steps.branch.outputs.open == 'false'
+        run: bash scripts/patch
+
+      - name: Commit, push and open PR
+        if: steps.branch.outputs.open == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ${{ steps.branch.outputs.name }}
+          NW: ${{ steps.bump.outputs.nw }}
+          CHROMIUM: ${{ steps.bump.outputs.chromium }}
+          NODE: ${{ steps.bump.outputs.node }}
+          V8: ${{ steps.bump.outputs.v8 }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git checkout -B "$BRANCH"
+          git add scripts/patch README.md patches/*.patch
+          git commit -m "chore(upstream-diff): update NW.js to version $NW"
+          git push --force origin "$BRANCH"
+
+          gh pr create \
+            --title "chore(upstream-diff): update NW.js to version $NW" \
+            --body "NW.js released [\`v$NW\`](https://nwjs.io/versions.json).
+
+          - NW: $NW
+          - Chromium: $CHROMIUM
+          - Node: $NODE
+          - V8: $V8" \
+            --base main \
+            --head "$BRANCH"

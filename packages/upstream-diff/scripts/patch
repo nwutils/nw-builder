@@ -1,0 +1,110 @@
+#!/bin/bash
+
+# Generates patches/{chromium,node,v8}.patch by diffing the upstream release
+# sources against NW.js's forks.
+#
+# Fails without writing a patch if a source cannot be fetched or if a tree's
+# version does not match the versions below.
+
+set -euo pipefail
+
+NW_URI="https://github.com/nwjs"
+NW_VER=120.0
+
+CHROMIUM_URI="https://github.com/chromium/chromium"
+CHROMIUM_VER="157.0.8103.39"
+
+NODE_URI="https://github.com/nodejs/node"
+NODE_VER="26.12.1"
+
+V8_URI="https://github.com/v8/v8"
+V8_VER="15.7.112.23"
+
+cd "$(dirname "$0")/.."
+
+PATCH_DIR="$PWD/patches"
+WORK_DIR="$PATCH_DIR/work"
+
+rm -rf "$WORK_DIR"
+mkdir -p "$WORK_DIR/nw" "$WORK_DIR/up"
+trap 'rm -rf "$WORK_DIR"' EXIT
+
+# Clones nwjs/$1 into nw/$2, using the release tag when nwjs publishes one.
+clone_nw() {
+    local repo="$1" name="$2" ref="main"
+    if git ls-remote --exit-code --tags "$NW_URI/$repo.git" "refs/tags/nw-v0.$NW_VER" > /dev/null; then
+        ref="nw-v0.$NW_VER"
+    fi
+    git clone --quiet --depth=1 --branch "$ref" "$NW_URI/$repo.git" "$WORK_DIR/nw/$name"
+    echo "nwjs/$repo $ref $(git -C "$WORK_DIR/nw/$name" rev-parse HEAD)"
+    rm -rf "$WORK_DIR/nw/$name/.git"
+}
+
+# Downloads tag $3 of $1 into up/$2. Retries, as GitHub rate limits large
+# archive downloads (HTTP 429).
+fetch_up() {
+    local uri="$1" name="$2" tag="$3"
+    mkdir "$WORK_DIR/up/$name"
+    curl -fsSL --retry 5 --retry-delay 60 --retry-all-errors \
+        -o "$WORK_DIR/$name.tar.gz" "$uri/archive/refs/tags/$tag.tar.gz"
+    tar -xzf "$WORK_DIR/$name.tar.gz" --strip-components=1 -C "$WORK_DIR/up/$name"
+    rm "$WORK_DIR/$name.tar.gz"
+}
+
+chromium_version() {
+    awk -F= '{ v[$1] = $2 } END { print v["MAJOR"] "." v["MINOR"] "." v["BUILD"] "." v["PATCH"] }' "$1/chrome/VERSION"
+}
+
+node_version() {
+    awk '$1 == "#define" { v[$2] = $3 } END { print v["NODE_MAJOR_VERSION"] "." v["NODE_MINOR_VERSION"] "." v["NODE_PATCH_VERSION"] }' "$1/src/node_version.h"
+}
+
+v8_version() {
+    awk '$1 == "#define" { v[$2] = $3 } END { print v["V8_MAJOR_VERSION"] "." v["V8_MINOR_VERSION"] "." v["V8_BUILD_NUMBER"] "." v["V8_PATCH_LEVEL"] }' "$1/include/v8-version.h"
+}
+
+# Fails if the nw and up trees of $1 are not both at version $2.
+check_version() {
+    local name="$1" expected="$2" side actual
+    for side in nw up; do
+        actual=$("${name}_version" "$WORK_DIR/$side/$name")
+        if [[ "$actual" != "$expected" ]]; then
+            echo "$side/$name is $actual, expected $expected" >&2
+            exit 1
+        fi
+    done
+}
+
+# Writes the diff from up/$1 to nw/$1 to $1.patch. Uses git diff so headers
+# carry no timestamps and added files are included in full. Deleted files are
+# listed without their contents.
+make_patch() {
+    local name="$1" status=0
+    (
+        cd "$WORK_DIR"
+        git -c core.quotePath=false diff --no-index --no-color --no-ext-diff \
+            --no-renames --irreversible-delete --src-prefix=a/ --dst-prefix=b/ \
+            "up/$name" "nw/$name"
+    ) > "$WORK_DIR/$name.patch" || status=$?
+    # git diff exits with 1 when the trees differ.
+    if (( status > 1 )); then
+        exit "$status"
+    fi
+    mv "$WORK_DIR/$name.patch" "$PATCH_DIR/$name.patch"
+}
+
+clone_nw chromium.src chromium
+clone_nw node node
+clone_nw v8 v8
+
+fetch_up "$CHROMIUM_URI" chromium "$CHROMIUM_VER"
+fetch_up "$NODE_URI" node "v$NODE_VER"
+fetch_up "$V8_URI" v8 "$V8_VER"
+
+check_version chromium "$CHROMIUM_VER"
+check_version node "$NODE_VER"
+check_version v8 "$V8_VER"
+
+make_patch chromium
+make_patch node
+make_patch v8

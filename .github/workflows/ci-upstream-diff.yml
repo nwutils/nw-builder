@@ -1,0 +1,46 @@
+name: CI - @nwutils/upstream-diff
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "packages/upstream-diff/**"
+      - ".github/workflows/ci-upstream-diff.yml"
+
+concurrency:
+  group: ci-upstream-diff-${{ github.head_ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    working-directory: packages/upstream-diff
+
+jobs:
+  patch:
+    runs-on: ubuntu-24.04
+    # Pushing the regenerated patches needs a branch in this repository.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Make patches
+        run: bash scripts/patch
+
+      - name: Commit patches
+        run: |
+          git add patches/*.patch
+          if git diff --cached --quiet; then
+            echo "Patches are up to date."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore(upstream-diff): update NW.js patches"
+          git push

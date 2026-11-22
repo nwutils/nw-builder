@@ -2,16 +2,17 @@
 
 Develop, build, package and update NW.js applications for Linux, MacOS and Windows.
 
-| Package                                      | Description                                                           |
-| -------------------------------------------- | --------------------------------------------------------------------- |
-| [nw-builder](packages/nw-builder)            | Build NW.js desktop applications for MacOS, Windows and Linux.        |
-| [@nwutils/builder](packages/builder)         | Build NW.js applications for Linux, MacOS and Windows.                |
-| [@nwutils/cli](packages/cli)                 | Command line interface for building NW.js applications.               |
-| [@nwutils/doctor](packages/doctor)           | Configure NW.js environments for Linux, MacOS and Windows.            |
-| [@nwutils/getter](packages/getter)           | Get NW.js and related binaries for Linux, MacOS and Windows.          |
-| [@nwutils/runner](packages/runner)           | Run NW.js and related binaries for Linux, MacOS and Windows.          |
-| [@nwutils/packager](packages/packager)       | Package NW.js and related binaries for Linux, MacOS and Windows.      |
-| [@nwutils/build-tools](packages/build-tools) | Compile NW.js from source with fixes for NW.js issues, and test them. |
+| Package                                          | Description                                                           |
+| ------------------------------------------------ | --------------------------------------------------------------------- |
+| [nw-builder](packages/nw-builder)                | Build NW.js desktop applications for MacOS, Windows and Linux.        |
+| [@nwutils/builder](packages/builder)             | Build NW.js applications for Linux, MacOS and Windows.                |
+| [@nwutils/cli](packages/cli)                     | Command line interface for building NW.js applications.               |
+| [@nwutils/doctor](packages/doctor)               | Configure NW.js environments for Linux, MacOS and Windows.            |
+| [@nwutils/getter](packages/getter)               | Get NW.js and related binaries for Linux, MacOS and Windows.          |
+| [@nwutils/runner](packages/runner)               | Run NW.js and related binaries for Linux, MacOS and Windows.          |
+| [@nwutils/packager](packages/packager)           | Package NW.js and related binaries for Linux, MacOS and Windows.      |
+| [@nwutils/build-tools](packages/build-tools)     | Compile NW.js from source with fixes for NW.js issues, and test them. |
+| [@nwutils/upstream-diff](packages/upstream-diff) | Understand how NW.js changes upstream behaviour.                      |
 
 ## Development
 

@@ -1,0 +1,83 @@
+#!/bin/bash
+
+# Checks https://nwjs.io/versions.json for a new NW.js release. If one exists,
+# updates the versions in scripts/patch and README.md.
+#
+# Writes `updated`, `nw`, `chromium`, `node` and `v8` to $GITHUB_OUTPUT when set.
+
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+VERSIONS_URL="https://nwjs.io/versions.json"
+V8_VERSION_URL="https://raw.githubusercontent.com/nwjs/v8/main/include/v8-version.h"
+
+PATCH_SCRIPT="scripts/patch"
+README="README.md"
+
+output() {
+    echo "$1=$2"
+    if [[ -n "${GITHUB_OUTPUT:-}" ]]; then
+        echo "$1=$2" >> "$GITHUB_OUTPUT"
+    fi
+}
+
+versions=$(curl -fsSL "$VERSIONS_URL")
+
+latest=$(jq -r '.latest' <<< "$versions")
+release=$(jq -c --arg v "$latest" '.versions[] | select(.version == $v)' <<< "$versions")
+
+if [[ -z "$release" ]]; then
+    echo "Could not find $latest in $VERSIONS_URL" >&2
+    exit 1
+fi
+
+# v0.118.0 -> 118.0
+nw_ver="${latest#v0.}"
+chromium_ver=$(jq -r '.components.chromium' <<< "$release")
+node_ver=$(jq -r '.components.node' <<< "$release")
+
+if [[ ! "$chromium_ver" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ || ! "$node_ver" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    echo "Could not read Chromium and Node.js versions for $latest from $VERSIONS_URL" >&2
+    exit 1
+fi
+
+current_nw_ver=$(sed -n 's/^NW_VER=//p' "$PATCH_SCRIPT")
+
+if [[ "$nw_ver" == "$current_nw_ver" ]]; then
+    echo "Already up to date with NW.js 0.$nw_ver"
+    output updated false
+    exit 0
+fi
+
+v8_header=$(curl -fsSL "$V8_VERSION_URL")
+v8_part() {
+    awk -v name="$1" '$1 == "#define" && $2 == name { print $3 }' <<< "$v8_header"
+}
+v8_ver="$(v8_part V8_MAJOR_VERSION).$(v8_part V8_MINOR_VERSION).$(v8_part V8_BUILD_NUMBER).$(v8_part V8_PATCH_LEVEL)"
+
+if [[ ! "$v8_ver" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    echo "Could not parse V8 version from $V8_VERSION_URL" >&2
+    exit 1
+fi
+
+sed -i \
+    -e "s/^NW_VER=.*/NW_VER=$nw_ver/" \
+    -e "s/^CHROMIUM_VER=.*/CHROMIUM_VER=\"$chromium_ver\"/" \
+    -e "s/^NODE_VER=.*/NODE_VER=\"$node_ver\"/" \
+    -e "s/^V8_VER=.*/V8_VER=\"$v8_ver\"/" \
+    "$PATCH_SCRIPT"
+
+sed -i \
+    -e "s/^- NW: .*/- NW: 0.$nw_ver/" \
+    -e "s/^- Chromium: .*/- Chromium: $chromium_ver/" \
+    -e "s/^- Node: .*/- Node: $node_ver/" \
+    -e "s/^- V8: .*/- V8: $v8_ver/" \
+    "$README"
+
+echo "Updated NW.js 0.$current_nw_ver -> 0.$nw_ver"
+output updated true
+output nw "0.$nw_ver"
+output chromium "$chromium_ver"
+output node "$node_ver"
+output v8 "$v8_ver"
