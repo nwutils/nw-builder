@@ -106,21 +106,19 @@ export default async function setOsxConfig({
     }
 
     /* MacOS Aperitif Helpers start child processes since NW.js v0.120.0 (Chromium M157) */
-    for (const helperApp of [
-      { name: "nwjs Helper (Aperitif).app", id: "helper.aperitif" },
-      {
-        name: "nwjs Helper (Aperitif Alerts).app",
-        id: "helper.aperitif.alert",
-      },
-      { name: "nwjs Helper (Aperitif GPU).app", id: "helper.aperitif.gpu" },
-      {
-        name: "nwjs Helper (Aperitif Renderer).app",
-        id: "helper.aperitif.renderer",
-      },
-    ]) {
-      if (fs.existsSync(path.resolve(helperBaseDir, helperApp.name))) {
-        helperApps.push(helperApp);
-      }
+    if (semver.gte(version, "0.120.0")) {
+      helperApps.push(
+        { name: "nwjs Helper (Aperitif).app", id: "helper.aperitif" },
+        {
+          name: "nwjs Helper (Aperitif Alerts).app",
+          id: "helper.aperitif.alert",
+        },
+        { name: "nwjs Helper (Aperitif GPU).app", id: "helper.aperitif.gpu" },
+        {
+          name: "nwjs Helper (Aperitif Renderer).app",
+          id: "helper.aperitif.renderer",
+        },
+      );
     }
 
     for (const helperApp of helperApps) {
