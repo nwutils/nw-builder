@@ -1,0 +1,47 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ayushman Chhabra <14110965+ayushmanchhabra@users.noreply.github.com>
+Date: Sun, 22 Nov 2026 08:26:11 +0000
+Subject: [PATCH] Fix headless crash when no user data dir is given
+
+Headless creates its temporary profile before NW.js loads the app's
+package, so GetDefaultUserDataDirectory() read a null nw::package().
+
+Refs: nwjs/nw.js#8392
+---
+ chrome/common/chrome_paths_linux.cc | 4 ++--
+ chrome/common/chrome_paths_mac.mm   | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/chrome/common/chrome_paths_linux.cc b/chrome/common/chrome_paths_linux.cc
+index f76296d8..bf43a014 100644
+--- a/chrome/common/chrome_paths_linux.cc
++++ b/chrome/common/chrome_paths_linux.cc
+@@ -97,10 +97,10 @@ bool GetDefaultUserDataDirectory(base::FilePath* result) {
+ #elif 0 //BUILDFLAG(GOOGLE_CHROME_BRANDING)
+   std::string data_dir_basename = "google-chrome";
+ #else
+-  std::string data_dir_basename = nw::package()->GetName();
++  std::string data_dir_basename = nw::InitNWPackage()->GetName();
+ #endif
+ 
+-  *result = config_dir.Append(nw::package()->GetName());
++  *result = config_dir.Append(nw::InitNWPackage()->GetName());
+   //*result = config_dir.Append(data_dir_basename + GetChannelSuffixForDataDir());
+   return true;
+ }
+diff --git a/chrome/common/chrome_paths_mac.mm b/chrome/common/chrome_paths_mac.mm
+index de1ea50c..947b2711 100644
+--- a/chrome/common/chrome_paths_mac.mm
++++ b/chrome/common/chrome_paths_mac.mm
+@@ -88,7 +88,7 @@ bool GetDefaultUserDataDirectoryForProduct(const std::string& product_dir,
+ namespace chrome {
+ 
+ bool GetDefaultUserDataDirectory(base::FilePath* result) {
+-  return GetDefaultUserDataDirectoryForProduct(nw::package()->GetName(), result);
++  return GetDefaultUserDataDirectoryForProduct(nw::InitNWPackage()->GetName(), result);
+ }
+ 
+ bool GetUserDocumentsDirectory(base::FilePath* result) {
+-- 
+2.43.0
+
