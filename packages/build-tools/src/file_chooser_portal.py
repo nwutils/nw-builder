@@ -3,14 +3,16 @@
 
 On Linux, Chromium shows file dialogs through the desktop portal
 (org.freedesktop.portal.FileChooser on the D-Bus session bus). This answers
-every file dialog at once with the paths given on the command line, as if the
-user picked them. Run it on a private bus, under dbus-run-session; it prints
-the bus's address once it is up.
+every open or save dialog at once with the paths given on the command line, as
+if the user picked them. Run it on a private bus, under dbus-run-session; it
+prints the bus's address once it is up, then a JSON line per dialog with its
+method and title.
 
 Usage: dbus-run-session -- file_chooser_portal.py PATH...
 Needs PyGObject (apt install python3-gi).
 """
 
+import json
 import os
 import pathlib
 import sys
@@ -24,6 +26,12 @@ INTERFACE = Gio.DBusNodeInfo.new_for_xml(
 <node>
   <interface name="org.freedesktop.portal.FileChooser">
     <method name="OpenFile">
+      <arg type="s" name="parent_window" direction="in"/>
+      <arg type="s" name="title" direction="in"/>
+      <arg type="a{sv}" name="options" direction="in"/>
+      <arg type="o" name="handle" direction="out"/>
+    </method>
+    <method name="SaveFile">
       <arg type="s" name="parent_window" direction="in"/>
       <arg type="s" name="title" direction="in"/>
       <arg type="a{sv}" name="options" direction="in"/>
@@ -43,7 +51,9 @@ def main(paths):
         # The answer comes as a Response signal from a Request object named
         # after the caller and its handle_token.
         caller = sender.lstrip(":").replace(".", "_")
-        token = params.unpack()[2]["handle_token"]
+        _, title, options = params.unpack()
+        token = options["handle_token"]
+        print(json.dumps({"method": method, "title": title}), flush=True)
         handle = f"{OBJECT}/request/{caller}/{token}"
         invocation.return_value(GLib.Variant("(o)", (handle,)))
         conn.emit_signal(
