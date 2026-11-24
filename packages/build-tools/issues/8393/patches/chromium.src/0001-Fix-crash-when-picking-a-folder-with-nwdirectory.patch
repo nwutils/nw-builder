@@ -1,30 +1,29 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Ayushman Chhabra <14110965+ayushmanchhabra@users.noreply.github.com>
-Date: Sun, 22 Nov 2026 06:12:47 +0000
+Date: Tue, 24 Nov 2026 18:03:02 +0000
 Subject: [PATCH] Fix crash when picking a folder with nwdirectory
 
-nwdirectory picks the folder itself, so base_dir is empty and
-RemoveSymlinks() CHECKs it.
+nwdirectory returns the picked folder without listing it, so base_dir
+was never set, and FileChooserImpl's RemoveSymlinks() CHECKs it.
 
 Refs: nwjs/nw.js#8393
 ---
- content/browser/web_contents/file_chooser_impl.cc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ chrome/browser/file_select_helper.cc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/content/browser/web_contents/file_chooser_impl.cc b/content/browser/web_contents/file_chooser_impl.cc
-index d0e46983..1b593f04 100644
---- a/content/browser/web_contents/file_chooser_impl.cc
-+++ b/content/browser/web_contents/file_chooser_impl.cc
-@@ -102,7 +102,8 @@ void FileChooserImpl::FileSelectListenerImpl::FileSelected(
-   if (!owner_)
-     return;
- 
--  if (mode != blink::mojom::FileChooserParams::Mode::kUploadFolder) {
-+  if (mode != blink::mojom::FileChooserParams::Mode::kUploadFolder ||
-+      base_dir.empty()) {
-     owner_->FileSelected(base_dir, mode, std::move(files));
+diff --git a/chrome/browser/file_select_helper.cc b/chrome/browser/file_select_helper.cc
+index e670d4d3a..b30cac196 100644
+--- a/chrome/browser/file_select_helper.cc
++++ b/chrome/browser/file_select_helper.cc
+@@ -200,6 +200,8 @@ void FileSelectHelper::FileSelected(const ui::SelectedFileInfo& file,
+                         base::FilePath(file.display_name).AsUTF16Unsafe());
      return;
    }
++  if (dialog_mode_ == FileChooserParams::Mode::kUploadFolder)
++    base_dir_ = file.local_path;
+ 
+   std::vector<ui::SelectedFileInfo> files;
+   files.push_back(file);
 -- 
 2.43.0
 
