@@ -1,6 +1,6 @@
 {
   "name": "@nwutils/build-tools",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "Set up the environment and compile NW.js from source.",
   "keywords": [
