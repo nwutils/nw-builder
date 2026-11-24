@@ -1,0 +1,176 @@
+name: Build NW.js (platform)
+
+# Builds NW.js for one platform, called by build-nwjs.yml. A full build is
+# longer than GitHub's 6 hour job limit, so it runs as a chain of up to
+# 12 stages (about 66 hours of building); each builds until its deadline
+# and the next continues from the compiler cache. Stages after the one that
+# finishes are skipped.
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: NW.js version, e.g. 0.120.0
+        type: string
+        required: true
+      flavor:
+        description: normal or sdk
+        type: string
+        required: true
+      platform:
+        description: Target, e.g. linux-x64
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  stage-1:
+    uses: ./.github/workflows/build-nwjs-stage.yml
+    with:
+      version: ${{ inputs.version }}
+      flavor: ${{ inputs.flavor }}
+      platform: ${{ inputs.platform }}
+      stage: 1
+
+  stage-2:
+    needs: stage-1
+    if: needs.stage-1.outputs.done == 'false'
+    uses: ./.github/workflows/build-nwjs-stage.yml
+    with:
+      version: ${{ inputs.version }}
+      flavor: ${{ inputs.flavor }}
+      platform: ${{ inputs.platform }}
+      stage: 2
+
+  stage-3:
+    needs: stage-2
+    if: needs.stage-2.outputs.done == 'false'
+    uses: ./.github/workflows/build-nwjs-stage.yml
+    with:
+      version: ${{ inputs.version }}
+      flavor: ${{ inputs.flavor }}
+      platform: ${{ inputs.platform }}
+      stage: 3
+
+  stage-4:
+    needs: stage-3
+    if: needs.stage-3.outputs.done == 'false'
+    uses: ./.github/workflows/build-nwjs-stage.yml
+    with:
+      version: ${{ inputs.version }}
+      flavor: ${{ inputs.flavor }}
+      platform: ${{ inputs.platform }}
+      stage: 4
+
+  stage-5:
+    needs: stage-4
+    if: needs.stage-4.outputs.done == 'false'
+    uses: ./.github/workflows/build-nwjs-stage.yml
+    with:
+      version: ${{ inputs.version }}
+      flavor: ${{ inputs.flavor }}
+      platform: ${{ inputs.platform }}
+      stage: 5
+
+  stage-6:
+    needs: stage-5
+    if: needs.stage-5.outputs.done == 'false'
+    uses: ./.github/workflows/build-nwjs-stage.yml
+    with:
+      version: ${{ inputs.version }}
+      flavor: ${{ inputs.flavor }}
+      platform: ${{ inputs.platform }}
+      stage: 6
+
+  stage-7:
+    needs: stage-6
+    if: needs.stage-6.outputs.done == 'false'
+    uses: ./.github/workflows/build-nwjs-stage.yml
+    with:
+      version: ${{ inputs.version }}
+      flavor: ${{ inputs.flavor }}
+      platform: ${{ inputs.platform }}
+      stage: 7
+
+  stage-8:
+    needs: stage-7
+    if: needs.stage-7.outputs.done == 'false'
+    uses: ./.github/workflows/build-nwjs-stage.yml
+    with:
+      version: ${{ inputs.version }}
+      flavor: ${{ inputs.flavor }}
+      platform: ${{ inputs.platform }}
+      stage: 8
+
+  stage-9:
+    needs: stage-8
+    if: needs.stage-8.outputs.done == 'false'
+    uses: ./.github/workflows/build-nwjs-stage.yml
+    with:
+      version: ${{ inputs.version }}
+      flavor: ${{ inputs.flavor }}
+      platform: ${{ inputs.platform }}
+      stage: 9
+
+  stage-10:
+    needs: stage-9
+    if: needs.stage-9.outputs.done == 'false'
+    uses: ./.github/workflows/build-nwjs-stage.yml
+    with:
+      version: ${{ inputs.version }}
+      flavor: ${{ inputs.flavor }}
+      platform: ${{ inputs.platform }}
+      stage: 10
+
+  stage-11:
+    needs: stage-10
+    if: needs.stage-10.outputs.done == 'false'
+    uses: ./.github/workflows/build-nwjs-stage.yml
+    with:
+      version: ${{ inputs.version }}
+      flavor: ${{ inputs.flavor }}
+      platform: ${{ inputs.platform }}
+      stage: 11
+
+  stage-12:
+    needs: stage-11
+    if: needs.stage-11.outputs.done == 'false'
+    uses: ./.github/workflows/build-nwjs-stage.yml
+    with:
+      version: ${{ inputs.version }}
+      flavor: ${{ inputs.flavor }}
+      platform: ${{ inputs.platform }}
+      stage: 12
+
+  finished:
+    name: Finished
+    needs:
+      [
+        stage-1,
+        stage-2,
+        stage-3,
+        stage-4,
+        stage-5,
+        stage-6,
+        stage-7,
+        stage-8,
+        stage-9,
+        stage-10,
+        stage-11,
+        stage-12,
+      ]
+    # Fails the platform unless a stage finished the build and uploaded it.
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check a stage finished the build
+        env:
+          DONE: ${{ contains(needs.*.outputs.done, 'true') }}
+          PLATFORM: ${{ inputs.platform }}
+        run: |
+          if [ "$DONE" != "true" ]; then
+            echo "::error::$PLATFORM didn't finish building within 12 stages"
+            exit 1
+          fi
