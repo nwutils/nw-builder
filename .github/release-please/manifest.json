@@ -6,5 +6,5 @@
   "packages/getter": "0.3.2",
   "packages/runner": "0.2.7",
   "packages/packager": "0.9.0",
-  "packages/build-tools": "0.1.0"
+  "packages/build-tools": "0.1.1"
 }
