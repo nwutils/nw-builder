@@ -19,19 +19,34 @@ jobs:
       getter--release_created: ${{ steps.release.outputs['packages/getter--release_created'] }}
       runner--release_created: ${{ steps.release.outputs['packages/runner--release_created'] }}
       packager--release_created: ${{ steps.release.outputs['packages/packager--release_created'] }}
+      build-tools--release_created: ${{ steps.release.outputs['packages/build-tools--release_created'] }}
     steps:
       - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
 
       # @nwutils/build-tools is private: it gets GitHub releases to track its
-      # changes, and has no publish job.
+      # changes, and build-nwjs builds NW.js instead of publishing to npm.
       - id: release
         uses: googleapis/release-please-action@v5.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config-file: .github/release-please/config.json
           manifest-file: .github/release-please/manifest.json
+
+  build-nwjs:
+    name: Build NW.js
+    # Builds NW.js with the merged issue patches when a @nwutils/build-tools
+    # release is created, i.e. when its release-please pull request is merged.
+    needs: release-please
+    if: ${{ needs.release-please.outputs.build-tools--release_created }}
+    # One build at a time; a newer one waits instead of cancelling it.
+    concurrency:
+      group: build-nwjs
+      cancel-in-progress: false
+    permissions:
+      contents: write
+    uses: ./.github/workflows/build-nwjs.yml
 
   publish-nw-builder:
     name: Publish nw-builder to npm

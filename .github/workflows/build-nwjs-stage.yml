@@ -1,6 +1,7 @@
 name: Build NW.js (stage)
 
-# One stage of the NW.js build, called repeatedly by build-nwjs.yml. A full
+# One stage of the NW.js build for one platform, called repeatedly by
+# build-nwjs-platform.yml. A full
 # build takes longer than GitHub's 6 hour job limit, so each stage builds until
 # shortly before the limit and stops. Compiled objects go to the GitHub Actions
 # cache through sccache, so the next stage (or the next run) gets them back as
@@ -17,6 +18,10 @@ on:
         description: normal or sdk
         type: string
         required: true
+      platform:
+        description: Target, e.g. linux-x64
+        type: string
+        required: true
       stage:
         description: Stage number, for logs and artifact names
         type: number
@@ -31,16 +36,19 @@ permissions:
 
 jobs:
   build:
-    name: Linux x64 (stage ${{ inputs.stage }})
-    runs-on: ubuntu-24.04
+    name: ${{ inputs.platform }} (stage ${{ inputs.stage }})
+    # The free runner for each platform.
+    runs-on: ${{ fromJSON('{"linux-x64":"ubuntu-24.04","linux-arm64":"ubuntu-24.04-arm","osx-x64":"macos-15-intel","osx-arm64":"macos-15","win-x64":"windows-2025","win-arm64":"windows-11-arm"}')[inputs.platform] }}
     timeout-minutes: 360
     outputs:
       done: ${{ steps.build.outputs.done }}
+    defaults:
+      run:
+        shell: bash
     env:
-      WORK_DIR: /mnt/nwjs
       SCCACHE_GHA_ENABLED: "true"
       # Shared across versions: most objects don't change between releases.
-      SCCACHE_GHA_VERSION: nwjs-linux-x64
+      SCCACHE_GHA_VERSION: nwjs-${{ inputs.platform }}
     steps:
       - name: Set the build deadline
         # Stop building 30 minutes before the 6 hour limit, leaving time to
@@ -50,9 +58,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7.0.1
 
+      - name: Choose the build directory
+        # Linux builds on /mnt, the runner's larger disk.
+        run: |
+          if [ "$RUNNER_OS" = "Linux" ]; then
+            echo "WORK_DIR=/mnt/nwjs" >> "$GITHUB_ENV"
+          else
+            echo "WORK_DIR=$RUNNER_TEMP/nwjs" >> "$GITHUB_ENV"
+          fi
+
       - name: Free disk space
         # Chromium's checkout and build need ~100 GB. Remove preinstalled
-        # toolchains we don't use and build on /mnt, the runner's larger disk.
+        # toolchains we don't use.
+        if: runner.os == 'Linux'
         run: |
           sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc \
             /opt/hostedtoolcache/CodeQL /usr/local/share/boost /usr/local/.ghcup
@@ -107,7 +125,7 @@ jobs:
         if: steps.build.outputs.done == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: nwjs-v${{ inputs.version }}-linux-x64-${{ inputs.flavor }}
+          name: nwjs-v${{ inputs.version }}-${{ inputs.platform }}-${{ inputs.flavor }}
           path: ${{ env.WORK_DIR }}/src/out/nw/dist/*
           if-no-files-found: error
           retention-days: 7

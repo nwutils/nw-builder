@@ -1,17 +1,16 @@
 name: Build NW.js
 
-# Compiles NW.js from source on GitHub-hosted runners with the patches of
-# every issue merged into packages/build-tools/issues, publishes it as the
-# "build-tools" release (replacing the previous one, marked latest), then runs
-# every issue's test against that release. Run it manually after merging
-# issue fixes.
+# Compiles NW.js from source with the patches of every issue merged into
+# packages/build-tools/issues, for each platform below, publishes the packages
+# as the "build-tools" release (replacing the previous one, marked latest),
+# then runs every issue's test against it.
 #
-# A full build is longer than the 6 hour job limit, so it runs as a chain of
-# stages; each builds until its deadline and the next continues from the
-# compiler cache. Stages after the one that finishes are skipped.
+# cd.yml calls it when a @nwutils/build-tools release is created, i.e. when
+# its release-please pull request is merged. Each platform builds as a chain of
+# stages (build-nwjs-platform.yml), so a build can take days.
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       version:
         description: NW.js version, e.g. 0.120.0, or latest
@@ -19,19 +18,11 @@ on:
         default: latest
       flavor:
         description: Build flavor (issue tests need the SDK's chromedriver)
-        type: choice
-        options:
-          - sdk
-          - normal
+        type: string
         default: sdk
 
 permissions:
   contents: read
-
-concurrency:
-  group: build-nwjs-${{ inputs.version }}-${{ inputs.flavor }}
-  # Never cancel a running build for another one.
-  cancel-in-progress: false
 
 jobs:
   version:
@@ -43,71 +34,32 @@ jobs:
     steps:
       - name: Resolve "latest" to a version
         id: resolve
+        env:
+          VERSION: ${{ inputs.version }}
         run: |
-          version="${{ inputs.version }}"
-          if [ "$version" = "latest" ]; then
-            version="$(curl -fsSL https://nwjs.io/versions.json | jq -r .latest)"
+          if [ "$VERSION" = "latest" ]; then
+            VERSION="$(curl -fsSL https://nwjs.io/versions.json | jq -r .latest)"
           fi
-          echo "version=${version#v}" >> "$GITHUB_OUTPUT"
+          echo "version=${VERSION#v}" >> "$GITHUB_OUTPUT"
 
-  stage-1:
+  build:
+    name: Build
     needs: version
-    uses: ./.github/workflows/build-nwjs-stage.yml
+    strategy:
+      # One platform failing shouldn't stop the others' builds.
+      fail-fast: false
+      matrix:
+        # Add osx-arm64, win-x64, ... once build-tools supports them.
+        platform: [linux-x64]
+    uses: ./.github/workflows/build-nwjs-platform.yml
     with:
       version: ${{ needs.version.outputs.version }}
       flavor: ${{ inputs.flavor }}
-      stage: 1
-
-  stage-2:
-    needs: [version, stage-1]
-    if: needs.stage-1.outputs.done == 'false'
-    uses: ./.github/workflows/build-nwjs-stage.yml
-    with:
-      version: ${{ needs.version.outputs.version }}
-      flavor: ${{ inputs.flavor }}
-      stage: 2
-
-  stage-3:
-    needs: [version, stage-2]
-    if: needs.stage-2.outputs.done == 'false'
-    uses: ./.github/workflows/build-nwjs-stage.yml
-    with:
-      version: ${{ needs.version.outputs.version }}
-      flavor: ${{ inputs.flavor }}
-      stage: 3
-
-  stage-4:
-    needs: [version, stage-3]
-    if: needs.stage-3.outputs.done == 'false'
-    uses: ./.github/workflows/build-nwjs-stage.yml
-    with:
-      version: ${{ needs.version.outputs.version }}
-      flavor: ${{ inputs.flavor }}
-      stage: 4
-
-  stage-5:
-    needs: [version, stage-4]
-    if: needs.stage-4.outputs.done == 'false'
-    uses: ./.github/workflows/build-nwjs-stage.yml
-    with:
-      version: ${{ needs.version.outputs.version }}
-      flavor: ${{ inputs.flavor }}
-      stage: 5
-
-  stage-6:
-    needs: [version, stage-5]
-    if: needs.stage-5.outputs.done == 'false'
-    uses: ./.github/workflows/build-nwjs-stage.yml
-    with:
-      version: ${{ needs.version.outputs.version }}
-      flavor: ${{ inputs.flavor }}
-      stage: 6
+      platform: ${{ matrix.platform }}
 
   release:
     name: Release
-    needs: [version, stage-1, stage-2, stage-3, stage-4, stage-5, stage-6]
-    # Whichever stage finished the build uploaded the packages.
-    if: always() && contains(needs.*.outputs.done, 'true')
+    needs: [version, build]
     runs-on: ubuntu-24.04
     permissions:
       contents: write
@@ -123,13 +75,14 @@ jobs:
       - name: Download packages
         uses: actions/download-artifact@v4
         with:
-          name: nwjs-v${{ env.VERSION }}-linux-x64-${{ env.FLAVOR }}
+          pattern: nwjs-v${{ env.VERSION }}-*-${{ env.FLAVOR }}
           path: dist
+          merge-multiple: true
 
       - name: Write release notes
         run: |
           {
-            echo "NW.js v$VERSION ($FLAVOR, Linux x64) built from source by @nwutils/build-tools at $GITHUB_SHA."
+            echo "NW.js v$VERSION ($FLAVOR) built from source by @nwutils/build-tools at $GITHUB_SHA."
             echo
             echo "Patches applied:"
             patches="$(cd packages/build-tools/issues && find . -path './_*' -prune -o -name '*.patch' -print | sort | sed 's|^\./|- |')"
@@ -151,5 +104,4 @@ jobs:
   test:
     name: Test issues
     needs: release
-    if: always() && needs.release.result == 'success'
     uses: ./.github/workflows/test-nwjs.yml

@@ -6,9 +6,10 @@ Private package, Linux x64 only.
 ## How it works
 
 1. Each fix lives in [`issues/<issue>/`](issues): a patch and a test.
-2. A maintainer runs [Build NW.js](../../.github/workflows/build-nwjs.yml). It
-   builds NW.js with every merged patch, publishes it as the `build-tools`
-   release, and runs every test against it.
+2. Merging build-tools' release-please pull request runs
+   [Build NW.js](../../.github/workflows/build-nwjs.yml). It builds NW.js with
+   every merged patch, publishes it as the `build-tools` release, and runs
+   every test against it.
 3. Fixes that work are sent upstream to NW.js.
 
 ## Fix an issue
@@ -117,9 +118,11 @@ Needs about 100 GB of disk, Python 3 and git.
 
 ## CI
 
-[Build NW.js](../../.github/workflows/build-nwjs.yml) is run by hand. A full
-build takes longer than GitHub's 6-hour job limit, so it runs in up to 6
-stages. Compiled files are cached (with
+[Build NW.js](../../.github/workflows/build-nwjs.yml) runs when a build-tools
+release is created, i.e. when its release-please pull request is merged. It
+builds each platform (Linux x64 for now) on GitHub's free runners. A full
+build takes longer than GitHub's 6-hour job limit, so each platform builds in
+up to 12 stages, which can take days. Compiled files are cached (with
 [sccache](https://github.com/mozilla/sccache)), so each stage carries on from
 the last. The finished build replaces the `build-tools` release, then
 [Test NW.js](../../.github/workflows/test-nwjs.yml) runs the issue tests
