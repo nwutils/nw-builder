@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/nwutils/nw-builder/compare/@nwutils/build-tools-v0.1.1...@nwutils/build-tools-v0.1.2) (2026-11-25)
+
+
+### Chores
+
+* **build-tools:** draw window icons in Chromium's Wayland SetIcon ([#1752](https://github.com/nwutils/nw-builder/issues/1752)) ([3d9092a](https://github.com/nwutils/nw-builder/commit/3d9092ade523ab6a18e573bbe4bd8e27e89fb1cd))
+
 ## [0.1.1](https://github.com/nwutils/nw-builder/compare/@nwutils/build-tools-v0.1.0...@nwutils/build-tools-v0.1.1) (2026-11-24)
 
 
