@@ -31,7 +31,7 @@
     "@types/yauzl-promise": "^4.0.1",
     "@types/zip-stream": "^7.0.0",
     "eslint": "^10.15.0",
-    "eslint-plugin-jsdoc": "^65.4.12",
+    "eslint-plugin-jsdoc": "^65.5.2",
     "eslint-plugin-simple-import-sort": "^14.0.0",
     "globals": "^17.14.0",
     "nw": "^0.120.0",
