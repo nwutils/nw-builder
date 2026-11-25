@@ -5,11 +5,12 @@ import { after, before, describe, it } from "node:test";
 import { launch, waylandIconSession } from "../../src/testing.js";
 
 /*
- * On Wayland, a window.icon larger than 128px showed the default icon: NW.js
- * resizes it to 128px lazily, and Chromium's Wayland window only sends the
- * icon images that already exist, so it set an icon with no images. The test
- * runs NW.js on a headless Wayland session that records the window icon
- * requests (the reporter's WAYLAND_DEBUG check, automated).
+ * On Wayland, a window.icon larger than 128px showed the default icon:
+ * Chromium's Wayland window only sent the icon images that already existed,
+ * and window icons are drawn lazily (NW.js's 128px resize, and the app icons
+ * Chromium sets after it), so they arrived with no images. The test runs
+ * NW.js on a headless Wayland session that records the window icon requests
+ * (the reporter's WAYLAND_DEBUG check, automated).
  */
 describe("nwjs/nw.js#8397: window.icon larger than 128px on Wayland", () => {
   /** @type {Awaited<ReturnType<typeof waylandIconSession>> | undefined} */
@@ -39,9 +40,11 @@ describe("nwjs/nw.js#8397: window.icon larger than 128px on Wayland", () => {
     await new Promise((resolve) => setTimeout(resolve, 3000));
 
     ok(iconsSet().length > 0, "NW.js never set a window icon");
+    const log = JSON.stringify(requests);
     /* Ids are reused once freed: pair each icon with its own create_icon. */
     /** @type {Map<number, object[]>} */
     const images = new Map();
+    let first = true;
     for (const r of requests) {
       if (r.request === "create_icon") {
         images.set(r.icon, []);
@@ -52,12 +55,16 @@ describe("nwjs/nw.js#8397: window.icon larger than 128px on Wayland", () => {
           scale: r.scale,
         });
       } else if (r.icon !== 0) {
-        /* NW.js resizes icons larger than 128px to 128px. */
-        deepEqual(
-          images.get(r.icon)?.[0],
-          { width: 128, height: 128, scale: 1 },
-          `A window icon was set without its 128px image: ${JSON.stringify(requests)}`,
-        );
+        ok(images.get(r.icon)?.length, `A window icon was set empty: ${log}`);
+        if (first) {
+          /* The window.icon, which NW.js resizes to 128px. */
+          deepEqual(
+            images.get(r.icon)?.[0],
+            { width: 128, height: 128, scale: 1 },
+            `The window.icon wasn't set at 128px: ${log}`,
+          );
+          first = false;
+        }
       }
     }
   });

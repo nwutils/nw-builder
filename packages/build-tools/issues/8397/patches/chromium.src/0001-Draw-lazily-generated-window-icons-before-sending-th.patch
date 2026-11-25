@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ayushman Chhabra <14110965+ayushmanchhabra@users.noreply.github.com>
+Date: Wed, 25 Nov 2026 14:44:12 +0000
+Subject: [PATCH] Draw lazily generated window icons before sending them on
+ Wayland
+
+SetIcon() only sent the icon's existing representations, so resized,
+badged and loading app icons arrived empty and replaced the window's
+icon. X11 draws them with GetRepresentation().
+
+Refs: nwjs/nw.js#8397
+---
+ ui/ozone/platform/wayland/host/xdg_toplevel.cc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/ui/ozone/platform/wayland/host/xdg_toplevel.cc b/ui/ozone/platform/wayland/host/xdg_toplevel.cc
+index c85b59a99..ce0d1d6d5 100644
+--- a/ui/ozone/platform/wayland/host/xdg_toplevel.cc
++++ b/ui/ozone/platform/wayland/host/xdg_toplevel.cc
+@@ -354,6 +354,7 @@ void XdgToplevel::SetIcon(const gfx::ImageSkia& icon) {
+     return;
+   }
+ 
++  icon.EnsureRepsForSupportedScales();
+   std::vector<std::pair<WaylandShmBuffer, float>> buffers;
+   auto* xdg_icon = xdg_toplevel_icon_manager_v1_create_icon(manager);
+   for (const auto& rep : icon.image_reps()) {
+-- 
+2.43.0
+
